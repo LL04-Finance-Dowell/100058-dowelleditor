@@ -1,0 +1,10 @@
+.midSection{
+    display: flex;
+    height: 91vh;
+    align-items: center;
+}
+.midSection_container{
+    background-color: #ffffff;
+    width: 55vw;
+    height: 70vh;
+}

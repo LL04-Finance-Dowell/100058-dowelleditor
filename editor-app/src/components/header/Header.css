@@ -1,0 +1,24 @@
+.header {
+  background: #737272;
+  height: 9vh;
+  display: flex;
+  align-items: center;
+}
+.header_icons > img {
+  width: fit-content;
+  color: #ffffff;
+  margin-left: 33.9px;
+  cursor: pointer;
+}
+.header_icons > img:hover{
+    color: #f1f1f1;
+}
+.header_p > p {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0px;
+  color: #ffffff;
+}
+.header_user > img{
+    cursor: pointer;
+}
