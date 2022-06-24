@@ -10,7 +10,8 @@ const Header = () => {
     <div className="header">
       <Container fluid>
         <Row>
-          <Col className="d-flex justify-content-start">
+          <Col className="d-flex justify-content-start ">
+            
             <div className="header_btn">
               <Button variant="primary" size="md" className="rounded">
                 Save

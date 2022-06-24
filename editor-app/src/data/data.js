@@ -13,8 +13,8 @@ import calendar from "../assets/leftmenuIcons/calendar.png";
 import dropdown from "../assets/leftmenuIcons/dropdown.png";
 
 export const headerData = [
-  { icon: redo },
   { icon: undo },
+  { icon: redo },
   { icon: cut },
   { icon: copy },
   { icon: paste },
