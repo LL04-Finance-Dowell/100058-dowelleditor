@@ -22,7 +22,7 @@ export const headerData = [
 ];
 
 export const editSecOptions = [
-  { id: 1, icon: alignjustify },
+  { id: 1, icon: alignjustify},
   { id: 2, icon: textfill },
   { id: 3, icon: image },
   { id: 4, icon: table },
