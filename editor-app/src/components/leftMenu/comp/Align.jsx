@@ -1,8 +1,9 @@
 import React from 'react'
+import './Align.css'
 
 const Align = () => {
   return (
-    <div>Align</div>
+    <div className='alin'>Align</div>
   )
 }
 
