@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { TextBox } from "../leftMenu/comp/TextBox";
 import LeftMenu from "../leftMenu/LeftMenu";
 import MidSection from "../midSection/MidSection";
 import RightMenu from "../rightMenu/RightMenu";
@@ -16,6 +17,7 @@ const EditSection = () => {
             <LeftMenu showSidebar={showSidebar} />
           </Col>
           <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec"><MidSection/></Col>
+
           <Col
             style={sidebar ? { display: "block" } : { display: "none" }}
             md={sidebar ? 3 : 0}
@@ -23,7 +25,9 @@ const EditSection = () => {
             className="editSec_rightMenu"
           >
             <RightMenu />
+            
           </Col>
+         
         </Row>
       </Container>
     </div>

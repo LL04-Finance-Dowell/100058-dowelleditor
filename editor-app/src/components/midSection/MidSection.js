@@ -3,14 +3,9 @@ import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
 import { onDrop, dragOver } from "../leftMenu/LeftMenu";
+import { TextBox } from "../leftMenu/comp/TextBox";
 
-export const TextBox = () => {
-  return (
-    <div className="textBox">
-     <div>passing data</div> 
-    </div>
-  );
-}
+
 const MidSection = () => {
 
   return (
@@ -19,7 +14,7 @@ const MidSection = () => {
     <div className="midSection">
       <Container as="div" className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}>
-       
+       <TextBox />
       </Container>
     </div>
   

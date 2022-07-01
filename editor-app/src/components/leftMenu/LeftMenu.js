@@ -29,10 +29,11 @@ const NavButton = ({ customFunc, icon }) => (
 const dragStart = e => {
   e.dataTransfer.setData("text/plain", "TEXT_INPUT");
   console.log("drag start");
+
 }
 
 export const onDrop = (event) => {
-  if (event.dataTransfer.getData("text/plain") === "TEXT_INPUT") {
+  if ( event.dataTransfer.getData("text/plain") === "TEXT_INPUT") {
     const data = event.dataTransfer.getData("text/plain");
     console.log(data);
     const textBox = document.createElement("div");
@@ -40,7 +41,10 @@ export const onDrop = (event) => {
     textBox.innerHTML = data;
     event.target.appendChild(textBox);
 
+    event.preventDefault();
+
   }
+
 }
 
 export const dragOver = (event) => {

@@ -1,8 +1,10 @@
 import React from 'react'
+import { MenuBar } from '../leftMenu/comp/TextBox'
 
-const RightMenu = () => {
+
+const RightMenu = ({editor}) => {
   return (
-    <div>RightMenu</div>
+    <MenuBar editor={editor} />
   )
 }
 
