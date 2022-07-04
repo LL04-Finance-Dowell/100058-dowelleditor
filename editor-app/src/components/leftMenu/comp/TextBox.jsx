@@ -114,7 +114,7 @@ export const TextBox = ({ setDescription, showSidebar}) => {
 
   return (
     <div className="textEditor">
-      <MenuBar editor={editor} />
+      {/* <MenuBar editor={editor} /> */}
       <EditorContent draggable editor={editor} onClick={showSidebar} />
     </div>
   )

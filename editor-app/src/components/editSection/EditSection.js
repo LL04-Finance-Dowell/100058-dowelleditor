@@ -16,7 +16,9 @@ const EditSection = () => {
           <Col md={1}>
             <LeftMenu showSidebar={showSidebar} />
           </Col>
-          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec"><MidSection/></Col>
+          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
+            <MidSection showSidebar={showSidebar}/>
+            </Col>
 
           <Col
             style={sidebar ? { display: "block" } : { display: "none" }}
