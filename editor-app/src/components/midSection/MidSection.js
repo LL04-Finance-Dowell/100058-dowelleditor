@@ -28,7 +28,7 @@ const MidSection = ({showSidebar}) => {
         }
         }>
         { isDropped.textfill && <TextBox showSidebar={showSidebar}/>}
-        
+        { isDropped.align && <Align showSidebar={showSidebar}/>}
 
        
       </Container>

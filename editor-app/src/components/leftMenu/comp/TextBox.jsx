@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+
+import useDraggable from '../../../useDraggable';
 
 import {
   FaBold,
@@ -101,6 +103,9 @@ export const MenuBar = ({ editor }) => {
 
 
 export const TextBox = ({ setDescription, showSidebar}) => {
+  const textBoxRef = useRef(null);
+  useDraggable(textBoxRef);
+
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: ``,
@@ -113,9 +118,9 @@ export const TextBox = ({ setDescription, showSidebar}) => {
 
 
   return (
-    <div className="textEditor">
+    <div className="textEditor" ref={textBoxRef}>
       {/* <MenuBar editor={editor} /> */}
-      <EditorContent draggable editor={editor} onClick={showSidebar} />
+      <EditorContent className='textbox' draggable editor={editor} onClick={showSidebar} />
     </div>
   )
 }
