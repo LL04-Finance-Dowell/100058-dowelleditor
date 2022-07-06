@@ -96,7 +96,17 @@
   }
   
   button.is_active {
-    background: rgb(197, 197, 197);
+    background: rgb(143, 139, 139);
     padding: 2px 3px;
     border-radius: 2px;
   }
+
+/* dropped elements */
+.dropped {
+  background: #dbd9d9;;
+  padding: 2px 3px;
+  border-radius: 2px;
+  width: 30%;
+  height: 70px;
+  justify-items: center;
+}

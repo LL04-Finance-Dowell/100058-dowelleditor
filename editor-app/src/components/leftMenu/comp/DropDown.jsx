@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-const DropDown = () => {
+import useDraggable from '../../../useDraggable';
+
+const DropDown = ({showSidebar}) => {
+  const dropDownRef = useRef(null);
+  useDraggable(dropDownRef);
   return (
-    <div>DropDown</div>
+    <div className='dropped' ref={dropDownRef} onClick={showSidebar}>
+      DropDown
+    </div>
   )
 }
 

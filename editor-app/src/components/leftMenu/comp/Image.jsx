@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-const Image = () => {
+import useDraggable from '../../../useDraggable';
+
+const Image = ({ showSidebar}) => {
+  const imageRef = useRef(null);
+  useDraggable(imageRef);
   return (
-    <div>Image</div>
+    <div className='dropped' ref={imageRef} onClick={showSidebar}>
+      Image
+    </div>
   )
 }
 

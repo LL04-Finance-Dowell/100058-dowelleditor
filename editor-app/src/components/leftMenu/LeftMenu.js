@@ -15,6 +15,7 @@ const NavButton = ({ customFunc, icon }) => (
   <button type='button'
     draggable='true'
     onDragStart={dragStart}
+    onDragEnd={customFunc}
     
   >
     <img src={icon} alt="icon" />
@@ -42,17 +43,17 @@ export const dragOver = (event) => {
   }
 }
 const LeftMenu = ({ showSidebar }) => {
-
+const { handleDrop } = useStateContext()
   return (
     <div className="leftMenu">
 
-      <NavButton icon={editSecOptions[0].icon} />
-      <NavButton icon={editSecOptions[1].icon} />
-      <NavButton icon={editSecOptions[2].icon} />
-      <NavButton icon={editSecOptions[3].icon} />
-      <NavButton icon={editSecOptions[4].icon} />
-      <NavButton icon={editSecOptions[5].icon} />
-      <NavButton icon={editSecOptions[6].icon} />
+      <NavButton customFunc = {()=> handleDrop('align')} icon={editSecOptions[0].icon} />
+      <NavButton customFunc = {()=> handleDrop('textfill')} icon={editSecOptions[1].icon} />
+      <NavButton customFunc = {()=> handleDrop('image')} icon={editSecOptions[2].icon} />
+      <NavButton customFunc = {()=> handleDrop('table')} icon={editSecOptions[3].icon} />
+      <NavButton customFunc = {()=> handleDrop('signs')} icon={editSecOptions[4].icon} />
+      <NavButton customFunc = {()=> handleDrop('calendar')} icon={editSecOptions[5].icon} />
+      <NavButton customFunc = {()=> handleDrop('dropdown')} icon={editSecOptions[6].icon} />
 
 
     </div>

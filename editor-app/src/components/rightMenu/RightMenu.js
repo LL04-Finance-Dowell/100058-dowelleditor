@@ -1,10 +1,26 @@
 import React from 'react'
-import { MenuBar } from '../leftMenu/comp/TextBox'
+import { useStateContext } from '../../contexts/ContextProvider'
 
+import AlignRightSide from './AlignRightSide'
+import CalendarRightSidebar from './CalendarRightSidebar';
+import ImageRightSidebar from './ImageRightSidebar';
+import SignsRightSidebar from './SignsRightSidebar';
+import TableRightSidebar from './TableRightSidebar';
+import DropDownRightSide from './DropDownRightSide'
 
-const RightMenu = ({editor}) => {
+const RightMenu = ({ showSidebar }) => {
+  const { isDropped } = useStateContext();
   return (
-    <MenuBar editor={editor} />
+    <div>
+      { isDropped.align && <AlignRightSide />}
+      { isDropped.textfill && <AlignRightSide />}
+      { isDropped.image && <ImageRightSidebar />}
+      { isDropped.table && <TableRightSidebar />}
+      { isDropped.signs && <SignsRightSidebar />}
+      { isDropped.calendar && <CalendarRightSidebar />}
+      { isDropped.dropdown && <DropDownRightSide />}
+
+    </div>
   )
 }
 

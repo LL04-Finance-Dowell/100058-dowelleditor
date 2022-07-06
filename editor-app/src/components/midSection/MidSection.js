@@ -22,13 +22,15 @@ const MidSection = ({showSidebar}) => {
   
     <div className="midSection">
       <Container as="div" className="midSection_container" onDragOver={dragOver}
-        onDrop={event => {
-          onDrop(event);
-          handleDrop("textfill");
-        }
-        }>
+        onDrop={onDrop}
+        >
         { isDropped.textfill && <TextBox showSidebar={showSidebar}/>}
-        { isDropped.align && <Align showSidebar={showSidebar}/>}
+        { isDropped.align && <TextBox showSidebar={showSidebar}/>}
+        { isDropped.image && <Image showSidebar={showSidebar}/>}
+        { isDropped.table && <Table showSidebar={showSidebar}/>}
+        { isDropped.signs && <Signs showSidebar={showSidebar}/>}
+        { isDropped.calendar && <Calender showSidebar={showSidebar}/>}
+        { isDropped.dropdown && <DropDown showSidebar={showSidebar}/>}
 
        
       </Container>

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-const Signs = () => {
+import useDraggable from '../../../useDraggable';
+
+const Signs = ({showSidebar}) => {
+  const signsRef = useRef(null);
+  useDraggable(signsRef);
   return (
-    <div>Signs</div>
+    <div className='dropped' ref={signsRef} onClick={showSidebar}>
+      Signs
+    </div>
   )
 }
 

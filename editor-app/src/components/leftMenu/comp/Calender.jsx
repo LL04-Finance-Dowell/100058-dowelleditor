@@ -1,8 +1,14 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
-const Calender = () => {
+import useDraggable from '../../../useDraggable';
+
+const Calender = ({showSidebar}) => {
+  const calenderRef = useRef(null);
+  useDraggable(calenderRef);
   return (
-    <div>Calender</div>
+    <div className='dropped' ref={calenderRef} onClick={showSidebar}>
+      Calender
+    </div>
   )
 }
 
