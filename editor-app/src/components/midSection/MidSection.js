@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
 import { onDrop, dragOver } from "../leftMenu/LeftMenu";
-import { TextBox } from "../leftMenu/comp/TextBox";
+import  TextBox  from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 import Align from "../leftMenu/comp/Align";

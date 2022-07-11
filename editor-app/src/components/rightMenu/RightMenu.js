@@ -9,12 +9,13 @@ import TableRightSidebar from './TableRightSidebar';
 import DropDownRightSide from './DropDownRightSide'
 
 const RightMenu = ({ showSidebar }) => {
-  const { isDropped } = useStateContext();
+  const { isDropped, isClicked } = useStateContext();
+
   return (
     <div>
-      { isDropped.align && <AlignRightSide />}
-      { isDropped.textfill && <AlignRightSide />}
-      { isDropped.image && <ImageRightSidebar />}
+      { isDropped.align && isClicked ? <AlignRightSide /> : null } 
+      { isDropped.textfill && isClicked ? <AlignRightSide /> : null }
+      { isDropped.image && isClicked ? <ImageRightSidebar /> : null }
       { isDropped.table && <TableRightSidebar />}
       { isDropped.signs && <SignsRightSidebar />}
       { isDropped.calendar && <CalendarRightSidebar />}

@@ -1,9 +1,12 @@
+import { isCursorAtEnd } from "@testing-library/user-event/dist/utils";
 import { useState, useEffect } from "react";
 
 export default function useDraggable(el) {
     const [{ dx, dy }, setOffset] = useState({ dx: 0, dy: 0 });
 
     useEffect(() => {
+
+        if (isCursorAtEnd === false){
         const handleMouseDown = e => {
             const startX = e.pageX - dx;
             const startY = e.pageY - dy;
@@ -28,6 +31,7 @@ export default function useDraggable(el) {
         return () => {
             el.current.removeEventListener("mousedown", handleMouseDown);
         };
+    }
     }, [el, dx, dy]);
 
     useEffect(() => {

@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
 const AlignRightSide = () => {
   return (
-    <div>AlignRightSide</div>
+    <div>
+        {  }
+    </div>
   )
 }
 

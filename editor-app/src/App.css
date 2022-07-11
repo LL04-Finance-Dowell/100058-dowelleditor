@@ -106,7 +106,16 @@
   background: #dbd9d9;;
   padding: 2px 3px;
   border-radius: 2px;
-  width: 30%;
+  width: 20%;
   height: 70px;
   justify-items: center;
+  margin: 10px;
+  resize: both;
+  overflow: auto;
 }
+
+
+
+
+
+
