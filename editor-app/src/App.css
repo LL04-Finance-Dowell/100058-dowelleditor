@@ -104,14 +104,42 @@
 /* dropped elements */
 .dropped {
   background: #dbd9d9;;
-  padding: 2px 3px;
+  padding: 4px;
   border-radius: 2px;
   width: 20%;
   height: 70px;
-  justify-items: center;
-  margin: 10px;
-  resize: both;
-  overflow: auto;
+  position: absolute;
+}
+
+.resizer {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: black;
+  z-index: 2;
+
+}
+
+.resizer.nw {
+  top: -5px;
+  left: -5px;
+  cursor: nw-resize;
+}
+.resizer.ne {
+  top: -5px;
+  right: -5px;
+  cursor: ne-resize;
+}
+.resizer.sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: sw-resize;
+}
+.resizer.se {
+  bottom: -5px;
+  right: -5px;
+  cursor: se-resize;
 }
 
 
