@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
+import { useStateContext } from "./contexts/ContextProvider";
 
 export default function useDraggable(el) {
     const [{ dx, dy }, setOffset] = useState({ dx: 0, dy: 0 });
 
+    const { isResizing } = useStateContext(); 
     
 
     useEffect(() => {
-
+        if (isResizing === false) {
         const handleMouseDown = e => {
             const startX = e.pageX - dx;
             const startY = e.pageY - dy;
@@ -31,13 +33,14 @@ export default function useDraggable(el) {
         return () => {
             el.current.removeEventListener("mousedown", handleMouseDown);
         };
-    
-    }, [ el, dx, dy]);
+        }
+    }, [isResizing, el, dx, dy]);
+
 
     useEffect(() => {
+        if (isResizing === false){
         el.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-    }, [el, dx, dy ]);
-
-    
+        }
+    }, [isResizing, el, dx, dy ]);
 
 }

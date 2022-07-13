@@ -1,102 +1,109 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 
-// import useDraggable from '../../../useDraggable';
+import useDraggable from '../../../useDraggable';
 
-// import dragResize from '../../../dradResize';
-
+import { useStateContext } from '../../../contexts/ContextProvider';
 
 const Image = ({ showSidebar }) => {
-const eleRef = useRef();
-const resizerRef = useRef();
 
-useEffect(() => {
-    console.log(eleRef);
-const el = eleRef.current;
+    const {isResizing, setIsResizing } = useStateContext();
 
-    // let isResizing = false;
-    console.log(el);
+    const imageRef = useRef(null);
+    useDraggable(imageRef);
 
-    el.addEventListener("mousedown", mousedown);
+    function makeResizableDiv(div) {
 
-    function mousedown(e) {
-        
-        el.addEventListener("mousemove", mousemove);
-        el.addEventListener("mouseup", mouseup);
-
-        let prevX = e.clientX;
-        let prevY = e.clientY;
-
-        function mousemove(e) {
-            // if (!isResizing) {
-                let newX = prevX - e.clientX;
-                let newY = prevY - e.clientY;
-
-                const rect = el.getBoundingClientRect();
-
-                el.style.left = rect.left - newX + "px";
-                el.style.top = rect.top - newY + "px";
-
-                prevX = e.clientX;
-                prevY = e.clientY;
-            // }
+        const element = document.querySelector(div);
+        const resizers = document.querySelectorAll(div + ' .resizer')
+        const minimum_size = 20;
+        let original_width = 0;
+        let original_height = 0;
+        let original_x = 0;
+        let original_y = 0;
+        let original_mouse_x = 0;
+        let original_mouse_y = 0;
+        for (let i = 0;i < resizers.length; i++) {
+          const currentResizer = resizers[i];
+          currentResizer.addEventListener('mousedown', function(e) {
+            setIsResizing(true);
+            e.preventDefault()
+            original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
+            original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
+            original_x = element.getBoundingClientRect().left;
+            original_y = element.getBoundingClientRect().top;
+            original_mouse_x = e.pageX;
+            original_mouse_y = e.pageY;
+            window.addEventListener('mousemove', resize)
+            window.addEventListener('mouseup', stopResize)
+          })
+          
+          function resize(e) {
+            if (isResizing === true) {
+            if (currentResizer.classList.contains('se')) {
+              const width = original_width + (e.pageX - original_mouse_x);
+              const height = original_height + (e.pageY - original_mouse_y)
+              if (width > minimum_size) {
+                element.style.width = width + 'px'
+              }
+              if (height > minimum_size) {
+                element.style.height = height + 'px'
+              }
+            }
+            else if (currentResizer.classList.contains('sw')) {
+              const height = original_height + (e.pageY - original_mouse_y)
+              const width = original_width - (e.pageX - original_mouse_x)
+              if (height > minimum_size) {
+                element.style.height = height + 'px'
+              }
+              if (width > minimum_size) {
+                element.style.width = width + 'px'
+                element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+              }
+            }
+            else if (currentResizer.classList.contains('ne')) {
+              const width = original_width + (e.pageX - original_mouse_x)
+              const height = original_height - (e.pageY - original_mouse_y)
+              if (width > minimum_size) {
+                element.style.width = width + 'px'
+              }
+              if (height > minimum_size) {
+                element.style.height = height + 'px'
+                element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+              }
+            }
+            else {
+              const width = original_width - (e.pageX - original_mouse_x)
+              const height = original_height - (e.pageY - original_mouse_y)
+              if (width > minimum_size) {
+                element.style.width = width + 'px'
+                element.style.left = original_x + (e.pageX - original_mouse_x) + 'px'
+              }
+              if (height > minimum_size) {
+                element.style.height = height + 'px'
+                element.style.top = original_y + (e.pageY - original_mouse_y) + 'px'
+              } 
+            }
+          }
+          }
+          
+          function stopResize() {
+            setIsResizing(false);
+            window.removeEventListener('mousemove', resize)
+          }
         }
-
-        function mouseup() {
-            el.removeEventListener("mousemove", mousemove);
-            el.removeEventListener("mouseup", mouseup);
-        }
-    }
-
-    // const resizers = resizerRef.current;
-    // let currentResizer;
-
-    // for (let resizer of resizers) {
-    //     resizer.addEventListener("mousedown", mousedown);
-
-
-    // const currentResizer = resizerRef.current;
-    //     function mousedown(e) {
-    //         currentResizer = e.target
-    //         isResizing = true;
-
-    //         let prevX = e.clientX;
-    //         let prevY = e.clientY;
-
-    //         window.addEventListener("mousemove", mousemove);
-    //         window.addEventListener("mouseup", mouseup);
-
-    //         function mousemove(e) {
-    //             const rect = el.getBoundingClientRect();
-
-    //             if (currentResizer.classList.contains("se")) {
-    //                 el.style.width = rect.width - (prevX - e.clientX) + "px";
-    //                 el.style.height = rect.height - (prevY - e.clientY) + "px";
-    //             }
-
-    //             prevX = e.clientX;
-    //             prevY = e.clientY;
-    //         }
-
-    //         function mouseup() {
-    //             window.removeEventListener("mousemove", mousemove);
-    //             window.removeEventListener("mouseup", mouseup);
-    //             isResizing = false;
-    //         }
-    //     }
-    // }
-
-}, [])
-
-
-
-    // const imageRef = useRef(null);
-    // useDraggable(imageRef);
+      }
+    makeResizableDiv('.dropped')
     return (
 
-            <div className='dropped' ref={eleRef} onClick={showSidebar}>
-                Image
-                <div className="resizer se" ref={resizerRef}></div>
+        <div className='dropped' ref={imageRef} onClick={showSidebar}>
+            Image
+            <div className='resizers'>
+                <div className="resizer ne"></div>
+                <div className="resizer nw"></div>
+                <div className="resizer sw"></div>
+                <div className="resizer se"></div>
             </div>
+        </div>
 
 
     )

@@ -1,17 +1,7 @@
-import React, {useRef} from 'react'
+import { useStateContext } from "./contexts/ContextProvider";
 
-import useDraggable from '../../../useDraggable';
-
-import { useStateContext } from '../../../contexts/ContextProvider';
-
-
-const Calender = ({showSidebar}) => {
-
-  const {isResizing, setIsResizing } = useStateContext();
-  const calenderRef = useRef(null);
-  useDraggable(calenderRef);
-
-  function makeResizableDiv(div) {
+function MakeResizableDiv(div) {
+    const { isResizing, setIsResizing } = useStateContext();
 
     const element = document.querySelector(div);
     const resizers = document.querySelectorAll(div + ' .resizer')
@@ -92,19 +82,6 @@ const Calender = ({showSidebar}) => {
       }
     }
   }
-makeResizableDiv('.dropped')
+    export default MakeResizableDiv;
   
-  return (
-    <div className='dropped' ref={calenderRef} onClick={showSidebar}>
-      Calender
-      <div className='resizers'>
-        <div className="resizer ne"></div>
-        <div className="resizer nw"></div>
-        <div className="resizer sw"></div>
-        <div className="resizer se"></div>
-      </div>
-    </div>
-  )
-}
-
-export default Calender
+  
