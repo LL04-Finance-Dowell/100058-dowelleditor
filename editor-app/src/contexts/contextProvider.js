@@ -24,13 +24,15 @@ export const ContextProvider = ({ children }) => {
         setIsDropped({ ...isDropped, [dropped]: true});
     }
 
-    const handleClicked = () => setIsClicked(!isClicked);
+    const handleClicked = (clicked) => {
+        setIsClicked({ ...isClicked, [clicked]: !isClicked[clicked]});
+    }
 
 
 
     return (
         <StateContext.Provider
-            value={{  isDropped, handleDrop, setIsDropped, handleClicked, isResizing, setIsResizing }}
+            value={{  isDropped, handleDrop, setIsDropped, isResizing, setIsResizing, isClicked, handleClicked }}
         >
             {children}
         </StateContext.Provider>

@@ -8,18 +8,19 @@ import SignsRightSidebar from './SignsRightSidebar';
 import TableRightSidebar from './TableRightSidebar';
 import DropDownRightSide from './DropDownRightSide'
 
-const RightMenu = ({ showSidebar }) => {
-  const { isDropped, isClicked } = useStateContext();
+const RightMenu = () => {
+  const { isClicked } = useStateContext();
 
+  console.log(isClicked);
   return (
     <div>
-      { isDropped.align && isClicked ? <AlignRightSide /> : null } 
-      { isDropped.textfill && isClicked ? <AlignRightSide /> : null }
-      { isDropped.image && isClicked ? <ImageRightSidebar /> : null }
-      { isDropped.table && <TableRightSidebar />}
-      { isDropped.signs && <SignsRightSidebar />}
-      { isDropped.calendar && <CalendarRightSidebar />}
-      { isDropped.dropdown && <DropDownRightSide />}
+      { isClicked.align && <AlignRightSide />  } 
+      { isClicked.textfill && <AlignRightSide />  }
+      { isClicked.image && <ImageRightSidebar />  }
+      { isClicked.table && <TableRightSidebar />  }
+      { isClicked.signs && <SignsRightSidebar />  }
+      { isClicked.calendar && <CalendarRightSidebar />  }
+      { isClicked.dropdown && <DropDownRightSide />  }
 
     </div>
   )

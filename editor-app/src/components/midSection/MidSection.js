@@ -24,7 +24,7 @@ const MidSection = ({showSidebar}) => {
       <Container as="div" className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
         >
-        { isDropped.textfill && <TextBox  showSidebar={showSidebar}/>}
+        { isDropped.textfill && <TextBox />}
         { isDropped.align && <TextBox  showSidebar={showSidebar}/>}
         { isDropped.image && <Image showSidebar={showSidebar}/>}
         { isDropped.table && <Table showSidebar={showSidebar}/>}
