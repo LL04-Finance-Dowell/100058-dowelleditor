@@ -3,9 +3,12 @@ import './Align.css'
 
 import useDraggable from '../../../useDraggable'
 
+import { useStateContext } from '../../../contexts/ContextProvider'
+
 import MakeResizableDiv from '../../../Resizable'
 
 const Align = ({showSidebar}) => {
+  const {handleClicked} = useStateContext()
 
   const textAlignRef = useRef(null);
   useDraggable(textAlignRef);
@@ -14,7 +17,8 @@ const Align = ({showSidebar}) => {
 MakeResizableDiv('.dropped')
   return (
     <div className='dropped' ref={textAlignRef} 
-    onClick={showSidebar}>
+    onClick={() => {handleClicked('align2')
+    showSidebar()}}>
       <div className='resizers'>
         <div className="resizer ne"></div>
         <div className="resizer nw"></div>

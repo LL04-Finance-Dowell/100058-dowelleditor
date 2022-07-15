@@ -7,20 +7,19 @@ import MakeResizableDiv from '../../../Resizable';
 import { useStateContext } from '../../../contexts/ContextProvider';
 
 const Table = ({ showSidebar }) => {
- const { isClicked, handleClicked } = useStateContext
+ const { handleClicked } = useStateContext();
 
   const tableRef = useRef(null);
 
   useDraggable(tableRef);
 
-  if (isClicked){
-    showSidebar()
-  }
+ 
   MakeResizableDiv('.dropped')
 
   return (
     <div className='dropped' ref={tableRef}
-      onClick={() =>handleClicked()}>
+      onClick={() => {handleClicked('table2')
+      showSidebar()}}>
       Table
       <div className='resizers'>
         <div className="resizer ne"></div>

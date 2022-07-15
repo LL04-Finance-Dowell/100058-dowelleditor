@@ -154,6 +154,14 @@ textarea{
   cursor: se-resize;
 }
 
+.signature{
+  background: #dbd9d9;;
+  padding: 4px;
+  border-radius: 2px;
+  width: 60%;
+  height: 200px;
+}
+
 
 
 

@@ -11,16 +11,16 @@ import DropDownRightSide from './DropDownRightSide'
 const RightMenu = () => {
   const { isClicked } = useStateContext();
 
-  console.log(isClicked);
+  console.log(typeof isClicked.table2);
   return (
     <div>
-      { isClicked.align && <AlignRightSide />  } 
-      { isClicked.textfill && <AlignRightSide />  }
-      { isClicked.image && <ImageRightSidebar />  }
-      { isClicked.table && <TableRightSidebar />  }
-      { isClicked.signs && <SignsRightSidebar />  }
-      { isClicked.calendar && <CalendarRightSidebar />  }
-      { isClicked.dropdown && <DropDownRightSide />  }
+      { isClicked.align2 && <AlignRightSide />  } 
+      { isClicked.textfill2 && <AlignRightSide />  }
+      { isClicked.image2 && <ImageRightSidebar />  }
+      { isClicked.table2 && <TableRightSidebar />  }
+      { isClicked.signs2 && <SignsRightSidebar />  }
+      { isClicked.calendar2 && <CalendarRightSidebar />  }
+      { isClicked.dropdown2 && <DropDownRightSide />  }
 
     </div>
   )

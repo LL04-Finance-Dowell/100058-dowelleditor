@@ -11,10 +11,19 @@ const initialState = {
     calendar: false,
     dropdown: false,
 }
+const initialState2 = {
+    align2: false,
+    textfill2: false,
+    image2: false,
+    table2: false,
+    signs2: false,
+    calendar2: false,
+    dropdown2: false,
+}
 
 export const ContextProvider = ({ children }) => {
 
-    const [ isClicked, setIsClicked ] = useState(false);
+    const [ isClicked, setIsClicked ] = useState(initialState2);
 
     const [isDropped, setIsDropped] = useState(initialState);
 
@@ -25,7 +34,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     const handleClicked = (clicked) => {
-        setIsClicked({ ...isClicked, [clicked]: !isClicked[clicked]});
+        setIsClicked({ ...isClicked, [clicked]: (isClicked[clicked] ? false : true)});
     }
 
 

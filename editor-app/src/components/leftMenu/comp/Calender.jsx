@@ -2,10 +2,13 @@ import React, {useRef} from 'react'
 
 import useDraggable from '../../../useDraggable';
 
+import { useStateContext } from '../../../contexts/ContextProvider';
+
 import MakeResizableDiv from '../../../Resizable';
 
 
 const Calender = ({showSidebar}) => {
+  const {handleClicked} = useStateContext()
 
   const calenderRef = useRef(null);
   useDraggable(calenderRef);
@@ -14,7 +17,9 @@ const Calender = ({showSidebar}) => {
 MakeResizableDiv('.dropped')
   
   return (
-    <div className='dropped' ref={calenderRef} onClick={showSidebar}>
+    <div className='dropped' ref={calenderRef} 
+    onClick={() => {handleClicked('calendar2')
+    showSidebar()}}>
       Calender
       <div className='resizers'>
         <div className="resizer ne"></div>

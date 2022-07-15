@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import { TextBox } from "../leftMenu/comp/TextBox";
+import  TextBox  from "../leftMenu/comp/TextBox";
 import LeftMenu from "../leftMenu/LeftMenu";
 import MidSection from "../midSection/MidSection";
 import RightMenu from "../rightMenu/RightMenu";
@@ -19,11 +19,14 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 const EditSection = () => {
 
-  const {isClicked, handleClicked} = useStateContext();
+  const {isClicked} = useStateContext();
+
 
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
   console.log(sidebar);
+  
+  console.log(typeof isClicked.table2);
   return (
     <div className="editSec">
       <Container fluid>
@@ -42,8 +45,6 @@ const EditSection = () => {
             className="editSec_rightMenu"
           >
             <RightMenu />
-
-            
           </Col>
          
         </Row>
