@@ -6,9 +6,10 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 
 import MakeResizableDiv from '../../../Resizable';
 
-const TextBox = ({showSidebar}) => {
+// const TextBox = ({showSidebar}) => {
+const TextBox = () => {
 
-  const { handleClicked } = useStateContext();
+  const { handleClicked, setSidebar } = useStateContext();
   
   const textAreaRef = useRef(null);
   useDraggable(textAreaRef);
@@ -20,7 +21,7 @@ MakeResizableDiv('.dropped')
     <div >
       <textarea className='dropped' ref={textAreaRef} 
       onClick={() => {handleClicked('align2')
-      showSidebar()}} name="" id="" ></textarea>
+      setSidebar(true)}} name="" id="" ></textarea>
       <div className='resizers'>
         <div className="resizer ne"></div>
         <div className="resizer nw"></div>

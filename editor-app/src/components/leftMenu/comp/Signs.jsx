@@ -6,19 +6,21 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 
 import MakeResizableDiv from '../../../Resizable';
 
-const Signs = ({showSidebar}) => {
+// const Signs = ({showSidebar }) => {
+const Signs = () => {
 
-  const {handleClicked} = useStateContext()
+  const {handleClicked, setSidebar} = useStateContext()
 
   const signsRef = useRef(null);
   useDraggable(signsRef);
 
   MakeResizableDiv('.dropped')
+ 
 
   return (
     <div className='dropped' ref={signsRef} 
     onClick={() => {handleClicked('signs2')
-    showSidebar()}}>
+    setSidebar(true)}}>
       Signs
       <div className='resizers'>
         <div className="resizer ne"></div>

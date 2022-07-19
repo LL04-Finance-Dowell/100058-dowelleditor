@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -9,45 +13,27 @@ import DatePicker from 'react-datepicker';
 
 const CalendarRightSidebar = (props) => {
 
-  const today = new Date();
 
-  const {
-    values,
-    touched,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched
-  } = props;
+  const [startDate, setStartDate] = useState(new Date());
+
+
   return (
     <div>
       <h3>Add Date</h3>
       <Form.Label>Select Date</Form.Label>
-      <Form.Control type='text' placeholder="Enter Name" />
+      <DropdownButton variant="secondary" id="" title="Select format">
+        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+      </DropdownButton>
 
-      <Form.Group controlId="validationFormik03">
-        <Form.Label>Date</Form.Label>
+      <DatePicker
+        dateFormat="MM/yyyy/dd"
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+      />
 
-        <DatePicker
 
-          onChange={(e) => {
-            setFieldValue('date', e);
-            setFieldTouched('date');
-          }}
-          className="form-control"
-          minDate={today}
-          customInput={
-            <input
-              type="text"
-              id="validationCustom01"
-              placeholder="Choose format"
-            />
-          }
-        />
-
-      </Form.Group>
     </div>
   )
 }

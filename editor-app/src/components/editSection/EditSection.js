@@ -19,11 +19,11 @@ import { useStateContext } from "../../contexts/ContextProvider";
 
 const EditSection = () => {
 
-  const {isClicked} = useStateContext();
+  const {isClicked, sidebar} = useStateContext();
 
 
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+  // const [sidebar, setSidebar] = useState(false);
+  // const showSidebar = () => setSidebar(!sidebar);
   console.log(sidebar);
   
   console.log(typeof isClicked.table2);
@@ -32,10 +32,12 @@ const EditSection = () => {
       <Container fluid>
         <Row>
           <Col md={1}>
-            <LeftMenu showSidebar={showSidebar} />
+            {/* <LeftMenu showSidebar={showSidebar} /> */}
+            <LeftMenu  />
           </Col>
           <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
-            <MidSection showSidebar={showSidebar}/>
+            {/* <MidSection showSidebar={showSidebar}/> */}
+            <MidSection />
             </Col>
 
           <Col

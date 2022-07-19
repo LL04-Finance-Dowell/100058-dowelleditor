@@ -18,8 +18,8 @@ const DropDownRightSide = () => {
       <Button variant="primary" >+</Button>
 
       <div className='dropdown'>
-        <h5>User permissions</h5>
-        <DropdownButton id="" title="Nothing Selected">
+        <p><strong>User permissions</strong></p>
+        <DropdownButton variant="secondary" id="" title="Nothing Selected">
           <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
           <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
           <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>

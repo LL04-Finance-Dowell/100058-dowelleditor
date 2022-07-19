@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
@@ -6,7 +6,7 @@ import { onDrop, dragOver } from "../leftMenu/LeftMenu";
 import  TextBox  from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/ContextProvider";
 
-import Align from "../leftMenu/comp/Align";
+
 import Image from "../leftMenu/comp/Image";
 import Table from "../leftMenu/comp/Table";
 import Signs from "../leftMenu/comp/Signs";
@@ -15,22 +15,47 @@ import DropDown from "../leftMenu/comp/DropDown";
 
 
 
-const MidSection = ({showSidebar}) => {
- const { isDropped, handleClicked } = useStateContext();
+
+// const MidSection = ({showSidebar}) => {
+const MidSection = () => {
+ const { isDropped, isClicked, setIsClicked, setSidebar } = useStateContext();
+
+ const midSectionRef = useRef(null);
+
+
+ console.log (midSectionRef.current);
+
+ useEffect(() => {
+  document.addEventListener("mousedown", (event) => {
+    if(event.target === midSectionRef.current) {
+      setIsClicked(false);
+    }
+  })
+  })
+
+  useEffect(() => {
+    document.addEventListener("mousedown", (event)=>{
+      if(event.target === midSectionRef.current){
+        setSidebar(false);
+        
+      }
+    })
+    })
+
 
   return (
   
-    <div className="midSection">
-      <Container as="div" className="midSection_container" onDragOver={dragOver}
+    <div className="midSection" >
+      <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
         >
-        { isDropped.textfill && <TextBox />}
-        { isDropped.align && <TextBox  showSidebar={showSidebar}/>}
-        { isDropped.image && <Image showSidebar={showSidebar}/>}
-        { isDropped.table && <Table showSidebar={showSidebar}/>}
-        { isDropped.signs && <Signs showSidebar={showSidebar}/>}
-        { isDropped.calendar && <Calender  showSidebar={showSidebar}/>}
-        { isDropped.dropdown && <DropDown showSidebar={showSidebar}/>}
+        { isDropped.textfill && <TextBox  />}
+        { isDropped.align && <TextBox />}
+        { isDropped.image && <Image />}
+        { isDropped.table && <Table />}
+        { isDropped.signs && <Signs />}
+        { isDropped.calendar && <Calender />}
+        { isDropped.dropdown && <DropDown />}
 
        
       </Container>

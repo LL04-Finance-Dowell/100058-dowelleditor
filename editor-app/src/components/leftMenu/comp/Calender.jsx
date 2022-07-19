@@ -7,8 +7,9 @@ import { useStateContext } from '../../../contexts/ContextProvider';
 import MakeResizableDiv from '../../../Resizable';
 
 
-const Calender = ({showSidebar}) => {
-  const {handleClicked} = useStateContext()
+// const Calender = ({showSidebar}) => {
+const Calender = () => {
+  const {handleClicked, setSidebar} = useStateContext()
 
   const calenderRef = useRef(null);
   useDraggable(calenderRef);
@@ -19,7 +20,7 @@ MakeResizableDiv('.dropped')
   return (
     <div className='dropped' ref={calenderRef} 
     onClick={() => {handleClicked('calendar2')
-    showSidebar()}}>
+    setSidebar(true)}}>
       Calender
       <div className='resizers'>
         <div className="resizer ne"></div>
