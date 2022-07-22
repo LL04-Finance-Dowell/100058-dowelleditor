@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { useStateContext } from "./contexts/ContextProvider";
 
-function MakeResizableDiv(div) {
-    const { isResizing, setIsResizing } = useStateContext();
+export default function MakeResizableDiv(div) {
+  const { isResizing, setIsResizing } = useStateContext();
+
+  useEffect(() => {
 
     const element = document.querySelector(div);
     const resizers = document.querySelectorAll(div + ' .resizer')
@@ -55,6 +58,7 @@ function MakeResizableDiv(div) {
           const height = original_height - (e.pageY - original_mouse_y)
           if (width > minimum_size) {
             element.style.width = width + 'px'
+            
           }
           if (height > minimum_size) {
             element.style.height = height + 'px'
@@ -82,6 +86,8 @@ function MakeResizableDiv(div) {
       }
     }
   }
-    export default MakeResizableDiv;
+
+  , [isResizing, div]);
+}
   
   

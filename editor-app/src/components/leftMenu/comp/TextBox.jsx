@@ -15,11 +15,11 @@ const TextBox = () => {
   useDraggable(textAreaRef);
 
  
-MakeResizableDiv('.dropped')
+MakeResizableDiv('.dropped7')
 
   return (
     <div >
-      <textarea className='dropped' ref={textAreaRef} 
+      <textarea className='dropped7' ref={textAreaRef} 
       onClick={() => {handleClicked('align2')
       setSidebar(true)}} name="" id="" ></textarea>
       <div className='resizers'>

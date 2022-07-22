@@ -15,10 +15,10 @@ const DropDown = () => {
   useDraggable(dropDownRef);
 
  
-MakeResizableDiv('.dropped')
+MakeResizableDiv('.dropped3')
 
   return (
-    <div className='dropped' ref={dropDownRef}
+    <div className='dropped3' ref={dropDownRef}
     onClick={() => {handleClicked('dropdown2')
     setSidebar(true)}}>
       DropDown

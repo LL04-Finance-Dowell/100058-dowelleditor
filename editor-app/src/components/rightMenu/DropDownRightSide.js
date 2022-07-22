@@ -9,9 +9,9 @@ const DropDownRightSide = () => {
   return (
     <div>
       <h3>Dropdown Settings</h3>
-      <Form.Label>Email address</Form.Label>
+      <Form.Label>Dropdown Name</Form.Label>
       <Form.Control type='text' placeholder="Enter Name" />
-      <Form.Label>Email Label</Form.Label>
+      <Form.Label>Label</Form.Label>
       <Form.Control type='text' placeholder="Enter Label" />
       <Form.Label>List Items</Form.Label>
       <Form.Control type='text' placeholder="Add List Items" />

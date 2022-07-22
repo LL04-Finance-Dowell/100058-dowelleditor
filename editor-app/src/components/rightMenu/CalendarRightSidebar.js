@@ -10,11 +10,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 import DatePicker from 'react-datepicker';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 const CalendarRightSidebar = (props) => {
 
-
-  const [startDate, setStartDate] = useState(new Date());
+  const { startDate, setStartDate } = useStateContext();
 
 
   return (

@@ -29,6 +29,11 @@ export const ContextProvider = ({ children }) => {
 
     const [isResizing, setIsResizing] = useState(false);
 
+    //Right Sidebar context
+    const [signState, setSignState] = React.useState({ trimmedDataURL: null });  // Signature
+
+    const [startDate, setStartDate] = useState(''); // Calendar
+
     const handleDrop = (dropped) => {
         setIsDropped({ ...isDropped, [dropped]: true });
     }
@@ -51,6 +56,8 @@ export const ContextProvider = ({ children }) => {
                 isClicked, handleClicked,
                 setIsClicked,
                 sidebar, setSidebar,
+                signState, setSignState,
+                startDate, setStartDate,
             }}
         >
             {children}

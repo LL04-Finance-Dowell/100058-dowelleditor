@@ -1,9 +1,10 @@
-import React, {useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
+
 import { onDrop, dragOver } from "../leftMenu/LeftMenu";
-import  TextBox  from "../leftMenu/comp/TextBox";
+import TextBox from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/ContextProvider";
 
 
@@ -18,49 +19,42 @@ import DropDown from "../leftMenu/comp/DropDown";
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
- const { isDropped, isClicked, setIsClicked, setSidebar } = useStateContext();
+  const { isDropped, setIsClicked, setSidebar } = useStateContext();
 
- const midSectionRef = useRef(null);
+  const midSectionRef = useRef(null);
 
 
- console.log (midSectionRef.current);
+  console.log(midSectionRef.current);
 
- useEffect(() => {
-  document.addEventListener("mousedown", (event) => {
-    if(event.target === midSectionRef.current) {
-      setIsClicked(false);
-    }
-  })
-  })
 
   useEffect(() => {
-    document.addEventListener("mousedown", (event)=>{
-      if(event.target === midSectionRef.current){
+    document.addEventListener("mousedown", (event) => {
+      if (event.target === midSectionRef.current) {
         setSidebar(false);
-        
+        setIsClicked(false);
       }
     })
-    })
+  }, [midSectionRef, setSidebar, setIsClicked]);
 
 
   return (
-  
+
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
-        >
-        { isDropped.textfill && <TextBox  />}
-        { isDropped.align && <TextBox />}
-        { isDropped.image && <Image />}
-        { isDropped.table && <Table />}
-        { isDropped.signs && <Signs />}
-        { isDropped.calendar && <Calender />}
-        { isDropped.dropdown && <DropDown />}
+      >
+        {isDropped.textfill && <TextBox />}
+        {isDropped.align && <TextBox />}
+        {isDropped.image &&<Image />}
+        {isDropped.table && <Table />}
+        {isDropped.signs && <Signs />}
+        {isDropped.calendar && <Calender />}
+        {isDropped.dropdown && <DropDown />}
 
-       
+
       </Container>
     </div>
-  
+
   );
 };
 

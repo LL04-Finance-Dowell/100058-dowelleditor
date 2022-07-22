@@ -9,19 +9,19 @@ import MakeResizableDiv from '../../../Resizable';
 // const Signs = ({showSidebar }) => {
 const Signs = () => {
 
-  const {handleClicked, setSidebar} = useStateContext()
+  const {handleClicked, setSidebar, signState} = useStateContext()
 
   const signsRef = useRef(null);
   useDraggable(signsRef);
 
-  MakeResizableDiv('.dropped')
+  MakeResizableDiv('.dropped5')
  
 
   return (
-    <div className='dropped' ref={signsRef} 
+    <div className='dropped5' ref={signsRef} 
     onClick={() => {handleClicked('signs2')
     setSidebar(true)}}>
-      Signs
+      {signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" />: 'Signs'}
       <div className='resizers'>
         <div className="resizer ne"></div>
         <div className="resizer nw"></div>

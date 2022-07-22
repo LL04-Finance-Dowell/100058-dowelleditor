@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 
+
 import useDraggable from '../../../useDraggable';
 
 import { useStateContext } from '../../../contexts/ContextProvider';
@@ -16,10 +17,10 @@ const Image = () => {
     useDraggable(imageRef);
 
     
-    MakeResizableDiv('.dropped')
+    MakeResizableDiv('.dropped4')
     return (
 
-        <div className='dropped' ref={imageRef} 
+        <div className='dropped4' ref={imageRef} 
         onClick={() => {handleClicked('image2')
         setSidebar(true)}}>
             Image
@@ -30,7 +31,6 @@ const Image = () => {
                 <div className="resizer se"></div>
             </div>
         </div>
-
 
     )
 

@@ -15,10 +15,10 @@ const Table = () => {
   useDraggable(tableRef);
 
  
-  MakeResizableDiv('.dropped')
+  MakeResizableDiv('.dropped6')
 
   return (
-    <div className='dropped' ref={tableRef}
+    <div className='dropped6' ref={tableRef}
       onClick={() => {handleClicked('table2')
       setSidebar(true)}}>
       Table

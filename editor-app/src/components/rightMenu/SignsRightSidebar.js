@@ -1,15 +1,15 @@
 import React, { useRef } from 'react'
 
-import Signs from '../leftMenu/comp/Signs';
 
 import SignatureCanvas from 'react-signature-canvas'
 
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 const SignsRightSidebar = () => {
 
-  const [state, setState] = React.useState({ trimmedDataURL: null });
+  const {signState, setSignState} = useStateContext();
+
 
   let sigPad = useRef({});
   let data = '';
@@ -20,10 +20,10 @@ const SignsRightSidebar = () => {
 
   const save = () => {
     data = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
-    setState({ trimmedDataURL: data });
+    setSignState({ trimmedDataURL: data });
   }
 
-console.log(state.trimmedDataURL);
+console.log(signState.trimmedDataURL);
 
 
   return (
@@ -41,7 +41,6 @@ console.log(state.trimmedDataURL);
 
         </div>
 
-      {state.trimmedDataURL && <img src={state.trimmedDataURL} alt="sig" />}
       </div>
 
     </div>

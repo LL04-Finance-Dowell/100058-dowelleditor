@@ -15,9 +15,9 @@ const Align = () => {
   useDraggable(textAlignRef);
 
 
-MakeResizableDiv('.dropped')
+MakeResizableDiv('.dropped1')
   return (
-    <div className='dropped' ref={textAlignRef} 
+    <div className='dropped1' ref={textAlignRef} 
     onClick={() => {handleClicked('align2')
     setSidebar(true)}}>
       <div className='resizers'>
