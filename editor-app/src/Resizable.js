@@ -87,7 +87,7 @@ export default function MakeResizableDiv(div) {
     }
   }
 
-  , [isResizing, div]);
+  , [isResizing, div, setIsResizing]);
 }
   
   

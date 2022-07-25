@@ -24,7 +24,7 @@ const MidSection = () => {
   const midSectionRef = useRef(null);
 
 
-  console.log(midSectionRef.current);
+  // console.log(midSectionRef.current);
 
 
   useEffect(() => {
@@ -36,15 +36,34 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
+  // useEffect(() => {
+  //   document.addEventListener("drop", (event) => {
+  //     event.preventDefault();
+  //     const data = event.dataTransfer.getData("text/plain");
+
+  //     if (data === "TEXT_INPUT") {
+  //       console.log("text inputttt");
+  //       return <TextBox />;
+  //     }
+  //   });
+  //   })
+
+    
+
+  
+
 
   return (
 
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
+
       >
-        {isDropped.textfill && <TextBox />}
-        {isDropped.align && <TextBox />}
+       
+        
+        {/* {isDropped.textfill && <TextBox />}   */}
+        {/* {isDropped.align && <TextBox /> && <TextBox />} */}
         {isDropped.image &&<Image />}
         {isDropped.table && <Table />}
         {isDropped.signs && <Signs />}

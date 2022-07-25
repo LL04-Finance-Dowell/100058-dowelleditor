@@ -24,9 +24,9 @@ const EditSection = () => {
 
   // const [sidebar, setSidebar] = useState(false);
   // const showSidebar = () => setSidebar(!sidebar);
-  console.log(sidebar);
+  // console.log(sidebar);
   
-  console.log(typeof isClicked.table2);
+  // console.log(typeof isClicked.table2);
   return (
     <div className="editSec">
       <Container fluid>

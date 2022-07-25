@@ -34,7 +34,7 @@ export default function useDraggable(el) {
             el.current.removeEventListener("mousedown", handleMouseDown);
         };
         }
-    }, [isResizing, el, dx, dy]);
+    }, [isResizing, el, dx, dy, setOffset]);
 
 
     useEffect(() => {
