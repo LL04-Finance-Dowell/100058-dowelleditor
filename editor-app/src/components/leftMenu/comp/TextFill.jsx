@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useRef } from 'react'
+
+import useDraggable from '../../../useDraggable'
+
+import { useStateContext } from '../../../contexts/ContextProvider';
+
+import MakeResizableDiv from '../../../Resizable';
 
 const TextFill = () => {
+  const { handleClicked, setSidebar } = useStateContext();
+
+  const textAreaRef = useRef(null);
+  useDraggable(textAreaRef);
+
+
+  MakeResizableDiv('.dropped8')
+
+
   return (
-    <div className='dropped'>
+    <div >
+      <textarea className='dropped8' ref={textAreaRef}
+        onClick={() => {
+
+        }} name="" id="textarea" >
+        
+      </textarea>
 
     </div>
   )

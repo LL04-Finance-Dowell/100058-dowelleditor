@@ -15,7 +15,6 @@ const Image = () => {
 
     const imageRef = useRef(null);
     useDraggable(imageRef);
-
     
     MakeResizableDiv('.dropped4')
     return (
@@ -25,8 +24,8 @@ const Image = () => {
         setSidebar(true)}}>
             Image
             <div className='resizers'>
-                <div className="resizer ne"></div>
                 <div className="resizer nw"></div>
+                <div className="resizer ne"></div>
                 <div className="resizer sw"></div>
                 <div className="resizer se"></div>
             </div>
