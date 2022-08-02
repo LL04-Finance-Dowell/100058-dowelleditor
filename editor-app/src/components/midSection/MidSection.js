@@ -21,11 +21,13 @@ import TextFill from "../leftMenu/comp/TextFill";
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate } = useStateContext();
+  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState } = useStateContext();
+
+
+ 
 
   const midSectionRef = useRef(null);
- const holderMenuRef = useRef(null);
-//  useDraggable(holderMenuRef);
+
 
 
   useEffect(() => {
@@ -76,7 +78,7 @@ const MidSection = () => {
 
 
     resizer.onmousedown = (event) => {
-      
+
       let initX = event.screenX;
       let initY = event.screenY;
       resizing = true;
@@ -129,45 +131,24 @@ const MidSection = () => {
 
       }
     }
-  
-  return resizer;
-}
+
+    return resizer;
+  }
 
 
-//Handle Edit when Clicked
-function getEditBtn() {
-  const editBtn = document.createElement('span');
-  editBtn.style.textAlign = 'center';
-  editBtn.style.fontSize = '0.8em';
-  editBtn.style.margin = '5px';
-  editBtn.style.display = 'none';
-  editBtn.className = 'closeBtn';
-  editBtn.innerHTML = '<i class="fas fa-edit" style="color: #000;"></i>';
-  editBtn.classList.add("float-right", "col-md-4");
-  editBtn.onmouseover = (event) => {
-      event.target.style.cursor = 'pointer';
-      event.target.style.color = '#f00';
-  };
 
-  editBtn.onmouseout = (event) => {
-      event.target.style.color = '#000';
-  };
 
-  editBtn.onclick = (eventclk) => {
-      eventclk.preventDefault();
-      // handleDropDwnDouble(eventclk);
-  };
-  return editBtn;
-}
 
-//Draggin element over page
+  //Draggin element over page
 
-const dragElementOverPage = (event) => {
+  const dragElementOverPage = (event) => {
 
-  let holder;
-  if (!resizing) {
+    let holder;
+    
+    if (!resizing ) {
       let initX = event.screenX;
       let initY = event.screenY;
+
 
 
       /* Ensure That target has changed */
@@ -179,15 +160,22 @@ const dragElementOverPage = (event) => {
           if (tempTarget.classList.contains("holderDIV")) {
               hitTarget = tempTarget;
               counterCheck = false;
+          } else if( tempTarget.classList.contains("textInput") ){
+            hitTarget = null;
+            counterCheck = false;
           }
           tempTarget = tempTarget.parentNode;
       }
 
+      
+
       holder = hitTarget;
       const holderPos = (function () {
           const holderPos = {
-              top: parseInt(holder.style.top.slice(0, -2)),
-              left: parseInt(holder.style.left.slice(0, -2))
+            top: holder.offsetTop,
+          left: holder.offsetLeft
+              // top: parseInt(holder.style.top.slice(0, -2)),
+              // left: parseInt(holder.style.left.slice(0, -2))
           }
           return Object.seal(holderPos);
       })();
@@ -197,174 +185,156 @@ const dragElementOverPage = (event) => {
           ev.preventDefault();
           const diffX = ev.screenX - initX;
           const diffY = ev.screenY - initY;
-          holder.style.top = (holderPos.top + diffY) + 'px';
-          holder.style.left = (holderPos.left + diffX) + 'px';
+          holder.style.top = ( holderPos.top + diffY ) + 'px';
+          holder.style.left = ( holderPos.left + diffX ) + 'px';
 
       }
 
       window.addEventListener('mouseup', stopMove);
-      function stopMove(ev) {
+      function stopMove(ev){
           window.removeEventListener('mousemove', moveObject);
           window.removeEventListener('mouseup', stopMove);
 
-      } 
-  } 
-}
+      }
+    }
+  }
 
 
 
 
-function getHolderMenu(auth_user) {
-  //putting functional menu on holder
+  function getHolderMenu(auth_user) {
+    //putting functional menu on holder
 
-  const HMContainer = document.createElement('div');
+    const HMContainer = document.createElement('div');
 
-  HMContainer.style.height = '100%';
-  HMContainer.style.padding = '5px';
-  HMContainer.style.display = 'flex';
-  HMContainer.style.alignItems = 'center';
-  HMContainer.style.justifyContent = 'center';
-  HMContainer.style.backgroundColor = 'rgb(129 129 129 / 50%)';
+    HMContainer.style.height = '100%';
+    HMContainer.style.padding = '5px';
+    HMContainer.style.display = 'flex';
+    HMContainer.style.alignItems = 'center';
+    HMContainer.style.justifyContent = 'center';
+    HMContainer.style.backgroundColor = 'rgb(129 129 129 / 50%)';
 
-  // HMContainer.append(getSelectOptionsField(auth_user));
+    // HMContainer.append(getSelectOptionsField(auth_user));
 
-  // if (isTemplate) {
-  //     HMContainer.append(getDeleteBtn());
-  // }
-
-
-
-  const holderMenu = document.createElement('div');
-  holderMenu.className = 'holder-menu';
-  holderMenu.style.height = '35px';
-  holderMenu.style.display = 'flex';
-  holderMenu.style.justifyContent = 'center';
-  holderMenu.style.width = '100%';
-  holderMenu.style.borderRadius = '0%';
-  holderMenu.style.position = 'absolute';
-  holderMenu.style.right = '0px';
-  holderMenu.style.top = '-40px';
-
-  // holderMenu.append(HMContainer);
-  //holderMenu.style.transform = 'translateX(-50%)';
-
-  return holderMenu
-}
+    // if (isTemplate) {
+    //     HMContainer.append(getDeleteBtn());
+    // }
 
 
-function getHolderDIV(measure) {
-  //creating holder for every input field over the page
-  const holderDIV = document.createElement('div');
-  // holderDIV.style.border = '1px dotted rgb(255 191 0)';
-  holderDIV.style.position = 'absolute';
-  holderDIV.style.overflow = 'visible';
-  holderDIV.style.display = 'flex';
-  holderDIV.style.cursor = 'move';
-  holderDIV.className = 'holderDIV';
-  holderDIV.setAttribute('id', 'holderId');
-  holderDIV.setAttribute('data-idD', 'INPUT_HOLDER');
 
-  holderDIV.style.width = measure.width;
-  holderDIV.style.height = measure.height;
-  holderDIV.style.left = measure.left;
-  holderDIV.style.top = measure.top;
+    const holderMenu = document.createElement('div');
+    holderMenu.className = 'holder-menu';
+    holderMenu.style.height = '35px';
+    holderMenu.style.display = 'flex';
+    holderMenu.style.justifyContent = 'center';
+    holderMenu.style.width = '100%';
+    holderMenu.style.borderRadius = '0%';
+    holderMenu.style.position = 'absolute';
+    holderMenu.style.right = '0px';
+    holderMenu.style.top = '-40px';
 
 
-  //Putting resize button on holder
+    holderMenu.append(HMContainer);
+    //holderMenu.style.transform = 'translateX(-50%)';
 
-  // const resizers = document.createElement('div');
-  // resizers.className = 'resizers';
-
-  // const resizerNW = document.createElement('div');
-  // resizerNW.className = 'resizer nw';
+    return holderMenu
+  }
 
 
-  // const resizerNE = document.createElement('div');
-  // resizerNE.className = 'resizer ne';
+  function getHolderDIV(measure) {
+    //creating holder for every input field over the page
+    const holderDIV = document.createElement('div');
+    // holderDIV.style.border = '1px dotted rgb(255 191 0)';
+    holderDIV.style.position = 'absolute';
+    holderDIV.style.overflow = 'visible';
+    holderDIV.style.display = 'flex';
+    holderDIV.style.cursor = 'move';
+    holderDIV.style.zIndex = 1;
+    holderDIV.className = 'holderDIV';
+    holderDIV.setAttribute('id', 'holderId');
+    holderDIV.setAttribute('data-idD', 'INPUT_HOLDER');
+    holderDIV.style.display = 'flex';
+    holderDIV.style.flexDirection = 'column';
+
+    holderDIV.style.width = measure.width;
+    holderDIV.style.height = measure.height;
+    holderDIV.style.left = measure.left;
+    holderDIV.style.top = measure.top;
 
 
-  // const resizerSW = document.createElement('div');
-  // resizerSW.className = 'resizer sw';
+    //Putting resize button on holder
 
+    const resizerTL = getResizer('top', 'left');
+    const resizerTR = getResizer('top', 'right');
+    const resizerBL = getResizer('bottom', 'left');
+    const resizerBR = getResizer('bottom', 'right');
+    const holderMenu = getHolderMenu(measure.auth_user);
 
-  // const resizerSE = document.createElement('div');
-  // resizerSE.className = 'resizer se';
+    // const isTemplate = JSON.parse(document.getElementById('template'));
+    // const currUser = JSON.parse(document.getElementById('curr_user'));
 
-
-  // resizers.append(resizerNW, resizerNE, resizerSW, resizerSE);
-
-  const resizerTL = getResizer('top', 'left');
-  const resizerTR = getResizer('top', 'right');
-  const resizerBL = getResizer('bottom', 'left');
-  const resizerBR = getResizer('bottom', 'right');
-  const holderMenu = getHolderMenu(measure.auth_user);
-
-  const isTemplate = JSON.parse(document.getElementById('template'));
-  const currUser = JSON.parse(document.getElementById('curr_user'));
-
-  if (isTemplate) {
-    holderDIV.style.border = '1px dotted rgb(255 191 0)';
+    // if (isTemplate) {
+    //   holderDIV.style.border = '1px dotted rgb(255 191 0)';
     //              const resizerTL = getResizer('top', 'left');
     // const resizerTR = getResizer('top', 'right');
     // const resizerBL = getResizer('bottom', 'left');
     // const resizerBR = getResizer('bottom', 'right');
-    
 
-   
+
 
     holderDIV.onmousedown = holderDIV.addEventListener('mousedown', (event) => {
       dragElementOverPage(event)
     }, false);
-    
+
 
     holderDIV.onresize = (evntt) => {
       console.log('Holder resized')
     }
+    // }
+
+    holderDIV.append(holderMenu);
+
+    holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
+
+
+    holderDIV.style.border = '2px solid gray';
+
+    // if (!isTemplate) {
+    //   if (currUser == measure.auth_user) {
+    //     console.log("They are equal");
+    //     console.log(measure.auth_user);
+    //     console.log(currUser);
+
+    //   }
+
+
+    // }
+
+    return holderDIV
   }
 
-  holderDIV.append(holderMenu);
-  // holderDIV.append(resizers);
-  holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
-
-
-  
-  
-  if (!isTemplate) {
-    if (currUser == measure.auth_user) {
-      console.log("They are equal");
-      console.log(measure.auth_user);
-      console.log(currUser);
-      holderDIV.style.border = '2px solid gray';
-    }
-
-
-  }
-
-  return holderDIV
-}
 
 
 
 
+  // const onDrop = (event) => {
+  //   event.preventDefault();
+  //   const data = event.dataTransfer.getData("text/plain");
 
-// const onDrop = (event) => {
-//   event.preventDefault();
-//   const data = event.dataTransfer.getData("text/plain");
 
+  //   if (data === "TEXT_INPUT") {
+  //     console.log("text inputtt")
 
-//   if (data === "TEXT_INPUT") {
-//     console.log("text inputtt")
-
-//     const textInput = document.createElement("textarea");
-//     textInput.className = "textInput";
-//     textInput.placeholder = "Enter text here";
-//     textInput.style.width = "20%";
-//     textInput.style.height = "10%";
-//     textInput.style.resize = 'none';
-//     textInput.style.backgroundColor = '#0000';
-//     textInput.style.borderRadius = '0px';
-//     textInput.style.outline = '0px';
-//     textInput.style.overflow = 'overlay';
+  //     const textInput = document.createElement("textarea");
+  //     textInput.className = "textInput";
+  //     textInput.placeholder = "Enter text here";
+  //     textInput.style.width = "20%";
+  //     textInput.style.height = "10%";
+  //     textInput.style.resize = 'none';
+  //     textInput.style.backgroundColor = '#0000';
+  //     textInput.style.borderRadius = '0px';
+  //     textInput.style.outline = '0px';
+  //     textInput.style.overflow = 'overlay';
 
 
 
@@ -376,51 +346,53 @@ function getHolderDIV(measure) {
 
 
 
-//     document.getElementsByClassName("midSection_container").item(0).appendChild(textInput);
-//   }
+  //     document.getElementsByClassName("midSection_container").item(0).appendChild(textInput);
+  //   }
 
 
-// }
+  // }
 
-const onDrop = (event) => {
-  event.preventDefault();
-console.log("drop");
-  const typeOfOperation = event.dataTransfer.getData("text/plain");
+  const onDrop = (event) => {
+    event.preventDefault();
+    console.log("drop");
+    const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
 
     const measure = {
-        width: '300px',
-        height: '50px',
-        left: event.offsetX + 'px',
-        top: event.offsetY + 'px',
-        auth_user: curr_user
+      width: '300px',
+      height: '50px',
+      left: event.offsetX + 'px',
+      top: event.offsetY + 'px',
+      auth_user: curr_user
     }
 
     const holderDIV = getHolderDIV(measure);
 
-   
+
     // inputField.setAttribute('draggable', false);
     let editButtonField = undefined;
 
     if (typeOfOperation === "TEXT_INPUT") {
-       let inputField = document.createElement('textarea');
-       inputField.setAttribute('draggable', true);
-        inputField.className = "textInput";
-        inputField.placeholder = "Enter text here";
-        inputField.style.width = "100%";
-        inputField.style.height = "100%";
-        inputField.style.resize = 'none';
-        inputField.style.backgroundColor = '#0000';
-        inputField.style.borderRadius = '0px';
-        inputField.style.outline = '0px';
-        inputField.style.overflow = 'overlay';
-        inputField.onclick = (event) => {
-          handleClicked('align2')
-          setSidebar(true);
-        }
-holderDIV.append(inputField);
-
-    } else if (typeOfOperation === "IMAGE_INPUT") {
+      let inputField = document.createElement('textarea');
+      //  inputField.setAttribute('draggable', true);
+      inputField.className = "textInput";
+      inputField.placeholder = "Enter text here";
+      inputField.style.width = "100%";
+      inputField.style.height = "100%";
+      inputField.style.resize = 'none';
+      inputField.style.zIndex = 2; 
+      inputField.style.backgroundColor = '#0000';
+      inputField.style.borderRadius = '0px';
+      inputField.style.outline = '0px';
+      inputField.style.overflow = 'overlay';
+      inputField.style.position = 'relative';
+      inputField.onclick = () => {
+        handleClicked('align2')
+        setSidebar(true);
+      }
+      holderDIV.append(inputField);
+    }
+    else if (typeOfOperation === "IMAGE_INPUT") {
       let imageField = document.createElement('div');
       imageField.className = "imageInput";
       imageField.style.width = "100%";
@@ -429,27 +401,39 @@ holderDIV.append(inputField);
       imageField.style.borderRadius = '0px';
       imageField.style.outline = '0px';
       imageField.style.overflow = 'overlay';
-      imageField.onclick = (event) => {
+
+
+      imageField.onclick = () => {
         handleClicked('image2')
         setSidebar(true);
       }
       const para = document.createElement("p");
       para.innerHTML = "Drag and drop image here";
       imageField.append(para);
+
+      const imgBtn = document.createElement("input");
+      imgBtn.type = "file";
+
+      imgBtn.style.width = "100%";
+      
+
+      
+
       holderDIV.append(imageField);
-    } 
+      holderDIV.append(imgBtn);
+    }
     else if (typeOfOperation === "TEXT_FILL") {
       let texttField = document.createElement('textarea');
-        texttField.className = "textInput";
-        texttField.placeholder = "input text here";
-        texttField.style.width = "100%";
-        texttField.style.height = "100%";
-        texttField.style.resize = 'none';
-        texttField.style.backgroundColor = '#0000';
-        texttField.style.borderRadius = '0px';
-        texttField.style.outline = '0px';
-        texttField.style.overflow = 'overlay';
-        holderDIV.append(texttField)
+      texttField.className = "textInput";
+      texttField.placeholder = "input text here";
+      texttField.style.width = "100%";
+      texttField.style.height = "100%";
+      texttField.style.resize = 'none';
+      texttField.style.backgroundColor = '#0000';
+      texttField.style.borderRadius = '0px';
+      texttField.style.outline = '0px';
+      texttField.style.overflow = 'overlay';
+      holderDIV.append(texttField)
     }
     else if (typeOfOperation === "TABLE_INPUT") {
       let tableField = document.createElement('div');
@@ -460,7 +444,7 @@ holderDIV.append(inputField);
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
-      tableField.onclick = (event) => {
+      tableField.onclick = () => {
         handleClicked('table2')
         setSidebar(true);
       }
@@ -479,13 +463,13 @@ holderDIV.append(inputField);
       signField.style.borderRadius = '0px';
       signField.style.outline = '0px';
       signField.style.overflow = 'overlay';
-      signField.onclick = (event) => {
+      signField.onclick = () => {
         handleClicked('signs2')
         setSidebar(true);
       }
 
       const para = document.createElement("p");
-      para.innerHTML = "Sign";
+      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" />: 'Signs'}`
       signField.append(para);
       holderDIV.append(signField);
     }
@@ -498,15 +482,22 @@ holderDIV.append(inputField);
       dateField.style.borderRadius = '0px';
       dateField.style.outline = '0px';
       dateField.style.overflow = 'overlay';
-      dateField.onclick = (event) => {
+      dateField.onclick = () => {
         handleClicked('calendar2')
         setSidebar(true);
       }
+      dateField.innerText = `${startDate ? <div>${startDate.toLocaleDateString()}</div> : 'Date'}`;
+     console.log(startDate);
+      
+
+      
 
       const para = document.createElement("p");
-      para.innerHTML = "Date";
-      dateField.append(para);
+      para.innerText = `${startDate ? startDate.toLocaleDateString() : 'Date'}`;
+    
+      // dateField.append(para)
       holderDIV.append(dateField);
+      console.log(para);
     }
     else if (typeOfOperation === "DROPDOWN_INPUT") {
       let dropdownField = document.createElement('div');
@@ -517,7 +508,7 @@ holderDIV.append(inputField);
       dropdownField.style.borderRadius = '0px';
       dropdownField.style.outline = '0px';
       dropdownField.style.overflow = 'overlay';
-      dropdownField.onclick = (event) => {
+      dropdownField.onclick = () => {
         handleClicked('dropdown2')
         setSidebar(true);
       }
@@ -527,36 +518,36 @@ holderDIV.append(inputField);
       dropdownField.append(para);
       holderDIV.append(dropdownField);
     }
-    
- 
-document.getElementsByClassName("midSection_container").item(0).appendChild(holderDIV);
- 
-}
+
+
+    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+
+  }
 
 
 
-return (
+  return (
 
-  <div className="midSection" >
-    <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
-      onDrop={onDrop}
+    <div className="midSection" >
+      <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
+        onDrop={onDrop}
 
-    >
+      >
 
 
-      {/* {isDropped.align && <TextBox /> && <TextBox />}
+        {/* {isDropped.align && <TextBox /> && <TextBox />}
         {isDropped.textfill && <TextFill />}   */}
-      {isDropped.image && <Image />}
-      {isDropped.table && <Table />}
-      {isDropped.signs && <Signs />}
-      {isDropped.calendar && <Calender />}
-      {isDropped.dropdown && <DropDown />}
+        {isDropped.image && <Image />}
+        {isDropped.table && <Table />}
+        {isDropped.signs && <Signs />}
+        {isDropped.calendar && <Calender />}
+        {isDropped.dropdown && <DropDown />}
 
 
-    </Container>
-  </div>
+      </Container>
+    </div>
 
- );
+  );
 }
 
 export default MidSection;
