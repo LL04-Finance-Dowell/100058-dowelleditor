@@ -15,16 +15,36 @@ import Signs from "../leftMenu/comp/Signs";
 import Calender from "../leftMenu/comp/Calender";
 import DropDown from "../leftMenu/comp/DropDown";
 import TextFill from "../leftMenu/comp/TextFill";
+import  Axios  from "axios";
 
 
-
+const dummyData = {
+  "normal":{
+    "is_error":false,
+    "data":[
+       [
+          {
+             "_id":"61e50b063623fc65b472e6eb",
+             "title":"Livinglab did not create wonderful applications.",
+             "paragraph":"When you\u2019re programming in Python, the data you are working with will be stored in a number of If you\u2019re working with text, your data will be stored as a string. But if you\u2019re working with a decimal number, your data will be structured as a float.\r\n\r\nThis is important because each type of data can be manipulated in different ways. Thus, Python needs to store different sorts of data using different data types. There are a number of data types in Python that are used to store data, including numbers, Booleans, and lists.\r\n\r\nIn this article, we will focus on two of these data types: strings and numbers.",
+             "source":"https://careerkarma.com/blog/python-string-to-int/#:~:text=To%20convert%20a%20string%20to,as%20an%20int%20%2C%20or%20integer.",
+             "subject":"Livinglab",
+             "dowelltime":"32941222",
+             "edited":0,
+             "eventId":"FB1010000000016424005125815918"
+          }
+       ]
+    ],
+    "sampling_status":false,
+    "sampling_status_text":"Not expected"
+ }
+}
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
   const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState } = useStateContext();
 
 
- 
 
   const midSectionRef = useRef(null);
 
@@ -39,7 +59,22 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
+
+  const postData = (e) => {
+    e.preventDefault();
+    Axios.get("https://100058.pythonanywhere.com/api/get-data-by-collection", {
+      database: "database",
+      collection: "collection",
+      fields: "fields"
+      
+    }) .then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+  }
+
+
   let resizing = false;
+  let contentFile = [];
 
   const isTemplate = JSON.parse(document.getElementById('template'));
 
@@ -315,42 +350,9 @@ const MidSection = () => {
 
 
 
+    
 
 
-  // const onDrop = (event) => {
-  //   event.preventDefault();
-  //   const data = event.dataTransfer.getData("text/plain");
-
-
-  //   if (data === "TEXT_INPUT") {
-  //     console.log("text inputtt")
-
-  //     const textInput = document.createElement("textarea");
-  //     textInput.className = "textInput";
-  //     textInput.placeholder = "Enter text here";
-  //     textInput.style.width = "20%";
-  //     textInput.style.height = "10%";
-  //     textInput.style.resize = 'none';
-  //     textInput.style.backgroundColor = '#0000';
-  //     textInput.style.borderRadius = '0px';
-  //     textInput.style.outline = '0px';
-  //     textInput.style.overflow = 'overlay';
-
-
-
-
-
-
-
-
-
-
-
-  //     document.getElementsByClassName("midSection_container").item(0).appendChild(textInput);
-  //   }
-
-
-  // }
 
   const onDrop = (event) => {
     event.preventDefault();
@@ -360,7 +362,7 @@ const MidSection = () => {
 
     const measure = {
       width: '300px',
-      height: '50px',
+      height: '150px',
       left: event.offsetX + 'px',
       top: event.offsetY + 'px',
       auth_user: curr_user
@@ -413,6 +415,20 @@ const MidSection = () => {
 
       const imgBtn = document.createElement("input");
       imgBtn.type = "file";
+      imgBtn.style.objectFit = 'cover';
+      var uploadedImage = "";
+
+      imgBtn.addEventListener('change', () => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          uploadedImage = reader.result;
+          imageField.style.backgroundImage = `url(${uploadedImage})`;
+        })
+        reader.readAsDataURL(imgBtn.files[0]);
+        console.log(uploadedImage);
+      })
+
+    
 
       imgBtn.style.width = "100%";
       
@@ -448,6 +464,8 @@ const MidSection = () => {
         handleClicked('table2')
         setSidebar(true);
       }
+
+
 
       const para = document.createElement("p");
       para.innerHTML = "Table";
@@ -486,14 +504,13 @@ const MidSection = () => {
         handleClicked('calendar2')
         setSidebar(true);
       }
-      dateField.innerText = `${startDate ? <div>${startDate.toLocaleDateString()}</div> : 'Date'}`;
-     console.log(startDate);
+      dateField.innerText = startDate ? startDate.toLocaleDateString() : 'Date';
       
 
       
 
       const para = document.createElement("p");
-      para.innerText = `${startDate ? startDate.toLocaleDateString() : 'Date'}`;
+     
     
       // dateField.append(para)
       holderDIV.append(dateField);
@@ -525,18 +542,19 @@ const MidSection = () => {
   }
 
 
+  
+
 
   return (
 
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
-
       >
 
 
-        {/* {isDropped.align && <TextBox /> && <TextBox />}
-        {isDropped.textfill && <TextFill />}   */}
+         {isDropped.align && <TextBox />}
+        {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
         {isDropped.table && <Table />}
         {isDropped.signs && <Signs />}

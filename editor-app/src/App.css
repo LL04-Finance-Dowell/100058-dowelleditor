@@ -1,16 +1,17 @@
 
 
 /* dropped elements */
-.dropped1, .dropped2, .dropped3, .dropped4, .dropped5, .dropped6, .dropped7 {
+.dropped1, .dropped2, .dropped3, .dropped4, .dropped5, .dropped6, .dropped7, .dropped9 {
   background: #dbd9d9;;
   padding: 4px;
   border-radius: 2px;
   width: 20%;
-  height: 70px;
+  height: 100px;
   position: absolute;
 }
 textarea{
-  resize: both;
+  height: 100px;
+  width: 100%;
 }
 
  .resizer {
