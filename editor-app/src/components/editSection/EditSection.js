@@ -1,23 +1,43 @@
 import { useState } from "react";
+
 import { Container, Row, Col } from "react-bootstrap";
-import { TextBox } from "../leftMenu/comp/TextBox";
+
+import  TextBox  from "../leftMenu/comp/TextBox";
 import LeftMenu from "../leftMenu/LeftMenu";
 import MidSection from "../midSection/MidSection";
 import RightMenu from "../rightMenu/RightMenu";
+
+import AlignRightSide from "../rightMenu/AlignRightSide";
+import CalendarRightSidebar from "../rightMenu/CalendarRightSidebar";
+import DropDownRightSide from "../rightMenu/DropDownRightSide";
+import ImageRightSidebar from "../rightMenu/ImageRightSidebar";
+import SignsRightSidebar from "../rightMenu/SignsRightSidebar";
+import TableRightSidebar from "../rightMenu/TableRightSidebar";
+
 import "./EditSection.css";
+import { useStateContext } from "../../contexts/ContextProvider";
+
 const EditSection = () => {
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
-  console.log(sidebar);
+
+  const {isClicked, sidebar} = useStateContext();
+
+
+  // const [sidebar, setSidebar] = useState(false);
+  // const showSidebar = () => setSidebar(!sidebar);
+  // console.log(sidebar);
+  
+  // console.log(typeof isClicked.table2);
   return (
     <div className="editSec">
       <Container fluid>
         <Row>
           <Col md={1}>
-            <LeftMenu showSidebar={showSidebar} />
+            {/* <LeftMenu showSidebar={showSidebar} /> */}
+            <LeftMenu  />
           </Col>
           <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
-            <MidSection showSidebar={showSidebar}/>
+            {/* <MidSection showSidebar={showSidebar}/> */}
+            <MidSection />
             </Col>
 
           <Col
@@ -27,7 +47,6 @@ const EditSection = () => {
             className="editSec_rightMenu"
           >
             <RightMenu />
-            
           </Col>
          
         </Row>
