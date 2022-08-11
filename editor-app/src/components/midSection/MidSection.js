@@ -15,29 +15,29 @@ import Signs from "../leftMenu/comp/Signs";
 import Calender from "../leftMenu/comp/Calender";
 import DropDown from "../leftMenu/comp/DropDown";
 import TextFill from "../leftMenu/comp/TextFill";
-import  Axios  from "axios";
+import Axios from "axios";
 
 
 const dummyData = {
-  "normal":{
-    "is_error":false,
-    "data":[
-       [
-          {
-             "_id":"61e50b063623fc65b472e6eb",
-             "title":"Livinglab did not create wonderful applications.",
-             "paragraph":"When you\u2019re programming in Python, the data you are working with will be stored in a number of If you\u2019re working with text, your data will be stored as a string. But if you\u2019re working with a decimal number, your data will be structured as a float.\r\n\r\nThis is important because each type of data can be manipulated in different ways. Thus, Python needs to store different sorts of data using different data types. There are a number of data types in Python that are used to store data, including numbers, Booleans, and lists.\r\n\r\nIn this article, we will focus on two of these data types: strings and numbers.",
-             "source":"https://careerkarma.com/blog/python-string-to-int/#:~:text=To%20convert%20a%20string%20to,as%20an%20int%20%2C%20or%20integer.",
-             "subject":"Livinglab",
-             "dowelltime":"32941222",
-             "edited":0,
-             "eventId":"FB1010000000016424005125815918"
-          }
-       ]
+  "normal": {
+    "is_error": false,
+    "data": [
+      [
+        {
+          "_id": "61e50b063623fc65b472e6eb",
+          "title": "Livinglab did not create wonderful applications.",
+          "paragraph": "When you\u2019re programming in Python, , your data will be structured as a float.\r\n\r\nThis is important we will focus on two of these data types: strings and numbers.",
+          "source": "https://careerkarma.com/blog/python-string-to-int/#:~:text=To%20convert%20a%20string%20to,as%20an%20int%20%2C%20or%20integer.",
+          "subject": "Livinglab",
+          "dowelltime": "32941222",
+          "edited": 0,
+          "eventId": "FB1010000000016424005125815918"
+        }
+      ]
     ],
-    "sampling_status":false,
-    "sampling_status_text":"Not expected"
- }
+    "sampling_status": false,
+    "sampling_status_text": "Not expected"
+  }
 }
 
 // const MidSection = ({showSidebar}) => {
@@ -59,18 +59,30 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
-
-  const postData = (e) => {
-    e.preventDefault();
-    Axios.get("https://100058.pythonanywhere.com/api/get-data-by-collection", {
-      database: "database",
-      collection: "collection",
-      fields: "fields"
-      
-    }) .then((res) => res.json())
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err));
+  const [data, setData] = useState([]);
+  const getPostData = async () => {
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: "hr_hiring",
+      collection: "dowelltraining",
+      fields: "_id"
+    })
+      .then(res => {
+        setData(res.data.normal.data[0]);
+      }).catch(err => {
+        console.log(err);
+      }
+      );
   }
+  getPostData();
+
+  console.log(data);
+
+
+  useEffect(() => {
+    onPost(data);
+  }, []);
+
+
 
 
   let resizing = false;
@@ -179,8 +191,8 @@ const MidSection = () => {
   const dragElementOverPage = (event) => {
 
     let holder;
-    
-    if (!resizing ) {
+
+    if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
 
@@ -191,44 +203,44 @@ const MidSection = () => {
       var tempTarget = event.target;
       var hitTarget = "";
       while (counterCheck) {
-          // if(tempTarget.className === 'holderDIV'){
-          if (tempTarget.classList.contains("holderDIV")) {
-              hitTarget = tempTarget;
-              counterCheck = false;
-          } else if( tempTarget.classList.contains("textInput") ){
-            hitTarget = null;
-            counterCheck = false;
-          }
-          tempTarget = tempTarget.parentNode;
+        // if(tempTarget.className === 'holderDIV'){
+        if (tempTarget.classList.contains("holderDIV")) {
+          hitTarget = tempTarget;
+          counterCheck = false;
+        } else if (tempTarget.classList.contains("textInput")) {
+          hitTarget = null;
+          counterCheck = false;
+        }
+        tempTarget = tempTarget.parentNode;
       }
 
-      
+
 
       holder = hitTarget;
       const holderPos = (function () {
-          const holderPos = {
-            top: holder.offsetTop,
+        const holderPos = {
+          top: holder.offsetTop,
           left: holder.offsetLeft
-              // top: parseInt(holder.style.top.slice(0, -2)),
-              // left: parseInt(holder.style.left.slice(0, -2))
-          }
-          return Object.seal(holderPos);
+          // top: parseInt(holder.style.top.slice(0, -2)),
+          // left: parseInt(holder.style.left.slice(0, -2))
+        }
+        return Object.seal(holderPos);
       })();
 
       window.addEventListener('mousemove', moveObject);
       function moveObject(ev) {
-          ev.preventDefault();
-          const diffX = ev.screenX - initX;
-          const diffY = ev.screenY - initY;
-          holder.style.top = ( holderPos.top + diffY ) + 'px';
-          holder.style.left = ( holderPos.left + diffX ) + 'px';
+        ev.preventDefault();
+        const diffX = ev.screenX - initX;
+        const diffY = ev.screenY - initY;
+        holder.style.top = (holderPos.top + diffY) + 'px';
+        holder.style.left = (holderPos.left + diffX) + 'px';
 
       }
 
       window.addEventListener('mouseup', stopMove);
-      function stopMove(ev){
-          window.removeEventListener('mousemove', moveObject);
-          window.removeEventListener('mouseup', stopMove);
+      function stopMove(ev) {
+        window.removeEventListener('mousemove', moveObject);
+        window.removeEventListener('mouseup', stopMove);
 
       }
     }
@@ -349,8 +361,49 @@ const MidSection = () => {
   }
 
 
+  const onPost = async (data) => {
 
-    
+    const curr_user = document.getElementById('curr_user');
+
+    const measure = {
+      width: '300px',
+      height: '150px',
+      auth_user: curr_user
+    }
+
+    const holderDIV = getHolderDIV(measure);
+
+    let inputField = document.createElement('textarea');
+    //  inputField.setAttribute('draggable', true);
+    inputField.className = "textInput";
+    inputField.style.width = "100%";
+    inputField.style.height = "100%";
+    inputField.style.resize = 'none';
+    inputField.style.zIndex = 2;
+    inputField.style.backgroundColor = '#0000';
+    inputField.style.borderRadius = '0px';
+    inputField.style.outline = '0px';
+    inputField.style.overflow = 'overlay';
+    inputField.style.position = 'relative';
+    inputField.onclick = () => {
+      handleClicked('align2')
+      setSidebar(true);
+    }
+
+
+
+    inputField.innerHTML = `${data.map(item => item.full_name)}`;
+    // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+    holderDIV.append(inputField);
+    // holderDIV.append(paragraphField);
+
+    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+
+  }
+
+
+
 
 
 
@@ -375,14 +428,17 @@ const MidSection = () => {
     let editButtonField = undefined;
 
     if (typeOfOperation === "TEXT_INPUT") {
+
+
+
       let inputField = document.createElement('textarea');
       //  inputField.setAttribute('draggable', true);
       inputField.className = "textInput";
       inputField.placeholder = "Enter text here";
       inputField.style.width = "100%";
       inputField.style.height = "100%";
+      inputField.style.zIndex = 1;
       inputField.style.resize = 'none';
-      inputField.style.zIndex = 2; 
       inputField.style.backgroundColor = '#0000';
       inputField.style.borderRadius = '0px';
       inputField.style.outline = '0px';
@@ -428,12 +484,12 @@ const MidSection = () => {
         console.log(uploadedImage);
       })
 
-    
+
 
       imgBtn.style.width = "100%";
-      
 
-      
+
+
 
       holderDIV.append(imageField);
       holderDIV.append(imgBtn);
@@ -487,7 +543,7 @@ const MidSection = () => {
       }
 
       const para = document.createElement("p");
-      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" />: 'Signs'}`
+      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" /> : 'Signs'}`
       signField.append(para);
       holderDIV.append(signField);
     }
@@ -505,13 +561,13 @@ const MidSection = () => {
         setSidebar(true);
       }
       dateField.innerText = startDate ? startDate.toLocaleDateString() : 'Date';
-      
 
-      
+
+
 
       const para = document.createElement("p");
-     
-    
+
+
       // dateField.append(para)
       holderDIV.append(dateField);
       console.log(para);
@@ -542,7 +598,7 @@ const MidSection = () => {
   }
 
 
-  
+
 
 
   return (
@@ -550,16 +606,21 @@ const MidSection = () => {
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
+        style={{
+          zIndex: 0,
+        }}
       >
 
 
-         {isDropped.align && <TextBox />}
+
+
+        {/* {isDropped.align && <TextBox />}
         {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
         {isDropped.table && <Table />}
         {isDropped.signs && <Signs />}
         {isDropped.calendar && <Calender />}
-        {isDropped.dropdown && <DropDown />}
+        {isDropped.dropdown && <DropDown />} */}
 
 
       </Container>

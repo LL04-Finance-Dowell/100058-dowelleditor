@@ -31,7 +31,7 @@ const RightMenu = () => {
       setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
     }
 
-  }, [isClicked, setIsClicked])
+  }, [])
 
   
   return (
