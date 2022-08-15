@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import FileBase from 'react-file-base64';
 import { Container } from "react-bootstrap";
 
 import "./MidSection.css";
@@ -59,6 +60,16 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
+  const [postData, setPostData] = useState({
+    editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
+    , textField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+    imageField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+    tableField: { value: "4", xcoordinate: 0, ycoordinate: 0 },
+    signField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+    calenderField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+    dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  });
+
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
@@ -75,12 +86,13 @@ const MidSection = () => {
   }
   getPostData();
 
-  console.log(data);
+  // console.log(data);
+  console.log(postData);
 
 
-  useEffect(() => {
-    onPost(data);
-  }, []);
+  // useEffect(() => {
+  //   onPost(data);
+  // }, []);
 
 
 
@@ -392,7 +404,7 @@ const MidSection = () => {
 
 
 
-    inputField.innerHTML = `${data.map(item => item.full_name)}`;
+    inputField.innerHTML = `${data.full_name}`;
     // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
     holderDIV.append(inputField);
@@ -406,12 +418,31 @@ const MidSection = () => {
 
 
 
+  function getOffset(el) {
+    const parent = document.getElementsByClassName('midSection_container');
+    const parentPos = parent[0].getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+    
+    return {
+      top: rect.top - parentPos.top,
+      left: rect.left - parentPos.left,
+      bottom: rect.bottom - parentPos.top,
+      right: rect.right - parentPos.left
+      // left: rect.left + window.scrollX,
+      // top: rect.top + window.scrollY
+    };
+  }
+
+
+
+
 
   const onDrop = (event) => {
     event.preventDefault();
     console.log("drop");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
+    const parent = document.getElementsByClassName("midSection_container");
 
     const measure = {
       width: '300px',
@@ -437,13 +468,29 @@ const MidSection = () => {
       inputField.placeholder = "Enter text here";
       inputField.style.width = "100%";
       inputField.style.height = "100%";
-      inputField.style.zIndex = 1;
       inputField.style.resize = 'none';
       inputField.style.backgroundColor = '#0000';
       inputField.style.borderRadius = '0px';
       inputField.style.outline = '0px';
       inputField.style.overflow = 'overlay';
       inputField.style.position = 'relative';
+      // inputField.innerText = `${postData.editTextField.value}`
+
+      inputField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+    
+      if(inputField.value !== ""){
+        setPostData({
+          ...postData,
+          editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       inputField.onclick = () => {
         handleClicked('align2')
         setSidebar(true);
@@ -459,15 +506,19 @@ const MidSection = () => {
       imageField.style.borderRadius = '0px';
       imageField.style.outline = '0px';
       imageField.style.overflow = 'overlay';
+      imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
 
+     
 
       imageField.onclick = () => {
         handleClicked('image2')
         setSidebar(true);
       }
-      const para = document.createElement("p");
-      para.innerHTML = "Drag and drop image here";
-      imageField.append(para);
+
+
+      // const para = document.createElement("p");
+      // para.innerHTML = "Drag and drop image here";
+      // imageField.append(para);
 
       const imgBtn = document.createElement("input");
       imgBtn.type = "file";
@@ -481,15 +532,17 @@ const MidSection = () => {
           imageField.style.backgroundImage = `url(${uploadedImage})`;
         })
         reader.readAsDataURL(imgBtn.files[0]);
+        if (imgBtn.files[0]) {
+          setPostData({
+            ...postData,
+            imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          })
+        }
         console.log(uploadedImage);
       })
 
 
-
-      imgBtn.style.width = "100%";
-
-
-
+      // imgBtn.style.width = "100%";
 
       holderDIV.append(imageField);
       holderDIV.append(imgBtn);
@@ -505,6 +558,17 @@ const MidSection = () => {
       texttField.style.borderRadius = '0px';
       texttField.style.outline = '0px';
       texttField.style.overflow = 'overlay';
+      texttField.innerText = `${postData.textField.value}`
+
+      texttField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+     
       holderDIV.append(texttField)
     }
     else if (typeOfOperation === "TABLE_INPUT") {
@@ -516,6 +580,23 @@ const MidSection = () => {
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
+      tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+
+      tableField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          tableField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(tableField){
+        setPostData({
+          ...postData,
+          tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       tableField.onclick = () => {
         handleClicked('table2')
         setSidebar(true);
@@ -537,6 +618,23 @@ const MidSection = () => {
       signField.style.borderRadius = '0px';
       signField.style.outline = '0px';
       signField.style.overflow = 'overlay';
+      signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+
+      signField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          signField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(signField){
+        setPostData({
+          ...postData,
+          signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       signField.onclick = () => {
         handleClicked('signs2')
         setSidebar(true);
@@ -556,6 +654,23 @@ const MidSection = () => {
       dateField.style.borderRadius = '0px';
       dateField.style.outline = '0px';
       dateField.style.overflow = 'overlay';
+      dateField.innerText = `${postData.calenderField.value}`
+
+      dateField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          calenderField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(dateField){
+        setPostData({
+          ...postData,
+          calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       dateField.onclick = () => {
         handleClicked('calendar2')
         setSidebar(true);
@@ -581,6 +696,23 @@ const MidSection = () => {
       dropdownField.style.borderRadius = '0px';
       dropdownField.style.outline = '0px';
       dropdownField.style.overflow = 'overlay';
+      dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+
+      dropdownField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          dropdownField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(dropdownField){
+        setPostData({
+          ...postData,
+          dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       dropdownField.onclick = () => {
         handleClicked('dropdown2')
         setSidebar(true);
@@ -606,9 +738,7 @@ const MidSection = () => {
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
-        style={{
-          zIndex: 0,
-        }}
+        
       >
 
 

@@ -5,13 +5,24 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ContextProvider } from './contexts/ContextProvider';
 
+
+
+import { createStore, applyMiddleware, compose} from 'redux';
+import thunk from 'redux-thunk';
+import reducers from './reducers';
+
+const store = createStore(reducers, compose(applyMiddleware(thunk)))
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  
   <ContextProvider>
     <React.StrictMode>
       <App />
     </React.StrictMode>
   </ContextProvider>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
