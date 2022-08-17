@@ -1,8 +1,10 @@
 {
+  "homepage": "http://LL04-Finance-Dowell.github.io/100058-dowelleditor",
   "name": "editor-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -19,6 +21,7 @@
     "react-dom": "^18.1.0",
     "react-file-base64": "^1.0.3",
     "react-icons": "^4.4.0",
+    "react-redux": "^8.0.2",
     "react-scripts": "5.0.1",
     "react-signature-canvas": "^1.0.6",
     "redux": "^4.2.0",
@@ -26,6 +29,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -50,6 +55,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-datepicker": "^4.4.2"
+    "@types/react-datepicker": "^4.4.2",
+    "gh-pages": "^4.0.0"
   }
 }

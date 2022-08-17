@@ -60,15 +60,15 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
-  const [postData, setPostData] = useState({
-    editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
-    , textField: { value: "", xcoordinate: 0, ycoordinate: 0 },
-    imageField: { value: "", xcoordinate: 0, ycoordinate: 0 },
-    tableField: { value: "4", xcoordinate: 0, ycoordinate: 0 },
-    signField: { value: "", xcoordinate: 0, ycoordinate: 0 },
-    calenderField: { value: "", xcoordinate: 0, ycoordinate: 0 },
-    dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
-  });
+  const [postData, setPostData] = useState([])
+  //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
+  //   , textField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   imageField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   tableField: { value: "4", xcoordinate: 0, ycoordinate: 0 },
+  //   signField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   calenderField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  // });
 
   const [data, setData] = useState([]);
   const getPostData = async () => {
@@ -86,9 +86,7 @@ const MidSection = () => {
   }
   getPostData();
 
-  // console.log(data);
-  console.log(postData);
-
+ console.log(JSON.stringify(postData));
 
   // useEffect(() => {
   //   onPost(data);
@@ -100,7 +98,7 @@ const MidSection = () => {
   let resizing = false;
   let contentFile = [];
 
-  const isTemplate = JSON.parse(document.getElementById('template'));
+  // const isTemplate = JSON.parse(document.getElementById('template'));
 
 
 
@@ -442,7 +440,7 @@ const MidSection = () => {
     console.log("drop");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
-    const parent = document.getElementsByClassName("midSection_container");
+  
 
     const measure = {
       width: '300px',
@@ -474,21 +472,34 @@ const MidSection = () => {
       inputField.style.outline = '0px';
       inputField.style.overflow = 'overlay';
       inputField.style.position = 'relative';
+      
       // inputField.innerText = `${postData.editTextField.value}`
 
       inputField.onchange = (event) => {
         event.preventDefault();
-        setPostData({
-          ...postData,
-          editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const editTextField = {editTextField: { 
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+        
+        postData.push(editTextField);
+
+    
+
+        // setPostData({
+        //   ...postData,
+        //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+        
       }
+
     
       if(inputField.value !== ""){
-        setPostData({
-          ...postData,
-          editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        
+        // setPostData({
+        //   ...postData,
+        //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       inputField.onclick = () => {
@@ -506,7 +517,8 @@ const MidSection = () => {
       imageField.style.borderRadius = '0px';
       imageField.style.outline = '0px';
       imageField.style.overflow = 'overlay';
-      imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+      // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+      imageField.style.position = 'relative';
 
      
 
@@ -533,10 +545,16 @@ const MidSection = () => {
         })
         reader.readAsDataURL(imgBtn.files[0]);
         if (imgBtn.files[0]) {
-          setPostData({
-            ...postData,
-            imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-          })
+          const imageField = {imageField: {
+            value: uploadedImage,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top }};
+
+          postData.push(imageField);
+          // setPostData({
+          //   ...postData,
+          //   imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
         }
         console.log(uploadedImage);
       })
@@ -558,14 +576,21 @@ const MidSection = () => {
       texttField.style.borderRadius = '0px';
       texttField.style.outline = '0px';
       texttField.style.overflow = 'overlay';
-      texttField.innerText = `${postData.textField.value}`
+      // texttField.innerText = `${postData.textField.value}`
+      texttField.style.position = 'relative';
 
       texttField.onchange = (event) => {
         event.preventDefault();
-        setPostData({
-          ...postData,
-          textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const textField = {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top };
+
+        postData.push(textField);
+        // setPostData({
+        //   ...postData,
+        //   textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
      
@@ -580,10 +605,12 @@ const MidSection = () => {
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
-      tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+      // tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+      tableField.style.position = 'absolute';
 
       tableField.onchange = (event) => {
         event.preventDefault();
+        
         setPostData({
           ...postData,
           tableField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -591,10 +618,16 @@ const MidSection = () => {
       }
 
       if(tableField){
-        setPostData({
-          ...postData,
-          tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const tableField = {tableField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(tableField);
+        // setPostData({
+        //   ...postData,
+        //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       tableField.onclick = () => {
@@ -618,7 +651,8 @@ const MidSection = () => {
       signField.style.borderRadius = '0px';
       signField.style.outline = '0px';
       signField.style.overflow = 'overlay';
-      signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+      // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+      signField.style.position = 'absolute';
 
       signField.onchange = (event) => {
         event.preventDefault();
@@ -629,10 +663,16 @@ const MidSection = () => {
       }
 
       if(signField){
-        setPostData({
-          ...postData,
-          signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const signField = {signField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(signField);
+        // setPostData({
+        //   ...postData,
+        //   signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       signField.onclick = () => {
@@ -654,7 +694,8 @@ const MidSection = () => {
       dateField.style.borderRadius = '0px';
       dateField.style.outline = '0px';
       dateField.style.overflow = 'overlay';
-      dateField.innerText = `${postData.calenderField.value}`
+      // dateField.innerText = `${postData.calenderField.value}`
+      dateField.style.position = 'absolute';
 
       dateField.onchange = (event) => {
         event.preventDefault();
@@ -665,10 +706,16 @@ const MidSection = () => {
       }
 
       if(dateField){
-        setPostData({
-          ...postData,
-          calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const dateField = {dateField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(dateField);
+        // setPostData({
+        //   ...postData,
+        //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       dateField.onclick = () => {
@@ -696,7 +743,8 @@ const MidSection = () => {
       dropdownField.style.borderRadius = '0px';
       dropdownField.style.outline = '0px';
       dropdownField.style.overflow = 'overlay';
-      dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+      // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+      dropdownField.style.position = 'absolute';
 
       dropdownField.onchange = (event) => {
         event.preventDefault();
@@ -707,10 +755,16 @@ const MidSection = () => {
       }
 
       if(dropdownField){
-        setPostData({
-          ...postData,
-          dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        const dropdownField = {dropdownField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(dropdownField);
+        // setPostData({
+        //   ...postData,
+        //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       dropdownField.onclick = () => {
