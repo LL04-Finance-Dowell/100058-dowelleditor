@@ -443,10 +443,10 @@ const MidSection = () => {
   
 
     const measure = {
-      width: '300px',
-      height: '150px',
-      left: event.offsetX + 'px',
-      top: event.offsetY + 'px',
+      width: '200px',
+      height: '50px',
+      left: event.clientX -350 + 'px',
+      top: event.clientY -150 + 'px',
       auth_user: curr_user
     }
 
@@ -581,10 +581,10 @@ const MidSection = () => {
 
       texttField.onchange = (event) => {
         event.preventDefault();
-        const textField = {
+        const textField = {texttField: {
           value: event.target.value,
           xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top };
+          ycoordinate: getOffset(holderDIV).top }};
 
         postData.push(textField);
         // setPostData({

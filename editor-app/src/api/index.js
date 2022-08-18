@@ -4,3 +4,4 @@ const API = axios.create({ baseURL: 'https://100058.pythonanywhere.com/api/get-d
 
 
 export const createDocument = (newDoc) => API.post('/documents', newDoc);
+
