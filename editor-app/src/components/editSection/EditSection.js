@@ -15,7 +15,7 @@ import SignsRightSidebar from "../rightMenu/SignsRightSidebar";
 import TableRightSidebar from "../rightMenu/TableRightSidebar";
 
 import "./EditSection.css";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../contexts/contextProvider";
 
 const EditSection = () => {
 

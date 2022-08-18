@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 import DatePicker from 'react-datepicker';
-import { useStateContext } from '../../contexts/ContextProvider';
+import { useStateContext } from '../../contexts/contextProvider';
 
 const CalendarRightSidebar = (props) => {
 

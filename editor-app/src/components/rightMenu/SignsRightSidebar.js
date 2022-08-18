@@ -4,7 +4,7 @@ import React, { useRef } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 
 import Button from 'react-bootstrap/Button';
-import { useStateContext } from '../../contexts/ContextProvider';
+import { useStateContext } from '../../contexts/contextProvider';
 
 const SignsRightSidebar = () => {
 

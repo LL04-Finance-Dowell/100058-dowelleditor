@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { useStateContext } from '../../contexts/ContextProvider'
+import { useStateContext } from '../../contexts/contextProvider'
 
 import AlignRightSide from './AlignRightSide'
 import CalendarRightSidebar from './CalendarRightSidebar';

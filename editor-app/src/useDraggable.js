@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useStateContext } from "./contexts/ContextProvider";
+import { useStateContext } from "./contexts/contextProvider";
 
 export default function useDraggable(el) {
     const [{ dx, dy }, setOffset] = useState({ dx: 0, dy: 0 });

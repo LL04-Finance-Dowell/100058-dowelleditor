@@ -3,7 +3,7 @@ import './Align.css'
 
 import useDraggable from '../../../useDraggable'
 
-import { useStateContext } from '../../../contexts/ContextProvider'
+import { useStateContext } from '../../../contexts/contextProvider'
 
 import MakeResizableDiv from '../../../Resizable'
 

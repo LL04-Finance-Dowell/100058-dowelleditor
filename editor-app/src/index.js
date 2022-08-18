@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ContextProvider } from './contexts/ContextProvider';
+import { ContextProvider } from './contexts/contextProvider';
 
 import { configureStore } from '@reduxjs/toolkit'
 
