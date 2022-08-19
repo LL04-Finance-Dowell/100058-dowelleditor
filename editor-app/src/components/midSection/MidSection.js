@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import FileBase from 'react-file-base64';
 import { Container } from "react-bootstrap";
 
 import "./MidSection.css";
@@ -6,7 +7,7 @@ import "./MidSection.css";
 
 import { dragOver } from "../leftMenu/LeftMenu";
 import TextBox from "../leftMenu/comp/TextBox";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../contexts/contextProvider";
 
 
 import Image from "../leftMenu/comp/Image";
@@ -15,29 +16,29 @@ import Signs from "../leftMenu/comp/Signs";
 import Calender from "../leftMenu/comp/Calender";
 import DropDown from "../leftMenu/comp/DropDown";
 import TextFill from "../leftMenu/comp/TextFill";
-import  Axios  from "axios";
+import Axios from "axios";
 
 
 const dummyData = {
-  "normal":{
-    "is_error":false,
-    "data":[
-       [
-          {
-             "_id":"61e50b063623fc65b472e6eb",
-             "title":"Livinglab did not create wonderful applications.",
-             "paragraph":"When you\u2019re programming in Python, the data you are working with will be stored in a number of If you\u2019re working with text, your data will be stored as a string. But if you\u2019re working with a decimal number, your data will be structured as a float.\r\n\r\nThis is important because each type of data can be manipulated in different ways. Thus, Python needs to store different sorts of data using different data types. There are a number of data types in Python that are used to store data, including numbers, Booleans, and lists.\r\n\r\nIn this article, we will focus on two of these data types: strings and numbers.",
-             "source":"https://careerkarma.com/blog/python-string-to-int/#:~:text=To%20convert%20a%20string%20to,as%20an%20int%20%2C%20or%20integer.",
-             "subject":"Livinglab",
-             "dowelltime":"32941222",
-             "edited":0,
-             "eventId":"FB1010000000016424005125815918"
-          }
-       ]
+  "normal": {
+    "is_error": false,
+    "data": [
+      [
+        {
+          "_id": "61e50b063623fc65b472e6eb",
+          "title": "Livinglab did not create wonderful applications.",
+          "paragraph": "When you\u2019re programming in Python, , your data will be structured as a float.\r\n\r\nThis is important we will focus on two of these data types: strings and numbers.",
+          "source": "https://careerkarma.com/blog/python-string-to-int/#:~:text=To%20convert%20a%20string%20to,as%20an%20int%20%2C%20or%20integer.",
+          "subject": "Livinglab",
+          "dowelltime": "32941222",
+          "edited": 0,
+          "eventId": "FB1010000000016424005125815918"
+        }
+      ]
     ],
-    "sampling_status":false,
-    "sampling_status_text":"Not expected"
- }
+    "sampling_status": false,
+    "sampling_status_text": "Not expected"
+  }
 }
 
 // const MidSection = ({showSidebar}) => {
@@ -59,24 +60,45 @@ const MidSection = () => {
     })
   }, [midSectionRef, setSidebar, setIsClicked]);
 
+  const [postData, setPostData] = useState([])
+  //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
+  //   , textField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   imageField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   tableField: { value: "4", xcoordinate: 0, ycoordinate: 0 },
+  //   signField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   calenderField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  //   dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
+  // });
 
-  const postData = (e) => {
-    e.preventDefault();
-    Axios.get("https://100058.pythonanywhere.com/api/get-data-by-collection", {
-      database: "database",
-      collection: "collection",
-      fields: "fields"
-      
-    }) .then((res) => res.json())
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err));
+  const [data, setData] = useState([]);
+  const getPostData = async () => {
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: "hr_hiring",
+      collection: "dowelltraining",
+      fields: "_id"
+    })
+      .then(res => {
+        setData(res.data.normal.data[0]);
+      }).catch(err => {
+        console.log(err);
+      }
+      );
   }
+  getPostData();
+
+ console.log(JSON.stringify(postData));
+
+  // useEffect(() => {
+  //   onPost(data);
+  // }, []);
+
+
 
 
   let resizing = false;
   let contentFile = [];
 
-  const isTemplate = JSON.parse(document.getElementById('template'));
+  // const isTemplate = JSON.parse(document.getElementById('template'));
 
 
 
@@ -179,8 +201,8 @@ const MidSection = () => {
   const dragElementOverPage = (event) => {
 
     let holder;
-    
-    if (!resizing ) {
+
+    if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
 
@@ -191,44 +213,44 @@ const MidSection = () => {
       var tempTarget = event.target;
       var hitTarget = "";
       while (counterCheck) {
-          // if(tempTarget.className === 'holderDIV'){
-          if (tempTarget.classList.contains("holderDIV")) {
-              hitTarget = tempTarget;
-              counterCheck = false;
-          } else if( tempTarget.classList.contains("textInput") ){
-            hitTarget = null;
-            counterCheck = false;
-          }
-          tempTarget = tempTarget.parentNode;
+        // if(tempTarget.className === 'holderDIV'){
+        if (tempTarget.classList.contains("holderDIV")) {
+          hitTarget = tempTarget;
+          counterCheck = false;
+        } else if (tempTarget.classList.contains("textInput")) {
+          hitTarget = null;
+          counterCheck = false;
+        }
+        tempTarget = tempTarget.parentNode;
       }
 
-      
+
 
       holder = hitTarget;
       const holderPos = (function () {
-          const holderPos = {
-            top: holder.offsetTop,
+        const holderPos = {
+          top: holder.offsetTop,
           left: holder.offsetLeft
-              // top: parseInt(holder.style.top.slice(0, -2)),
-              // left: parseInt(holder.style.left.slice(0, -2))
-          }
-          return Object.seal(holderPos);
+          // top: parseInt(holder.style.top.slice(0, -2)),
+          // left: parseInt(holder.style.left.slice(0, -2))
+        }
+        return Object.seal(holderPos);
       })();
 
       window.addEventListener('mousemove', moveObject);
       function moveObject(ev) {
-          ev.preventDefault();
-          const diffX = ev.screenX - initX;
-          const diffY = ev.screenY - initY;
-          holder.style.top = ( holderPos.top + diffY ) + 'px';
-          holder.style.left = ( holderPos.left + diffX ) + 'px';
+        ev.preventDefault();
+        const diffX = ev.screenX - initX;
+        const diffY = ev.screenY - initY;
+        holder.style.top = (holderPos.top + diffY) + 'px';
+        holder.style.left = (holderPos.left + diffX) + 'px';
 
       }
 
       window.addEventListener('mouseup', stopMove);
-      function stopMove(ev){
-          window.removeEventListener('mousemove', moveObject);
-          window.removeEventListener('mouseup', stopMove);
+      function stopMove(ev) {
+        window.removeEventListener('mousemove', moveObject);
+        window.removeEventListener('mouseup', stopMove);
 
       }
     }
@@ -349,8 +371,67 @@ const MidSection = () => {
   }
 
 
+  const onPost = async (data) => {
 
+    const curr_user = document.getElementById('curr_user');
+
+    const measure = {
+      width: '300px',
+      height: '150px',
+      auth_user: curr_user
+    }
+
+    const holderDIV = getHolderDIV(measure);
+
+    let inputField = document.createElement('textarea');
+    //  inputField.setAttribute('draggable', true);
+    inputField.className = "textInput";
+    inputField.style.width = "100%";
+    inputField.style.height = "100%";
+    inputField.style.resize = 'none';
+    inputField.style.zIndex = 2;
+    inputField.style.backgroundColor = '#0000';
+    inputField.style.borderRadius = '0px';
+    inputField.style.outline = '0px';
+    inputField.style.overflow = 'overlay';
+    inputField.style.position = 'relative';
+    inputField.onclick = () => {
+      handleClicked('align2')
+      setSidebar(true);
+    }
+
+
+
+    inputField.innerHTML = `${data.full_name}`;
+    // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+    holderDIV.append(inputField);
+    // holderDIV.append(paragraphField);
+
+    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+
+  }
+
+
+
+
+
+  function getOffset(el) {
+    const parent = document.getElementsByClassName('midSection_container');
+    const parentPos = parent[0].getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     
+    return {
+      top: rect.top - parentPos.top,
+      left: rect.left - parentPos.left,
+      bottom: rect.bottom - parentPos.top,
+      right: rect.right - parentPos.left
+      // left: rect.left + window.scrollX,
+      // top: rect.top + window.scrollY
+    };
+  }
+
+
 
 
 
@@ -359,12 +440,13 @@ const MidSection = () => {
     console.log("drop");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
+  
 
     const measure = {
-      width: '300px',
-      height: '150px',
-      left: event.offsetX + 'px',
-      top: event.offsetY + 'px',
+      width: '200px',
+      height: '50px',
+      left: event.clientX -350 + 'px',
+      top: event.clientY -150 + 'px',
       auth_user: curr_user
     }
 
@@ -375,6 +457,9 @@ const MidSection = () => {
     let editButtonField = undefined;
 
     if (typeOfOperation === "TEXT_INPUT") {
+
+
+
       let inputField = document.createElement('textarea');
       //  inputField.setAttribute('draggable', true);
       inputField.className = "textInput";
@@ -382,12 +467,41 @@ const MidSection = () => {
       inputField.style.width = "100%";
       inputField.style.height = "100%";
       inputField.style.resize = 'none';
-      inputField.style.zIndex = 2; 
       inputField.style.backgroundColor = '#0000';
       inputField.style.borderRadius = '0px';
       inputField.style.outline = '0px';
       inputField.style.overflow = 'overlay';
       inputField.style.position = 'relative';
+      
+      // inputField.innerText = `${postData.editTextField.value}`
+
+      inputField.onchange = (event) => {
+        event.preventDefault();
+        const editTextField = {editTextField: { 
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+        
+        postData.push(editTextField);
+
+    
+
+        // setPostData({
+        //   ...postData,
+        //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+        
+      }
+
+    
+      if(inputField.value !== ""){
+        
+        setPostData({
+          ...postData,
+          editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
       inputField.onclick = () => {
         handleClicked('align2')
         setSidebar(true);
@@ -403,15 +517,20 @@ const MidSection = () => {
       imageField.style.borderRadius = '0px';
       imageField.style.outline = '0px';
       imageField.style.overflow = 'overlay';
+      // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+      imageField.style.position = 'relative';
 
+     
 
       imageField.onclick = () => {
         handleClicked('image2')
         setSidebar(true);
       }
-      const para = document.createElement("p");
-      para.innerHTML = "Drag and drop image here";
-      imageField.append(para);
+
+
+      // const para = document.createElement("p");
+      // para.innerHTML = "Drag and drop image here";
+      // imageField.append(para);
 
       const imgBtn = document.createElement("input");
       imgBtn.type = "file";
@@ -425,15 +544,23 @@ const MidSection = () => {
           imageField.style.backgroundImage = `url(${uploadedImage})`;
         })
         reader.readAsDataURL(imgBtn.files[0]);
+        if (imgBtn.files[0]) {
+          const imageField = {imageField: {
+            value: uploadedImage,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top }};
+
+          postData.push(imageField);
+          // setPostData({
+          //   ...postData,
+          //   imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
+        }
         console.log(uploadedImage);
       })
 
-    
 
-      imgBtn.style.width = "100%";
-      
-
-      
+      // imgBtn.style.width = "100%";
 
       holderDIV.append(imageField);
       holderDIV.append(imgBtn);
@@ -449,6 +576,24 @@ const MidSection = () => {
       texttField.style.borderRadius = '0px';
       texttField.style.outline = '0px';
       texttField.style.overflow = 'overlay';
+      // texttField.innerText = `${postData.textField.value}`
+      texttField.style.position = 'relative';
+
+      texttField.onchange = (event) => {
+        event.preventDefault();
+        const textField = {texttField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(textField);
+        // setPostData({
+        //   ...postData,
+        //   textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+      }
+
+     
       holderDIV.append(texttField)
     }
     else if (typeOfOperation === "TABLE_INPUT") {
@@ -460,6 +605,31 @@ const MidSection = () => {
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
+      // tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+      tableField.style.position = 'absolute';
+
+      tableField.onchange = (event) => {
+        event.preventDefault();
+        
+        setPostData({
+          ...postData,
+          tableField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(tableField){
+        const tableField = {tableField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(tableField);
+        // setPostData({
+        //   ...postData,
+        //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+      }
+
       tableField.onclick = () => {
         handleClicked('table2')
         setSidebar(true);
@@ -481,13 +651,37 @@ const MidSection = () => {
       signField.style.borderRadius = '0px';
       signField.style.outline = '0px';
       signField.style.overflow = 'overlay';
+      // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+      signField.style.position = 'absolute';
+
+      signField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          signField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(signField){
+        const signField = {signField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(signField);
+        // setPostData({
+        //   ...postData,
+        //   signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+      }
+
       signField.onclick = () => {
         handleClicked('signs2')
         setSidebar(true);
       }
 
       const para = document.createElement("p");
-      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" />: 'Signs'}`
+      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" /> : 'Signs'}`
       signField.append(para);
       holderDIV.append(signField);
     }
@@ -500,18 +694,42 @@ const MidSection = () => {
       dateField.style.borderRadius = '0px';
       dateField.style.outline = '0px';
       dateField.style.overflow = 'overlay';
+      // dateField.innerText = `${postData.calenderField.value}`
+      dateField.style.position = 'absolute';
+
+      dateField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          calenderField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(dateField){
+        const dateField = {dateField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(dateField);
+        // setPostData({
+        //   ...postData,
+        //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+      }
+
       dateField.onclick = () => {
         handleClicked('calendar2')
         setSidebar(true);
       }
       dateField.innerText = startDate ? startDate.toLocaleDateString() : 'Date';
-      
 
-      
+
+
 
       const para = document.createElement("p");
-     
-    
+
+
       // dateField.append(para)
       holderDIV.append(dateField);
       console.log(para);
@@ -525,6 +743,30 @@ const MidSection = () => {
       dropdownField.style.borderRadius = '0px';
       dropdownField.style.outline = '0px';
       dropdownField.style.overflow = 'overlay';
+      // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+      dropdownField.style.position = 'absolute';
+
+      dropdownField.onchange = (event) => {
+        event.preventDefault();
+        setPostData({
+          ...postData,
+          dropdownField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
+      }
+
+      if(dropdownField){
+        const dropdownField = {dropdownField: {
+          value: event.target.value,
+          xcoordinate: getOffset(holderDIV).left,
+          ycoordinate: getOffset(holderDIV).top }};
+
+        postData.push(dropdownField);
+        // setPostData({
+        //   ...postData,
+        //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
+      }
+
       dropdownField.onclick = () => {
         handleClicked('dropdown2')
         setSidebar(true);
@@ -542,7 +784,7 @@ const MidSection = () => {
   }
 
 
-  
+
 
 
   return (
@@ -550,16 +792,19 @@ const MidSection = () => {
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
+        
       >
 
 
-         {isDropped.align && <TextBox />}
+
+
+        {/* {isDropped.align && <TextBox />}
         {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
         {isDropped.table && <Table />}
         {isDropped.signs && <Signs />}
         {isDropped.calendar && <Calender />}
-        {isDropped.dropdown && <DropDown />}
+        {isDropped.dropdown && <DropDown />} */}
 
 
       </Container>

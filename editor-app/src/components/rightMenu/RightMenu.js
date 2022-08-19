@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { useStateContext } from '../../contexts/ContextProvider'
+import { useStateContext } from '../../contexts/contextProvider'
 
 import AlignRightSide from './AlignRightSide'
 import CalendarRightSidebar from './CalendarRightSidebar';
@@ -31,7 +31,7 @@ const RightMenu = () => {
       setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
     }
 
-  }, [isClicked, setIsClicked])
+  }, [])
 
   
   return (

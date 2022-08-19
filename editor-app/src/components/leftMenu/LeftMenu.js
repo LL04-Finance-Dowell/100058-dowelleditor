@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import "./LeftMenu.css";
 import { editSecOptions } from "../../data/data";
 
-import { useStateContext } from '../../contexts/ContextProvider';
+import { useStateContext } from '../../contexts/contextProvider';
 
 import MidSection from '../midSection/MidSection';
 import TextFill from './comp/TextFill';
