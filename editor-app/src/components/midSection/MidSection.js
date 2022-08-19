@@ -496,10 +496,10 @@ const MidSection = () => {
     
       if(inputField.value !== ""){
         
-        // setPostData({
-        //   ...postData,
-        //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        // })
+        setPostData({
+          ...postData,
+          editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        })
       }
 
       inputField.onclick = () => {
