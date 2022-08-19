@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 
 import useDraggable from '../../../useDraggable';
 
-import { useStateContext } from '../../../contexts/ContextProvider';
+import { useStateContext } from '../../../contexts/contextProvider';
 
 import MakeResizableDiv from '../../../Resizable';
 

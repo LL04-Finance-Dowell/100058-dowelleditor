@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useStateContext } from "./contexts/ContextProvider";
+import { useStateContext } from "./contexts/contextProvider";
 
 export default function MakeResizableDiv(div) {
   const { isResizing, setIsResizing } = useStateContext();

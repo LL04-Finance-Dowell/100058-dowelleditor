@@ -7,7 +7,7 @@ import "./MidSection.css";
 
 import { dragOver } from "../leftMenu/LeftMenu";
 import TextBox from "../leftMenu/comp/TextBox";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../contexts/contextProvider";
 
 
 import Image from "../leftMenu/comp/Image";
@@ -496,10 +496,10 @@ const MidSection = () => {
     
       if(inputField.value !== ""){
         
-        setPostData({
-          ...postData,
-          editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        })
+        // setPostData({
+        //   ...postData,
+        //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        // })
       }
 
       inputField.onclick = () => {

@@ -4,7 +4,7 @@ import React, { useRef } from 'react'
 import useDraggable from '../../../useDraggable';
 
 import MakeResizableDiv from '../../../Resizable';
-import { useStateContext } from '../../../contexts/ContextProvider';
+import { useStateContext } from '../../../contexts/contextProvider';
 
 // const Table = ({ showSidebar }) => {
 const Table = () => {
