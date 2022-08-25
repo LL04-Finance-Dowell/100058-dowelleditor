@@ -1,0 +1,21 @@
+.leftMenu {
+  background-color: #ffffff;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 15px;
+}
+.leftMenu > button {
+    outline: transparent;
+    border: none;
+    background-color: transparent;
+}
+.leftMenu > img {
+  width: fit-content;
+  cursor: pointer;
+}
+.leftMenu > img >button:hover {
+  background-color: blue;
+}
