@@ -33,7 +33,7 @@ const CalendarRightSidebar = (props) => {
         onChange={(date) => setStartDate(date)}
       />
 
-
+      {startDate.toLocaleDateString()}
     </div>
   )
 }

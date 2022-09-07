@@ -6,6 +6,7 @@ import SignatureCanvas from 'react-signature-canvas'
 import Button from 'react-bootstrap/Button';
 import { useStateContext } from '../../contexts/contextProvider';
 
+
 const SignsRightSidebar = () => {
 
   const {signState, setSignState} = useStateContext();
@@ -18,12 +19,21 @@ const SignsRightSidebar = () => {
     sigPad.current.clear();
   }
 
+  
+
   const save = () => {
     data = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
+
     setSignState({ trimmedDataURL: data });
+
+    const signImage = document.createElement('img')
+    signImage.setAttribute('src', `${signState.trimmedDataURL}`)
+
+    document.getElementsByClassName('signInput').item(0).innerHTML = signImage
+    console.log(signImage);
   }
 
-console.log(signState.trimmedDataURL);
+
 
 
   return (
@@ -42,7 +52,7 @@ console.log(signState.trimmedDataURL);
         </div>
 
       </div>
-
+     {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />}
     </div>
   )
 }

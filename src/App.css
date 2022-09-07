@@ -60,6 +60,18 @@ textarea{
   height: 200px;
 }
 
+.dropped {
+  width: fit-content;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+#txt {
+  height: 30px;
+  width: 300px;
+}
+
 
 
 

@@ -6,6 +6,19 @@ import user from "../../assets/headerIcons/user.png";
 
 const Header = () => {
   //   console.log(headerData);
+
+  const handleUndo = () => {
+    document.execCommand("undo")
+  }
+  const handleRedo = () => {
+    document.execCommand("redo")
+  }
+  const handleCut = () => {
+    document.execCommand("cut")
+  }
+  const handleCopy = () => {
+    document.execCommand("copy")
+  }
   return (
     <div className="header">
       <Container fluid>
@@ -18,9 +31,15 @@ const Header = () => {
               </Button>
             </div>
             <div className="header_icons">
-              {headerData.map((item, index) => {
+              <img onClick={handleUndo} src={headerData[0].icon}/>
+              <img onClick={handleRedo} src={headerData[1].icon}/>
+              <img onClick={handleCut} src={headerData[2].icon}/>
+              <img onClick={handleCopy} src={headerData[3].icon}/>
+              <img onClick={()=>{}} src={headerData[4].icon}/>
+              <img onClick={()=>{}} src={headerData[5].icon}/>
+              {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
-              })}
+              })} */}
             </div>
           </Col>
           <Col className="d-flex justify-content-center header_p">

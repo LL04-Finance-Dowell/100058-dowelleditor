@@ -20,9 +20,69 @@ import {
   FaListUl,
   FaListOl,
 } from "react-icons/fa";
+import { useStateContext } from '../../contexts/contextProvider';
 
 
 const AlignRightSide = () => {
+  const { bold, setBold, italic, setItalic, underline, setUnderline, strikethrough, setStrikethrough } = useStateContext();
+
+
+  // function boldCommand() {
+  //   const strongElement = document.createElement("em");
+  //   const userSelection = window.getSelection();
+  //   const selectedTextRange = userSelection.getRangeAt(0);
+  //   selectedTextRange.surroundContents(strongElement);
+  // }
+
+  const handleBold = () => {
+    setBold(!bold)
+    document.execCommand("bold")
+  }
+  const handleItalic = () => {
+    setItalic(!italic)
+    document.execCommand("italic")
+  }
+  const handleUnderline = () => {
+    setUnderline(!underline)
+    document.execCommand("underline")
+  }
+  const handleStrikethrough = () => {
+    setStrikethrough(!strikethrough)
+    document.execCommand("strikeThrough")
+  }
+  const handleFontColor = () => {
+    document.execCommand("forecolor", false)
+  }
+  const handleRightAlign = () => {
+    document.execCommand("justifyRight")
+  }
+  const handleLeftAlign = () => {
+    document.execCommand("justifyLeft")
+  }
+  const handleMiddleAlign = () => {
+    document.execCommand("justifyCenter")
+  }
+  const handleOrderedList = () => {
+    document.execCommand("insertOrderedList")
+  }
+  const handleUnorderedList = () => {
+    document.execCommand("insertUnorderedList")
+  }
+  const handleOutdent = () => {
+    document.execCommand("outdent")
+  }
+  const handleIndent = () => {
+    document.execCommand("indent")
+  }
+
+  const handleIncreaseSize = () => {
+    document.execCommand("increaseFontSize")
+  }
+  const handleDecreaseSize = () => {
+    document.execCommand("decreaseFontSize")
+  }
+
+
 
   return (
 
@@ -53,12 +113,12 @@ const AlignRightSide = () => {
             </DropdownButton>
           </Col>
           <Col>
-            <Button variant="white" >
-              <BiFont color='gray' size={20} /> <AiOutlineArrowUp color='gray' size={20} />
+            <Button variant="white" onClick={handleIncreaseSize} >
+              <BiFont onClick={handleIncreaseSize} color='gray' size={20} /> <AiOutlineArrowUp color='gray' size={20} />
             </Button>
           </Col>
           <Col>
-            <Button variant="white" >
+            <Button variant="white" onClick={handleDecreaseSize} >
               <BiFont color='gray' size={20} /> <AiOutlineArrowDown color='gray' size={20} />
             </Button>
           </Col>
@@ -68,19 +128,19 @@ const AlignRightSide = () => {
         <Row>
           <h6>Text Formatting</h6>
           <Col>
-            <Button variant='white'><FaBold color='gray' size={20} /></Button>
+            <Button onClick={handleBold} variant='white'><FaBold color='gray' size={20} /></Button>
           </Col>
 
           <Col>
-            <Button variant='white'><FaItalic color='gray' size={20} /></Button>
+            <Button onClick={handleItalic} variant='white'><FaItalic color='gray' size={20} /></Button>
           </Col>
 
           <Col>
-            <Button variant='white'><FaUnderline color='gray' size={20} /></Button>
+            <Button onClick={handleUnderline} variant='white'><FaUnderline color='gray' size={20} /></Button>
           </Col>
 
           <Col>
-            <Button variant='white'><FaStrikethrough color='gray' size={20} /></Button>
+            <Button onClick={handleStrikethrough} variant='white'><FaStrikethrough color='gray' size={20} /></Button>
           </Col>
         </Row>
 
@@ -88,7 +148,7 @@ const AlignRightSide = () => {
         <Row>
           <h6>Text Color</h6>
           <Col>
-            <Button variant='white'><AiOutlineFontColors color='purple' size={30} /></Button>
+            <Button onInput={handleFontColor} variant='white'><AiOutlineFontColors color='purple' size={30} /></Button>
           </Col>
 
           <Col>
@@ -104,39 +164,39 @@ const AlignRightSide = () => {
         <Row>
           <h6>Text Alignment</h6>
           <Col className='mr-1'>
-            <Button variant='white'><BiAlignLeft color='gray' size={20} /></Button>
+            <Button onClick={handleLeftAlign} variant='white'><BiAlignLeft color='gray' size={20} /></Button>
           </Col>
 
           <Col>
-            <Button variant='white'><BiAlignMiddle color='gray' size={20} /></Button>
+            <Button onClick={handleMiddleAlign} variant='white'><BiAlignMiddle color='gray' size={20} /></Button>
           </Col>
 
           <Col>
-            <Button variant='white'><BiAlignRight color='gray' size={20} /></Button>
+            <Button onClick={handleRightAlign} variant='white'><BiAlignRight color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaOutdent color='gray' size={20} /></Button>
+            <Button onClick={handleOutdent} variant='white'><FaOutdent color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaIndent color='gray' size={20} /></Button>
+            <Button onClick={handleIndent} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaListUl color='gray' size={20} /></Button>
+            <Button onClick={handleUnorderedList} variant='white'><FaListUl color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaListOl color='gray' size={20} /></Button>
+            <Button onClick={handleOrderedList} variant='white'><FaListOl color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaIndent color='gray' size={20} /></Button>
+            <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaIndent color='gray' size={20} /></Button>
+            <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaIndent color='gray' size={20} /></Button>
+            <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
           <Col>
-            <Button variant='white'><FaIndent color='gray' size={20} /></Button>
+            <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
 
         </Row>

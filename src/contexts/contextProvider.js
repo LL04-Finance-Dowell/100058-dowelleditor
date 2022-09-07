@@ -4,7 +4,7 @@ const StateContext = createContext();
 
 const initialState = {
     align: true,
-    textfill: false,
+    textfill: true,
     image: false,
     table: false,
     signs: false,
@@ -34,6 +34,11 @@ export const ContextProvider = ({ children }) => {
 
     const [startDate, setStartDate] = useState(''); // Calendar
 
+    const [bold, setBold] = useState(false);
+    const [italic, setItalic] = useState(false);
+    const [underline, setUnderline] = useState(false);
+    const [strikethrough, setStrikethrough] = useState(false)
+
     const handleDrop = (dropped) => {
         setIsDropped({ ...isDropped, [dropped]: true });
     }
@@ -58,6 +63,10 @@ export const ContextProvider = ({ children }) => {
                 sidebar, setSidebar,
                 signState, setSignState,
                 startDate, setStartDate,
+                bold, setBold,
+                italic, setItalic,
+                underline, setUnderline,
+                strikethrough, setStrikethrough,
             }}
         >
             {children}
