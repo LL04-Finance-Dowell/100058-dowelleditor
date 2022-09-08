@@ -43,12 +43,27 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState } = useStateContext();
+  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState, bold, italic, underline, strikethrough } = useStateContext();
 
+  console.log(startDate);
+
+
+  function boldCommand() {
+    const strongElement = document.createElement("strong");
+    const userSelection = window.getSelection();
+    const selectedTextRange = userSelection.getRangeAt(0);
+    selectedTextRange.surroundContents(strongElement);
+  }
 
 
   const midSectionRef = useRef(null);
 
+  const getDate = () => {
+    let Date = startDate.toLocaleDateString()
+    return (
+      Date
+    )
+  }
 
 
   useEffect(() => {
@@ -86,11 +101,14 @@ const MidSection = () => {
   }
   getPostData();
 
- console.log(JSON.stringify(postData));
+  console.log(data);
+  console.log(JSON.stringify(postData));
 
   // useEffect(() => {
-  //   onPost(data);
-  // }, []);
+
+  //   onPost();
+
+  // });
 
 
 
@@ -371,8 +389,7 @@ const MidSection = () => {
   }
 
 
-  const onPost = async (data) => {
-
+  const onPost = () => {
     const curr_user = document.getElementById('curr_user');
 
     const measure = {
@@ -382,7 +399,7 @@ const MidSection = () => {
     }
 
     const holderDIV = getHolderDIV(measure);
-
+    
     let inputField = document.createElement('textarea');
     //  inputField.setAttribute('draggable', true);
     inputField.className = "textInput";
@@ -408,7 +425,9 @@ const MidSection = () => {
     holderDIV.append(inputField);
     // holderDIV.append(paragraphField);
 
+
     document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+
 
   }
 
@@ -420,7 +439,7 @@ const MidSection = () => {
     const parent = document.getElementsByClassName('midSection_container');
     const parentPos = parent[0].getBoundingClientRect();
     const rect = el.getBoundingClientRect();
-    
+
     return {
       top: rect.top - parentPos.top,
       left: rect.left - parentPos.left,
@@ -440,13 +459,13 @@ const MidSection = () => {
     console.log("drop");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
-  
+
 
     const measure = {
       width: '200px',
-      height: '50px',
-      left: event.clientX -350 + 'px',
-      top: event.clientY -150 + 'px',
+      height: '60px',
+      left: event.clientX - 350 + 'px',
+      top: event.clientY - 150 + 'px',
       auth_user: curr_user
     }
 
@@ -454,16 +473,15 @@ const MidSection = () => {
 
 
     // inputField.setAttribute('draggable', false);
-    let editButtonField = undefined;
+    // let editButtonField = undefined;
 
     if (typeOfOperation === "TEXT_INPUT") {
 
-
-
-      let inputField = document.createElement('textarea');
+      let inputField = document.createElement('div');
       //  inputField.setAttribute('draggable', true);
+      inputField.setAttribute('contenteditable', true)
       inputField.className = "textInput";
-      inputField.placeholder = "Enter text here";
+      inputField.innerHTML = 'Enter text here'
       inputField.style.width = "100%";
       inputField.style.height = "100%";
       inputField.style.resize = 'none';
@@ -472,30 +490,43 @@ const MidSection = () => {
       inputField.style.outline = '0px';
       inputField.style.overflow = 'overlay';
       inputField.style.position = 'relative';
-      
+      inputField.style.cursor = 'text'
+
       // inputField.innerText = `${postData.editTextField.value}`
 
-      inputField.onchange = (event) => {
-        event.preventDefault();
-        const editTextField = {editTextField: { 
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+      // inputField.onchange = (event) => {
+      //   event.preventDefault();
+      if(inputField.innerHTML[0]){
+        const editTextField = {
+          editTextField: {
+            value: inputField.innerHTML,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
         
+        };
+        inputField.onchange = (event) => {
+          setPostData({
+            ...postData,
+            editTextField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top
+            }
+          })
+        }
+
         postData.push(editTextField);
-
-    
-
         // setPostData({
         //   ...postData,
         //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
         // })
-        
+
       }
 
-    
-      if(inputField.value !== ""){
-        
+
+      if (inputField.value !== "") {
+
         // setPostData({
         //   ...postData,
         //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -520,7 +551,7 @@ const MidSection = () => {
       // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
       imageField.style.position = 'relative';
 
-     
+
 
       imageField.onclick = () => {
         handleClicked('image2')
@@ -537,18 +568,22 @@ const MidSection = () => {
       imgBtn.style.objectFit = 'cover';
       var uploadedImage = "";
 
-      imgBtn.addEventListener('change', () => {
+      imgBtn.addEventListener('input', () => {
         const reader = new FileReader();
+
         reader.addEventListener('load', () => {
           uploadedImage = reader.result;
           imageField.style.backgroundImage = `url(${uploadedImage})`;
         })
         reader.readAsDataURL(imgBtn.files[0]);
         if (imgBtn.files[0]) {
-          const imageField = {imageField: {
-            value: uploadedImage,
-            xcoordinate: getOffset(holderDIV).left,
-            ycoordinate: getOffset(holderDIV).top }};
+          const imageField = {
+            imageField: {
+              value: uploadedImage,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top
+            }
+          };
 
           postData.push(imageField);
           // setPostData({
@@ -581,10 +616,13 @@ const MidSection = () => {
 
       texttField.onchange = (event) => {
         event.preventDefault();
-        const textField = {texttField: {
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+        const textField = {
+          textField: {
+            value: event.target.value,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
+        };
 
         postData.push(textField);
         // setPostData({
@@ -593,7 +631,7 @@ const MidSection = () => {
         // })
       }
 
-     
+
       holderDIV.append(texttField)
     }
     else if (typeOfOperation === "TABLE_INPUT") {
@@ -610,18 +648,21 @@ const MidSection = () => {
 
       tableField.onchange = (event) => {
         event.preventDefault();
-        
+
         setPostData({
           ...postData,
           tableField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
         })
       }
 
-      if(tableField){
-        const tableField = {tableField: {
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+      if (tableField) {
+        const tableField = {
+          tableField: {
+            value: event.target.value,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
+        };
 
         postData.push(tableField);
         // setPostData({
@@ -662,11 +703,14 @@ const MidSection = () => {
         })
       }
 
-      if(signField){
-        const signField = {signField: {
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+      if (signField) {
+        const signField = {
+          signField: {
+            value: event.target.value,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
+        };
 
         postData.push(signField);
         // setPostData({
@@ -705,11 +749,14 @@ const MidSection = () => {
         })
       }
 
-      if(dateField){
-        const dateField = {dateField: {
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+      if (dateField) {
+        const dateField = {
+          dateField: {
+            value: event.target.value,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
+        };
 
         postData.push(dateField);
         // setPostData({
@@ -722,11 +769,11 @@ const MidSection = () => {
         handleClicked('calendar2')
         setSidebar(true);
       }
-      dateField.innerText = startDate ? startDate.toLocaleDateString() : 'Date';
+      dateField.innerText = 'Date';
 
 
 
-
+      console.log(startDate);
       const para = document.createElement("p");
 
 
@@ -754,11 +801,14 @@ const MidSection = () => {
         })
       }
 
-      if(dropdownField){
-        const dropdownField = {dropdownField: {
-          value: event.target.value,
-          xcoordinate: getOffset(holderDIV).left,
-          ycoordinate: getOffset(holderDIV).top }};
+      if (dropdownField) {
+        const dropdownField = {
+          dropdownField: {
+            value: event.target.value,
+            xcoordinate: getOffset(holderDIV).left,
+            ycoordinate: getOffset(holderDIV).top
+          }
+        };
 
         postData.push(dropdownField);
         // setPostData({
@@ -780,7 +830,7 @@ const MidSection = () => {
 
 
     document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
-
+    console.log(bold);
   }
 
 
@@ -792,19 +842,19 @@ const MidSection = () => {
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
         onDrop={onDrop}
-        
+
       >
 
 
 
 
-        {/* {isDropped.align && <TextBox />}
-        {isDropped.textfill && <TextFill />}   
+         {/* {isDropped.align && <TextBox />}  */}
+        {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
         {isDropped.table && <Table />}
         {isDropped.signs && <Signs />}
         {isDropped.calendar && <Calender />}
-        {isDropped.dropdown && <DropDown />} */}
+        {isDropped.dropdown && <DropDown />}  */}
 
 
       </Container>

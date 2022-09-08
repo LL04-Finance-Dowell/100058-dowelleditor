@@ -1,4 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+
+import Axios from "axios";
 
 import useDraggable from '../../../useDraggable'
 
@@ -31,62 +33,79 @@ const dummyData = {
   }
 }
 
+
+
 // console.log(dummyData.normal.data[0][0])
 const TextBox = () => {
+  const [data, setData] = useState([]);
 
+  const getPostData = async () => {
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: "hr_hiring",
+      collection: "dowelltraining",
+      fields: "_id"
+    })
+      .then(res => {
+        setData(res.data.normal.data[0]);
+      }).catch(err => {
+        console.log(err);
+      }
+      );
+  }
+  getPostData();
   const { handleClicked, setSidebar, setIsResizing } = useStateContext();
 
-  const textAreaRef = useRef(null);
-  const textRef = useRef(null);
+  // const textAreaRef = useRef(null);
+  // const textRef = useRef(null);
 
-  useDraggable(textAreaRef);
+  // useDraggable(textAreaRef);
 
-  MakeResizableDiv('.dropped7');
-  MakeResizableDiv('.dropped9');
+  // MakeResizableDiv('.dropped7');
+  // MakeResizableDiv('.dropped9');
 
   // if (textRef.current) {
   //   setIsResizing(true);
   // }
   return (
     <>
-      <div className='dropped7' ref={textAreaRef}>
-        {dummyData.normal.data[0].map((item) => {
-          return (
-            <>
-            <textarea id='txt'
-              ref={textRef}
-              onClick={() => {
-                handleClicked('align2')
-                setSidebar(true)
-              }} name=""
-              key={item.id} >
-              {item.title}
-            </textarea>
+    {data.map((item) => {
+      return (
+      <div className='dropped' >
+              <textarea id='txt'
+                
+                onClick={() => {
+                  handleClicked('align2')
+                  setSidebar(true)
+                }} name=""
+                key={item.id} >
+                {item.full_name}
+              </textarea>
 
-            <textarea id='txt'
-              ref={textRef}
-              onClick={() => {
-                handleClicked('align2')
-                setSidebar(true)
-              }
-              } name=""
-              key={item.id} >
-              {item.paragraph}
-            </textarea>
-            </>
-          )
-        }
-        )}      {/*  */}
+              {/* <textarea id='txt'
+                ref={textRef}
+                onClick={() => {
+                  handleClicked('align2')
+                  setSidebar(true)
+                }
+                } name=""
+                key={item.id} >
+                {item.paragraph}
+              </textarea> */}
+          
+              {/*  */}
 
-        <div className='resizers'>
+        {/* <div className='resizers'>
           <div className="resizer ne"></div>
           <div className="resizer nw"></div>
           <div className="resizer sw"></div>
           <div className="resizer se"></div>
-        </div>
+        </div> */}
 
       </div>
-      
+  )
+      })
+    }
+
     </>
   )
 }
