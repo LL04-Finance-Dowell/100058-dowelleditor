@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+
+import {useLocation} from "react-router-dom";
+
 import FileBase from 'react-file-base64';
+
 import { Container } from "react-bootstrap";
 
 import "./MidSection.css";
@@ -45,9 +49,6 @@ const dummyData = {
 const MidSection = () => {
   const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState, bold, italic, underline, strikethrough } = useStateContext();
 
-  console.log(startDate);
-
-
   function boldCommand() {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
@@ -88,14 +89,14 @@ const MidSection = () => {
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      cluster: "socialmedia",
-      database: "socialmedia",
+      database: "social-media-auto",
       collection: "step2_data",
-      fields: "_id"
+      fields:"title",
+      id: "62fd1ed5cee6d0752b849cc6"
     })
       .then(res => {
-        // setData(res);
-        console.log(res);
+        setData(res.data);
+        console.log(res.data);
       }).catch(err => {
         console.log(err);
       }
@@ -103,14 +104,13 @@ const MidSection = () => {
   }
   getPostData();
 
-  console.log(data);
-  console.log(JSON.stringify(postData));
 
-  // useEffect(() => {
+  // console.log(data);
+  // console.log(JSON.stringify(postData));
 
-  //   onPost();
 
-  // });
+
+ 
 
 
 
@@ -391,12 +391,15 @@ const MidSection = () => {
   }
 
 
+
+
+
   const onPost = () => {
     const curr_user = document.getElementById('curr_user');
 
     const measure = {
       width: '300px',
-      height: '150px',
+      height: '50px',
       auth_user: curr_user
     }
 
@@ -421,17 +424,56 @@ const MidSection = () => {
 
 
 
-    inputField.innerHTML = `${data.full_name}`;
+    inputField.innerText = `${data.title}`;
     // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
     holderDIV.append(inputField);
     // holderDIV.append(paragraphField);
 
-
     document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
 
-
   }
+
+
+  const onParagraphPost = () => {
+    const curr_user = document.getElementById('curr_user');
+
+    const measure = {
+      width: '300px',
+      height: '150px',
+      top: '100px',
+      auth_user: curr_user
+    }
+
+    const holderDIV = getHolderDIV(measure);
+
+  let paragraphField = document.createElement('textarea');
+  //  inputField.setAttribute('draggable', true);
+  paragraphField.className = "textInput";
+  paragraphField.style.width = "100%";
+  paragraphField.style.height = "100%";
+  paragraphField.style.resize = 'none';
+  paragraphField.style.zIndex = 3;
+  paragraphField.style.backgroundColor = '#0000';
+  paragraphField.style.borderRadius = '0px';
+  paragraphField.style.outline = '0px';
+  paragraphField.style.overflow = 'overlay';
+  paragraphField.style.position = 'relative';
+  paragraphField.onclick = () => {
+    handleClicked('align2')
+    setSidebar(true);
+  }
+
+
+
+  paragraphField.innerText = `${data.paragraph}`;
+  // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+  holderDIV.append(paragraphField);
+ 
+  document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+}
+  
 
 
 
@@ -929,7 +971,12 @@ const MidSection = () => {
 
       >
 
-
+      <button 
+      onClick={()=> {onPost()
+      onParagraphPost()}}
+      >
+        Load data
+        </button>
 
 
         {/* {isDropped.align && <TextBox />}  */}
