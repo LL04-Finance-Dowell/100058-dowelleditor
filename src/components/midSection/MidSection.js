@@ -88,12 +88,14 @@ const MidSection = () => {
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: "hr_hiring",
-      collection: "dowelltraining",
+      cluster: "socialmedia",
+      database: "socialmedia",
+      collection: "step2_data",
       fields: "_id"
     })
       .then(res => {
-        setData(res.data.normal.data[0]);
+        // setData(res);
+        console.log(res);
       }).catch(err => {
         console.log(err);
       }
@@ -399,7 +401,7 @@ const MidSection = () => {
     }
 
     const holderDIV = getHolderDIV(measure);
-    
+
     let inputField = document.createElement('textarea');
     //  inputField.setAttribute('draggable', true);
     inputField.className = "textInput";
@@ -450,6 +452,17 @@ const MidSection = () => {
     };
   }
 
+  function getPosition(el) {
+    const rect = el[0].getBoundingClientRect();
+
+    return {
+      top: rect.top,
+      left: rect.left,
+      bottom: rect.bottom,
+      right: rect.right
+    }
+  }
+
 
 
 
@@ -496,25 +509,16 @@ const MidSection = () => {
 
       // inputField.onchange = (event) => {
       //   event.preventDefault();
-      if(inputField.innerHTML[0]){
+      if (inputField.innerHTML[0]) {
         const editTextField = {
           editTextField: {
             value: inputField.innerHTML,
             xcoordinate: getOffset(holderDIV).left,
             ycoordinate: getOffset(holderDIV).top
           }
-        
+
         };
-        inputField.onchange = (event) => {
-          setPostData({
-            ...postData,
-            editTextField: {
-              value: event.target.value,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top
-            }
-          })
-        }
+
 
         postData.push(editTextField);
         // setPostData({
@@ -602,7 +606,7 @@ const MidSection = () => {
     }
     else if (typeOfOperation === "TEXT_FILL") {
       let texttField = document.createElement('textarea');
-      texttField.className = "textInput";
+      texttField.className = "texttInput";
       texttField.placeholder = "input text here";
       texttField.style.width = "100%";
       texttField.style.height = "100%";
@@ -830,9 +834,89 @@ const MidSection = () => {
 
 
     document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
-    console.log(bold);
+
   }
 
+  function saveDocument() {
+    contentFile = [];
+    let page = [];
+
+    let elem = {}
+
+    const txt = document.getElementsByClassName("textInput");
+
+    if (txt.length) {
+      if (txt[0].parentElement.classList.contains("holderDIV")) {
+        elem = {
+          width: getPosition(txt).right,
+          height: getPosition(txt).bottom,
+          top: getPosition(txt).top,
+          left: getPosition(txt).left,
+          type: 'TEXT_INPUT',
+          data: txt[0].innerHTML,
+
+        }
+      }
+
+
+      const img_input = document.getElementsByTagName("input");
+      if (img_input.length) {
+        console.log('Image_input', img_input[0])
+        if (img_input[0].type === 'file') {
+          elem = {
+            width: getPosition(img_input).right,
+            height: getPosition(img_input).bottom,
+            top: getPosition(img_input).top,
+            left: getPosition(img_input).left,
+            type: 'IMAGE_INPUT',
+            data: img_input[0].value,
+
+          }
+        }
+      }
+
+      const text2 = document.getElementsByClassName("texttInput");
+
+      if (text2.length) {
+        if (text2[0].parentElement.classList.contains("holderDIV")) {
+          elem = {
+            width: getPosition(text2).right,
+            height: getPosition(text2).bottom,
+            top: getPosition(text2).top,
+            left: getPosition(text2).left,
+            type: 'TEXT_INPUT',
+            data: text2[0].innerHTML,
+
+          }
+        }
+      }
+
+      const date = document.getElementsByClassName("dateInput");
+      if (date.length) {
+        elem = {
+          width: getPosition(date).right,
+          height: getPosition(date).bottom,
+          top: getPosition(date).top,
+          left: getPosition(date).left,
+          type: 'DATE_INPUT',
+          data: date[0].innerHTML,
+
+        }
+      }
+
+
+    }
+
+    page.push(elem)
+
+
+
+    contentFile.push(page)
+    console.log("ContentFile While saveDoc", contentFile);
+
+    return contentFile
+
+  }
 
 
 
@@ -848,7 +932,7 @@ const MidSection = () => {
 
 
 
-         {/* {isDropped.align && <TextBox />}  */}
+        {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
         {isDropped.table && <Table />}

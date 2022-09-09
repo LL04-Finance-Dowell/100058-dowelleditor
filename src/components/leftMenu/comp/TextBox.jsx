@@ -41,8 +41,9 @@ const TextBox = () => {
 
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: "hr_hiring",
-      collection: "dowelltraining",
+      cluster: "socialmedia",
+    database: "socialmedia",
+    collection: "step2_data",
       fields: "_id"
     })
       .then(res => {
