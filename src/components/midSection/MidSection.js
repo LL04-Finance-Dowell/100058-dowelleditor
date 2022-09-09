@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import {useLocation} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+
 
 import FileBase from 'react-file-base64';
 
@@ -91,7 +92,7 @@ const MidSection = () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
       database: "social-media-auto",
       collection: "step2_data",
-      fields:"title",
+      fields: "title",
       id: "62fd1ed5cee6d0752b849cc6"
     })
       .then(res => {
@@ -110,7 +111,7 @@ const MidSection = () => {
 
 
 
- 
+
 
 
 
@@ -447,33 +448,33 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
-  let paragraphField = document.createElement('textarea');
-  //  inputField.setAttribute('draggable', true);
-  paragraphField.className = "textInput";
-  paragraphField.style.width = "100%";
-  paragraphField.style.height = "100%";
-  paragraphField.style.resize = 'none';
-  paragraphField.style.zIndex = 3;
-  paragraphField.style.backgroundColor = '#0000';
-  paragraphField.style.borderRadius = '0px';
-  paragraphField.style.outline = '0px';
-  paragraphField.style.overflow = 'overlay';
-  paragraphField.style.position = 'relative';
-  paragraphField.onclick = () => {
-    handleClicked('align2')
-    setSidebar(true);
+    let paragraphField = document.createElement('textarea');
+    //  inputField.setAttribute('draggable', true);
+    paragraphField.className = "textInput";
+    paragraphField.style.width = "100%";
+    paragraphField.style.height = "100%";
+    paragraphField.style.resize = 'none';
+    paragraphField.style.zIndex = 3;
+    paragraphField.style.backgroundColor = '#0000';
+    paragraphField.style.borderRadius = '0px';
+    paragraphField.style.outline = '0px';
+    paragraphField.style.overflow = 'overlay';
+    paragraphField.style.position = 'relative';
+    paragraphField.onclick = () => {
+      handleClicked('align2')
+      setSidebar(true);
+    }
+
+
+
+    paragraphField.innerText = `${data.paragraph}`;
+    // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+    holderDIV.append(paragraphField);
+
+    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
   }
 
-
-
-  paragraphField.innerText = `${data.paragraph}`;
-  // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
-  holderDIV.append(paragraphField);
- 
-  document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
-}
-  
 
 
 
@@ -970,14 +971,17 @@ const MidSection = () => {
         onDrop={onDrop}
 
       >
+        {(data.title === undefined)? (<button disabled>Load data</button>) : (
+          <button
+            onClick={() => {
+              onPost()
+              onParagraphPost()
+            }}
 
-      <button 
-      onClick={()=> {onPost()
-      onParagraphPost()}}
-      >
-        Load data
-        </button>
-
+          >
+            Load data
+          </button>)
+        }
 
         {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
