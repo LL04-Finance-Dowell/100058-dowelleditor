@@ -110,6 +110,8 @@ const MidSection = () => {
   // console.log(JSON.stringify(postData));
 
 
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
 
 
 
