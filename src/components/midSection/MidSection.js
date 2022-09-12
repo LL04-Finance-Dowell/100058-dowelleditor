@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { useLocation, useParams } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 
 
 import FileBase from 'react-file-base64';
@@ -75,7 +75,7 @@ const MidSection = () => {
         setIsClicked(false);
       }
     })
-  }, [midSectionRef, setSidebar, setIsClicked]);
+  }, []);
 
   const [postData, setPostData] = useState([])
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
@@ -87,13 +87,27 @@ const MidSection = () => {
   //   dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
   // });
 
+
+
+
+
+  const [searchParams] = useSearchParams();
+
+  const d_name = searchParams.get('d_name');
+  const col_name = searchParams.get('col_name');
+  const id = searchParams.get('id');
+  const fields = searchParams.get('fields');
+
+
+  console.log(d_name);
+  console.log(searchParams.get('col_name'));
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: "social-media-auto",
-      collection: "step2_data",
-      fields: "title",
-      id: "62fd1ed5cee6d0752b849cc6"
+      database: d_name,
+      collection: col_name,
+      fields: fields,
+      id: id
     })
       .then(res => {
         setData(res.data);
@@ -110,8 +124,17 @@ const MidSection = () => {
   // console.log(JSON.stringify(postData));
 
 
-  const search = useLocation().search;
-  const name = new URLSearchParams(search).get('name');
+  useEffect(() => {
+    if(data.title !== undefined){
+    onPost()
+    onParagraphPost()
+    } else {
+      console.log('loading data');
+    }
+    
+  },[data.title])
+
+
 
 
 
@@ -443,7 +466,7 @@ const MidSection = () => {
 
     const measure = {
       width: '300px',
-      height: '150px',
+      height: '100px',
       top: '100px',
       auth_user: curr_user
     }
@@ -973,18 +996,7 @@ const MidSection = () => {
         onDrop={onDrop}
 
       >
-        {(data.title === undefined)? (<button disabled>Load data</button>) : (
-          <button
-            onClick={() => {
-              onPost()
-              onParagraphPost()
-            }}
-
-          >
-            Load data
-          </button>)
-        }
-
+   
         {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
