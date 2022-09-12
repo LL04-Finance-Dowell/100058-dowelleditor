@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, Routes, HashRouter } from "reac
 function App() {
 
   return (
-    <HashRouter>
+    <Router>
       <Routes>
         {/* <div className="app"> */}
           {/* <Route path="/">
@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
         {/* </div> */}
       </Routes>
-    </HashRouter>
+    </Router>
 
 
   );
