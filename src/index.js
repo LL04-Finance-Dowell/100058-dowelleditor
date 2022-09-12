@@ -23,9 +23,9 @@ root.render(
 
   <ContextProvider>
     <React.StrictMode>
-     
-        <App />
       
+        <App />
+     
     </React.StrictMode>
   </ContextProvider>
   
