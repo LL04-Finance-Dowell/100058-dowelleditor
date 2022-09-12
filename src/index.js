@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, HashRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -23,14 +23,14 @@ root.render(
 
   <ContextProvider>
     <React.StrictMode>
-   <Router>
-    <Routes>
-        <Route path='/' element={<App />} />
-       </Routes> 
-    </Router>
+      <Router basename={window.location.pathname || ''}>
+        <Routes>
+          <Route path='/' element={<App />} />
+        </Routes>
+      </Router>
     </React.StrictMode>
   </ContextProvider>
-  
+
 
 );
 
