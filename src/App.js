@@ -1,12 +1,12 @@
 import './App.css';
 import HomePage from './pages/HomePage';
 
-import { BrowserRouter as Router, Switch, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Routes, HashRouter } from "react-router-dom";
 
 function App() {
 
   return (
-    <Router>
+    <HashRouter>
       <Routes>
         {/* <div className="app"> */}
           {/* <Route path="/">
@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
         {/* </div> */}
       </Routes>
-    </Router>
+    </HashRouter>
 
 
   );
