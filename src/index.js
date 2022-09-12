@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -23,9 +23,11 @@ root.render(
 
   <ContextProvider>
     <React.StrictMode>
-      
-        <App />
-     
+   <Router>
+    <Routes>
+        <Route path='/' element={<App />} />
+       </Routes> 
+    </Router>
     </React.StrictMode>
   </ContextProvider>
   
