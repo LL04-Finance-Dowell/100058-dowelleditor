@@ -26,8 +26,8 @@ const SignsRightSidebar = () => {
 
     setSignState({ trimmedDataURL: data });
 
-    const signImage = document.createElement('img')
-    signImage.setAttribute('src', `${signState.trimmedDataURL}`)
+    const signImage = `<img src=${data} />`
+
 
     document.getElementsByClassName('signInput').item(0).innerHTML = signImage
     console.log(signImage);

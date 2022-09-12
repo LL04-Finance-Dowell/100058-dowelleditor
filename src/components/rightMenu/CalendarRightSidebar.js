@@ -16,8 +16,15 @@ const CalendarRightSidebar = (props) => {
 
   const { startDate, setStartDate } = useStateContext();
 
+  if(startDate){
+    document.getElementsByClassName('dateInput').item(0).innerHTML = startDate.toLocaleDateString();
+  }
+  
+
+  // console.log(startDate.toLocaleDateString())
 
   return (
+    <div>
     <div>
       <h3>Add Date</h3>
       <Form.Label>Select Date</Form.Label>
@@ -33,8 +40,11 @@ const CalendarRightSidebar = (props) => {
         onChange={(date) => setStartDate(date)}
       />
 
-      {startDate.toLocaleDateString()}
+      
     </div>
+<p>{startDate && startDate.toLocaleDateString()}</p>
+</div>
+
   )
 }
 

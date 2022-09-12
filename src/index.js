@@ -23,9 +23,9 @@ root.render(
 
   <ContextProvider>
     <React.StrictMode>
-      <HashRouter>
+     
         <App />
-      </HashRouter>
+      
     </React.StrictMode>
   </ContextProvider>
   
