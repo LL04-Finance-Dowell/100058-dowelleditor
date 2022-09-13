@@ -1,11 +1,12 @@
 .midSection{
     display: flex;
-    height: 91vh;
+    height: 327mm;
     align-items: center;
 }
 .midSection_container{
     background-color: #ffffff;
-    width: 55vw;
-    height: 70vh;
+    width: 210mm;
+    height: 297mm;
     position: relative;
+ 
 }
