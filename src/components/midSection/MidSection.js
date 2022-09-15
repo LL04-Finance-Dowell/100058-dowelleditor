@@ -99,8 +99,7 @@ const MidSection = () => {
   const fields = searchParams.get('fields');
 
 
-  console.log(d_name);
-  console.log(searchParams.get('col_name'));
+
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
@@ -111,7 +110,6 @@ const MidSection = () => {
     })
       .then(res => {
         setData(res.data);
-        console.log(res.data);
       }).catch(err => {
         console.log(err);
       }
@@ -125,14 +123,15 @@ const MidSection = () => {
 
 
   useEffect(() => {
-    if(data.title !== undefined){
-    onPost()
-    onParagraphPost()
+    if (data.title !== undefined) {
+      console.log(data);
+      onPost()
+      onParagraphPost()
     } else {
       console.log('loading data');
     }
-    
-  },[data.title])
+
+  }, [data.title])
 
 
 
@@ -431,7 +430,8 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
-    let inputField = document.createElement('textarea');
+    let inputField = document.createElement('div');
+    inputField.setAttribute('contenteditable', true)
     //  inputField.setAttribute('draggable', true);
     inputField.className = "textInput";
     inputField.style.width = "100%";
@@ -443,6 +443,7 @@ const MidSection = () => {
     inputField.style.outline = '0px';
     inputField.style.overflow = 'overlay';
     inputField.style.position = 'relative';
+    inputField.style.cursor = 'text'
     inputField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
@@ -473,8 +474,9 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
-    let paragraphField = document.createElement('textarea');
+    let paragraphField = document.createElement('div');
     //  inputField.setAttribute('draggable', true);
+    paragraphField.setAttribute('contenteditable', true)
     paragraphField.className = "textInput";
     paragraphField.style.width = "100%";
     paragraphField.style.height = "100%";
@@ -485,6 +487,7 @@ const MidSection = () => {
     paragraphField.style.outline = '0px';
     paragraphField.style.overflow = 'overlay';
     paragraphField.style.position = 'relative';
+    paragraphField.style.cursor = 'text'
     paragraphField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
@@ -830,7 +833,7 @@ const MidSection = () => {
           }
         };
 
-        postData.push(dateField);
+        // postData.push(dateField);
         // setPostData({
         //   ...postData,
         //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -905,14 +908,14 @@ const MidSection = () => {
 
   }
 
-  function saveDocument() {
     contentFile = [];
     let page = [];
 
     let elem = {}
+  function saveDocument() {
+
 
     const txt = document.getElementsByClassName("textInput");
-
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
         elem = {
@@ -924,7 +927,9 @@ const MidSection = () => {
           data: txt[0].innerHTML,
 
         }
+        page.push(elem)
       }
+    }
 
 
       const img_input = document.getElementsByTagName("input");
@@ -940,6 +945,7 @@ const MidSection = () => {
             data: img_input[0].value,
 
           }
+          page.push(elem)
         }
       }
 
@@ -952,10 +958,11 @@ const MidSection = () => {
             height: getPosition(text2).bottom,
             top: getPosition(text2).top,
             left: getPosition(text2).left,
-            type: 'TEXT_INPUT',
-            data: text2[0].innerHTML,
+            type: 'TEXT_FILL',
+            data: text2[0].value,
 
           }
+          page.push(elem)
         }
       }
 
@@ -970,12 +977,13 @@ const MidSection = () => {
           data: date[0].innerHTML,
 
         }
+        page.push(elem)
       }
 
 
-    }
+    
 
-    page.push(elem)
+    
 
 
 
@@ -996,7 +1004,9 @@ const MidSection = () => {
         onDrop={onDrop}
 
       >
-   
+        {/* <button onClick={saveDocument}>
+          Save
+        </button> */}
         {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
