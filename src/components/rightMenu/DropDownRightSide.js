@@ -6,6 +6,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const DropDownRightSide = () => {
+  var select = document.createElement('select')
+  
   return (
     <div>
       <h3>Dropdown Settings</h3>

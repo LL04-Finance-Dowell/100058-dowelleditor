@@ -718,7 +718,7 @@ const MidSection = () => {
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
-      // tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+      // tableField.innerHTML = 'table';
       tableField.style.position = 'absolute';
 
       tableField.onchange = (event) => {
@@ -750,12 +750,17 @@ const MidSection = () => {
         handleClicked('table2')
         setSidebar(true);
       }
+      
+      const tab = document.createElement('table')
+      tab.id = "tab"
+      tab.style.border="1"
 
 
+      // tableField.appendChild(tab)
 
-      const para = document.createElement("p");
-      para.innerHTML = "Table";
-      tableField.append(para);
+      // const para = document.createElement("p");
+      // para.innerHTML = "Table";
+      // tableField.append(para);
       holderDIV.append(tableField);
     }
     else if (typeOfOperation === "SIGN_INPUT") {
@@ -979,6 +984,28 @@ const MidSection = () => {
         }
         page.push(elem)
       }
+      const tablee = document.getElementsByTagName("TABLE")
+      if (tablee.length < 1) {
+        const img = document.getElementsByTagName("img");
+        if (img.length) {
+            const canvas = document.createElement('canvas');
+            canvas.setAttribute('width', document.style.width);
+            canvas.setAttribute('height', document.style.height);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img[0], 0, 0, parseInt(document.style.width.slice(0, -2)), parseInt(document.style.height.slice(0, -2)));
+            elem = {
+                width: getPosition(tablee).style.width,
+                height: getPosition(tablee).style.height,
+                top: getPosition(tablee).style.top,
+                left: getPosition(tablee).style.left,
+                type: 'IMG_INPUT',
+                data: canvas.toDataURL(),
+            }
+            page.push(elem)
+        }
+        
+    }
+
 
 
     
@@ -1004,9 +1031,9 @@ const MidSection = () => {
         onDrop={onDrop}
 
       >
-        {/* <button onClick={saveDocument}>
+        <button onClick={saveDocument}>
           Save
-        </button> */}
+        </button>
         {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}
