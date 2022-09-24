@@ -805,7 +805,7 @@ const MidSection = () => {
       }
 
       const para = document.createElement("p");
-      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" /> : 'Signs'}`
+      para.innerHTML = 'Place your signature here'
       signField.append(para);
       holderDIV.append(signField);
     }
@@ -1031,9 +1031,9 @@ const MidSection = () => {
         onDrop={onDrop}
 
       >
-        <button onClick={saveDocument}>
+        {/* <button onClick={saveDocument}>
           Save
-        </button>
+        </button> */}
         {/* {isDropped.align && <TextBox />}  */}
         {/* {isDropped.textfill && <TextFill />}   
         {isDropped.image && <Image />}

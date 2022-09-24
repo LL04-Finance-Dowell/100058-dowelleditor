@@ -87,11 +87,11 @@ const AlignRightSide = () => {
   return (
 
     <div className='align'>
-      <Container fluid>
-        <Row>
-          <Col>
-            <Form.Label>Font Style</Form.Label>
-            <DropdownButton variant="secondary" id="" title="Arial">
+      <Container fluid className='m-0 p-0' >
+        <Row className='pt-2'>
+          <Col >
+            <Form.Label><h6>Font Style</h6></Form.Label>
+            <DropdownButton variant="" id="" title="Arial" className ='shadow bg-white rounded '>
               <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
               <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
@@ -99,10 +99,10 @@ const AlignRightSide = () => {
           </Col>
         </Row>
 
-        <Row>
+        <Row className='pt-4'>
           <h6>Font Size</h6>
           <Col>
-            <DropdownButton variant="secondary" id="" title="12">
+            <DropdownButton variant="" id="" title="12" className ='shadow bg-white rounded'>
               <Dropdown.Item href="#/action-1">8</Dropdown.Item>
               <Dropdown.Item href="#/action-2">10</Dropdown.Item>
               <Dropdown.Item href="#/action-3">12</Dropdown.Item>
@@ -113,19 +113,20 @@ const AlignRightSide = () => {
             </DropdownButton>
           </Col>
           <Col>
-            <Button variant="white" onClick={handleIncreaseSize} >
-              <BiFont onClick={handleIncreaseSize} color='gray' size={20} /> <AiOutlineArrowUp color='gray' size={20} />
+            <Button variant="white" onClick={handleIncreaseSize} className ='shadow bg-white rounded'>
+              <BiFont onClick={handleIncreaseSize} color='gray' size={16} /> <AiOutlineArrowUp color='gray' size={20} />
             </Button>
           </Col>
           <Col>
-            <Button variant="white" onClick={handleDecreaseSize} >
-              <BiFont color='gray' size={20} /> <AiOutlineArrowDown color='gray' size={20} />
+            <Button variant="white" onClick={handleDecreaseSize} className ='shadow bg-white rounded'>
+              <BiFont color='gray' size={20} /> <AiOutlineArrowDown color='gray' size={16} />
             </Button>
           </Col>
         </Row>
 
+    <hr />
         {/* Text formatting row */}
-        <Row>
+        <Row className='pt-4' >
           <h6>Text Formatting</h6>
           <Col>
             <Button onClick={handleBold} variant='white'><FaBold color='gray' size={20} /></Button>
@@ -143,9 +144,10 @@ const AlignRightSide = () => {
             <Button onClick={handleStrikethrough} variant='white'><FaStrikethrough color='gray' size={20} /></Button>
           </Col>
         </Row>
+        <hr />
 
         {/* Text color */}
-        <Row>
+        <Row className='pt-4'>
           <h6>Text Color</h6>
           <Col>
             <Button onInput={handleFontColor} variant='white'><AiOutlineFontColors color='purple' size={30} /></Button>
@@ -160,60 +162,64 @@ const AlignRightSide = () => {
           </Col>
         </Row>
 
+        <hr />
+
         {/* Text alignment */}
-        <Row>
+        <Row className='pt-4'>
           <h6>Text Alignment</h6>
-          <Col className='mr-1'>
+          <Col className='mx-0 p-0' >
             <Button onClick={handleLeftAlign} variant='white'><BiAlignLeft color='gray' size={20} /></Button>
           </Col>
 
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleMiddleAlign} variant='white'><BiAlignMiddle color='gray' size={20} /></Button>
           </Col>
 
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleRightAlign} variant='white'><BiAlignRight color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleOutdent} variant='white'><FaOutdent color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleIndent} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleUnorderedList} variant='white'><FaListUl color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={handleOrderedList} variant='white'><FaListOl color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
-          <Col>
+          <Col className='mx-0 p-0'>
             <Button onClick={() => { }} variant='white'><FaIndent color='gray' size={20} /></Button>
           </Col>
 
         </Row>
 
-        <Row>
+        <hr />
+
+        <Row className='pt-4'>
           <div className='dropdown'>
-            <p><strong>User permissions</strong></p>
-            <DropdownButton variant="secondary" id="" title="Nothing Selected">
+            <p><h6>User permissions</h6></p>
+            <DropdownButton variant="" id="" title="Nothing Selected" className='shadow bg-white rounded '>
               <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
               <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
               <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
             </DropdownButton>
           </div>
 
-          <div />
-          <div>
-            <Button variant="primary" >Remove Dropdown</Button>
+          
+          <div className='mt-5 text-center'>
+            <Button variant="primary"  >Remove Formatting</Button>
           </div>
 
         </Row>

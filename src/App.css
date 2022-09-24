@@ -90,7 +90,9 @@ th {
 
 
 
-
+.ui-state-highlight {
+  width: 130px; height: 50px; margin: 10px;
+}
 
 
 

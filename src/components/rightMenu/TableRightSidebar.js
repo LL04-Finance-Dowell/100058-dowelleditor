@@ -1,5 +1,7 @@
 import React from 'react'
 
+import $ from 'jquery';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -7,7 +9,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const TableRightSidebar = () => {
 
-  function makeTable(){
+  function makeTable() {
     var table = document.createElement('table')
     table.style.border = "2"
     table.id = 'table'
@@ -17,16 +19,17 @@ const TableRightSidebar = () => {
     var tableDiv = document.getElementsByClassName('tableInput')
 
     console.log(table);
-    for(var rowIndex = 0; rowIndex<row; rowIndex++){
+    for (var rowIndex = 0; rowIndex < row; rowIndex++) {
       var tr = document.createElement('tr')
 
-      for(var colIndex = 0; colIndex<col; colIndex++){
+      for (var colIndex = 0; colIndex < col; colIndex++) {
         var td = document.createElement('td')
+        td.className = "dropp"
         // var text = document.createTextNode("Canel "+colIndex)
         td.innerHTML = "Canel " + `${colIndex}`
-         tr.appendChild(td)
+        tr.appendChild(td)
       }
-     
+
       table.appendChild(tr)
 
       tableDiv[0].appendChild(table)
@@ -35,8 +38,8 @@ const TableRightSidebar = () => {
       var cells = tablee.getElementsByTagName('td')
 
       for (var i = 0; i < cells.length; i++) {
-        cells[i].onclick = function(){
-          if(this.hasAttribute('data-clicked')){
+        cells[i].onclick = function () {
+          if (this.hasAttribute('data-clicked')) {
             return;
           }
           this.setAttribute('data-clicked', 'yes')
@@ -53,7 +56,7 @@ const TableRightSidebar = () => {
           input.style.textAlign = "inherit"
           input.style.backgroundColor = "LightGoldenRodYellow";
 
-          input.onblur = function(){
+          input.onblur = function () {
             var td = input.parentElement;
             var org_text = input.parentElement.getAttribute('data-text');
             var current_text = this.value;
@@ -72,8 +75,8 @@ const TableRightSidebar = () => {
             }
           }
 
-          input.onkeydown = function(event) {
-            if (event.keyCode == 13){
+          input.onkeydown = function (event) {
+            if (event.keyCode == 13) {
               this.onblur();
             }
           }
@@ -86,35 +89,48 @@ const TableRightSidebar = () => {
 
     }
 
+    $(function () {
+      $(".dropp").sortable({
+        connectWith: "td",
+        placeholder: "ui-state-highlight"
+      }).disableSelection();
+    });
+
+
+
 
   }
 
- 
+
 
   // document.getElementById('make').addEventListener("click", makeTable)
   return (
     <>
       <div>
-        <h3>Add Table</h3>
+        <h6 className='pt-4'>Table Size</h6>
         <Form.Label>Enter Number of rows</Form.Label>
-        <Form.Control type='number' placeholder="" min="1" id='rows' />
-        
-        
+        <Form.Control type='number' placeholder="" min="1" id='rows' className='shadow bg-white rounded mb-4' />
+
+
         <Form.Label>Enter Number of columns</Form.Label>
-        
-        <Form.Control type='number' placeholder="" min="1" id='cols' />
+
+        <Form.Control type='number' placeholder="" min="1" id='cols' className='shadow bg-white rounded mb-4' />
       </div>
 
       <button onClick={makeTable}>Create Table</button>
 
 
-      <div className='dropdown'>
+      <div className='dropdown pt-4'>
         <h5>User permissions</h5>
-        <DropdownButton id="" title="Nothing Selected">
+        <DropdownButton variant="" id="" title="Nothing Selected" className='shadow bg-white rounded'>
           <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
           <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
           <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
         </DropdownButton>
+      </div>
+
+      <div className='mt-5 text-center pt-5'>
+        <Button variant="primary" className="px-5">Remove Table</Button>
       </div>
     </>
   )
