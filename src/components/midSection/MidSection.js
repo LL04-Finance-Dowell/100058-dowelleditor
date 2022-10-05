@@ -48,8 +48,9 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState, bold, italic, underline, strikethrough } = useStateContext();
+  const { dropdownName, isDropped, setIsClicked, setSidebar, handleClicked, startDate } = useStateContext();
 
+  console.log(dropdownName);
   function boldCommand() {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
@@ -535,19 +536,24 @@ const MidSection = () => {
   }
 
 
+  const chooseFileClick = ()=>{
+    const addImageButtonInput = document.getElementsByClassName("addImageButtonInput")
+    addImageButtonInput.item(0).click()
+}
+
+
 
 
 
   const onDrop = (event) => {
     event.preventDefault();
-    console.log("drop");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
 
 
     const measure = {
       width: '200px',
-      height: '60px',
+      height: '80px',
       left: event.clientX - 350 + 'px',
       top: event.clientY - 150 + 'px',
       auth_user: curr_user
@@ -591,7 +597,7 @@ const MidSection = () => {
         };
 
 
-        postData.push(editTextField);
+        // postData.push(editTextField);
         // setPostData({
         //   ...postData,
         //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -633,17 +639,18 @@ const MidSection = () => {
         setSidebar(true);
       }
 
-
-      // const para = document.createElement("p");
-      // para.innerHTML = "Drag and drop image here";
-      // imageField.append(para);
+      const imageButton = document.createElement("div");
+      imageButton.className = "addImageButton"
+      imageButton.innerText = "Choose File"
+      imageButton.onclick = (e)=>chooseFileClick(e)
 
       const imgBtn = document.createElement("input");
+      imgBtn.className = "addImageButtonInput"
       imgBtn.type = "file";
       imgBtn.style.objectFit = 'cover';
       var uploadedImage = "";
 
-      imgBtn.addEventListener('input', () => {
+      imgBtn.addEventListener('input', () => { 
         const reader = new FileReader();
 
         reader.addEventListener('load', () => {
@@ -671,9 +678,9 @@ const MidSection = () => {
 
 
       // imgBtn.style.width = "100%";
-
+      imageButton.append(imgBtn)
       holderDIV.append(imageField);
-      holderDIV.append(imgBtn);
+      holderDIV.append(imageButton);
     }
     else if (typeOfOperation === "TEXT_FILL") {
       let texttField = document.createElement('textarea');
@@ -873,6 +880,19 @@ const MidSection = () => {
       // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
       dropdownField.style.position = 'absolute';
 
+      const selectElement = document.createElement('select');
+      selectElement.className = "select-element"
+      selectElement.style.width = "auto";
+      selectElement.style.height = "auto";
+
+
+      const options = document.createElement('option');
+      // options.className = "select-options"
+      const items = ["kal", "menz", "Tesla"]
+      options.innerHTML= "Enter List Items"
+
+      selectElement.add(options)
+
       dropdownField.onchange = (event) => {
         event.preventDefault();
         setPostData({
@@ -901,10 +921,12 @@ const MidSection = () => {
         handleClicked('dropdown2')
         setSidebar(true);
       }
-
+      
       const para = document.createElement("p");
-      para.innerHTML = "Dropdown";
+      para.innerHTML = " Dropdown Name"
+      para.className = "dropdownName"
       dropdownField.append(para);
+      dropdownField.append(selectElement);
       holderDIV.append(dropdownField);
     }
 

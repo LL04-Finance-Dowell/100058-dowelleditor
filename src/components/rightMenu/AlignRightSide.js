@@ -34,6 +34,14 @@ const AlignRightSide = () => {
   //   selectedTextRange.surroundContents(strongElement);
   // }
 
+  var changeFontFamily = (font) => {
+    const userSelection = window.getSelection();
+    const selectedTextRange = userSelection.getRangeAt(0);
+
+    console.log(selectedTextRange);
+    selectedTextRange.style.fontFamily= font.value;
+  }
+
   const handleBold = () => {
     setBold(!bold)
     document.execCommand("bold")
@@ -82,6 +90,8 @@ const AlignRightSide = () => {
     document.execCommand("decreaseFontSize")
   }
 
+  
+
 
 
   return (
@@ -90,12 +100,14 @@ const AlignRightSide = () => {
       <Container fluid className='m-0 p-0' >
         <Row className='pt-2'>
           <Col >
-            <Form.Label><h6>Font Style</h6></Form.Label>
-            <DropdownButton variant="" id="" title="Arial" className ='shadow bg-white rounded '>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </DropdownButton>
+            <h6>Font Style</h6>
+            <select onChange="changeFontFamily (this);"  className ='shadow bg-white rounded w-100 h-75'>
+              <option value="Times New Roman" selected="selected">Times New Roman</option>
+              <option value="Arial">Arial</option>
+              <option value="fantasy">fantasy</option>
+              <option value="cursive">cursive</option>
+            </select>
+           
           </Col>
         </Row>
 
@@ -209,12 +221,13 @@ const AlignRightSide = () => {
 
         <Row className='pt-4'>
           <div className='dropdown'>
-            <p><h6>User permissions</h6></p>
-            <DropdownButton variant="" id="" title="Nothing Selected" className='shadow bg-white rounded '>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </DropdownButton>
+            <h6>User permissions</h6>
+            <select  className ='shadow bg-white rounded w-100 h-75'>
+              <option value="Nothing Selected" selected="selected">Nothing Selected</option>
+              <option value="Action">Action</option>
+              <option value="Another action">Another action</option>
+              <option value="Something else">Something else</option>
+            </select>
           </div>
 
           

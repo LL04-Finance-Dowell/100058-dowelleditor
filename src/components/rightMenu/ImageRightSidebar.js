@@ -8,12 +8,13 @@ const ImageRightSidebar = () => {
   return (
     <>
       <div className='dropdown pt-4'>
-        <p><h6>User permissions</h6></p>
-        <DropdownButton variant="" id="" title="Nothing Selected" className='shadow bg-white rounded '>
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-        </DropdownButton>
+        <h6>User permissions</h6>
+        <select className='shadow bg-white rounded w-100 h-75'>
+          <option value="Nothing Selected" selected="selected">Nothing Selected</option>
+          <option value="Action">Action</option>
+          <option value="Another action">Another action</option>
+          <option value="Something else">Something else</option>
+        </select>
       </div>
 
       <div className='mt-5 text-center pt-5'>

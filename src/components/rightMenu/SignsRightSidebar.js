@@ -11,7 +11,7 @@ import { useStateContext } from '../../contexts/contextProvider';
 
 const SignsRightSidebar = () => {
 
-  const {signState, setSignState} = useStateContext();
+  const { signState, setSignState } = useStateContext();
 
 
   let sigPad = useRef({});
@@ -21,7 +21,7 @@ const SignsRightSidebar = () => {
     sigPad.current.clear();
   }
 
-  
+
 
   const save = () => {
     data = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
@@ -47,30 +47,31 @@ const SignsRightSidebar = () => {
             canvasProps={{ width: 200, height: 200, className: 'sigCanvas' }}
             ref={sigPad} />
         </div>
-        <div className='buttons'>
-          <Button onClick={clear} variant="secondary">Clear</Button>
-          <Button onClick={save} variant="primary">Done</Button>
+        <div className='buttons p-4'>
+          <Button onClick={clear} variant="secondary">Clear</Button> &nbsp;
+          <Button onClick={save} variant="primary" >Done</Button>
 
         </div>
 
       </div>
-      <hr/>
+      <hr />
 
 
       <div className='dropdown pt-2'>
-            <p><h6>User permissions</h6></p>
-            <DropdownButton variant="" id="" title="Nothing Selected" className='shadow bg-white rounded '>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </DropdownButton>
-          </div>
+        <h6>User permissions</h6>
+        <select className='shadow bg-white rounded w-75 h-75'>
+          <option value="Nothing Selected" selected="selected">Nothing Selected</option>
+          <option value="Action">Action</option>
+          <option value="Another action">Another action</option>
+          <option value="Something else">Something else</option>
+        </select>
+      </div>
 
-          
-          <div className='mt-5 text-center'>
-            <Button variant="primary"  >Remove Signature</Button>
-          </div>
-     {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
+
+      <div className='mt-5 '>
+        <Button variant="primary"  >Remove Signature</Button>
+      </div>
+      {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
     </div>
   )
 }

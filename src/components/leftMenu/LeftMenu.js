@@ -17,7 +17,8 @@ const NavButton = ({ customFunc, icon, dragStartFunc }) => (
   <button type='button'
     draggable='true'
     onDragStart={dragStartFunc}
-    // onDragEnd={customFunc}
+    id='draggable'
+    onDragEnd={dragEndFunc}
 
   >
     <img src={icon} alt="icon" />
@@ -25,36 +26,55 @@ const NavButton = ({ customFunc, icon, dragStartFunc }) => (
 )
 
 
+
 const dragStartAlign = e => {
+  const element = document.getElementById('draggable');
 
   e.dataTransfer.setData("text/plain", "TEXT_INPUT");
-  console.log("drag start");
+  element.classList.add("dragging")
+  console.log('drag start fumb');
 }
 
 const dragStartTextF = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "TEXT_FILL");
+  element.classList.add("dragging")
 }
 
 const dragStartImage = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "IMAGE_INPUT");
 }
 
 const dragStartTable = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "TABLE_INPUT");
+  element.classList.add("dragging")
 }
 
 const dragStartSigns = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "SIGN_INPUT");
+  element.classList.add("dragging")
 }
 
 const dragStartCalendar = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "DATE_INPUT");
+  element.classList.add("dragging")
 }
 
 const dragStartDropdown = e => {
+  const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "DROPDOWN_INPUT");
+  element.classList.add("dragging")
 }
 
+const dragEndFunc = () => {
+  const element = document.getElementById('draggable');
+  element.classList.remove('dragging')
+  console.log('dragend func');
+}
 
 
 

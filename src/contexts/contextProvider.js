@@ -34,6 +34,12 @@ export const ContextProvider = ({ children }) => {
 
     const [startDate, setStartDate] = useState(''); // Calendar
 
+    const [dropdownName, setDropdownName] = useState("Dropdown Name");
+    const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
+    const [dropdownItems, setDropdownItems] = useState("");
+    const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"])
+
+
     const [bold, setBold] = useState(false);
     const [italic, setItalic] = useState(false);
     const [underline, setUnderline] = useState(false);
@@ -67,6 +73,10 @@ export const ContextProvider = ({ children }) => {
                 italic, setItalic,
                 underline, setUnderline,
                 strikethrough, setStrikethrough,
+                dropdownName, setDropdownName,
+                dropdownLabel, setDropdownLabel,
+                dropdownItems, setDropdownItems,
+                dropdownOptions, setDropdownOptions,
             }}
         >
             {children}
