@@ -140,7 +140,7 @@ const TableRightSidebar = () => {
           var td = document.createElement('td')
           td.className = "dropp"
           // var text = document.createTextNode("Canel "+colIndex)
-          td.innerHTML = "Canel " + `${colIndex}`
+          // td.innerHTML = "Canel " + `${colIndex}`
           tr.appendChild(td)
         }
 
@@ -176,53 +176,53 @@ const TableRightSidebar = () => {
               }
             }, { offset: Number.NEGATIVE_INFINITY}).element
           }
-          // cells[i].onclick = function () {
-          //   if (this.hasAttribute('data-clicked')) {
-          //     return;
-          //   }
-          //   this.setAttribute('data-clicked', 'yes')
-          //   this.setAttribute('data-text', this.innerHtml);
+          cells[i].onclick = function () {
+            if (this.hasAttribute('data-clicked')) {
+              return;
+            }
+            this.setAttribute('data-clicked', 'yes')
+            this.setAttribute('data-text', this.innerHtml);
 
-          //   var input = document.createElement('input')
-          //   input.setAttribute('type', 'text')
-          //   input.value = this.innerHtml;
-          //   input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
-          //   input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
-          //   input.style.border = "0px";
-          //   input.style.fontFamily = "inherit"
-          //   input.style.fontSize = "inherit"
-          //   input.style.textAlign = "inherit"
-          //   input.style.backgroundColor = "LightGoldenRodYellow";
+            var input = document.createElement('input')
+            input.setAttribute('type', 'text')
+            input.value = this.innerHtml;
+            input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
+            input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
+            input.style.border = "0px";
+            input.style.fontFamily = "inherit"
+            input.style.fontSize = "inherit"
+            input.style.textAlign = "inherit"
+            input.style.backgroundColor = "LightGoldenRodYellow";
 
-          //   input.onblur = function () {
-          //     var td = input.parentElement;
-          //     var org_text = input.parentElement.getAttribute('data-text');
-          //     var current_text = this.value;
+            input.onblur = function () {
+              var td = input.parentElement;
+              var org_text = input.parentElement.getAttribute('data-text');
+              var current_text = this.value;
 
-          //     if (org_text != current_text) {
-          //       td.removeAttribute('data-clicked')
-          //       td.removeAttribute('data-text')
-          //       td.innerHTML = current_text;
-          //       td.style.cssText = 'padding: 5px';
+              if (org_text != current_text) {
+                td.removeAttribute('data-clicked')
+                td.removeAttribute('data-text')
+                td.innerHTML = current_text;
+                td.style.cssText = 'padding: 5px';
 
-          //     } else {
-          //       td.removeAttribute('data-clicked')
-          //       td.removeAttribute('data-text')
-          //       td.innerHTML = org_text;
-          //       td.style.cssText = 'padding: 5px';
-          //     }
-          //   }
+              } else {
+                td.removeAttribute('data-clicked')
+                td.removeAttribute('data-text')
+                td.innerHTML = org_text;
+                td.style.cssText = 'padding: 5px';
+              }
+            }
 
-          //   input.onkeydown = function (event) {
-          //     if (event.keyCode == 13) {
-          //       this.onblur();
-          //     }
-          //   }
-          //   this.innerHtml = ''
-          //   this.style.cssText = 'padding: 0px 0px';
-          //   this.append(input)
-          //   this.firstElementChild.select()
-          // }
+            input.onkeydown = function (event) {
+              if (event.keyCode == 13) {
+                this.onblur();
+              }
+            }
+            this.innerHtml = ''
+            this.style.cssText = 'padding: 0px 0px';
+            this.append(input)
+            this.firstElementChild.select()
+          }
 
           cells[i].ondrop = handleDropp
         }
@@ -230,6 +230,19 @@ const TableRightSidebar = () => {
       }
 
 
+    }
+
+    function removeTable() {
+      const div = document.getElementById("holderId")
+      const tab = document.getElementsByClassName("tableInput")
+      const tabData = document.getElementsByClassName("droppable")
+
+    
+        if (tab[0].parentElement.classList.contains("holderDIV")) {
+         
+          tabData[0].remove();
+          
+        }
     }
 
 
@@ -262,7 +275,7 @@ const TableRightSidebar = () => {
         </div>
 
         <div className='mt-5 text-center pt-5'>
-          <Button variant="primary" className="px-5">Remove Table</Button>
+          <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
         </div>
       </>
     )

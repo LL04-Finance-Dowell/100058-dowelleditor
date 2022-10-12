@@ -48,9 +48,8 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  const { dropdownName, isDropped, setIsClicked, setSidebar, handleClicked, startDate } = useStateContext();
+  var { dropdownName, isDropped, setIsClicked, setSidebar, handleClicked, startDate, dropdownOptions } = useStateContext();
 
-  console.log(dropdownName);
   function boldCommand() {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
@@ -758,9 +757,7 @@ const MidSection = () => {
         setSidebar(true);
       }
       
-      const tab = document.createElement('table')
-      tab.id = "tab"
-      tab.style.border="1"
+
 
 
       // tableField.appendChild(tab)
@@ -885,13 +882,6 @@ const MidSection = () => {
       selectElement.style.width = "auto";
       selectElement.style.height = "auto";
 
-
-      const options = document.createElement('option');
-      // options.className = "select-options"
-      const items = ["kal", "menz", "Tesla"]
-      options.innerHTML= "Enter List Items"
-
-      selectElement.add(options)
 
       dropdownField.onchange = (event) => {
         event.preventDefault();

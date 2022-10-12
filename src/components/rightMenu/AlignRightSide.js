@@ -34,12 +34,12 @@ const AlignRightSide = () => {
   //   selectedTextRange.surroundContents(strongElement);
   // }
 
-  var changeFontFamily = (font) => {
+  var changeFontFamily = (ev) => {
     const userSelection = window.getSelection();
     const selectedTextRange = userSelection.getRangeAt(0);
 
     console.log(selectedTextRange);
-    selectedTextRange.style.fontFamily= font.value;
+    selectedTextRange.style.fontFamily = `${ev.target.value}`;
   }
 
   const handleBold = () => {
@@ -90,7 +90,16 @@ const AlignRightSide = () => {
     document.execCommand("decreaseFontSize")
   }
 
-  
+
+
+  // const selectElement = document.getElementById('font-sizing');
+
+  // selectElement.addEventListener('change', (event) => {
+  //   const userSelection = window.getSelection();
+  //   const selectedTextRange = userSelection.getRangeAt(0);
+  //   selectedTextRange.style.size = `${event.target.value} pt`;
+  // });
+
 
 
 
@@ -101,42 +110,41 @@ const AlignRightSide = () => {
         <Row className='pt-2'>
           <Col >
             <h6>Font Style</h6>
-            <select onChange="changeFontFamily (this);"  className ='shadow bg-white rounded w-100 h-75'>
+            <select onChange={changeFontFamily} className='shadow bg-white rounded w-100 h-75'>
               <option value="Times New Roman" selected="selected">Times New Roman</option>
               <option value="Arial">Arial</option>
               <option value="fantasy">fantasy</option>
               <option value="cursive">cursive</option>
             </select>
-           
+
           </Col>
         </Row>
 
         <Row className='pt-4'>
           <h6>Font Size</h6>
           <Col>
-            <DropdownButton variant="" id="" title="12" className ='shadow bg-white rounded'>
-              <Dropdown.Item href="#/action-1">8</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">10</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">12</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">14</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">16</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">18</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">20</Dropdown.Item>
-            </DropdownButton>
+            <select className='shadow bg-white rounded w-100 h-75 ' id='font-sizing'>
+              <option value="1" selected="selected">12</option>
+              <option value="2">12</option>
+              <option value="3">14</option>
+              <option value="4">16</option>
+              <option value="5">18</option>
+              <option value="6">20</option>
+            </select>
           </Col>
           <Col>
-            <Button variant="white" onClick={handleIncreaseSize} className ='shadow bg-white rounded'>
+            <Button variant="white" onClick={handleIncreaseSize} className='shadow bg-white rounded'>
               <BiFont onClick={handleIncreaseSize} color='gray' size={16} /> <AiOutlineArrowUp color='gray' size={20} />
             </Button>
           </Col>
           <Col>
-            <Button variant="white" onClick={handleDecreaseSize} className ='shadow bg-white rounded'>
+            <Button variant="white" onClick={handleDecreaseSize} className='shadow bg-white rounded'>
               <BiFont color='gray' size={20} /> <AiOutlineArrowDown color='gray' size={16} />
             </Button>
           </Col>
         </Row>
 
-    <hr />
+        <hr />
         {/* Text formatting row */}
         <Row className='pt-4' >
           <h6>Text Formatting</h6>
@@ -222,7 +230,7 @@ const AlignRightSide = () => {
         <Row className='pt-4'>
           <div className='dropdown'>
             <h6>User permissions</h6>
-            <select  className ='shadow bg-white rounded w-100 h-75'>
+            <select className='shadow bg-white rounded w-100 h-75'>
               <option value="Nothing Selected" selected="selected">Nothing Selected</option>
               <option value="Action">Action</option>
               <option value="Another action">Another action</option>
@@ -230,7 +238,7 @@ const AlignRightSide = () => {
             </select>
           </div>
 
-          
+
           <div className='mt-5 text-center'>
             <Button variant="primary"  >Remove Formatting</Button>
           </div>

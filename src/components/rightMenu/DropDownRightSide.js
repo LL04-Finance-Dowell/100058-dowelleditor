@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -18,32 +18,36 @@ const DropDownRightSide = () => {
     setDropdownName(e.target.value)
   }
 
-  const options = () => {
-    console.log(dropdownOptions);
-    return dropdownOptions.map((option, index) => (
-      <option className='select-options' key={index}>{option}</option>
-    ))
-  }
+  // const options = dropdownOptions.map((option) => (
+  //    <options className='select-options'>{option}</options>
+  //   ))
+
   // Dropdown Items
+
+  const selectionn = document.getElementsByClassName('select-element').item(0)
+  const options = document.createElement('option');
+  for (const [index, a] of dropdownOptions.entries()) {
+    options.value = index;
+    options.innerHTML = a;
+  }
+  useEffect(() => {
+    selectionn.appendChild(options)
+
+  }, [dropdownOptions])
+
 
 
   function handleItemsChange(e) {
     setDropdownItems(e.target.value)
-    options()
-    const selectElement = document.getElementsByClassName('select-element')
-    const dropdownItemsField = document.getElementsByClassName('select-options')
-   
-    console.log(dropdownItemsField);
+
   }
-
-
 
 
   const addOptions = () => {
-    setDropdownOptions([...dropdownOptions, dropdownItems])
-
+    setDropdownOptions([...dropdownOptions, [dropdownItems]])
+    setDropdownItems("")
   }
- 
+
 
   return (
     <div>
@@ -60,6 +64,7 @@ const DropDownRightSide = () => {
       <Form.Control
         type='text'
         placeholder="Add List Items"
+        value={dropdownItems}
         onChange={handleItemsChange}
       />
       <Button variant="primary" className='mt-2 mb-5 w-100' onClick={addOptions}>+</Button>

@@ -5,6 +5,18 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const ImageRightSidebar = () => {
+
+  function removeImage() {
+    const div = document.getElementById("holderId")
+    const tab = document.getElementsByClassName("imageInput")
+
+    if (tab[0].parentElement.classList.contains("holderDIV")) {
+
+      tab[0].style.backgroundImage = '';
+
+    }
+  }
+
   return (
     <>
       <div className='dropdown pt-4'>
@@ -18,7 +30,7 @@ const ImageRightSidebar = () => {
       </div>
 
       <div className='mt-5 text-center pt-5'>
-        <Button variant="primary"  >Remove Image</Button>
+        <Button variant="primary" onClick={removeImage} >Remove Image</Button>
       </div>
     </>
   )

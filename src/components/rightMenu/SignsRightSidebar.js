@@ -23,6 +23,7 @@ const SignsRightSidebar = () => {
 
 
 
+
   const save = () => {
     data = sigPad.current.getTrimmedCanvas().toDataURL('image/png');
 
@@ -35,7 +36,16 @@ const SignsRightSidebar = () => {
     console.log(signImage);
   }
 
+  function removeSign() {
+    const div = document.getElementById("holderId")
+    const tab = document.getElementsByClassName("signInput")
 
+    if (tab[0].parentElement.classList.contains("holderDIV")) {
+
+      tab[0].innerHTML = 'Place your signature here';
+
+    }
+  }
 
 
   return (
@@ -69,7 +79,7 @@ const SignsRightSidebar = () => {
 
 
       <div className='mt-5 '>
-        <Button variant="primary"  >Remove Signature</Button>
+        <Button variant="primary" onClick={removeSign} >Remove Signature</Button>
       </div>
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
     </div>

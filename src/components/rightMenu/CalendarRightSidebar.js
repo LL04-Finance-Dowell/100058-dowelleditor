@@ -20,8 +20,17 @@ const CalendarRightSidebar = (props) => {
     document.getElementsByClassName('dateInput').item(0).innerHTML = startDate.toLocaleDateString();
   }
 
+  function removeDate() {
+    const div = document.getElementById("holderId")
+    const tab = document.getElementsByClassName("dateInput")
 
-  // console.log(startDate.toLocaleDateString())
+    if (tab[0].parentElement.classList.contains("holderDIV")) {
+
+      tab[0].innerHTML = 'Date';
+
+    }
+  }
+
 
   return (
     <div>
@@ -59,7 +68,7 @@ const CalendarRightSidebar = (props) => {
 
 
       <div className='mt-5 text-center'>
-        <Button variant="primary"  >Remove Signature</Button>
+        <Button variant="primary" onClick={removeDate} >Remove Date</Button>
       </div>
       {/* <p>{startDate && startDate.toLocaleDateString()}</p> */}
     </div>
