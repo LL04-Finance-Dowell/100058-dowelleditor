@@ -239,10 +239,12 @@ const TableRightSidebar = () => {
 
     
         if (tab[0].parentElement.classList.contains("holderDIV")) {
-         
           tabData[0].remove();
-          
         }
+
+        // if(div.firstElementChild.className ==="tableInput") {
+        //   div.remove();
+        // }
     }
 
 
