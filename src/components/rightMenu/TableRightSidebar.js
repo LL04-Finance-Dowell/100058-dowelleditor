@@ -238,13 +238,13 @@ const TableRightSidebar = () => {
       const tabData = document.getElementsByClassName("droppable")
 
     
-        if (tab[0].parentElement.classList.contains("holderDIV")) {
-          tabData[0].remove();
-        }
-
-        // if(div.firstElementChild.className ==="tableInput") {
-        //   div.remove();
+        // if (tab[0].parentElement.classList.contains("holderDIV")) {
+        //   tabData[0].remove();
         // }
+
+        if(div.childNodes[0].classList.contains("tableInput") ) {
+          div.remove();
+        }
     }
 
 
