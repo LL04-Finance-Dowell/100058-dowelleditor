@@ -102,13 +102,7 @@ export const onDrop = (event) => {
   
 }
 
-export const dragOver = (event) => {
-  const isLink = event.dataTransfer.types.includes("text/plain");
-  if (isLink) {
-    event.preventDefault();
-    console.log("drag over");
-  }
-}
+
 const LeftMenu = ({ showSidebar }) => {
 
   const alignRef = useRef(null);

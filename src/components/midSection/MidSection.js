@@ -10,7 +10,6 @@ import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
 
-import { dragOver } from "../leftMenu/LeftMenu";
 import TextBox from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/contextProvider";
 
@@ -416,6 +415,8 @@ const MidSection = () => {
     holderDIV.style.display = 'flex';
     holderDIV.style.flexDirection = 'column';
 
+    holderDIV.tabIndex = "1";
+
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
@@ -452,12 +453,26 @@ const MidSection = () => {
     }
     // }
 
-    holderDIV.append(holderMenu);
-
-    holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
 
 
-    holderDIV.style.border = '2px solid gray';
+
+    holderDIV.style.border = '2px dotted gray';
+
+    holderDIV.addEventListener("focus", function (e) {
+      console.log('focussed');
+      holderDIV.append(holderMenu);
+
+      holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
+    })
+
+    holderDIV.addEventListener("focusout", function (e) {
+      holderMenu.remove()
+      resizerTL.remove()
+      resizerTR.remove()
+      resizerBL.remove()
+      resizerBR.remove()
+
+    })
 
     // if (!isTemplate) {
     //   if (currUser == measure.auth_user) {
@@ -596,6 +611,18 @@ const MidSection = () => {
   const chooseFileClick = () => {
     const addImageButtonInput = document.getElementsByClassName("addImageButtonInput")
     addImageButtonInput.item(0).click()
+  }
+
+  const dragOver = (event) => {
+    const isLink = event.dataTransfer.types.includes("text/plain");
+    if (isLink) {
+      event.preventDefault();
+      console.log("drag over");
+      setSidebar(false);
+      setIsClicked(false);
+      setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
+
+    }
   }
 
 
@@ -1099,7 +1126,7 @@ const MidSection = () => {
 
     <div className="midSection" >
       <Container as="div" ref={midSectionRef} className="midSection_container"
-       onDragOver={dragOver}
+        onDragOver={dragOver}
         onDrop={onDrop}
 
       >

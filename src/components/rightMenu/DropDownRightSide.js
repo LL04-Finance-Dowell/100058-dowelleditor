@@ -18,9 +18,7 @@ const DropDownRightSide = () => {
     setDropdownName(e.target.value)
   }
 
-  // const options = dropdownOptions.map((option) => (
-  //    <options className='select-options'>{option}</options>
-  //   ))
+
 
   // Dropdown Items
 
@@ -46,6 +44,19 @@ const DropDownRightSide = () => {
   const addOptions = () => {
     setDropdownOptions([...dropdownOptions, [dropdownItems]])
     setDropdownItems("")
+  }
+
+  function removeDropdownItems() {
+    const div = document.getElementById("holderId")
+    const dropdown = document.getElementsByClassName("dropdownInput")
+
+      if (dropdown[0].parentElement.classList.contains("holderDIV")) {
+        dropdownItems.remove()
+      }
+
+      // if(div.firstElementChild.className ==="tableInput") {
+      //   div.remove();
+      // }
   }
 
 
@@ -81,7 +92,7 @@ const DropDownRightSide = () => {
 
       <div />
       <div>
-        <Button variant="primary" className='mt-5'>Remove Dropdown</Button>
+        <Button onClick={removeDropdownItems} variant="primary" className='mt-5'>Remove Dropdown Items</Button>
       </div>
     </div>
   )
