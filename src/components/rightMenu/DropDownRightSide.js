@@ -46,17 +46,8 @@ const DropDownRightSide = () => {
     setDropdownItems("")
   }
 
-  function removeDropdownItems() {
-    const div = document.getElementById("holderId")
-    const dropdown = document.getElementsByClassName("dropdownInput")
-
-      if (dropdown[0].parentElement.classList.contains("holderDIV")) {
-        dropdownItems.remove()
-      }
-
-      // if(div.firstElementChild.className ==="tableInput") {
-      //   div.remove();
-      // }
+  function removeDropdown() {
+    document.querySelector('.focussedd').remove()
   }
 
 
@@ -92,7 +83,7 @@ const DropDownRightSide = () => {
 
       <div />
       <div>
-        <Button onClick={removeDropdownItems} variant="primary" className='mt-5'>Remove Dropdown Items</Button>
+        <Button onClick={removeDropdown} variant="primary" className='mt-5'>Remove Dropdown</Button>
       </div>
     </div>
   )

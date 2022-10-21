@@ -60,72 +60,18 @@ const MidSection = () => {
   const midSectionRef = useRef(null);
 
 
-
+console.log(document.querySelector( '.focussedd' ));
 
 
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
-      const holderDIV = document.getElementsByClassName("holderDIV").item(0)
+      const holderDIV = document.getElementsByClassName("holderDIV")
       const holderr = document.getElementsByClassName("holder-menu")
       const resizerr = document.getElementsByClassName("resizeBtn")
       if (event.target === midSectionRef.current) {
-        // holderr.item(0).style.display = 'none'
-        // holderr.item(1).style.display = 'none'
-        // holderr.item(2).style.display = 'none'
-        // holderr.item(3).style.display = 'none'
-        // holderr.item(4).style.display = 'none'
-        // holderr.item(5).style.display = 'none'
-        // holderr.item(6).style.display = 'none'
-        // holderr.item(7).style.display = 'none'
-        // holderr.item(8).style.display = 'none'
-        // holderr.item(9).style.display = 'none'
-        // holderr.item(10).style.display = 'none'
-        // resizerr.item(0).style.display = 'none'
-        // resizerr.item(1).style.display = 'none'
-        // resizerr.item(2).style.display = 'none'
-        // resizerr.item(3).style.display = 'none'
-        // resizerr.item(4).style.display = 'none'
-        // resizerr.item(5).style.display = 'none'
-        // resizerr.item(6).style.display = 'none'
-        // resizerr.item(7).style.display = 'none'
-        // resizerr.item(8).style.display = 'none'
-        // resizerr.item(9).style.display = 'none'
-        // resizerr.item(10).style.display = 'none'
-        // resizerr.item(11).style.display = 'none'
-        // resizerr.item(12).style.display = 'none'
-        // resizerr.item(13).style.display = 'none'
-        // resizerr.item(14).style.display = 'none'
-        // resizerr.item(15).style.display = 'none'
-        // resizerr.item(16).style.display = 'none'
-        // resizerr.item(17).style.display = 'none'
-        // resizerr.item(18).style.display = 'none'
-        // resizerr.item(19).style.display = 'none'
-        // resizerr.item(20).style.display = 'none'
-        // resizerr.item(21).style.display = 'none'
-        // resizerr.item(22).style.display = 'none'
-        // resizerr.item(23).style.display = 'none'
-        // resizerr.item(24).style.display = 'none'
-        // resizerr.item(25).style.display = 'none'
-        // resizerr.item(26).style.display = 'none'
-        // resizerr.item(27).style.display = 'none'
-        // resizerr.item(28).style.display = 'none'
-        // resizerr.item(29).style.display = 'none'
-        // resizerr.item(30).style.display = 'none'
-        // resizerr.item(31).style.display = 'none'
-        // resizerr.item(32).style.display = 'none'
-        // resizerr.item(33).style.display = 'none'
-        // resizerr.item(34).style.display = 'none'
-        // resizerr.item(35).style.display = 'none'
-        // resizerr.item(36).style.display = 'none'
-        // resizerr.item(37).style.display = 'none'
-        // resizerr.item(38).style.display = 'none'
-        // resizerr.item(39).style.display = 'none'
-        // resizerr.item(40).style.display = 'none'
-        // resizerr.item(41).style.display = 'none'
-        // resizerr.item(42).style.display = 'none'
-        // resizerr.item(43).style.display = 'none'
-        // resizerr.item(44).style.display = 'none'
-
+        // holderDIV.classList.remove('focussedd')
+        document.querySelector( '.focussedd' ).classList.remove('focussedd')
+        document.querySelector('.focussed').classList.remove('focussed')
         setSidebar(false);
         setIsClicked(false);
         setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
@@ -459,13 +405,17 @@ const MidSection = () => {
     holderDIV.style.border = '2px dotted gray';
 
     holderDIV.addEventListener("focus", function (e) {
-      console.log('focussed');
+      
+      holderDIV.classList.add('focussedd')
       holderDIV.append(holderMenu);
 
       holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
     })
 
+
+
     holderDIV.addEventListener("focusout", function (e) {
+      // holderDIV.classList.remove('focussedd')
       holderMenu.remove()
       resizerTL.remove()
       resizerTR.remove()
@@ -618,6 +568,8 @@ const MidSection = () => {
     if (isLink) {
       event.preventDefault();
       console.log("drag over");
+      document.querySelector( '.focussedd' ).classList.remove('focussedd')
+      document.querySelector('.focussed').classList.remove('focussed')
       setSidebar(false);
       setIsClicked(false);
       setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
@@ -702,6 +654,7 @@ const MidSection = () => {
       inputField.onclick = () => {
         handleClicked('align2')
         setSidebar(true);
+        holderDIV.classList.add('focussedd')
       }
       holderDIV.append(inputField);
     }
@@ -720,6 +673,7 @@ const MidSection = () => {
 
 
       imageField.onclick = () => {
+        imageField.classList.add('focussed')
         handleClicked('image2')
         setSidebar(true);
       }
@@ -740,7 +694,7 @@ const MidSection = () => {
 
         reader.addEventListener('load', () => {
           uploadedImage = reader.result;
-          imageField.style.backgroundImage = `url(${uploadedImage})`;
+          document.querySelector('.focussed').style.backgroundImage = `url(${uploadedImage})`;
         })
         reader.readAsDataURL(imgBtn.files[0]);
         if (imgBtn.files[0]) {
@@ -839,6 +793,7 @@ const MidSection = () => {
       }
 
       tableField.onclick = () => {
+        tableField.classList.add('focussed')
         handleClicked('table2')
         setSidebar(true);
       }
@@ -890,6 +845,7 @@ const MidSection = () => {
       }
 
       signField.onclick = () => {
+        signField.classList.add('focussed')
         handleClicked('signs2')
         setSidebar(true);
       }
@@ -936,6 +892,7 @@ const MidSection = () => {
       }
 
       dateField.onclick = () => {
+        dateField.classList.add('focussed')
         handleClicked('calendar2')
         setSidebar(true);
       }
@@ -994,6 +951,7 @@ const MidSection = () => {
       }
 
       dropdownField.onclick = () => {
+        dropdownField.classList.add('focussed')
         handleClicked('dropdown2')
         setSidebar(true);
       }

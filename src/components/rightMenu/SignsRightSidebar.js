@@ -31,20 +31,18 @@ const SignsRightSidebar = () => {
 
     const signImage = `<img src=${data} />`
 
+    const sign = document.querySelector('.focussed')
+    if (sign.parentElement.classList.contains("focussedd")) {
+      document.querySelector('.focussed').innerHTML = signImage
+    }
 
-    document.getElementsByClassName('signInput').item(0).innerHTML = signImage
+
     console.log(signImage);
   }
 
+
   function removeSign() {
-    const div = document.getElementById("holderId")
-    const tab = document.getElementsByClassName("signInput")
-
-    if (tab[0].parentElement.classList.contains("holderDIV")) {
-
-      tab[0].innerHTML = 'Place your signature here';
-
-    }
+    document.querySelector('.focussedd').remove()
   }
 
 

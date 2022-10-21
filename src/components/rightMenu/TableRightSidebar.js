@@ -37,7 +37,7 @@ const TableRightSidebar = () => {
 
       document.getElementsByClassName("dropp").item(0).append(inputField);
     } else if (typeOfOperation === "IMAGE_INPUT") {
-      
+
       let imageField = document.createElement('div');
       imageField.className = "imageInput";
       imageField.style.width = "100%";
@@ -98,7 +98,7 @@ const TableRightSidebar = () => {
 
       document.getElementsByClassName("dropp").item(0).append(signField);
 
-    } else if  (typeOfOperation === "DATE_INPUT") {
+    } else if (typeOfOperation === "DATE_INPUT") {
       let dateField = document.createElement('div');
       dateField.className = "dateInput";
       dateField.style.width = "100%";
@@ -116,171 +116,174 @@ const TableRightSidebar = () => {
         setSidebar(true);
       }
 
-    document.getElementsByClassName("dropp").item(0).append(dateField);
+      document.getElementsByClassName("focussedd").item(0).append(dateField);
 
     }
 
   }
 
-    function makeTable() {
-      var table = document.createElement('table')
-      table.style.border = "2"
-      table.id = 'table'
-      table.className = 'droppable'
-      var row = document.getElementById('rows').value
-      var col = document.getElementById('cols').value
+  function makeTable() {
+    var table = document.createElement('table')
+    table.style.border = "2"
+    table.id = 'table'
+    table.className = 'droppable'
+    var row = document.getElementById('rows').value
+    var col = document.getElementById('cols').value
 
-      var tableDiv = document.getElementsByClassName('tableInput')
+    var tableDiv = document.querySelector('.focussed')
 
-      console.log(table);
-      for (var rowIndex = 0; rowIndex < row; rowIndex++) {
-        var tr = document.createElement('tr')
+    console.log(table);
+    for (var rowIndex = 0; rowIndex < row; rowIndex++) {
+      var tr = document.createElement('tr')
 
-        for (var colIndex = 0; colIndex < col; colIndex++) {
-          var td = document.createElement('td')
-          td.className = "dropp"
-          // var text = document.createTextNode("Canel "+colIndex)
-          // td.innerHTML = "Canel " + `${colIndex}`
-          tr.appendChild(td)
-        }
-
-        table.appendChild(tr)
-
-        tableDiv[0].appendChild(table)
-
-        var tablee = document.getElementById('table')
-        var cells = tablee.getElementsByTagName('td')
-
-
-        for (var i = 0; i < cells.length; i++) {
-          cells[i].ondragover = function (e) {
-            e.preventDefault();
-            const afterElement = getDragAfterElement(cells[i], e.clientY)
-            console.log(afterElement);
-            const draggable = document.querySelector('.dragging')
-            cells[i].appendChild(draggable)
-          }
-
-          function getDragAfterElement(container, y){
-            const droppableCells = [... document.querySelectorAll('.dropp')]
-
-            return droppableCells.reduce((closest, child) => {
-              const box = td.getBoundingClientRect()
-              const offset = y - box.top - box.height / 2
-              console.log(box);
-              console.log(offset);
-              if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child}
-              } else {
-                return closest
-              }
-            }, { offset: Number.NEGATIVE_INFINITY}).element
-          }
-          cells[i].onclick = function () {
-            if (this.hasAttribute('data-clicked')) {
-              return;
-            }
-            this.setAttribute('data-clicked', 'yes')
-            this.setAttribute('data-text', this.innerHtml);
-
-            var input = document.createElement('input')
-            input.setAttribute('type', 'text')
-            input.value = this.innerHtml;
-            input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
-            input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
-            input.style.border = "0px";
-            input.style.fontFamily = "inherit"
-            input.style.fontSize = "inherit"
-            input.style.textAlign = "inherit"
-            input.style.backgroundColor = "LightGoldenRodYellow";
-
-            input.onblur = function () {
-              var td = input.parentElement;
-              var org_text = input.parentElement.getAttribute('data-text');
-              var current_text = this.value;
-
-              if (org_text != current_text) {
-                td.removeAttribute('data-clicked')
-                td.removeAttribute('data-text')
-                td.innerHTML = current_text;
-                td.style.cssText = 'padding: 5px';
-
-              } else {
-                td.removeAttribute('data-clicked')
-                td.removeAttribute('data-text')
-                td.innerHTML = org_text;
-                td.style.cssText = 'padding: 5px';
-              }
-            }
-
-            input.onkeydown = function (event) {
-              if (event.keyCode == 13) {
-                this.onblur();
-              }
-            }
-            this.innerHtml = ''
-            this.style.cssText = 'padding: 0px 0px';
-            this.append(input)
-            this.firstElementChild.select()
-          }
-
-          cells[i].ondrop = handleDropp
-        }
-
+      for (var colIndex = 0; colIndex < col; colIndex++) {
+        var td = document.createElement('td')
+        td.className = "dropp"
+        // var text = document.createTextNode("Canel "+colIndex)
+        // td.innerHTML = "Canel " + `${colIndex}`
+        tr.appendChild(td)
       }
 
+      table.appendChild(tr)
 
-    }
+      tableDiv.appendChild(table)
 
-    function removeTable() {
-      const div = document.getElementById("holderId")
-      const tab = document.getElementsByClassName("tableInput")
-      const tabData = document.getElementsByClassName("droppable")
+      var tablee = document.getElementById('table')
+      var cells = tablee.getElementsByTagName('td')
 
-    
-        // if (tab[0].parentElement.classList.contains("holderDIV")) {
-        //   tabData[0].remove();
-        // }
 
-        if(div.childNodes[0].classList.contains("tableInput") ) {
-          div.remove();
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].ondragover = function (e) {
+          e.preventDefault();
+          const afterElement = getDragAfterElement(cells[i], e.clientY)
+          console.log(afterElement);
+          const draggable = document.querySelector('.dragging')
+          cells[i].appendChild(draggable)
         }
+
+        function getDragAfterElement(container, y) {
+          const droppableCells = [...document.querySelectorAll('.dropp')]
+
+          return droppableCells.reduce((closest, child) => {
+            const box = td.getBoundingClientRect()
+            const offset = y - box.top - box.height / 2
+            console.log(box);
+            console.log(offset);
+            if (offset < 0 && offset > closest.offset) {
+              return { offset: offset, element: child }
+            } else {
+              return closest
+            }
+          }, { offset: Number.NEGATIVE_INFINITY }).element
+        }
+        cells[i].onclick = function () {
+          if (this.hasAttribute('data-clicked')) {
+            return;
+          }
+          this.setAttribute('data-clicked', 'yes')
+          this.setAttribute('data-text', this.innerHtml);
+
+          var input = document.createElement('input')
+          input.setAttribute('type', 'text')
+          input.value = this.innerHtml;
+          input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
+          input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
+          input.style.border = "0px";
+          input.style.fontFamily = "inherit"
+          input.style.fontSize = "inherit"
+          input.style.textAlign = "inherit"
+          input.style.backgroundColor = "LightGoldenRodYellow";
+
+          input.onblur = function () {
+            var td = input.parentElement;
+            var org_text = input.parentElement.getAttribute('data-text');
+            var current_text = this.value;
+
+            if (org_text != current_text) {
+              td.removeAttribute('data-clicked')
+              td.removeAttribute('data-text')
+              td.innerHTML = current_text;
+              td.style.cssText = 'padding: 5px';
+
+            } else {
+              td.removeAttribute('data-clicked')
+              td.removeAttribute('data-text')
+              td.innerHTML = org_text;
+              td.style.cssText = 'padding: 5px';
+            }
+          }
+
+          input.onkeydown = function (event) {
+            if (event.keyCode == 13) {
+              this.onblur();
+            }
+          }
+          this.innerHtml = ''
+          this.style.cssText = 'padding: 0px 0px';
+          this.append(input)
+          this.firstElementChild.select()
+        }
+
+        cells[i].ondrop = handleDropp
+      }
+
     }
 
 
-
-    // document.getElementById('make').addEventListener("click", makeTable)
-    return (
-      <>
-        <div>
-          <h6 className='pt-4'>Table Size</h6>
-          <Form.Label>Enter Number of rows</Form.Label>
-          <Form.Control type='number' placeholder="" min="1" id='rows' className='shadow bg-white rounded mb-4' />
-
-
-          <Form.Label>Enter Number of columns</Form.Label>
-
-          <Form.Control type='number' placeholder="" min="1" id='cols' className='shadow bg-white rounded mb-4' />
-        </div>
-
-        <button onClick={makeTable}>Create Table</button>
-
-
-        <div className='dropdown pt-4'>
-          <h6>User permissions</h6>
-          <select className='shadow bg-white rounded w-100 h-75'>
-            <option value="Nothing Selected" selected="selected">Nothing Selected</option>
-            <option value="Action">Action</option>
-            <option value="Another action">Another action</option>
-            <option value="Something else">Something else</option>
-          </select>
-        </div>
-
-        <div className='mt-5 text-center pt-5'>
-          <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
-        </div>
-      </>
-    )
   }
 
-  export default TableRightSidebar
+  function removeTable() {
+    // const div = document.getElementById("holderId")
+    // const tab = document.getElementsByClassName("tableInput")
+    // const tabData = document.getElementsByClassName("droppable")
+    document.querySelector('.focussedd').remove()
+    // if (tab[0].parentElement.classList.contains("holderDIV")) {
+    //   tabData[0].remove();
+    // }
+
+    // if (div.childNodes[0].classList.contains("tableInput")) {
+    //   div.focus() 
+    // }
+
+    // if(div.focus){
+    //   document.activeElement.remove()
+    // }
+  }
+
+
+
+  // document.getElementById('make').addEventListener("click", makeTable)
+  return (
+    <>
+      <div>
+        <h6 className='pt-4'>Table Size</h6>
+        <Form.Label>Enter Number of rows</Form.Label>
+        <Form.Control type='number' placeholder="" min="1" id='rows' className='shadow bg-white rounded mb-4' />
+
+
+        <Form.Label>Enter Number of columns</Form.Label>
+
+        <Form.Control type='number' placeholder="" min="1" id='cols' className='shadow bg-white rounded mb-4' />
+      </div>
+
+      <button onClick={makeTable}>Create Table</button>
+
+
+      <div className='dropdown pt-4'>
+        <h6>User permissions</h6>
+        <select className='shadow bg-white rounded w-100 h-75'>
+          <option value="Nothing Selected" selected="selected">Nothing Selected</option>
+          <option value="Action">Action</option>
+          <option value="Another action">Another action</option>
+          <option value="Something else">Something else</option>
+        </select>
+      </div>
+
+      <div className='mt-5 text-center pt-5'>
+        <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
+      </div>
+    </>
+  )
+}
+
+export default TableRightSidebar

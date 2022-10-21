@@ -14,7 +14,7 @@ const Header = () => {
     document.execCommand("redo")
   }
   const handleCut = () => {
-    document.execCommand("cut")
+      document.querySelector('.focussedd').remove()
   }
   const handleCopy = () => {
     document.execCommand("copy")

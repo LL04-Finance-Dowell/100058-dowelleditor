@@ -7,14 +7,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 const ImageRightSidebar = () => {
 
   function removeImage() {
-    const div = document.getElementById("holderId")
-    const tab = document.getElementsByClassName("imageInput")
-
-    if (tab[0].parentElement.classList.contains("holderDIV")) {
-
-      tab[0].style.backgroundImage = '';
-
-    }
+    document.querySelector('.focussedd').remove()
   }
 
   return (

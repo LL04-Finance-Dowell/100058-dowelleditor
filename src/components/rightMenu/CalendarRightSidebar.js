@@ -16,19 +16,14 @@ const CalendarRightSidebar = (props) => {
 
   const { startDate, setStartDate } = useStateContext();
 
-  if (startDate) {
-    document.getElementsByClassName('dateInput').item(0).innerHTML = startDate.toLocaleDateString();
+  const date = document.querySelector('.focussed')
+  if (date.parentElement.classList.contains("focussedd")) {
+    date.innerHTML =startDate && startDate.toLocaleDateString();
+    // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
   }
 
   function removeDate() {
-    const div = document.getElementById("holderId")
-    const tab = document.getElementsByClassName("dateInput")
-
-    if (tab[0].parentElement.classList.contains("holderDIV")) {
-
-      tab[0].innerHTML = 'Date';
-
-    }
+    document.querySelector('.focussedd').remove()
   }
 
 
