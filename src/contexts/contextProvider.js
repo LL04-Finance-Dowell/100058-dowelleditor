@@ -56,6 +56,10 @@ export const ContextProvider = ({ children }) => {
     const [sidebar, setSidebar] = useState(false);
     // const showSidebar = () => setSidebar(!sidebar);
 
+    //handling new pages
+
+    const [item, setItem] = useState(['div'])
+
 
 
     return (
@@ -77,6 +81,7 @@ export const ContextProvider = ({ children }) => {
                 dropdownLabel, setDropdownLabel,
                 dropdownItems, setDropdownItems,
                 dropdownOptions, setDropdownOptions,
+                item, setItem,
             }}
         >
             {children}

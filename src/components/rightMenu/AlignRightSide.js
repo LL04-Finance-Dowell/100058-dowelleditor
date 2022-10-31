@@ -201,10 +201,10 @@ const AlignRightSide = () => {
 
     <div className='align'>
       <Container fluid className='m-0 p-0' >
-        <Row className='pt-2'>
+        <Row className='pt-0'>
           <Col >
             <h6>Font Style</h6>
-            <select id="select_font" className='shadow bg-white rounded w-100 h-75' onChange={changeFont}>
+            <select id="select_font" className='shadow bg-white rounded w-100 h-50' onChange={changeFont}>
             <option value="Arial">Arial</option>
             <option value="Sans Serif" selected>Sans Serif</option>
             <option value="Comic Sans MS">Comic Sans MS</option>
@@ -244,48 +244,48 @@ const AlignRightSide = () => {
           </Col>
           <Col>
             <Button variant="white" onClick={handleDecreaseSize} className='shadow bg-white rounded'>
-              <BiFont color='gray' size={20} /> <AiOutlineArrowDown color='gray' size={16} />
+              <BiFont color='gray' size={16} /> <AiOutlineArrowDown color='gray' size={16} />
             </Button>
           </Col>
         </Row>
 
         <hr />
         {/* Text formatting row */}
-        <Row className='pt-4' >
+        <Row className='pt-0' >
           <h6>Text Formatting</h6>
           <Col>
-            <Button onClick={handleBold} variant='white'><FaBold color='gray' size={20} /></Button>
+            <Button onClick={handleBold} variant='white'><FaBold color='gray' size={16} /></Button>
           </Col>
 
           <Col>
-            <Button onClick={handleItalic} variant='white'><FaItalic color='gray' size={20} /></Button>
+            <Button onClick={handleItalic} variant='white'><FaItalic color='gray' size={16} /></Button>
           </Col>
 
           <Col>
-            <Button onClick={handleUnderline} variant='white'><FaUnderline color='gray' size={20} /></Button>
+            <Button onClick={handleUnderline} variant='white'><FaUnderline color='gray' size={16} /></Button>
           </Col>
 
           <Col>
-            <Button onClick={handleStrikethrough} variant='white'><FaStrikethrough color='gray' size={20} /></Button>
+            <Button onClick={handleStrikethrough} variant='white'><FaStrikethrough color='gray' size={16} /></Button>
           </Col>
         </Row>
         <hr />
 
         {/* Text color */}
-        <Row className='pt-4'>
+        <Row className='pt-0'>
           <h6>Text Color</h6>
           <Col>
-            <Button variant='white' onClick={showColorInput}><AiOutlineFontColors color='purple' size={30}  /></Button>
+            <Button variant='white' onClick={showColorInput}><AiOutlineFontColors color='purple' size={20}  /></Button>
             <input type="color" id="colorInputColor" onChange={changeFontColor} style={{display: "none"}}/>
           </Col>
 
           <Col>
-            <Button variant='white' onClick={showTBgColorInput}><MdBorderColor color='green' size={25} /></Button>
+            <Button variant='white' onClick={showTBgColorInput}><MdBorderColor color='green' size={20} /></Button>
             <input type="color" id="colorTBgInputColor" onChange={changeFontTBgColor} style={{display: "none"}}/>
           </Col>
 
           <Col>
-            <Button variant='white' onClick={showBgColorInput}><MdFormatColorFill color='blue' size={25} /></Button>
+            <Button variant='white' onClick={showBgColorInput}><MdFormatColorFill color='blue' size={20} /></Button>
             <input type="color" id="colorBgInputColor" onChange={changeBgColor} style={{display: "none"}}/>
           </Col>
         </Row>
@@ -293,9 +293,9 @@ const AlignRightSide = () => {
         <hr />
 
         {/* Text alignment */}
-        <Row className='pt-4'>
+        <Row className='pt-0'>
           <h6>Text Alignment</h6>
-          <Col className='mx-0 p-0' >
+          <Col className='mx-0 p-0 ' >
             <Button onClick={handleLeftAlign} variant='white'><BiAlignLeft color='gray' size={20} /></Button>
           </Col>
 
@@ -335,10 +335,10 @@ const AlignRightSide = () => {
 
         <hr />
 
-        <Row className='pt-4'>
+        <Row className='pt-0'>
           <div className='dropdown'>
             <h6>User permissions</h6>
-            <select className='shadow bg-white rounded w-100 h-75'>
+            <select className='shadow bg-white rounded w-100 h-50'>
               <option value="Nothing Selected" selected="selected">Nothing Selected</option>
               <option value="Action">Action</option>
               <option value="Another action">Another action</option>
@@ -347,7 +347,7 @@ const AlignRightSide = () => {
           </div>
 
 
-          <div className='mt-5 text-center'>
+          <div className='mt-3 text-center'>
             <Button variant="primary"  >Remove Formatting</Button>
           </div>
 

@@ -36,7 +36,7 @@ const RightMenu = () => {
 
   
   return (
-    <div>
+    <div className='fixed3'>
       { isClicked.align2 &&  <AlignRightSide />  } 
       { isClicked.image2 && <ImageRightSidebar  />  }
       { isClicked.table2 && <TableRightSidebar  />  }

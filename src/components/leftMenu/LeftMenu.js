@@ -33,47 +33,69 @@ const dragStartAlign = e => {
   e.dataTransfer.setData("text/plain", "TEXT_INPUT");
   element.classList.add("dragging")
   console.log('drag start fumb');
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartTextF = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "TEXT_FILL");
   element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartImage = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "IMAGE_INPUT");
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartTable = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "TABLE_INPUT");
   element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartSigns = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "SIGN_INPUT");
   element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartCalendar = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "DATE_INPUT");
   element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragStartDropdown = e => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData("text/plain", "DROPDOWN_INPUT");
   element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
 }
 
 const dragEndFunc = () => {
   const element = document.getElementById('draggable');
   element.classList.remove('dragging')
   console.log('dragend func');
+  
 }
 
 
@@ -118,7 +140,7 @@ const dropdownRef = useRef(null);
 
   const { handleDrop } = useStateContext()
   return (
-    <div className="leftMenu">
+    <div className="leftMenu fixed2">
 
       <NavButton dragStartFunc={dragStartAlign} customFunc={() => handleDrop('align')} icon={editSecOptions[0].icon} />
       <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} />

@@ -47,7 +47,12 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  var { dropdownName, isDropped, isClicked, setIsClicked, setSidebar, handleClicked, startDate, dropdownOptions } = useStateContext();
+  var { dropdownName, isDropped, isClicked, setIsClicked, setSidebar, handleClicked, startDate, dropdownOptions, item, setItem } = useStateContext();
+
+
+
+
+
 
   function boldCommand() {
     const strongElement = document.createElement("strong");
@@ -60,7 +65,7 @@ const MidSection = () => {
   const midSectionRef = useRef(null);
 
 
-console.log(document.querySelector( '.focussedd' ));
+  console.log(document.querySelector('.mi'));
 
 
   useEffect(() => {
@@ -69,8 +74,9 @@ console.log(document.querySelector( '.focussedd' ));
       const holderr = document.getElementsByClassName("holder-menu")
       const resizerr = document.getElementsByClassName("resizeBtn")
       if (event.target === midSectionRef.current) {
+       
         // holderDIV.classList.remove('focussedd')
-        document.querySelector( '.focussedd' ).classList.remove('focussedd')
+        document.querySelector('.focussedd').classList.remove('focussedd')
         document.querySelector('.focussed').classList.remove('focussed')
         setSidebar(false);
         setIsClicked(false);
@@ -79,6 +85,9 @@ console.log(document.querySelector( '.focussedd' ));
 
     })
   }, []);
+
+  
+  // document.querySelectorAll('.midSection_container').forEach()
 
   const [postData, setPostData] = useState([])
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
@@ -405,7 +414,7 @@ console.log(document.querySelector( '.focussedd' ));
     holderDIV.style.border = '2px dotted gray';
 
     holderDIV.addEventListener("focus", function (e) {
-      
+
       holderDIV.classList.add('focussedd')
       holderDIV.append(holderMenu);
 
@@ -564,11 +573,13 @@ console.log(document.querySelector( '.focussedd' ));
   }
 
   const dragOver = (event) => {
+
     const isLink = event.dataTransfer.types.includes("text/plain");
     if (isLink) {
       event.preventDefault();
       console.log("drag over");
-      document.querySelector( '.focussedd' ).classList.remove('focussedd')
+      event.currentTarget.classList.add('drop_zone')
+      document.querySelector('.focussedd').classList.remove('focussedd')
       document.querySelector('.focussed').classList.remove('focussed')
       setSidebar(false);
       setIsClicked(false);
@@ -583,6 +594,8 @@ console.log(document.querySelector( '.focussedd' ));
 
   const onDrop = (event) => {
     event.preventDefault();
+
+    // document.querySelector('.drop_zone').classList.remove('drop_zone')
 
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
@@ -655,6 +668,7 @@ console.log(document.querySelector( '.focussedd' ));
         handleClicked('align2')
         setSidebar(true);
         holderDIV.classList.add('focussedd')
+        inputField.classList.add('focussed')
       }
       holderDIV.append(inputField);
     }
@@ -965,7 +979,7 @@ console.log(document.querySelector( '.focussedd' ));
     }
 
 
-    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+    document.querySelector('.drop_zone').append(holderDIV);
 
   }
 
@@ -1079,29 +1093,42 @@ console.log(document.querySelector( '.focussedd' ));
 
 
 
-
   return (
+    <>
+      {item?.map((currentItem, index) => {
+        return <div key={currentItem} className= "midSection">
+          <Container as="div" ref={midSectionRef} className="midSection_container"
+            onDragOver={dragOver}
+            onDrop={onDrop}
+            
+          >
+           
+          </Container>
 
-    <div className="midSection" >
-      <Container as="div" ref={midSectionRef} className="midSection_container"
-        onDragOver={dragOver}
-        onDrop={onDrop}
+        </div>
+      })}
+  </>
 
-      >
-        {/* <button onClick={saveDocument}>
-          Save
-        </button> */}
-        {/* {isDropped.align && <TextBox />}  */}
-        {/* {isDropped.textfill && <TextFill />}   
-        {isDropped.image && <Image />}
-        {isDropped.table && <Table />}
-        {isDropped.signs && <Signs />}
-        {isDropped.calendar && <Calender />}
-        {isDropped.dropdown && <DropDown />}  */}
+    // <div className="midSection" >
+    //   <Container as="div" ref={midSectionRef} className="midSection_container"
+    //     onDragOver={dragOver}
+    //     onDrop={onDrop}
+
+    //   >
+    //     {/* <button onClick={saveDocument}>
+    //       Save
+    //     </button> */}
+    //     {/* {isDropped.align && <TextBox />}  */}
+    //     {/* {isDropped.textfill && <TextFill />}   
+    //     {isDropped.image && <Image />}
+    //     {isDropped.table && <Table />}
+    //     {isDropped.signs && <Signs />}
+    //     {isDropped.calendar && <Calender />}
+    //     {isDropped.dropdown && <DropDown />}  */}
 
 
-      </Container>
-    </div>
+    //   </Container>
+    // </div>
 
   );
 }

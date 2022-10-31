@@ -21,12 +21,13 @@ const EditSection = () => {
 
   const { isClicked, sidebar } = useStateContext();
 
+  const newPageButton = document.querySelector('.new-page-btn')
+  
 
-  // const [sidebar, setSidebar] = useState(false);
-  // const showSidebar = () => setSidebar(!sidebar);
-  // console.log(sidebar);
+  const removePageFocus = () => {
+    document.querySelector('.page_focus').classList.remove('page_focus')
+  }
 
-  // console.log(typeof isClicked.table2);
   return (
     <div className="editSec">
       <Container fluid>
@@ -35,7 +36,7 @@ const EditSection = () => {
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             <LeftMenu />
           </Col>
-          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
+          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec" onClick={removePageFocus}>
             {/* <MidSection showSidebar={showSidebar}/> */}
             <MidSection />
           </Col>
