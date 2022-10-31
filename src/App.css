@@ -72,10 +72,44 @@ textarea{
   width: 300px;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+  min-height: 100px;
+  min-width: 100px;
+}
 
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+th {
+  background-color: #5a5a5a;
+  color: white;
+}
 
+.addImageButtonInput{
+  display: none;
+}
 
+.addImageButton {
+   cursor: pointer;
+    padding:5px 60px;
+    background-color: #2F80ED;
+    color: white;
+    font-size: 14px;
+    align-items: center;
+}
 
+.imageField{
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 5px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 
 

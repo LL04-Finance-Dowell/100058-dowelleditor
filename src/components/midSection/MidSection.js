@@ -10,7 +10,6 @@ import { Container } from "react-bootstrap";
 import "./MidSection.css";
 
 
-import { dragOver } from "../leftMenu/LeftMenu";
 import TextBox from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/contextProvider";
 
@@ -48,7 +47,12 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  const { isDropped, setIsClicked, setSidebar, handleClicked, startDate, signState, bold, italic, underline, strikethrough } = useStateContext();
+  var { dropdownName, isDropped, isClicked, setIsClicked, setSidebar, handleClicked, startDate, dropdownOptions, item, setItem } = useStateContext();
+
+
+
+
+
 
   function boldCommand() {
     const strongElement = document.createElement("strong");
@@ -60,22 +64,30 @@ const MidSection = () => {
 
   const midSectionRef = useRef(null);
 
-  const getDate = () => {
-    let Date = startDate.toLocaleDateString()
-    return (
-      Date
-    )
-  }
+
+  console.log(document.querySelector('.mi'));
 
 
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
+      const holderDIV = document.getElementsByClassName("holderDIV")
+      const holderr = document.getElementsByClassName("holder-menu")
+      const resizerr = document.getElementsByClassName("resizeBtn")
       if (event.target === midSectionRef.current) {
+       
+        // holderDIV.classList.remove('focussedd')
+        document.querySelector('.focussedd').classList.remove('focussedd')
+        document.querySelector('.focussed').classList.remove('focussed')
         setSidebar(false);
         setIsClicked(false);
+        setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
       }
+
     })
   }, []);
+
+  
+  // document.querySelectorAll('.midSection_container').forEach()
 
   const [postData, setPostData] = useState([])
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
@@ -99,8 +111,7 @@ const MidSection = () => {
   const fields = searchParams.get('fields');
 
 
-  console.log(d_name);
-  console.log(searchParams.get('col_name'));
+
   const [data, setData] = useState([]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
@@ -111,7 +122,6 @@ const MidSection = () => {
     })
       .then(res => {
         setData(res.data);
-        console.log(res.data);
       }).catch(err => {
         console.log(err);
       }
@@ -125,14 +135,15 @@ const MidSection = () => {
 
 
   useEffect(() => {
-    if(data.title !== undefined){
-    onPost()
-    onParagraphPost()
+    if (data.title !== undefined) {
+      console.log(data);
+      onPost()
+      onParagraphPost()
     } else {
       console.log('loading data');
     }
-    
-  },[data.title])
+
+  }, [data.title])
 
 
 
@@ -359,6 +370,8 @@ const MidSection = () => {
     holderDIV.style.display = 'flex';
     holderDIV.style.flexDirection = 'column';
 
+    holderDIV.tabIndex = "1";
+
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
@@ -395,12 +408,30 @@ const MidSection = () => {
     }
     // }
 
-    holderDIV.append(holderMenu);
-
-    holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
 
 
-    holderDIV.style.border = '2px solid gray';
+
+    holderDIV.style.border = '2px dotted gray';
+
+    holderDIV.addEventListener("focus", function (e) {
+
+      holderDIV.classList.add('focussedd')
+      holderDIV.append(holderMenu);
+
+      holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
+    })
+
+
+
+    holderDIV.addEventListener("focusout", function (e) {
+      // holderDIV.classList.remove('focussedd')
+      holderMenu.remove()
+      resizerTL.remove()
+      resizerTR.remove()
+      resizerBL.remove()
+      resizerBR.remove()
+
+    })
 
     // if (!isTemplate) {
     //   if (currUser == measure.auth_user) {
@@ -431,7 +462,8 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
-    let inputField = document.createElement('textarea');
+    let inputField = document.createElement('div');
+    inputField.setAttribute('contenteditable', true)
     //  inputField.setAttribute('draggable', true);
     inputField.className = "textInput";
     inputField.style.width = "100%";
@@ -443,6 +475,7 @@ const MidSection = () => {
     inputField.style.outline = '0px';
     inputField.style.overflow = 'overlay';
     inputField.style.position = 'relative';
+    inputField.style.cursor = 'text'
     inputField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
@@ -473,8 +506,9 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
-    let paragraphField = document.createElement('textarea');
+    let paragraphField = document.createElement('div');
     //  inputField.setAttribute('draggable', true);
+    paragraphField.setAttribute('contenteditable', true)
     paragraphField.className = "textInput";
     paragraphField.style.width = "100%";
     paragraphField.style.height = "100%";
@@ -485,6 +519,7 @@ const MidSection = () => {
     paragraphField.style.outline = '0px';
     paragraphField.style.overflow = 'overlay';
     paragraphField.style.position = 'relative';
+    paragraphField.style.cursor = 'text'
     paragraphField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
@@ -532,19 +567,43 @@ const MidSection = () => {
   }
 
 
+  const chooseFileClick = () => {
+    const addImageButtonInput = document.getElementsByClassName("addImageButtonInput")
+    addImageButtonInput.item(0).click()
+  }
+
+  const dragOver = (event) => {
+
+    const isLink = event.dataTransfer.types.includes("text/plain");
+    if (isLink) {
+      event.preventDefault();
+      console.log("drag over");
+      event.currentTarget.classList.add('drop_zone')
+      document.querySelector('.focussedd').classList.remove('focussedd')
+      document.querySelector('.focussed').classList.remove('focussed')
+      setSidebar(false);
+      setIsClicked(false);
+      setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
+
+    }
+  }
+
+
 
 
 
   const onDrop = (event) => {
     event.preventDefault();
-    console.log("drop");
+
+    // document.querySelector('.drop_zone').classList.remove('drop_zone')
+
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById('current-user');
 
 
     const measure = {
       width: '200px',
-      height: '60px',
+      height: '80px',
       left: event.clientX - 350 + 'px',
       top: event.clientY - 150 + 'px',
       auth_user: curr_user
@@ -588,7 +647,7 @@ const MidSection = () => {
         };
 
 
-        postData.push(editTextField);
+        // postData.push(editTextField);
         // setPostData({
         //   ...postData,
         //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -608,6 +667,8 @@ const MidSection = () => {
       inputField.onclick = () => {
         handleClicked('align2')
         setSidebar(true);
+        holderDIV.classList.add('focussedd')
+        inputField.classList.add('focussed')
       }
       holderDIV.append(inputField);
     }
@@ -626,16 +687,18 @@ const MidSection = () => {
 
 
       imageField.onclick = () => {
+        imageField.classList.add('focussed')
         handleClicked('image2')
         setSidebar(true);
       }
 
-
-      // const para = document.createElement("p");
-      // para.innerHTML = "Drag and drop image here";
-      // imageField.append(para);
+      const imageButton = document.createElement("div");
+      imageButton.className = "addImageButton"
+      imageButton.innerText = "Choose File"
+      imageButton.onclick = (e) => chooseFileClick(e)
 
       const imgBtn = document.createElement("input");
+      imgBtn.className = "addImageButtonInput"
       imgBtn.type = "file";
       imgBtn.style.objectFit = 'cover';
       var uploadedImage = "";
@@ -645,7 +708,7 @@ const MidSection = () => {
 
         reader.addEventListener('load', () => {
           uploadedImage = reader.result;
-          imageField.style.backgroundImage = `url(${uploadedImage})`;
+          document.querySelector('.focussed').style.backgroundImage = `url(${uploadedImage})`;
         })
         reader.readAsDataURL(imgBtn.files[0]);
         if (imgBtn.files[0]) {
@@ -668,9 +731,9 @@ const MidSection = () => {
 
 
       // imgBtn.style.width = "100%";
-
+      imageButton.append(imgBtn)
       holderDIV.append(imageField);
-      holderDIV.append(imgBtn);
+      holderDIV.append(imageButton);
     }
     else if (typeOfOperation === "TEXT_FILL") {
       let texttField = document.createElement('textarea');
@@ -715,7 +778,7 @@ const MidSection = () => {
       tableField.style.borderRadius = '0px';
       tableField.style.outline = '0px';
       tableField.style.overflow = 'overlay';
-      // tableField.innerHTML = `<table><tr><td>${postData.tableField.value}</td></tr></table>`;
+      // tableField.innerHTML = 'table';
       tableField.style.position = 'absolute';
 
       tableField.onchange = (event) => {
@@ -744,15 +807,19 @@ const MidSection = () => {
       }
 
       tableField.onclick = () => {
+        tableField.classList.add('focussed')
         handleClicked('table2')
         setSidebar(true);
       }
 
 
 
-      const para = document.createElement("p");
-      para.innerHTML = "Table";
-      tableField.append(para);
+
+      // tableField.appendChild(tab)
+
+      // const para = document.createElement("p");
+      // para.innerHTML = "Table";
+      // tableField.append(para);
       holderDIV.append(tableField);
     }
     else if (typeOfOperation === "SIGN_INPUT") {
@@ -792,12 +859,13 @@ const MidSection = () => {
       }
 
       signField.onclick = () => {
+        signField.classList.add('focussed')
         handleClicked('signs2')
         setSidebar(true);
       }
 
       const para = document.createElement("p");
-      para.innerHTML = `${signState.trimmedDataURL ? <img src={signState.trimmedDataURL} alt="sig" /> : 'Signs'}`
+      para.innerHTML = 'Place your signature here'
       signField.append(para);
       holderDIV.append(signField);
     }
@@ -830,7 +898,7 @@ const MidSection = () => {
           }
         };
 
-        postData.push(dateField);
+        // postData.push(dateField);
         // setPostData({
         //   ...postData,
         //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -838,6 +906,7 @@ const MidSection = () => {
       }
 
       dateField.onclick = () => {
+        dateField.classList.add('focussed')
         handleClicked('calendar2')
         setSidebar(true);
       }
@@ -865,6 +934,12 @@ const MidSection = () => {
       // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
       dropdownField.style.position = 'absolute';
 
+      const selectElement = document.createElement('select');
+      selectElement.className = "select-element"
+      selectElement.style.width = "auto";
+      selectElement.style.height = "auto";
+
+
       dropdownField.onchange = (event) => {
         event.preventDefault();
         setPostData({
@@ -890,29 +965,32 @@ const MidSection = () => {
       }
 
       dropdownField.onclick = () => {
+        dropdownField.classList.add('focussed')
         handleClicked('dropdown2')
         setSidebar(true);
       }
 
       const para = document.createElement("p");
-      para.innerHTML = "Dropdown";
+      para.innerHTML = " Dropdown Name"
+      para.className = "dropdownName"
       dropdownField.append(para);
+      dropdownField.append(selectElement);
       holderDIV.append(dropdownField);
     }
 
 
-    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+    document.querySelector('.drop_zone').append(holderDIV);
 
   }
 
-  function saveDocument() {
-    contentFile = [];
-    let page = [];
+  contentFile = [];
+  let page = [];
 
-    let elem = {}
+  let elem = {}
+  function saveDocument() {
+
 
     const txt = document.getElementsByClassName("textInput");
-
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
         elem = {
@@ -924,58 +1002,85 @@ const MidSection = () => {
           data: txt[0].innerHTML,
 
         }
+        page.push(elem)
       }
+    }
 
 
-      const img_input = document.getElementsByTagName("input");
-      if (img_input.length) {
-        console.log('Image_input', img_input[0])
-        if (img_input[0].type === 'file') {
-          elem = {
-            width: getPosition(img_input).right,
-            height: getPosition(img_input).bottom,
-            top: getPosition(img_input).top,
-            left: getPosition(img_input).left,
-            type: 'IMAGE_INPUT',
-            data: img_input[0].value,
-
-          }
-        }
-      }
-
-      const text2 = document.getElementsByClassName("texttInput");
-
-      if (text2.length) {
-        if (text2[0].parentElement.classList.contains("holderDIV")) {
-          elem = {
-            width: getPosition(text2).right,
-            height: getPosition(text2).bottom,
-            top: getPosition(text2).top,
-            left: getPosition(text2).left,
-            type: 'TEXT_INPUT',
-            data: text2[0].innerHTML,
-
-          }
-        }
-      }
-
-      const date = document.getElementsByClassName("dateInput");
-      if (date.length) {
+    const img_input = document.getElementsByTagName("input");
+    if (img_input.length) {
+      console.log('Image_input', img_input[0])
+      if (img_input[0].type === 'file') {
         elem = {
-          width: getPosition(date).right,
-          height: getPosition(date).bottom,
-          top: getPosition(date).top,
-          left: getPosition(date).left,
-          type: 'DATE_INPUT',
-          data: date[0].innerHTML,
+          width: getPosition(img_input).right,
+          height: getPosition(img_input).bottom,
+          top: getPosition(img_input).top,
+          left: getPosition(img_input).left,
+          type: 'IMAGE_INPUT',
+          data: img_input[0].value,
 
         }
+        page.push(elem)
       }
+    }
 
+    const text2 = document.getElementsByClassName("texttInput");
+
+    if (text2.length) {
+      if (text2[0].parentElement.classList.contains("holderDIV")) {
+        elem = {
+          width: getPosition(text2).right,
+          height: getPosition(text2).bottom,
+          top: getPosition(text2).top,
+          left: getPosition(text2).left,
+          type: 'TEXT_FILL',
+          data: text2[0].value,
+
+        }
+        page.push(elem)
+      }
+    }
+
+    const date = document.getElementsByClassName("dateInput");
+    if (date.length) {
+      elem = {
+        width: getPosition(date).right,
+        height: getPosition(date).bottom,
+        top: getPosition(date).top,
+        left: getPosition(date).left,
+        type: 'DATE_INPUT',
+        data: date[0].innerHTML,
+
+      }
+      page.push(elem)
+    }
+    const tablee = document.getElementsByTagName("TABLE")
+    if (tablee.length < 1) {
+      const img = document.getElementsByTagName("img");
+      if (img.length) {
+        const canvas = document.createElement('canvas');
+        canvas.setAttribute('width', document.style.width);
+        canvas.setAttribute('height', document.style.height);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img[0], 0, 0, parseInt(document.style.width.slice(0, -2)), parseInt(document.style.height.slice(0, -2)));
+        elem = {
+          width: getPosition(tablee).style.width,
+          height: getPosition(tablee).style.height,
+          top: getPosition(tablee).style.top,
+          left: getPosition(tablee).style.left,
+          type: 'IMG_INPUT',
+          data: canvas.toDataURL(),
+        }
+        page.push(elem)
+      }
 
     }
 
-    page.push(elem)
+
+
+
+
+
 
 
 
@@ -988,26 +1093,42 @@ const MidSection = () => {
 
 
 
-
   return (
+    <>
+      {item?.map((currentItem, index) => {
+        return <div key={currentItem} className= "midSection">
+          <Container as="div" ref={midSectionRef} className="midSection_container"
+            onDragOver={dragOver}
+            onDrop={onDrop}
+            
+          >
+           
+          </Container>
 
-    <div className="midSection" >
-      <Container as="div" ref={midSectionRef} className="midSection_container" onDragOver={dragOver}
-        onDrop={onDrop}
+        </div>
+      })}
+  </>
 
-      >
-   
-        {/* {isDropped.align && <TextBox />}  */}
-        {/* {isDropped.textfill && <TextFill />}   
-        {isDropped.image && <Image />}
-        {isDropped.table && <Table />}
-        {isDropped.signs && <Signs />}
-        {isDropped.calendar && <Calender />}
-        {isDropped.dropdown && <DropDown />}  */}
+    // <div className="midSection" >
+    //   <Container as="div" ref={midSectionRef} className="midSection_container"
+    //     onDragOver={dragOver}
+    //     onDrop={onDrop}
+
+    //   >
+    //     {/* <button onClick={saveDocument}>
+    //       Save
+    //     </button> */}
+    //     {/* {isDropped.align && <TextBox />}  */}
+    //     {/* {isDropped.textfill && <TextFill />}   
+    //     {isDropped.image && <Image />}
+    //     {isDropped.table && <Table />}
+    //     {isDropped.signs && <Signs />}
+    //     {isDropped.calendar && <Calender />}
+    //     {isDropped.dropdown && <DropDown />}  */}
 
 
-      </Container>
-    </div>
+    //   </Container>
+    // </div>
 
   );
 }

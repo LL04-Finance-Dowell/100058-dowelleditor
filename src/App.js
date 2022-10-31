@@ -6,16 +6,10 @@ import { BrowserRouter as Router, Switch, Route, Routes, HashRouter } from "reac
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        {/* <div className="app"> */}
-          {/* <Route path="/">
-            <HomePage />
-          </Route> */}
-          <Route path="/" element={<HomePage />} />
-        {/* </div> */}
-      </Routes>
-    </Router>
+
+     <div className="app"> 
+          <HomePage />
+        </div> 
 
 
   );

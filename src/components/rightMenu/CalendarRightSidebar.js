@@ -16,34 +16,57 @@ const CalendarRightSidebar = (props) => {
 
   const { startDate, setStartDate } = useStateContext();
 
-  if(startDate){
-    document.getElementsByClassName('dateInput').item(0).innerHTML = startDate.toLocaleDateString();
+  const date = document.querySelector('.focussed')
+  if (date.parentElement.classList.contains("focussedd")) {
+    date.innerHTML =startDate && startDate.toLocaleDateString();
+    // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
   }
-  
 
-  // console.log(startDate.toLocaleDateString())
+  function removeDate() {
+    document.querySelector('.focussedd').remove()
+  }
+
 
   return (
     <div>
-    <div>
-      <h3>Add Date</h3>
-      <Form.Label>Select Date</Form.Label>
-      <DropdownButton variant="secondary" id="" title="Select format">
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </DropdownButton>
+      <div className='dropdown pb-3'>
+        <h6>Add Date</h6>
+        <Form.Label>Select Date</Form.Label>
+        <select  className ='shadow bg-white rounded w-100 h-75'>
+              <option value="Nothing Selected" selected="selected">Select Format</option>
+              <option value="Action">4/19/2022</option>
+              <option value="Another action">Tuesday, April 19, 2022</option>
+              <option value="Something else">April 19, 2022</option>
+              <option value="Something else">2022-04-2022</option>
+              <option value="Something else">19-April-2022</option>
+            </select>
 
-      <DatePicker
-        dateFormat="MM/yyyy/dd"
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-      />
+        <DatePicker
+          dateFormat="dd/MM/yyyy"
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          className="w-100 mt-2"
+        />
+      </div>
 
-      
+      <hr />
+
+      <div className='dropdown pt-2'>
+        <h6>User permissions</h6>
+        <select className='shadow bg-white rounded w-100 h-75'>
+          <option value="Nothing Selected" selected="selected">Nothing Selected</option>
+          <option value="Action">Action</option>
+          <option value="Another action">Another action</option>
+          <option value="Something else">Something else</option>
+        </select>
+      </div>
+
+
+      <div className='mt-5 text-center'>
+        <Button variant="primary" onClick={removeDate} >Remove Date</Button>
+      </div>
+      {/* <p>{startDate && startDate.toLocaleDateString()}</p> */}
     </div>
-<p>{startDate && startDate.toLocaleDateString()}</p>
-</div>
 
   )
 }
