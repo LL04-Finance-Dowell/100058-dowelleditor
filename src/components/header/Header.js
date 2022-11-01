@@ -49,7 +49,7 @@ const Header = () => {
     );
     }
      }
-    console.log(current);
+    console.log(item);
 
     }
 
@@ -68,12 +68,12 @@ const Header = () => {
               </Button>
             </div>
             <div className="header_icons">
-              <img onClick={handleUndo} src={headerData[0].icon} />
-              <img onClick={handleRedo} src={headerData[1].icon} />
-              <img onClick={handleCut} src={headerData[2].icon} />
-              <img onClick={handleCopy} src={headerData[3].icon} />
-              <img onClick={() => { }} src={headerData[4].icon} />
-              <img onClick={() => { }} src={headerData[5].icon} />
+              <img onClick={handleUndo} src={headerData[0].icon} alt=''/>
+              <img onClick={handleRedo} src={headerData[1].icon} alt=''/>
+              <img onClick={handleCut} src={headerData[2].icon} alt=''/>
+              <img onClick={handleCopy} src={headerData[3].icon} alt=''/>
+              <img onClick={() => { }} src={headerData[4].icon} alt=''/>
+              <img onClick={() => { }} src={headerData[5].icon} alt=''/>
 
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
