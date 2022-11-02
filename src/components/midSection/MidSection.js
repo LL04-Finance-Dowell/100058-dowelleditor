@@ -64,10 +64,6 @@ const MidSection = () => {
 
   const midSectionRef = useRef(null);
 
-
-  console.log(document.querySelector('.mi'));
-
-
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
       const holderDIV = document.getElementsByClassName("holderDIV")
@@ -76,8 +72,12 @@ const MidSection = () => {
       if (event.target === midSectionRef.current) {
        
         // holderDIV.classList.remove('focussedd')
+        if(document.querySelector('.focussedd')) {
         document.querySelector('.focussedd').classList.remove('focussedd')
+        }
+        if(document.querySelector('.focussed')) {
         document.querySelector('.focussed').classList.remove('focussed')
+        }
         setSidebar(false);
         setIsClicked(false);
         setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
@@ -123,7 +123,7 @@ const MidSection = () => {
       .then(res => {
         setData(res.data);
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
       }
       );
   }
@@ -577,10 +577,13 @@ const MidSection = () => {
     const isLink = event.dataTransfer.types.includes("text/plain");
     if (isLink) {
       event.preventDefault();
-      console.log("drag over");
       event.currentTarget.classList.add('drop_zone')
+      if(document.querySelector('.focussedd')) {
       document.querySelector('.focussedd').classList.remove('focussedd')
+      }
+      if(document.querySelector('.focussed')){
       document.querySelector('.focussed').classList.remove('focussed')
+      }
       setSidebar(false);
       setIsClicked(false);
       setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
@@ -1102,7 +1105,7 @@ const MidSection = () => {
             onDrop={onDrop}
             
           >
-           
+          
           </Container>
 
         </div>

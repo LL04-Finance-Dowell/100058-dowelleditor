@@ -24,10 +24,6 @@ const EditSection = () => {
   const newPageButton = document.querySelector('.new-page-btn')
   
 
-  const removePageFocus = () => {
-    document.querySelector('.page_focus').classList.remove('page_focus')
-  }
-
   return (
     <div className="editSec">
       <Container fluid>
@@ -36,7 +32,7 @@ const EditSection = () => {
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             <LeftMenu />
           </Col>
-          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec" onClick={removePageFocus}>
+          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec" >
             {/* <MidSection showSidebar={showSidebar}/> */}
             <MidSection />
           </Col>
