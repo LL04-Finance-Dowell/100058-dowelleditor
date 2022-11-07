@@ -729,7 +729,7 @@ const MidSection = () => {
           //   imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
           // })
         }
-        console.log(uploadedImage);
+        // console.log(uploadedImage);
       })
 
 
