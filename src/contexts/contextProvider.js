@@ -10,6 +10,7 @@ const initialState = {
     signs: false,
     calendar: false,
     dropdown: false,
+    containerr: false,
 }
 const initialState2 = {
     align2: false,

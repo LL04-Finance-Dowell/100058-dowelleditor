@@ -90,6 +90,14 @@ const dragStartDropdown = e => {
     document.querySelector('.drop_zone').classList.remove('drop_zone')
   }
 }
+const dragStartContainerr = e => {
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData("text/plain", "CONTAINER_INPUT");
+  element.classList.add("dragging")
+  if(document.querySelector('.drop_zone')){
+    document.querySelector('.drop_zone').classList.remove('drop_zone')
+  }
+}
 
 const dragEndFunc = () => {
   const element = document.getElementById('draggable');
@@ -149,6 +157,7 @@ const dropdownRef = useRef(null);
       <NavButton dragStartFunc={dragStartSigns} customFunc={() => handleDrop('signs')} icon={editSecOptions[4].icon} />
       <NavButton dragStartFunc={dragStartCalendar} customFunc={() => handleDrop('calendar')} icon={editSecOptions[5].icon} />
       <NavButton dragStartFunc={dragStartDropdown} customFunc={() => handleDrop('dropdown')} icon={editSecOptions[6].icon} />
+      <NavButton dragStartFunc={dragStartContainerr} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
 
 
     </div>

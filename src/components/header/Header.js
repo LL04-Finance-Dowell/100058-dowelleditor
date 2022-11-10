@@ -92,17 +92,19 @@ const Header = () => {
 
 
     const img_input = document.getElementsByTagName("input");
+    const img = document.getElementsByClassName("imageInput");
     if (img_input.length) {
       console.log('Image_input', img_input[0])
       if (img_input[0].type === 'file') {
         for (let h = 0; h < img_input.length; h++) {
+          const reader = new FileReader()
           elem = {
-            width: getPosition(img_input).right,
-            height: getPosition(img_input).bottom,
-            top: getPosition(img_input).top,
-            left: getPosition(img_input).left,
+            width: getPosition(img).right,
+            height: getPosition(img).bottom,
+            top: getPosition(img).top,
+            left: getPosition(img).left,
             type: 'IMAGE_INPUT',
-            data: img_input[h].value,
+            data: reader.result,
             id: `image component ${h + 1}`
           }
           page.push(elem)
@@ -176,7 +178,8 @@ const Header = () => {
 
 
     contentFile.push(page)
-    console.log("ContentFile While saveDoc", contentFile);
+    const data = JSON.stringify(contentFile)
+    console.log("ContentFile While saveDoc", data);
 
     return contentFile
 

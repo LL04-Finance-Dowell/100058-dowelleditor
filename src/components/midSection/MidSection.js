@@ -981,6 +981,18 @@ const MidSection = () => {
       holderDIV.append(dropdownField);
     }
 
+    else if (typeOfOperation === "CONTAINER_INPUT") {
+      let containerField = document.createElement('div');
+      containerField.className = "containerInput";
+      containerField.style.width = "100%";
+      containerField.style.height = "100%";
+      containerField.style.backgroundColor = '#0000';
+      containerField.style.borderRadius = '0px';
+      containerField.style.outline = '0px';
+      containerField.style.overflow = 'overlay';
+      containerField.style.position = 'absolute';
+    }
+
 
     document.querySelector('.drop_zone').append(holderDIV);
 
