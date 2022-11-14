@@ -143,7 +143,9 @@ const signsRef = useRef(null);
 const calendarRef = useRef(null);
 const dropdownRef = useRef(null);
 
-
+function removeContainer() {
+  document.getElementsByClassName('containerInput')[0].remove()
+}
 
 
   const { handleDrop } = useStateContext()
@@ -157,7 +159,7 @@ const dropdownRef = useRef(null);
       <NavButton dragStartFunc={dragStartSigns} customFunc={() => handleDrop('signs')} icon={editSecOptions[4].icon} />
       <NavButton dragStartFunc={dragStartCalendar} customFunc={() => handleDrop('calendar')} icon={editSecOptions[5].icon} />
       <NavButton dragStartFunc={dragStartDropdown} customFunc={() => handleDrop('dropdown')} icon={editSecOptions[6].icon} />
-      <NavButton dragStartFunc={dragStartContainerr} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
+      <NavButton dragStartFunc={dragStartContainerr} onClick={removeContainer} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
 
 
     </div>

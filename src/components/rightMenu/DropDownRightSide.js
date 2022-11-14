@@ -71,7 +71,7 @@ const DropDownRightSide = () => {
       />
       <Button variant="primary" className='mt-2 mb-5 w-100' onClick={addOptions}>+</Button>
       <hr />
-      <div className='dropdown '>
+      {/* <div className='dropdown '>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-100 h-75'>
           <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -79,7 +79,7 @@ const DropDownRightSide = () => {
           <option value="Another action">Another action</option>
           <option value="Something else">Something else</option>
         </select>
-      </div>
+      </div> */}
 
       <div />
       <div>

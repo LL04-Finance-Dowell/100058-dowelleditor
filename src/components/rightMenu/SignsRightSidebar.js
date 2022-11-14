@@ -65,7 +65,7 @@ const SignsRightSidebar = () => {
       <hr />
 
 
-      <div className='dropdown pt-2'>
+      {/* <div className='dropdown pt-2'>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-75 h-75'>
           <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -73,7 +73,7 @@ const SignsRightSidebar = () => {
           <option value="Another action">Another action</option>
           <option value="Something else">Something else</option>
         </select>
-      </div>
+      </div> */}
 
 
       <div className='mt-5 '>

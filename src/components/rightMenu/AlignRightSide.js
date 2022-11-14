@@ -336,7 +336,7 @@ const AlignRightSide = () => {
         <hr />
 
         <Row className='pt-0'>
-          <div className='dropdown'>
+          {/* <div className='dropdown'>
             <h6>User permissions</h6>
             <select className='shadow bg-white rounded w-100 h-50'>
               <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -344,7 +344,7 @@ const AlignRightSide = () => {
               <option value="Another action">Another action</option>
               <option value="Something else">Something else</option>
             </select>
-          </div>
+          </div> */}
 
 
           <div className='mt-3 text-center'>

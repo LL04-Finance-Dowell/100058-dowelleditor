@@ -78,6 +78,9 @@ const MidSection = () => {
         if(document.querySelector('.focussed')) {
         document.querySelector('.focussed').classList.remove('focussed')
         }
+        if(document.querySelector('.containerInput')) {
+        document.getElementsByClassName('.containerInput').remove()
+        }
         setSidebar(false);
         setIsClicked(false);
         setIsClicked({ ...isClicked, align2: false, textfill2: false, image2: false, table2: false, signs2: false, calendar2: false, dropdown2: false });
@@ -991,6 +994,8 @@ const MidSection = () => {
       containerField.style.outline = '0px';
       containerField.style.overflow = 'overlay';
       containerField.style.position = 'absolute';
+
+    
     }
 
 

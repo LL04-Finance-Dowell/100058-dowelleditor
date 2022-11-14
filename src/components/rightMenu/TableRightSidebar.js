@@ -269,7 +269,7 @@ const TableRightSidebar = () => {
       <button onClick={makeTable}>Create Table</button>
 
 
-      <div className='dropdown pt-4'>
+      {/* <div className='dropdown pt-4'>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-100 h-75'>
           <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -277,7 +277,7 @@ const TableRightSidebar = () => {
           <option value="Another action">Another action</option>
           <option value="Something else">Something else</option>
         </select>
-      </div>
+      </div> */}
 
       <div className='mt-5 text-center pt-5'>
         <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
