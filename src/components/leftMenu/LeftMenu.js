@@ -144,7 +144,7 @@ const calendarRef = useRef(null);
 const dropdownRef = useRef(null);
 
 function removeContainer() {
-  document.getElementsByClassName('containerInput')[0].remove()
+  console.log(document.querySelector('containerInput'))
 }
 
 

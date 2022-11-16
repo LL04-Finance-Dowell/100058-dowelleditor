@@ -5,6 +5,7 @@ import { headerData } from "../../data/data";
 import user from "../../assets/headerIcons/user.png";
 
 import { useStateContext } from "../../contexts/contextProvider";
+import Axios from "axios";
 
 const Header = () => {
 
@@ -66,6 +67,8 @@ const Header = () => {
 
   let contentFile = [];
   let page = [];
+
+  let url = 'https://100058.pythonanywhere.com/api/post-data-into-collection/'
 
   let elem = {}
   function saveDocument() {
@@ -179,12 +182,23 @@ const Header = () => {
 
     contentFile.push(page)
     const data = JSON.stringify(contentFile)
-    console.log("ContentFile While saveDoc", data);
+    // console.log("ContentFile While saveDoc", data);
 
     return contentFile
 
   }
 
+  function submit(e) {
+    e.preventDefault()
+    const data = saveDocument()
+  
+    Axios.post(url, {
+      raw_data: JSON.stringify(data)
+    })
+    .then(res => {
+      console.log(res);
+    })
+  }
 
 
 
@@ -197,7 +211,7 @@ const Header = () => {
           <Col className="d-flex justify-content-start lhs-header">
 
             <div className="header_btn">
-              <Button variant="primary" size="md" className="rounded " id='saving-button' onClick={saveDocument}>
+              <Button variant="primary" size="md" className="rounded " id='saving-button' onClick={submit}>
                 Save
               </Button>
             </div>

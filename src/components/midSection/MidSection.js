@@ -116,21 +116,21 @@ const MidSection = () => {
 
 
   const [data, setData] = useState([]);
-  const getPostData = async () => {
-    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: d_name,
-      collection: col_name,
-      fields: fields,
-      id: id
-    })
-      .then(res => {
-        setData(res.data);
-      }).catch(err => {
-        // console.log(err);
-      }
-      );
-  }
-  getPostData();
+  // const getPostData = async () => {
+  //   const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+  //     database: d_name,
+  //     collection: col_name,
+  //     fields: fields,
+  //     id: id
+  //   })
+  //     .then(res => {
+  //       setData(res.data);
+  //     }).catch(err => {
+  //       // console.log(err);
+  //     }
+  //     );
+  // }
+  // getPostData();
 
 
   // console.log(data);
