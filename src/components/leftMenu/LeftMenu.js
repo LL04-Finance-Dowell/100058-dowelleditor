@@ -13,12 +13,13 @@ import { EditorContent } from '@tiptap/react';
 
 
 
-const NavButton = ({ customFunc, icon, dragStartFunc }) => (
+const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc }) => (
   <button type='button'
     draggable='true'
     onDragStart={dragStartFunc}
     id='draggable'
     onDragEnd={dragEndFunc}
+    onClick = {clickFunc}
 
   >
     <img src={icon} alt="icon" />
@@ -144,7 +145,7 @@ const calendarRef = useRef(null);
 const dropdownRef = useRef(null);
 
 function removeContainer() {
-  console.log(document.querySelector('containerInput'))
+  document.getElementById('containerInput').parentElement.remove()
 }
 
 
@@ -159,7 +160,7 @@ function removeContainer() {
       <NavButton dragStartFunc={dragStartSigns} customFunc={() => handleDrop('signs')} icon={editSecOptions[4].icon} />
       <NavButton dragStartFunc={dragStartCalendar} customFunc={() => handleDrop('calendar')} icon={editSecOptions[5].icon} />
       <NavButton dragStartFunc={dragStartDropdown} customFunc={() => handleDrop('dropdown')} icon={editSecOptions[6].icon} />
-      <NavButton dragStartFunc={dragStartContainerr} onClick={removeContainer} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
+      <NavButton dragStartFunc={dragStartContainerr} clickFunc={removeContainer} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
 
 
     </div>
