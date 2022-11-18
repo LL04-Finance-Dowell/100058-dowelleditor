@@ -153,14 +153,14 @@ function removeContainer() {
   return (
     <div className="leftMenu fixed2">
 
-      <NavButton dragStartFunc={dragStartAlign} customFunc={() => handleDrop('align')} icon={editSecOptions[0].icon} />
-      <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} />
+      <NavButton dragStartFunc={dragStartAlign} customFunc={() => handleDrop('align')} icon={editSecOptions[1].icon} />
+      {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
       <NavButton dragStartFunc={dragStartImage} customFunc={() => handleDrop('image')} icon={editSecOptions[2].icon} />
       <NavButton dragStartFunc={dragStartTable} customFunc={() => handleDrop('table')} icon={editSecOptions[3].icon} />
       <NavButton dragStartFunc={dragStartSigns} customFunc={() => handleDrop('signs')} icon={editSecOptions[4].icon} />
       <NavButton dragStartFunc={dragStartCalendar} customFunc={() => handleDrop('calendar')} icon={editSecOptions[5].icon} />
       <NavButton dragStartFunc={dragStartDropdown} customFunc={() => handleDrop('dropdown')} icon={editSecOptions[6].icon} />
-      <NavButton dragStartFunc={dragStartContainerr} clickFunc={removeContainer} customFunc={() => handleDrop('containerr')} icon={editSecOptions[7].icon} />
+      <NavButton dragStartFunc={dragStartContainerr} clickFunc={removeContainer} customFunc={() => handleDrop('containerr')} icon={editSecOptions[0].icon} />
 
 
     </div>

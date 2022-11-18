@@ -196,6 +196,10 @@ const AlignRightSide = () => {
 
   }
 
+  function removeTextBox() {
+    document.querySelector('.focussedd').remove()
+  }
+
 
   return (
 
@@ -348,7 +352,7 @@ const AlignRightSide = () => {
 
 
           <div className='mt-3 text-center'>
-            <Button variant="primary"  >Remove Formatting</Button>
+            <Button variant="primary" onClick={removeTextBox} >Remove TextBox</Button>
           </div>
 
         </Row>

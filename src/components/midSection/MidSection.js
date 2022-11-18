@@ -417,7 +417,8 @@ const MidSection = () => {
     holderDIV.addEventListener("focus", function (e) {
 
       holderDIV.classList.add('focussedd')
-      holderDIV.append(holderMenu);
+      holderDIV.style.border = '2px solid orange';
+      // holderDIV.append(holderMenu);
 
       holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
     })
@@ -426,6 +427,7 @@ const MidSection = () => {
 
     holderDIV.addEventListener("focusout", function (e) {
       // holderDIV.classList.remove('focussedd')
+      holderDIV.style.border = '2px dotted gray';
       holderMenu.remove()
       resizerTL.remove()
       resizerTR.remove()
