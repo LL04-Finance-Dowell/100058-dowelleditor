@@ -7,6 +7,7 @@ import user from "../../assets/headerIcons/user.png";
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import { CgPlayListAdd, CgPlayListRemove } from "react-icons/cg";
+import { ImCancelCircle } from "react-icons/im";
 
 const Header = () => {
   const { item, setItem } = useStateContext();
@@ -219,6 +220,9 @@ const Header = () => {
           </Col>
           <Col className="d-flex justify-content-center header_p">
             <p>Untitled-File</p>
+            <button className="page_btn" onClick={() => removePage()}>
+              <ImCancelCircle color="white" size={24} />
+            </button>
           </Col>
           <Col className="d-flex justify-content-end header_user">
             <img src={user} alt="" />
