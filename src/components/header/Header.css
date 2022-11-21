@@ -46,3 +46,8 @@
 #midSection_containerr{
   margin-left: 205px;
 }
+
+.page_btn{
+ background: transparent;
+ border: none;
+}

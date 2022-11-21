@@ -6,52 +6,46 @@ import user from "../../assets/headerIcons/user.png";
 
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
+import { CgPlayListAdd, CgPlayListRemove } from "react-icons/cg";
 
 const Header = () => {
-
-  const { item, setItem } = useStateContext()
+  const { item, setItem } = useStateContext();
   //   console.log(headerData);
 
   const handleUndo = () => {
-    document.execCommand("undo")
-  }
+    document.execCommand("undo");
+  };
   const handleRedo = () => {
-    document.execCommand("redo")
-  }
+    document.execCommand("redo");
+  };
   const handleCut = () => {
-    document.querySelector('.focussedd').remove()
-  }
+    document.querySelector(".focussedd").remove();
+  };
   const handleCopy = () => {
-    document.execCommand("copy")
-  }
-
+    document.execCommand("copy");
+  };
 
   function createNewPage() {
     const current = [...item];
-    current.push('newDiv');
+    current.push("newDiv");
     setItem(current);
-
   }
 
   function removePage() {
-
     const current = [...item];
 
     var name = prompt("Enter the number of page to delete");
     if (name != null) {
-      const index = name - 1
+      const index = name - 1;
       if (index >= 0) {
         //remove item from the basket
         current.splice(index, 1);
-        setItem(current)
+        setItem(current);
       } else {
-        console.warn(
-          `Cant remove page`
-        );
+        console.warn(`Cant remove page`);
       }
     }
     console.log(item);
-
   }
 
   function getPosition(el) {
@@ -61,19 +55,17 @@ const Header = () => {
       top: rect.top,
       left: rect.left,
       bottom: rect.bottom,
-      right: rect.right
-    }
+      right: rect.right,
+    };
   }
 
   let contentFile = [];
   let page = [];
 
-  let url = 'https://100058.pythonanywhere.com/api/post-data-into-collection/'
+  let url = "https://100058.pythonanywhere.com/api/post-data-into-collection/";
 
-  let elem = {}
+  let elem = {};
   function saveDocument() {
-
-
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
@@ -83,34 +75,33 @@ const Header = () => {
             height: getPosition(txt).bottom,
             top: getPosition(txt).top,
             left: getPosition(txt).left,
-            type: 'TEXT_INPUT',
+            type: "TEXT_INPUT",
             data: txt[h].innerHTML,
-            id: `editTextBox ${h + 1}`
-          }
+            id: `editTextBox ${h + 1}`,
+          };
 
-          page.push(elem)
+          page.push(elem);
         }
       }
     }
 
-
     const img_input = document.getElementsByTagName("input");
     const img = document.getElementsByClassName("imageInput");
     if (img_input.length) {
-      console.log('Image_input', img_input[0])
-      if (img_input[0].type === 'file') {
+      console.log("Image_input", img_input[0]);
+      if (img_input[0].type === "file") {
         for (let h = 0; h < img_input.length; h++) {
-          const reader = new FileReader()
+          const reader = new FileReader();
           elem = {
             width: getPosition(img).right,
             height: getPosition(img).bottom,
             top: getPosition(img).top,
             left: getPosition(img).left,
-            type: 'IMAGE_INPUT',
+            type: "IMAGE_INPUT",
             data: reader.result,
-            id: `image component ${h + 1}`
-          }
-          page.push(elem)
+            id: `image component ${h + 1}`,
+          };
+          page.push(elem);
         }
       }
     }
@@ -125,11 +116,11 @@ const Header = () => {
             height: getPosition(text2).bottom,
             top: getPosition(text2).top,
             left: getPosition(text2).left,
-            type: 'TEXT_FILL',
+            type: "TEXT_FILL",
             data: text2[h].value,
-            id: `text component ${h + 1}`
-          }
-          page.push(elem)
+            id: `text component ${h + 1}`,
+          };
+          page.push(elem);
         }
       }
     }
@@ -142,12 +133,11 @@ const Header = () => {
           height: getPosition(date).bottom,
           top: getPosition(date).top,
           left: getPosition(date).left,
-          type: 'DATE_INPUT',
+          type: "DATE_INPUT",
           data: date[h].innerHTML,
-          id: `date component ${h + 1}`
-
-        }
-        page.push(elem)
+          id: `date component ${h + 1}`,
+        };
+        page.push(elem);
       }
     }
     // const tablee = document.getElementsByTagName("TABLE")
@@ -172,67 +162,60 @@ const Header = () => {
 
     // }
 
-
-
-
-
-
-
-
-
-    contentFile.push(page)
-    const data = JSON.stringify(contentFile)
+    contentFile.push(page);
+    const data = JSON.stringify(contentFile);
     // console.log("ContentFile While saveDoc", data);
 
-    return contentFile
-
+    return contentFile;
   }
 
   function submit(e) {
-    e.preventDefault()
-    const data = saveDocument()
-  
+    e.preventDefault();
+    const data = saveDocument();
+
     Axios.post(url, {
-      raw_data: JSON.stringify(data)
-    })
-    .then(res => {
+      raw_data: JSON.stringify(data),
+    }).then((res) => {
       console.log(res);
-    })
+    });
   }
-
-
-
-
 
   return (
     <div className="header">
       <Container fluid>
         <Row>
           <Col className="d-flex justify-content-start lhs-header">
-
             <div className="header_btn">
-              <Button variant="primary" size="md" className="rounded " id='saving-button' onClick={submit}>
+              <Button
+                variant="primary"
+                size="md"
+                className="rounded "
+                id="saving-button"
+                onClick={submit}
+              >
                 Save
               </Button>
             </div>
             <div className="header_icons">
-              <img onClick={handleUndo} src={headerData[0].icon} alt='' />
-              <img onClick={handleRedo} src={headerData[1].icon} alt='' />
-              <img onClick={handleCut} src={headerData[2].icon} alt='' />
-              <img onClick={handleCopy} src={headerData[3].icon} alt='' />
-              <img onClick={() => { }} src={headerData[4].icon} alt='' />
-              <img onClick={() => { }} src={headerData[5].icon} alt='' />
+              <img onClick={handleUndo} src={headerData[0].icon} alt="" />
+              <img onClick={handleRedo} src={headerData[1].icon} alt="" />
+              <img onClick={handleCut} src={headerData[2].icon} alt="" />
+              <img onClick={handleCopy} src={headerData[3].icon} alt="" />
+              <img onClick={() => {}} src={headerData[4].icon} alt="" />
+              <img onClick={() => {}} src={headerData[5].icon} alt="" />
 
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
               })} */}
             </div>
-
           </Col>
           <Col className="d-flex justify-content-center">
-            <button className='new_page_btn' onClick={() => createNewPage()} >New page</button>
-            <button className='remove_page_btn' onClick={() => removePage()} >Delete page</button>
-
+            <button className="page_btn" onClick={() => createNewPage()}>
+              <CgPlayListAdd color="white" size={32} />
+            </button>
+            <button className="page_btn" onClick={() => removePage()}>
+              <CgPlayListRemove color="white" size={32} />
+            </button>
           </Col>
           <Col className="d-flex justify-content-center header_p">
             <p>Untitled-File</p>
