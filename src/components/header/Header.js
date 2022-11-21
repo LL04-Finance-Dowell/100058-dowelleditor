@@ -220,9 +220,6 @@ const Header = () => {
           </Col>
           <Col className="d-flex justify-content-center header_p">
             <p>Untitled-File</p>
-            <button className="page_btn" onClick={() => removePage()}>
-              <ImCancelCircle color="white" size={24} />
-            </button>
           </Col>
           <Col className="d-flex justify-content-end header_user">
             <img src={user} alt="" />
