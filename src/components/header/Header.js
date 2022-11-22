@@ -6,9 +6,8 @@ import user from "../../assets/headerIcons/user.png";
 
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
-import { CgPlayListAdd, CgPlayListRemove } from "react-icons/cg";
+import { CgPlayListRemove } from "react-icons/cg";
 import { MdOutlinePostAdd } from "react-icons/md";
-import { ImCancelCircle } from "react-icons/im";
 
 const Header = () => {
   const { item, setItem } = useStateContext();
