@@ -7,6 +7,7 @@ import user from "../../assets/headerIcons/user.png";
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import { CgPlayListAdd, CgPlayListRemove } from "react-icons/cg";
+import { MdOutlinePostAdd } from "react-icons/md";
 import { ImCancelCircle } from "react-icons/im";
 
 const Header = () => {
@@ -204,20 +205,18 @@ const Header = () => {
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
               <img onClick={() => {}} src={headerData[4].icon} alt="" />
               <img onClick={() => {}} src={headerData[5].icon} alt="" />
-
+              <button className="page_btn" onClick={() => createNewPage()}>
+                <MdOutlinePostAdd color="white" size={32} />
+              </button>
+              <button className="page_btn" onClick={() => removePage()}>
+                <CgPlayListRemove color="white" size={32} />
+              </button>
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
               })} */}
             </div>
           </Col>
-          <Col className="d-flex justify-content-center">
-            <button className="page_btn" onClick={() => createNewPage()}>
-              <CgPlayListAdd color="white" size={32} />
-            </button>
-            <button className="page_btn" onClick={() => removePage()}>
-              <CgPlayListRemove color="white" size={32} />
-            </button>
-          </Col>
+          <Col className="d-flex justify-content-center"></Col>
           <Col className="d-flex justify-content-center header_p">
             <p>Untitled-File</p>
           </Col>
