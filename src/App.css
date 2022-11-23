@@ -115,6 +115,30 @@ th {
   border-color: orange;
 }
 
+.addImageButton{
+  cursor: pointer;
+  padding:7px 12px;
+  background-color: #2F80ED;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.addImageButtonInput{
+  display: none;
+}
+
+.imageInput{
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 
 
 

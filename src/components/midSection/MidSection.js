@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
+import { Row, Col} from "react-bootstrap";
+
+import {TiDeleteOutline} from "react-icons/ti"
+
 import { useSearchParams } from 'react-router-dom';
 
 
@@ -114,21 +118,21 @@ const MidSection = () => {
 
 
   const [data, setData] = useState([]);
-  // const getPostData = async () => {
-  //   const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-  //     database: d_name,
-  //     collection: col_name,
-  //     fields: fields,
-  //     id: id
-  //   })
-  //     .then(res => {
-  //       setData(res.data);
-  //     }).catch(err => {
-  //       // console.log(err);
-  //     }
-  //     );
-  // }
-  // getPostData();
+  const getPostData = async () => {
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: d_name,
+      collection: col_name,
+      fields: fields,
+      id: id
+    })
+      .then(res => {
+        setData(res.data);
+      }).catch(err => {
+        // console.log(err);
+      }
+      );
+  }
+  getPostData();
 
 
   // console.log(data);
@@ -482,6 +486,7 @@ const MidSection = () => {
     inputField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
+      inputField.parentElement.focus()
     }
 
 
@@ -526,6 +531,7 @@ const MidSection = () => {
     paragraphField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
+      paragraphField.parentElement.focus()
     }
 
 
@@ -675,6 +681,7 @@ const MidSection = () => {
         setSidebar(true);
         holderDIV.classList.add('focussedd')
         inputField.classList.add('focussed')
+        inputField.parentElement.focus()
       }
       holderDIV.append(inputField);
     }
@@ -701,6 +708,7 @@ const MidSection = () => {
       const imageButton = document.createElement("div");
       imageButton.className = "addImageButton"
       imageButton.innerText = "Choose File"
+      imageButton.style.display = "none"
       imageButton.onclick = (e) => chooseFileClick(e)
 
       const imgBtn = document.createElement("input");
@@ -1125,7 +1133,12 @@ const MidSection = () => {
             onDrop={onDrop}
             
           >
-          
+           
+        <Row>
+            <Col className="d-flex justify-content-end header_user">
+             <TiDeleteOutline size={32} />
+          </Col>
+        </Row>
           </Container>
 
         </div>

@@ -175,7 +175,7 @@ const Header = () => {
     const data = saveDocument();
 
     Axios.post(url, {
-      raw_data: JSON.stringify(data),
+      edited_data: JSON.stringify(data),
     }).then((res) => {
       console.log(res);
     });
