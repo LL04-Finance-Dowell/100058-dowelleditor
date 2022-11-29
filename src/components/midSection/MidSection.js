@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Row, Col} from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
-import {TiDeleteOutline} from "react-icons/ti"
+import { TiDeleteOutline } from "react-icons/ti"
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -25,6 +25,8 @@ import Calender from "../leftMenu/comp/Calender";
 import DropDown from "../leftMenu/comp/DropDown";
 import TextFill from "../leftMenu/comp/TextFill";
 import Axios from "axios";
+
+import jwt_decode from "jwt-decode";
 
 // tHIS IS FOR A TEST COMMIT
 
@@ -75,13 +77,13 @@ const MidSection = () => {
       const holderr = document.getElementsByClassName("holder-menu")
       const resizerr = document.getElementsByClassName("resizeBtn")
       if (event.target === midSectionRef.current) {
-       
+
         // holderDIV.classList.remove('focussedd')
-        if(document.querySelector('.focussedd')) {
-        document.querySelector('.focussedd').classList.remove('focussedd')
+        if (document.querySelector('.focussedd')) {
+          document.querySelector('.focussedd').classList.remove('focussedd')
         }
-        if(document.querySelector('.focussed')) {
-        document.querySelector('.focussed').classList.remove('focussed')
+        if (document.querySelector('.focussed')) {
+          document.querySelector('.focussed').classList.remove('focussed')
         }
         setSidebar(false);
         setIsClicked(false);
@@ -91,7 +93,7 @@ const MidSection = () => {
     })
   }, []);
 
-  
+
   // document.querySelectorAll('.midSection_container').forEach()
 
   const [postData, setPostData] = useState([])
@@ -110,29 +112,35 @@ const MidSection = () => {
 
   const [searchParams] = useSearchParams();
 
-  const d_name = searchParams.get('d_name');
-  const col_name = searchParams.get('col_name');
-  const id = searchParams.get('id');
-  const fields = searchParams.get('fields');
+  // const d_name = searchParams.get('d_name');
+  // const col_name = searchParams.get('col_name');
+  // const id = searchParams.get('id');
+  // const fields = searchParams.get('fields');
+  const token = searchParams.get('token');
+  var decoded = jwt_decode(token);
+  console.log(decoded);
 
-
+ // https://100058.pythonanywhere.com/api/get-data-by-collection/
+  
 
   const [data, setData] = useState([]);
   const getPostData = async () => {
-    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: d_name,
-      collection: col_name,
-      fields: fields,
-      id: id
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/generate-editor-link/", {
+      // database: d_name,
+      // collection: col_name,
+      // fields: fields,
+      // id: id
+      token: token
     })
       .then(res => {
-        setData(res.data);
+        console.log(res);
+        // setData(res.data);
       }).catch(err => {
         // console.log(err);
       }
       );
   }
-  getPostData();
+  // getPostData();
 
 
   // console.log(data);
@@ -587,11 +595,11 @@ const MidSection = () => {
     if (isLink) {
       event.preventDefault();
       event.currentTarget.classList.add('drop_zone')
-      if(document.querySelector('.focussedd')) {
-      document.querySelector('.focussedd').classList.remove('focussedd')
+      if (document.querySelector('.focussedd')) {
+        document.querySelector('.focussedd').classList.remove('focussedd')
       }
-      if(document.querySelector('.focussed')){
-      document.querySelector('.focussed').classList.remove('focussed')
+      if (document.querySelector('.focussed')) {
+        document.querySelector('.focussed').classList.remove('focussed')
       }
       setSidebar(false);
       setIsClicked(false);
@@ -679,9 +687,9 @@ const MidSection = () => {
       inputField.onclick = () => {
         handleClicked('align2')
         setSidebar(true);
-        holderDIV.classList.add('focussedd')
+        // holderDIV.classList.add('focussedd')
         inputField.classList.add('focussed')
-        inputField.parentElement.focus()
+        // inputField.parentElement.focus()
       }
       holderDIV.append(inputField);
     }
@@ -1006,7 +1014,7 @@ const MidSection = () => {
 
       holderDIV.append(containerField);
 
-    
+
     }
 
 
@@ -1124,26 +1132,28 @@ const MidSection = () => {
 
 
 
+
   return (
     <>
       {item?.map((currentItem, index) => {
-        return <div key={currentItem} className= "midSection">
+        return <div key={currentItem} className="midSection">
           <Container as="div" ref={midSectionRef} className="midSection_container"
             onDragOver={dragOver}
             onDrop={onDrop}
-            
+
           >
-           
-        <Row>
+          <Row>
             <Col className="d-flex justify-content-end header_user">
-             <TiDeleteOutline size={32} />
-          </Col>
-        </Row>
+              <span>{index+1}</span>
+            </Col>
+          </Row>
+
+ 
           </Container>
 
         </div>
       })}
-  </>
+    </>
 
     // <div className="midSection" >
     //   <Container as="div" ref={midSectionRef} className="midSection_container"

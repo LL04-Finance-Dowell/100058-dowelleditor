@@ -9,6 +9,10 @@ import Axios from "axios";
 import { CgPlayListRemove } from "react-icons/cg";
 import { MdOutlinePostAdd } from "react-icons/md";
 
+import { useSearchParams } from 'react-router-dom';
+
+import jwt_decode from "jwt-decode";
+
 const Header = () => {
   const { item, setItem } = useStateContext();
   //   console.log(headerData);
@@ -63,8 +67,8 @@ const Header = () => {
   let contentFile = [];
   let page = [];
 
-  let url = "https://100058.pythonanywhere.com/api/post-data-into-collection/";
-
+  let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
+// https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
     const txt = document.getElementsByClassName("textInput");
@@ -170,12 +174,38 @@ const Header = () => {
     return contentFile;
   }
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token');
+  var decoded = jwt_decode(token);
+  console.log(decoded.details._id);
+
+  
+
   function submit(e) {
     e.preventDefault();
     const data = saveDocument();
 
+    const field = {
+      _id: decoded.details._id
+    }
+    const updateField = {
+      template_name: "Testing",
+      content: JSON.stringify(data)
+    }
+    console.log(updateField);
+
+
+ 
     Axios.post(url, {
-      edited_data: JSON.stringify(data),
+      cluster: decoded.details.cluster,
+      collection: decoded.details.collection,
+      command: decoded.details.command,
+      database: decoded.details.database,
+      document: decoded.details.document,
+      field: field,
+      function_ID: decoded.details.function_ID,
+      team_member_ID: decoded.details.team_member_ID,
+      update_field: updateField
     }).then((res) => {
       console.log(res);
     });
@@ -202,8 +232,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+              <img onClick={() => { }} src={headerData[4].icon} alt="" />
+              <img onClick={() => { }} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
