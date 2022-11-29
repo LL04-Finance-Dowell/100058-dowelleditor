@@ -183,11 +183,14 @@ const Header = () => {
     e.preventDefault();
     const data = saveDocument();
 
+    const templateName = document.querySelector(".template-name").innerHTML
+
+
     const field = {
       _id: decoded.details._id,
     };
     const updateField = {
-      template_name: "Testing",
+      template_name: templateName,
       content: JSON.stringify(data),
     };
     console.log(updateField);
@@ -241,9 +244,9 @@ const Header = () => {
               })} */}
             </div>
           </Col>
-          <Col className="d-flex justify-content-center"></Col>
+      
           <Col className="d-flex justify-content-center header_p">
-            <div ContentEditable={true}>Untitled-File</div>
+            <div className="template-name" contentEditable={true} style={{color: "white", fontSize: 30}} spellcheck="false">Untitled-File</div>
           </Col>
           <Col className="d-flex justify-content-end header_user">
             <img src={user} alt="" />
