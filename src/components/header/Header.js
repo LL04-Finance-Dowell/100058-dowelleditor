@@ -176,11 +176,12 @@ const Header = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  var decoded = jwt_decode(token);
-  console.log(decoded.details._id);
+
+
 
   function submit(e) {
     e.preventDefault();
+    var decoded = jwt_decode(token);
     const data = saveDocument();
 
     const templateName = document.querySelector(".template-name").innerHTML
@@ -205,8 +206,10 @@ const Header = () => {
       function_ID: decoded.details.function_ID,
       team_member_ID: decoded.details.team_member_ID,
       update_field: updateField,
-    }).then((res) => {
+    }).then(res => {
       console.log(res);
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -246,7 +249,7 @@ const Header = () => {
           </Col>
       
           <Col className="d-flex justify-content-center header_p">
-            <div className="template-name" contentEditable={true} style={{color: "white", fontSize: 30}} spellcheck="false">Untitled-File</div>
+            <div className="template-name" contentEditable={true} style={{color: "white", fontSize: 30}} spellCheck="false">Untitled-File</div>
           </Col>
           <Col className="d-flex justify-content-end header_user">
             <img src={user} alt="" />

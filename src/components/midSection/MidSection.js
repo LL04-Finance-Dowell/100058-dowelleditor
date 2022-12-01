@@ -117,46 +117,48 @@ const MidSection = () => {
   // const id = searchParams.get('id');
   // const fields = searchParams.get('fields');
   const token = searchParams.get('token');
-  var decoded = jwt_decode(token);
-  console.log(decoded);
+  // var decoded = jwt_decode(token);
+  // console.log(decoded);
 
- // https://100058.pythonanywhere.com/api/get-data-by-collection/
+ 
   
 
   const [data, setData] = useState([]);
   const getPostData = async () => {
-    const response = await Axios.post("https://100058.pythonanywhere.com/api/generate-editor-link/", {
-      // database: d_name,
-      // collection: col_name,
-      // fields: fields,
-      // id: id
-      token: token
+    var decoded = jwt_decode(token);
+    console.log(decoded.details.database);
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: decoded.details.database,
+      collection: decoded.details.collection,
+      fields: decoded.details.field,
+      id: decoded.details._id
     })
       .then(res => {
-        console.log(res);
-        // setData(res.data);
+        const loadedData = JSON.parse(res.data.content)
+        console.log( loadedData[0][0]);
+        setData(JSON.parse(loadedData[0][0]));
       }).catch(err => {
         // console.log(err);
       }
       );
   }
-  // getPostData();
+  getPostData();
 
 
-  // console.log(data);
+  console.log(data);
   // console.log(JSON.stringify(postData));
 
 
   useEffect(() => {
-    if (data.title !== undefined) {
+    if (data !== undefined) {
       console.log(data);
       onPost()
-      onParagraphPost()
+      // onParagraphPost()
     } else {
       console.log('loading data');
     }
 
-  }, [data.title])
+  }, [data])
 
 
 
@@ -477,6 +479,7 @@ const MidSection = () => {
 
     const holderDIV = getHolderDIV(measure);
 
+
     let inputField = document.createElement('div');
     inputField.setAttribute('contenteditable', true)
     //  inputField.setAttribute('draggable', true);
@@ -494,15 +497,15 @@ const MidSection = () => {
     inputField.onclick = () => {
       handleClicked('align2')
       setSidebar(true);
-      inputField.parentElement.focus()
+      // inputField.parentElement.focus()
     }
 
 
-
-    inputField.innerText = `${data.title}`;
+    inputField.innerText = `${data.data}`;
     // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
     holderDIV.append(inputField);
+
     // holderDIV.append(paragraphField);
 
     document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
