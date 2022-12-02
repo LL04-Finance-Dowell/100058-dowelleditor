@@ -96,7 +96,7 @@ const MidSection = () => {
 
   // document.querySelectorAll('.midSection_container').forEach()
 
-  const [postData, setPostData] = useState([])
+  const [postData, setPostData] = useState({})
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
   //   , textField: { value: "", xcoordinate: 0, ycoordinate: 0 },
   //   imageField: { value: "", xcoordinate: 0, ycoordinate: 0 },
@@ -120,13 +120,13 @@ const MidSection = () => {
   // var decoded = jwt_decode(token);
   // console.log(decoded);
 
- 
-  
+
+
 
   const [data, setData] = useState([]);
   const getPostData = async () => {
     var decoded = jwt_decode(token);
-    console.log(decoded.details.database);
+    console.log(decoded);
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
       database: decoded.details.database,
       collection: decoded.details.collection,
@@ -135,8 +135,10 @@ const MidSection = () => {
     })
       .then(res => {
         const loadedData = JSON.parse(res.data.content)
-        console.log( loadedData[0][0]);
-        setData(JSON.parse(loadedData[0][0]));
+        console.log(res);
+        
+        setData(loadedData[0]);
+      //  setData(oldArray => [...data, loadedData[0]]);
       }).catch(err => {
         // console.log(err);
       }
@@ -145,13 +147,14 @@ const MidSection = () => {
   getPostData();
 
 
-  console.log(data);
+
   // console.log(JSON.stringify(postData));
 
 
   useEffect(() => {
     if (data !== undefined) {
-      console.log(data);
+    console.log(data); 
+
       onPost()
       // onParagraphPost()
     } else {
@@ -470,46 +473,54 @@ const MidSection = () => {
 
   const onPost = () => {
     const curr_user = document.getElementById('curr_user');
+    
+    data.forEach(element => {
 
-    const measure = {
-      width: '300px',
-      height: '50px',
-      auth_user: curr_user
-    }
+      if (element.type === "TEXT_INPUT") {
 
-    const holderDIV = getHolderDIV(measure);
-
-
-    let inputField = document.createElement('div');
-    inputField.setAttribute('contenteditable', true)
-    //  inputField.setAttribute('draggable', true);
-    inputField.className = "textInput";
-    inputField.style.width = "100%";
-    inputField.style.height = "100%";
-    inputField.style.resize = 'none';
-    inputField.style.zIndex = 2;
-    inputField.style.backgroundColor = '#0000';
-    inputField.style.borderRadius = '0px';
-    inputField.style.outline = '0px';
-    inputField.style.overflow = 'overlay';
-    inputField.style.position = 'relative';
-    inputField.style.cursor = 'text'
-    inputField.onclick = () => {
-      handleClicked('align2')
-      setSidebar(true);
-      // inputField.parentElement.focus()
-    }
-
-
-    inputField.innerText = `${data.data}`;
-    // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
-    holderDIV.append(inputField);
-
-    // holderDIV.append(paragraphField);
-
-    document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
-
+        const measure = {
+          width: "auto",
+          height: "auto",
+          left: element.left - 330 + "px",
+          top: element.top - 130 + "px",
+          auth_user: curr_user
+        }
+  
+        const holderDIV = getHolderDIV(measure);
+  
+  
+        let inputField = document.createElement('div');
+        inputField.setAttribute('contenteditable', true)
+        //  inputField.setAttribute('draggable', true);
+        inputField.className = "textInput";
+        inputField.style.width = "100%";
+        inputField.style.height = "100%";
+        inputField.style.resize = 'none';
+        inputField.style.zIndex = 2;
+        inputField.style.backgroundColor = '#0000';
+        inputField.style.borderRadius = '0px';
+        inputField.style.outline = '0px';
+        inputField.style.overflow = 'overlay';
+        inputField.style.position = 'relative';
+        inputField.style.cursor = 'text'
+        inputField.onclick = () => {
+          handleClicked('align2')
+          setSidebar(true);
+          // inputField.parentElement.focus()
+        }
+  
+  
+        inputField.innerText = `${element.data}`;
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+  
+        holderDIV.append(inputField);
+  
+        // holderDIV.append(paragraphField);
+  
+        document.getElementsByClassName("midSection_container").item(0).append(holderDIV);
+      }
+    });
+    
   }
 
 
@@ -1145,13 +1156,13 @@ const MidSection = () => {
             onDrop={onDrop}
 
           >
-          <Row>
-            <Col className="d-flex justify-content-end header_user">
-              <span>{index+1}</span>
-            </Col>
-          </Row>
+            <Row>
+              <Col className="d-flex justify-content-end header_user">
+                <span>{index + 1}</span>
+              </Col>
+            </Row>
 
- 
+
           </Container>
 
         </div>

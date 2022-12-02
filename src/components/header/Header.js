@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Header.css";
 import { headerData } from "../../data/data";
@@ -12,6 +12,7 @@ import { MdOutlinePostAdd } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
+import { current } from "@reduxjs/toolkit";
 
 const Header = () => {
   const { item, setItem } = useStateContext();
@@ -113,6 +114,7 @@ const Header = () => {
 
     const text2 = document.getElementsByClassName("texttInput");
 
+
     if (text2.length) {
       if (text2[0].parentElement.classList.contains("holderDIV")) {
         for (let h = 0; h < text2.length; h++) {
@@ -176,24 +178,94 @@ const Header = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+
+  
+  
+  console.log("In header.js");
+  console.log(decoded);
+
+  const [data, setData] = useState([]);
+  const getPostData = async () => {
+    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
+      database: decoded.details.database,
+      collection: decoded.details.collection,
+      fields: decoded.details.field,
+      id: decoded.details._id
+    })
+      .then(res => {
+        const loadedData = JSON.parse(res.data)
+        console.log(res);
+        console.log(loadedData);
+        setData(loadedData);
+      }).catch(err => {
+        // console.log(err);
+      }
+      );
+      
+  }
+
+  getPostData();
+
+
+  let currentTitle = ""
+  function currentTitleFinder() {
+    if(data.template_name !== undefined && decoded.details.action === "template"){
+      // currentTitle = decoded.details.update_field.template_name
+      currentTitle = data.template_name
+  
+      console.log("Is template title");
+     } 
+
+    if(data.document_name !== undefined && decoded.details.action === "document"){
+      // currentTitle = decoded.details.update_field.document_name
+      currentTitle = data.document_name
+      console.log("Is document title");
+      console.log(currentTitle);
+    }
+  }
+
+
+
+  useEffect(() => {
+    if (data.template_name !== undefined) {
+      currentTitleFinder()
+    
+    } else {
+    
+    }
+
+  },[data.template_name])
+
+  
 
 
 
   function submit(e) {
     e.preventDefault();
-    var decoded = jwt_decode(token);
+
     const data = saveDocument();
 
-    const templateName = document.querySelector(".template-name").innerHTML
+    const titleName = document.querySelector(".title-name").innerHTML
 
 
     const field = {
       _id: decoded.details._id,
     };
-    const updateField = {
-      template_name: templateName,
-      content: JSON.stringify(data),
-    };
+    let updateField ={}
+    if(decoded.details.action === "template"){
+      updateField = {
+        template_name: titleName,
+        content: JSON.stringify(data),
+      };
+    } 
+    if(decoded.details.action === "document"){
+      updateField = {
+        document_name: titleName,
+        content: JSON.stringify(data),
+      };
+    }
+   
     console.log(updateField);
 
     Axios.post(url, {
@@ -234,8 +306,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+              <img onClick={() => { }} src={headerData[4].icon} alt="" />
+              <img onClick={() => { }} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
@@ -247,9 +319,17 @@ const Header = () => {
               })} */}
             </div>
           </Col>
-      
+
           <Col className="d-flex justify-content-center header_p">
-            <div className="template-name" contentEditable={true} style={{color: "white", fontSize: 30}} spellCheck="false">Untitled-File</div>
+            <div className="title-name"
+              contentEditable={true}
+              style={{ color: "white", fontSize: 30 }}
+              spellCheck="false"
+            >
+             {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
+               : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
+               {(currentTitle =="") ? ("Untitled-File") : ((currentTitle))}
+            </div>
           </Col>
           <Col className="d-flex justify-content-end header_user">
             <img src={user} alt="" />
