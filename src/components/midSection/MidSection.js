@@ -124,6 +124,7 @@ const MidSection = () => {
 
 
   const [data, setData] = useState([]);
+  const [sort, setSort] = useState([]);
   const getPostData = async () => {
     var decoded = jwt_decode(token);
     console.log(decoded);
@@ -138,6 +139,7 @@ const MidSection = () => {
         console.log(res);
         
         setData(loadedData[0]);
+        setSort(loadedData[0][0]);
       //  setData(oldArray => [...data, loadedData[0]]);
       }).catch(err => {
         // console.log(err);
@@ -154,14 +156,14 @@ const MidSection = () => {
   useEffect(() => {
     if (data !== undefined) {
     console.log(data); 
-
+      
       onPost()
       // onParagraphPost()
     } else {
       console.log('loading data');
     }
 
-  }, [data])
+  }, [sort.data])
 
 
 
@@ -481,8 +483,8 @@ const MidSection = () => {
         const measure = {
           width: "auto",
           height: "auto",
-          left: element.left - 330 + "px",
-          top: element.top - 130 + "px",
+          left: element.left - 340 + "px" ,
+          top: element.top -80 + "px",
           auth_user: curr_user
         }
   

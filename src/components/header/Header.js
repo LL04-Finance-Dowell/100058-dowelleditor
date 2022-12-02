@@ -55,7 +55,9 @@ const Header = () => {
   }
 
   function getPosition(el) {
-    const rect = el[0].getBoundingClientRect();
+    // const rect = el[0].getBoundingClientRect();
+    console.log(el);
+    const rect = el.getBoundingClientRect();
 
     return {
       top: rect.top,
@@ -72,15 +74,18 @@ const Header = () => {
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
+    console.log(document.getElementsByClassName("textInput"));
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
         for (let h = 0; h < txt.length; h++) {
+          let tempElem = txt[h].parentElement
+          let tempPosn = getPosition(tempElem)
           elem = {
-            width: getPosition(txt).right,
-            height: getPosition(txt).bottom,
-            top: getPosition(txt).top,
-            left: getPosition(txt).left,
+            width: tempPosn.right,
+            height: tempPosn.bottom,
+            top: tempPosn.top,
+            left: tempPosn.left,
             type: "TEXT_INPUT",
             data: txt[h].innerHTML,
             id: `editTextBox ${h + 1}`,
@@ -93,16 +98,18 @@ const Header = () => {
 
     const img_input = document.getElementsByTagName("input");
     const img = document.getElementsByClassName("imageInput");
-    if (img_input.length) {
+    if (img.length) {
       console.log("Image_input", img_input[0]);
       if (img_input[0].type === "file") {
         for (let h = 0; h < img_input.length; h++) {
           const reader = new FileReader();
+          let tempElem = img[h].parentElement
+          let tempPosn = getPosition(tempElem)
           elem = {
-            width: getPosition(img).right,
-            height: getPosition(img).bottom,
-            top: getPosition(img).top,
-            left: getPosition(img).left,
+            width: tempPosn.right,
+            height: tempPosn.bottom,
+            top: tempPosn.top,
+            left: tempPosn.left,
             type: "IMAGE_INPUT",
             data: reader.result,
             id: `image component ${h + 1}`,
@@ -197,7 +204,7 @@ const Header = () => {
         const loadedData = JSON.parse(res.data)
         console.log(res);
         console.log(loadedData);
-        setData(loadedData);
+        setData(loadedData.template_name);
       }).catch(err => {
         // console.log(err);
       }
@@ -210,32 +217,30 @@ const Header = () => {
 
   let currentTitle = ""
   function currentTitleFinder() {
-    if(data.template_name !== undefined && decoded.details.action === "template"){
+    if( decoded.details.action === "template"){
       // currentTitle = decoded.details.update_field.template_name
-      currentTitle = data.template_name
+      currentTitle = data
   
       console.log("Is template title");
      } 
 
-    if(data.document_name !== undefined && decoded.details.action === "document"){
-      // currentTitle = decoded.details.update_field.document_name
-      currentTitle = data.document_name
-      console.log("Is document title");
-      console.log(currentTitle);
-    }
+  //   if(decoded.details.action === "document"){
+  //     // currentTitle = decoded.details.update_field.document_name
+  //     currentTitle = data
+  //   }
   }
 
 
 
   useEffect(() => {
-    if (data.template_name !== undefined) {
+    if (data !== undefined) {
       currentTitleFinder()
     
     } else {
-    
+    console.log("loading");
     }
 
-  },[data.template_name])
+  },[data])
 
   
 
