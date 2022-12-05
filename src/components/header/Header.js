@@ -70,7 +70,7 @@ const Header = () => {
   let contentFile = [];
   let page = [];
 
-  let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
+  // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
@@ -187,12 +187,12 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
 
-  
-  
+
+
   console.log("In header.js");
   console.log(decoded);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
     const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
       database: decoded.details.database,
@@ -201,55 +201,57 @@ const Header = () => {
       id: decoded.details._id
     })
       .then(res => {
-        const loadedData = JSON.parse(res.data)
+        const loadedData = res.data
         console.log(res);
-        console.log(loadedData);
-        setData(loadedData.template_name);
+
+        if (decoded.details.action === "template") {
+          setData(loadedData.template_name);
+        } else
+          if (decoded.details.action === "document") {
+            setData(loadedData.document_name);
+          }
+
       }).catch(err => {
         // console.log(err);
       }
       );
-      
+
   }
 
-  getPostData();
 
 
-  let currentTitle = ""
-  function currentTitleFinder() {
-    if( decoded.details.action === "template"){
-      // currentTitle = decoded.details.update_field.template_name
-      currentTitle = data
-  
-      console.log("Is template title");
-     } 
 
-  //   if(decoded.details.action === "document"){
-  //     // currentTitle = decoded.details.update_field.document_name
+  let currentTitle = "Untitled-File"
+  // function currentTitleFinder() {
+  //   if( decoded.details.action === "template"){
+  //     // currentTitle = decoded.details.update_field.template_name
   //     currentTitle = data
-  //   }
-  }
+
+  //     console.log("Is template title");
+  //    } 
+
+  // //   if(decoded.details.action === "document"){
+  // //     // currentTitle = decoded.details.update_field.document_name
+  // //     currentTitle = data
+  // //   }
+  // }
 
 
 
   useEffect(() => {
-    if (data !== undefined) {
-      currentTitleFinder()
-    
-    } else {
-    console.log("loading");
-    }
+    getPostData();
 
-  },[data])
+  }, [])
 
-  
+
 
 
 
   function submit(e) {
     e.preventDefault();
 
-    const data = saveDocument();
+
+    const dataa = saveDocument();
 
     const titleName = document.querySelector(".title-name").innerHTML
 
@@ -257,23 +259,24 @@ const Header = () => {
     const field = {
       _id: decoded.details._id,
     };
-    let updateField ={}
-    if(decoded.details.action === "template"){
+    let updateField = {}
+    if (decoded.details.action === "template") {
       updateField = {
         template_name: titleName,
-        content: JSON.stringify(data),
+        content: JSON.stringify(dataa),
       };
-    } 
-    if(decoded.details.action === "document"){
-      updateField = {
-        document_name: titleName,
-        content: JSON.stringify(data),
-      };
-    }
-   
-    console.log(updateField);
+    } else
+      if (decoded.details.action === "document") {
+        updateField = {
+          document_name: titleName,
+          content: JSON.stringify(dataa),
+        };
+      }
 
-    Axios.post(url, {
+    console.log(updateField);
+    console.log(field);
+
+    Axios.post("https://100058.pythonanywhere.com/api/save-data-into-collection/", {
       cluster: decoded.details.cluster,
       collection: decoded.details.collection,
       command: decoded.details.command,
@@ -326,14 +329,15 @@ const Header = () => {
           </Col>
 
           <Col className="d-flex justify-content-center header_p">
+            {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
             <div className="title-name"
               contentEditable={true}
-              style={{ color: "white", fontSize: 30 }}
+              style={{ color: "white", fontSize: 30, }}
               spellCheck="false"
             >
-             {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
+              {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-               {(currentTitle =="") ? ("Untitled-File") : ((currentTitle))}
+              {data && data}
             </div>
           </Col>
           <Col className="d-flex justify-content-end header_user">
