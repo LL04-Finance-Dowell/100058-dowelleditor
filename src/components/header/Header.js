@@ -57,13 +57,18 @@ const Header = () => {
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
     console.log(el);
+    const midSec = document.getElementById("midSection_container")
+
     const rect = el.getBoundingClientRect();
+    const midsectionRect = midSec.getBoundingClientRect();
 
     return {
-      top: rect.top,
-      left: rect.left,
+      top: rect.top - midsectionRect.top,
+      left: rect.left - midsectionRect.left ,
       bottom: rect.bottom,
       right: rect.right,
+      width: rect.width,
+      height: rect.height
     };
   }
 
@@ -82,8 +87,8 @@ const Header = () => {
           let tempElem = txt[h].parentElement
           let tempPosn = getPosition(tempElem)
           elem = {
-            width: tempPosn.right,
-            height: tempPosn.bottom,
+            width: tempPosn.width,
+            height: tempPosn.height,
             top: tempPosn.top,
             left: tempPosn.left,
             type: "TEXT_INPUT",

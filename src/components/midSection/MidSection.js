@@ -439,17 +439,21 @@ const MidSection = () => {
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
+    const midSec = document.getElementById("midSection_container")
+    const midsectionRect = midSec.getBoundingClientRect();
+
     data.forEach((element) => {
       if (element.type === "TEXT_INPUT") {
         const measure = {
-          width: "auto",
-          height: "auto",
-          left: element.left - 340 + "px",
-          top: element.top - 80 + "px",
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px" ,
+          top: element.top  + "px" ,
           auth_user: curr_user,
         };
 
         const holderDIV = getHolderDIV(measure);
+
 
         let inputField = document.createElement("div");
         inputField.setAttribute("contenteditable", true);
@@ -1091,6 +1095,7 @@ const MidSection = () => {
               as="div"
               ref={midSectionRef}
               className="midSection_container"
+              id="midSection_container"
               onDragOver={dragOver}
               onDrop={onDrop}
             >
