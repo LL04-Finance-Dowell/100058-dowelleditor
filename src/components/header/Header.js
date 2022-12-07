@@ -59,6 +59,11 @@ const Header = () => {
     console.log(el);
     const rect = el.getBoundingClientRect();
 
+    // "[[{"width":584.1484375,"height":170.9921875,"top":90.9921875,"left":384.1484375,"type":"TEXT_INPUT","data":"left test text","id":"editTextBox 1"},{"width":1177.1484375,"height":169.9921875,"top":89.9921875,"left":977.1484375,"type":"TEXT_INPUT","data":"right test text","id":"editTextBox 2"}]]"
+
+    //     {width: 584.1484375, height: 170.9921875, top: 90.9921875, left: 384.1484375, type: 'TEXT_INPUT', …}
+    // {width: 1177.1484375, height: 169.9921875, top: 89.9921875, left: 977.1484375, type: 'TEXT_INPUT', …}
+
     return {
       top: rect.top,
       left: rect.left,
@@ -79,8 +84,17 @@ const Header = () => {
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
         for (let h = 0; h < txt.length; h++) {
-          let tempElem = txt[h].parentElement
-          let tempPosn = getPosition(tempElem)
+          let tempElem = txt[h].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //
+          // const tempCellWidth = window;
+          //   .getComputedStyle(el, null)
+          //   .getPropertyValue("width");
+          // const tempCellHeight = window
+          //   .getComputedStyle(el, null)
+          //   .getPropertyValue("height");
+
+          //
           elem = {
             width: tempPosn.right,
             height: tempPosn.bottom,
@@ -103,8 +117,8 @@ const Header = () => {
       if (img_input[0].type === "file") {
         for (let h = 0; h < img_input.length; h++) {
           const reader = new FileReader();
-          let tempElem = img[h].parentElement
-          let tempPosn = getPosition(tempElem)
+          let tempElem = img[h].parentElement;
+          let tempPosn = getPosition(tempElem);
           elem = {
             width: tempPosn.right,
             height: tempPosn.bottom,
@@ -120,7 +134,6 @@ const Header = () => {
     }
 
     const text2 = document.getElementsByClassName("texttInput");
-
 
     if (text2.length) {
       if (text2[0].parentElement.classList.contains("holderDIV")) {
@@ -187,48 +200,43 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
 
-
-
   console.log("In header.js");
   console.log(decoded);
 
   const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
-    const response = await Axios.post("https://100058.pythonanywhere.com/api/get-data-by-collection/", {
-      database: decoded.details.database,
-      collection: decoded.details.collection,
-      fields: decoded.details.field,
-      id: decoded.details._id
-    })
-      .then(res => {
-        const loadedData = res.data
+    const response = await Axios.post(
+      "https://100058.pythonanywhere.com/api/get-data-by-collection/",
+      {
+        database: decoded.details.database,
+        collection: decoded.details.collection,
+        fields: decoded.details.field,
+        id: decoded.details._id,
+      }
+    )
+      .then((res) => {
+        const loadedData = res.data;
         console.log(res);
 
         if (decoded.details.action === "template") {
           setData(loadedData.template_name);
-        } else
-          if (decoded.details.action === "document") {
-            setData(loadedData.document_name);
-          }
-
-      }).catch(err => {
+        } else if (decoded.details.action === "document") {
+          setData(loadedData.document_name);
+        }
+      })
+      .catch((err) => {
         // console.log(err);
-      }
-      );
+      });
+  };
 
-  }
-
-
-
-
-  let currentTitle = "Untitled-File"
+  let currentTitle = "Untitled-File";
   // function currentTitleFinder() {
   //   if( decoded.details.action === "template"){
   //     // currentTitle = decoded.details.update_field.template_name
   //     currentTitle = data
 
   //     console.log("Is template title");
-  //    } 
+  //    }
 
   // //   if(decoded.details.action === "document"){
   // //     // currentTitle = decoded.details.update_field.document_name
@@ -236,61 +244,56 @@ const Header = () => {
   // //   }
   // }
 
-
-
   useEffect(() => {
     getPostData();
-
-  }, [])
-
-
-
-
+  }, []);
 
   function submit(e) {
     e.preventDefault();
 
-
     const dataa = saveDocument();
 
-    const titleName = document.querySelector(".title-name").innerHTML
-
+    const titleName = document.querySelector(".title-name").innerHTML;
 
     const field = {
       _id: decoded.details._id,
     };
-    let updateField = {}
+    let updateField = {};
     if (decoded.details.action === "template") {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
       };
-    } else
-      if (decoded.details.action === "document") {
-        updateField = {
-          document_name: titleName,
-          content: JSON.stringify(dataa),
-        };
-      }
+    } else if (decoded.details.action === "document") {
+      updateField = {
+        document_name: titleName,
+        content: JSON.stringify(dataa),
+      };
+    }
 
     console.log(updateField);
     console.log(field);
 
-    Axios.post("https://100058.pythonanywhere.com/api/save-data-into-collection/", {
-      cluster: decoded.details.cluster,
-      collection: decoded.details.collection,
-      command: decoded.details.command,
-      database: decoded.details.database,
-      document: decoded.details.document,
-      field: field,
-      function_ID: decoded.details.function_ID,
-      team_member_ID: decoded.details.team_member_ID,
-      update_field: updateField,
-    }).then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
-    });
+    Axios.post(
+      "https://100058.pythonanywhere.com/api/save-data-into-collection/",
+      {
+        cluster: decoded.details.cluster,
+        collection: decoded.details.collection,
+        command: decoded.details.command,
+        database: decoded.details.database,
+        document: decoded.details.document,
+        field: field,
+        function_ID: decoded.details.function_ID,
+        team_member_ID: decoded.details.team_member_ID,
+        update_field: updateField,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -314,8 +317,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => { }} src={headerData[4].icon} alt="" />
-              <img onClick={() => { }} src={headerData[5].icon} alt="" />
+              <img onClick={() => {}} src={headerData[4].icon} alt="" />
+              <img onClick={() => {}} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
@@ -330,9 +333,10 @@ const Header = () => {
 
           <Col className="d-flex justify-content-center header_p">
             {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
-            <div className="title-name"
+            <div
+              className="title-name"
               contentEditable={true}
-              style={{ color: "white", fontSize: 30, }}
+              style={{ color: "white", fontSize: 30 }}
               spellCheck="false"
             >
               {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )

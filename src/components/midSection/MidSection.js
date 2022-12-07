@@ -152,9 +152,7 @@ const MidSection = () => {
         // console.log(err);
       });
   };
-  useEffect(() => {
-    getPostData();
-  }, []);
+  getPostData();
 
   // console.log(JSON.stringify(postData));
 
