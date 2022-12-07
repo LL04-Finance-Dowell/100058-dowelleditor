@@ -264,7 +264,7 @@ const MidSection = () => {
 
   const dragElementOverPage = (event) => {
     let holder;
-
+    console.log("dragElement", event);
     if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
@@ -437,13 +437,16 @@ const MidSection = () => {
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
+    const midSec = document.getElementById("midSection_container");
+    const midsectionRect = midSec.getBoundingClientRect();
+
     data.forEach((element) => {
       if (element.type === "TEXT_INPUT") {
         const measure = {
-          width: "auto",
-          height: "auto",
-          left: element.left - 340 + "px",
-          top: element.top - 80 + "px",
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
           auth_user: curr_user,
         };
 
@@ -561,6 +564,7 @@ const MidSection = () => {
   };
 
   const dragOver = (event) => {
+    console.log("log from on drag", event);
     const isLink = event.dataTransfer.types.includes("text/plain");
     if (isLink) {
       event.preventDefault();
@@ -588,7 +592,7 @@ const MidSection = () => {
 
   const onDrop = (event) => {
     event.preventDefault();
-
+    console.log("log from on drop", event);
     // document.querySelector('.drop_zone').classList.remove('drop_zone')
 
     const typeOfOperation = event.dataTransfer.getData("text/plain");
@@ -1089,6 +1093,7 @@ const MidSection = () => {
               as="div"
               ref={midSectionRef}
               className="midSection_container"
+              id="midSection_container"
               onDragOver={dragOver}
               onDrop={onDrop}
             >

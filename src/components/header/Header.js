@@ -57,7 +57,10 @@ const Header = () => {
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
     console.log(el);
+    const midSec = document.getElementById("midSection_container");
+
     const rect = el.getBoundingClientRect();
+    const midsectionRect = midSec.getBoundingClientRect();
 
     // "[[{"width":584.1484375,"height":170.9921875,"top":90.9921875,"left":384.1484375,"type":"TEXT_INPUT","data":"left test text","id":"editTextBox 1"},{"width":1177.1484375,"height":169.9921875,"top":89.9921875,"left":977.1484375,"type":"TEXT_INPUT","data":"right test text","id":"editTextBox 2"}]]"
 
@@ -65,10 +68,12 @@ const Header = () => {
     // {width: 1177.1484375, height: 169.9921875, top: 89.9921875, left: 977.1484375, type: 'TEXT_INPUT', …}
 
     return {
-      top: rect.top,
-      left: rect.left,
+      top: rect.top - midsectionRect.top,
+      left: rect.left - midsectionRect.left,
       bottom: rect.bottom,
       right: rect.right,
+      width: rect.width,
+      height: rect.height,
     };
   }
 
@@ -96,8 +101,8 @@ const Header = () => {
 
           //
           elem = {
-            width: tempPosn.right,
-            height: tempPosn.bottom,
+            width: tempPosn.width,
+            height: tempPosn.height,
             top: tempPosn.top,
             left: tempPosn.left,
             type: "TEXT_INPUT",
@@ -311,6 +316,24 @@ const Header = () => {
               >
                 Save
               </Button>
+              <Button
+                variant="success"
+                size="md"
+                className="rounded "
+                id="saving-button"
+                onClick={() => alert("Finilize Clicked")}
+              >
+                Finilize
+              </Button>
+              <Button
+                variant="danger"
+                size="md"
+                className="rounded "
+                id="saving-button"
+                onClick={() => alert("Rejcet Clicked")}
+              >
+                Reject
+              </Button>
             </div>
             <div className="header_icons">
               <img onClick={handleUndo} src={headerData[0].icon} alt="" />
@@ -345,7 +368,7 @@ const Header = () => {
             </div>
           </Col>
           <Col className="d-flex justify-content-end header_user">
-            <img src={user} alt="" />
+            {/* <img src={user} alt="" /> */}
           </Col>
         </Row>
       </Container>
