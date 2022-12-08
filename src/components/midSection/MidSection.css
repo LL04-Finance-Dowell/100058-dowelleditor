@@ -5,8 +5,13 @@
 }
 .midSection_container{
     background-color: #ffffff;
-    width: 210mm;
+    width: 216mm;
     height: 297mm;
     position: relative;
- 
+}
+.midSection_without_RightMenu_container{
+    background-color: #ffffff;
+    width: 310mm;
+    height: 297mm;
+    position: relative;
 }

@@ -14,7 +14,13 @@
 }
 .leftMenu > img {
   width: fit-content;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+}
+.leftMenu > button > img {
+  width: 30px;
+  height: 30px;
 }
 .leftMenu > img >button:hover {
   background-color: blue;

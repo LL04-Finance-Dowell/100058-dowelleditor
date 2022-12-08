@@ -17,7 +17,7 @@ import TableRightSidebar from "../rightMenu/TableRightSidebar";
 import "./EditSection.css";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const EditSection = ({ homeElem }) => {
+const EditSection = () => {
   const { isClicked, sidebar } = useStateContext();
 
   const newPageButton = document.querySelector(".new-page-btn");
@@ -32,7 +32,7 @@ const EditSection = ({ homeElem }) => {
           </Col>
           <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
             {/* <MidSection showSidebar={showSidebar}/> */}
-            <MidSection homeElem={homeElem} />
+            <MidSection />
           </Col>
 
           <Col

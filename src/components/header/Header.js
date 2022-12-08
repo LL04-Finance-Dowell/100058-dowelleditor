@@ -91,7 +91,7 @@ const Header = () => {
         for (let h = 0; h < txt.length; h++) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
- 
+
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -293,7 +293,11 @@ const Header = () => {
   }
 
   return (
-    <div className="header">
+    <div
+      className={`header ${
+        actionName ? "header_bg_template" : "header_bg_document"
+      }`}
+    >
       <Container fluid>
         <Row>
           <Col className="d-flex justify-content-start lhs-header">

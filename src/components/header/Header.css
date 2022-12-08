@@ -1,11 +1,15 @@
 .header {
-  background: #4DC290;
   height: 9vh;
   display: flex;
   align-items: center;
   z-index: 1;
 }
-
+.header_bg_template{
+  background: #243485;
+}
+.header_bg_document{
+  background: #106419;
+}
 .header_btn{
   min-width: 220px;
   display: flex;

@@ -54,6 +54,7 @@ const dummyData = {
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
   var {
+    sidebar,
     dropdownName,
     isDropped,
     isClicked,
@@ -152,7 +153,9 @@ const MidSection = () => {
         // console.log(err);
       });
   };
-  getPostData();
+  useEffect(() => {
+    getPostData();
+  }, []);
 
   // console.log(JSON.stringify(postData));
 
@@ -300,24 +303,29 @@ const MidSection = () => {
       function moveObject(ev) {
         console.log(ev);
         ev.preventDefault();
-       const el = document.getElementById("midSection_container")
-       const midsectionRect = el.getBoundingClientRect();
-       console.log(midsectionRect.left, midsectionRect.top, midsectionRect.right );
-      //  screenX: 531, screenY: 175, clientX: 531, Top-left
-      //  screenX: 1061, screenY: 154, Top right
-        if (ev.screenX > midsectionRect.left && ev.screenY > midsectionRect.top  && ev.screenX < midsectionRect.right ){
+        const el = document.getElementById("midSection_container");
+        const midsectionRect = el.getBoundingClientRect();
+        console.log(
+          midsectionRect.left,
+          midsectionRect.top,
+          midsectionRect.right
+        );
+        //  screenX: 531, screenY: 175, clientX: 531, Top-left
+        //  screenX: 1061, screenY: 154, Top right
+        if (
+          ev.screenX > midsectionRect.left &&
+          ev.screenY > midsectionRect.top &&
+          ev.screenX < midsectionRect.right
+        ) {
           console.log("checking motion");
           const diffX = ev.screenX - initX;
-        const diffY = ev.screenY - initY;
-        holder.style.top = holderPos.top + diffY + "px";
-        holder.style.left = holderPos.left + diffX + "px";
+          const diffY = ev.screenY - initY;
+          holder.style.top = holderPos.top + diffY + "px";
+          holder.style.left = holderPos.left + diffX + "px";
         } else {
           holder.style.top = holderPos.top + "px";
           holder.style.left = holderPos.left + "px";
         }
-        
-
-
       }
 
       window.addEventListener("mouseup", stopMove);
@@ -495,9 +503,9 @@ const MidSection = () => {
         // holderDIV.append(paragraphField);
 
         document
-          .getElementsByClassName("midSection_container")
-          .item(0)
-          .append(holderDIV);
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
       }
     });
   };
@@ -540,14 +548,14 @@ const MidSection = () => {
     holderDIV.append(paragraphField);
 
     document
-      .getElementsByClassName("midSection_container")
-      .item(0)
+      .getElementById("midSection_container")
+      // .item(0)
       .append(holderDIV);
   };
 
   function getOffset(el) {
-    const parent = document.getElementsByClassName("midSection_container");
-    const parentPos = parent[0].getBoundingClientRect();
+    const parent = document.getElementById("midSection_container");
+    const parentPos = parent.getBoundingClientRect();
     const rect = el.getBoundingClientRect();
 
     return {
@@ -1103,11 +1111,16 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={currentItem} className="midSection">
+          <div key={currentItem} className={"midSection"}>
             <Container
               as="div"
               ref={midSectionRef}
-              className="midSection_container"
+              className={
+                !sidebar
+                  ? "midSection_without_RightMenu_container"
+                  : "midSection_container"
+              }
+              // className="midSection_container"
               id="midSection_container"
               onDragOver={dragOver}
               onDrop={onDrop}
