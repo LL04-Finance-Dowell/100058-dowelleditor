@@ -298,11 +298,26 @@ const MidSection = () => {
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev) {
+        console.log(ev);
         ev.preventDefault();
-        const diffX = ev.screenX - initX;
+       const el = document.getElementById("midSection_container")
+       const midsectionRect = el.getBoundingClientRect();
+       console.log(midsectionRect.left, midsectionRect.top, midsectionRect.right );
+      //  screenX: 531, screenY: 175, clientX: 531, Top-left
+      //  screenX: 1061, screenY: 154, Top right
+        if (ev.screenX > midsectionRect.left && ev.screenY > midsectionRect.top  && ev.screenX < midsectionRect.right ){
+          console.log("checking motion");
+          const diffX = ev.screenX - initX;
         const diffY = ev.screenY - initY;
         holder.style.top = holderPos.top + diffY + "px";
         holder.style.left = holderPos.left + diffX + "px";
+        } else {
+          holder.style.top = holderPos.top + "px";
+          holder.style.left = holderPos.left + "px";
+        }
+        
+
+
       }
 
       window.addEventListener("mouseup", stopMove);
@@ -711,7 +726,7 @@ const MidSection = () => {
             },
           };
 
-          postData.push(imageField);
+          // postData.push(imageField);
           // setPostData({
           //   ...postData,
           //   imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -748,7 +763,7 @@ const MidSection = () => {
           },
         };
 
-        postData.push(textField);
+        // postData.push(textField);
         // setPostData({
         //   ...postData,
         //   textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
@@ -781,21 +796,21 @@ const MidSection = () => {
         });
       };
 
-      if (tableField) {
-        const tableField = {
-          tableField: {
-            value: event.target.value,
-            xcoordinate: getOffset(holderDIV).left,
-            ycoordinate: getOffset(holderDIV).top,
-          },
-        };
+      // if (tableField) {
+      //   const tableField = {
+      //     tableField: {
+      //       value: event.target.value,
+      //       xcoordinate: getOffset(holderDIV).left,
+      //       ycoordinate: getOffset(holderDIV).top,
+      //     },
+      //   };
 
-        postData.push(tableField);
-        // setPostData({
-        //   ...postData,
-        //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        // })
-      }
+      //   // postData.push(tableField);
+      //   // setPostData({
+      //   //   ...postData,
+      //   //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+      //   // })
+      // }
 
       tableField.onclick = () => {
         tableField.classList.add("focussed");
@@ -833,21 +848,21 @@ const MidSection = () => {
         });
       };
 
-      if (signField) {
-        const signField = {
-          signField: {
-            value: event.target.value,
-            xcoordinate: getOffset(holderDIV).left,
-            ycoordinate: getOffset(holderDIV).top,
-          },
-        };
+      // if (signField) {
+      //   const signField = {
+      //     signField: {
+      //       value: event.target.value,
+      //       xcoordinate: getOffset(holderDIV).left,
+      //       ycoordinate: getOffset(holderDIV).top,
+      //     },
+      //   };
 
-        postData.push(signField);
-        // setPostData({
-        //   ...postData,
-        //   signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        // })
-      }
+      //   // postData.push(signField);
+      //   // setPostData({
+      //   //   ...postData,
+      //   //   signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+      //   // })
+      // }
 
       signField.onclick = () => {
         signField.classList.add("focussed");
@@ -883,21 +898,21 @@ const MidSection = () => {
         });
       };
 
-      if (dateField) {
-        const dateField = {
-          dateField: {
-            value: event.target.value,
-            xcoordinate: getOffset(holderDIV).left,
-            ycoordinate: getOffset(holderDIV).top,
-          },
-        };
+      // if (dateField) {
+      //   const dateField = {
+      //     dateField: {
+      //       value: event.target.value,
+      //       xcoordinate: getOffset(holderDIV).left,
+      //       ycoordinate: getOffset(holderDIV).top,
+      //     },
+      //   };
 
-        // postData.push(dateField);
-        // setPostData({
-        //   ...postData,
-        //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        // })
-      }
+      //   // postData.push(dateField);
+      //   // setPostData({
+      //   //   ...postData,
+      //   //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+      //   // })
+      // }
 
       dateField.onclick = () => {
         dateField.classList.add("focussed");
@@ -950,7 +965,7 @@ const MidSection = () => {
           },
         };
 
-        postData.push(dropdownField);
+        // postData.push(dropdownField);
         // setPostData({
         //   ...postData,
         //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }

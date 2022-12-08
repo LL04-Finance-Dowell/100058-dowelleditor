@@ -91,15 +91,7 @@ const Header = () => {
         for (let h = 0; h < txt.length; h++) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
-          //
-          // const tempCellWidth = window;
-          //   .getComputedStyle(el, null)
-          //   .getPropertyValue("width");
-          // const tempCellHeight = window
-          //   .getComputedStyle(el, null)
-          //   .getPropertyValue("height");
-
-          //
+ 
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
