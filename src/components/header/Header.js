@@ -204,9 +204,8 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-
-  console.log("In header.js");
-  console.log(decoded);
+  const actionName = decoded?.details?.action;
+  console.log("In header.js", actionName);
 
   const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
@@ -316,24 +315,28 @@ const Header = () => {
               >
                 Save
               </Button>
-              <Button
-                variant="success"
-                size="md"
-                className="rounded "
-                id="saving-button"
-                onClick={() => alert("Finilize Clicked")}
-              >
-                Finilize
-              </Button>
-              <Button
-                variant="danger"
-                size="md"
-                className="rounded "
-                id="saving-button"
-                onClick={() => alert("Rejcet Clicked")}
-              >
-                Reject
-              </Button>
+              {actionName == "template" && (
+                <>
+                  <Button
+                    variant="success"
+                    size="md"
+                    className="rounded "
+                    id="saving-button"
+                    onClick={() => alert("Finilize Clicked")}
+                  >
+                    Finalize
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="md"
+                    className="rounded "
+                    id="saving-button"
+                    onClick={() => alert("Rejcet Clicked")}
+                  >
+                    Reject
+                  </Button>
+                </>
+              )}
             </div>
             <div className="header_icons">
               <img onClick={handleUndo} src={headerData[0].icon} alt="" />
@@ -354,7 +357,7 @@ const Header = () => {
             </div>
           </Col>
 
-          <Col className="d-flex justify-content-center header_p">
+          <Col className="d-flex justify-content-center header_p ">
             {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
             <div
               className="title-name"
@@ -367,7 +370,10 @@ const Header = () => {
               {data && data}
             </div>
           </Col>
-          <Col className="d-flex justify-content-end header_user">
+          <Col className="d-flex align-items-center justify-content-end header_user">
+            <span className="badge bg-warning">
+              {actionName == "template" ? "Template" : "Document"}
+            </span>
             {/* <img src={user} alt="" /> */}
           </Col>
         </Row>
