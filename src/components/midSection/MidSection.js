@@ -507,6 +507,88 @@ const MidSection = () => {
           // ?.item(0)
           ?.append(holderDIV);
       }
+      if (element.type === "IMAGE_INPUT") {
+        const measure = {
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
+          auth_user: curr_user,
+        };
+
+        const holderDIV = getHolderDIV(measure);
+
+        let imageField = document.createElement("div");
+        imageField.className = "imageInput";
+        imageField.style.width = "100%";
+        imageField.style.height = "100%";
+        imageField.style.backgroundColor = "#0000";
+        imageField.style.borderRadius = "0px";
+        imageField.style.outline = "0px";
+        imageField.style.overflow = "overlay";
+        // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+        imageField.style.position = "relative";
+  
+        imageField.onclick = () => {
+          imageField.classList.add("focussed");
+          handleClicked("image2");
+          setSidebar(true);
+        };
+
+        imageField.style.backgroundImage = `${element.data}`;
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+        holderDIV.append(imageField);
+
+        // holderDIV.append(paragraphField);
+
+        document
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
+      }
+      if (element.type === "DATE_INPUT") {
+        const measure = {
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
+          auth_user: curr_user,
+        };
+
+        const holderDIV = getHolderDIV(measure);
+
+        let dateField = document.createElement("div");
+      dateField.className = "dateInput";
+      dateField.style.width = "100%";
+      dateField.style.height = "100%";
+      dateField.style.backgroundColor = "#0000";
+      dateField.style.borderRadius = "0px";
+      dateField.style.outline = "0px";
+      dateField.style.overflow = "overlay";
+      // dateField.innerText = `${postData.calenderField.value}`
+      dateField.style.position = "relative";
+  
+      dateField.onclick = () => {
+        dateField.classList.add("focussed");
+        handleClicked("calendar2");
+        setSidebar(true);
+      };
+      dateField.innerText = `${element.data}`;
+
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+        holderDIV.append(dateField);
+
+        // holderDIV.append(paragraphField);
+
+        document
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
+      }
+
+
     });
   };
 

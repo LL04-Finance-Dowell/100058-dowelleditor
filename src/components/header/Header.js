@@ -80,6 +80,8 @@ const Header = () => {
   let contentFile = [];
   let page = [];
 
+
+
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
@@ -109,54 +111,57 @@ const Header = () => {
 
     const img_input = document.getElementsByTagName("input");
     const img = document.getElementsByClassName("imageInput");
-    if (img.length) {
+    if (img) {
       console.log("Image_input", img_input[0]);
-      if (img_input[0].type === "file") {
-        for (let h = 0; h < img_input.length; h++) {
+      // if (img_input[0].type === "file") {
+        for (let h = 0; h < img.length; h++) {
           const reader = new FileReader();
           let tempElem = img[h].parentElement;
           let tempPosn = getPosition(tempElem);
           elem = {
-            width: tempPosn.right,
-            height: tempPosn.bottom,
+            width: tempPosn.width,
+            height: tempPosn.height,
             top: tempPosn.top,
             left: tempPosn.left,
             type: "IMAGE_INPUT",
-            data: reader.result,
+            data: img[h].style.backgroundImage,
             id: `image component ${h + 1}`,
           };
           page.push(elem);
         }
-      }
+      // }
     }
 
-    const text2 = document.getElementsByClassName("texttInput");
+    // const text2 = document.getElementsByClassName("texttInput");
 
-    if (text2.length) {
-      if (text2[0].parentElement.classList.contains("holderDIV")) {
-        for (let h = 0; h < text2.length; h++) {
-          elem = {
-            width: getPosition(text2).right,
-            height: getPosition(text2).bottom,
-            top: getPosition(text2).top,
-            left: getPosition(text2).left,
-            type: "TEXT_FILL",
-            data: text2[h].value,
-            id: `text component ${h + 1}`,
-          };
-          page.push(elem);
-        }
-      }
-    }
+    // if (text2.length) {
+    //   if (text2[0].parentElement.classList.contains("holderDIV")) {
+    //     for (let h = 0; h < text2.length; h++) {
+    //       elem = {
+    //         width: getPosition(text2).right,
+    //         height: getPosition(text2).bottom,
+    //         top: getPosition(text2).top,
+    //         left: getPosition(text2).left,
+    //         type: "TEXT_FILL",
+    //         data: text2[h].value,
+    //         id: `text component ${h + 1}`,
+    //       };
+    //       page.push(elem);
+    //     }
+    //   }
+    // }
 
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
+
+        let tempElem = date[h].parentElement;
+          let tempPosn = getPosition(tempElem);
         elem = {
-          width: getPosition(date).right,
-          height: getPosition(date).bottom,
-          top: getPosition(date).top,
-          left: getPosition(date).left,
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
           type: "DATE_INPUT",
           data: date[h].innerHTML,
           id: `date component ${h + 1}`,
@@ -295,7 +300,7 @@ const Header = () => {
   return (
     <div
       className={`header ${
-        actionName ? "header_bg_template" : "header_bg_document"
+        (actionName == "template") ? "header_bg_template" : "header_bg_document"
       }`}
     >
       <Container fluid>
