@@ -587,6 +587,46 @@ const MidSection = () => {
           // ?.item(0)
           ?.append(holderDIV);
       }
+      if (element.type === "SIGN_INPUT") {
+        const measure = {
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
+          auth_user: curr_user,
+        };
+
+        const holderDIV = getHolderDIV(measure);
+
+        let signField = document.createElement("div");
+      signField.className = "signInput";
+      signField.style.width = "100%";
+      signField.style.height = "100%";
+      signField.style.backgroundColor = "#0000";
+      signField.style.borderRadius = "0px";
+      signField.style.outline = "0px";
+      signField.style.overflow = "overlay";
+      // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+      signField.style.position = "absolute";
+  
+      signField.onclick = () => {
+        signField.classList.add("focussed");
+        handleClicked("signs2");
+        setSidebar(true);
+      };
+      signField.innerHTML =  `<img src=${element.data} />`;
+
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+        holderDIV.append(signField);
+
+        // holderDIV.append(paragraphField);
+
+        document
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
+      }
 
 
     });
@@ -974,7 +1014,7 @@ const MidSection = () => {
       dateField.style.outline = "0px";
       dateField.style.overflow = "overlay";
       // dateField.innerText = `${postData.calenderField.value}`
-      dateField.style.position = "absolute";
+      dateField.style.position = "relative";
 
       dateField.onchange = (event) => {
         event.preventDefault();

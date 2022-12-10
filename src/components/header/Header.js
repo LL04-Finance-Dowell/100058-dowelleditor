@@ -7,7 +7,7 @@ import user from "../../assets/headerIcons/user.png";
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import { CgPlayListRemove } from "react-icons/cg";
-import { MdOutlinePostAdd } from "react-icons/md";
+import { MdOutlinePostAdd, MdSignalCellular0Bar } from "react-icons/md";
 
 import { useSearchParams } from "react-router-dom";
 
@@ -114,21 +114,21 @@ const Header = () => {
     if (img) {
       console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
-        for (let h = 0; h < img.length; h++) {
-          const reader = new FileReader();
-          let tempElem = img[h].parentElement;
-          let tempPosn = getPosition(tempElem);
-          elem = {
-            width: tempPosn.width,
-            height: tempPosn.height,
-            top: tempPosn.top,
-            left: tempPosn.left,
-            type: "IMAGE_INPUT",
-            data: img[h].style.backgroundImage,
-            id: `image component ${h + 1}`,
-          };
-          page.push(elem);
-        }
+      for (let h = 0; h < img.length; h++) {
+        const reader = new FileReader();
+        let tempElem = img[h].parentElement;
+        let tempPosn = getPosition(tempElem);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
+          type: "IMAGE_INPUT",
+          data: img[h].style.backgroundImage,
+          id: `image component ${h + 1}`,
+        };
+        page.push(elem);
+      }
       // }
     }
 
@@ -156,7 +156,7 @@ const Header = () => {
       for (let h = 0; h < date.length; h++) {
 
         let tempElem = date[h].parentElement;
-          let tempPosn = getPosition(tempElem);
+        let tempPosn = getPosition(tempElem);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -165,6 +165,26 @@ const Header = () => {
           type: "DATE_INPUT",
           data: date[h].innerHTML,
           id: `date component ${h + 1}`,
+        };
+        page.push(elem);
+      }
+    }
+
+
+    const sign = document.getElementsByClassName("signInput");
+    if (sign.length) {
+      for (let h = 0; h < sign.length; h++) {
+        let tempElem = sign[h].parentElement;
+        let tempPosn = getPosition(tempElem);
+        console.log(sign[h].firstElementChild.src);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
+          type: "SIGN_INPUT",
+          data: sign[h].firstElementChild.src,
+          id: `sign component ${h + 1}`,
         };
         page.push(elem);
       }
@@ -299,9 +319,8 @@ const Header = () => {
 
   return (
     <div
-      className={`header ${
-        (actionName == "template") ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${(actionName == "template") ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -344,8 +363,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+              <img onClick={() => { }} src={headerData[4].icon} alt="" />
+              <img onClick={() => { }} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
