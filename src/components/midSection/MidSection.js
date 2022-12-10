@@ -168,7 +168,7 @@ const MidSection = () => {
     } else {
       console.log("loading data");
     }
-  }, [sort.data]);
+  }, [sort?.data]);
 
   let resizing = false;
   let contentFile = [];
@@ -528,7 +528,7 @@ const MidSection = () => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
-  
+
         imageField.onclick = () => {
           imageField.classList.add("focussed");
           handleClicked("image2");
@@ -559,22 +559,22 @@ const MidSection = () => {
         const holderDIV = getHolderDIV(measure);
 
         let dateField = document.createElement("div");
-      dateField.className = "dateInput";
-      dateField.style.width = "100%";
-      dateField.style.height = "100%";
-      dateField.style.backgroundColor = "#0000";
-      dateField.style.borderRadius = "0px";
-      dateField.style.outline = "0px";
-      dateField.style.overflow = "overlay";
-      // dateField.innerText = `${postData.calenderField.value}`
-      dateField.style.position = "relative";
-  
-      dateField.onclick = () => {
-        dateField.classList.add("focussed");
-        handleClicked("calendar2");
-        setSidebar(true);
-      };
-      dateField.innerText = `${element.data}`;
+        dateField.className = "dateInput";
+        dateField.style.width = "100%";
+        dateField.style.height = "100%";
+        dateField.style.backgroundColor = "#0000";
+        dateField.style.borderRadius = "0px";
+        dateField.style.outline = "0px";
+        dateField.style.overflow = "overlay";
+        // dateField.innerText = `${postData.calenderField.value}`
+        dateField.style.position = "relative";
+
+        dateField.onclick = () => {
+          dateField.classList.add("focussed");
+          handleClicked("calendar2");
+          setSidebar(true);
+        };
+        dateField.innerText = `${element.data}`;
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -599,22 +599,22 @@ const MidSection = () => {
         const holderDIV = getHolderDIV(measure);
 
         let signField = document.createElement("div");
-      signField.className = "signInput";
-      signField.style.width = "100%";
-      signField.style.height = "100%";
-      signField.style.backgroundColor = "#0000";
-      signField.style.borderRadius = "0px";
-      signField.style.outline = "0px";
-      signField.style.overflow = "overlay";
-      // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
-      signField.style.position = "absolute";
-  
-      signField.onclick = () => {
-        signField.classList.add("focussed");
-        handleClicked("signs2");
-        setSidebar(true);
-      };
-      signField.innerHTML =  `<img src=${element.data} />`;
+        signField.className = "signInput";
+        signField.style.width = "100%";
+        signField.style.height = "100%";
+        signField.style.backgroundColor = "#0000";
+        signField.style.borderRadius = "0px";
+        signField.style.outline = "0px";
+        signField.style.overflow = "overlay";
+        // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+        signField.style.position = "absolute";
+
+        signField.onclick = () => {
+          signField.classList.add("focussed");
+          handleClicked("signs2");
+          setSidebar(true);
+        };
+        signField.innerHTML = `<img src=${element.data} />`;
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -627,8 +627,6 @@ const MidSection = () => {
           // ?.item(0)
           ?.append(holderDIV);
       }
-
-
     });
   };
 
