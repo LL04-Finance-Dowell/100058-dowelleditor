@@ -22,7 +22,7 @@ const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc }) => (
     onClick = {clickFunc}
 
   >
-    <img src={icon} alt="icon" />
+    <img src={icon}  alt="icon" />
   </button>
 )
 
