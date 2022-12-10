@@ -5,6 +5,14 @@
 }
 .midSection_container{
     background-color: #ffffff;
+    width: 210mm;
+    height: 297mm;
+    position: relative;
+ 
+}
+/*
+.midSection_container{
+    background-color: #ffffff;
     width: 216mm;
     height: 297mm;
     position: relative;
@@ -14,4 +22,4 @@
     width: 310mm;
     height: 297mm;
     position: relative;
-}
+} */

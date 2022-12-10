@@ -1116,9 +1116,9 @@ const MidSection = () => {
               as="div"
               ref={midSectionRef}
               className={
-                !sidebar
-                  ? "midSection_without_RightMenu_container"
-                  : "midSection_container"
+                // !sidebar
+                //   ? "midSection_without_RightMenu_container"
+                "midSection_container"
               }
               // className="midSection_container"
               id="midSection_container"

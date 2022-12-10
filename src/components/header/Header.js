@@ -311,7 +311,7 @@ const Header = () => {
               >
                 Save
               </Button>
-              {actionName == "template" && (
+              {/* {actionName == "template" && (
                 <>
                   <Button
                     variant="success"
@@ -332,7 +332,7 @@ const Header = () => {
                     Reject
                   </Button>
                 </>
-              )}
+              )} */}
             </div>
             <div className="header_icons">
               <img onClick={handleUndo} src={headerData[0].icon} alt="" />
