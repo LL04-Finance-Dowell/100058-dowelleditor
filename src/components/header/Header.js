@@ -15,7 +15,7 @@ import jwt_decode from "jwt-decode";
 import { current } from "@reduxjs/toolkit";
 
 const Header = () => {
-  const { item, setItem } = useStateContext();
+  const { item, setItem, setIsLoading } = useStateContext();
   //   console.log(headerData);
 
   const handleUndo = () => {
@@ -79,8 +79,6 @@ const Header = () => {
 
   let contentFile = [];
   let page = [];
-
-
 
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
@@ -154,7 +152,6 @@ const Header = () => {
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
-
         let tempElem = date[h].parentElement;
         let tempPosn = getPosition(tempElem);
         elem = {
@@ -169,7 +166,6 @@ const Header = () => {
         page.push(elem);
       }
     }
-
 
     const sign = document.getElementsByClassName("signInput");
     if (sign.length) {
@@ -271,7 +267,7 @@ const Header = () => {
 
   function submit(e) {
     e.preventDefault();
-
+    setIsLoading(true);
     const dataa = saveDocument();
 
     const titleName = document.querySelector(".title-name").innerHTML;
@@ -310,17 +306,23 @@ const Header = () => {
       }
     )
       .then((res) => {
+        if (res.status == 200) {
+          setIsLoading(false);
+          alert("Data saved successfully");
+        }
         console.log(res);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   }
 
   return (
     <div
-      className={`header ${(actionName == "template") ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -363,8 +365,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => { }} src={headerData[4].icon} alt="" />
-              <img onClick={() => { }} src={headerData[5].icon} alt="" />
+              <img onClick={() => {}} src={headerData[4].icon} alt="" />
+              <img onClick={() => {}} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>

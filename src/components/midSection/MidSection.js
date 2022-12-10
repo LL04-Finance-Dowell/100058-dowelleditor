@@ -14,7 +14,7 @@ import "./MidSection.css";
 
 import TextBox from "../leftMenu/comp/TextBox";
 import { useStateContext } from "../../contexts/contextProvider";
-
+import Spinner from "../../utils/spinner/Spinner";
 import Image from "../leftMenu/comp/Image";
 import Table from "../leftMenu/comp/Table";
 import Signs from "../leftMenu/comp/Signs";
@@ -65,6 +65,8 @@ const MidSection = () => {
     dropdownOptions,
     item,
     setItem,
+    isLoading,
+    setIsLoading,
   } = useStateContext();
 
   function boldCommand() {
@@ -127,6 +129,7 @@ const MidSection = () => {
   // var decoded = jwt_decode(token);
   // console.log(decoded);
 
+  // const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [sort, setSort] = useState([]);
   const getPostData = async () => {
@@ -143,13 +146,14 @@ const MidSection = () => {
     )
       .then((res) => {
         const loadedData = JSON.parse(res.data.content);
-        console.log(res);
-
+        // console.log(res);
         setData(loadedData[0]);
         setSort(loadedData[0][0]);
+        setIsLoading(false);
         //  setData(oldArray => [...data, loadedData[0]]);
       })
       .catch((err) => {
+        setIsLoading(false);
         // console.log(err);
       });
   };
@@ -1248,6 +1252,7 @@ const MidSection = () => {
               <Row>
                 <Col className="d-flex justify-content-end header_user">
                   <span>{index + 1}</span>
+                  {isLoading && <Spinner />}
                 </Col>
               </Row>
             </Container>

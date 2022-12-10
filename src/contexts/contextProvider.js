@@ -1,94 +1,108 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const StateContext = createContext();
 
 const initialState = {
-    align: true,
-    textfill: true,
-    image: false,
-    table: false,
-    signs: false,
-    calendar: false,
-    dropdown: false,
-    containerr: false,
-}
+  align: true,
+  textfill: true,
+  image: false,
+  table: false,
+  signs: false,
+  calendar: false,
+  dropdown: false,
+  containerr: false,
+};
 const initialState2 = {
-    align2: false,
-    textfill2: false,
-    image2: false,
-    table2: false,
-    signs2: false,
-    calendar2: false,
-    dropdown2: false,
-}
+  align2: false,
+  textfill2: false,
+  image2: false,
+  table2: false,
+  signs2: false,
+  calendar2: false,
+  dropdown2: false,
+};
 
 export const ContextProvider = ({ children }) => {
+  const [isClicked, setIsClicked] = useState(initialState2);
 
-    const [isClicked, setIsClicked] = useState(initialState2);
+  const [isDropped, setIsDropped] = useState(initialState);
 
-    const [isDropped, setIsDropped] = useState(initialState);
+  const [isResizing, setIsResizing] = useState(false);
 
-    const [isResizing, setIsResizing] = useState(false);
+  //Right Sidebar context
+  const [signState, setSignState] = React.useState({ trimmedDataURL: null }); // Signature
 
-    //Right Sidebar context
-    const [signState, setSignState] = React.useState({ trimmedDataURL: null });  // Signature
+  const [startDate, setStartDate] = useState(""); // Calendar
 
-    const [startDate, setStartDate] = useState(''); // Calendar
+  const [dropdownName, setDropdownName] = useState("Dropdown Name");
+  const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
+  const [dropdownItems, setDropdownItems] = useState("");
+  const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"]);
 
-    const [dropdownName, setDropdownName] = useState("Dropdown Name");
-    const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
-    const [dropdownItems, setDropdownItems] = useState("");
-    const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"])
+  const [bold, setBold] = useState(false);
+  const [italic, setItalic] = useState(false);
+  const [underline, setUnderline] = useState(false);
+  const [strikethrough, setStrikethrough] = useState(false);
 
+  const handleDrop = (dropped) => {
+    setIsDropped({ ...isDropped, [dropped]: true });
+  };
 
-    const [bold, setBold] = useState(false);
-    const [italic, setItalic] = useState(false);
-    const [underline, setUnderline] = useState(false);
-    const [strikethrough, setStrikethrough] = useState(false)
+  const handleClicked = (clicked) => {
+    setIsClicked({ ...isClicked, [clicked]: true });
+  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [sidebar, setSidebar] = useState(false);
+  // const showSidebar = () => setSidebar(!sidebar);
 
-    const handleDrop = (dropped) => {
-        setIsDropped({ ...isDropped, [dropped]: true });
-    }
+  //handling new pages
 
-    const handleClicked = (clicked) => {
-        setIsClicked({ ...isClicked, [clicked]: true });
-    }
+  const [item, setItem] = useState(["div"]);
 
-    const [sidebar, setSidebar] = useState(false);
-    // const showSidebar = () => setSidebar(!sidebar);
+  //   console.log("item check", item);
 
-    //handling new pages
-
-    const [item, setItem] = useState(['div'])
-
-
-
-    return (
-        <StateContext.Provider
-            value={{
-                isDropped, handleDrop,
-                setIsDropped,
-                isResizing, setIsResizing,
-                isClicked, handleClicked,
-                setIsClicked,
-                sidebar, setSidebar,
-                signState, setSignState,
-                startDate, setStartDate,
-                bold, setBold,
-                italic, setItalic,
-                underline, setUnderline,
-                strikethrough, setStrikethrough,
-                dropdownName, setDropdownName,
-                dropdownLabel, setDropdownLabel,
-                dropdownItems, setDropdownItems,
-                dropdownOptions, setDropdownOptions,
-                item, setItem,
-            }}
-        >
-            {children}
-        </StateContext.Provider>
-    )
-}
+  return (
+    <StateContext.Provider
+      value={{
+        isDropped,
+        handleDrop,
+        setIsDropped,
+        isResizing,
+        setIsResizing,
+        isClicked,
+        handleClicked,
+        setIsClicked,
+        sidebar,
+        setSidebar,
+        signState,
+        setSignState,
+        startDate,
+        setStartDate,
+        bold,
+        setBold,
+        italic,
+        setItalic,
+        underline,
+        setUnderline,
+        strikethrough,
+        setStrikethrough,
+        dropdownName,
+        setDropdownName,
+        dropdownLabel,
+        setDropdownLabel,
+        dropdownItems,
+        setDropdownItems,
+        dropdownOptions,
+        setDropdownOptions,
+        item,
+        setItem,
+        isLoading,
+        setIsLoading,
+      }}
+    >
+      {children}
+    </StateContext.Provider>
+  );
+};
 
 export const useStateContext = () => useContext(StateContext);
-
