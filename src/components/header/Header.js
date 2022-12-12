@@ -14,6 +14,11 @@ import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { current } from "@reduxjs/toolkit";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 const Header = () => {
   const { item, setItem, setIsLoading } = useStateContext();
   //   console.log(headerData);
@@ -306,9 +311,11 @@ const Header = () => {
       }
     )
       .then((res) => {
+
         if (res.status == 200) {
           setIsLoading(false);
-          alert("Data saved successfully");
+          // alert("Data saved successfully");
+          toast.success("Saved successfully");
         }
         console.log(res);
       })
@@ -393,6 +400,7 @@ const Header = () => {
             </div>
           </Col>
           <Col className="d-flex align-items-center justify-content-end header_user">
+          <ToastContainer size={5} />
             <span className="badge bg-warning">
               {actionName == "template" ? "Template" : "Document"}
             </span>
