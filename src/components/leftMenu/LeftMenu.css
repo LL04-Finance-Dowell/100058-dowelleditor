@@ -25,5 +25,44 @@
 .leftMenu > img >button:hover {
   background-color: blue;
 }
+.custom_reject_button{
+  background-color: #e43429;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+  margin: 30px 0 10px 0;
+  min-width: 84px;
+}
+
+.custom_reject_button:hover{
+  background-color: #243485;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+.custom_finalize_button{
+  background: #318E11;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+
+.custom_finalize_button:hover{
+  background-color: #243485;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+
+
+
 
 

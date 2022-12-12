@@ -52,6 +52,7 @@ export const ContextProvider = ({ children }) => {
     setIsClicked({ ...isClicked, [clicked]: true });
   };
   const [isLoading, setIsLoading] = useState(true);
+  const [isFlipClicked, setIsFlipClicked] = useState(true);
   const [sidebar, setSidebar] = useState(false);
   // const showSidebar = () => setSidebar(!sidebar);
 
@@ -98,6 +99,8 @@ export const ContextProvider = ({ children }) => {
         setItem,
         isLoading,
         setIsLoading,
+        isFlipClicked,
+        setIsFlipClicked,
       }}
     >
       {children}
