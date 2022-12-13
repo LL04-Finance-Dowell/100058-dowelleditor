@@ -498,8 +498,10 @@ const MidSection = () => {
           setSidebar(true);
           // inputField.parentElement.focus()
         };
+        const text = `${element.data}`
+        console.log(text);
 
-        inputField.innerText = `${element.data}`;
+        inputField.innerHTML = text
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(inputField);
@@ -623,6 +625,46 @@ const MidSection = () => {
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(signField);
+
+        // holderDIV.append(paragraphField);
+
+        document
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
+      }
+      if (element.type === "TABLE_INPUT") {
+        const measure = {
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
+          auth_user: curr_user,
+        };
+
+        const holderDIV = getHolderDIV(measure);
+
+        let tableField = document.createElement("div");
+      tableField.className = "tableInput";
+      tableField.style.width = "100%";
+      tableField.style.height = "100%";
+      tableField.style.backgroundColor = "#0000";
+      tableField.style.borderRadius = "0px";
+      tableField.style.outline = "0px";
+      tableField.style.overflow = "overlay";
+      // tableField.innerHTML = 'table';
+      tableField.style.position = "absolute";
+
+      tableField.onclick = () => {
+        tableField.classList.add("focussed");
+        handleClicked("table2");
+        setSidebar(true);
+      };
+        tableField.append(element.data)
+
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+        holderDIV.append(tableField);
 
         // holderDIV.append(paragraphField);
 

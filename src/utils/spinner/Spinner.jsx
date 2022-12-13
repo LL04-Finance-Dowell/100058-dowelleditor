@@ -70,7 +70,7 @@ const Spinner = () => {
           ></motion.div>
         </motion.div>
       </motion.div>
-      <div className={styles.text}>Loading...</div>
+      <div className={styles.text}>Editor...</div>
     </div>
   );
 };
