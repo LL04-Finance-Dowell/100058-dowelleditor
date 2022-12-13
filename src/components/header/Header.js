@@ -88,11 +88,27 @@ const Header = () => {
   let contentFile = [];
   let page = [];
 
+  function savingTableData () {
+    const tables = document.getElementsByClassName("tableInput");
+    let tables_tags = [];
+
+    if (tables.length) {
+      for ( let t=0; t<tables.length; t++) {
+          var new_table = document.getElementsByTagName("table")[0];
+          console.log("New Table");
+          console.log(new_table);
+          tables_tags.push(new_table);
+          console.log("table_tags");
+          console.log(tables_tags);
+      }
+  }
+  }
+
+
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
-    console.log(document.getElementsByClassName("textInput"));
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       if (txt[0].parentElement.classList.contains("holderDIV")) {
@@ -107,7 +123,7 @@ const Header = () => {
             left: tempPosn.left,
             type: "TEXT_INPUT",
             data: txt[h].innerHTML,
-            id: `editTextBox ${h + 1}`,
+            id: `t${h + 1}`,
           };
 
           page.push(elem);
@@ -131,31 +147,14 @@ const Header = () => {
           left: tempPosn.left,
           type: "IMAGE_INPUT",
           data: img[h].style.backgroundImage,
-          id: `image component ${h + 1}`,
+          id: `i${h + 1}`,
         };
         page.push(elem);
       }
       // }
     }
 
-    // const text2 = document.getElementsByClassName("texttInput");
 
-    // if (text2.length) {
-    //   if (text2[0].parentElement.classList.contains("holderDIV")) {
-    //     for (let h = 0; h < text2.length; h++) {
-    //       elem = {
-    //         width: getPosition(text2).right,
-    //         height: getPosition(text2).bottom,
-    //         top: getPosition(text2).top,
-    //         left: getPosition(text2).left,
-    //         type: "TEXT_FILL",
-    //         data: text2[h].value,
-    //         id: `text component ${h + 1}`,
-    //       };
-    //       page.push(elem);
-    //     }
-    //   }
-    // }
 
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
@@ -169,7 +168,7 @@ const Header = () => {
           left: tempPosn.left,
           type: "DATE_INPUT",
           data: date[h].innerHTML,
-          id: `date component ${h + 1}`,
+          id: `d${h + 1}`,
         };
         page.push(elem);
       }
@@ -180,7 +179,6 @@ const Header = () => {
       for (let h = 0; h < sign.length; h++) {
         let tempElem = sign[h].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(sign[h].firstElementChild.src);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -188,32 +186,34 @@ const Header = () => {
           left: tempPosn.left,
           type: "SIGN_INPUT",
           data: sign[h].firstElementChild.src,
-          id: `sign component ${h + 1}`,
+          id: `s${h + 1}`,
         };
         page.push(elem);
       }
     }
-    // const tablee = document.getElementsByTagName("TABLE")
-    // if (tablee.length < 1) {
-    //   const img = document.getElementsByTagName("img");
-    //   if (img.length) {
-    //     const canvas = document.createElement('canvas');
-    //     canvas.setAttribute('width', document.style.width);
-    //     canvas.setAttribute('height', document.style.height);
-    //     const ctx = canvas.getContext('2d');
-    //     ctx.drawImage(img[0], 0, 0, parseInt(document.style.width.slice(0, -2)), parseInt(document.style.height.slice(0, -2)));
-    //     elem = {
-    //       width: getPosition(tablee).style.width,
-    //       height: getPosition(tablee).style.height,
-    //       top: getPosition(tablee).style.top,
-    //       left: getPosition(tablee).style.left,
-    //       type: 'IMG_INPUT',
-    //       data: canvas.toDataURL(),
-    //     }
-    //     page.push(elem)
-    //   }
 
-    // }
+    const tables = document.getElementsByClassName("tableInput");
+ 
+
+    if (tables.length) {
+      for ( let t=0; t<tables.length; t++) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = tables[t].parentElement;
+          let tempPosn = getPosition(tempElem);
+          console.log(tables[t].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            left: tempPosn.left,
+            type: "TABLE_INPUT",
+            data: tables[t].firstElementChild,
+            id: `tab${t + 1}`,
+          };
+          page.push(elem);
+      }
+  }
+ 
 
     contentFile.push(page);
     const data = JSON.stringify(contentFile);
@@ -277,6 +277,7 @@ const Header = () => {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
+    
 
     const titleName = document.querySelector(".title-name").innerHTML;
 
