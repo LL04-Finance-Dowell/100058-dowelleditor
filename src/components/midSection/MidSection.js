@@ -146,7 +146,7 @@ const MidSection = () => {
     )
       .then((res) => {
         const loadedData = JSON.parse(res.data.content);
-        // console.log(res);
+        console.log("loadedData", res);
         setData(loadedData[0]);
         setSort(loadedData[0][0]);
         setIsLoading(false);
@@ -154,6 +154,7 @@ const MidSection = () => {
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log("error response from midsection get request", err);
         // console.log(err);
       });
   };
@@ -498,10 +499,10 @@ const MidSection = () => {
           setSidebar(true);
           // inputField.parentElement.focus()
         };
-        const text = `${element.data}`
+        const text = `${element.data}`;
         console.log(text);
 
-        inputField.innerHTML = text
+        inputField.innerHTML = text;
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(inputField);
@@ -645,22 +646,22 @@ const MidSection = () => {
         const holderDIV = getHolderDIV(measure);
 
         let tableField = document.createElement("div");
-      tableField.className = "tableInput";
-      tableField.style.width = "100%";
-      tableField.style.height = "100%";
-      tableField.style.backgroundColor = "#0000";
-      tableField.style.borderRadius = "0px";
-      tableField.style.outline = "0px";
-      tableField.style.overflow = "overlay";
-      // tableField.innerHTML = 'table';
-      tableField.style.position = "absolute";
+        tableField.className = "tableInput";
+        tableField.style.width = "100%";
+        tableField.style.height = "100%";
+        tableField.style.backgroundColor = "#0000";
+        tableField.style.borderRadius = "0px";
+        tableField.style.outline = "0px";
+        tableField.style.overflow = "overlay";
+        // tableField.innerHTML = 'table';
+        tableField.style.position = "absolute";
 
-      tableField.onclick = () => {
-        tableField.classList.add("focussed");
-        handleClicked("table2");
-        setSidebar(true);
-      };
-        tableField.append(element.data)
+        tableField.onclick = () => {
+          tableField.classList.add("focussed");
+          handleClicked("table2");
+          setSidebar(true);
+        };
+        tableField.append(element.data);
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
