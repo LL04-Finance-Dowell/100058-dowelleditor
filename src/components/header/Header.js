@@ -201,13 +201,14 @@ const Header = () => {
           let tempElem = tables[t].parentElement;
           let tempPosn = getPosition(tempElem);
           console.log(tables[t].firstElementChild);
+          const tabb = tables[t].firstElementChild
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
             left: tempPosn.left,
             type: "TABLE_INPUT",
-            data: tables[t].firstElementChild,
+            data: tabb,
             id: `tab${t + 1}`,
           };
           page.push(elem);
@@ -289,11 +290,13 @@ const Header = () => {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
+        page: item,
       };
     } else if (decoded.details.action === "document") {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
+        page: item,
       };
     }
 

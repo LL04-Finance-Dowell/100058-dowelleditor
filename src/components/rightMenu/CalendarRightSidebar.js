@@ -46,6 +46,7 @@ const CalendarRightSidebar = (props) => {
           selected={startDate}
           onChange={(date) => setStartDate(date)}
           className="w-100 mt-2"
+          id="date_picker"
         />
       </div>
 

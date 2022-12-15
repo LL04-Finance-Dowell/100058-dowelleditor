@@ -146,7 +146,9 @@ const MidSection = () => {
     )
       .then((res) => {
         const loadedData = JSON.parse(res.data.content);
-        // console.log(res);
+        const pageData = res.data.page
+        setItem(pageData)
+        console.log(loadedData);
         setData(loadedData[0]);
         setSort(loadedData[0][0]);
         setIsLoading(false);
@@ -465,7 +467,7 @@ const MidSection = () => {
     const curr_user = document.getElementById("curr_user");
 
     const midSec = document.getElementById("midSection_container");
-    const midsectionRect = midSec.getBoundingClientRect();
+    // const midsectionRect = midSec.getBoundingClientRect();
 
     data.forEach((element) => {
       if (element.type === "TEXT_INPUT") {
@@ -499,7 +501,6 @@ const MidSection = () => {
           // inputField.parentElement.focus()
         };
         const text = `${element.data}`
-        console.log(text);
 
         inputField.innerHTML = text
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
@@ -575,10 +576,14 @@ const MidSection = () => {
         // dateField.innerText = `${postData.calenderField.value}`
         dateField.style.position = "relative";
 
+        function dateClick() {
+          document.getElementById("date_picker").click()
+        }
         dateField.onclick = () => {
           dateField.classList.add("focussed");
           handleClicked("calendar2");
           setSidebar(true);
+          setTimeout(dateClick, 0);
         };
         dateField.innerText = `${element.data}`;
 
@@ -660,7 +665,10 @@ const MidSection = () => {
         handleClicked("table2");
         setSidebar(true);
       };
-        tableField.append(element.data)
+
+      const table = `${element.data}`
+      console.log(table);
+        tableField.innerHTML = table
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -1087,13 +1095,16 @@ const MidSection = () => {
       //   //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
       //   // })
       // }
-
+      function dateClick() {
+        document.getElementById("date_picker").click()
+      }
       dateField.onclick = () => {
         dateField.classList.add("focussed");
         handleClicked("calendar2");
         setSidebar(true);
+        setTimeout(dateClick, 0);
       };
-      dateField.innerText = "Date";
+      dateField.innerText = "dd/mm/yyyy";
 
       console.log(startDate);
       const para = document.createElement("p");
@@ -1277,7 +1288,7 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={currentItem} className={"midSection"}>
+          <div key={index} className={"midSection"}>
             <Container
               as="div"
               ref={midSectionRef}
