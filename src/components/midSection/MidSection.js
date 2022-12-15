@@ -145,10 +145,10 @@ const MidSection = () => {
       }
     )
       .then((res) => {
-        const loadedData = JSON.parse(res.data.content);
+        // const loadedData = JSON.parse(res.data.content);
         console.log("loadedData", res);
-        setData(loadedData[0]);
-        setSort(loadedData[0][0]);
+        // setData(loadedData[0]);
+        // setSort(loadedData[0][0]);
         setIsLoading(false);
         //  setData(oldArray => [...data, loadedData[0]]);
       })
@@ -392,7 +392,7 @@ const MidSection = () => {
     holderDIV.style.flexDirection = "column";
 
     holderDIV.tabIndex = "1";
-
+    console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
@@ -516,13 +516,13 @@ const MidSection = () => {
       }
       if (element.type === "IMAGE_INPUT") {
         const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
+          width: 300 + "px",
+          height: 300 + "px",
           left: element.left + "px",
           top: element.top + "px",
           auth_user: curr_user,
         };
-
+        console.log("measure from image input", measure);
         const holderDIV = getHolderDIV(measure);
 
         let imageField = document.createElement("div");

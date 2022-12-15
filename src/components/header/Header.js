@@ -66,7 +66,7 @@ const Header = () => {
 
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
-    console.log(el);
+    // console.log(el);
     const midSec = document.getElementById("midSection_container");
 
     const rect = el.getBoundingClientRect();
@@ -308,7 +308,7 @@ const Header = () => {
         function_ID: decoded.details.function_ID,
         team_member_ID: decoded.details.team_member_ID,
         update_field: updateField,
-        item,
+        page: item,
       }
     )
       .then((res) => {
