@@ -42,7 +42,9 @@ const Header = () => {
   function createNewPage() {
     const current = [...item];
     current.push("newDiv");
+    console.log("create page click", current);
     setItem(current);
+    console.log("create page click after", current);
   }
 
   function removePage() {
@@ -88,22 +90,21 @@ const Header = () => {
   let contentFile = [];
   let page = [];
 
-  function savingTableData () {
+  function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
     let tables_tags = [];
 
     if (tables.length) {
-      for ( let t=0; t<tables.length; t++) {
-          var new_table = document.getElementsByTagName("table")[0];
-          console.log("New Table");
-          console.log(new_table);
-          tables_tags.push(new_table);
-          console.log("table_tags");
-          console.log(tables_tags);
+      for (let t = 0; t < tables.length; t++) {
+        var new_table = document.getElementsByTagName("table")[0];
+        console.log("New Table");
+        console.log(new_table);
+        tables_tags.push(new_table);
+        console.log("table_tags");
+        console.log(tables_tags);
       }
+    }
   }
-  }
-
 
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
@@ -154,8 +155,6 @@ const Header = () => {
       // }
     }
 
-
-
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
@@ -193,28 +192,25 @@ const Header = () => {
     }
 
     const tables = document.getElementsByClassName("tableInput");
- 
 
     if (tables.length) {
-      for ( let t=0; t<tables.length; t++) {
-          // var new_table = document.getElementsByTagName("table")[0];
-          let tempElem = tables[t].parentElement;
-          let tempPosn = getPosition(tempElem);
-          console.log(tables[t].firstElementChild);
-          const tabb = tables[t].firstElementChild
-          elem = {
-            width: tempPosn.width,
-            height: tempPosn.height,
-            top: tempPosn.top,
-            left: tempPosn.left,
-            type: "TABLE_INPUT",
-            data: tabb,
-            id: `tab${t + 1}`,
-          };
-          page.push(elem);
+      for (let t = 0; t < tables.length; t++) {
+        // var new_table = document.getElementsByTagName("table")[0];
+        let tempElem = tables[t].parentElement;
+        let tempPosn = getPosition(tempElem);
+        console.log(tables[t].firstElementChild);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
+          type: "TABLE_INPUT",
+          data: tables[t].firstElementChild,
+          id: `tab${t + 1}`,
+        };
+        page.push(elem);
       }
-  }
- 
+    }
 
     contentFile.push(page);
     const data = JSON.stringify(contentFile);
@@ -278,7 +274,6 @@ const Header = () => {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
-    
 
     const titleName = document.querySelector(".title-name").innerHTML;
 
@@ -315,6 +310,7 @@ const Header = () => {
         function_ID: decoded.details.function_ID,
         team_member_ID: decoded.details.team_member_ID,
         update_field: updateField,
+        item,
       }
     )
       .then((res) => {
@@ -414,12 +410,12 @@ const Header = () => {
             <span className="badge bg-warning">
               {actionName == "template" ? "Template" : "Document"}
             </span>
-            <MdOutlineFlipCameraAndroid
+            {/* <MdOutlineFlipCameraAndroid
               className="ms-2 cursor_pointer"
               color="white"
               size={32}
               onClick={handleFlipClick}
-            />
+            /> */}
             {/* <img src={user} alt="" /> */}
           </Col>
         </Row>

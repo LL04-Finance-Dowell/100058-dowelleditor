@@ -156,6 +156,7 @@ const MidSection = () => {
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log("error response from midsection get request", err);
         // console.log(err);
       });
   };
@@ -502,7 +503,7 @@ const MidSection = () => {
         };
         const text = `${element.data}`
 
-        inputField.innerHTML = text
+        inputField.innerHTML = text;
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(inputField);
@@ -650,25 +651,22 @@ const MidSection = () => {
         const holderDIV = getHolderDIV(measure);
 
         let tableField = document.createElement("div");
-      tableField.className = "tableInput";
-      tableField.style.width = "100%";
-      tableField.style.height = "100%";
-      tableField.style.backgroundColor = "#0000";
-      tableField.style.borderRadius = "0px";
-      tableField.style.outline = "0px";
-      tableField.style.overflow = "overlay";
-      // tableField.innerHTML = 'table';
-      tableField.style.position = "absolute";
+        tableField.className = "tableInput";
+        tableField.style.width = "100%";
+        tableField.style.height = "100%";
+        tableField.style.backgroundColor = "#0000";
+        tableField.style.borderRadius = "0px";
+        tableField.style.outline = "0px";
+        tableField.style.overflow = "overlay";
+        // tableField.innerHTML = 'table';
+        tableField.style.position = "absolute";
 
-      tableField.onclick = () => {
-        tableField.classList.add("focussed");
-        handleClicked("table2");
-        setSidebar(true);
-      };
-
-      const table = `${element.data}`
-      console.log(table);
-        tableField.innerHTML = table
+        tableField.onclick = () => {
+          tableField.classList.add("focussed");
+          handleClicked("table2");
+          setSidebar(true);
+        };
+        tableField.append(element.data);
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
