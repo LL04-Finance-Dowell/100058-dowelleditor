@@ -26,18 +26,18 @@ const EditSection = () => {
     <div className="editSec">
       <Container fluid>
         <Row>
-          <Col md={1}>
+          <Col lg={1}>
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             <LeftMenu />
           </Col>
-          <Col md={sidebar ? 8 : 11} as="div" className="editSec_midSec">
+          <Col lg={sidebar ? 8 : 11} as="div" className="editSec_midSec">
             {/* <MidSection showSidebar={showSidebar}/> */}
             <MidSection />
           </Col>
 
           <Col
             style={sidebar ? { display: "block" } : { display: "none" }}
-            md={sidebar ? 3 : 0}
+            lg={sidebar ? 3 : 0}
             as="div"
             className="editSec_rightMenu"
           >

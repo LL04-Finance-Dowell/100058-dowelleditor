@@ -285,11 +285,13 @@ const Header = () => {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
+        page: item,
       };
     } else if (decoded.details.action === "document") {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
+        page: item,
       };
     }
 
