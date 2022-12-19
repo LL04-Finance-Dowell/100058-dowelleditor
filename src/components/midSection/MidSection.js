@@ -103,6 +103,7 @@ const MidSection = () => {
           calendar2: false,
           dropdown2: false,
         });
+        console.log("mouseDown inside if condition");
       }
     });
   }, []);

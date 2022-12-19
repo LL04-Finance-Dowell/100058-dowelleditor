@@ -207,7 +207,7 @@ const AlignRightSide = () => {
   }
 
   return (
-    <div className="align">
+    <div className="align" style={{ overflowY: "scroll", height: "450px" }}>
       <Container fluid className="m-0 p-0">
         <Row className="pt-0">
           <Col>
