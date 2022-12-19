@@ -103,6 +103,7 @@ const MidSection = () => {
           calendar2: false,
           dropdown2: false,
         });
+        console.log("mouseDown inside if condition");
       }
     });
   }, []);
@@ -146,8 +147,8 @@ const MidSection = () => {
     )
       .then((res) => {
         const loadedData = JSON.parse(res.data.content);
-        const pageData = res.data.page
-        setItem(pageData)
+        const pageData = res.data.page;
+        setItem(pageData);
         console.log(loadedData);
         setData(loadedData[0]);
         setSort(loadedData[0][0]);
@@ -394,7 +395,7 @@ const MidSection = () => {
     holderDIV.style.flexDirection = "column";
 
     holderDIV.tabIndex = "1";
-
+    console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
@@ -501,7 +502,7 @@ const MidSection = () => {
           setSidebar(true);
           // inputField.parentElement.focus()
         };
-        const text = `${element.data}`
+        const text = `${element.data}`;
 
         inputField.innerHTML = text;
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
@@ -517,13 +518,13 @@ const MidSection = () => {
       }
       if (element.type === "IMAGE_INPUT") {
         const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
+          width: 300 + "px",
+          height: 300 + "px",
           left: element.left + "px",
           top: element.top + "px",
           auth_user: curr_user,
         };
-
+        console.log("measure from image input", measure);
         const holderDIV = getHolderDIV(measure);
 
         let imageField = document.createElement("div");
@@ -578,7 +579,7 @@ const MidSection = () => {
         dateField.style.position = "relative";
 
         function dateClick() {
-          document.getElementById("date_picker").click()
+          document.getElementById("date_picker").click();
         }
         dateField.onclick = () => {
           dateField.classList.add("focussed");
@@ -1147,7 +1148,7 @@ const MidSection = () => {
       //   // })
       // }
       function dateClick() {
-        document.getElementById("date_picker").click()
+        document.getElementById("date_picker").click();
       }
       dateField.onclick = () => {
         dateField.classList.add("focussed");

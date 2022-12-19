@@ -25,3 +25,20 @@ code {
   position: sticky;
   top: 9vh;
 }
+@media screen and (max-width: 992px) {
+.fixed3 {
+  position: fixed;
+  padding: 10px 15px;
+  border-radius: 10px;
+  top: 70%;
+  left: 50%;
+  background-color: #808080ba;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  max-height: 300px;
+  overflow: auto;
+}
+.midSection_container{
+  margin-top: 28px;
+}
+}

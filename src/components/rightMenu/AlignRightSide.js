@@ -207,7 +207,7 @@ const AlignRightSide = () => {
   }
 
   return (
-    <div className="align">
+    <div className="align" style={{ overflowY: "scroll", height: "450px" }}>
       <Container fluid className="m-0 p-0">
         <Row className="pt-0">
           <Col>
@@ -284,25 +284,25 @@ const AlignRightSide = () => {
           <h6>Text Formatting</h6>
           <Col>
             <Button onClick={handleBold} variant="white">
-              <FaBold color="gray" size={28} />
+              <FaBold color="gray" size={20} />
             </Button>
           </Col>
 
           <Col>
             <Button onClick={handleItalic} variant="white">
-              <FaItalic color="gray" size={28} />
+              <FaItalic color="gray" size={20} />
             </Button>
           </Col>
 
           <Col>
             <Button onClick={handleUnderline} variant="white">
-              <FaUnderline color="gray" size={28} />
+              <FaUnderline color="gray" size={20} />
             </Button>
           </Col>
 
           <Col>
             <Button onClick={handleStrikethrough} variant="white">
-              <FaStrikethrough color="gray" size={28} />
+              <FaStrikethrough color="gray" size={20} />
             </Button>
           </Col>
         </Row>
