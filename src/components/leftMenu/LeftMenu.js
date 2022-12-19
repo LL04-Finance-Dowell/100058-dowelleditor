@@ -1,4 +1,4 @@
-import React, { Children, useRef } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./LeftMenu.css";
 import { editSecOptions } from "../../data/data";
@@ -130,6 +130,7 @@ export const onDrop = (event) => {
 };
 
 const LeftMenu = ({ showSidebar }) => {
+  const leftMenuRef = useRef(null);
   const alignRef = useRef(null);
   const textfillRef = useRef(null);
   const imageRef = useRef(null);
@@ -137,54 +138,73 @@ const LeftMenu = ({ showSidebar }) => {
   const signsRef = useRef(null);
   const calendarRef = useRef(null);
   const dropdownRef = useRef(null);
-
+  const [isMobileView, setIsMobileView] = useState(false);
   function removeContainer() {
     document.getElementById("containerInput").parentElement.remove();
   }
-
+  // const leftMenuWidth = leftMenuRef.current;
+  // console.log(leftMenuWidth);
+  // const leftMenuWidth = document
+  //   .querySelector(".leftMenu")
+  //   .getBoundingClientRect();
+  // console.log(window.screen);
+  // useEffect(() => {
+  //   if (window.screen.width < 426) {
+  //     setIsMobileView(true);
+  //   } else {
+  //     setIsMobileView(false);
+  //   }
+  // }, [window.screen.width]);
+  // const bodyElement = document.getElementsByName("body");
+  // console.log(bodyElement);
+  console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
   return (
     <>
       {isFlipClicked ? (
-        <div className="leftMenu fixed2">
-          <NavButton
-            dragStartFunc={dragStartAlign}
-            customFunc={() => handleDrop("align")}
-            icon={editSecOptions[1].icon}
-          />
-          {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
-          <NavButton
-            dragStartFunc={dragStartImage}
-            customFunc={() => handleDrop("image")}
-            icon={editSecOptions[2].icon}
-          />
-          <NavButton
-            dragStartFunc={dragStartTable}
-            customFunc={() => handleDrop("table")}
-            icon={editSecOptions[3].icon}
-          />
-          <NavButton
-            dragStartFunc={dragStartSigns}
-            customFunc={() => handleDrop("signs")}
-            icon={editSecOptions[4].icon}
-          />
-          <NavButton
-            dragStartFunc={dragStartCalendar}
-            customFunc={() => handleDrop("calendar")}
-            icon={editSecOptions[5].icon}
-          />
-          <NavButton
-            dragStartFunc={dragStartDropdown}
-            customFunc={() => handleDrop("dropdown")}
-            icon={editSecOptions[6].icon}
-          />
-          <NavButton
-            dragStartFunc={dragStartContainerr}
-            clickFunc={removeContainer}
-            customFunc={() => handleDrop("containerr")}
-            icon={editSecOptions[0].icon}
-          />
-        </div>
+        isMobileView ? (
+          <span>X</span>
+        ) : (
+          <div className="leftMenu fixed2" ref={leftMenuRef}>
+            <NavButton
+              dragStartFunc={dragStartAlign}
+              customFunc={() => handleDrop("align")}
+              icon={editSecOptions[1].icon}
+            />
+            {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
+            <NavButton
+              dragStartFunc={dragStartImage}
+              customFunc={() => handleDrop("image")}
+              icon={editSecOptions[2].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartTable}
+              customFunc={() => handleDrop("table")}
+              icon={editSecOptions[3].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartSigns}
+              customFunc={() => handleDrop("signs")}
+              icon={editSecOptions[4].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartCalendar}
+              customFunc={() => handleDrop("calendar")}
+              icon={editSecOptions[5].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartDropdown}
+              customFunc={() => handleDrop("dropdown")}
+              icon={editSecOptions[6].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartContainerr}
+              clickFunc={removeContainer}
+              customFunc={() => handleDrop("containerr")}
+              icon={editSecOptions[0].icon}
+            />
+          </div>
+        )
       ) : (
         <>
           <CustomButton style={"custom_reject_button"}>Reject</CustomButton>
