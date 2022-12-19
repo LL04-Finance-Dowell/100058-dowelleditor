@@ -666,11 +666,64 @@ const MidSection = () => {
           handleClicked("table2");
           setSidebar(true);
         };
-        tableField.append(element.data);
+
+        const tabb = document.createElement('table')
+        tabb.innerHTML = (element.data)
+
+        tableField.append(tabb);
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(tableField);
+
+        // holderDIV.append(paragraphField);
+
+        document
+          .getElementById("midSection_container")
+          // ?.item(0)
+          ?.append(holderDIV);
+      }
+      if (element.type === "DROPDOWN_INPUT") {
+        const measure = {
+          width: element.width + "px",
+          height: element.height + "px",
+          left: element.left + "px",
+          top: element.top + "px",
+          auth_user: curr_user,
+        };
+
+        const holderDIV = getHolderDIV(measure);
+        let dropdownField = document.createElement("div");
+        dropdownField.className = "dropdownInput";
+        dropdownField.style.width = "100%";
+        dropdownField.style.height = "100%";
+        dropdownField.style.backgroundColor = "#0000";
+        dropdownField.style.borderRadius = "0px";
+        dropdownField.style.outline = "0px";
+        dropdownField.style.overflow = "overlay";
+        // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+        dropdownField.style.position = "absolute";
+  
+        const selectElement = document.createElement("select");
+        // selectElement.className = "select-element";
+        // selectElement.style.width = "auto";
+        // selectElement.style.height = "auto";
+
+        dropdownField.onclick = () => {
+          dropdownField.classList.add("focussed");
+          handleClicked("dropdown2");
+          setSidebar(true);
+        };
+
+        selectElement.innerHTML = (element.data2)
+        const dropdownName = (element.data1)
+        
+        dropdownField.append(dropdownName);
+        dropdownField.append(selectElement);
+
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+        holderDIV.append(dropdownField);
 
         // holderDIV.append(paragraphField);
 

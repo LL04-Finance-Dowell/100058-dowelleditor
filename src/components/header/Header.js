@@ -198,15 +198,37 @@ const Header = () => {
         // var new_table = document.getElementsByTagName("table")[0];
         let tempElem = tables[t].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(tables[t].firstElementChild);
+        console.log(tables[t].firstElementChild.innerHTML);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
           left: tempPosn.left,
           type: "TABLE_INPUT",
-          data: tables[t].firstElementChild,
+          data: tables[t].firstElementChild.innerHTML,
           id: `tab${t + 1}`,
+        };
+        page.push(elem);
+      }
+    }
+    const dropDowns = document.getElementsByClassName("dropdownInput");
+
+    if (dropDowns.length) {
+      for (let d = 0; d < dropDowns.length; d++) {
+        // var new_table = document.getElementsByTagName("table")[0];
+        let tempElem = dropDowns[d].parentElement;
+        let tempPosn = getPosition(tempElem);
+        console.log(dropDowns[d].firstElementChild.innerHTML);
+        console.log(dropDowns[d].lastElementChild.innerHTML);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
+          type: "DROPDOWN_INPUT",
+          data1: dropDowns[d].firstElementChild.innerHTML,
+          data2: dropDowns[d].lastElementChild.innerHTML,
+          id: `dd${d + 1}`,
         };
         page.push(elem);
       }
