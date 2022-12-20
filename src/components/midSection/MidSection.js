@@ -591,7 +591,6 @@ const MidSection = () => {
         dateField.style.overflow = "overlay";
         // dateField.innerText = `${postData.calenderField.value}`
         dateField.style.position = "relative";
-        dateField.style.color = "red";
 
         function dateClick() {
           document.getElementById("date_picker").click();
