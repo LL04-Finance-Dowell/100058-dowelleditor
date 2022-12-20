@@ -18,7 +18,6 @@ const ImageRightSidebar = () => {
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
-    console.log("addImageButtonInput", addImageButtonInput);
     addImageButtonInput.item(0).click();
   };
 
