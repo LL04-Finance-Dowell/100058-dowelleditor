@@ -1,33 +1,28 @@
-import React from 'react'
+import React from "react";
 
-import {useRef, useState, useEffect} from 'react'
+import { useRef, useState, useEffect } from "react";
 
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 const ImageRightSidebar = () => {
+  const [file, setFile] = useState(null);
 
-  const [file, setFile] = useState(null)
+  const addImageButtonInput = useRef(null);
 
-  const addImageButtonInput = useRef(null)
- 
   var uploadedImage = "";
 
-
-
-      //clicked choose file button
-      const chooseFileClick = ()=>{
-        const addImageButtonInput = document.getElementsByClassName("addImageButtonInput")
-    addImageButtonInput.item(0).click()
-    }
-
- 
-
-
+  //clicked choose file button
+  const chooseFileClick = () => {
+    const addImageButtonInput = document.getElementsByClassName(
+      "addImageButtonInput"
+    );
+    addImageButtonInput.item(0).click();
+  };
 
   function removeImage() {
-    document.querySelector('.focussedd').remove()
+    document.querySelector(".focussedd").remove();
   }
 
   return (
@@ -42,15 +37,22 @@ const ImageRightSidebar = () => {
         </select>
       </div> */}
 
-      
-      <div className='mt-5 text-center pt-1'>
-        <Button className='w-75' variant="secondary" onClick={(e) => chooseFileClick(e)} >Choose Image</Button>
+      <div className="mt-5 text-center pt-1">
+        <Button
+          className="w-75"
+          variant="secondary"
+          onClick={(e) => chooseFileClick(e)}
+        >
+          Choose Image
+        </Button>
       </div>
-      <div className='mt-5 text-center pt-1'>
-        <Button className='w-75' variant="primary" onClick={removeImage} >Remove Image</Button>
+      <div className="mt-5 text-center pt-1">
+        <Button className="w-75" variant="primary" onClick={removeImage}>
+          Remove Image
+        </Button>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ImageRightSidebar
+export default ImageRightSidebar;

@@ -24,6 +24,7 @@ import TextFill from "../leftMenu/comp/TextFill";
 import Axios from "axios";
 
 import jwt_decode from "jwt-decode";
+import { editSec_midSec_ref } from "../editSection/EditSection";
 
 // tHIS IS FOR A TEST COMMIT
 
@@ -69,6 +70,11 @@ const MidSection = () => {
     setIsLoading,
   } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+  const actionName = decoded?.details?.action;
+
   function boldCommand() {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
@@ -83,7 +89,10 @@ const MidSection = () => {
       const holderDIV = document.getElementsByClassName("holderDIV");
       const holderr = document.getElementsByClassName("holder-menu");
       const resizerr = document.getElementsByClassName("resizeBtn");
-      if (event.target === midSectionRef.current) {
+      // console.log("mouseDown inside if condition", event.target.id);
+      // console.log("mouseDown inside if condition", midSectionRef.current.id);
+
+      if (event?.target?.id === midSectionRef?.current?.id) {
         // holderDIV.classList.remove('focussedd')
         if (document.querySelector(".focussedd")) {
           document.querySelector(".focussedd").classList.remove("focussedd");
@@ -103,7 +112,8 @@ const MidSection = () => {
           calendar2: false,
           dropdown2: false,
         });
-        console.log("mouseDown inside if condition");
+        // console.log("mouseDown inside if condition", event.target);
+        // console.log("mouseDown inside if condition", editSec_midSec_ref);
       }
     });
   }, []);
@@ -120,13 +130,13 @@ const MidSection = () => {
   //   dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
   // });
 
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
 
   // const d_name = searchParams.get('d_name');
   // const col_name = searchParams.get('col_name');
   // const id = searchParams.get('id');
   // const fields = searchParams.get('fields');
-  const token = searchParams.get("token");
+  // const token = searchParams.get("token");
   // var decoded = jwt_decode(token);
   // console.log(decoded);
 
@@ -502,6 +512,10 @@ const MidSection = () => {
           setSidebar(true);
           // inputField.parentElement.focus()
         };
+        inputField.ontouchstart = () => {
+          handleClicked("align2");
+          setSidebar(true);
+        };
         const text = `${element.data}`;
 
         inputField.innerHTML = text;
@@ -623,9 +637,11 @@ const MidSection = () => {
         signField.style.position = "absolute";
 
         signField.onclick = () => {
-          signField.classList.add("focussed");
-          handleClicked("signs2");
-          setSidebar(true);
+          if (actionName != "template") {
+            signField.classList.add("focussed");
+            handleClicked("signs2");
+            setSidebar(true);
+          }
         };
         signField.innerHTML = `<img src=${element.data} />`;
 
@@ -668,8 +684,8 @@ const MidSection = () => {
           setSidebar(true);
         };
 
-        const tabb = document.createElement('table')
-        tabb.innerHTML = (element.data)
+        const tabb = document.createElement("table");
+        tabb.innerHTML = element.data;
 
         tableField.append(tabb);
         var cells = tabb.getElementsByTagName('td')
@@ -755,7 +771,7 @@ const MidSection = () => {
         dropdownField.style.overflow = "overlay";
         // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
         dropdownField.style.position = "absolute";
-  
+
         const selectElement = document.createElement("select");
         // selectElement.className = "select-element";
         // selectElement.style.width = "auto";
@@ -767,9 +783,9 @@ const MidSection = () => {
           setSidebar(true);
         };
 
-        selectElement.innerHTML = (element.data2)
-        const dropdownName = (element.data1)
-        
+        selectElement.innerHTML = element.data2;
+        const dropdownName = element.data1;
+
         dropdownField.append(dropdownName);
         dropdownField.append(selectElement);
 
