@@ -70,6 +70,11 @@ const MidSection = () => {
     setIsLoading,
   } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+  const actionName = decoded?.details?.action;
+
   function boldCommand() {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
@@ -87,7 +92,7 @@ const MidSection = () => {
       // console.log("mouseDown inside if condition", event.target.id);
       // console.log("mouseDown inside if condition", midSectionRef.current.id);
 
-      if (event.target.id === midSectionRef.current.id) {
+      if (event?.target?.id === midSectionRef?.current?.id) {
         // holderDIV.classList.remove('focussedd')
         if (document.querySelector(".focussedd")) {
           document.querySelector(".focussedd").classList.remove("focussedd");
@@ -125,13 +130,13 @@ const MidSection = () => {
   //   dropdownField: { value: "", xcoordinate: 0, ycoordinate: 0 },
   // });
 
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
 
   // const d_name = searchParams.get('d_name');
   // const col_name = searchParams.get('col_name');
   // const id = searchParams.get('id');
   // const fields = searchParams.get('fields');
-  const token = searchParams.get("token");
+  // const token = searchParams.get("token");
   // var decoded = jwt_decode(token);
   // console.log(decoded);
 
@@ -632,9 +637,11 @@ const MidSection = () => {
         signField.style.position = "absolute";
 
         signField.onclick = () => {
-          signField.classList.add("focussed");
-          handleClicked("signs2");
-          setSidebar(true);
+          if (actionName != "template") {
+            signField.classList.add("focussed");
+            handleClicked("signs2");
+            setSidebar(true);
+          }
         };
         signField.innerHTML = `<img src=${element.data} />`;
 
