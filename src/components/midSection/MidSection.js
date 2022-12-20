@@ -672,6 +672,57 @@ const MidSection = () => {
         tabb.innerHTML = (element.data)
 
         tableField.append(tabb);
+        var cells = tabb.getElementsByTagName('td')
+
+        for(var i=0; i<cells.length; i++) {
+          cells[i].onclick = function () {
+            if (this.hasAttribute('data-clicked')) {
+              return;
+            }
+            this.setAttribute('data-clicked', 'yes')
+            this.setAttribute('data-text', this.innerHtml);
+  
+            var input = document.createElement('input')
+            input.setAttribute('type', 'text')
+            input.value = this.innerHtml;
+            input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
+            input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
+            input.style.border = "0px";
+            input.style.fontFamily = "inherit"
+            input.style.fontSize = "inherit"
+            input.style.textAlign = "inherit"
+            input.style.backgroundColor = "LightGoldenRodYellow";
+  
+            input.onblur = function () {
+              var td = input.parentElement;
+              var org_text = input.parentElement.getAttribute('data-text');
+              var current_text = this.value;
+  
+              if (org_text != current_text) {
+                td.removeAttribute('data-clicked')
+                td.removeAttribute('data-text')
+                td.innerHTML = current_text;
+                td.style.cssText = 'padding: 5px';
+  
+              } else {
+                td.removeAttribute('data-clicked')
+                td.removeAttribute('data-text')
+                td.innerHTML = org_text;
+                td.style.cssText = 'padding: 5px';
+              }
+            }
+  
+            input.onkeydown = function (event) {
+              if (event.keyCode == 13) {
+                this.onblur();
+              }
+            }
+            this.innerHtml = ''
+            this.style.cssText = 'padding: 0px 0px';
+            this.append(input)
+            this.firstElementChild.select()
+          }
+        }
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
