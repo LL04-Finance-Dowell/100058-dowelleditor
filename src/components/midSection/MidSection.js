@@ -436,7 +436,7 @@ const MidSection = () => {
 
     holderDIV.addEventListener("focus", function (e) {
       holderDIV.classList.add("focussedd");
-      holderDIV.style.border = "2px solid orange";
+      holderDIV.style.border = "2px solid pink";
       // holderDIV.append(holderMenu);
 
       holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
@@ -501,6 +501,10 @@ const MidSection = () => {
           handleClicked("align2");
           setSidebar(true);
           // inputField.parentElement.focus()
+        };
+        inputField.ontouchstart = () => {
+          handleClicked("align2");
+          setSidebar(true);
         };
         const text = `${element.data}`;
 
@@ -668,8 +672,8 @@ const MidSection = () => {
           setSidebar(true);
         };
 
-        const tabb = document.createElement('table')
-        tabb.innerHTML = (element.data)
+        const tabb = document.createElement("table");
+        tabb.innerHTML = element.data;
 
         tableField.append(tabb);
 
@@ -704,7 +708,7 @@ const MidSection = () => {
         dropdownField.style.overflow = "overlay";
         // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
         dropdownField.style.position = "absolute";
-  
+
         const selectElement = document.createElement("select");
         // selectElement.className = "select-element";
         // selectElement.style.width = "auto";
@@ -716,9 +720,9 @@ const MidSection = () => {
           setSidebar(true);
         };
 
-        selectElement.innerHTML = (element.data2)
-        const dropdownName = (element.data1)
-        
+        selectElement.innerHTML = element.data2;
+        const dropdownName = element.data1;
+
         dropdownField.append(dropdownName);
         dropdownField.append(selectElement);
 
