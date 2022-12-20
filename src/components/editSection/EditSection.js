@@ -16,56 +16,10 @@ import TableRightSidebar from "../rightMenu/TableRightSidebar";
 
 import "./EditSection.css";
 import { useStateContext } from "../../contexts/contextProvider";
+export const editSec_midSec_ref = document.querySelector(".editSec_midSec");
 
 const EditSection = () => {
   const { isClicked, sidebar } = useStateContext();
-
-  // var {
-  //   sidebar,
-  //   dropdownName,
-  //   isDropped,
-  //   isClicked,
-  //   setIsClicked,
-  //   setSidebar,
-  //   handleClicked,
-  //   startDate,
-  //   dropdownOptions,
-  //   item,
-  //   setItem,
-  //   isLoading,
-  //   setIsLoading,
-  // } = useStateContext();
-
-  // const midSectionRef = useRef(null);
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", (event) => {
-  //     const holderDIV = document.getElementsByClassName("holderDIV");
-  //     const holderr = document.getElementsByClassName("holder-menu");
-  //     const resizerr = document.getElementsByClassName("resizeBtn");
-  //     if (event.target === midSectionRef.current) {
-  //       // holderDIV.classList.remove('focussedd')
-  //       if (document.querySelector(".focussedd")) {
-  //         document.querySelector(".focussedd").classList.remove("focussedd");
-  //       }
-  //       if (document.querySelector(".focussed")) {
-  //         document.querySelector(".focussed").classList.remove("focussed");
-  //       }
-  //       setSidebar(false);
-  //       setIsClicked(false);
-  //       setIsClicked({
-  //         ...isClicked,
-  //         align2: false,
-  //         textfill2: false,
-  //         image2: false,
-  //         table2: false,
-  //         signs2: false,
-  //         calendar2: false,
-  //         dropdown2: false,
-  //       });
-  //       console.log("mouseDown inside if condition");
-  //     }
-  //   });
-  // }, []);
 
   const newPageButton = document.querySelector(".new-page-btn");
 
@@ -77,12 +31,7 @@ const EditSection = () => {
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             <LeftMenu />
           </Col>
-          <Col
-            lg={sidebar ? 8 : 11}
-            as="div"
-            // ref={midSectionRef}
-            className="editSec_midSec"
-          >
+          <Col lg={sidebar ? 8 : 11} as="div" className="editSec_midSec">
             {/* <MidSection showSidebar={showSidebar}/> */}
             <MidSection />
           </Col>

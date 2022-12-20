@@ -24,6 +24,7 @@ import TextFill from "../leftMenu/comp/TextFill";
 import Axios from "axios";
 
 import jwt_decode from "jwt-decode";
+import { editSec_midSec_ref } from "../editSection/EditSection";
 
 // tHIS IS FOR A TEST COMMIT
 
@@ -83,7 +84,10 @@ const MidSection = () => {
       const holderDIV = document.getElementsByClassName("holderDIV");
       const holderr = document.getElementsByClassName("holder-menu");
       const resizerr = document.getElementsByClassName("resizeBtn");
-      if (event.target === midSectionRef.current) {
+      // console.log("mouseDown inside if condition", event.target.id);
+      // console.log("mouseDown inside if condition", midSectionRef.current.id);
+
+      if (event.target.id === midSectionRef.current.id) {
         // holderDIV.classList.remove('focussedd')
         if (document.querySelector(".focussedd")) {
           document.querySelector(".focussedd").classList.remove("focussedd");
@@ -103,7 +107,8 @@ const MidSection = () => {
           calendar2: false,
           dropdown2: false,
         });
-        console.log("mouseDown inside if condition");
+        // console.log("mouseDown inside if condition", event.target);
+        // console.log("mouseDown inside if condition", editSec_midSec_ref);
       }
     });
   }, []);
@@ -436,7 +441,7 @@ const MidSection = () => {
 
     holderDIV.addEventListener("focus", function (e) {
       holderDIV.classList.add("focussedd");
-      holderDIV.style.border = "2px solid pink";
+      holderDIV.style.border = "2px solid orange";
       // holderDIV.append(holderMenu);
 
       holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
