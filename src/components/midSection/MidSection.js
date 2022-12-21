@@ -644,8 +644,11 @@ const MidSection = () => {
             setSidebar(true);
           }
         };
-        signField.innerHTML = `<img src=${element.data} alt="Place your signature here" />`;
-
+        if (decoded.details.action === "document" && element.data !== undefined) {
+        signField.innerHTML = `<img src=${element.data} />`;
+        } else {
+          signField.innerHTML = "Place your signature here"
+        }
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(signField);
@@ -1143,6 +1146,10 @@ const MidSection = () => {
           setSidebar(true);
         }
       };
+      const imageSignButton = document.createElement("div");
+      imageSignButton.className = "addImageSignButton";
+      imageSignButton.innerText = "Choose File";
+      imageSignButton.style.display = "none";
 
       const signBtn = document.createElement("input");
       signBtn.className = "addSignButtonInput";
@@ -1155,19 +1162,23 @@ const MidSection = () => {
 
         reader.addEventListener("load", () => {
           uploadedImage = reader.result;
+          const signImage = `<img src=${uploadedImage} />`
           document.querySelector(
             ".focussed"
-          ).style.backgroundImage = `url(${uploadedImage})`;
+          ).innerHTML = signImage
         });
         reader.readAsDataURL(signBtn.files[0]);
         
       });
+
+      imageSignButton.append(signBtn);
       
 
       const para = document.createElement("p");
       para.innerHTML = "Place your signature here";
       signField.append(para);
       holderDIV.append(signField);
+      holderDIV.append(imageSignButton);
     } else if (typeOfOperation === "DATE_INPUT") {
       let dateField = document.createElement("div");
       dateField.className = "dateInput";

@@ -320,6 +320,14 @@ const Header = () => {
     console.log(updateField);
     console.log(field);
 
+    <iframe src="http://localhost:5500/"></iframe>
+
+    function sendMessage() {
+      const message = (decoded.details.action === "document")? "Document saved" : "Template saved";
+      const iframe = document.querySelector("iframe");
+      iframe.contentWindow.postMessage(message, "*");
+    }
+
     Axios.post(
       "https://100058.pythonanywhere.com/api/save-data-into-collection/",
       {
@@ -340,6 +348,7 @@ const Header = () => {
           setIsLoading(false);
           // alert("Data saved successfully");
           toast.success("Saved successfully");
+          sendMessage();
         }
         console.log(res);
       })

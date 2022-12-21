@@ -14,7 +14,7 @@ const CalendarRightSidebar = (props) => {
   const { startDate, setStartDate } = useStateContext();
   const [method, setMethod] = useState("first");
 
-  const date = document.querySelector(".dateInput");
+  const date = document.querySelector(".focussed");
   if (date.parentElement.classList.contains("focussedd")) {
     if (method == "first") {
       date.innerHTML = startDate && startDate.toLocaleDateString();
