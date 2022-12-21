@@ -32,7 +32,7 @@ export const ContextProvider = ({ children }) => {
   //Right Sidebar context
   const [signState, setSignState] = React.useState({ trimmedDataURL: null }); // Signature
 
-  const [startDate, setStartDate] = useState(""); // Calendar
+  const [startDate, setStartDate] = useState(new Date()); // Calendar
 
   const [dropdownName, setDropdownName] = useState("Dropdown Name");
   const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");

@@ -601,6 +601,7 @@ const MidSection = () => {
           setSidebar(true);
           setTimeout(dateClick, 0);
         };
+        console.log(`${element.data}`);
         dateField.innerText = `${element.data}`;
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
@@ -1136,9 +1137,11 @@ const MidSection = () => {
 
 
       signField.onclick = () => {
-        signField.classList.add("focussed");
-        handleClicked("signs2");
-        setSidebar(true);
+        if (actionName != "template") {
+          signField.classList.add("focussed");
+          handleClicked("signs2");
+          setSidebar(true);
+        }
       };
 
       const signBtn = document.createElement("input");
@@ -1213,7 +1216,7 @@ const MidSection = () => {
         setSidebar(true);
         setTimeout(dateClick, 0);
       };
-      dateField.innerText = "dd/mm/yyyy";
+      dateField.innerText = "yyyy/dd/mm";
 
       console.log(startDate);
       const para = document.createElement("p");
