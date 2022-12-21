@@ -12,7 +12,10 @@ const DropDownRightSide = () => {
 
   // Dropdown Name 
   const dropdownNameField = document.getElementsByClassName('dropdownName')
-  dropdownNameField.item(0).innerHTML = `${dropdownName}`
+  if(dropdownNameField !== null){
+    dropdownNameField.item(0).innerHTML = `${dropdownName}`
+  }
+  
 
   function handleNameChange(e) {
     setDropdownName(e.target.value)

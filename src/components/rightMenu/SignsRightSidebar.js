@@ -40,6 +40,14 @@ const SignsRightSidebar = () => {
     console.log(signImage);
   }
 
+   //clicked choose file button
+   const chooseFileClick = () => {
+    const addImageButtonInput = document.getElementsByClassName(
+      "addSignButtonInput"
+    );
+    addImageButtonInput.item(0).click();
+  };
+
 
   function removeSign() {
     document.querySelector('.focussedd').remove()
@@ -55,6 +63,15 @@ const SignsRightSidebar = () => {
             canvasProps={{ width: 200, height: 200, className: 'sigCanvas' }}
             ref={sigPad} />
         </div>
+        <div className="mt-5 text-left pt-1">
+        <Button
+          className="w-75"
+          variant="secondary"
+          onClick={(e) => chooseFileClick(e)}
+        >
+          Upload Sign
+        </Button>
+      </div>
         <div className='buttons p-4'>
           <Button onClick={clear} variant="secondary">Clear</Button> &nbsp;
           <Button onClick={save} variant="primary" >Done</Button>

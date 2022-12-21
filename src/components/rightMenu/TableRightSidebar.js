@@ -205,10 +205,16 @@ const TableRightSidebar = () => {
               td.innerHTML = current_text;
               td.style.cssText = 'padding: 5px';
 
+            } else if (current_text == "") {
+              td.removeAttribute('data-clicked')
+              td.removeAttribute('data-text')
+              td.innerHTML = current_text;
+              td.style.cssText = 'padding: 5px';
+
             } else {
               td.removeAttribute('data-clicked')
               td.removeAttribute('data-text')
-              td.innerHTML = org_text;
+              td.innerHTML = current_text;
               td.style.cssText = 'padding: 5px';
             }
           }
