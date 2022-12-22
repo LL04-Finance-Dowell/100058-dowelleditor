@@ -203,12 +203,34 @@ const TableRightSidebar = () => {
             var td = input.parentElement;
             var org_text = input.parentElement.getAttribute("data-text");
             var current_text = this.value;
+<<<<<<< HEAD
             // console.log("current_text", current_text, "org_text", org_text);
             if (org_text != current_text && current_text) {
               td.removeAttribute("data-clicked");
               td.removeAttribute("data-text");
               td.innerHTML = current_text;
               td.style.cssText = "padding: 5px";
+=======
+
+            if (org_text != current_text && current_text !== "") {
+              td.removeAttribute('data-clicked')
+              td.removeAttribute('data-text')
+              td.innerHTML = current_text;
+              td.style.cssText = 'padding: 5px';
+
+            }
+            //  else if (current_text == "") {
+            //   td.removeAttribute('data-clicked')
+            //   td.removeAttribute('data-text')
+            //   td.innerHTML = current_text;
+            //   td.style.cssText = 'padding: 5px';
+            // }
+             else if(current_text == "") {
+              td.removeAttribute('data-clicked')
+              td.removeAttribute('data-text')
+              td.innerHTML = org_text;
+              td.style.cssText = 'padding: 5px';
+>>>>>>> 4adef0c5e6bf3e35fcf7ba6f3ad1392af696a209
             }
             // else if (current_text == "") {
             //   td.removeAttribute("data-clicked");
@@ -283,8 +305,14 @@ const TableRightSidebar = () => {
         />
       </div>
 
-      <button onClick={makeTable}>Create Table</button>
 
+<<<<<<< HEAD
+=======
+      <div className='mt-2 text-center pt-5'>
+        <Button variant="secondary" className="px-5" onClick={makeTable}>Create Table</Button>
+      </div>
+
+>>>>>>> 4adef0c5e6bf3e35fcf7ba6f3ad1392af696a209
       {/* <div className='dropdown pt-4'>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-100 h-75'>
@@ -295,10 +323,15 @@ const TableRightSidebar = () => {
         </select>
       </div> */}
 
+<<<<<<< HEAD
       <div className="mt-5 text-center pt-5">
         <Button variant="primary" className="px-5" onClick={removeTable}>
           Remove Table
         </Button>
+=======
+      <div className='mt-2 text-center pt-5'>
+        <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
+>>>>>>> 4adef0c5e6bf3e35fcf7ba6f3ad1392af696a209
       </div>
     </>
   );

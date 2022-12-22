@@ -920,11 +920,14 @@ const MidSection = () => {
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById("current-user");
 
+    const midSec = document.getElementById("midSection_container");
+    const midsectionRect = midSec.getBoundingClientRect();
+
     const measure = {
       width: "200px",
       height: "80px",
-      left: event.clientX - 350 + "px",
-      top: event.clientY - 150 + "px",
+      left: event.clientX - midsectionRect.left + "px",
+      top: event.clientY - midsectionRect.top + "px",
       auth_user: curr_user,
     };
 
