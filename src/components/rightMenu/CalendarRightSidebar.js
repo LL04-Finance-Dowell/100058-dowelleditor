@@ -11,21 +11,29 @@ import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
 
 const CalendarRightSidebar = (props) => {
-  const { startDate, setStartDate } = useStateContext();
+  const { startDate, setStartDate, fetchedData } = useStateContext();
   const [method, setMethod] = useState("first");
 
-  const date = document.querySelector(".dateInput");
+  const date = document.querySelector(".focussed");
   if (date.parentElement.classList.contains("focussedd")) {
-    if (method == "first") {
-      date.innerHTML = startDate && startDate.toLocaleDateString();
+    const dateContentArray = fetchedData.filter((elem) => {
+      return elem?.type == "DATE_INPUT";
+    });
+    console.log(dateContentArray);
+    // setStartDate(dateContentArray[0]?.data);
+
+    if (method == "select") {
+      date.innerHTML = startDate && startDate;
+    } else if (method == "first") {
+      date.innerHTML = startDate && startDate?.toLocaleDateString();
     } else if (method == "second") {
-      date.innerHTML = startDate && startDate.toDateString();
+      date.innerHTML = startDate && startDate?.toDateString();
     }
     // else if(method == 'third'){
     //   date.innerHTML = startDate && startDate.toLocaleDateString();
     // }
     else if (method == "fourth") {
-      date.innerHTML = startDate && startDate.toISOString().split("T")[0];
+      date.innerHTML = startDate && startDate?.toISOString().split("T")[0];
     }
     // else if(method == 'fifth'){
     //   date.innerHTML = startDate && startDate.toDateString();
@@ -49,7 +57,7 @@ const CalendarRightSidebar = (props) => {
           onChange={handleDateMethod}
           className="shadow bg-white rounded w-100 h-75"
         >
-          <option value="Nothing Selected" selected="selected">
+          <option value="select" selected="selected">
             Select Format
           </option>
           <option value="first">4/19/2022</option>

@@ -23,6 +23,7 @@ const initialState2 = {
 };
 
 export const ContextProvider = ({ children }) => {
+  const [fetchedData, setFetchedData] = useState([]);
   const [isClicked, setIsClicked] = useState(initialState2);
 
   const [isDropped, setIsDropped] = useState(initialState);
@@ -34,6 +35,7 @@ export const ContextProvider = ({ children }) => {
 
   const [startDate, setStartDate] = useState(new Date()); // Calendar
 
+  // console.log("fetchedData", fetchedData);
   const [dropdownName, setDropdownName] = useState("Dropdown Name");
   const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
   const [dropdownItems, setDropdownItems] = useState("");
@@ -101,6 +103,8 @@ export const ContextProvider = ({ children }) => {
         setIsLoading,
         isFlipClicked,
         setIsFlipClicked,
+        fetchedData,
+        setFetchedData,
       }}
     >
       {children}

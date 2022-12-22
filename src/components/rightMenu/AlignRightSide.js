@@ -306,14 +306,14 @@ const AlignRightSide = () => {
             </Button>
           </Col>
         </Row>
-        <hr />
+        {/* <hr /> */}
 
         {/* Text color */}
         <Row className="pt-0">
-          <h6>Text Color</h6>
-          <Col>
+          {/* <h6>Text Color</h6> */}
+          <Col className="col-lg-4">
             <Button variant="white" onClick={showColorInput}>
-              <AiOutlineFontColors color="purple" size={35} />
+              <AiOutlineFontColors color="purple" size={30} />
             </Button>
             <input
               type="color"
@@ -323,9 +323,9 @@ const AlignRightSide = () => {
             />
           </Col>
 
-          <Col>
+          <Col className="col-lg-4">
             <Button variant="white" onClick={showTBgColorInput}>
-              <MdBorderColor color="green" size={35} />
+              <MdBorderColor color="green" size={30} />
             </Button>
             <input
               type="color"
@@ -335,9 +335,9 @@ const AlignRightSide = () => {
             />
           </Col>
 
-          <Col>
+          <Col className="col-lg-4">
             <Button variant="white" onClick={showBgColorInput}>
-              <MdFormatColorFill color="blue" size={35} />
+              <MdFormatColorFill color="blue" size={30} />
             </Button>
             <input
               type="color"
@@ -353,63 +353,65 @@ const AlignRightSide = () => {
         {/* Text alignment */}
         <Row className="pt-0">
           <h6>Text Alignment</h6>
-          <Col className="mx-0 p-0 ">
-            <Button onClick={handleLeftAlign} variant="white">
-              <BiAlignLeft color="gray" size={20} />
-            </Button>
-          </Col>
+          <Row className="pt-0 ms-1">
+            <Col className="mx-0 p-0 ">
+              <Button onClick={handleLeftAlign} variant="white">
+                <BiAlignLeft color="gray" size={20} />
+              </Button>
+            </Col>
 
-          <Col className="mx-0 p-0">
-            <Button onClick={handleMiddleAlign} variant="white">
-              <BiAlignMiddle color="gray" size={20} />
-            </Button>
-          </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleMiddleAlign} variant="white">
+                <BiAlignMiddle color="gray" size={20} />
+              </Button>
+            </Col>
 
-          <Col className="mx-0 p-0">
-            <Button onClick={handleRightAlign} variant="white">
-              <BiAlignRight color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={handleOutdent} variant="white">
-              <FaOutdent color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={handleIndent} variant="white">
-              <FaIndent color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={handleUnorderedList} variant="white">
-              <FaListUl color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={handleOrderedList} variant="white">
-              <FaListOl color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={() => {}} variant="white">
-              <FaIndent color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={() => {}} variant="white">
-              <FaIndent color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={() => {}} variant="white">
-              <FaIndent color="gray" size={20} />
-            </Button>
-          </Col>
-          <Col className="mx-0 p-0">
-            <Button onClick={() => {}} variant="white">
-              <FaIndent color="gray" size={20} />
-            </Button>
-          </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleRightAlign} variant="white">
+                <BiAlignRight color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleOutdent} variant="white">
+                <FaOutdent color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleIndent} variant="white">
+                <FaIndent color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleUnorderedList} variant="white">
+                <FaListUl color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={handleOrderedList} variant="white">
+                <FaListOl color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={() => {}} variant="white">
+                <FaIndent color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={() => {}} variant="white">
+                <FaIndent color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={() => {}} variant="white">
+                <FaIndent color="gray" size={20} />
+              </Button>
+            </Col>
+            <Col className="mx-0 p-0">
+              <Button onClick={() => {}} variant="white">
+                <FaIndent color="gray" size={20} />
+              </Button>
+            </Col>
+          </Row>
         </Row>
 
         <hr />
