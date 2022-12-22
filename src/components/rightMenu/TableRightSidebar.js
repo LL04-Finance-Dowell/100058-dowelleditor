@@ -199,22 +199,23 @@ const TableRightSidebar = () => {
             var org_text = input.parentElement.getAttribute('data-text');
             var current_text = this.value;
 
-            if (org_text != current_text) {
+            if (org_text != current_text && current_text !== "") {
               td.removeAttribute('data-clicked')
               td.removeAttribute('data-text')
               td.innerHTML = current_text;
               td.style.cssText = 'padding: 5px';
 
-            } else if (current_text == "") {
+            }
+            //  else if (current_text == "") {
+            //   td.removeAttribute('data-clicked')
+            //   td.removeAttribute('data-text')
+            //   td.innerHTML = current_text;
+            //   td.style.cssText = 'padding: 5px';
+            // }
+             else if(current_text == "") {
               td.removeAttribute('data-clicked')
               td.removeAttribute('data-text')
-              td.innerHTML = current_text;
-              td.style.cssText = 'padding: 5px';
-
-            } else {
-              td.removeAttribute('data-clicked')
-              td.removeAttribute('data-text')
-              td.innerHTML = current_text;
+              td.innerHTML = org_text;
               td.style.cssText = 'padding: 5px';
             }
           }
@@ -272,8 +273,10 @@ const TableRightSidebar = () => {
         <Form.Control type='number' placeholder="" min="1" id='cols' className='shadow bg-white rounded mb-4' />
       </div>
 
-      <button onClick={makeTable}>Create Table</button>
 
+      <div className='mt-2 text-center pt-5'>
+        <Button variant="secondary" className="px-5" onClick={makeTable}>Create Table</Button>
+      </div>
 
       {/* <div className='dropdown pt-4'>
         <h6>User permissions</h6>
@@ -285,7 +288,7 @@ const TableRightSidebar = () => {
         </select>
       </div> */}
 
-      <div className='mt-5 text-center pt-5'>
+      <div className='mt-2 text-center pt-5'>
         <Button variant="primary" className="px-5" onClick={removeTable}>Remove Table</Button>
       </div>
     </>
