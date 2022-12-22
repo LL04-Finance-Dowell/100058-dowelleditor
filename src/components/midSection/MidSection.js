@@ -535,8 +535,8 @@ const MidSection = () => {
       }
       if (element.type === "IMAGE_INPUT") {
         const measure = {
-          width: 300 + "px",
-          height: 300 + "px",
+          width: element.width + "px",
+          height: element.height + "px",
           left: element.left + "px",
           top: element.top + "px",
           auth_user: curr_user,
@@ -647,8 +647,11 @@ const MidSection = () => {
             setSidebar(true);
           }
         };
+        if (decoded.details.action === "document" && element.data !== undefined) {
         signField.innerHTML = `<img src=${element.data} />`;
-
+        } else {
+          signField.innerHTML = "Place your signature here"
+        }
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
         holderDIV.append(signField);
@@ -1003,7 +1006,7 @@ const MidSection = () => {
       imageButton.className = "addImageButton";
       imageButton.innerText = "Choose File";
       imageButton.style.display = "none";
-      imageButton.onclick = (e) => chooseFileClick(e);
+      // imageButton.onclick = (e) => chooseFileClick(e);
 
       const imgBtn = document.createElement("input");
       imgBtn.className = "addImageButtonInput";
@@ -1021,22 +1024,7 @@ const MidSection = () => {
           ).style.backgroundImage = `url(${uploadedImage})`;
         });
         reader.readAsDataURL(imgBtn.files[0]);
-        if (imgBtn.files[0]) {
-          const imageField = {
-            imageField: {
-              value: uploadedImage,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top,
-            },
-          };
-
-          // postData.push(imageField);
-          // setPostData({
-          //   ...postData,
-          //   imageField: { value: uploadedImage, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-          // })
-        }
-        // console.log(uploadedImage);
+        
       });
 
       // imgBtn.style.width = "100%";
@@ -1152,21 +1140,6 @@ const MidSection = () => {
         });
       };
 
-      // if (signField) {
-      //   const signField = {
-      //     signField: {
-      //       value: event.target.value,
-      //       xcoordinate: getOffset(holderDIV).left,
-      //       ycoordinate: getOffset(holderDIV).top,
-      //     },
-      //   };
-
-      //   // postData.push(signField);
-      //   // setPostData({
-      //   //   ...postData,
-      //   //   signField: { value: signField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-      //   // })
-      // }
 
       signField.onclick = () => {
         if (actionName != "template") {
@@ -1175,11 +1148,39 @@ const MidSection = () => {
           setSidebar(true);
         }
       };
+      const imageSignButton = document.createElement("div");
+      imageSignButton.className = "addImageSignButton";
+      imageSignButton.innerText = "Choose File";
+      imageSignButton.style.display = "none";
+
+      const signBtn = document.createElement("input");
+      signBtn.className = "addSignButtonInput";
+      signBtn.type = "file";
+      signBtn.style.objectFit = "cover";
+      var uploadedImage = "";
+
+      signBtn.addEventListener("input", () => {
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+          uploadedImage = reader.result;
+          const signImage = `<img src=${uploadedImage} />`
+          document.querySelector(
+            ".focussed"
+          ).innerHTML = signImage
+        });
+        reader.readAsDataURL(signBtn.files[0]);
+        
+      });
+
+      imageSignButton.append(signBtn);
+      
 
       const para = document.createElement("p");
       para.innerHTML = "Place your signature here";
       signField.append(para);
       holderDIV.append(signField);
+      holderDIV.append(imageSignButton);
     } else if (typeOfOperation === "DATE_INPUT") {
       let dateField = document.createElement("div");
       dateField.className = "dateInput";
