@@ -70,6 +70,7 @@ const MidSection = () => {
     setIsLoading,
     fetchedData,
     setFetchedData,
+    setRightSideDateMenu,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -104,6 +105,7 @@ const MidSection = () => {
         }
         setSidebar(false);
         setIsClicked(false);
+        setRightSideDateMenu(false);
         setIsClicked({
           ...isClicked,
           align2: false,
@@ -601,6 +603,7 @@ const MidSection = () => {
         dateField.onclick = () => {
           dateField.classList.add("focussed");
           handleClicked("calendar2");
+          setRightSideDateMenu(false);
           setSidebar(true);
           setTimeout(dateClick, 0);
         };
@@ -647,10 +650,13 @@ const MidSection = () => {
             setSidebar(true);
           }
         };
-        if (decoded.details.action === "document" && element.data !== undefined) {
-        signField.innerHTML = `<img src=${element.data} />`;
+        if (
+          decoded.details.action === "document" &&
+          element.data !== undefined
+        ) {
+          signField.innerHTML = `<img src=${element.data} />`;
         } else {
-          signField.innerHTML = "Place your signature here"
+          signField.innerHTML = "Place your signature here";
         }
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -1027,7 +1033,6 @@ const MidSection = () => {
           ).style.backgroundImage = `url(${uploadedImage})`;
         });
         reader.readAsDataURL(imgBtn.files[0]);
-        
       });
 
       // imgBtn.style.width = "100%";
@@ -1143,7 +1148,6 @@ const MidSection = () => {
         });
       };
 
-
       signField.onclick = () => {
         if (actionName != "template") {
           signField.classList.add("focussed");
@@ -1167,17 +1171,13 @@ const MidSection = () => {
 
         reader.addEventListener("load", () => {
           uploadedImage = reader.result;
-          const signImage = `<img src=${uploadedImage} />`
-          document.querySelector(
-            ".focussed"
-          ).innerHTML = signImage
+          const signImage = `<img src=${uploadedImage} />`;
+          document.querySelector(".focussed").innerHTML = signImage;
         });
         reader.readAsDataURL(signBtn.files[0]);
-        
       });
 
       imageSignButton.append(signBtn);
-      
 
       const para = document.createElement("p");
       para.innerHTML = "Place your signature here";
@@ -1230,6 +1230,8 @@ const MidSection = () => {
         dateField.classList.add("focussed");
         handleClicked("calendar2");
         setSidebar(true);
+        setRightSideDateMenu(false);
+        console.log("Date field clicked");
         setTimeout(dateClick, 0);
       };
       dateField.innerText = "dd/mm/yyyy";
