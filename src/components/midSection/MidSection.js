@@ -57,6 +57,7 @@ const MidSection = () => {
   var {
     sidebar,
     dropdownName,
+    setDropdownName,
     isDropped,
     isClicked,
     setIsClicked,
@@ -71,6 +72,7 @@ const MidSection = () => {
     fetchedData,
     setFetchedData,
     setRightSideDateMenu,
+    setRightSideDropDown
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -785,21 +787,28 @@ const MidSection = () => {
         dropdownField.style.position = "absolute";
 
         const selectElement = document.createElement("select");
-        // selectElement.className = "select-element";
+        selectElement.className = "select-element";
         // selectElement.style.width = "auto";
         // selectElement.style.height = "auto";
 
         dropdownField.onclick = () => {
           dropdownField.classList.add("focussed");
           handleClicked("dropdown2");
+          setRightSideDropDown(false)
           setSidebar(true);
         };
 
         selectElement.innerHTML = element.data2;
-        const dropdownName = element.data1;
 
-        dropdownField.append(dropdownName);
+        const para = document.createElement("p");
+        para.innerHTML = " Dropdown Name";
+        para.className = "dropdownName";
+        para.innerText = element.data1
+
+
+        dropdownField.append(para);
         dropdownField.append(selectElement);
+        setDropdownName(element.data1)
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -1256,7 +1265,7 @@ const MidSection = () => {
 
       const selectElement = document.createElement("select");
       selectElement.className = "select-element";
-      selectElement.style.width = "auto";
+      selectElement.style.width = "500";
       selectElement.style.height = "auto";
 
       dropdownField.onchange = (event) => {
@@ -1290,6 +1299,7 @@ const MidSection = () => {
       dropdownField.onclick = () => {
         dropdownField.classList.add("focussed");
         handleClicked("dropdown2");
+        setRightSideDropDown(false)
         setSidebar(true);
       };
 

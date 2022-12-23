@@ -21,6 +21,7 @@ const CalendarRightSidebar = (props) => {
   const [method, setMethod] = useState("first");
 
   const date = document.querySelector(".focussed");
+
   if (date?.parentElement?.classList?.contains("focussedd")) {
     // const dateContentArray = fetchedData.filter((elem) => {
     //   return elem?.type == "DATE_INPUT";

@@ -184,7 +184,7 @@ const Header = () => {
           top: tempPosn.top,
           left: tempPosn.left,
           type: "SIGN_INPUT",
-          data: sign[h].firstElementChild.src,
+          data: (decoded.details.action === "document") ? sign[h].firstElementChild.src : sign[h].innerHTML,
           id: `s${h + 1}`,
         };
         page.push(elem);

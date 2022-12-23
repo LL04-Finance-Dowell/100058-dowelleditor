@@ -16,6 +16,8 @@ const DropDownRightSide = () => {
     setDropdownItems,
     dropdownOptions,
     setDropdownOptions,
+    rightSideDropDown, 
+    setRightSideDropDown
   } = useStateContext();
 
   // Dropdown Name
@@ -27,15 +29,17 @@ const DropDownRightSide = () => {
   }
 
   // Dropdown Items
-
-  const selectionn = document.getElementsByClassName("select-element").item(0);
-  const options = document.createElement("option");
+ 
+  useEffect(() => {
+    const selectionn = document.getElementsByClassName("select-element").item(0);
+  if (rightSideDropDown){
+     var options = document.createElement("option");
   for (const [index, a] of dropdownOptions.entries()) {
     options.value = index;
     options.innerHTML = a;
   }
-  useEffect(() => {
-    selectionn.appendChild(options);
+   selectionn.appendChild(options);
+  }
   }, [dropdownOptions]);
 
   function handleItemsChange(e) {
@@ -45,6 +49,7 @@ const DropDownRightSide = () => {
   const addOptions = () => {
     setDropdownOptions([...dropdownOptions, [dropdownItems]]);
     setDropdownItems("");
+    setRightSideDropDown(true);
   };
 
   function removeDropdown() {
@@ -60,8 +65,7 @@ const DropDownRightSide = () => {
         placeholder="Enter Name"
         onChange={handleNameChange}
       />
-      <Form.Label>Label</Form.Label>
-      <Form.Control type="text" placeholder="Enter Label" />
+
       <Form.Label>List Items</Form.Label>
       <Form.Control
         type="text"
