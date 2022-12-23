@@ -79,6 +79,7 @@ const CalendarRightSidebar = (props) => {
           dateFormat="MMMM d, yyyy h:mm aa"
           selected={startDate}
           onChange={(date) => {
+            console.log("date", date);
             setRightSideDateMenu(true);
             setStartDate(date);
           }}

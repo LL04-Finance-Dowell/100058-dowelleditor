@@ -71,6 +71,7 @@ const MidSection = () => {
     fetchedData,
     setFetchedData,
     setRightSideDateMenu,
+    setStartDate,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -600,10 +601,24 @@ const MidSection = () => {
         function dateClick() {
           document.getElementById("date_picker")?.click();
         }
-        dateField.onclick = () => {
+        dateField.onclick = (e) => {
           dateField.classList.add("focussed");
           handleClicked("calendar2");
           setRightSideDateMenu(false);
+          if (e.target.innerText != "dd/mm/yyyy") {
+            const d = new Date();
+            if (e.target.innerText.includes("-")) {
+              const dateArray = e.target.innerText.split("-");
+              console.log(dateArray);
+              const setDate = d.setFullYear(
+                dateArray[0],
+                dateArray[1],
+                dateArray[2]
+              );
+              console.log(setDate);
+              setStartDate(setDate);
+            }
+          }
           setSidebar(true);
           setTimeout(dateClick, 0);
         };
@@ -1226,12 +1241,15 @@ const MidSection = () => {
       function dateClick() {
         document.getElementById("date_picker").click();
       }
-      dateField.onclick = () => {
+      dateField.onclick = (e) => {
         dateField.classList.add("focussed");
         handleClicked("calendar2");
         setSidebar(true);
         setRightSideDateMenu(false);
-        console.log("Date field clicked");
+        // console.log("Date field clicked", );
+        if (e.target.innerText != "dd/mm/yyyy") {
+          // setStartDate(e.target.innerText);
+        }
         setTimeout(dateClick, 0);
       };
       dateField.innerText = "dd/mm/yyyy";
