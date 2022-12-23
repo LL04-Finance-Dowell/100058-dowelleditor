@@ -57,6 +57,7 @@ export const ContextProvider = ({ children }) => {
   const [isFlipClicked, setIsFlipClicked] = useState(true);
   const [sidebar, setSidebar] = useState(false);
   const [rightSideDatemenu, setRightSideDateMenu] = useState(false);
+  const [rightSideDropDown, setRightSideDropDown] = useState(false);
   // const showSidebar = () => setSidebar(!sidebar);
 
   //handling new pages
@@ -108,6 +109,8 @@ export const ContextProvider = ({ children }) => {
         setFetchedData,
         rightSideDatemenu,
         setRightSideDateMenu,
+        rightSideDropDown,
+        setRightSideDropDown
       }}
     >
       {children}

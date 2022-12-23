@@ -57,6 +57,7 @@ const MidSection = () => {
   var {
     sidebar,
     dropdownName,
+    setDropdownName,
     isDropped,
     isClicked,
     setIsClicked,
@@ -72,6 +73,7 @@ const MidSection = () => {
     setFetchedData,
     setRightSideDateMenu,
     setStartDate,
+    setRightSideDropDown,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -607,15 +609,18 @@ const MidSection = () => {
           setRightSideDateMenu(false);
           if (e.target.innerText != "dd/mm/yyyy") {
             const d = new Date();
-            if (e.target.innerText.includes("-")) {
-              const dateArray = e.target.innerText.split("-");
-              console.log(dateArray);
+            if (e.target.innerText.includes("/")) {
+              const dateArray = e.target.innerText.split("/");
               const setDate = d.setFullYear(
-                dateArray[0],
-                dateArray[1],
-                dateArray[2]
+                dateArray[2],
+                dateArray[1] - 1,
+                dateArray[0]
               );
-              console.log(setDate);
+              setStartDate(setDate);
+            } else {
+              console.log("e.target.innerText", e.target.innerText);
+              const setDate = new Date(e.target.innerText);
+              console.log("setDate", setDate);
               setStartDate(setDate);
             }
           }
@@ -800,21 +805,27 @@ const MidSection = () => {
         dropdownField.style.position = "absolute";
 
         const selectElement = document.createElement("select");
-        // selectElement.className = "select-element";
+        selectElement.className = "select-element";
         // selectElement.style.width = "auto";
         // selectElement.style.height = "auto";
 
         dropdownField.onclick = () => {
           dropdownField.classList.add("focussed");
           handleClicked("dropdown2");
+          setRightSideDropDown(false);
           setSidebar(true);
         };
 
         selectElement.innerHTML = element.data2;
-        const dropdownName = element.data1;
 
-        dropdownField.append(dropdownName);
+        const para = document.createElement("p");
+        para.innerHTML = " Dropdown Name";
+        para.className = "dropdownName";
+        para.innerText = element.data1;
+
+        dropdownField.append(para);
         dropdownField.append(selectElement);
+        setDropdownName(element.data1);
 
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -1222,7 +1233,7 @@ const MidSection = () => {
           },
         });
       };
-
+      setStartDate(new Date());
       // if (dateField) {
       //   const dateField = {
       //     dateField: {
@@ -1246,15 +1257,31 @@ const MidSection = () => {
         handleClicked("calendar2");
         setSidebar(true);
         setRightSideDateMenu(false);
-        // console.log("Date field clicked", );
         if (e.target.innerText != "dd/mm/yyyy") {
-          // setStartDate(e.target.innerText);
+          const d = new Date();
+          if (e.target.innerText.includes("/")) {
+            const dateArray = e.target.innerText.split("/");
+            console.log(dateArray);
+            const setDate = d.setFullYear(
+              dateArray[2],
+              dateArray[1] - 1,
+              dateArray[0]
+            );
+            console.log("e.target.innerText", e.target.innerText);
+            console.log("setDate", setDate);
+            setStartDate(setDate);
+          } else {
+            console.log("e.target.innerText", e.target.innerText);
+            const setDate = new Date(e.target.innerText);
+            console.log("setDate", setDate);
+            setStartDate(setDate);
+          }
         }
         setTimeout(dateClick, 0);
       };
       dateField.innerText = "dd/mm/yyyy";
 
-      console.log(startDate);
+      // console.log(startDate);
       const para = document.createElement("p");
 
       // dateField.append(para)
@@ -1274,7 +1301,7 @@ const MidSection = () => {
 
       const selectElement = document.createElement("select");
       selectElement.className = "select-element";
-      selectElement.style.width = "auto";
+      selectElement.style.width = "500";
       selectElement.style.height = "auto";
 
       dropdownField.onchange = (event) => {
@@ -1308,6 +1335,7 @@ const MidSection = () => {
       dropdownField.onclick = () => {
         dropdownField.classList.add("focussed");
         handleClicked("dropdown2");
+        setRightSideDropDown(false);
         setSidebar(true);
       };
 

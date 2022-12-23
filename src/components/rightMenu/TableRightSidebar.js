@@ -182,14 +182,14 @@ const TableRightSidebar = () => {
           if (this.hasAttribute("data-clicked")) {
             return;
           }
-          this.setAttribute("data-clicked", "yes");
-          this.setAttribute("data-text", this.innerHtml);
-
-          var input = document.createElement("input");
-          input.setAttribute("type", "text");
-          input.value = this.innerHtml;
-          input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
-          input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
+          this.setAttribute('data-clicked', 'yes')
+          this.setAttribute('data-text', this.innerHtml);
+          
+          var input = document.createElement('input')
+          input.setAttribute('type', 'text')
+          // input.value = this.innerHtml;
+          input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
+          input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
           input.style.border = "0px";
           input.style.fontFamily = "inherit";
           input.style.fontSize = "inherit";

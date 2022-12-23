@@ -21,6 +21,7 @@ const CalendarRightSidebar = (props) => {
   const [method, setMethod] = useState("first");
 
   const date = document.querySelector(".focussed");
+
   if (date?.parentElement?.classList?.contains("focussedd")) {
     // const dateContentArray = fetchedData.filter((elem) => {
     //   return elem?.type == "DATE_INPUT";
@@ -31,7 +32,7 @@ const CalendarRightSidebar = (props) => {
       if (method == "select") {
         date.innerHTML = startDate && startDate;
       } else if (method == "first") {
-        date.innerHTML = startDate && startDate?.toLocaleDateString();
+        date.innerHTML = startDate && startDate?.toLocaleString().split(",")[0];
       } else if (method == "second") {
         date.innerHTML = startDate && startDate?.toDateString();
       }
@@ -71,7 +72,7 @@ const CalendarRightSidebar = (props) => {
           <option value="first">4/19/2022</option>
           <option value="second">Tuesday, April 19, 2022</option>
           {/* <option value="third">April 19, 2022</option> */}
-          <option value="fourth">2022-04-2022</option>
+          <option value="fourth">2022-04-12</option>
           {/* <option value="fifth">19-April-2022</option> */}
         </select>
 

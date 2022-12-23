@@ -115,6 +115,7 @@ th {
   border-color: orange;
 }
 
+
 .addImageButton{
   cursor: pointer;
   padding:7px 12px;
@@ -137,6 +138,10 @@ th {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.select-element {
+  min-width: 180px;
 }
 
 
