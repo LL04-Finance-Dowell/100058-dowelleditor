@@ -71,9 +71,11 @@ const MidSection = () => {
     setIsLoading,
     fetchedData,
     setFetchedData,
+    rightSideDatemenu,
     setRightSideDateMenu,
     setStartDate,
     setRightSideDropDown,
+    setMethod,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -604,8 +606,14 @@ const MidSection = () => {
           document.getElementById("date_picker")?.click();
         }
         dateField.onclick = (e) => {
+          const date = document.querySelector(".focussed");
+
+          if (date?.parentElement?.classList?.contains("focussedd")) {
+            date.classList.remove("focussed");
+          }
           dateField.classList.add("focussed");
           handleClicked("calendar2");
+          console.log("rightSideDatemenu", rightSideDatemenu);
           setRightSideDateMenu(false);
           if (e.target.innerText != "dd/mm/yyyy") {
             const d = new Date();
@@ -616,11 +624,15 @@ const MidSection = () => {
                 dateArray[1] - 1,
                 dateArray[0]
               );
+              setMethod("first");
               setStartDate(setDate);
             } else {
-              console.log("e.target.innerText", e.target.innerText);
+              if (e.target.innerText.includes("-")) {
+                setMethod("fourth");
+              } else {
+                setMethod("second");
+              }
               const setDate = new Date(e.target.innerText);
-              console.log("setDate", setDate);
               setStartDate(setDate);
             }
           }
@@ -1234,6 +1246,7 @@ const MidSection = () => {
         });
       };
       setStartDate(new Date());
+      setMethod("select");
       // if (dateField) {
       //   const dateField = {
       //     dateField: {
@@ -1251,8 +1264,15 @@ const MidSection = () => {
       // }
       function dateClick() {
         document.getElementById("date_picker").click();
+        setRightSideDateMenu(false);
       }
       dateField.onclick = (e) => {
+        const date = document.querySelector(".focussed");
+
+        if (date?.parentElement?.classList?.contains("focussedd")) {
+          date.classList.remove("focussed");
+        }
+
         dateField.classList.add("focussed");
         handleClicked("calendar2");
         setSidebar(true);
@@ -1267,13 +1287,15 @@ const MidSection = () => {
               dateArray[1] - 1,
               dateArray[0]
             );
-            console.log("e.target.innerText", e.target.innerText);
-            console.log("setDate", setDate);
+            setMethod("first");
             setStartDate(setDate);
           } else {
-            console.log("e.target.innerText", e.target.innerText);
+            if (e.target.innerText.includes("-")) {
+              setMethod("fourth");
+            } else {
+              setMethod("second");
+            }
             const setDate = new Date(e.target.innerText);
-            console.log("setDate", setDate);
             setStartDate(setDate);
           }
         }

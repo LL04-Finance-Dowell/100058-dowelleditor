@@ -17,30 +17,44 @@ const CalendarRightSidebar = (props) => {
     fetchedData,
     rightSideDatemenu,
     setRightSideDateMenu,
+    method,
+    setMethod,
   } = useStateContext();
-  const [method, setMethod] = useState("first");
 
   const date = document.querySelector(".focussed");
 
   if (date?.parentElement?.classList?.contains("focussedd")) {
-    // const dateContentArray = fetchedData.filter((elem) => {
-    //   return elem?.type == "DATE_INPUT";
-    // });
-    // console.log(dateContentArray);
-    // setStartDate(dateContentArray[0]?.data);
     if (rightSideDatemenu) {
       if (method == "select") {
-        date.innerHTML = startDate && startDate;
+        console.log("select", startDate);
+        date.innerHTML = startDate;
       } else if (method == "first") {
-        date.innerHTML = startDate && startDate?.toLocaleString().split(",")[0];
+        console.log("first", startDate);
+
+        // const d = new Date();
+        // const dateArray = startDate.split("/");
+        // date.innerHTML =
+        //   startDate &&
+        //   startDate
+        //     .split("/")
+        //     .d.setFullYear(dateArray[2], dateArray[1] - 1, dateArray[0])
+        //     ?.toLocaleString()
+        //     .split(",")[0];
+        date.innerHTML =
+          startDate && new Date(startDate).toLocaleString().split(",")[0];
       } else if (method == "second") {
-        date.innerHTML = startDate && startDate?.toDateString();
+        console.log("second", startDate);
+
+        date.innerHTML = startDate && new Date(startDate)?.toDateString();
       }
       // else if(method == 'third'){
       //   date.innerHTML = startDate && startDate.toLocaleDateString();
       // }
       else if (method == "fourth") {
-        date.innerHTML = startDate && startDate?.toISOString().split("T")[0];
+        console.log("fourth", startDate);
+
+        date.innerHTML =
+          startDate && new Date(startDate)?.toISOString().split("T")[0];
       }
       // else if(method == 'fifth'){
       //   date.innerHTML = startDate && startDate.toDateString();
@@ -55,38 +69,57 @@ const CalendarRightSidebar = (props) => {
   }
   function handleDateMethod(e) {
     setMethod(e.target.value);
+    setRightSideDateMenu(true);
   }
-  console.log(method);
+  // const dateContainer = document.getElementById("date_picker_container");
+  // console.log("dateContainer", dateContainer);
+  // dateContainer.onclick = (e) => {
+  // .onclick((e) => {
+  //   console.log("Date div clicked");
+  //   setRightSideDateMenu(false);
+  // });
+  const handeDAtePickerClick = (e) => {
+    console.log("Date div clicked");
+    setRightSideDateMenu(false);
+  };
   return (
     <div>
       <div className="dropdown pb-3">
         <h6>Add Date</h6>
-        <Form.Label>Select Date</Form.Label>
+        <Form.Label>Select Date Format</Form.Label>
         <select
           onChange={handleDateMethod}
           className="shadow bg-white rounded w-100 h-75"
         >
-          <option value="select" selected="selected">
+          <option value="select" selected={method == "select"}>
             Select Format
           </option>
-          <option value="first">4/19/2022</option>
-          <option value="second">Tuesday, April 19, 2022</option>
+          <option value="first" selected={method == "first"}>
+            4/19/2023
+          </option>
+          <option value="second" selected={method == "second"}>
+            Tuesday, April 19, 2023
+          </option>
           {/* <option value="third">April 19, 2022</option> */}
-          <option value="fourth">2022-04-12</option>
+          <option value="fourth" selected={method == "fourth"}>
+            2023-04-19
+          </option>
           {/* <option value="fifth">19-April-2022</option> */}
         </select>
 
-        <DatePicker
-          dateFormat="MMMM d, yyyy h:mm aa"
-          selected={startDate}
-          onChange={(date) => {
-            console.log("date", date);
-            setRightSideDateMenu(true);
-            setStartDate(date);
-          }}
-          className="w-100 mt-2"
-          id="date_picker"
-        />
+        <div id="date_picker_container" onClick={handeDAtePickerClick}>
+          <DatePicker
+            dateFormat="MMMM d, yyyy h:mm aa"
+            selected={startDate}
+            onChange={(date) => {
+              console.log("date", date);
+              setRightSideDateMenu(true);
+              setStartDate(date);
+            }}
+            className="w-100 mt-2"
+            id="date_picker"
+          />
+        </div>
       </div>
 
       <hr />
@@ -101,7 +134,11 @@ const CalendarRightSidebar = (props) => {
         </select>
       </div> */}
 
-      <div className="mt-5 text-center">
+      <div
+        className={`mt-5 text-center ${
+          !rightSideDatemenu && "remove-date-mergin"
+        }`}
+      >
         <Button variant="primary" onClick={removeDate}>
           Remove Date
         </Button>

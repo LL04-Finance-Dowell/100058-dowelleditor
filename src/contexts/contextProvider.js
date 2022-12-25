@@ -58,6 +58,8 @@ export const ContextProvider = ({ children }) => {
   const [sidebar, setSidebar] = useState(false);
   const [rightSideDatemenu, setRightSideDateMenu] = useState(false);
   const [rightSideDropDown, setRightSideDropDown] = useState(false);
+
+  const [method, setMethod] = useState("first");
   // const showSidebar = () => setSidebar(!sidebar);
 
   //handling new pages
@@ -110,7 +112,9 @@ export const ContextProvider = ({ children }) => {
         rightSideDatemenu,
         setRightSideDateMenu,
         rightSideDropDown,
-        setRightSideDropDown
+        setRightSideDropDown,
+        method,
+        setMethod,
       }}
     >
       {children}
