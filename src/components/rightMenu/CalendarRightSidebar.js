@@ -79,8 +79,8 @@ const CalendarRightSidebar = (props) => {
   //   setRightSideDateMenu(false);
   // });
   const handeDAtePickerClick = (e) => {
-    console.log("Date div clicked");
-    setRightSideDateMenu(false);
+    // console.log("Date div clicked");
+    // setRightSideDateMenu(false);
   };
   return (
     <div>
