@@ -25,9 +25,9 @@ code {
   position: sticky;
   top: 9vh;
 }
-.remove-date-mergin {
+/* .remove-date-mergin {
   margin-top: 225px !important;
-}
+} */
 @media screen and (max-width: 992px) {
 .fixed3 {
   position: fixed;

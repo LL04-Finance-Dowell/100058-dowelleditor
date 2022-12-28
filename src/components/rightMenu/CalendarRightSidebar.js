@@ -29,8 +29,13 @@ const CalendarRightSidebar = (props) => {
         console.log("select", startDate);
         date.innerHTML = startDate;
       } else if (method == "first") {
-        console.log("first", startDate);
-
+        console.log("first", new Date(startDate).getTimezoneOffset());
+        console.log(
+          "first full date",
+          startDate,
+          "seperate",
+          startDate && new Date(startDate).toLocaleString().split(",")[0]
+        );
         // const d = new Date();
         // const dateArray = startDate.split("/");
         // date.innerHTML =
@@ -43,18 +48,38 @@ const CalendarRightSidebar = (props) => {
         date.innerHTML =
           startDate && new Date(startDate).toLocaleString().split(",")[0];
       } else if (method == "second") {
-        console.log("second", startDate);
-
+        console.log("second", new Date(startDate).getTimezoneOffset());
+        console.log(
+          "second full date",
+          startDate,
+          "seperate",
+          startDate && new Date(startDate)?.toDateString()
+        );
         date.innerHTML = startDate && new Date(startDate)?.toDateString();
       }
       // else if(method == 'third'){
       //   date.innerHTML = startDate && startDate.toLocaleDateString();
       // }
       else if (method == "fourth") {
-        console.log("fourth", startDate);
-
-        date.innerHTML =
-          startDate && new Date(startDate)?.toISOString().split("T")[0];
+        // console.log("fourth", new Date(startDate).getTimezoneOffset());
+        // console.log(
+        //   "fourth startDate",
+        //   startDate,
+        //   "seperate",
+        //   startDate && new Date(startDate)?.toISOString().split("T")[0]
+        // );
+        // const startDateLocalString =
+        //   startDate && new Date(startDate)?.toISOString().split("T")[0];
+        // const desireDate = new Date(Date.parse(`${startDateLocalString} GMT`));
+        // console.log(desireDate, "startDateLocalString", startDateLocalString);
+        // console.log(
+        //   "startDateLocalString",
+        //   startDateLocalString,
+        //   "Full Date",
+        //   new Date(startDate)
+        // );
+        console.log(startDate?.toISOString());
+        date.innerHTML = startDate && startDate?.toISOString().split("T")[0];
       }
       // else if(method == 'fifth'){
       //   date.innerHTML = startDate && startDate.toDateString();
@@ -71,17 +96,31 @@ const CalendarRightSidebar = (props) => {
     setMethod(e.target.value);
     setRightSideDateMenu(true);
   }
-  // const dateContainer = document.getElementById("date_picker_container");
-  // console.log("dateContainer", dateContainer);
-  // dateContainer.onclick = (e) => {
-  // .onclick((e) => {
-  //   console.log("Date div clicked");
-  //   setRightSideDateMenu(false);
-  // });
+
   const handeDAtePickerClick = (e) => {
     // console.log("Date div clicked");
     // setRightSideDateMenu(false);
   };
+
+  // calander class name
+  // .react-datepicker__month-container
+  // let marginValue = 0;
+  // const remove_date_mergin = {
+  //   marginTop: marginValue + "px",
+  // };
+  const datePickerElemnt = document.getElementById("date_picker");
+  if (datePickerElemnt) {
+    console.log("picker", document.getElementById("date_picker"));
+  }
+  // console.log("datePickerElemnt", datePickerElemnt);
+  let date_picker_month_topMargin = 0;
+  if (document.querySelector(".react-datepicker__month-container")) {
+    date_picker_month_topMargin =
+      document.querySelector(".react-datepicker__month-container")
+        .offsetHeight + "px";
+    console.log("element height", date_picker_month_topMargin);
+  }
+
   return (
     <div>
       <div className="dropdown pb-3">
@@ -135,9 +174,10 @@ const CalendarRightSidebar = (props) => {
       </div> */}
 
       <div
-        className={`mt-5 text-center ${
-          !rightSideDatemenu && "remove-date-mergin"
-        }`}
+        className={`text-center ${!rightSideDatemenu && "remove-date-mergin"}`}
+        style={{
+          marginTop: datePickerElemnt ? date_picker_month_topMargin : "36px",
+        }}
       >
         <Button variant="primary" onClick={removeDate}>
           Remove Date

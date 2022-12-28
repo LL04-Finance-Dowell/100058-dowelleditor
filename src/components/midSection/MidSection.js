@@ -684,14 +684,41 @@ const MidSection = () => {
         };
         if (
           decoded.details.action === "document" &&
-          element.data !== undefined
+          element.data == "<p>Place your signature here</p>"
         ) {
+          // signField.innerHTML = `<img src=${element.data} />`;
+          signField.innerHTML = "Place your signature here";
+        } else if (decoded.details.action === "document" && element.data) {
           signField.innerHTML = `<img src=${element.data} />`;
         } else {
-          signField.innerHTML = "Place your signature here";
+          signField.innerHTML = "Place your signature ";
         }
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
+        const imageSignButton = document.createElement("div");
+        imageSignButton.className = "addImageSignButton";
+        imageSignButton.innerText = "Choose File";
+        imageSignButton.style.display = "none";
+
+        const signBtn = document.createElement("input");
+        signBtn.className = "addSignButtonInput";
+        signBtn.type = "file";
+        signBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        signBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+            document.querySelector(".focussed").innerHTML = signImage;
+          });
+          reader.readAsDataURL(signBtn.files[0]);
+        });
+
+        imageSignButton.append(signBtn);
+        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+        holderDIV.append(imageSignButton);
         holderDIV.append(signField);
 
         // holderDIV.append(paragraphField);
@@ -1209,7 +1236,7 @@ const MidSection = () => {
 
         reader.addEventListener("load", () => {
           uploadedImage = reader.result;
-          const signImage = `<img src=${uploadedImage} />`;
+          const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
           document.querySelector(".focussed").innerHTML = signImage;
         });
         reader.readAsDataURL(signBtn.files[0]);

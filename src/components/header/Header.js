@@ -184,7 +184,10 @@ const Header = () => {
           top: tempPosn.top,
           left: tempPosn.left,
           type: "SIGN_INPUT",
-          data: (decoded.details.action === "document") ? sign[h].firstElementChild.src : sign[h].innerHTML,
+          data:
+            decoded.details.action === "document"
+              ? sign[h].firstElementChild.src
+              : sign[h].innerHTML,
           id: `s${h + 1}`,
         };
         page.push(elem);
@@ -320,10 +323,13 @@ const Header = () => {
     console.log(updateField);
     console.log(field);
 
-    <iframe src="http://localhost:5500/"></iframe>
+    <iframe src="http://localhost:5500/"></iframe>;
 
     function sendMessage() {
-      const message = (decoded.details.action === "document")? "Document saved" : "Template saved";
+      const message =
+        decoded.details.action === "document"
+          ? "Document saved"
+          : "Template saved";
       const iframe = document.querySelector("iframe");
       iframe.contentWindow.postMessage(message, "*");
     }
