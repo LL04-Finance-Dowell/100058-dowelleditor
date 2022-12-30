@@ -261,7 +261,15 @@ const MidSection = () => {
 
       window.addEventListener("mousemove", resizeElement);
       function resizeElement(ev) {
-        if (attr1 == "bottom" && attr2 == "right") {
+
+        const el = document.getElementById("midSection_container");
+        const midsectionRect = el.getBoundingClientRect();
+        if (
+          ev.screenX > midsectionRect.left &&
+          ev.screenY > midsectionRect.top &&
+          ev.screenX < midsectionRect.right
+        ){
+           if (attr1 == "bottom" && attr2 == "right") {
           holder.style.width = ev.screenX - initX + holderSize.width + "px";
           holder.style.height = ev.screenY - initY + holderSize.height + "px";
         } else if (attr1 == "bottom" && attr2 == "left") {
@@ -278,6 +286,9 @@ const MidSection = () => {
           holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
           holder.style.height = holderSize.height - (ev.screenY - initY) + "px";
         }
+        }
+
+       
       }
 
       window.addEventListener("mouseup", stopResizing);
