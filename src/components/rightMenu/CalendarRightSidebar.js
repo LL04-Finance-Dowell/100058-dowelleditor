@@ -89,9 +89,18 @@ const CalendarRightSidebar = (props) => {
 
   // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
 
+  // console.log(
+  //   "document.querySelectorfocussedd",
+  //   document.querySelector(".focussedd")
+  // );
   function removeDate() {
     document.querySelector(".focussedd").remove();
   }
+  // function removeDate() {
+  //   const last = Array.from(document.querySelectorAll(".focussedd")).pop();
+  //   console.log("last", last);
+  //   last.remove();
+  // }
   function handleDateMethod(e) {
     setMethod(e.target.value);
     setRightSideDateMenu(true);

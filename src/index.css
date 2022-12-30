@@ -28,6 +28,9 @@ code {
 /* .remove-date-mergin {
   margin-top: 225px !important;
 } */
+.zIndex-two{
+  z-index: 2 !important;
+}
 @media screen and (max-width: 992px) {
 .fixed3 {
   position: fixed;

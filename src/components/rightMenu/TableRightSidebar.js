@@ -182,14 +182,14 @@ const TableRightSidebar = () => {
           if (this.hasAttribute("data-clicked")) {
             return;
           }
-          this.setAttribute('data-clicked', 'yes')
-          this.setAttribute('data-text', this.innerHtml);
-          
-          var input = document.createElement('input')
-          input.setAttribute('type', 'text')
+          this.setAttribute("data-clicked", "yes");
+          this.setAttribute("data-text", this.innerHtml);
+
+          var input = document.createElement("input");
+          input.setAttribute("type", "text");
           // input.value = this.innerHtml;
-          input.style.width = this.offsetWidth - (this.clientLeft * 2) + "px"
-          input.style.height = this.offsetHeight - (this.clientTop * 2) + "px"
+          input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
+          input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
           input.style.border = "0px";
           input.style.fontFamily = "inherit";
           input.style.fontSize = "inherit";
@@ -256,7 +256,11 @@ const TableRightSidebar = () => {
     // const div = document.getElementById("holderId")
     // const tab = document.getElementsByClassName("tableInput")
     // const tabData = document.getElementsByClassName("droppable")
-    document.querySelector(".focussedd").remove();
+    // document.querySelector(".focussedd").remove();
+    const focusseddElmnt = document.querySelector(".focussedd");
+    if (focusseddElmnt.classList.contains("holderDIV")) {
+      document.querySelector(".focussedd").remove();
+    }
     // if (tab[0].parentElement.classList.contains("holderDIV")) {
     //   tabData[0].remove();
     // }

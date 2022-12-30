@@ -455,15 +455,24 @@ const MidSection = () => {
     holderDIV.style.border = "2px dotted gray";
 
     holderDIV.addEventListener("focus", function (e) {
-      holderDIV.classList.add("focussedd");
+      // holderDIV.classList.add("focussedd");
+      holderDIV.classList.add("zIndex-two");
       holderDIV.style.border = "2px solid orange";
       // holderDIV.append(holderMenu);
 
       holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
     });
 
+    // holderDIV.addEventListener("click", function (e) {
+    //   let allDiv = document.getElementsByClassName("focussedd");
+    //   for (let i = 0; i < allDiv.length; i++) {
+    //     allDiv[i].classList.remove("focussedd");
+    //   }
+    //   e.target.parentElement.classList.add("focussedd");
+    // });
     holderDIV.addEventListener("focusout", function (e) {
-      // holderDIV.classList.remove('focussedd')
+      // holderDIV.classList.remove("focussedd");
+      holderDIV.classList.remove("zIndex-two");
       holderDIV.style.border = "2px dotted gray";
       holderMenu.remove();
       resizerTL.remove();
@@ -483,6 +492,21 @@ const MidSection = () => {
     // }
 
     return holderDIV;
+  }
+  function focuseddClassMaintain(e) {
+    let allDiv = document.getElementsByClassName("focussedd");
+    for (let i = 0; i < allDiv.length; i++) {
+      allDiv[i].classList.remove("focussedd");
+    }
+    e.target.parentElement.classList.add("focussedd");
+
+    let focussedDiv = document.getElementsByClassName("focussed");
+    for (let i = 0; i < focussedDiv.length; i++) {
+      focussedDiv[i].classList.remove("focussed");
+    }
+    e.target.classList.add("focussed");
+
+    e.target.style.backgroundColor = "lightBlue";
   }
 
   const onPost = () => {
@@ -517,7 +541,9 @@ const MidSection = () => {
         inputField.style.overflow = "overlay";
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
-        inputField.onclick = () => {
+        inputField.onclick = (e) => {
+          focuseddClassMaintain(e);
+
           handleClicked("align2");
           setSidebar(true);
           // inputField.parentElement.focus()
@@ -562,8 +588,8 @@ const MidSection = () => {
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
 
-        imageField.onclick = () => {
-          imageField.classList.add("focussed");
+        imageField.onclick = (e) => {
+          focuseddClassMaintain(e);
           handleClicked("image2");
           setSidebar(true);
         };
@@ -595,7 +621,7 @@ const MidSection = () => {
         dateField.className = "dateInput";
         dateField.style.width = "100%";
         dateField.style.height = "100%";
-        dateField.style.backgroundColor = "#0000";
+        dateField.style.backgroundColor = "#dedede";
         dateField.style.borderRadius = "0px";
         dateField.style.outline = "0px";
         dateField.style.overflow = "overlay";
@@ -606,14 +632,8 @@ const MidSection = () => {
           document.getElementById("date_picker")?.click();
         }
         dateField.onclick = (e) => {
-          const date = document.querySelector(".focussed");
-
-          if (date?.parentElement?.classList?.contains("focussedd")) {
-            date.classList.remove("focussed");
-          }
-          dateField.classList.add("focussed");
+          focuseddClassMaintain(e);
           handleClicked("calendar2");
-          console.log("rightSideDatemenu", rightSideDatemenu);
           setRightSideDateMenu(false);
           if (e.target.innerText != "dd/mm/yyyy") {
             const d = new Date();
@@ -675,11 +695,13 @@ const MidSection = () => {
         // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
         signField.style.position = "absolute";
 
-        signField.onclick = () => {
+        signField.onclick = (e) => {
+          focuseddClassMaintain(e);
           if (actionName != "template") {
-            signField.classList.add("focussed");
             handleClicked("signs2");
             setSidebar(true);
+          } else {
+            setSidebar(false);
           }
         };
         if (
@@ -750,8 +772,8 @@ const MidSection = () => {
         // tableField.innerHTML = 'table';
         tableField.style.position = "absolute";
 
-        tableField.onclick = () => {
-          tableField.classList.add("focussed");
+        tableField.onclick = (e) => {
+          focuseddClassMaintain(e);
           handleClicked("table2");
           setSidebar(true);
         };
@@ -848,8 +870,8 @@ const MidSection = () => {
         // selectElement.style.width = "auto";
         // selectElement.style.height = "auto";
 
-        dropdownField.onclick = () => {
-          dropdownField.classList.add("focussed");
+        dropdownField.onclick = (e) => {
+          focuseddClassMaintain(e);
           handleClicked("dropdown2");
           setRightSideDropDown(false);
           setSidebar(true);
@@ -1050,11 +1072,12 @@ const MidSection = () => {
         // })
       }
 
-      inputField.onclick = () => {
+      inputField.onclick = (e) => {
+        focuseddClassMaintain(e);
         handleClicked("align2");
         setSidebar(true);
         // holderDIV.classList.add('focussedd')
-        inputField.classList.add("focussed");
+        // inputField.classList.add("focussed");
         // inputField.parentElement.focus()
       };
       holderDIV.append(inputField);
@@ -1070,8 +1093,9 @@ const MidSection = () => {
       // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
       imageField.style.position = "relative";
 
-      imageField.onclick = () => {
-        imageField.classList.add("focussed");
+      imageField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        // imageField.classList.add("focussed");
         handleClicked("image2");
         setSidebar(true);
       };
@@ -1141,7 +1165,7 @@ const MidSection = () => {
       tableField.className = "tableInput";
       tableField.style.width = "100%";
       tableField.style.height = "100%";
-      tableField.style.backgroundColor = "#0000";
+      tableField.style.backgroundColor = "#dedede";
       tableField.style.borderRadius = "0px";
       tableField.style.outline = "0px";
       tableField.style.overflow = "overlay";
@@ -1177,8 +1201,9 @@ const MidSection = () => {
       //   // })
       // }
 
-      tableField.onclick = () => {
-        tableField.classList.add("focussed");
+      tableField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        // tableField.classList.add("focussed");
         handleClicked("table2");
         setSidebar(true);
       };
@@ -1213,11 +1238,14 @@ const MidSection = () => {
         });
       };
 
-      signField.onclick = () => {
+      signField.onclick = (e) => {
+        focuseddClassMaintain(e);
         if (actionName != "template") {
-          signField.classList.add("focussed");
+          // signField.classList.add("focussed");
           handleClicked("signs2");
           setSidebar(true);
+        } else {
+          setSidebar(false);
         }
       };
       const imageSignButton = document.createElement("div");
@@ -1294,13 +1322,7 @@ const MidSection = () => {
         setRightSideDateMenu(false);
       }
       dateField.onclick = (e) => {
-        const date = document.querySelector(".focussed");
-
-        if (date?.parentElement?.classList?.contains("focussedd")) {
-          date.classList.remove("focussed");
-        }
-
-        dateField.classList.add("focussed");
+        focuseddClassMaintain(e);
         handleClicked("calendar2");
         setSidebar(true);
         setRightSideDateMenu(false);
@@ -1381,8 +1403,9 @@ const MidSection = () => {
         // })
       }
 
-      dropdownField.onclick = () => {
-        dropdownField.classList.add("focussed");
+      dropdownField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        // dropdownField.classList.add("focussed");
         handleClicked("dropdown2");
         setRightSideDropDown(false);
         setSidebar(true);
