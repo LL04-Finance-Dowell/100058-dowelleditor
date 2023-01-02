@@ -51,7 +51,9 @@ const DropDownRightSide = () => {
   }
 
   const addOptions = () => {
-    setDropdownOptions([...dropdownOptions, [dropdownItems]]);
+    if(dropdownItems !==""){
+      setDropdownOptions([...dropdownOptions, [dropdownItems]]);
+    }
     setDropdownItems("");
     setRightSideDropDown(true);
   };
