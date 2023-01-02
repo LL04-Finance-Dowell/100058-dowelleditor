@@ -157,7 +157,7 @@ const LeftMenu = ({ showSidebar }) => {
   // }, [window.screen.width]);
   // const bodyElement = document.getElementsByName("body");
   // console.log(bodyElement);
-  console.log(window.screen.width);
+  // console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
   return (
     <>

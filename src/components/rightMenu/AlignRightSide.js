@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -42,6 +42,8 @@ const AlignRightSide = () => {
     strikethrough,
     setStrikethrough,
   } = useStateContext();
+
+  const [isWindowHightSmall, setIsWindowHightSmall] = useState(false);
 
   // function boldCommand() {
   //   const strongElement = document.createElement("em");
@@ -206,8 +208,24 @@ const AlignRightSide = () => {
     document.querySelector(".focussedd").remove();
   }
 
+  useEffect(() => {
+    const windowHeight = window.innerHeight;
+    const elementHight = document.querySelector(".align");
+    if (elementHight) {
+      if (elementHight.offsetHeight > windowHeight) {
+        setIsWindowHightSmall(true);
+      }
+    }
+  }, []);
   return (
-    <div className="align" style={{ overflowY: "scroll", height: "450px" }}>
+    <div
+      className="align"
+      style={{
+        height: isWindowHightSmall && `${window.innerHeight - 100}px`,
+        overflowY: isWindowHightSmall && `auto`,
+        overFlowX: "hidden",
+      }}
+    >
       <Container fluid className="m-0 p-0">
         <Row className="pt-0">
           <Col>

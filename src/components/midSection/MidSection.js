@@ -635,15 +635,11 @@ const MidSection = () => {
           focuseddClassMaintain(e);
           handleClicked("calendar2");
           setRightSideDateMenu(false);
+          console.log("innerText", e.target.innerText);
           if (e.target.innerText != "dd/mm/yyyy") {
-            const d = new Date();
             if (e.target.innerText.includes("/")) {
-              const dateArray = e.target.innerText.split("/");
-              const setDate = d.setFullYear(
-                dateArray[2],
-                dateArray[1] - 1,
-                dateArray[0]
-              );
+              const setDate = new Date(e.target.innerText);
+              console.log("First from Midsection", setDate);
               setMethod("first");
               setStartDate(setDate);
             } else {
@@ -653,6 +649,8 @@ const MidSection = () => {
                 setMethod("second");
               }
               const setDate = new Date(e.target.innerText);
+              console.log("Second from Midsection", setDate);
+
               setStartDate(setDate);
             }
           }
@@ -1324,18 +1322,12 @@ const MidSection = () => {
       dateField.onclick = (e) => {
         focuseddClassMaintain(e);
         handleClicked("calendar2");
-        setSidebar(true);
         setRightSideDateMenu(false);
+        console.log("Drop innerText", e.target.innerText);
         if (e.target.innerText != "dd/mm/yyyy") {
-          const d = new Date();
           if (e.target.innerText.includes("/")) {
-            const dateArray = e.target.innerText.split("/");
-            console.log(dateArray);
-            const setDate = d.setFullYear(
-              dateArray[2],
-              dateArray[1] - 1,
-              dateArray[0]
-            );
+            const setDate = new Date(e.target.innerText);
+            console.log("First from Midsection", setDate);
             setMethod("first");
             setStartDate(setDate);
           } else {
@@ -1345,9 +1337,12 @@ const MidSection = () => {
               setMethod("second");
             }
             const setDate = new Date(e.target.innerText);
+            console.log("second from Midsection", setDate);
+
             setStartDate(setDate);
           }
         }
+        setSidebar(true);
         setTimeout(dateClick, 0);
       };
       dateField.innerText = "dd/mm/yyyy";
