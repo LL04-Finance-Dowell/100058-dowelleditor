@@ -516,7 +516,7 @@ const MidSection = () => {
     }
     e.target.classList.add("focussed");
 
-    e.target.style.backgroundColor = "lightBlue";
+    // e.target.style.backgroundColor = "lightBlue";
   }
 
   const onPost = () => {
@@ -646,7 +646,7 @@ const MidSection = () => {
           handleClicked("calendar2");
           setRightSideDateMenu(false);
           console.log("innerText", e.target.innerText);
-          if (e.target.innerText != "dd/mm/yyyy") {
+          if (e.target.innerText != "mm/dd/yyyy") {
             if (e.target.innerText.includes("/")) {
               const setDate = new Date(e.target.innerText);
               console.log("First from Midsection", setDate);
@@ -782,6 +782,12 @@ const MidSection = () => {
 
         tableField.onclick = (e) => {
           focuseddClassMaintain(e);
+          const focusseddElmnt = document.querySelector(".focussedd");
+          if (focusseddElmnt.classList.contains("holderDIV")) {
+            tableField.parentElement.style.border = "3px dotted orange";
+          } else {
+            tableField.parentElement.style.border = "2px solid orange";
+          }
           handleClicked("table2");
           setSidebar(true);
         };
@@ -880,6 +886,12 @@ const MidSection = () => {
 
         dropdownField.onclick = (e) => {
           focuseddClassMaintain(e);
+          const focusseddElmnt = document.querySelector(".focussedd");
+          if (focusseddElmnt.classList.contains("holderDIV")) {
+            dropdownField.parentElement.style.border = "3px dotted orange";
+          } else {
+            dropdownField.parentElement.style.border = "2px solid orange";
+          }
           handleClicked("dropdown2");
           setRightSideDropDown(false);
           setSidebar(true);
@@ -1212,6 +1224,12 @@ const MidSection = () => {
       tableField.onclick = (e) => {
         focuseddClassMaintain(e);
         // tableField.classList.add("focussed");
+        const focusseddElmnt = document.querySelector(".focussedd");
+        if (focusseddElmnt.classList.contains("holderDIV")) {
+          tableField.parentElement.style.border = "3px dotted orange";
+        } else {
+          tableField.parentElement.style.border = "2px solid orange";
+        }
         handleClicked("table2");
         setSidebar(true);
       };
@@ -1411,6 +1429,12 @@ const MidSection = () => {
       dropdownField.onclick = (e) => {
         focuseddClassMaintain(e);
         // dropdownField.classList.add("focussed");
+        const focusseddElmnt = document.querySelector(".focussedd");
+        if (focusseddElmnt.classList.contains("holderDIV")) {
+          dropdownField.parentElement.style.border = "3px dotted orange";
+        } else {
+          dropdownField.parentElement.style.border = "2px solid orange";
+        }
         handleClicked("dropdown2");
         setRightSideDropDown(false);
         setSidebar(true);
@@ -1541,7 +1565,7 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={index} className={"midSection"}>
+          <div key={index} className={`midSection page${index + 1}`}>
             <Container
               as="div"
               ref={midSectionRef}
@@ -1556,7 +1580,7 @@ const MidSection = () => {
               onDrop={onDrop}
             >
               <Row>
-                <Col className="d-flex justify-content-end header_user">
+                <Col className={`d-flex justify-content-end header_user`}>
                   <span>{index + 1}</span>
                   {isLoading && <Spinner />}
                 </Col>
