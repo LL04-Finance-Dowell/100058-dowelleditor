@@ -90,8 +90,26 @@ const Header = () => {
   }
 
   let contentFile = [];
-  let page = [];
+  let page = [{}];
 
+  for (let i = 1; i <= item?.length; i++) {
+    const element = { [i]: [] };
+    page[0] = { ...page[0], ...element };
+  }
+
+  const dataInsertWithPage = (tempPosn, elem) => {
+    let low = 0;
+    let high = 1122;
+    for (let i = 1; i <= item?.length; i++) {
+      if (tempPosn.top >= low && tempPosn.top < high) {
+        console.log("page[0]" + [i], page[0][i]);
+        page[0][i].push(elem);
+        console.log("low", low, "high", high);
+      }
+      low += 1122;
+      high += 1122;
+    }
+  };
   function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
     let tables_tags = [];
@@ -128,8 +146,9 @@ const Header = () => {
             data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
+          dataInsertWithPage(tempPosn, elem);
 
-          page.push(elem);
+          // page.push(elem);
         }
       }
     }
@@ -152,7 +171,9 @@ const Header = () => {
           data: img[h].style.backgroundImage,
           id: `i${h + 1}`,
         };
-        page.push(elem);
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
       }
       // }
     }
@@ -171,7 +192,7 @@ const Header = () => {
           data: date[h].innerHTML,
           id: `d${h + 1}`,
         };
-        page.push(elem);
+        dataInsertWithPage(tempPosn, elem);
       }
     }
 
@@ -192,7 +213,9 @@ const Header = () => {
               : sign[h].innerHTML,
           id: `s${h + 1}`,
         };
-        page.push(elem);
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
       }
     }
 
@@ -213,7 +236,9 @@ const Header = () => {
           data: tables[t].firstElementChild.innerHTML,
           id: `tab${t + 1}`,
         };
-        page.push(elem);
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
       }
     }
     const dropDowns = document.getElementsByClassName("dropdownInput");
@@ -235,7 +260,9 @@ const Header = () => {
           data2: dropDowns[d].lastElementChild.innerHTML,
           id: `dd${d + 1}`,
         };
-        page.push(elem);
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
       }
     }
 
