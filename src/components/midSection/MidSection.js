@@ -604,10 +604,35 @@ const MidSection = () => {
           setSidebar(true);
         };
 
+        const imageButton = document.createElement("div");
+        imageButton.className = "addImageButton";
+        imageButton.innerText = "Choose File";
+        imageButton.style.display = "none";
+
+        const imgBtn = document.createElement("input");
+        imgBtn.className = "addImageButtonInput";
+        imgBtn.type = "file";
+        imgBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        imgBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            document.querySelector(
+              ".focussed"
+            ).style.backgroundImage = `url(${uploadedImage})`;
+          });
+          reader.readAsDataURL(imgBtn.files[0]);
+        });
+
         imageField.style.backgroundImage = `${element.data}`;
         // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
+        imageButton.append(imgBtn);
         holderDIV.append(imageField);
+        holderDIV.append(imageButton);
 
         // holderDIV.append(paragraphField);
 
@@ -808,7 +833,7 @@ const MidSection = () => {
 
             var input = document.createElement("input");
             input.setAttribute("type", "text");
-            input.value = this.innerHtml;
+            // input.value = this.innerHtml;
             input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
             input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
             input.style.border = "0px";
@@ -822,7 +847,7 @@ const MidSection = () => {
               var org_text = input.parentElement.getAttribute("data-text");
               var current_text = this.value;
 
-              if (org_text != current_text) {
+              if (org_text != current_text && current_text !== "") {
                 td.removeAttribute("data-clicked");
                 td.removeAttribute("data-text");
                 td.innerHTML = current_text;
@@ -830,8 +855,8 @@ const MidSection = () => {
               } else {
                 td.removeAttribute("data-clicked");
                 td.removeAttribute("data-text");
-                td.innerHTML = org_text;
                 td.style.cssText = "padding: 5px";
+                input.remove()
               }
             };
 
@@ -1033,7 +1058,7 @@ const MidSection = () => {
     const typeOfOperation = event.dataTransfer.getData("text/plain");
     const curr_user = document.getElementById("current-user");
 
-    const midSec = document.getElementById("midSection_container");
+    const midSec = document.querySelector(".drop_zone");
     const midsectionRect = midSec.getBoundingClientRect();
 
     const measure = {
@@ -1045,6 +1070,7 @@ const MidSection = () => {
     };
 
     const holderDIV = getHolderDIV(measure);
+
 
     // inputField.setAttribute('draggable', false);
     // let editButtonField = undefined;
@@ -1460,6 +1486,7 @@ const MidSection = () => {
 
       holderDIV.append(containerField);
     }
+
 
     document.querySelector(".drop_zone").append(holderDIV);
   };
