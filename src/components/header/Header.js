@@ -64,6 +64,8 @@ const Header = () => {
     console.log(item);
   }
 
+  // Adding a new branch comment
+
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
     // console.log(el);
