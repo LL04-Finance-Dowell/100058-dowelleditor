@@ -102,9 +102,7 @@ const Header = () => {
     let high = 1122;
     for (let i = 1; i <= item?.length; i++) {
       if (tempPosn.top >= low && tempPosn.top < high) {
-        console.log("page[0]" + [i], page[0][i]);
         page[0][i].push(elem);
-        console.log("low", low, "high", high);
       }
       low += 1122;
       high += 1122;
