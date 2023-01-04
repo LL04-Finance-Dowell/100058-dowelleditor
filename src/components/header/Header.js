@@ -89,6 +89,10 @@ const Header = () => {
 
   let contentFile = [];
   let page = [];
+  // assign page number without content
+  for (let i = 0; i < item.length; i++) {
+    page.push({ page: i + 1 });
+  }
 
   function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
@@ -169,7 +173,25 @@ const Header = () => {
           data: date[h].innerHTML,
           id: `d${h + 1}`,
         };
-        page.push(elem);
+        // for adding page number
+        if (tempPosn.top >= 0 && tempPosn.top < 1122) {
+          console.log("from page one data");
+          const pageOneDAta = { ...page[0], ...elem };
+          page[0] = pageOneDAta;
+        } else if (tempPosn.top >= 1122 && tempPosn.top < 2253) {
+          if (page.length > 1) {
+            console.log("from page two data");
+            const pageOneDAta = { ...page[1], ...elem };
+            page[1] = pageOneDAta;
+          }
+        } else if (tempPosn.top >= 2253 && tempPosn.top < 3367) {
+          if (page.length > 1) {
+            console.log("from page three data");
+            const pageOneDAta = { ...page[2], ...elem };
+            page[2] = pageOneDAta;
+          }
+        }
+        // page.push(elem);
       }
     }
 
