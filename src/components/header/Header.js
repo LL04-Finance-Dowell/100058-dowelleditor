@@ -90,9 +90,9 @@ const Header = () => {
   let contentFile = [];
   let page = [];
   // assign page number without content
-  for (let i = 0; i < item.length; i++) {
-    page.push({ page: i + 1 });
-  }
+  // for (let i = 0; i < item.length; i++) {
+  //   page.push({ page: i + 1 });
+  // }
 
   function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
@@ -161,6 +161,9 @@ const Header = () => {
 
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
+      let pageOneDAta = { ...page[0] };
+      let pageTwoDAta = { ...page[1] };
+      let pageThreeDAta = { ...page[2] };
       for (let h = 0; h < date.length; h++) {
         let tempElem = date[h].parentElement;
         let tempPosn = getPosition(tempElem);
@@ -174,24 +177,24 @@ const Header = () => {
           id: `d${h + 1}`,
         };
         // for adding page number
-        if (tempPosn.top >= 0 && tempPosn.top < 1122) {
-          console.log("from page one data");
-          const pageOneDAta = { ...page[0], ...elem };
-          page[0] = pageOneDAta;
-        } else if (tempPosn.top >= 1122 && tempPosn.top < 2253) {
-          if (page.length > 1) {
-            console.log("from page two data");
-            const pageOneDAta = { ...page[1], ...elem };
-            page[1] = pageOneDAta;
-          }
-        } else if (tempPosn.top >= 2253 && tempPosn.top < 3367) {
-          if (page.length > 1) {
-            console.log("from page three data");
-            const pageOneDAta = { ...page[2], ...elem };
-            page[2] = pageOneDAta;
-          }
-        }
-        // page.push(elem);
+        // if (tempPosn.top >= 0 && tempPosn.top < 1122) {
+        //   console.log("from page one data");
+        //   pageOneDAta = { ...pageOneDAta, ...elem };
+        //   page[0] = pageOneDAta;
+        // } else if (tempPosn.top >= 1122 && tempPosn.top < 2253) {
+        //   if (page.length > 1) {
+        //     console.log("from page two data");
+        //     pageTwoDAta = { ...pageTwoDAta, ...elem };
+        //     page[1] = pageTwoDAta;
+        //   }
+        // } else if (tempPosn.top >= 2253 && tempPosn.top < 3367) {
+        //   if (page.length > 1) {
+        //     console.log("from page three data");
+        //     pageThreeDAta = { ...pageThreeDAta, ...elem };
+        //     page[2] = pageThreeDAta;
+        //   }
+        // }
+        page.push(elem);
       }
     }
 
