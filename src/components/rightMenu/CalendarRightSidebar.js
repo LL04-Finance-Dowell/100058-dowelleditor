@@ -71,6 +71,7 @@ const CalendarRightSidebar = (props) => {
   }, [datePickerMargin]);
 
   // console.log("datePickerMargin", datePickerMargin);
+  console.log("rightSideDatemenu", rightSideDatemenu);
   return (
     <div>
       <div className="dropdown pb-3">
@@ -111,7 +112,10 @@ const CalendarRightSidebar = (props) => {
         </div>
       </div>
       <hr />
-      <div className={`text-center`}>
+      <div
+        className={`text-center`}
+        style={{ marginTop: !rightSideDatemenu && "225px" }}
+      >
         <Button variant="primary" onClick={removeDate}>
           Remove Date
         </Button>

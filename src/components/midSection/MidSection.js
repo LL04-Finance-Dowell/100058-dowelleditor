@@ -150,6 +150,7 @@ const MidSection = () => {
   // console.log(decoded);
 
   // const [isLoading, setIsLoading] = useState(true);
+  const [isDataRetrieved, setIsDataRetrieved] = useState(false);
   const [data, setData] = useState([]);
   const [sort, setSort] = useState([]);
   const getPostData = async () => {
@@ -171,6 +172,7 @@ const MidSection = () => {
         console.log(loadedData);
         console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
+        setIsDataRetrieved(true);
         setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0]);
@@ -197,7 +199,7 @@ const MidSection = () => {
     } else {
       console.log("loading data");
     }
-  }, [item]);
+  }, [isDataRetrieved]);
 
   let resizing = false;
   let contentFile = [];
@@ -517,7 +519,7 @@ const MidSection = () => {
     }
     e.target.classList.add("focussed");
 
-    e.target.style.backgroundColor = "lightBlue";
+    // e.target.style.backgroundColor = "lightBlue";
   }
 
   const onPost = () => {
@@ -526,7 +528,7 @@ const MidSection = () => {
     const midSec = document.getElementById("midSection_container");
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
-    for (let i = 0; i < item?.length; i++) {
+    for (let i = 1; i <= item?.length; i++) {
       // arrayData.forEach((element) => {
       console.log("data" + [i], data[i]);
       data[i]?.forEach((element) => {
@@ -675,7 +677,7 @@ const MidSection = () => {
             handleClicked("calendar2");
             setRightSideDateMenu(false);
             console.log("innerText", e.target.innerText);
-            if (e.target.innerText != "dd/mm/yyyy") {
+            if (e.target.innerText != "mm/dd/yyyy") {
               if (e.target.innerText.includes("/")) {
                 const setDate = new Date(e.target.innerText);
                 console.log("First from Midsection", setDate);
