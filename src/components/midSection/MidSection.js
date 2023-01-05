@@ -169,7 +169,8 @@ const MidSection = () => {
         const pageData = res.data.page;
         setItem(pageData);
         console.log(loadedData);
-        setData(loadedData[0]);
+        console.log(loadedData[0][0]);
+        setData(loadedData[0][0]);
         setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0]);
@@ -524,8 +525,9 @@ const MidSection = () => {
 
     const midSec = document.getElementById("midSection_container");
     // const midsectionRect = midSec.getBoundingClientRect();
+    data.forEach((arrayData) => {
 
-    data.forEach((element) => {
+    arrayData.forEach((element) => {
       if (element.type === "TEXT_INPUT") {
         const measure = {
           width: element.width + "px",
@@ -932,6 +934,8 @@ const MidSection = () => {
           // ?.item(0)
           ?.append(holderDIV);
       }
+
+    })
     });
   };
 
