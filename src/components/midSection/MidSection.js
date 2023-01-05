@@ -197,7 +197,7 @@ const MidSection = () => {
     } else {
       console.log("loading data");
     }
-  }, [sort?.data]);
+  }, [item]);
 
   let resizing = false;
   let contentFile = [];
@@ -525,418 +525,421 @@ const MidSection = () => {
 
     const midSec = document.getElementById("midSection_container");
     // const midsectionRect = midSec.getBoundingClientRect();
-    data.forEach((arrayData) => {
-
-    arrayData.forEach((element) => {
-      if (element.type === "TEXT_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
-
-        const holderDIV = getHolderDIV(measure);
-
-        let inputField = document.createElement("div");
-        inputField.setAttribute("contenteditable", true);
-        //  inputField.setAttribute('draggable', true);
-        inputField.className = "textInput";
-        inputField.style.width = "100%";
-        inputField.style.height = "100%";
-        inputField.style.resize = "none";
-        inputField.style.zIndex = 2;
-        inputField.style.backgroundColor = "#0000";
-        inputField.style.borderRadius = "0px";
-        inputField.style.outline = "0px";
-        inputField.style.overflow = "overlay";
-        inputField.style.position = "relative";
-        inputField.style.cursor = "text";
-        inputField.onclick = (e) => {
-          focuseddClassMaintain(e);
-
-          handleClicked("align2");
-          setSidebar(true);
-          // inputField.parentElement.focus()
-        };
-        inputField.ontouchstart = () => {
-          handleClicked("align2");
-          setSidebar(true);
-        };
-        const text = `${element.data}`;
-
-        inputField.innerHTML = text;
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
-        holderDIV.append(inputField);
-
-        // holderDIV.append(paragraphField);
-
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
-      if (element.type === "IMAGE_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
-        console.log("measure from image input", measure);
-        const holderDIV = getHolderDIV(measure);
-
-        let imageField = document.createElement("div");
-        imageField.className = "imageInput";
-        imageField.style.width = "100%";
-        imageField.style.height = "100%";
-        imageField.style.backgroundColor = "#0000";
-        imageField.style.borderRadius = "0px";
-        imageField.style.outline = "0px";
-        imageField.style.overflow = "overlay";
-        // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
-        imageField.style.position = "relative";
-
-        imageField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          handleClicked("image2");
-          setSidebar(true);
-        };
-
-        const imageButton = document.createElement("div");
-        imageButton.className = "addImageButton";
-        imageButton.innerText = "Choose File";
-        imageButton.style.display = "none";
-
-        const imgBtn = document.createElement("input");
-        imgBtn.className = "addImageButtonInput";
-        imgBtn.type = "file";
-        imgBtn.style.objectFit = "cover";
-        var uploadedImage = "";
-
-        imgBtn.addEventListener("input", () => {
-          const reader = new FileReader();
-
-          reader.addEventListener("load", () => {
-            uploadedImage = reader.result;
-            document.querySelector(
-              ".focussed"
-            ).style.backgroundImage = `url(${uploadedImage})`;
-          });
-          reader.readAsDataURL(imgBtn.files[0]);
-        });
-
-        imageField.style.backgroundImage = `${element.data}`;
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
-        imageButton.append(imgBtn);
-        holderDIV.append(imageField);
-        holderDIV.append(imageButton);
-
-        // holderDIV.append(paragraphField);
-
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
-      if (element.type === "DATE_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
-
-        const holderDIV = getHolderDIV(measure);
-
-        let dateField = document.createElement("div");
-        dateField.className = "dateInput";
-        dateField.style.width = "100%";
-        dateField.style.height = "100%";
-        dateField.style.backgroundColor = "#dedede";
-        dateField.style.borderRadius = "0px";
-        dateField.style.outline = "0px";
-        dateField.style.overflow = "overlay";
-        // dateField.innerText = `${postData.calenderField.value}`
-        dateField.style.position = "relative";
-
-        function dateClick() {
-          document.getElementById("date_picker")?.click();
-        }
-        dateField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          handleClicked("calendar2");
-          setRightSideDateMenu(false);
-          console.log("innerText", e.target.innerText);
-          if (e.target.innerText != "dd/mm/yyyy") {
-            if (e.target.innerText.includes("/")) {
-              const setDate = new Date(e.target.innerText);
-              console.log("First from Midsection", setDate);
-              setMethod("first");
-              setStartDate(setDate);
-            } else {
-              if (e.target.innerText.includes("-")) {
-                setMethod("fourth");
-              } else {
-                setMethod("second");
-              }
-              const setDate = new Date(e.target.innerText);
-              console.log("Second from Midsection", setDate);
-
-              setStartDate(setDate);
-            }
-          }
-          setSidebar(true);
-          setTimeout(dateClick, 0);
-        };
-        console.log(`${element.data}`);
-        dateField.innerText = `${element.data}`;
-
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
-        holderDIV.append(dateField);
-
-        // holderDIV.append(paragraphField);
-
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
-      if (element.type === "SIGN_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
-
-        const holderDIV = getHolderDIV(measure);
-
-        let signField = document.createElement("div");
-        signField.className = "signInput";
-        signField.style.width = "100%";
-        signField.style.height = "100%";
-        signField.style.backgroundColor = "#0000";
-        signField.style.borderRadius = "0px";
-        signField.style.outline = "0px";
-        signField.style.overflow = "overlay";
-        // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
-        signField.style.position = "absolute";
-
-        signField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          if (actionName != "template") {
-            handleClicked("signs2");
-            setSidebar(true);
-          } else {
-            setSidebar(false);
-          }
-        };
-        if (
-          decoded.details.action === "document" &&
-          element.data == "<p>Place your signature here</p>"
-        ) {
-          // signField.innerHTML = `<img src=${element.data} />`;
-          signField.innerHTML = "Place your signature here";
-        } else if (decoded.details.action === "document" && element.data) {
-          signField.innerHTML = `<img src=${element.data} />`;
-        } else {
-          signField.innerHTML = "Place your signature ";
-        }
-
-        const imageSignButton = document.createElement("div");
-        imageSignButton.className = "addImageSignButton";
-        imageSignButton.innerText = "Choose File";
-        imageSignButton.style.display = "none";
-
-        const signBtn = document.createElement("input");
-        signBtn.className = "addSignButtonInput";
-        signBtn.type = "file";
-        signBtn.style.objectFit = "cover";
-        var uploadedImage = "";
-
-        signBtn.addEventListener("input", () => {
-          const reader = new FileReader();
-
-          reader.addEventListener("load", () => {
-            uploadedImage = reader.result;
-            const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-            document.querySelector(".focussed").innerHTML = signImage;
-          });
-          reader.readAsDataURL(signBtn.files[0]);
-        });
-
-        imageSignButton.append(signBtn);
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-        holderDIV.append(imageSignButton);
-        holderDIV.append(signField);
-
-        // holderDIV.append(paragraphField);
-
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
-      if (element.type === "TABLE_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
-
-        const holderDIV = getHolderDIV(measure);
-
-        let tableField = document.createElement("div");
-        tableField.className = "tableInput";
-        tableField.style.width = "100%";
-        tableField.style.height = "100%";
-        tableField.style.backgroundColor = "#0000";
-        tableField.style.borderRadius = "0px";
-        tableField.style.outline = "0px";
-        tableField.style.overflow = "overlay";
-        // tableField.innerHTML = 'table';
-        tableField.style.position = "absolute";
-
-        tableField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          handleClicked("table2");
-          setSidebar(true);
-        };
-
-        const tabb = document.createElement("table");
-        tabb.innerHTML = element.data;
-
-        tableField.append(tabb);
-        var cells = tabb.getElementsByTagName("td");
-
-        for (var i = 0; i < cells.length; i++) {
-          cells[i].onclick = function () {
-            if (this.hasAttribute("data-clicked")) {
-              return;
-            }
-            this.setAttribute("data-clicked", "yes");
-            this.setAttribute("data-text", this.innerHtml);
-
-            var input = document.createElement("input");
-            input.setAttribute("type", "text");
-            // input.value = this.innerHtml;
-            input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
-            input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
-            input.style.border = "0px";
-            input.style.fontFamily = "inherit";
-            input.style.fontSize = "inherit";
-            input.style.textAlign = "inherit";
-            input.style.backgroundColor = "LightGoldenRodYellow";
-
-            input.onblur = function () {
-              var td = input.parentElement;
-              var org_text = input.parentElement.getAttribute("data-text");
-              var current_text = this.value;
-
-              if (org_text != current_text && current_text !== "") {
-                td.removeAttribute("data-clicked");
-                td.removeAttribute("data-text");
-                td.innerHTML = current_text;
-                td.style.cssText = "padding: 5px";
-              } else {
-                td.removeAttribute("data-clicked");
-                td.removeAttribute("data-text");
-                td.style.cssText = "padding: 5px";
-                input.remove()
-              }
-            };
-
-            input.onkeydown = function (event) {
-              if (event.keyCode == 13) {
-                this.onblur();
-              }
-            };
-            this.innerHtml = "";
-            this.style.cssText = "padding: 0px 0px";
-            this.append(input);
-            this.firstElementChild.select();
+    // data?.forEach((arrayData) => {
+    for (let i = 0; i < item?.length; i++) {
+      // arrayData.forEach((element) => {
+      console.log("data" + [i], data[i]);
+      data[i]?.forEach((element) => {
+        if (element.type === "TEXT_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
           };
+
+          const holderDIV = getHolderDIV(measure);
+
+          let inputField = document.createElement("div");
+          inputField.setAttribute("contenteditable", true);
+          //  inputField.setAttribute('draggable', true);
+          inputField.className = "textInput";
+          inputField.style.width = "100%";
+          inputField.style.height = "100%";
+          inputField.style.resize = "none";
+          inputField.style.zIndex = 2;
+          inputField.style.backgroundColor = "#0000";
+          inputField.style.borderRadius = "0px";
+          inputField.style.outline = "0px";
+          inputField.style.overflow = "overlay";
+          inputField.style.position = "relative";
+          inputField.style.cursor = "text";
+          inputField.onclick = (e) => {
+            focuseddClassMaintain(e);
+
+            handleClicked("align2");
+            setSidebar(true);
+            // inputField.parentElement.focus()
+          };
+          inputField.ontouchstart = () => {
+            handleClicked("align2");
+            setSidebar(true);
+          };
+          const text = `${element.data}`;
+
+          inputField.innerHTML = text;
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+          holderDIV.append(inputField);
+
+          // holderDIV.append(paragraphField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
         }
+        if (element.type === "IMAGE_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
+          console.log("measure from image input", measure);
+          const holderDIV = getHolderDIV(measure);
 
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+          let imageField = document.createElement("div");
+          imageField.className = "imageInput";
+          imageField.style.width = "100%";
+          imageField.style.height = "100%";
+          imageField.style.backgroundColor = "#0000";
+          imageField.style.borderRadius = "0px";
+          imageField.style.outline = "0px";
+          imageField.style.overflow = "overlay";
+          // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+          imageField.style.position = "relative";
 
-        holderDIV.append(tableField);
+          imageField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("image2");
+            setSidebar(true);
+          };
 
-        // holderDIV.append(paragraphField);
+          const imageButton = document.createElement("div");
+          imageButton.className = "addImageButton";
+          imageButton.innerText = "Choose File";
+          imageButton.style.display = "none";
 
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
-      if (element.type === "DROPDOWN_INPUT") {
-        const measure = {
-          width: element.width + "px",
-          height: element.height + "px",
-          left: element.left + "px",
-          top: element.top + "px",
-          auth_user: curr_user,
-        };
+          const imgBtn = document.createElement("input");
+          imgBtn.className = "addImageButtonInput";
+          imgBtn.type = "file";
+          imgBtn.style.objectFit = "cover";
+          var uploadedImage = "";
 
-        const holderDIV = getHolderDIV(measure);
-        let dropdownField = document.createElement("div");
-        dropdownField.className = "dropdownInput";
-        dropdownField.style.width = "100%";
-        dropdownField.style.height = "100%";
-        dropdownField.style.backgroundColor = "#0000";
-        dropdownField.style.borderRadius = "0px";
-        dropdownField.style.outline = "0px";
-        dropdownField.style.overflow = "overlay";
-        // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
-        dropdownField.style.position = "absolute";
+          imgBtn.addEventListener("input", () => {
+            const reader = new FileReader();
 
-        const selectElement = document.createElement("select");
-        selectElement.className = "select-element";
-        // selectElement.style.width = "auto";
-        // selectElement.style.height = "auto";
+            reader.addEventListener("load", () => {
+              uploadedImage = reader.result;
+              document.querySelector(
+                ".focussed"
+              ).style.backgroundImage = `url(${uploadedImage})`;
+            });
+            reader.readAsDataURL(imgBtn.files[0]);
+          });
 
-        dropdownField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          handleClicked("dropdown2");
-          setRightSideDropDown(false);
-          setSidebar(true);
-        };
+          imageField.style.backgroundImage = `${element.data}`;
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
-        selectElement.innerHTML = element.data2;
+          imageButton.append(imgBtn);
+          holderDIV.append(imageField);
+          holderDIV.append(imageButton);
 
-        const para = document.createElement("p");
-        para.innerHTML = " Dropdown Name";
-        para.className = "dropdownName";
-        para.innerText = element.data1;
+          // holderDIV.append(paragraphField);
 
-        dropdownField.append(para);
-        dropdownField.append(selectElement);
-        setDropdownName(element.data1);
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
+        if (element.type === "DATE_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
 
-        // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+          const holderDIV = getHolderDIV(measure);
 
-        holderDIV.append(dropdownField);
+          let dateField = document.createElement("div");
+          dateField.className = "dateInput";
+          dateField.style.width = "100%";
+          dateField.style.height = "100%";
+          dateField.style.backgroundColor = "#dedede";
+          dateField.style.borderRadius = "0px";
+          dateField.style.outline = "0px";
+          dateField.style.overflow = "overlay";
+          // dateField.innerText = `${postData.calenderField.value}`
+          dateField.style.position = "relative";
 
-        // holderDIV.append(paragraphField);
+          function dateClick() {
+            document.getElementById("date_picker")?.click();
+          }
+          dateField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("calendar2");
+            setRightSideDateMenu(false);
+            console.log("innerText", e.target.innerText);
+            if (e.target.innerText != "dd/mm/yyyy") {
+              if (e.target.innerText.includes("/")) {
+                const setDate = new Date(e.target.innerText);
+                console.log("First from Midsection", setDate);
+                setMethod("first");
+                setStartDate(setDate);
+              } else {
+                if (e.target.innerText.includes("-")) {
+                  setMethod("fourth");
+                } else {
+                  setMethod("second");
+                }
+                const setDate = new Date(e.target.innerText);
+                console.log("Second from Midsection", setDate);
 
-        document
-          .getElementById("midSection_container")
-          // ?.item(0)
-          ?.append(holderDIV);
-      }
+                setStartDate(setDate);
+              }
+            }
+            setSidebar(true);
+            setTimeout(dateClick, 0);
+          };
+          console.log(`${element.data}`);
+          dateField.innerText = `${element.data}`;
 
-    })
-    });
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+          holderDIV.append(dateField);
+
+          // holderDIV.append(paragraphField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
+        if (element.type === "SIGN_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
+
+          const holderDIV = getHolderDIV(measure);
+
+          let signField = document.createElement("div");
+          signField.className = "signInput";
+          signField.style.width = "100%";
+          signField.style.height = "100%";
+          signField.style.backgroundColor = "#0000";
+          signField.style.borderRadius = "0px";
+          signField.style.outline = "0px";
+          signField.style.overflow = "overlay";
+          // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+          signField.style.position = "absolute";
+
+          signField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            if (actionName != "template") {
+              handleClicked("signs2");
+              setSidebar(true);
+            } else {
+              setSidebar(false);
+            }
+          };
+          if (
+            decoded.details.action === "document" &&
+            element.data == "<p>Place your signature here</p>"
+          ) {
+            // signField.innerHTML = `<img src=${element.data} />`;
+            signField.innerHTML = "Place your signature here";
+          } else if (decoded.details.action === "document" && element.data) {
+            signField.innerHTML = `<img src=${element.data} />`;
+          } else {
+            signField.innerHTML = "Place your signature ";
+          }
+
+          const imageSignButton = document.createElement("div");
+          imageSignButton.className = "addImageSignButton";
+          imageSignButton.innerText = "Choose File";
+          imageSignButton.style.display = "none";
+
+          const signBtn = document.createElement("input");
+          signBtn.className = "addSignButtonInput";
+          signBtn.type = "file";
+          signBtn.style.objectFit = "cover";
+          var uploadedImage = "";
+
+          signBtn.addEventListener("input", () => {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", () => {
+              uploadedImage = reader.result;
+              const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+              document.querySelector(".focussed").innerHTML = signImage;
+            });
+            reader.readAsDataURL(signBtn.files[0]);
+          });
+
+          imageSignButton.append(signBtn);
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+          holderDIV.append(imageSignButton);
+          holderDIV.append(signField);
+
+          // holderDIV.append(paragraphField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
+        if (element.type === "TABLE_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
+
+          const holderDIV = getHolderDIV(measure);
+
+          let tableField = document.createElement("div");
+          tableField.className = "tableInput";
+          tableField.style.width = "100%";
+          tableField.style.height = "100%";
+          tableField.style.backgroundColor = "#0000";
+          tableField.style.borderRadius = "0px";
+          tableField.style.outline = "0px";
+          tableField.style.overflow = "overlay";
+          // tableField.innerHTML = 'table';
+          tableField.style.position = "absolute";
+
+          tableField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("table2");
+            setSidebar(true);
+          };
+
+          const tabb = document.createElement("table");
+          tabb.innerHTML = element.data;
+
+          tableField.append(tabb);
+          var cells = tabb.getElementsByTagName("td");
+
+          for (var i = 0; i < cells.length; i++) {
+            cells[i].onclick = function () {
+              if (this.hasAttribute("data-clicked")) {
+                return;
+              }
+              this.setAttribute("data-clicked", "yes");
+              this.setAttribute("data-text", this.innerHtml);
+
+              var input = document.createElement("input");
+              input.setAttribute("type", "text");
+              // input.value = this.innerHtml;
+              input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
+              input.style.height =
+                this.offsetHeight - this.clientTop * 2 + "px";
+              input.style.border = "0px";
+              input.style.fontFamily = "inherit";
+              input.style.fontSize = "inherit";
+              input.style.textAlign = "inherit";
+              input.style.backgroundColor = "LightGoldenRodYellow";
+
+              input.onblur = function () {
+                var td = input.parentElement;
+                var org_text = input.parentElement.getAttribute("data-text");
+                var current_text = this.value;
+
+                if (org_text != current_text && current_text !== "") {
+                  td.removeAttribute("data-clicked");
+                  td.removeAttribute("data-text");
+                  td.innerHTML = current_text;
+                  td.style.cssText = "padding: 5px";
+                } else {
+                  td.removeAttribute("data-clicked");
+                  td.removeAttribute("data-text");
+                  td.style.cssText = "padding: 5px";
+                  input.remove();
+                }
+              };
+
+              input.onkeydown = function (event) {
+                if (event.keyCode == 13) {
+                  this.onblur();
+                }
+              };
+              this.innerHtml = "";
+              this.style.cssText = "padding: 0px 0px";
+              this.append(input);
+              this.firstElementChild.select();
+            };
+          }
+
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+          holderDIV.append(tableField);
+
+          // holderDIV.append(paragraphField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
+        if (element.type === "DROPDOWN_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
+
+          const holderDIV = getHolderDIV(measure);
+          let dropdownField = document.createElement("div");
+          dropdownField.className = "dropdownInput";
+          dropdownField.style.width = "100%";
+          dropdownField.style.height = "100%";
+          dropdownField.style.backgroundColor = "#0000";
+          dropdownField.style.borderRadius = "0px";
+          dropdownField.style.outline = "0px";
+          dropdownField.style.overflow = "overlay";
+          // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+          dropdownField.style.position = "absolute";
+
+          const selectElement = document.createElement("select");
+          selectElement.className = "select-element";
+          // selectElement.style.width = "auto";
+          // selectElement.style.height = "auto";
+
+          dropdownField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("dropdown2");
+            setRightSideDropDown(false);
+            setSidebar(true);
+          };
+
+          selectElement.innerHTML = element.data2;
+
+          const para = document.createElement("p");
+          para.innerHTML = " Dropdown Name";
+          para.className = "dropdownName";
+          para.innerText = element.data1;
+
+          dropdownField.append(para);
+          dropdownField.append(selectElement);
+          setDropdownName(element.data1);
+
+          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
+
+          holderDIV.append(dropdownField);
+
+          // holderDIV.append(paragraphField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
+      });
+    }
+    // });
   };
 
   const onParagraphPost = () => {
@@ -1062,7 +1065,6 @@ const MidSection = () => {
     };
 
     const holderDIV = getHolderDIV(measure);
-
 
     // inputField.setAttribute('draggable', false);
     // let editButtonField = undefined;
@@ -1466,7 +1468,6 @@ const MidSection = () => {
 
       holderDIV.append(containerField);
     }
-
 
     document.querySelector(".drop_zone").append(holderDIV);
   };
