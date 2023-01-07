@@ -1413,6 +1413,9 @@ const MidSection = () => {
       selectElement.className = "select-element";
       selectElement.style.width = "500";
       selectElement.style.height = "auto";
+      selectElement.onclick = () => {
+        selectElement.parentElement.click()
+      }
 
       dropdownField.onchange = (event) => {
         event.preventDefault();
@@ -1444,7 +1447,7 @@ const MidSection = () => {
 
       dropdownField.onclick = (e) => {
         focuseddClassMaintain(e);
-        // dropdownField.classList.add("focussed");
+        dropdownField.classList.add("focussed");
         handleClicked("dropdown2");
         setRightSideDropDown(false);
         setSidebar(true);
@@ -1453,6 +1456,9 @@ const MidSection = () => {
       const para = document.createElement("p");
       para.innerHTML = " Dropdown Name";
       para.className = "dropdownName";
+      para.onclick = () => {
+        para.parentElement.click()
+      }
       dropdownField.append(para);
       dropdownField.append(selectElement);
       holderDIV.append(dropdownField);
