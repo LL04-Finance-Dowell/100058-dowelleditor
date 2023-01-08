@@ -200,7 +200,7 @@ const MidSection = () => {
     } else {
       console.log("loading data");
     }
-  }, [isDataRetrieved, fetchedData]);
+  }, [isDataRetrieved]);
 
   let resizing = false;
   let contentFile = [];
@@ -571,7 +571,12 @@ const MidSection = () => {
     for (let i = 0; i < focussedDiv.length; i++) {
       focussedDiv[i].classList.remove("focussed");
     }
-    e.target.classList.add("focussed");
+    if (e.target.classList.contains("dropdownInput")) {
+      e.target.classList.add("focussed");
+    } else if (e.target.parentElement.classList.contains("dropdownInput")) {
+      e.target.parentElement.classList.add("focussed");
+    }
+    // e.target.classList.add("focussed");
   }
 
   const onPost = () => {

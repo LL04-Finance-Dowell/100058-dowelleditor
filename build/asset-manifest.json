@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/100058-dowelleditor/static/css/main.aa7f6154.css",
-    "main.js": "/100058-dowelleditor/static/js/main.bf03e6e1.js",
+    "main.js": "/100058-dowelleditor/static/js/main.a9498a32.js",
     "static/js/787.742d683c.chunk.js": "/100058-dowelleditor/static/js/787.742d683c.chunk.js",
     "index.html": "/100058-dowelleditor/index.html",
     "main.aa7f6154.css.map": "/100058-dowelleditor/static/css/main.aa7f6154.css.map",
-    "main.bf03e6e1.js.map": "/100058-dowelleditor/static/js/main.bf03e6e1.js.map",
+    "main.a9498a32.js.map": "/100058-dowelleditor/static/js/main.a9498a32.js.map",
     "787.742d683c.chunk.js.map": "/100058-dowelleditor/static/js/787.742d683c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.aa7f6154.css",
-    "static/js/main.bf03e6e1.js"
+    "static/js/main.a9498a32.js"
   ]
 }
