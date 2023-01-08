@@ -23,7 +23,7 @@ const initialState2 = {
 };
 
 export const ContextProvider = ({ children }) => {
-  const [fetchedData, setFetchedData] = useState([]);
+  const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
   const [isDropped, setIsDropped] = useState(initialState);
@@ -58,8 +58,10 @@ export const ContextProvider = ({ children }) => {
   const [sidebar, setSidebar] = useState(false);
   const [rightSideDatemenu, setRightSideDateMenu] = useState(false);
   const [rightSideDropDown, setRightSideDropDown] = useState(false);
-
+  // handling date format
   const [method, setMethod] = useState("first");
+  // handling page delete
+  const [deletePages, setDeletepages] = useState([]);
   // const showSidebar = () => setSidebar(!sidebar);
 
   //handling new pages
@@ -115,6 +117,8 @@ export const ContextProvider = ({ children }) => {
         setRightSideDropDown,
         method,
         setMethod,
+        deletePages,
+        setDeletepages,
       }}
     >
       {children}

@@ -76,6 +76,7 @@ const MidSection = () => {
     setStartDate,
     setRightSideDropDown,
     setMethod,
+    deletePages,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -175,7 +176,7 @@ const MidSection = () => {
         setIsDataRetrieved(true);
         setSort(loadedData[0][0]);
         setIsLoading(false);
-        setFetchedData(loadedData[0]);
+        setFetchedData(loadedData[0][0]);
         //  setData(oldArray => [...data, loadedData[0]]);
       })
       .catch((err) => {
@@ -199,7 +200,7 @@ const MidSection = () => {
     } else {
       console.log("loading data");
     }
-  }, [isDataRetrieved]);
+  }, [isDataRetrieved, fetchedData]);
 
   let resizing = false;
   let contentFile = [];
@@ -522,6 +523,57 @@ const MidSection = () => {
     // e.target.style.backgroundColor = "lightBlue";
   }
 
+  function table_dropdown_focuseddClassMaintain(e) {
+    let allDiv = document.getElementsByClassName("focussedd");
+    for (let i = 0; i < allDiv.length; i++) {
+      allDiv[i].classList.remove("focussedd");
+    }
+    if (e.target.parentElement.classList.contains("holderDIV")) {
+      e.target.parentElement.classList.add("focussedd");
+    } else if (
+      e.target.parentElement.parentElement.classList.contains("holderDIV")
+    ) {
+      e.target.parentElement.parentElement.classList.add("focussedd");
+    } else if (
+      e.target.parentElement.parentElement.parentElement.classList.contains(
+        "holderDIV"
+      )
+    ) {
+      e.target.parentElement.parentElement.parentElement.classList.add(
+        "focussedd"
+      );
+    } else if (
+      e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+        "holderDIV"
+      )
+    ) {
+      e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
+        "focussedd"
+      );
+    } else if (
+      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+        "holderDIV"
+      )
+    ) {
+      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+        "focussedd"
+      );
+    } else if (
+      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+        "holderDIV"
+      )
+    ) {
+      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+        "focussedd"
+      );
+    }
+    let focussedDiv = document.getElementsByClassName("focussed");
+    for (let i = 0; i < focussedDiv.length; i++) {
+      focussedDiv[i].classList.remove("focussed");
+    }
+    e.target.classList.add("focussed");
+  }
+
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
@@ -531,7 +583,7 @@ const MidSection = () => {
     for (let i = 1; i <= item?.length; i++) {
       // arrayData.forEach((element) => {
       console.log("data" + [i], data[i]);
-      data[i]?.forEach((element) => {
+      fetchedData[i]?.forEach((element) => {
         if (element.type === "TEXT_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -801,9 +853,6 @@ const MidSection = () => {
           const holderDIV = getHolderDIV(measure);
 
           let tableField = document.createElement("div");
-          tableField.className = "tableInput";
-          tableField.style.width = "100%";
-          tableField.style.height = "100%";
           tableField.style.backgroundColor = "#0000";
           tableField.style.borderRadius = "0px";
           tableField.style.outline = "0px";
@@ -812,7 +861,10 @@ const MidSection = () => {
           tableField.style.position = "absolute";
 
           tableField.onclick = (e) => {
-            focuseddClassMaintain(e);
+            // focuseddClassMaintain(e);
+
+            table_dropdown_focuseddClassMaintain(e);
+
             handleClicked("table2");
             setSidebar(true);
           };
@@ -911,7 +963,8 @@ const MidSection = () => {
           // selectElement.style.height = "auto";
 
           dropdownField.onclick = (e) => {
-            focuseddClassMaintain(e);
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
             handleClicked("dropdown2");
             setRightSideDropDown(false);
             setSidebar(true);
@@ -1244,7 +1297,8 @@ const MidSection = () => {
       // }
 
       tableField.onclick = (e) => {
-        focuseddClassMaintain(e);
+        // focuseddClassMaintain(e);
+        table_dropdown_focuseddClassMaintain(e);
         // tableField.classList.add("focussed");
         handleClicked("table2");
         setSidebar(true);
@@ -1367,11 +1421,9 @@ const MidSection = () => {
         focuseddClassMaintain(e);
         handleClicked("calendar2");
         setRightSideDateMenu(false);
-        console.log("Drop innerText", e.target.innerText);
         if (e.target.innerText != "mm/dd/yyyy") {
           if (e.target.innerText.includes("/")) {
             const setDate = new Date(e.target.innerText);
-            console.log("First from Midsection", setDate);
             setMethod("first");
             setStartDate(setDate);
           } else {
@@ -1381,8 +1433,6 @@ const MidSection = () => {
               setMethod("second");
             }
             const setDate = new Date(e.target.innerText);
-            console.log("second from Midsection", setDate);
-
             setStartDate(setDate);
           }
         }
@@ -1443,7 +1493,8 @@ const MidSection = () => {
       }
 
       dropdownField.onclick = (e) => {
-        focuseddClassMaintain(e);
+        // focuseddClassMaintain(e);
+        table_dropdown_focuseddClassMaintain(e);
         // dropdownField.classList.add("focussed");
         handleClicked("dropdown2");
         setRightSideDropDown(false);

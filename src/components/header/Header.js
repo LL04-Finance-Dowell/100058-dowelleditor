@@ -22,8 +22,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
-  const { item, setItem, setIsLoading, isFlipClicked, setIsFlipClicked } =
-    useStateContext();
+  const {
+    item,
+    setItem,
+    setIsLoading,
+    isFlipClicked,
+    setIsFlipClicked,
+    fetchedData,
+    setFetchedData,
+    deletePages,
+    setDeletepages,
+  } = useStateContext();
   //   console.log(headerData);
 
   const handleUndo = () => {
@@ -50,11 +59,19 @@ const Header = () => {
   function removePage() {
     const current = [...item];
 
-    var name = prompt("Enter the number of page to delete");
-    if (name != null) {
-      const index = name - 1;
+    var pageNumber = prompt("Enter the number of page to delete");
+    if (pageNumber != null) {
+      const index = pageNumber - 1;
       if (index >= 0) {
         //remove item from the basket
+        console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
+        delete fetchedData[pageNumber];
+        console.log("after fetchedData", fetchedData);
+        const currentPges = [...deletePages];
+        currentPges.push(pageNumber);
+        setDeletepages(currentPges);
+        console.log("deletePages", deletePages);
+        setFetchedData(fetchedData);
         current.splice(index, 1);
         setItem(current);
       } else {
