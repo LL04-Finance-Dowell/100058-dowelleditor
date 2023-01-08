@@ -20,11 +20,20 @@ const DropDownRightSide = () => {
     setRightSideDropDown,
   } = useStateContext();
 
-  // Dropdown Name
-  const dropdownNameField = document.getElementsByClassName("dropdownName");
-  if (dropdownNameField.length > 0) {
-    dropdownNameField.item(0).innerHTML = `${dropdownName}`;
+  const dropdownField = document.querySelector(".focussed");
+  if(dropdownField){
+    console.log(dropdownField.firstElementChild);
+    console.log(dropdownField.lastElementChild);
   }
+
+  // Dropdown Name
+ 
+  const dropdownNameField = dropdownField?.firstElementChild
+  if(dropdownNameField !== null && rightSideDropDown){
+    dropdownNameField.innerHTML = `${dropdownName}`;
+  }
+    
+
 
   function handleNameChange(e) {
     setDropdownName(e.target.value);
@@ -33,10 +42,9 @@ const DropDownRightSide = () => {
   // Dropdown Items
 
   useEffect(() => {
-    const selectionn = document
-      .getElementsByClassName("select-element")
-      .item(0);
-    if (rightSideDropDown) {
+   
+    const selectionn = dropdownField?.lastElementChild
+    if (rightSideDropDown && selectionn !== null) {
       var options = document.createElement("option");
       for (const [index, a] of dropdownOptions.entries()) {
         options.value = index;
@@ -59,10 +67,11 @@ const DropDownRightSide = () => {
   };
 
   function removeDropdown() {
-    const focusseddElmnt = document.querySelector(".focussedd");
-    if (focusseddElmnt.classList.contains("holderDIV")) {
-      document.querySelector(".focussedd").remove();
-    }
+    document.querySelector(".focussedd").remove();
+    // const focusseddElmnt = document.querySelector(".focussedd");
+    // if (focusseddElmnt.classList.contains("holderDIV")) {
+    //   document.querySelector(".focussedd").remove();
+    // }
   }
 
   return (
