@@ -148,7 +148,7 @@ const TableRightSidebar = () => {
 
       tableDiv.appendChild(table);
 
-      var tablee = document.getElementById("table");
+      var tablee = document.querySelector(".focussed").firstElementChild;
       var cells = tablee.getElementsByTagName("td");
 
       for (var i = 0; i < cells.length; i++) {

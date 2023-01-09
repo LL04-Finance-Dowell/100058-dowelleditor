@@ -576,6 +576,12 @@ const MidSection = () => {
     } else if (e.target.parentElement.classList.contains("dropdownInput")) {
       e.target.parentElement.classList.add("focussed");
     }
+    if (e.target.classList.contains("tableInput")) {
+      e.target.classList.add("focussed");
+    } else if (e.target.parentElement.classList.contains("tableInput")) {
+      e.target.parentElement.classList.add("focussed");
+    }
+
     // e.target.classList.add("focussed");
   }
 
