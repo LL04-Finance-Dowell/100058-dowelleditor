@@ -223,7 +223,7 @@ const AlignRightSide = () => {
       style={{
         height: isWindowHightSmall && `${window.innerHeight - 100}px`,
         overflowY: isWindowHightSmall && `auto`,
-        overFlowX: "hidden",
+        overflowX: "hidden",
       }}
     >
       <Container fluid className="m-0 p-0">

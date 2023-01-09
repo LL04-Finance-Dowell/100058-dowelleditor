@@ -413,7 +413,8 @@ const MidSection = () => {
     return holderMenu;
   }
 
-  function getHolderDIV(measure) {
+  function getHolderDIV(measure, i) {
+    console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
     // holderDIV.style.border = '1px dotted rgb(255 191 0)';
@@ -429,12 +430,12 @@ const MidSection = () => {
     holderDIV.style.flexDirection = "column";
 
     holderDIV.tabIndex = "1";
-    console.log("measure", measure);
+    // console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
-
+    holderDIV.classList.add(`page${i}`);
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -581,7 +582,6 @@ const MidSection = () => {
     } else if (e.target.parentElement.classList.contains("tableInput")) {
       e.target.parentElement.classList.add("focussed");
     }
-
     // e.target.classList.add("focussed");
   }
 
@@ -591,8 +591,10 @@ const MidSection = () => {
     const midSec = document.getElementById("midSection_container");
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
+    let pageNo = 0;
     for (let i = 1; i <= item?.length; i++) {
       // arrayData.forEach((element) => {
+      pageNo++;
       console.log("data" + [i], data[i]);
       fetchedData[i]?.forEach((element) => {
         if (element.type === "TEXT_INPUT") {
@@ -603,8 +605,7 @@ const MidSection = () => {
             top: element.top + "px",
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
 
           let inputField = document.createElement("div");
           inputField.setAttribute("contenteditable", true);
@@ -654,7 +655,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
           console.log("measure from image input", measure);
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
 
           let imageField = document.createElement("div");
           imageField.className = "imageInput";
@@ -719,7 +720,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
 
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
 
           let dateField = document.createElement("div");
           dateField.className = "dateInput";
@@ -784,7 +785,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
 
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
 
           let signField = document.createElement("div");
           signField.className = "signInput";
@@ -861,7 +862,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
 
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
 
           let tableField = document.createElement("div");
           tableField.style.backgroundColor = "#0000";
@@ -956,7 +957,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
 
-          const holderDIV = getHolderDIV(measure);
+          const holderDIV = getHolderDIV(measure, pageNo);
           let dropdownField = document.createElement("div");
           dropdownField.className = "dropdownInput";
           dropdownField.style.width = "100%";
