@@ -47,10 +47,11 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-
+  let createPageNumber = 1;
   function createNewPage() {
+    createPageNumber++;
     const current = [...item];
-    current.push("newDiv");
+    current.push(`newDiv${createPageNumber}`);
     console.log("create page click", current);
     setItem(current);
     console.log("create page click after", current);
@@ -64,14 +65,22 @@ const Header = () => {
       const index = pageNumber - 1;
       if (index >= 0) {
         //remove item from the basket
-        console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
-        delete fetchedData[pageNumber];
-        console.log("after fetchedData", fetchedData);
-        const currentPges = [...deletePages];
-        currentPges.push(pageNumber);
-        setDeletepages(currentPges);
-        console.log("deletePages", deletePages);
-        setFetchedData(fetchedData);
+        // console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
+        // delete fetchedData[pageNumber];
+        // console.log("after fetchedData", fetchedData);
+        // const currentPges = [...deletePages];
+        // currentPges.push(pageNumber);
+        // setDeletepages(currentPges);
+        // console.log("deletePages", deletePages);
+        // setFetchedData(fetchedData);
+        let allPageElement = document.getElementsByClassName(
+          `page${pageNumber}`
+        );
+        let elementLength = allPageElement?.length;
+        for (let i = 0; i < elementLength; i++) {
+          allPageElement[0].remove();
+        }
+        // console.log("allPageElement", allPageElement, current.splice(index, 1));
         current.splice(index, 1);
         setItem(current);
       } else {
