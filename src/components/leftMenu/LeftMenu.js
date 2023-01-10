@@ -100,6 +100,14 @@ const dragStartContainerr = (e) => {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
+const dragStartIframe = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "IFRAME_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  }
+};
 
 const dragEndFunc = () => {
   const element = document.getElementById("draggable");
@@ -202,6 +210,11 @@ const LeftMenu = ({ showSidebar }) => {
               clickFunc={removeContainer}
               customFunc={() => handleDrop("containerr")}
               icon={editSecOptions[0].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartIframe}
+              customFunc={() => handleDrop("iframe")}
+              icon={editSecOptions[8].icon}
             />
           </div>
         )

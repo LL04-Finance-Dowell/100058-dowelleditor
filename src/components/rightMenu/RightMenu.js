@@ -7,6 +7,7 @@ import ImageRightSidebar from "./ImageRightSidebar";
 import SignsRightSidebar from "./SignsRightSidebar";
 import TableRightSidebar from "./TableRightSidebar";
 import DropDownRightSide from "./DropDownRightSide";
+import IframeRightSidebar from "./IframeRightSidebar";
 
 const RightMenu = () => {
   const { isClicked, setIsClicked } = useStateContext();
@@ -21,6 +22,7 @@ const RightMenu = () => {
         signs2: false,
         calendar2: false,
         dropdown2: false,
+        iframe2: false,
       });
     }
     if (isClicked.image2) {
@@ -32,6 +34,7 @@ const RightMenu = () => {
         signs2: false,
         calendar2: false,
         dropdown2: false,
+        iframe2: false,
       });
     }
     if (isClicked.table2) {
@@ -43,6 +46,7 @@ const RightMenu = () => {
         signs2: false,
         calendar2: false,
         dropdown2: false,
+        iframe2: false,
       });
     }
     if (isClicked.signs2) {
@@ -54,6 +58,7 @@ const RightMenu = () => {
         table2: false,
         calendar2: false,
         dropdown2: false,
+        iframe2: false,
       });
     }
     if (isClicked.calendar2) {
@@ -65,9 +70,22 @@ const RightMenu = () => {
         table2: false,
         signs2: false,
         dropdown2: false,
+        iframe2: false,
       });
     }
     if (isClicked.dropdown2) {
+      setIsClicked({
+        ...isClicked,
+        align2: false,
+        textfill2: false,
+        image2: false,
+        table2: false,
+        signs2: false,
+        calendar2: false,
+        iframe2: false,
+      });
+    }
+    if (isClicked.iframe2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -95,6 +113,7 @@ const RightMenu = () => {
       {isClicked.signs2 && <SignsRightSidebar />}
       {isClicked.calendar2 && <CalendarRightSidebar />}
       {isClicked.dropdown2 && <DropDownRightSide />}
+      {isClicked.iframe2 && <IframeRightSidebar />}
     </div>
   );
 };

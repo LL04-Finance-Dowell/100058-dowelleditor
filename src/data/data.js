@@ -12,6 +12,7 @@ import signs from "../assets/leftmenuIcons/signs.png";
 import calendar from "../assets/leftmenuIcons/calendar.png";
 import dropdown from "../assets/leftmenuIcons/dropdown.png";
 import containerr from "../assets/leftmenuIcons/container.png"
+import iframe from "../assets/leftmenuIcons/iframe.png"
 
 export const headerData = [
   { icon: undo },
@@ -31,4 +32,5 @@ export const editSecOptions = [
   { id: 6, icon: calendar },
   { id: 7, icon: dropdown },
   { id: 8, icon: containerr },
+  { id: 9, icon: iframe },
 ];

@@ -225,6 +225,8 @@ const Header = () => {
       for (let h = 0; h < sign.length; h++) {
         let tempElem = sign[h].parentElement;
         let tempPosn = getPosition(tempElem);
+        console.log(sign[h].innerHTML);
+        console.log(sign[h].firstElementChild);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -232,9 +234,10 @@ const Header = () => {
           left: tempPosn.left,
           type: "SIGN_INPUT",
           data:
-            decoded.details.action === "document"
-              ? sign[h].firstElementChild.src
-              : sign[h].innerHTML,
+          sign[h].firstElementChild === null
+            // decoded.details.action === "document"
+              ? sign[h].innerHTML
+              : sign[h].firstElementChild.src,
           id: `s${h + 1}`,
         };
         dataInsertWithPage(tempPosn, elem);

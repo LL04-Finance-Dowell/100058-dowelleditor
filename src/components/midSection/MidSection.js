@@ -809,7 +809,7 @@ const MidSection = () => {
           };
           if (
             decoded.details.action === "document" &&
-            element.data == "<p>Place your signature here</p>"
+            element.data == "Place your signature here"
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
             signField.innerHTML = "Place your signature here";
@@ -1322,6 +1322,29 @@ const MidSection = () => {
       // para.innerHTML = "Table";
       // tableField.append(para);
       holderDIV.append(tableField);
+    }  else if (typeOfOperation === "IFRAME_INPUT" && decoded.details.action === "template") {
+      let iframeField = document.createElement("div");
+      iframeField.className = "iframeInput";
+      iframeField.style.width = "100%";
+      iframeField.style.height = "100%";
+      iframeField.style.backgroundColor = "#dedede";
+      iframeField.style.borderRadius = "0px";
+      iframeField.style.outline = "0px";
+      iframeField.style.overflow = "overlay";
+      // iframeField.innerHTML = "iframe";
+      iframeField.style.position = "absolute";
+
+
+
+      iframeField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        // table_dropdown_focuseddClassMaintain(e);
+        // tableField.classList.add("focussed");
+        handleClicked("iframe2");
+        setSidebar(true);
+      };
+
+      holderDIV.append(iframeField);
     } else if (typeOfOperation === "SIGN_INPUT" && decoded.details.action === "template") {
       let signField = document.createElement("div");
       signField.className = "signInput";
@@ -1331,7 +1354,7 @@ const MidSection = () => {
       signField.style.borderRadius = "0px";
       signField.style.outline = "0px";
       signField.style.overflow = "overlay";
-      // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
+      signField.innerHTML = "Place your signature here";
       signField.style.position = "absolute";
 
       signField.onchange = (event) => {
@@ -1380,9 +1403,9 @@ const MidSection = () => {
 
       imageSignButton.append(signBtn);
 
-      const para = document.createElement("p");
-      para.innerHTML = "Place your signature here";
-      signField.append(para);
+      // const para = document.createElement("p");
+      // para.innerHTML = "Place your signature here";
+      // signField.append(para);
       holderDIV.append(signField);
       holderDIV.append(imageSignButton);
     } else if (typeOfOperation === "DATE_INPUT" && decoded.details.action === "template") {
