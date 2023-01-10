@@ -1136,7 +1136,7 @@ const MidSection = () => {
     // inputField.setAttribute('draggable', false);
     // let editButtonField = undefined;
 
-    if (typeOfOperation === "TEXT_INPUT") {
+    if (typeOfOperation === "TEXT_INPUT" && decoded.details.action === "template") {
       let inputField = document.createElement("div");
       //  inputField.setAttribute('draggable', true);
       inputField.setAttribute("contenteditable", true);
@@ -1188,7 +1188,7 @@ const MidSection = () => {
         // inputField.parentElement.focus()
       };
       holderDIV.append(inputField);
-    } else if (typeOfOperation === "IMAGE_INPUT") {
+    } else if (typeOfOperation === "IMAGE_INPUT" && decoded.details.action === "template") {
       let imageField = document.createElement("div");
       imageField.className = "imageInput";
       imageField.style.width = "100%";
@@ -1267,7 +1267,7 @@ const MidSection = () => {
       };
 
       holderDIV.append(texttField);
-    } else if (typeOfOperation === "TABLE_INPUT") {
+    } else if (typeOfOperation === "TABLE_INPUT" && decoded.details.action === "template") {
       let tableField = document.createElement("div");
       tableField.className = "tableInput";
       tableField.style.width = "100%";
@@ -1322,7 +1322,7 @@ const MidSection = () => {
       // para.innerHTML = "Table";
       // tableField.append(para);
       holderDIV.append(tableField);
-    } else if (typeOfOperation === "SIGN_INPUT") {
+    } else if (typeOfOperation === "SIGN_INPUT" && decoded.details.action === "template") {
       let signField = document.createElement("div");
       signField.className = "signInput";
       signField.style.width = "100%";
@@ -1385,7 +1385,7 @@ const MidSection = () => {
       signField.append(para);
       holderDIV.append(signField);
       holderDIV.append(imageSignButton);
-    } else if (typeOfOperation === "DATE_INPUT") {
+    } else if (typeOfOperation === "DATE_INPUT" && decoded.details.action === "template") {
       let dateField = document.createElement("div");
       dateField.className = "dateInput";
       dateField.style.width = "100%";
@@ -1459,7 +1459,7 @@ const MidSection = () => {
       // dateField.append(para)
       holderDIV.append(dateField);
       console.log(para);
-    } else if (typeOfOperation === "DROPDOWN_INPUT") {
+    } else if (typeOfOperation === "DROPDOWN_INPUT" && decoded.details.action === "template") {
       let dropdownField = document.createElement("div");
       dropdownField.className = "dropdownInput";
       dropdownField.style.width = "100%";
@@ -1525,7 +1525,7 @@ const MidSection = () => {
       dropdownField.append(para);
       dropdownField.append(selectElement);
       holderDIV.append(dropdownField);
-    } else if (typeOfOperation === "CONTAINER_INPUT") {
+    } else if (typeOfOperation === "CONTAINER_INPUT" && decoded.details.action === "template") {
       let containerField = document.createElement("div");
       containerField.className = "containerInput";
       containerField.id = "containerInput";
@@ -1539,8 +1539,10 @@ const MidSection = () => {
 
       holderDIV.append(containerField);
     }
-
-    document.querySelector(".drop_zone").append(holderDIV);
+    if(decoded.details.action === "template"){
+       document.querySelector(".drop_zone").append(holderDIV);
+    }
+   
   };
 
   contentFile = [];
