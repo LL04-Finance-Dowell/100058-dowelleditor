@@ -948,6 +948,50 @@ const MidSection = () => {
             // ?.item(0)
             ?.append(holderDIV);
         }
+        if (element.type === "IFRAME_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.top + "px",
+            auth_user: curr_user,
+          };
+
+          const holderDIV = getHolderDIV(measure, pageNo);
+
+          let iframeField = document.createElement("div");
+          iframeField.className = "iframeInput";
+          iframeField.style.width = "100%";
+          iframeField.style.height = "100%";
+          iframeField.style.backgroundColor = "#dedede";
+          iframeField.style.borderRadius = "0px";
+          iframeField.style.outline = "0px";
+          iframeField.style.overflow = "overlay";
+          // iframeField.innerHTML = "iframe";
+          iframeField.style.position = "absolute";
+
+          const iframe = document.createElement("iframe");
+          iframe.src = element.data;
+
+          iframeField.append(iframe);
+
+
+
+          iframeField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            // table_dropdown_focuseddClassMaintain(e);
+            // tableField.classList.add("focussed");
+            handleClicked("iframe2");
+            setSidebar(true);
+          };
+
+          holderDIV.append(iframeField);
+
+          document
+            .getElementById("midSection_container")
+            // ?.item(0)
+            ?.append(holderDIV);
+        }
         if (element.type === "DROPDOWN_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -1322,7 +1366,7 @@ const MidSection = () => {
       // para.innerHTML = "Table";
       // tableField.append(para);
       holderDIV.append(tableField);
-    }  else if (typeOfOperation === "IFRAME_INPUT" && decoded.details.action === "template") {
+    } else if (typeOfOperation === "IFRAME_INPUT" && decoded.details.action === "template") {
       let iframeField = document.createElement("div");
       iframeField.className = "iframeInput";
       iframeField.style.width = "100%";
@@ -1562,10 +1606,10 @@ const MidSection = () => {
 
       holderDIV.append(containerField);
     }
-    if(decoded.details.action === "template"){
-       document.querySelector(".drop_zone").append(holderDIV);
+    if (decoded.details.action === "template") {
+      document.querySelector(".drop_zone").append(holderDIV);
     }
-   
+
   };
 
   contentFile = [];

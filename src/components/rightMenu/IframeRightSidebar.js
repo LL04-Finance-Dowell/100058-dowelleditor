@@ -23,6 +23,10 @@ const IframeRightSidebar = () => {
         
         iframeDiv.appendChild(iframe);
     }
+
+    function removeIframe() {
+        document.querySelector(".focussedd").remove();
+      }
     return (
         <>
             <div>
@@ -66,7 +70,7 @@ const IframeRightSidebar = () => {
 
 
             <div className="mt-2 text-center pt-5">
-                <Button variant="primary" className="px-5" >
+                <Button variant="primary" className="px-5" onClick={removeIframe}>
                     Remove Iframe
                 </Button>
             </div>

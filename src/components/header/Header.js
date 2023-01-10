@@ -268,6 +268,28 @@ const Header = () => {
         // page.push(elem);
       }
     }
+    const iframes = document.getElementsByClassName("iframeInput");
+
+    if (iframes.length) {
+      for (let i = 0; i < iframes.length; i++) {
+        // var new_table = document.getElementsByTagName("table")[0];
+        let tempElem = iframes[i].parentElement;
+        let tempPosn = getPosition(tempElem);
+        console.log(iframes[i].firstElementChild);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          left: tempPosn.left,
+          type: "IFRAME_INPUT",
+          data: iframes[i].firstElementChild.src,
+          id: `ifr${i + 1}`,
+        };
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
+      }
+    }
     const dropDowns = document.getElementsByClassName("dropdownInput");
 
     if (dropDowns.length) {
