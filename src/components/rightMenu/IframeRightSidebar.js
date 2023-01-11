@@ -17,8 +17,8 @@ const IframeRightSidebar = () => {
         var iframe = document.createElement("iframe");
         iframe.id = "iframe";
         iframe.src = document.getElementById("iframe_src").value;
-        iframe.style.height = document.getElementById("iframe_height").value;
-        iframe.style.width = document.getElementById("iframe_width").value;
+        iframe.height = document.getElementById("iframe_height").value;
+        iframe.width = document.getElementById("iframe_width").value;
 
         
         iframeDiv.appendChild(iframe);

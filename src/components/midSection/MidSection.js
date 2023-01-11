@@ -582,6 +582,11 @@ const MidSection = () => {
     } else if (e.target.parentElement.classList.contains("tableInput")) {
       e.target.parentElement.classList.add("focussed");
     }
+    if (e.target.classList.contains("iframeInput")) {
+      e.target.classList.add("focussed");
+    } else if (e.target.parentElement.classList.contains("iframeInput")) {
+      e.target.parentElement.classList.add("focussed");
+    }
     // e.target.classList.add("focussed");
   }
 
@@ -972,15 +977,16 @@ const MidSection = () => {
 
           const iframe = document.createElement("iframe");
           iframe.src = element.data;
+          iframe.width = "100%"
+          iframe.height = "100%"
 
           iframeField.append(iframe);
 
 
 
           iframeField.onclick = (e) => {
-            focuseddClassMaintain(e);
-            // table_dropdown_focuseddClassMaintain(e);
-            // tableField.classList.add("focussed");
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
             handleClicked("iframe2");
             setSidebar(true);
           };
@@ -1381,8 +1387,8 @@ const MidSection = () => {
 
 
       iframeField.onclick = (e) => {
-        focuseddClassMaintain(e);
-        // table_dropdown_focuseddClassMaintain(e);
+        // focuseddClassMaintain(e);
+        table_dropdown_focuseddClassMaintain(e);
         // tableField.classList.add("focussed");
         handleClicked("iframe2");
         setSidebar(true);
