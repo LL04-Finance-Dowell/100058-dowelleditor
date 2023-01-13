@@ -23,6 +23,9 @@ const IframeRightSidebar = () => {
         
         iframeDiv.appendChild(iframe);
     }
+    function handleChange() {
+        document.querySelector(".focussed").innerHTML = ""
+      }
 
     function removeIframe() {
         document.querySelector(".focussedd").remove();
@@ -36,6 +39,7 @@ const IframeRightSidebar = () => {
                     type="text"
                     placeholder="Website link"
                     id="iframe_src"
+                    onChange={handleChange}
                 />
             </div>
 

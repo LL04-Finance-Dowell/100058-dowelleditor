@@ -597,17 +597,17 @@ const MidSection = () => {
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
-    for (let i = 1; i <= item?.length; i++) {
+    for (let p = 1; p <= item?.length; p++) {
       // arrayData.forEach((element) => {
       pageNo++;
-      console.log("data" + [i], data[i]);
-      fetchedData[i]?.forEach((element) => {
+      console.log("data" + [p], data[p]);
+      fetchedData[p]?.forEach((element) => {
         if (element.type === "TEXT_INPUT") {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
           const holderDIV = getHolderDIV(measure, pageNo);
@@ -647,7 +647,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+            .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -656,7 +656,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
           console.log("measure from image input", measure);
@@ -712,7 +712,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -721,7 +721,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
 
@@ -777,7 +777,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -786,7 +786,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
 
@@ -854,7 +854,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -863,7 +863,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
 
@@ -949,7 +949,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -958,7 +958,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
 
@@ -994,7 +994,7 @@ const MidSection = () => {
           holderDIV.append(iframeField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -1003,7 +1003,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.top + "px",
+            top: element.topp + "px",
             auth_user: curr_user,
           };
 
@@ -1050,7 +1050,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementById("midSection_container")
+          .getElementsByClassName("midSection_container")[p-1]
             // ?.item(0)
             ?.append(holderDIV);
         }
