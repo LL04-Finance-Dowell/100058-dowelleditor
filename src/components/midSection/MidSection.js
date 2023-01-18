@@ -165,6 +165,12 @@ const MidSection = () => {
         fields: decoded.details.field,
         id: decoded.details._id,
       }
+      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // {
+      //   document_id: decoded.details._id,
+      //   action: decoded.details.action,
+      // }
+
     )
       .then((res) => {
         const loadedData = JSON.parse(res.data.content);
@@ -593,11 +599,20 @@ const MidSection = () => {
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
-    const midSec = document.getElementById("midSection_container");
+    const midSec = document.getElementsByClassName("midSection_container");
+    
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
     for (let p = 1; p <= item?.length; p++) {
+
+      // const page = midSec[p];
+      // if(item && page?.childNodes.length < 2){
+      //   // midSec[p].parentElement.remove()
+      //   const current = [...item];
+      //   current.splice(p-1, 1);
+      //   setItem(current);
+      // }
       // arrayData.forEach((element) => {
       pageNo++;
       console.log("data" + [p], data[p]);
@@ -607,7 +622,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
           const holderDIV = getHolderDIV(measure, pageNo);
@@ -647,7 +662,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-            .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -656,7 +671,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
           console.log("measure from image input", measure);
@@ -712,7 +727,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -721,7 +736,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
 
@@ -777,7 +792,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -786,7 +801,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
 
@@ -854,7 +869,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -863,7 +878,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
 
@@ -949,7 +964,7 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -958,7 +973,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
 
@@ -994,7 +1009,7 @@ const MidSection = () => {
           holderDIV.append(iframeField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
@@ -1003,7 +1018,7 @@ const MidSection = () => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp + "px",
+            top: element.topp ,
             auth_user: curr_user,
           };
 
@@ -1050,11 +1065,13 @@ const MidSection = () => {
           // holderDIV.append(paragraphField);
 
           document
-          .getElementsByClassName("midSection_container")[p-1]
+            .getElementsByClassName("midSection_container")[p - 1]
             // ?.item(0)
             ?.append(holderDIV);
         }
+       
       });
+      
     }
     // });
   };

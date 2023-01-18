@@ -352,6 +352,11 @@ const Header = () => {
         fields: decoded.details.field,
         id: decoded.details._id,
       }
+      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // {
+      //   document_id: decoded.details._id,
+      //   action: decoded.details.action,
+      // }
     )
       .then((res) => {
         const loadedData = res.data;
