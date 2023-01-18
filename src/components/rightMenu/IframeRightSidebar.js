@@ -27,6 +27,8 @@ const IframeRightSidebar = () => {
         document.querySelector(".focussed").innerHTML = ""
       }
 
+
+
     function removeIframe() {
         document.querySelector(".focussedd").remove();
       }

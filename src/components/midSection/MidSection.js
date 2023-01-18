@@ -158,18 +158,18 @@ const MidSection = () => {
     var decoded = jwt_decode(token);
     console.log(decoded);
     const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-by-collection/",
-      {
-        database: decoded.details.database,
-        collection: decoded.details.collection,
-        fields: decoded.details.field,
-        id: decoded.details._id,
-      }
-      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
       // {
-      //   document_id: decoded.details._id,
-      //   action: decoded.details.action,
+      //   database: decoded.details.database,
+      //   collection: decoded.details.collection,
+      //   fields: decoded.details.field,
+      //   id: decoded.details._id,
       // }
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
 
     )
       .then((res) => {
@@ -990,12 +990,18 @@ const MidSection = () => {
           // iframeField.innerHTML = "iframe";
           iframeField.style.position = "absolute";
 
-          const iframe = document.createElement("iframe");
+          if(element.data == "iFrame here"){
+            iframeField.innerHTML = element.data;
+          }
+          if(element.data != "iFrame here"){
+            const iframe = document.createElement("iframe");
           iframe.src = element.data;
           iframe.width = "100%"
           iframe.height = "100%"
 
           iframeField.append(iframe);
+          }
+          
 
 
 
@@ -1400,6 +1406,7 @@ const MidSection = () => {
       iframeField.style.overflow = "overlay";
       // iframeField.innerHTML = "iframe";
       iframeField.style.position = "absolute";
+      iframeField.innerText = "iFrame here"
 
 
 

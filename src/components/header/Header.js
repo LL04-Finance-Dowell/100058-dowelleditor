@@ -86,10 +86,10 @@ const Header = () => {
         // }
         // console.log("allPageElement", allPageElement, current.splice(index, 1));
         // current.splice(index, 1);
-       
+
         page.parentElement.remove();
-        
-         setItem(current);
+
+        setItem(current);
       } else {
         console.warn(`Cant remove page`);
       }
@@ -172,7 +172,7 @@ const Header = () => {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp:txt[h].parentElement.style.top,
+            topp: txt[h].parentElement.style.top,
             left: tempPosn.left,
             type: "TEXT_INPUT",
             data: txt[h].innerHTML,
@@ -198,7 +198,7 @@ const Header = () => {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:img[h].parentElement.style.top,
+          topp: img[h].parentElement.style.top,
           left: tempPosn.left,
           type: "IMAGE_INPUT",
           data: img[h].style.backgroundImage,
@@ -220,7 +220,7 @@ const Header = () => {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:date[h].parentElement.style.top,
+          topp: date[h].parentElement.style.top,
           left: tempPosn.left,
           type: "DATE_INPUT",
           data: date[h].innerHTML,
@@ -241,12 +241,12 @@ const Header = () => {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:sign[h].parentElement.style.top,
+          topp: sign[h].parentElement.style.top,
           left: tempPosn.left,
           type: "SIGN_INPUT",
           data:
-          sign[h].firstElementChild === null
-            // decoded.details.action === "document"
+            sign[h].firstElementChild === null
+              // decoded.details.action === "document"
               ? sign[h].innerHTML
               : sign[h].firstElementChild.src,
           id: `s${h + 1}`,
@@ -269,7 +269,7 @@ const Header = () => {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:tables[t].parentElement.style.top,
+          topp: tables[t].parentElement.style.top,
           left: tempPosn.left,
           type: "TABLE_INPUT",
           data: tables[t].firstElementChild.innerHTML,
@@ -287,15 +287,17 @@ const Header = () => {
         // var new_table = document.getElementsByTagName("table")[0];
         let tempElem = iframes[i].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(iframes[i].firstElementChild);
+        console.log(iframes[i].innerText);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:iframes[i].parentElement.style.top,
+          topp: iframes[i].parentElement.style.top,
           left: tempPosn.left,
           type: "IFRAME_INPUT",
-          data: iframes[i].firstElementChild.src,
+          data: iframes[i].innerText ?
+            "iFrame here" :
+            iframes[i].firstElementChild.src,
           id: `ifr${i + 1}`,
         };
         dataInsertWithPage(tempPosn, elem);
@@ -316,7 +318,7 @@ const Header = () => {
           width: tempPosn.width,
           height: tempPosn.height,
           top: tempPosn.top,
-          topp:dropDowns[d].parentElement.style.top,
+          topp: dropDowns[d].parentElement.style.top,
           left: tempPosn.left,
           type: "DROPDOWN_INPUT",
           data1: dropDowns[d].firstElementChild.innerHTML,
@@ -345,18 +347,18 @@ const Header = () => {
   const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
     const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-by-collection/",
-      {
-        database: decoded.details.database,
-        collection: decoded.details.collection,
-        fields: decoded.details.field,
-        id: decoded.details._id,
-      }
-      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
       // {
-      //   document_id: decoded.details._id,
-      //   action: decoded.details.action,
+      //   database: decoded.details.database,
+      //   collection: decoded.details.collection,
+      //   fields: decoded.details.field,
+      //   id: decoded.details._id,
       // }
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
     )
       .then((res) => {
         const loadedData = res.data;
@@ -467,9 +469,8 @@ const Header = () => {
 
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -512,8 +513,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+              <img onClick={() => { }} src={headerData[4].icon} alt="" />
+              <img onClick={() => { }} src={headerData[5].icon} alt="" />
               <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
