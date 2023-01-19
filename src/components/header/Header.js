@@ -340,23 +340,28 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
-  console.log("In header.js", actionName);
+  console.log("In header.js", decoded);
 
   const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
     const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-by-collection/",
-      {
-        database: decoded.details.database,
-        collection: decoded.details.collection,
-        fields: decoded.details.field,
-        id: decoded.details._id,
-      }
-      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
       // {
-      //   document_id: decoded.details._id,
-      //   action: decoded.details.action,
+      //   database: decoded.details.database,
+      //   collection: decoded.details.collection,
+      //   fields: decoded.details.field,
+      //   id: decoded.details._id,
       // }
+      
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
+    //   {
+    //     "id":"63c78356b22e20fddee65a2f",
+    //     "action":"document"
+    // }
     )
       .then((res) => {
         const loadedData = res.data;

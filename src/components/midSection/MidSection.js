@@ -158,18 +158,18 @@ const MidSection = () => {
     var decoded = jwt_decode(token);
     console.log(decoded);
     const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-by-collection/",
-      {
-        database: decoded.details.database,
-        collection: decoded.details.collection,
-        fields: decoded.details.field,
-        id: decoded.details._id,
-      }
-      // "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
       // {
-      //   document_id: decoded.details._id,
-      //   action: decoded.details.action,
+      //   database: decoded.details.database,
+      //   collection: decoded.details.collection,
+      //   fields: decoded.details.field,
+      //   id: decoded.details._id,
       // }
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
 
     )
       .then((res) => {
