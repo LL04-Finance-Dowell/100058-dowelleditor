@@ -990,12 +990,18 @@ const MidSection = () => {
           // iframeField.innerHTML = "iframe";
           iframeField.style.position = "absolute";
 
-          const iframe = document.createElement("iframe");
+          if(element.data == "iFrame here"){
+            iframeField.innerHTML = element.data;
+          }
+          if(element.data != "iFrame here"){
+            const iframe = document.createElement("iframe");
           iframe.src = element.data;
           iframe.width = "100%"
           iframe.height = "100%"
 
           iframeField.append(iframe);
+          }
+          
 
 
 
@@ -1400,6 +1406,7 @@ const MidSection = () => {
       iframeField.style.overflow = "overlay";
       // iframeField.innerHTML = "iframe";
       iframeField.style.position = "absolute";
+      iframeField.innerText = "iFrame here"
 
 
 
