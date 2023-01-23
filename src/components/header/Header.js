@@ -86,22 +86,11 @@ const Header = () => {
         //   allPageElement[0].remove();
         // }
         // console.log("allPageElement", allPageElement, current.splice(index, 1));
-<<<<<<< HEAD
-        // current;
-
-        
-        console.log("page number before remove", item);
-        page.remove();
-        current.pop();
-        setItem(current);
-        console.log("page number after remove", item);
-=======
         current.splice(index, 1);
 
         page.parentElement.remove();
         item.pop()
         // setItem(item);
->>>>>>> cafe2361399a1d13e3a9de1107f7dce236d78e40
       } else {
         console.warn(`Cant remove page`);
       }
