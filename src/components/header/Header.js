@@ -88,8 +88,8 @@ const Header = () => {
         // current.splice(index, 1);
 
         page.parentElement.remove();
-
-        setItem(current);
+        item.pop()
+        // setItem(item);
       } else {
         console.warn(`Cant remove page`);
       }
