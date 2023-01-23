@@ -85,7 +85,7 @@ const Header = () => {
         //   allPageElement[0].remove();
         // }
         // console.log("allPageElement", allPageElement, current.splice(index, 1));
-        // current.splice(index, 1);
+        current.splice(index, 1);
 
         page.parentElement.remove();
         item.pop()
@@ -342,7 +342,7 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
-  console.log("In header.js", actionName);
+  console.log("In header.js", decoded);
 
   const [data, setData] = useState(["Untitled-file"]);
   const getPostData = async () => {
