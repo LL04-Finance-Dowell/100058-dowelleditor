@@ -83,6 +83,7 @@ const MidSection = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
+  const flag_editing = decoded?.details?.flag;
 
   function boldCommand() {
     const strongElement = document.createElement("strong");
@@ -1743,7 +1744,7 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={index} className={"midSection"}>
+          <div key={index} className={`midSection ${flag_editing && 'disable_pointer_event'}`}>
             <Container
               as="div"
               ref={midSectionRef}

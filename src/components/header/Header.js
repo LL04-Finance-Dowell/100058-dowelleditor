@@ -63,7 +63,7 @@ const Header = () => {
     var pageNumber = prompt("Enter the number of page to delete");
     if (pageNumber != null) {
       const index = pageNumber - 1;
-      const page = document.getElementsByClassName("midSection")[index];
+      const page = document.getElementsByClassName("midSection_container")[index];
 
       console.log(page);
       // page.innerHTML = "";
@@ -86,7 +86,7 @@ const Header = () => {
         //   allPageElement[0].remove();
         // }
         // console.log("allPageElement", allPageElement, current.splice(index, 1));
-        current.splice(index, 1);
+        // current.splice(index, 1);
 
         page.parentElement.remove();
         item.pop()
