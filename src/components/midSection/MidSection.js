@@ -1744,7 +1744,7 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={index} className={`midSection ${flag_editing && 'disable_pointer_event'}`}>
+          <div key={index} className={`midSection ${actionName == 'document' && flag_editing && 'disable_pointer_event'}`}>
             <Container
               as="div"
               ref={midSectionRef}
