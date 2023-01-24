@@ -653,7 +653,7 @@ const MidSection = () => {
             handleClicked("align2");
             setSidebar(true);
           };
-          const text = `${element.data}`;
+          const text = `${element.raw_data}`;
 
           inputField.innerHTML = text;
           // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;

@@ -169,6 +169,8 @@ const Header = () => {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           console.log(txt[h].parentElement.style.top);
+          console.log(txt[h].innerText);
+          console.log(txt[h].innerHTML);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -176,7 +178,8 @@ const Header = () => {
             topp: txt[h].parentElement.style.top,
             left: tempPosn.left,
             type: "TEXT_INPUT",
-            data: txt[h].innerHTML,
+            data: txt[h].innerText,
+            raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
           dataInsertWithPage(tempPosn, elem);
