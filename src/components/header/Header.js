@@ -47,11 +47,11 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-  let createPageNumber = 1;
+  let createPageNumber = item[item.length-1].split("_")[1];
   function createNewPage() {
     createPageNumber++;
     const current = [...item];
-    current.push(`newDiv${createPageNumber}`);
+    current.push(`div_${createPageNumber}`);
     console.log("create page click", current);
     setItem(current);
     console.log("create page click after", current);
@@ -63,10 +63,11 @@ const Header = () => {
     var pageNumber = prompt("Enter the number of page to delete");
     if (pageNumber != null) {
       const index = pageNumber - 1;
-      const page = document.getElementsByClassName("midSection_container")[index];
+      const page = document.getElementsByClassName("midSection")[index];
+
       console.log(page);
-      page.innerHTML = ""
-      if (index >= 0) {
+      // page.innerHTML = "";
+      if (index > 0 && index<item?.length) {
         //remove item from the basket
         // console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
         // delete fetchedData[pageNumber];
@@ -93,8 +94,8 @@ const Header = () => {
       } else {
         console.warn(`Cant remove page`);
       }
+      
     }
-    console.log(item);
   }
 
   // Adding a new branch comment
@@ -433,7 +434,7 @@ const Header = () => {
           ? "Document saved"
           : "Template saved";
       const iframe = document.querySelector("iframe");
-      iframe.contentWindow.postMessage(message, "*");
+      iframe?.contentWindow?.postMessage(message, "*");
     }
 
     Axios.post(
@@ -470,6 +471,7 @@ const Header = () => {
     setIsFlipClicked(!isFlipClicked);
   };
 
+  console.log("page count check", item);
   return (
     <div
       className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"

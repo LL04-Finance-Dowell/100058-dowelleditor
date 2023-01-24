@@ -68,7 +68,7 @@ export const ContextProvider = ({ children }) => {
 
   //handling new pages
 
-  const [item, setItem] = useState(["div"]);
+  const [item, setItem] = useState(["div_1"]);
 
   //   console.log("item check", item);
 
