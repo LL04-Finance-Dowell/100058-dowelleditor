@@ -84,6 +84,7 @@ const MidSection = () => {
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
+  const documnetMap = decoded?.details?.document_map;
 
   function boldCommand() {
     const strongElement = document.createElement("strong");
@@ -420,7 +421,7 @@ const MidSection = () => {
     return holderMenu;
   }
 
-  function getHolderDIV(measure, i) {
+  function getHolderDIV(measure, i, idMatch) {
     console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
@@ -443,6 +444,7 @@ const MidSection = () => {
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
     holderDIV.classList.add(`page${i}`);
+    if(idMatch?.length>0) holderDIV.classList.add(`enable_pointer_event`);
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -616,8 +618,9 @@ const MidSection = () => {
       // }
       // arrayData.forEach((element) => {
       pageNo++;
-      console.log("data" + [p], data[p]);
+      console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
+        console.log("each content", element);
         if (element.type === "TEXT_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -626,7 +629,9 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-          const holderDIV = getHolderDIV(measure, pageNo);
+         const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
 
           let inputField = document.createElement("div");
           inputField.setAttribute("contenteditable", true);
@@ -676,7 +681,9 @@ const MidSection = () => {
             auth_user: curr_user,
           };
           console.log("measure from image input", measure);
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
           let imageField = document.createElement("div");
           imageField.className = "imageInput";
@@ -740,8 +747,9 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
           let dateField = document.createElement("div");
           dateField.className = "dateInput";
@@ -805,8 +813,10 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          console.log("signupmatch", idMatch);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
           let signField = document.createElement("div");
           signField.className = "signInput";
@@ -882,8 +892,9 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
           let tableField = document.createElement("div");
           tableField.style.backgroundColor = "#0000";
@@ -977,8 +988,9 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
           let iframeField = document.createElement("div");
           iframeField.className = "iframeInput";
@@ -1028,8 +1040,9 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
           let dropdownField = document.createElement("div");
           dropdownField.className = "dropdownInput";
           dropdownField.style.width = "100%";
@@ -1744,7 +1757,7 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={index} className={`midSection ${actionName == 'document' && flag_editing && 'disable_pointer_event'}`}>
+          <div key={index} className={`midSection ${(actionName == 'document' && flag_editing =='editing') || (actionName == 'document' && flag_editing =='signing') && 'disable_pointer_event'}`}>
             <Container
               as="div"
               ref={midSectionRef}

@@ -13,6 +13,9 @@
 .disable_pointer_event{
     pointer-events: none;
 }
+.enable_pointer_event{
+    pointer-events: auto;
+}
 /*
 .midSection_container{
     background-color: #ffffff;
