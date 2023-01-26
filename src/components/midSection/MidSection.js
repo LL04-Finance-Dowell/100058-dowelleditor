@@ -436,15 +436,20 @@ const MidSection = () => {
     holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
     holderDIV.style.display = "flex";
     holderDIV.style.flexDirection = "column";
-
+    // holderDIV.style.border = "2px dotted gray";
     holderDIV.tabIndex = "1";
     // console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
-    holderDIV.style.left = measure.left;
+    holderDIV.style.left= measure.left;
     holderDIV.style.top = measure.top;
     holderDIV.classList.add(`page${i}`);
-    if(idMatch?.length>0) holderDIV.classList.add(`enable_pointer_event`);
+    if(idMatch?.length>0) {
+      holderDIV.classList.add(`enable_pointer_event`)
+      holderDIV.style.border = '1px solid green !important'
+    }else{
+      holderDIV.classList.add(`dotted_border`)
+    }
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -476,7 +481,7 @@ const MidSection = () => {
     };
     // }
 
-    holderDIV.style.border = "2px dotted gray";
+    // holderDIV.style.border = "2px dotted gray";
 
     holderDIV.addEventListener("focus", function (e) {
       // holderDIV.classList.add("focussedd");
