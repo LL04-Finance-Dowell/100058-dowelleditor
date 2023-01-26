@@ -47,7 +47,7 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-  let createPageNumber = item[item.length-1].split("_")[1];
+  let createPageNumber = item[item.length - 1].split("_")[1];
   function createNewPage() {
     createPageNumber++;
     const current = [...item];
@@ -67,7 +67,7 @@ const Header = () => {
 
       console.log(page);
       // page.innerHTML = "";
-      if (index > 0 && index<item?.length) {
+      if (index > 0 && index < item?.length) {
         //remove item from the basket
         // console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
         // delete fetchedData[pageNumber];
@@ -94,7 +94,7 @@ const Header = () => {
       } else {
         console.warn(`Cant remove page`);
       }
-      
+
     }
   }
 
@@ -520,12 +520,14 @@ const Header = () => {
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
               <img onClick={() => { }} src={headerData[4].icon} alt="" />
               <img onClick={() => { }} src={headerData[5].icon} alt="" />
-              <button className="page_btn" onClick={() => createNewPage()}>
+              {actionName == "template" && <button className="page_btn" onClick={() => createNewPage()}>
                 <MdOutlinePostAdd color="white" size={32} />
               </button>
-              <button className="page_btn" onClick={() => removePage()}>
+              }
+              {actionName == "template" && <button className="page_btn" onClick={() => removePage()}>
                 <CgPlayListRemove color="white" size={32} />
               </button>
+              }
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
               })} */}

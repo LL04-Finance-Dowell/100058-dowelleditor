@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
+import { useSearchParams } from "react-router-dom";
+
+import jwt_decode from "jwt-decode";
+
 import TextBox from "../leftMenu/comp/TextBox";
 import LeftMenu from "../leftMenu/LeftMenu";
 import MidSection from "../midSection/MidSection.js";
@@ -23,13 +27,21 @@ const EditSection = () => {
 
   const newPageButton = document.querySelector(".new-page-btn");
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+
+  const actionName = decoded?.details?.action;
+
   return (
     <div className="editSec">
       <Container fluid>
         <Row>
-          <Col lg={1}>
+          <Col lg={1}
+          style={actionName == "document" ? {background: "#e3eeff"} : {background: "#ffffff"}}
+          >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
-            <LeftMenu />
+           {actionName == "template" && <LeftMenu />}
           </Col>
           <Col lg={sidebar ? 8 : 11} as="div" className="editSec_midSec">
             {/* <MidSection showSidebar={showSidebar}/> */}

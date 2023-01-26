@@ -99,7 +99,18 @@ const TableRightSidebar = () => {
       signField.innerHTML = "Sign input";
       signField.style.position = "absolute";
 
-      document.getElementsByClassName("dropp").item(0).append(signField);
+      signField.onclick = (e) => {
+        // focuseddClassMaintain(e);
+        if (signField) {
+          // signField.classList.add("focussed");
+          handleClicked("signs2");
+          setSidebar(true);
+        } else {
+          setSidebar(false);
+        }
+      };
+      e.target.append(signField);
+      // document.getElementsByClassName("dropp").item(0).append(signField);
     } else if (typeOfOperation === "DATE_INPUT") {
       let dateField = document.createElement("div");
       dateField.className = "dateInput";
@@ -254,7 +265,7 @@ const TableRightSidebar = () => {
     //   document.activeElement.remove()
     // }
   }
-
+  console.log("table", document.getElementById("table"));
   // document.getElementById('make').addEventListener("click", makeTable)
   return (
     <>
