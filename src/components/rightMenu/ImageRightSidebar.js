@@ -47,7 +47,7 @@ const ImageRightSidebar = () => {
         </Button>
       </div>
       <div className="mt-5 text-center pt-1">
-        <Button className="w-75" variant="primary" onClick={removeImage}>
+        <Button className="w-75 remove_button" variant="primary" onClick={removeImage}>
           Remove Image
         </Button>
       </div>

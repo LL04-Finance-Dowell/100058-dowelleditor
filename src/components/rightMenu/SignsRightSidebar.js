@@ -94,7 +94,7 @@ const SignsRightSidebar = () => {
 
 
       <div className='mt-5 '>
-        <Button variant="primary" onClick={removeSign} >Remove Signature</Button>
+        <Button variant="primary" onClick={removeSign} className ="remove_button">Remove Signature</Button>
       </div>
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
     </div>

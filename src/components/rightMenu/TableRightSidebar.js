@@ -308,7 +308,7 @@ const TableRightSidebar = () => {
       </div> */}
 
       <div className="mt-2 text-center pt-5">
-        <Button variant="primary" className="px-5" onClick={removeTable}>
+        <Button variant="primary" className="px-5 remove_button" onClick={removeTable}>
           Remove Table
         </Button>
       </div>

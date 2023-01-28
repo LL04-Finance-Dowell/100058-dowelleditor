@@ -100,7 +100,7 @@ const MidSection = () => {
       const holderDIV = document.getElementsByClassName("holderDIV");
       const holderr = document.getElementsByClassName("holder-menu");
       const resizerr = document.getElementsByClassName("resizeBtn");
-      // console.log("mouseDown inside if condition", event.target.id);
+      console.log("mouseDown inside if condition", event.target.id);
       // console.log("mouseDown inside if condition", midSectionRef.current.id);
 
       if (event?.target?.id === midSectionRef?.current?.id) {
@@ -124,7 +124,11 @@ const MidSection = () => {
           calendar2: false,
           dropdown2: false,
         });
-        // console.log("mouseDown inside if condition", event.target);
+
+
+        const divsArray = document.getElementsByClassName("enable_pointer_event");
+        console.log(divsArray);
+        console.log("mouseDown inside if condition", event.target);
         // console.log("mouseDown inside if condition", editSec_midSec_ref);
       }
     });
@@ -444,10 +448,16 @@ const MidSection = () => {
     holderDIV.style.left= measure.left;
     holderDIV.style.top = measure.top;
     holderDIV.classList.add(`page${i}`);
+    console.log(idMatch);
     if(idMatch?.length>0) {
       holderDIV.classList.add(`enable_pointer_event`)
       holderDIV.style.border = '1px solid green !important'
-    }else{
+
+    }
+    else if(idMatch?.length<1 && actionName == "document"){
+      holderDIV.classList.add(`dotted_border`)
+      holderDIV.classList.add(`disable_pointer_event`)
+    } else {
       holderDIV.classList.add(`dotted_border`)
     }
     //Putting resize button on holder
@@ -1762,8 +1772,9 @@ const MidSection = () => {
     <>
       {item?.map((currentItem, index) => {
         return (
-          <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
-          {/* <div key={index} className={`midSection disable_pointer_event`}> */}
+          // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
+          // <div key={index} className={`midSection disable_pointer_event`}>
+          <div key={index} className= "midSection" >
 
             <Container
               as="div"

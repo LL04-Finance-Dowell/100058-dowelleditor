@@ -111,7 +111,7 @@ const DropDownRightSide = () => {
 
       <div />
       <div>
-        <Button onClick={removeDropdown} variant="primary" className="mt-5">
+        <Button onClick={removeDropdown} variant="primary" className="mt-5 remove_button">
           Remove Dropdown
         </Button>
       </div>

@@ -76,7 +76,7 @@ const IframeRightSidebar = () => {
 
 
             <div className="mt-2 text-center pt-5">
-                <Button variant="primary" className="px-5" onClick={removeIframe}>
+                <Button variant="primary" className="px-5 remove_button" onClick={removeIframe}>
                     Remove Iframe
                 </Button>
             </div>

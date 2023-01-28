@@ -116,7 +116,7 @@ const CalendarRightSidebar = (props) => {
         className={`text-center`}
         style={{ marginTop: !rightSideDatemenu && "225px" }}
       >
-        <Button variant="primary" onClick={removeDate}>
+        <Button variant="primary" onClick={removeDate} className ="remove_button">
           Remove Date
         </Button>
       </div>

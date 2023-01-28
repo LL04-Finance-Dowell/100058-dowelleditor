@@ -32,13 +32,14 @@ const EditSection = () => {
   var decoded = jwt_decode(token);
 
   const actionName = decoded?.details?.action;
+  const docMap = decoded?.details?.document_map;
 
   return (
     <div className="editSec">
       <Container fluid>
         <Row>
           <Col lg={1}
-          style={actionName == "document" ? {background: "#e3eeff"} : {background: "#ffffff"}}
+          style={(actionName == "document" ) ? {background: "#e3eeff"} : {background: "#ffffff"}}
           >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
            {actionName == "template" && <LeftMenu />}

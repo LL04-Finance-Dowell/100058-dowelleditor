@@ -5,6 +5,8 @@ import { useSearchParams } from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
 
+import "./RightMenu.css";
+
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import AlignRightSide from "./AlignRightSide";
@@ -23,9 +25,16 @@ const RightMenu = () => {
   var decoded = jwt_decode(token);
 
   const actionName = decoded?.details?.action;
+  const docMap = decoded?.details?.document_map;
 
-  if (actionName == "document") {
+  if (actionName == "document" && docMap) {
     setSidebar(true)
+    const delete_buttons = document.getElementsByClassName("remove_button");
+    console.log(delete_buttons);
+    for(let d=0; d<delete_buttons?.length; d++){
+      console.log(delete_buttons[d]);
+      delete_buttons[d].classList.add("disable_button")
+    }
   }
 
   useEffect(() => {
@@ -123,7 +132,7 @@ const RightMenu = () => {
 
   return (
     <div className="fixed3">
-      {actionName == "document" &&
+      {actionName == "document" && docMap &&
        isClicked.align2 == false &&
        isClicked.image2 == false &&
        isClicked.table2 == false &&

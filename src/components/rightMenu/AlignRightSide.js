@@ -446,7 +446,7 @@ const AlignRightSide = () => {
           </div> */}
 
           <div className="mt-3 text-center">
-            <Button variant="primary" onClick={removeTextBox}>
+            <Button variant="primary" onClick={removeTextBox} className ="remove_button">
               Remove TextBox
             </Button>
           </div>
