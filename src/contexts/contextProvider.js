@@ -65,7 +65,7 @@ export const ContextProvider = ({ children }) => {
   // handling page delete
   const [deletePages, setDeletepages] = useState([]);
   // const showSidebar = () => setSidebar(!sidebar);
-
+  const [isFinializeDisabled, setIsFinializeDisabled] = useState(true);
   //handling new pages
 
   const [item, setItem] = useState(["div_1"]);
@@ -121,6 +121,8 @@ export const ContextProvider = ({ children }) => {
         setMethod,
         deletePages,
         setDeletepages,
+        isFinializeDisabled, 
+        setIsFinializeDisabled
       }}
     >
       {children}

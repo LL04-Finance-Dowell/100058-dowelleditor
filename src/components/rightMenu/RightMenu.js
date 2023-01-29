@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
@@ -18,7 +18,7 @@ import DropDownRightSide from "./DropDownRightSide";
 import IframeRightSidebar from "./IframeRightSidebar";
 
 const RightMenu = () => {
-  const { isClicked, setIsClicked, setSidebar } = useStateContext();
+  const { isClicked, setIsClicked, setSidebar, isFinializeDisabled } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -147,6 +147,7 @@ const RightMenu = () => {
               size="md"
               className="rounded px-5"
               id="saving-button"
+              disabled = {isFinializeDisabled}
               onClick={() => alert("Finilize Clicked")}
             >
               Finalize
@@ -159,6 +160,7 @@ const RightMenu = () => {
               size="md"
               className="rounded px-5"
               id="saving-button"
+              
               onClick={() => alert("Rejcet Clicked")}
             >
               Reject

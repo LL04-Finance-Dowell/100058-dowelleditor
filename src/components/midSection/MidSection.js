@@ -77,6 +77,7 @@ const MidSection = () => {
     setRightSideDropDown,
     setMethod,
     deletePages,
+    setIsFinializeDisabled
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -662,6 +663,9 @@ const MidSection = () => {
           inputField.style.overflow = "overlay";
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
+          inputField.oninput = (e) =>{
+            setIsFinializeDisabled(false);
+          }
           inputField.onclick = (e) => {
             focuseddClassMaintain(e);
 
@@ -710,7 +714,9 @@ const MidSection = () => {
           imageField.style.overflow = "overlay";
           // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
           imageField.style.position = "relative";
-
+          imageField.oninput = (e) =>{
+            setIsFinializeDisabled(false);
+          }
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
             handleClicked("image2");
@@ -780,6 +786,9 @@ const MidSection = () => {
           function dateClick() {
             document.getElementById("date_picker")?.click();
           }
+          dateField.oninput = (e) =>{
+            setIsFinializeDisabled(false);
+          }
           dateField.onclick = (e) => {
             focuseddClassMaintain(e);
             handleClicked("calendar2");
@@ -843,7 +852,9 @@ const MidSection = () => {
           signField.style.overflow = "overlay";
           // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
           signField.style.position = "absolute";
-
+          signField.oninput = (e) =>{
+            setIsFinializeDisabled(false);
+          }
           signField.onclick = (e) => {
             focuseddClassMaintain(e);
             if (actionName != "template") {
@@ -918,7 +929,9 @@ const MidSection = () => {
           tableField.style.overflow = "overlay";
           // tableField.innerHTML = 'table';
           tableField.style.position = "absolute";
-
+          tableField.oninput = (e) =>{
+            setIsFinializeDisabled(false);
+          }
           tableField.onclick = (e) => {
             // focuseddClassMaintain(e);
 
@@ -1256,7 +1269,7 @@ const MidSection = () => {
 
       // inputField.innerText = `${postData.editTextField.value}`
 
-      // inputField.onchange = (event) => {
+      // inputField.oninput = (event) => {
       //   event.preventDefault();
       if (inputField.innerHTML[0]) {
         const editTextField = {
