@@ -21,6 +21,9 @@ import TableRightSidebar from "./TableRightSidebar";
 import DropDownRightSide from "./DropDownRightSide";
 import IframeRightSidebar from "./IframeRightSidebar";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RightMenu = () => {
   const { isClicked,
     setIsClicked,
@@ -92,6 +95,16 @@ function copyText(){
   textArea.select();
   document.execCommand('copy');   //No i18n
   document.body.removeChild(textArea);
+  toast('Text coppied', {
+    position: "top-right",
+    autoClose: 1000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
 }
 // copy text function end
 
@@ -308,6 +321,20 @@ function copyText(){
             </Button>
           </div> */}
           {/* <!-- Button trigger modal --> */}
+          <ToastContainer
+position="top-right"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
           <div className="mt-2 text-center pt-5">
 <button type="button" class="btn btn-success rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Export
