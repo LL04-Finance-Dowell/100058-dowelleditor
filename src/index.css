@@ -28,6 +28,15 @@ code {
 /* .remove-date-mergin {
   margin-top: 225px !important;
 } */
+.modal-backdrop{
+  z-index: -1 !important;
+}
+.modal-body {
+  word-wrap: break-word;
+}
+.modal-dialog{
+  top: 75 !important
+}
 .zIndex-two{
   z-index: 2 !important;
 }

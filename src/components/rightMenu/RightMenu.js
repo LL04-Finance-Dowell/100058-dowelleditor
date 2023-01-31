@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
-
+import {
+  FaCopy
+} from "react-icons/fa";
 import jwt_decode from "jwt-decode";
 // import jwt from 'jsonwebtoken';
 import sha256 from 'crypto-js/sha256';
@@ -66,6 +68,22 @@ var encodedData = base64url(stringifiedData);
 var exportToken = encodedHeader + "." + encodedData;
 console.log("test token", exportToken);
   // token creation end
+  // copy text function
+
+function copyText(){
+  let div = document.querySelector('.token_text');
+  let text = div.innerText;
+  let textArea  = document.createElement('textarea');
+  textArea.width  = "1px"; 
+  textArea.height = "1px";
+  textArea.background =  "transparents" ;
+  textArea.value = text;
+  document.body.append(textArea);
+  textArea.select();
+  document.execCommand('copy');   //No i18n
+  document.body.removeChild(textArea);
+}
+// copy text function end
 
   if (actionName == "document" && docMap) {
     setSidebar(true)
@@ -221,7 +239,7 @@ console.log("test token", exportToken);
         isClicked.iframe2 == false &&
         isClicked.dropdown2 == false && (
           <>
-          <div className="mt-2 text-center pt-5">
+          {/* <div className="mt-2 text-center pt-5">
             <Button
               variant="success"
               size="md"
@@ -231,7 +249,32 @@ console.log("test token", exportToken);
             >
               Export
             </Button>
-          </div>
+          </div> */}
+          {/* <!-- Button trigger modal --> */}
+          <div className="mt-2 text-center pt-5">
+<button type="button" class="btn btn-success rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Export
+</button>
+
+{/* <!-- Modal --> */}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Token</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body token_text">
+      {exportToken}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onClick={copyText} type="button" data-bs-dismiss="modal" class="copyBtn"><FaCopy color="gray" size={32} /></button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
           <div className="mt-2 text-center pt-5">
             <Button
