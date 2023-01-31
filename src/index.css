@@ -35,7 +35,8 @@ code {
   word-wrap: break-word;
 }
 .modal-dialog{
-  top: 75 !important
+  top: 75 !important;
+  padding-top: 10px;
 }
 .zIndex-two{
   z-index: 2 !important;

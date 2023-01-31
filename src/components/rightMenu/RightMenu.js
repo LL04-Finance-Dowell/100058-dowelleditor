@@ -6,12 +6,10 @@ import {
   FaCopy
 } from "react-icons/fa";
 import jwt_decode from "jwt-decode";
-// import jwt from 'jsonwebtoken';
-import sha256 from 'crypto-js/sha256';
-import hmacSHA512 from 'crypto-js/hmac-sha512';
-import Base64 from 'crypto-js/enc-base64';
 import CryptoJS from "crypto-js";
 import "./RightMenu.css";
+
+import Axios from "axios";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
 
@@ -24,7 +22,21 @@ import DropDownRightSide from "./DropDownRightSide";
 import IframeRightSidebar from "./IframeRightSidebar";
 
 const RightMenu = () => {
-  const { isClicked, setIsClicked, setSidebar, isFinializeDisabled, newToken, setNewToken } = useStateContext();
+  const { isClicked,
+    setIsClicked,
+    setSidebar,
+    isFinializeDisabled,
+    newToken,
+    setNewToken,
+    data,
+    setData,
+    title,
+    setTitle,
+    setFetchedData,
+    setIsLoading,
+    setItem,
+    setIsDataRetrieved,
+   } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -33,40 +45,38 @@ const RightMenu = () => {
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   // token creation code
-  // var tokenCreate = jwt.sign({ foo: 'bar' }, 'shhhhh');
-  // console.log('token for test', tokenCreate);
   function base64url(source) {
     // Encode in classical base64
     var encodedSource = CryptoJS.enc.Base64.stringify(source);
-  
+
     // Remove padding equal characters
     encodedSource = encodedSource.replace(/=+$/, '');
-  
+
     // Replace characters according to base64url specifications
     encodedSource = encodedSource.replace(/\+/g, '-');
     encodedSource = encodedSource.replace(/\//g, '_');
-  
+
     return encodedSource;
   }
 
-var header = {
-  "alg": "HS256",
-  "typ": "JWT"
-};
+  var header = {
+    "alg": "HS256",
+    "typ": "JWT"
+  };
 
-var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
-var encodedHeader = base64url(stringifiedHeader);
+  var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+  var encodedHeader = base64url(stringifiedHeader);
 
-var data = {
-  document_id: decoded.details._id,
-  action: actionName,
-}
+  var dataa = {
+    document_id: decoded.details._id,
+    action: actionName,
+  }
 
-var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
-var encodedData = base64url(stringifiedData);
+  var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
+  var encodedData = base64url(stringifiedData);
 
-var exportToken = encodedHeader + "." + encodedData;
-console.log("test token", exportToken);
+  var exportToken = encodedHeader + "." + encodedData;
+  console.log("test token", exportToken);
   // token creation end
   // copy text function
 
@@ -85,17 +95,64 @@ function copyText(){
 }
 // copy text function end
 
+
+
+  const getPostData = async () => {
+    const decodedTok = jwt_decode(exportToken);
+    console.log("tokkkkkkennn", decodedTok);
+    const response = await Axios.post(
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decodedTok.document_id,
+        action: decodedTok.action,
+      }
+    )
+      .then((res) => {
+        // Handling title
+        const loadedDataT = res.data;
+        console.log(res);
+
+        if (decoded.details.action === "template") {
+          setTitle(loadedDataT.template_name);
+        } else if (decoded.details.action === "document") {
+          setTitle(loadedDataT.document_name);
+        }
+
+        //Handling content
+        const loadedData = JSON.parse(res.data.content);
+        const pageData = res.data.page;
+        setItem(pageData);
+        console.log(loadedData);
+        console.log(loadedData[0][0]);
+        setData(loadedData[0][0]);
+        setIsDataRetrieved(true);
+        // setSort(loadedData[0][0]);
+        setIsLoading(false);
+        setFetchedData(loadedData[0][0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  
+  function handleToken() {
+    
+      getPostData()
+      
+  }
+
   if (actionName == "document" && docMap) {
     setSidebar(true)
     const delete_buttons = document.getElementsByClassName("remove_button");
     console.log(delete_buttons);
-    for(let d=0; d<delete_buttons?.length; d++){
+    for (let d = 0; d < delete_buttons?.length; d++) {
       console.log(delete_buttons[d]);
       delete_buttons[d].classList.add("disable_button")
     }
   }
 
-  if(newToken){
+  if (newToken) {
     setSidebar(true)
   }
 
@@ -195,41 +252,41 @@ function copyText(){
   return (
     <div className="fixed3">
       {actionName == "document" && docMap &&
-       isClicked.align2 == false &&
-       isClicked.image2 == false &&
-       isClicked.table2 == false &&
-       isClicked.signs2 == false &&
-       isClicked.calendar2 == false &&
-       isClicked.iframe2 == false &&
-       isClicked.dropdown2 == false && (
-        <>
-          <div className="mt-2 text-center pt-5">
-            <Button
-              variant="success"
-              size="md"
-              className="rounded px-5"
-              id="saving-button"
-              disabled = {isFinializeDisabled}
-              onClick={() => alert("Finilize Clicked")}
-            >
-              Finalize
-            </Button>
-          </div>
+        isClicked.align2 == false &&
+        isClicked.image2 == false &&
+        isClicked.table2 == false &&
+        isClicked.signs2 == false &&
+        isClicked.calendar2 == false &&
+        isClicked.iframe2 == false &&
+        isClicked.dropdown2 == false && (
+          <>
+            <div className="mt-2 text-center pt-5">
+              <Button
+                variant="success"
+                size="md"
+                className="rounded px-5"
+                id="saving-button"
+                disabled={isFinializeDisabled}
+                onClick={() => alert("Finilize Clicked")}
+              >
+                Finalize
+              </Button>
+            </div>
 
-          <div className="mt-2 text-center pt-5">
-            <Button
-              variant="danger"
-              size="md"
-              className="rounded px-5"
-              id="saving-button"
-              
-              onClick={() => alert("Rejcet Clicked")}
-            >
-              Reject
-            </Button>
-          </div>
-        </>
-      )}
+            <div className="mt-2 text-center pt-5">
+              <Button
+                variant="danger"
+                size="md"
+                className="rounded px-5"
+                id="saving-button"
+
+                onClick={() => alert("Rejcet Clicked")}
+              >
+                Reject
+              </Button>
+            </div>
+          </>
+        )}
       {newToken &&
         isClicked.align2 == false &&
         isClicked.image2 == false &&
@@ -276,17 +333,17 @@ function copyText(){
 </div>
 </div>
 
-          <div className="mt-2 text-center pt-5">
-            <Button
-              variant="success"
-              size="md"
-              className="rounded px-5"
-              id="saving-button"
-              onClick={() => alert("Import Clicked")}
-            >
-              Import
-            </Button>
-          </div>
+            <div className="mt-2 text-center pt-5">
+              <Button
+                variant="success"
+                size="md"
+                className="rounded px-5"
+                id="saving-button"
+                onClick={handleToken}
+              >
+                Import
+              </Button>
+            </div>
           </>
         )
       }

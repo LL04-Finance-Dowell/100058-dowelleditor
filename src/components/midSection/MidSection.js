@@ -79,6 +79,10 @@ const MidSection = () => {
     deletePages,
     setIsFinializeDisabled,
     newToken,
+    data,
+    setData,
+    isDataRetrieved,
+    setIsDataRetrieved
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -159,9 +163,7 @@ const MidSection = () => {
   // console.log(decoded);
 
   // const [isLoading, setIsLoading] = useState(true);
-  const [isDataRetrieved, setIsDataRetrieved] = useState(false);
-  const [data, setData] = useState([]);
-  const [sort, setSort] = useState([]);
+
   const getPostData = async () => {
     var decoded = jwt_decode(token);
     console.log(decoded);
@@ -188,7 +190,7 @@ const MidSection = () => {
         console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
-        setSort(loadedData[0][0]);
+        // setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0][0]);
         //  setData(oldArray => [...data, loadedData[0]]);

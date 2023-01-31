@@ -32,6 +32,11 @@ export const ContextProvider = ({ children }) => {
 
   const [isResizing, setIsResizing] = useState(false);
 
+  // Fetched Data
+  const [data, setData] = useState([]);
+  const [title, setTitle] = useState(["Untitled-file"]);
+  const [isDataRetrieved, setIsDataRetrieved] = useState(false);
+
   //Right Sidebar context
   const [signState, setSignState] = React.useState({ trimmedDataURL: null }); // Signature
 
@@ -126,6 +131,12 @@ export const ContextProvider = ({ children }) => {
         setIsFinializeDisabled,
         newToken,
         setNewToken,
+        data,
+        setData,
+        title,
+        setTitle,
+        isDataRetrieved,
+        setIsDataRetrieved
       }}
     >
       {children}

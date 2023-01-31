@@ -32,6 +32,9 @@ const Header = () => {
     setFetchedData,
     deletePages,
     setDeletepages,
+    title,
+    setTitle,
+    
   } = useStateContext();
   //   console.log(headerData);
 
@@ -348,56 +351,7 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   console.log("In header.js", decoded);
 
-  const [data, setData] = useState(["Untitled-file"]);
-  const getPostData = async () => {
-    const response = await Axios.post(
-      // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
-      // {
-      //   database: decoded.details.database,
-      //   collection: decoded.details.collection,
-      //   fields: decoded.details.field,
-      //   id: decoded.details._id,
-      // }
-      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
-      {
-        document_id: decoded.details._id,
-        action: decoded.details.action,
-      }
-    )
-      .then((res) => {
-        const loadedData = res.data;
-        console.log(res);
-
-        if (decoded.details.action === "template") {
-          setData(loadedData.template_name);
-        } else if (decoded.details.action === "document") {
-          setData(loadedData.document_name);
-        }
-      })
-      .catch((err) => {
-        // console.log(err);
-      });
-  };
-
-  let currentTitle = "Untitled-File";
-  // function currentTitleFinder() {
-  //   if( decoded.details.action === "template"){
-  //     // currentTitle = decoded.details.update_field.template_name
-  //     currentTitle = data
-
-  //     console.log("Is template title");
-  //    }
-
-  // //   if(decoded.details.action === "document"){
-  // //     // currentTitle = decoded.details.update_field.document_name
-  // //     currentTitle = data
-  // //   }
-  // }
-
-  useEffect(() => {
-    getPostData();
-  }, []);
-
+  
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -544,7 +498,7 @@ const Header = () => {
             >
               {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-              {data && data}
+              {title && title}
             </div>
           </Col>
           <Col className="d-flex align-items-center justify-content-end header_user">
