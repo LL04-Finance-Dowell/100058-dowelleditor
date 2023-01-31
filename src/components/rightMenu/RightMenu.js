@@ -21,6 +21,9 @@ import TableRightSidebar from "./TableRightSidebar";
 import DropDownRightSide from "./DropDownRightSide";
 import IframeRightSidebar from "./IframeRightSidebar";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RightMenu = () => {
   const { isClicked,
     setIsClicked,
@@ -80,20 +83,30 @@ const RightMenu = () => {
   // token creation end
   // copy text function
 
-  function copyText() {
-    let div = document.querySelector('.token_text');
-    let text = div.innerText;
-    let textArea = document.createElement('textarea');
-    textArea.width = "1px";
-    textArea.height = "1px";
-    textArea.background = "transparents";
-    textArea.value = text;
-    document.body.append(textArea);
-    textArea.select();
-    document.execCommand('copy');   //No i18n
-    document.body.removeChild(textArea);
-  }
-  // copy text function end
+function copyText(){
+  let div = document.querySelector('.token_text');
+  let text = div.innerText;
+  let textArea  = document.createElement('textarea');
+  textArea.width  = "1px"; 
+  textArea.height = "1px";
+  textArea.background =  "transparents" ;
+  textArea.value = text;
+  document.body.append(textArea);
+  textArea.select();
+  document.execCommand('copy');   //No i18n
+  document.body.removeChild(textArea);
+  toast('Text coppied', {
+    position: "top-right",
+    autoClose: 1000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+}
+// copy text function end
 
 
 
@@ -313,11 +326,25 @@ const RightMenu = () => {
               Export
             </Button>
           </div> */}
-            {/* <!-- Button trigger modal --> */}
-            <div className="mt-2 text-center pt-5">
-              <button type="button" class="btn btn-success rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Export
-              </button>
+          {/* <!-- Button trigger modal --> */}
+          <ToastContainer
+position="top-right"
+autoClose={1000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
+          <div className="mt-2 text-center pt-5">
+<button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Export
+</button>
 
               {/* <!-- Modal --> */}
               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
