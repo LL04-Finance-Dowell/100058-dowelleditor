@@ -55,7 +55,8 @@ export const ContextProvider = ({ children }) => {
   const handleClicked = (clicked) => {
     setIsClicked({ ...isClicked, [clicked]: true });
   };
-  const [isLoading, setIsLoading] = useState(true);
+  const [newToken, setNewToken] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFlipClicked, setIsFlipClicked] = useState(true);
   const [sidebar, setSidebar] = useState(false);
   const [rightSideDatemenu, setRightSideDateMenu] = useState(false);
@@ -122,7 +123,9 @@ export const ContextProvider = ({ children }) => {
         deletePages,
         setDeletepages,
         isFinializeDisabled, 
-        setIsFinializeDisabled
+        setIsFinializeDisabled,
+        newToken,
+        setNewToken,
       }}
     >
       {children}

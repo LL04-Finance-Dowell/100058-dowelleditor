@@ -23,7 +23,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 export const editSec_midSec_ref = document.querySelector(".editSec_midSec");
 
 const EditSection = () => {
-  const { isClicked, sidebar } = useStateContext();
+  const { isClicked, sidebar, newToken, setNewToken } = useStateContext();
 
   const newPageButton = document.querySelector(".new-page-btn");
 

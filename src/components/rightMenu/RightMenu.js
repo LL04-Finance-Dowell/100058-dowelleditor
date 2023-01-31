@@ -18,7 +18,7 @@ import DropDownRightSide from "./DropDownRightSide";
 import IframeRightSidebar from "./IframeRightSidebar";
 
 const RightMenu = () => {
-  const { isClicked, setIsClicked, setSidebar, isFinializeDisabled } = useStateContext();
+  const { isClicked, setIsClicked, setSidebar, isFinializeDisabled, newToken, setNewToken } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -35,6 +35,10 @@ const RightMenu = () => {
       console.log(delete_buttons[d]);
       delete_buttons[d].classList.add("disable_button")
     }
+  }
+
+  if(newToken){
+    setSidebar(true)
   }
 
   useEffect(() => {
@@ -168,6 +172,41 @@ const RightMenu = () => {
           </div>
         </>
       )}
+      {newToken &&
+        isClicked.align2 == false &&
+        isClicked.image2 == false &&
+        isClicked.table2 == false &&
+        isClicked.signs2 == false &&
+        isClicked.calendar2 == false &&
+        isClicked.iframe2 == false &&
+        isClicked.dropdown2 == false && (
+          <>
+          <div className="mt-2 text-center pt-5">
+            <Button
+              variant="success"
+              size="md"
+              className="rounded px-5"
+              id="saving-button"
+              onClick={() => alert("Export Clicked")}
+            >
+              Export
+            </Button>
+          </div>
+
+          <div className="mt-2 text-center pt-5">
+            <Button
+              variant="success"
+              size="md"
+              className="rounded px-5"
+              id="saving-button"
+              onClick={() => alert("Import Clicked")}
+            >
+              Import
+            </Button>
+          </div>
+          </>
+        )
+      }
       {isClicked.align2 && <AlignRightSide />}
       {isClicked.image2 && <ImageRightSidebar />}
       {isClicked.table2 && <TableRightSidebar />}

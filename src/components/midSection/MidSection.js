@@ -77,7 +77,8 @@ const MidSection = () => {
     setRightSideDropDown,
     setMethod,
     deletePages,
-    setIsFinializeDisabled
+    setIsFinializeDisabled,
+    newToken,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -198,9 +199,9 @@ const MidSection = () => {
         // console.log(err);
       });
   };
-  useEffect(() => {
-    getPostData();
-  }, []);
+  // useEffect(() => {
+  //   getPostData();
+  // }, []);
 
   // console.log(JSON.stringify(postData));
 
