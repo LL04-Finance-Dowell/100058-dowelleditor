@@ -4,7 +4,11 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 
 import jwt_decode from "jwt-decode";
-
+// import jwt from 'jsonwebtoken';
+import sha256 from 'crypto-js/sha256';
+import hmacSHA512 from 'crypto-js/hmac-sha512';
+import Base64 from 'crypto-js/enc-base64';
+import CryptoJS from "crypto-js";
 import "./RightMenu.css";
 
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -26,6 +30,42 @@ const RightMenu = () => {
 
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  // token creation code
+  // var tokenCreate = jwt.sign({ foo: 'bar' }, 'shhhhh');
+  // console.log('token for test', tokenCreate);
+  function base64url(source) {
+    // Encode in classical base64
+    var encodedSource = CryptoJS.enc.Base64.stringify(source);
+  
+    // Remove padding equal characters
+    encodedSource = encodedSource.replace(/=+$/, '');
+  
+    // Replace characters according to base64url specifications
+    encodedSource = encodedSource.replace(/\+/g, '-');
+    encodedSource = encodedSource.replace(/\//g, '_');
+  
+    return encodedSource;
+  }
+
+var header = {
+  "alg": "HS256",
+  "typ": "JWT"
+};
+
+var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+var encodedHeader = base64url(stringifiedHeader);
+
+var data = {
+  document_id: decoded.details._id,
+  action: actionName,
+}
+
+var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(data));
+var encodedData = base64url(stringifiedData);
+
+var exportToken = encodedHeader + "." + encodedData;
+console.log("test token", exportToken);
+  // token creation end
 
   if (actionName == "document" && docMap) {
     setSidebar(true)
@@ -187,7 +227,7 @@ const RightMenu = () => {
               size="md"
               className="rounded px-5"
               id="saving-button"
-              onClick={() => alert("Export Clicked")}
+              onClick={() => alert(exportToken)}
             >
               Export
             </Button>
