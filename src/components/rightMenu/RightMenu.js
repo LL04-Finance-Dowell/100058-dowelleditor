@@ -83,81 +83,81 @@ const RightMenu = () => {
   // token creation end
   // copy text function
 
-function copyText(){
-  let div = document.querySelector('.token_text');
-  let text = div.innerText;
-  let textArea  = document.createElement('textarea');
-  textArea.width  = "1px"; 
-  textArea.height = "1px";
-  textArea.background =  "transparents" ;
-  textArea.value = text;
-  document.body.append(textArea);
-  textArea.select();
-  document.execCommand('copy');   //No i18n
-  document.body.removeChild(textArea);
-  toast('Text coppied', {
-    position: "top-right",
-    autoClose: 1000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
+  function copyText() {
+    let div = document.querySelector('.token_text');
+    let text = div.innerText;
+    let textArea = document.createElement('textarea');
+    textArea.width = "1px";
+    textArea.height = "1px";
+    textArea.background = "transparents";
+    textArea.value = text;
+    document.body.append(textArea);
+    textArea.select();
+    document.execCommand('copy');   //No i18n
+    document.body.removeChild(textArea);
+    toast('Text coppied', {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
     });
-}
-// copy text function end
+  }
+  // copy text function end
 
 
 
- 
+
 
 
   function handleToken() {
-    
+    setIsLoading(true)
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-    console.log("tokkkkkkennn", tokenn);
-    const getPostData = async () => {
-    
-      const response = await Axios.post(
-        "https://100058.pythonanywhere.com/api/get-data-from-collection/",
-        {
-          document_id: decodedTok.document_id,
-          action: decodedTok.action,
-        }
-      )
-        .then((res) => {
-          // Handling title
-          const loadedDataT = res.data;
-          console.log(res);
-  
-          if (decoded.details.action === "template") {
-            setTitle(loadedDataT.template_name);
-          } else if (decoded.details.action === "document") {
-            setTitle(loadedDataT.document_name);
+      console.log("tokkkkkkennn", tokenn);
+      const getPostData = async () => {
+
+        const response = await Axios.post(
+          "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+          {
+            document_id: decodedTok.document_id,
+            action: decodedTok.action,
           }
-  
-          //Handling content
-          const loadedData = JSON.parse(res.data.content);
-          const pageData = res.data.page;
-          setItem(pageData);
-          console.log(loadedData);
-          console.log(loadedData[0][0]);
-          setData(loadedData[0][0]);
-          setIsDataRetrieved(true);
-          // setSort(loadedData[0][0]);
-          setIsLoading(false);
-          setFetchedData(loadedData[0][0]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getPostData()
+        )
+          .then((res) => {
+            // Handling title
+            const loadedDataT = res.data;
+            console.log(res);
+
+            if (decoded.details.action === "template") {
+              setTitle(loadedDataT.template_name);
+            } else if (decoded.details.action === "document") {
+              setTitle(loadedDataT.document_name);
+            }
+
+            //Handling content
+            const loadedData = JSON.parse(res.data.content);
+            const pageData = res.data.page;
+            setItem(pageData);
+            console.log(loadedData);
+            console.log(loadedData[0][0]);
+            setData(loadedData[0][0]);
+            setIsDataRetrieved(true);
+            // setSort(loadedData[0][0]);
+            setIsLoading(false);
+            setFetchedData(loadedData[0][0]);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      getPostData()
     }
-    
+
 
   }
 
@@ -326,25 +326,25 @@ function copyText(){
               Export
             </Button>
           </div> */}
-          {/* <!-- Button trigger modal --> */}
-          <ToastContainer
-position="top-right"
-autoClose={1000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
-          <div className="mt-2 text-center pt-5">
-<button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Export
-</button>
+            {/* <!-- Button trigger modal --> */}
+            <ToastContainer
+              position="top-right"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer />
+            <div className="mt-2 text-center pt-5">
+              <button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Export
+              </button>
 
               {/* <!-- Modal --> */}
               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
