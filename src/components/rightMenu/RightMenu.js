@@ -36,7 +36,7 @@ const RightMenu = () => {
     setIsLoading,
     setItem,
     setIsDataRetrieved,
-   } = useStateContext();
+  } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -80,66 +80,72 @@ const RightMenu = () => {
   // token creation end
   // copy text function
 
-function copyText(){
-  let div = document.querySelector('.token_text');
-  let text = div.innerText;
-  let textArea  = document.createElement('textarea');
-  textArea.width  = "1px"; 
-  textArea.height = "1px";
-  textArea.background =  "transparents" ;
-  textArea.value = text;
-  document.body.append(textArea);
-  textArea.select();
-  document.execCommand('copy');   //No i18n
-  document.body.removeChild(textArea);
-}
-// copy text function end
+  function copyText() {
+    let div = document.querySelector('.token_text');
+    let text = div.innerText;
+    let textArea = document.createElement('textarea');
+    textArea.width = "1px";
+    textArea.height = "1px";
+    textArea.background = "transparents";
+    textArea.value = text;
+    document.body.append(textArea);
+    textArea.select();
+    document.execCommand('copy');   //No i18n
+    document.body.removeChild(textArea);
+  }
+  // copy text function end
 
 
 
-  const getPostData = async () => {
-    const decodedTok = jwt_decode(exportToken);
-    console.log("tokkkkkkennn", decodedTok);
-    const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
-      {
-        document_id: decodedTok.document_id,
-        action: decodedTok.action,
-      }
-    )
-      .then((res) => {
-        // Handling title
-        const loadedDataT = res.data;
-        console.log(res);
+ 
 
-        if (decoded.details.action === "template") {
-          setTitle(loadedDataT.template_name);
-        } else if (decoded.details.action === "document") {
-          setTitle(loadedDataT.document_name);
-        }
 
-        //Handling content
-        const loadedData = JSON.parse(res.data.content);
-        const pageData = res.data.page;
-        setItem(pageData);
-        console.log(loadedData);
-        console.log(loadedData[0][0]);
-        setData(loadedData[0][0]);
-        setIsDataRetrieved(true);
-        // setSort(loadedData[0][0]);
-        setIsLoading(false);
-        setFetchedData(loadedData[0][0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  
   function handleToken() {
     
-      getPostData()
-      
+    var tokenn = prompt("Paste your token here");
+    if (tokenn != null) {
+      const decodedTok = jwt_decode(tokenn);
+    console.log("tokkkkkkennn", tokenn);
+    const getPostData = async () => {
+    
+      const response = await Axios.post(
+        "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+        {
+          document_id: decodedTok.document_id,
+          action: decodedTok.action,
+        }
+      )
+        .then((res) => {
+          // Handling title
+          const loadedDataT = res.data;
+          console.log(res);
+  
+          if (decoded.details.action === "template") {
+            setTitle(loadedDataT.template_name);
+          } else if (decoded.details.action === "document") {
+            setTitle(loadedDataT.document_name);
+          }
+  
+          //Handling content
+          const loadedData = JSON.parse(res.data.content);
+          const pageData = res.data.page;
+          setItem(pageData);
+          console.log(loadedData);
+          console.log(loadedData[0][0]);
+          setData(loadedData[0][0]);
+          setIsDataRetrieved(true);
+          // setSort(loadedData[0][0]);
+          setIsLoading(false);
+          setFetchedData(loadedData[0][0]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getPostData()
+    }
+    
+
   }
 
   if (actionName == "document" && docMap) {
@@ -296,7 +302,7 @@ function copyText(){
         isClicked.iframe2 == false &&
         isClicked.dropdown2 == false && (
           <>
-          {/* <div className="mt-2 text-center pt-5">
+            {/* <div className="mt-2 text-center pt-5">
             <Button
               variant="success"
               size="md"
@@ -307,31 +313,31 @@ function copyText(){
               Export
             </Button>
           </div> */}
-          {/* <!-- Button trigger modal --> */}
-          <div className="mt-2 text-center pt-5">
-<button type="button" class="btn btn-success rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Export
-</button>
+            {/* <!-- Button trigger modal --> */}
+            <div className="mt-2 text-center pt-5">
+              <button type="button" class="btn btn-success rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Export
+              </button>
 
-{/* <!-- Modal --> */}
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Token</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body token_text">
-      {exportToken}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button onClick={copyText} type="button" data-bs-dismiss="modal" class="copyBtn"><FaCopy color="gray" size={32} /></button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+              {/* <!-- Modal --> */}
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Token</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body token_text">
+                      {exportToken}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button onClick={copyText} type="button" data-bs-dismiss="modal" class="copyBtn"><FaCopy color="gray" size={32} /></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-2 text-center pt-5">
               <Button
