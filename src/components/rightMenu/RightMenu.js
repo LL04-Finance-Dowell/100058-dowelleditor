@@ -152,6 +152,7 @@ const RightMenu = () => {
             setFetchedData(loadedData[0][0]);
           })
           .catch((err) => {
+            setIsLoading(false);
             console.log(err);
           });
       };
@@ -270,7 +271,7 @@ const RightMenu = () => {
 
   return (
     <div className="fixed3">
-      {actionName == "document" && docMap &&
+      {actionName == "document" && docMap && data != '' &&
         isClicked.align2 == false &&
         isClicked.image2 == false &&
         isClicked.table2 == false &&
