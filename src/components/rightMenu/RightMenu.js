@@ -108,8 +108,48 @@ const RightMenu = () => {
   }
   // copy text function end
 
+  const getPostData = async () => {
 
+    const response = await Axios.post(
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
+    )
+      .then((res) => {
+        // Handling title
+        const loadedDataT = res.data;
+        console.log(res);
 
+        if (decoded.details.action === "template") {
+          setTitle(loadedDataT.template_name);
+        } else if (decoded.details.action === "document") {
+          setTitle(loadedDataT.document_name);
+        }
+
+        //Handling content
+        const loadedData = JSON.parse(res.data.content);
+        const pageData = res.data.page;
+        setItem(pageData);
+        console.log(loadedData);
+        console.log(loadedData[0][0]);
+        setData(loadedData[0][0]);
+        setIsDataRetrieved(true);
+        // setSort(loadedData[0][0]);
+        setIsLoading(false);
+        setFetchedData(loadedData[0][0]);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    getPostData();
+  }, []);
 
 
 
