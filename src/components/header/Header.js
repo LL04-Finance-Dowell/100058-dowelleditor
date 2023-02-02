@@ -3,6 +3,11 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Header.css";
 import { headerData } from "../../data/data";
 import user from "../../assets/headerIcons/user.png";
+import {
+  FaCopy
+} from "react-icons/fa";
+import CryptoJS from "crypto-js";
+
 
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
@@ -34,7 +39,9 @@ const Header = () => {
     setDeletepages,
     title,
     setTitle,
-    
+    setData,
+    setIsDataRetrieved,
+
   } = useStateContext();
   //   //console.log(headerData);
 
@@ -351,7 +358,7 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   //console.log("In header.js", decoded);
 
-  
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -425,7 +432,165 @@ const Header = () => {
     setIsFlipClicked(!isFlipClicked);
   };
 
-  //console.log("page count check", item);
+  // token creation code
+  function base64url(source) {
+    // Encode in classical base64
+    var encodedSource = CryptoJS.enc.Base64.stringify(source);
+
+    // Remove padding equal characters
+    encodedSource = encodedSource.replace(/=+$/, '');
+
+    // Replace characters according to base64url specifications
+    encodedSource = encodedSource.replace(/\+/g, '-');
+    encodedSource = encodedSource.replace(/\//g, '_');
+
+    return encodedSource;
+  }
+
+  var header = {
+    "alg": "HS256",
+    "typ": "JWT"
+  };
+
+  var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
+  var encodedHeader = base64url(stringifiedHeader);
+
+  var dataa = {
+    document_id: decoded.details._id,
+    action: actionName,
+  }
+
+  var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
+  var encodedData = base64url(stringifiedData);
+
+  var exportToken = encodedHeader + "." + encodedData;
+  console.log("test token", exportToken);
+  // token creation end
+
+  const getPostData = async () => {
+
+    const response = await Axios.post(
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      {
+        document_id: decoded.details._id,
+        action: decoded.details.action,
+      }
+    )
+      .then((res) => {
+        // Handling title
+        const loadedDataT = res.data;
+        console.log(res);
+
+        if (decoded.details.action === "template") {
+          setTitle(loadedDataT.template_name);
+        } else if (decoded.details.action === "document") {
+          setTitle(loadedDataT.document_name);
+        }
+
+        //Handling content
+        const loadedData = JSON.parse(res.data.content);
+        const pageData = res.data.page;
+        setItem(pageData);
+        console.log(loadedData);
+        console.log(loadedData[0][0]);
+        setData(loadedData[0][0]);
+        setIsDataRetrieved(true);
+        // setSort(loadedData[0][0]);
+        setIsLoading(false);
+        setFetchedData(loadedData[0][0]);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    getPostData();
+  }, []);
+
+
+  // copy text function
+
+  function copyText() {
+    let div = document.querySelector('.token_text');
+    let text = div.innerText;
+    let textArea = document.createElement('textarea');
+    textArea.width = "1px";
+    textArea.height = "1px";
+    textArea.background = "transparents";
+    textArea.value = text;
+    document.body.append(textArea);
+    textArea.select();
+    document.execCommand('copy');   //No i18n
+    document.body.removeChild(textArea);
+    toast('Text coppied', {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  // copy text function end
+
+
+  function handleToken() {
+    setIsLoading(true)
+    var tokenn = prompt("Paste your token here");
+    if (tokenn != null) {
+      const decodedTok = jwt_decode(tokenn);
+      console.log("tokkkkkkennn", tokenn);
+      const getPostData = async () => {
+
+        const response = await Axios.post(
+          "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+          {
+            document_id: decodedTok.document_id,
+            action: decodedTok.action,
+          }
+        )
+          .then((res) => {
+            // Handling title
+            const loadedDataT = res.data;
+            console.log(res);
+
+            if (decoded.details.action === "template") {
+              setTitle(loadedDataT.template_name);
+            } else if (decoded.details.action === "document") {
+              setTitle(loadedDataT.document_name);
+            }
+
+            //Handling content
+            const loadedData = JSON.parse(res.data.content);
+            const pageData = res.data.page;
+            setItem(pageData);
+            console.log(loadedData);
+            console.log(loadedData[0][0]);
+            setData(loadedData[0][0]);
+            setIsDataRetrieved(true);
+            // setSort(loadedData[0][0]);
+            setIsLoading(false);
+            setFetchedData(loadedData[0][0]);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
+          });
+      };
+      getPostData()
+    }
+
+
+  }
+
+
+
+  console.log("page count check", item);
   return (
     <div
       className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
@@ -501,7 +666,48 @@ const Header = () => {
               {title && title}
             </div>
           </Col>
+          <Col>
+            <div className="right_header">
+              <div className="mt-1 text-center p-2">
+                <button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Export
+                </button>
+
+                {/* <!-- Modal --> */}
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Token</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body token_text">
+                        {exportToken}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button onClick={copyText} type="button" data-bs-dismiss="modal" class="copyBtn"><FaCopy color="gray" size={32} /></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-1 text-center p-2">
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="rounded px-5"
+                  id="saving-button"
+                  onClick={handleToken}
+                >
+                  Import
+                </Button>
+              </div>
+            </div>
+          </Col>
           <Col className="d-flex align-items-center justify-content-end header_user">
+
             <ToastContainer size={5} />
             <span className="badge bg-warning">
               {actionName == "template" ? "Template" : "Document"}

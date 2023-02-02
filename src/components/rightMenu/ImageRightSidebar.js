@@ -28,16 +28,16 @@ const ImageRightSidebar = () => {
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
-    const iamgeElement = document.querySelector(".focussed");
-  if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
-    if(iamgeElement.getAttribute("style")){
-      if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
-          alert("Not Empty");
-      } else {
-          alert("Empty");
-      }
-  }
-  }
+  //   const iamgeElement = document.querySelector(".focussed");
+  // if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
+  //   if(iamgeElement.getAttribute("style")){
+  //     if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
+  //         alert("Not Empty");
+  //     } else {
+  //         alert("Empty");
+  //     }
+  // }
+  // }
   };
 
   function removeImage() {
