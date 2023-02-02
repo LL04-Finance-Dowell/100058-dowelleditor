@@ -4,7 +4,7 @@ import EditSection from "../components/editSection/EditSection";
 
 const HomePage = () => {
   const homeElem = document.getElementById("homeID");
-  console.log(homeElem);
+  //console.log(homeElem);
   return (
     <div className="home" id="homeID">
       <div className="home_header fixed">

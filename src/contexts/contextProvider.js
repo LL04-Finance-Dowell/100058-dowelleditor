@@ -42,7 +42,7 @@ export const ContextProvider = ({ children }) => {
 
   const [startDate, setStartDate] = useState(new Date()); // Calendar
 
-  // console.log("fetchedData", fetchedData);
+  // //console.log("fetchedData", fetchedData);
   const [dropdownName, setDropdownName] = useState("Dropdown Name");
   const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
   const [dropdownItems, setDropdownItems] = useState("");
@@ -76,7 +76,7 @@ export const ContextProvider = ({ children }) => {
 
   const [item, setItem] = useState(["div_1"]);
 
-  //   console.log("item check", item);
+  //   //console.log("item check", item);
 
   return (
     <StateContext.Provider

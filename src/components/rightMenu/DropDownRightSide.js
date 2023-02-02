@@ -22,8 +22,8 @@ const DropDownRightSide = () => {
 
   const dropdownField = document.querySelector(".focussed");
   if(dropdownField){
-    console.log(dropdownField.firstElementChild);
-    console.log(dropdownField.lastElementChild);
+    //console.log(dropdownField.firstElementChild);
+    //console.log(dropdownField.lastElementChild);
   }
 
   // Dropdown Name

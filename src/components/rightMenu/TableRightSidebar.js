@@ -25,7 +25,7 @@ const TableRightSidebar = () => {
   const handleDropp = (e) => {
     e.preventDefault();
     const typeOfOperation = e.dataTransfer.getData("text/plain");
-    console.log("cell has been dropped on " + typeOfOperation);
+    //console.log("cell has been dropped on " + typeOfOperation);
 
     if (typeOfOperation === "TEXT_INPUT") {
       let inputField = document.createElement("div");
@@ -143,7 +143,7 @@ const TableRightSidebar = () => {
 
     var tableDiv = document.querySelector(".focussed");
 
-    console.log(table);
+    //console.log(table);
     for (var rowIndex = 0; rowIndex < row; rowIndex++) {
       var tr = document.createElement("tr");
 
@@ -166,7 +166,7 @@ const TableRightSidebar = () => {
         cells[i].ondragover = function (e) {
           e.preventDefault();
           const afterElement = getDragAfterElement(cells[i], e.clientY);
-          console.log(afterElement);
+          //console.log(afterElement);
           const draggable = document.querySelector(".dragging");
           cells[i].appendChild(draggable);
         };
@@ -178,8 +178,8 @@ const TableRightSidebar = () => {
             (closest, child) => {
               const box = td.getBoundingClientRect();
               const offset = y - box.top - box.height / 2;
-              console.log(box);
-              console.log(offset);
+              //console.log(box);
+              //console.log(offset);
               if (offset < 0 && offset > closest.offset) {
                 return { offset: offset, element: child };
               } else {
@@ -208,7 +208,7 @@ const TableRightSidebar = () => {
           input.style.backgroundColor = "LightGoldenRodYellow";
 
           // var org_text = input.parentElement.getAttribute("data-text");
-          // console.log("orginal text form on click", org_text);
+          // //console.log("orginal text form on click", org_text);
 
           input.onblur = function () {
             var td = input.parentElement;
@@ -265,7 +265,7 @@ const TableRightSidebar = () => {
     //   document.activeElement.remove()
     // }
   }
-  console.log("table", document.getElementById("table"));
+  //console.log("table", document.getElementById("table"));
   // document.getElementById('make').addEventListener("click", makeTable)
   return (
     <>

@@ -37,9 +37,18 @@ code {
 .modal-dialog{
   top: 45px !important;
   padding-top: 10px;
+  z-index: 3;
+}
+.modal-content{
+  /* top: 45px !important;
+  padding-top: 10px; */
+  z-index: 3;
 }
 .zIndex-two{
   z-index: 2 !important;
+}
+.zIndexThree{
+  z-index: 3 !important;
 }
 @media screen and (max-width: 992px) {
 .fixed3 {

@@ -12,13 +12,32 @@ const ImageRightSidebar = () => {
   const addImageButtonInput = useRef(null);
 
   var uploadedImage = "";
-
+  const iamgeElement = document.querySelector(".focussed");
+  if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
+    if(iamgeElement.getAttribute("style")){
+      if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
+          alert("Not Empty");
+      } else {
+          alert("Empty");
+      }
+  }
+  }
   //clicked choose file button
   const chooseFileClick = () => {
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
+    const iamgeElement = document.querySelector(".focussed");
+  if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
+    if(iamgeElement.getAttribute("style")){
+      if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
+          alert("Not Empty");
+      } else {
+          alert("Empty");
+      }
+  }
+  }
   };
 
   function removeImage() {

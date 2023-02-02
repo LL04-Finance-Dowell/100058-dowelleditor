@@ -106,8 +106,8 @@ const MidSection = () => {
       const holderDIV = document.getElementsByClassName("holderDIV");
       const holderr = document.getElementsByClassName("holder-menu");
       const resizerr = document.getElementsByClassName("resizeBtn");
-      console.log("mouseDown inside if condition", event.target.id);
-      // console.log("mouseDown inside if condition", midSectionRef.current.id);
+      //console.log("mouseDown inside if condition", event.target.id);
+      // //console.log("mouseDown inside if condition", midSectionRef.current.id);
 
       if (event?.target?.id === midSectionRef?.current?.id) {
         // holderDIV.classList.remove('focussedd')
@@ -133,9 +133,9 @@ const MidSection = () => {
 
 
         const divsArray = document.getElementsByClassName("enable_pointer_event");
-        console.log(divsArray);
-        console.log("mouseDown inside if condition", event.target);
-        // console.log("mouseDown inside if condition", editSec_midSec_ref);
+        //console.log(divsArray);
+        //console.log("mouseDown inside if condition", event.target);
+        // //console.log("mouseDown inside if condition", editSec_midSec_ref);
       }
     });
   }, []);
@@ -160,13 +160,13 @@ const MidSection = () => {
   // const fields = searchParams.get('fields');
   // const token = searchParams.get("token");
   // var decoded = jwt_decode(token);
-  // console.log(decoded);
+  // //console.log(decoded);
 
   // const [isLoading, setIsLoading] = useState(true);
 
   const getPostData = async () => {
     var decoded = jwt_decode(token);
-    console.log(decoded);
+    //console.log(decoded);
     const response = await Axios.post(
       // "https://100058.pythonanywhere.com/api/get-data-by-collection/",
       // {
@@ -186,8 +186,8 @@ const MidSection = () => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        console.log(loadedData);
-        console.log(loadedData[0][0]);
+        //console.log(loadedData);
+        //console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
         // setSort(loadedData[0][0]);
@@ -197,24 +197,24 @@ const MidSection = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log("error response from midsection get request", err);
-        // console.log(err);
+        //console.log("error response from midsection get request", err);
+        // //console.log(err);
       });
   };
   // useEffect(() => {
   //   getPostData();
   // }, []);
 
-  // console.log(JSON.stringify(postData));
+  // //console.log(JSON.stringify(postData));
 
   useEffect(() => {
     if (data !== undefined) {
-      console.log(data);
+      //console.log(data);
 
       onPost();
       // onParagraphPost()
     } else {
-      console.log("loading data");
+      //console.log("loading data");
     }
   }, [isDataRetrieved]);
 
@@ -325,7 +325,7 @@ const MidSection = () => {
 
   const dragElementOverPage = (event) => {
     let holder;
-    console.log("dragElement", event);
+    //console.log("dragElement", event);
     if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
@@ -359,15 +359,15 @@ const MidSection = () => {
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev) {
-        console.log(ev);
+        //console.log(ev);
         ev.preventDefault();
         const el = document.getElementById("midSection_container");
         const midsectionRect = el.getBoundingClientRect();
-        console.log(
-          midsectionRect.left,
-          midsectionRect.top,
-          midsectionRect.right
-        );
+        //console.log(
+        //   midsectionRect.left,
+        //   midsectionRect.top,
+        //   midsectionRect.right
+        // );
         //  screenX: 531, screenY: 175, clientX: 531, Top-left
         //  screenX: 1061, screenY: 154, Top right
         if (
@@ -375,7 +375,7 @@ const MidSection = () => {
           ev.screenY > midsectionRect.top &&
           ev.screenX < midsectionRect.right
         ) {
-          console.log("checking motion");
+          //console.log("checking motion");
           const diffX = ev.screenX - initX;
           const diffY = ev.screenY - initY;
           holder.style.top = holderPos.top + diffY + "px";
@@ -430,7 +430,7 @@ const MidSection = () => {
   }
 
   function getHolderDIV(measure, i, idMatch) {
-    console.log("from holder div", i);
+    //console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
     // holderDIV.style.border = '1px dotted rgb(255 191 0)';
@@ -446,13 +446,13 @@ const MidSection = () => {
     holderDIV.style.flexDirection = "column";
     // holderDIV.style.border = "2px dotted gray";
     holderDIV.tabIndex = "1";
-    // console.log("measure", measure);
+    // //console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left= measure.left;
     holderDIV.style.top = measure.top;
     holderDIV.classList.add(`page${i}`);
-    console.log(idMatch);
+    //console.log(idMatch);
     if(idMatch?.length>0) {
       holderDIV.classList.add(`enable_pointer_event`)
       holderDIV.style.border = '1px solid green !important'
@@ -491,7 +491,7 @@ const MidSection = () => {
     );
 
     holderDIV.onresize = (evntt) => {
-      console.log("Holder resized");
+      //console.log("Holder resized");
     };
     // }
 
@@ -526,9 +526,9 @@ const MidSection = () => {
 
     // if (!isTemplate) {
     //   if (currUser == measure.auth_user) {
-    //     console.log("They are equal");
-    //     console.log(measure.auth_user);
-    //     console.log(currUser);
+    //     //console.log("They are equal");
+    //     //console.log(measure.auth_user);
+    //     //console.log(currUser);
 
     //   }
 
@@ -637,9 +637,9 @@ const MidSection = () => {
       // }
       // arrayData.forEach((element) => {
       pageNo++;
-      console.log("data" + [p], fetchedData[p]);
+      //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
-        console.log("each content", element);
+        //console.log("each content", element);
         if (element.type === "TEXT_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -702,7 +702,7 @@ const MidSection = () => {
             top: element.topp ,
             auth_user: curr_user,
           };
-          console.log("measure from image input", measure);
+          //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
@@ -789,18 +789,20 @@ const MidSection = () => {
           function dateClick() {
             document.getElementById("date_picker")?.click();
           }
-          dateField.oninput = (e) =>{
-            setIsFinializeDisabled(false);
-          }
+          // let dateFieldInnerText = "";
+          // dateField.oninput = (e) =>{
+          //   setIsFinializeDisabled(false);
+          // }
           dateField.onclick = (e) => {
+            // dateFieldInnerText = e?.target?.innerText;
             focuseddClassMaintain(e);
             handleClicked("calendar2");
             setRightSideDateMenu(false);
-            console.log("innerText", e.target.innerText);
+            //console.log("innerText", e.target.innerText);
             if (e.target.innerText != "mm/dd/yyyy") {
               if (e.target.innerText.includes("/")) {
                 const setDate = new Date(e.target.innerText);
-                console.log("First from Midsection", setDate);
+                //console.log("First from Midsection", setDate);
                 setMethod("first");
                 setStartDate(setDate);
               } else {
@@ -810,7 +812,7 @@ const MidSection = () => {
                   setMethod("second");
                 }
                 const setDate = new Date(e.target.innerText);
-                console.log("Second from Midsection", setDate);
+                //console.log("Second from Midsection", setDate);
 
                 setStartDate(setDate);
               }
@@ -818,7 +820,13 @@ const MidSection = () => {
             setSidebar(true);
             setTimeout(dateClick, 0);
           };
-          console.log(`${element.data}`);
+          // dateField.onmouseleave = (e) =>{
+          //   //console.log("mouseEvent", dateFieldInnerText, e.target.innerText);
+          //   if((dateFieldInnerText != "") && (dateFieldInnerText != e.target.innerText)){
+          //   setIsFinializeDisabled(false);
+          //   }
+          // }
+          //console.log(`${element.data}`);
           dateField.innerText = `${element.data}`;
 
           // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
@@ -841,7 +849,7 @@ const MidSection = () => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter(elmnt => elmnt == element?.id)
-          console.log("signupmatch", idMatch);
+          //console.log("signupmatch", idMatch);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -855,10 +863,13 @@ const MidSection = () => {
           signField.style.overflow = "overlay";
           // signField.innerHTML = `<img src="${postData.signField.value}" alt="">`;
           signField.style.position = "absolute";
-          signField.oninput = (e) =>{
-            setIsFinializeDisabled(false);
-          }
+          // signField.oninput = (e) =>{
+          //   setIsFinializeDisabled(false);
+          // }
+          // let signFieldInnerText = "";
+
           signField.onclick = (e) => {
+            // signFieldInnerText=e.target.innerText
             focuseddClassMaintain(e);
             if (actionName != "template") {
               handleClicked("signs2");
@@ -867,6 +878,11 @@ const MidSection = () => {
               setSidebar(false);
             }
           };
+          // signField.onmouseleave = (e) =>{
+          //   if(signFieldInnerText == e.target.innerText){
+          //   setIsFinializeDisabled(false);
+          //   }
+          // }
           if (
             decoded.details.action === "document" &&
             element.data == "Place your signature here"
@@ -1204,7 +1220,7 @@ const MidSection = () => {
   };
 
   const dragOver = (event) => {
-    console.log("log from on drag", event);
+    //console.log("log from on drag", event);
     const isLink = event.dataTransfer.types.includes("text/plain");
     if (isLink) {
       event.preventDefault();
@@ -1232,7 +1248,7 @@ const MidSection = () => {
 
   const onDrop = (event) => {
     event.preventDefault();
-    console.log("log from on drop", event);
+    //console.log("log from on drop", event);
     // document.querySelector('.drop_zone').classList.remove('drop_zone')
 
     const typeOfOperation = event.dataTransfer.getData("text/plain");
@@ -1595,12 +1611,12 @@ const MidSection = () => {
       };
       dateField.innerText = "mm/dd/yyyy";
 
-      // console.log(startDate);
+      // //console.log(startDate);
       const para = document.createElement("p");
 
       // dateField.append(para)
       holderDIV.append(dateField);
-      console.log(para);
+      //console.log(para);
     } else if (typeOfOperation === "DROPDOWN_INPUT" && decoded.details.action === "template") {
       let dropdownField = document.createElement("div");
       dropdownField.className = "dropdownInput";
@@ -1709,7 +1725,7 @@ const MidSection = () => {
 
     const img_input = document.getElementsByTagName("input");
     if (img_input.length) {
-      console.log("Image_input", img_input[0]);
+      //console.log("Image_input", img_input[0]);
       if (img_input[0].type === "file") {
         elem = {
           width: getPosition(img_input).right,
@@ -1779,7 +1795,7 @@ const MidSection = () => {
     }
 
     contentFile.push(page);
-    console.log("ContentFile While saveDoc", contentFile);
+    //console.log("ContentFile While saveDoc", contentFile);
 
     return contentFile;
   }

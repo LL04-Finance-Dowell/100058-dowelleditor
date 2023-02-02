@@ -36,7 +36,7 @@ const Header = () => {
     setTitle,
     
   } = useStateContext();
-  //   console.log(headerData);
+  //   //console.log(headerData);
 
   const handleUndo = () => {
     document.execCommand("undo");
@@ -55,9 +55,9 @@ const Header = () => {
     createPageNumber++;
     const current = [...item];
     current.push(`div_${createPageNumber}`);
-    console.log("create page click", current);
+    //console.log("create page click", current);
     setItem(current);
-    console.log("create page click after", current);
+    //console.log("create page click after", current);
   }
 
   function removePage() {
@@ -68,17 +68,17 @@ const Header = () => {
       const index = pageNumber - 1;
       const page = document.getElementsByClassName("midSection_container")[index];
 
-      console.log(page);
+      //console.log(page);
       // page.innerHTML = "";
       if (index > 0 && index < item?.length) {
         //remove item from the basket
-        // console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
+        // //console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
         // delete fetchedData[pageNumber];
-        // console.log("after fetchedData", fetchedData);
+        // //console.log("after fetchedData", fetchedData);
         // const currentPges = [...deletePages];
         // currentPges.push(pageNumber);
         // setDeletepages(currentPges);
-        // console.log("deletePages", deletePages);
+        // //console.log("deletePages", deletePages);
         // setFetchedData(fetchedData);
 
         // let allPageElement = document.getElementsByClassName(
@@ -88,7 +88,7 @@ const Header = () => {
         // for (let i = 0; i < elementLength; i++) {
         //   allPageElement[0].remove();
         // }
-        // console.log("allPageElement", allPageElement, current.splice(index, 1));
+        // //console.log("allPageElement", allPageElement, current.splice(index, 1));
         // current.splice(index, 1);
 
         page.parentElement.remove();
@@ -105,7 +105,7 @@ const Header = () => {
 
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
-    // console.log(el);
+    // //console.log(el);
     const midSec = document.getElementById("midSection_container");
 
     const rect = el.getBoundingClientRect();
@@ -152,11 +152,11 @@ const Header = () => {
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
         var new_table = document.getElementsByTagName("table")[0];
-        console.log("New Table");
-        console.log(new_table);
+        //console.log("New Table");
+        //console.log(new_table);
         tables_tags.push(new_table);
-        console.log("table_tags");
-        console.log(tables_tags);
+        //console.log("table_tags");
+        //console.log(tables_tags);
       }
     }
   }
@@ -171,9 +171,9 @@ const Header = () => {
         for (let h = 0; h < txt.length; h++) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
-          console.log(txt[h].parentElement.style.top);
-          console.log(txt[h].innerText);
-          console.log(txt[h].innerHTML);
+          //console.log(txt[h].parentElement.style.top);
+          //console.log(txt[h].innerText);
+          //console.log(txt[h].innerHTML);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -195,7 +195,7 @@ const Header = () => {
     const img_input = document.getElementsByTagName("input");
     const img = document.getElementsByClassName("imageInput");
     if (img) {
-      console.log("Image_input", img_input[0]);
+      //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
       for (let h = 0; h < img.length; h++) {
         const reader = new FileReader();
@@ -242,8 +242,8 @@ const Header = () => {
       for (let h = 0; h < sign.length; h++) {
         let tempElem = sign[h].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(sign[h].innerHTML);
-        console.log(sign[h].firstElementChild);
+        //console.log(sign[h].innerHTML);
+        //console.log(sign[h].firstElementChild);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -271,7 +271,7 @@ const Header = () => {
         // var new_table = document.getElementsByTagName("table")[0];
         let tempElem = tables[t].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(tables[t].firstElementChild.innerHTML);
+        //console.log(tables[t].firstElementChild.innerHTML);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -294,7 +294,7 @@ const Header = () => {
         // var new_table = document.getElementsByTagName("table")[0];
         let tempElem = iframes[i].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(iframes[i].innerText);
+        //console.log(iframes[i].innerText);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -319,8 +319,8 @@ const Header = () => {
         // var new_table = document.getElementsByTagName("table")[0];
         let tempElem = dropDowns[d].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(dropDowns[d].firstElementChild.innerHTML);
-        console.log(dropDowns[d].lastElementChild.innerHTML);
+        //console.log(dropDowns[d].firstElementChild.innerHTML);
+        //console.log(dropDowns[d].lastElementChild.innerHTML);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -340,7 +340,7 @@ const Header = () => {
 
     contentFile.push(page);
     const data = JSON.stringify(contentFile);
-    // console.log("ContentFile While saveDoc", data);
+    // //console.log("ContentFile While saveDoc", data);
 
     return contentFile;
   }
@@ -349,7 +349,7 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
-  console.log("In header.js", decoded);
+  //console.log("In header.js", decoded);
 
   
   function submit(e) {
@@ -377,8 +377,8 @@ const Header = () => {
       };
     }
 
-    console.log(updateField);
-    console.log(field);
+    //console.log(updateField);
+    //console.log(field);
 
     <iframe src="http://localhost:5500/"></iframe>;
 
@@ -413,11 +413,11 @@ const Header = () => {
           toast.success("Saved successfully");
           sendMessage();
         }
-        console.log(res);
+        //console.log(res);
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -425,7 +425,7 @@ const Header = () => {
     setIsFlipClicked(!isFlipClicked);
   };
 
-  console.log("page count check", item);
+  //console.log("page count check", item);
   return (
     <div
       className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"

@@ -79,7 +79,7 @@ const RightMenu = () => {
   var encodedData = base64url(stringifiedData);
 
   var exportToken = encodedHeader + "." + encodedData;
-  console.log("test token", exportToken);
+  //console.log("test token", exportToken);
   // token creation end
   // copy text function
 
@@ -120,7 +120,7 @@ const RightMenu = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res);
+        //console.log(res);
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);
@@ -132,8 +132,8 @@ const RightMenu = () => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        console.log(loadedData);
-        console.log(loadedData[0][0]);
+        //console.log(loadedData);
+        //console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
         // setSort(loadedData[0][0]);
@@ -142,7 +142,7 @@ const RightMenu = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -158,7 +158,7 @@ const RightMenu = () => {
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-      console.log("tokkkkkkennn", tokenn);
+      //console.log("tokkkkkkennn", tokenn);
       const getPostData = async () => {
 
         const response = await Axios.post(
@@ -171,7 +171,7 @@ const RightMenu = () => {
           .then((res) => {
             // Handling title
             const loadedDataT = res.data;
-            console.log(res);
+            //console.log(res);
 
             if (decoded.details.action === "template") {
               setTitle(loadedDataT.template_name);
@@ -183,8 +183,8 @@ const RightMenu = () => {
             const loadedData = JSON.parse(res.data.content);
             const pageData = res.data.page;
             setItem(pageData);
-            console.log(loadedData);
-            console.log(loadedData[0][0]);
+            //console.log(loadedData);
+            //console.log(loadedData[0][0]);
             setData(loadedData[0][0]);
             setIsDataRetrieved(true);
             // setSort(loadedData[0][0]);
@@ -193,7 +193,7 @@ const RightMenu = () => {
           })
           .catch((err) => {
             setIsLoading(false);
-            console.log(err);
+            //console.log(err);
           });
       };
       getPostData()
@@ -205,9 +205,9 @@ const RightMenu = () => {
   if (actionName == "document" && docMap) {
     setSidebar(true)
     const delete_buttons = document.getElementsByClassName("remove_button");
-    console.log(delete_buttons);
+    //console.log(delete_buttons);
     for (let d = 0; d < delete_buttons?.length; d++) {
-      console.log(delete_buttons[d]);
+      //console.log(delete_buttons[d]);
       delete_buttons[d].classList.add("disable_button")
     }
   }
@@ -382,7 +382,7 @@ const RightMenu = () => {
             />
             {/* Same as */}
             <ToastContainer />
-            <div className="mt-2 text-center pt-5">
+            <div className="mt-2 text-center pt-5 zIndexThree">
               <button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Export
               </button>
