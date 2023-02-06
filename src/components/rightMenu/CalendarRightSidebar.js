@@ -19,31 +19,37 @@ const CalendarRightSidebar = (props) => {
     setRightSideDateMenu,
     method,
     setMethod,
+    setIsFinializeDisabled
   } = useStateContext();
 
   const [datePickerMargin, setDatePickerMargin] = useState("");
   const date = document.querySelector(".focussed");
 
+  // enable disable finalize btn
+  // let dateInnerText = "";
+
   if (date?.parentElement?.classList?.contains("focussedd")) {
     if (rightSideDatemenu) {
+      // dateInnerText = date.innerText;
+      //console.log("date inner text", dateInnerText);
       if (method == "select") {
         date.innerHTML = startDate.toLocaleString().split(",")[0];
       } else if (method == "first") {
-        console.log("first", startDate);
+        //console.log("first", startDate);
         if (startDate) {
           const localDate = new Date(startDate).toLocaleString().split(",")[0];
           const localDateArray = localDate.split("/");
-          console.log(
-            "First DAte Replace",
-            `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`
-          );
+          //console.log(
+          //   "First DAte Replace",
+          //   `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`
+          // );
           date.innerHTML = `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`;
         }
       } else if (method == "second") {
-        console.log("second", startDate);
+        //console.log("second", startDate);
         date.innerHTML = startDate && new Date(startDate)?.toDateString();
       } else if (method == "fourth") {
-        console.log("fourth", startDate);
+        //console.log("fourth", startDate);
         date.innerHTML =
           startDate && new Date(startDate)?.toISOString().split("T")[0];
       }
@@ -63,15 +69,15 @@ const CalendarRightSidebar = (props) => {
 
   useEffect(() => {
     if (document.querySelector(".react-datepicker")) {
-      console.log("datePicker", document.querySelector(".react-datepicker"));
+      //console.log("datePicker", document.querySelector(".react-datepicker"));
       setDatePickerMargin(
         document.querySelector(".react-datepicker").offsetHeight + "px"
       );
     }
   }, [datePickerMargin]);
 
-  // console.log("datePickerMargin", datePickerMargin);
-  console.log("rightSideDatemenu", rightSideDatemenu);
+  // //console.log("datePickerMargin", datePickerMargin);
+  //console.log("rightSideDatemenu", rightSideDatemenu);
   return (
     <div>
       <div className="dropdown pb-3">
@@ -102,7 +108,11 @@ const CalendarRightSidebar = (props) => {
             dateFormat="MMMM d, yyyy h:mm aa"
             selected={startDate}
             onChange={(date) => {
-              console.log("date", date);
+              // console.log("date", date, startDate);
+              if(date != startDate){
+                // console.log("date?.innerHTML", dateInnerText);
+                setIsFinializeDisabled(false)
+              }
               setRightSideDateMenu(true);
               setStartDate(date);
             }}

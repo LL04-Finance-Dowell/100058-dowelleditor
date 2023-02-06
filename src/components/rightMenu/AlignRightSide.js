@@ -56,7 +56,7 @@ const AlignRightSide = () => {
     const userSelection = window.getSelection();
     const selectedTextRange = userSelection.getRangeAt(0);
 
-    console.log(selectedTextRange);
+    //console.log(selectedTextRange);
     selectedTextRange.style.fontFamily = `${ev.target.value}`;
   };
 
@@ -180,7 +180,7 @@ const AlignRightSide = () => {
 
   function showColorInput() {
     const fontColor = document.getElementById("colorInputColor");
-    console.log(fontColor);
+    //console.log(fontColor);
     if (fontColor.style.diplay === "none") {
       fontColor.style.display = "block";
     } else {

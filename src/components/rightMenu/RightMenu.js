@@ -54,9 +54,9 @@ const RightMenu = () => {
   if (actionName == "document" && docMap) {
     setSidebar(true)
     const delete_buttons = document.getElementsByClassName("remove_button");
-    console.log(delete_buttons);
+    //console.log(delete_buttons);
     for (let d = 0; d < delete_buttons?.length; d++) {
-      console.log(delete_buttons[d]);
+      //console.log(delete_buttons[d]);
       delete_buttons[d].classList.add("disable_button")
     }
   }

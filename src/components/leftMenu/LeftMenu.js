@@ -34,7 +34,7 @@ const dragStartAlign = (e) => {
 
   e.dataTransfer.setData("text/plain", "TEXT_INPUT");
   element.classList.add("dragging");
-  console.log("drag start fumb");
+  //console.log("drag start fumb");
   if (document.querySelector(".drop_zone")) {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
@@ -112,14 +112,14 @@ const dragStartIframe = (e) => {
 const dragEndFunc = () => {
   const element = document.getElementById("draggable");
   element.classList.remove("dragging");
-  console.log("dragend func");
+  //console.log("dragend func");
 };
 
 export const onDrop = (event) => {
   event.preventDefault();
   const data = event.dataTransfer.getData("text/plain");
   if (data === "TEXT_INPUT") {
-    console.log("text inputtt");
+    //console.log("text inputtt");
 
     // const textInput = document.createElement("textarea");
     // textInput.className = "dropped7";
@@ -131,9 +131,9 @@ export const onDrop = (event) => {
     // document.getElementsByClassName("midSection_container").item(0).appendChild(textInput);
   }
   // const data = event.dataTransfer.getData("text/plain");
-  // console.log(data);
+  // //console.log(data);
   // if (data === "TEXT_INPUT") {
-  //   console.log("text input");
+  //   //console.log("text input");
   // } return TextBox();
 };
 
@@ -151,11 +151,11 @@ const LeftMenu = ({ showSidebar }) => {
     document.getElementById("containerInput").parentElement.remove();
   }
   // const leftMenuWidth = leftMenuRef.current;
-  // console.log(leftMenuWidth);
+  // //console.log(leftMenuWidth);
   // const leftMenuWidth = document
   //   .querySelector(".leftMenu")
   //   .getBoundingClientRect();
-  // console.log(window.screen);
+  // //console.log(window.screen);
   // useEffect(() => {
   //   if (window.screen.width < 426) {
   //     setIsMobileView(true);
@@ -164,8 +164,8 @@ const LeftMenu = ({ showSidebar }) => {
   //   }
   // }, [window.screen.width]);
   // const bodyElement = document.getElementsByName("body");
-  // console.log(bodyElement);
-  // console.log(window.screen.width);
+  // //console.log(bodyElement);
+  // //console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
   return (
     <>

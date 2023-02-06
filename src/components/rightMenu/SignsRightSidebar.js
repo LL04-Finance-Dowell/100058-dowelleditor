@@ -11,7 +11,7 @@ import { useStateContext } from '../../contexts/contextProvider';
 
 const SignsRightSidebar = () => {
 
-  const { signState, setSignState } = useStateContext();
+  const { signState, setSignState, setIsFinializeDisabled } = useStateContext();
 
 
   let sigPad = useRef({});
@@ -33,11 +33,15 @@ const SignsRightSidebar = () => {
 
     const sign = document.querySelector('.focussed')
     if (sign.parentElement.classList.contains("focussedd")) {
+      if(document.querySelector('.focussed').innerHTML != signImage){
+      // console.log("signature right menu", document.querySelector('.focussed').innerHTML,"data", data );
+      setIsFinializeDisabled(false)
+      }
       document.querySelector('.focussed').innerHTML = signImage
     }
 
 
-    console.log(signImage);
+    //console.log(signImage);
   }
 
    //clicked choose file button
