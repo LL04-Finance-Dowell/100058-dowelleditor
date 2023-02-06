@@ -540,6 +540,7 @@ const Header = () => {
 
 
   function handleToken() {
+    setData([])
     setIsLoading(true)
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -560,9 +561,9 @@ const Header = () => {
             console.log(res);
 
             if (decoded.details.action === "template") {
-              setTitle(loadedDataT.template_name);
+              setTitle("Untitle-File");
             } else if (decoded.details.action === "document") {
-              setTitle(loadedDataT.document_name);
+              setTitle("Untitle-File");
             }
 
             //Handling content
@@ -653,12 +654,12 @@ const Header = () => {
             </div>
           </Col>
 
-          <Col className="d-flex justify-content-center header_p ">
+          <Col className="d-flex justify-content-center header_p text-center">
             {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
             <div
               className="title-name"
               contentEditable={true}
-              style={{ color: "white", fontSize: 30 }}
+              style={{ color: "white", fontSize: 20 }}
               spellCheck="false"
             >
               {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )

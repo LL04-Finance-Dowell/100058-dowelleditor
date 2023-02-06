@@ -47,6 +47,8 @@ const RightMenu = () => {
 
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  const authorized = decoded?.details?.authorized;
+  const process_id = decoded?.details?.process_id;
 
 
   if (actionName == "document" && docMap) {
@@ -57,6 +59,23 @@ const RightMenu = () => {
       console.log(delete_buttons[d]);
       delete_buttons[d].classList.add("disable_button")
     }
+  }
+
+  function handleReject() {
+    Axios.post(
+      "https://100094.pythonanywhere.com/v0.1/process/verification/",
+      {
+        action: "reject",
+        process_id: authorized,
+        authorized: process_id,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 
@@ -184,14 +203,14 @@ const RightMenu = () => {
                 className="rounded px-5"
                 id="saving-button"
 
-                onClick={() => alert("Rejcet Clicked")}
+                onClick={handleReject}
               >
                 Reject
               </Button>
             </div>
           </>
         )}
-     
+
       {isClicked.align2 && <AlignRightSide />}
       {isClicked.image2 && <ImageRightSidebar />}
       {isClicked.table2 && <TableRightSidebar />}
