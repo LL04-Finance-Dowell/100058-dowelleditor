@@ -669,7 +669,7 @@ const Header = () => {
           </Col>
           <Col>
             <div className="right_header">
-              <div className="mt-1 text-center p-2">
+              <div className="mt-1 text-center p-2 " >
                 <button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   Export
                 </button>
@@ -694,7 +694,7 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="mt-1 text-center p-2">
+              <div className="mt-1 text-center p-2 head_btn">
                 <Button
                   variant="primary"
                   size="md"
