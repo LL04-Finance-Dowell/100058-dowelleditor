@@ -355,8 +355,9 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
+  const {action, authorized, process_id} = decoded;
   const actionName = decoded?.details?.action;
-  //console.log("In header.js", decoded);
+  console.log("In header.js", decoded);
 
 
   function submit(e) {
@@ -428,9 +429,9 @@ const Header = () => {
       });
   }
 
-  const handleFlipClick = (e) => {
-    setIsFlipClicked(!isFlipClicked);
-  };
+  // const handleFlipClick = (e) => {
+  //   setIsFlipClicked(!isFlipClicked);
+  // };
 
   // token creation code
   function base64url(source) {
@@ -464,7 +465,7 @@ const Header = () => {
   var encodedData = base64url(stringifiedData);
 
   var exportToken = encodedHeader + "." + encodedData;
-  console.log("test token", exportToken);
+  // console.log("test token", exportToken);
   // token creation end
 
   const getPostData = async () => {
@@ -479,7 +480,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res);
+        // console.log(res);
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);
@@ -491,8 +492,8 @@ const Header = () => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        console.log(loadedData);
-        console.log(loadedData[0][0]);
+        // console.log(loadedData);
+        // console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
         // setSort(loadedData[0][0]);
@@ -540,6 +541,7 @@ const Header = () => {
 
 
   function handleToken() {
+    setData([])
     setIsLoading(true)
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -560,9 +562,9 @@ const Header = () => {
             console.log(res);
 
             if (decoded.details.action === "template") {
-              setTitle(loadedDataT.template_name);
+              setTitle("Untitle-File");
             } else if (decoded.details.action === "document") {
-              setTitle(loadedDataT.document_name);
+              setTitle("Untitle-File");
             }
 
             //Handling content
@@ -590,7 +592,7 @@ const Header = () => {
 
 
 
-  console.log("page count check", item);
+  // console.log("page count check", item);
   return (
     <div
       className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
@@ -658,7 +660,7 @@ const Header = () => {
             <div
               className="title-name"
               contentEditable={true}
-              style={{ color: "white", fontSize: 22 }}
+              style={{ color: "white", fontSize: 20 }}
               spellCheck="false"
             >
               {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )

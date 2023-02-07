@@ -47,6 +47,8 @@ const RightMenu = () => {
 
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  const authorized = decoded?.details?.authorized;
+  const process_id = decoded?.details?.process_id;
 
 
   if (actionName == "document" && docMap) {
@@ -59,6 +61,43 @@ const RightMenu = () => {
     }
   }
 
+  function handleFinalize() {
+    setIsLoading(true)
+    Axios.post(
+      "https://100094.pythonanywhere.com/v0.1/process/verification/",
+      {
+        action: 'finalize',
+        process_id: process_id,
+        authorized: authorized,
+      }
+    )
+      .then((res) => {
+        setIsLoading(false)
+        console.log(res);
+        alert(res?.data)
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+      });
+  }
+  function handleReject() {
+    Axios.post(
+      "https://100094.pythonanywhere.com/v0.1/process/verification/",
+      {
+        action: "reject",
+        process_id: authorized,
+        authorized: process_id,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  
 
   useEffect(() => {
     if (isClicked.align2) {
@@ -171,7 +210,7 @@ const RightMenu = () => {
                 className="rounded px-5"
                 id="saving-button"
                 disabled={isFinializeDisabled}
-                onClick={() => alert("Finilize Clicked")}
+                onClick={handleFinalize}
               >
                 Finalize
               </Button>
@@ -184,14 +223,14 @@ const RightMenu = () => {
                 className="rounded px-5"
                 id="saving-button"
 
-                onClick={() => alert("Rejcet Clicked")}
+                onClick={handleReject}
               >
                 Reject
               </Button>
             </div>
           </>
         )}
-     
+
       {isClicked.align2 && <AlignRightSide />}
       {isClicked.image2 && <ImageRightSidebar />}
       {isClicked.table2 && <TableRightSidebar />}
