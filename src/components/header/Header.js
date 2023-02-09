@@ -361,7 +361,7 @@ const Header = () => {
 
 useEffect(()=>{
   // set_doc_map(document_map)
-  if(document_map.length == element_updated_length){
+  if(document_map?.length == element_updated_length){
     setIsFinializeDisabled(false)
   }
 },[element_updated_length])
