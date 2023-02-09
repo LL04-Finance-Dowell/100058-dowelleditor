@@ -45,11 +45,14 @@ const RightMenu = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   console.log(decoded);
-  
+
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const authorized = decoded?.details?.authorized;
   const process_id = decoded?.details?.process_id;
+
+  console.log(authorized);
+  console.log(process_id);
 
 
   if (actionName == "document" && docMap) {
@@ -67,8 +70,8 @@ const RightMenu = () => {
       "https://100094.pythonanywhere.com/v0.1/process/verification/",
       {
         action: "reject",
-        process_id: authorized,
-        authorized: process_id,
+        process_id: process_id,
+        authorized: authorized,
       }
     )
       .then((res) => {
