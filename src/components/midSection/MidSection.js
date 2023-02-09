@@ -82,7 +82,7 @@ const MidSection = () => {
     data,
     setData,
     isDataRetrieved,
-    setIsDataRetrieved
+    setIsDataRetrieved,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -667,7 +667,11 @@ const MidSection = () => {
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
           inputField.oninput = (e) =>{
-            setIsFinializeDisabled(false);
+            //setIsFinializeDisabled(false);
+            // const doc_map_copy = [...doc_map]
+            if(inputField.parentElement.classList.contains("holderDIV")){
+              inputField.parentElement.classList.add("element_updated")
+            }
           }
           inputField.onclick = (e) => {
             focuseddClassMaintain(e);
@@ -718,7 +722,7 @@ const MidSection = () => {
           // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
           imageField.style.position = "relative";
           imageField.oninput = (e) =>{
-            setIsFinializeDisabled(false);
+            //setIsFinializeDisabled(false);
           }
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
@@ -949,7 +953,7 @@ const MidSection = () => {
           // tableField.innerHTML = 'table';
           tableField.style.position = "absolute";
           tableField.oninput = (e) =>{
-            setIsFinializeDisabled(false);
+            //setIsFinializeDisabled(false);
           }
           tableField.onclick = (e) => {
             // focuseddClassMaintain(e);

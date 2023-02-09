@@ -21,7 +21,10 @@ const ImageRightSidebar = () => {
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
-    setIsFinializeDisabled(false);
+    var imageDiv = document.querySelector(".focussed");
+    if(imageDiv.parentElement.classList.contains("holderDIV")){
+      imageDiv.parentElement.classList.add("element_updated")
+    }
     }
 
   function removeImage() {

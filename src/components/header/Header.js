@@ -41,7 +41,7 @@ const Header = () => {
     setTitle,
     setData,
     setIsDataRetrieved,
-
+    setIsFinializeDisabled
   } = useStateContext();
   //   //console.log(headerData);
 
@@ -66,7 +66,7 @@ const Header = () => {
     setItem(current);
     //console.log("create page click after", current);
   }
-
+// console.log('fetchedData', fetchedData);
   function removePage() {
     const current = [...item];
 
@@ -104,7 +104,6 @@ const Header = () => {
       } else {
         console.warn(`Cant remove page`);
       }
-
     }
   }
 
@@ -355,11 +354,17 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  const {action, authorized, process_id} = decoded;
+  const {action, authorized, process_id,document_map} = decoded?.details;
   const actionName = decoded?.details?.action;
-  console.log("In header.js", decoded);
+  // console.log("In header.js", decoded, document_map);
+  const element_updated_length = document.getElementsByClassName("element_updated").length;
 
-
+useEffect(()=>{
+  // set_doc_map(document_map)
+  if(document_map.length == element_updated_length){
+    setIsFinializeDisabled(false)
+  }
+},[element_updated_length])
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -695,7 +700,7 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="mt-1 text-center p-2">
+              <div className="mt-1 text-center p-2 head_btn">
                 <Button
                   variant="primary"
                   size="sm"

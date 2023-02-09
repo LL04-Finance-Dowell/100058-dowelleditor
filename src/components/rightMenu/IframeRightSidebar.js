@@ -23,7 +23,11 @@ const IframeRightSidebar = () => {
 
         
         iframeDiv.appendChild(iframe);
-        setIsFinializeDisabled(false)
+        //setIsFinializeDisabled(false)
+        if(iframeDiv.parentElement.classList.contains("holderDIV")){
+            iframeDiv.parentElement.classList.add("element_updated")
+            // console.log('iframe.parentElement', iframeDiv.parentElement);
+          }
     }
     function handleChange() {
         document.querySelector(".focussed").innerHTML = ""

@@ -25,6 +25,7 @@ const initialState2 = {
 };
 
 export const ContextProvider = ({ children }) => {
+
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
@@ -136,7 +137,7 @@ export const ContextProvider = ({ children }) => {
         title,
         setTitle,
         isDataRetrieved,
-        setIsDataRetrieved
+        setIsDataRetrieved,
       }}
     >
       {children}

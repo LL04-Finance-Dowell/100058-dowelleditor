@@ -44,7 +44,8 @@ const RightMenu = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-
+  console.log(decoded);
+  
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const authorized = decoded?.details?.authorized;

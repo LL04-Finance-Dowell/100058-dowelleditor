@@ -35,7 +35,10 @@ const SignsRightSidebar = () => {
     if (sign.parentElement.classList.contains("focussedd")) {
       if(document.querySelector('.focussed').innerHTML != signImage){
       // console.log("signature right menu", document.querySelector('.focussed').innerHTML,"data", data );
-      setIsFinializeDisabled(false)
+      //setIsFinializeDisabled(false)
+    if(sign.parentElement.classList.contains("holderDIV")){
+      sign.parentElement.classList.add("element_updated")
+    }
       }
       document.querySelector('.focussed').innerHTML = signImage
     }
