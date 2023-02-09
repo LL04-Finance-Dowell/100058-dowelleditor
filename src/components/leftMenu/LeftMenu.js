@@ -1,14 +1,14 @@
-import React, { Children, useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
-import "./LeftMenu.css";
-import { editSecOptions } from "../../data/data";
+import React, { Children, useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+import './LeftMenu.css';
+import { editSecOptions } from '../../data/data';
 
-import { useStateContext } from "../../contexts/contextProvider";
+import { useStateContext } from '../../contexts/contextProvider';
 
-import MidSection from "../midSection/MidSection";
-import TextFill from "./comp/TextFill";
-import TextBox from "./comp/TextBox";
-import { EditorContent } from "@tiptap/react";
+import MidSection from '../midSection/MidSection';
+import TextFill from './comp/TextFill';
+import TextBox from './comp/TextBox';
+import { EditorContent } from '@tiptap/react';
 
 const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc }) => (
   <button
@@ -30,104 +30,102 @@ const CustomButton = ({ children, style }) => (
 );
 
 const dragStartAlign = (e) => {
-  const element = document.getElementById("draggable");
+  const element = document.getElementById('draggable');
 
-  e.dataTransfer.setData("text/plain", "TEXT_INPUT");
-  element.classList.add("dragging");
+  e.dataTransfer.setData('text/plain', 'TEXT_INPUT');
+  element.classList.add('dragging');
   //console.log("drag start fumb");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartTextF = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "TEXT_FILL");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'TEXT_FILL');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartImage = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "IMAGE_INPUT");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'IMAGE_INPUT');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartTable = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "TABLE_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'TABLE_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartSigns = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "SIGN_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'SIGN_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartCalendar = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "DATE_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'DATE_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragStartDropdown = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "DROPDOWN_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'DROPDOWN_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 const dragStartContainerr = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "CONTAINER_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'CONTAINER_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 const dragStartIframe = (e) => {
-  const element = document.getElementById("draggable");
-  e.dataTransfer.setData("text/plain", "IFRAME_INPUT");
-  element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
-    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'IFRAME_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
 
 const dragEndFunc = () => {
-  const element = document.getElementById("draggable");
-  element.classList.remove("dragging");
+  const element = document.getElementById('draggable');
+  element.classList.remove('dragging');
   //console.log("dragend func");
 };
 
 export const onDrop = (event) => {
   event.preventDefault();
-  const data = event.dataTransfer.getData("text/plain");
-  if (data === "TEXT_INPUT") {
+  const data = event.dataTransfer.getData('text/plain');
+  if (data === 'TEXT_INPUT') {
     //console.log("text inputtt");
-
     // const textInput = document.createElement("textarea");
     // textInput.className = "dropped7";
     // textInput.placeholder = "Enter text here";
     // textInput.style.width = "20%";
     // textInput.style.height = "10%";
     // textInput.onclick = handleClick('align2')
-
     // document.getElementsByClassName("midSection_container").item(0).appendChild(textInput);
   }
   // const data = event.dataTransfer.getData("text/plain");
@@ -148,7 +146,7 @@ const LeftMenu = ({ showSidebar }) => {
   const dropdownRef = useRef(null);
   const [isMobileView, setIsMobileView] = useState(false);
   function removeContainer() {
-    document.getElementById("containerInput").parentElement.remove();
+    document.getElementById('containerInput').parentElement.remove();
   }
   // const leftMenuWidth = leftMenuRef.current;
   // //console.log(leftMenuWidth);
@@ -176,52 +174,52 @@ const LeftMenu = ({ showSidebar }) => {
           <div className="leftMenu fixed2" ref={leftMenuRef}>
             <NavButton
               dragStartFunc={dragStartAlign}
-              customFunc={() => handleDrop("align")}
+              customFunc={() => handleDrop('align')}
               icon={editSecOptions[1].icon}
             />
             {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
             <NavButton
               dragStartFunc={dragStartImage}
-              customFunc={() => handleDrop("image")}
+              customFunc={() => handleDrop('image')}
               icon={editSecOptions[2].icon}
             />
             <NavButton
               dragStartFunc={dragStartTable}
-              customFunc={() => handleDrop("table")}
+              customFunc={() => handleDrop('table')}
               icon={editSecOptions[3].icon}
             />
             <NavButton
               dragStartFunc={dragStartSigns}
-              customFunc={() => handleDrop("signs")}
+              customFunc={() => handleDrop('signs')}
               icon={editSecOptions[4].icon}
             />
             <NavButton
               dragStartFunc={dragStartCalendar}
-              customFunc={() => handleDrop("calendar")}
+              customFunc={() => handleDrop('calendar')}
               icon={editSecOptions[5].icon}
             />
             <NavButton
               dragStartFunc={dragStartDropdown}
-              customFunc={() => handleDrop("dropdown")}
+              customFunc={() => handleDrop('dropdown')}
               icon={editSecOptions[6].icon}
             />
             <NavButton
               dragStartFunc={dragStartContainerr}
               clickFunc={removeContainer}
-              customFunc={() => handleDrop("containerr")}
+              customFunc={() => handleDrop('containerr')}
               icon={editSecOptions[0].icon}
             />
             <NavButton
               dragStartFunc={dragStartIframe}
-              customFunc={() => handleDrop("iframe")}
+              customFunc={() => handleDrop('iframe')}
               icon={editSecOptions[8].icon}
             />
           </div>
         )
       ) : (
         <>
-          <CustomButton style={"custom_reject_button"}>Reject</CustomButton>
-          <CustomButton style={"custom_finalize_button"}>Finalize</CustomButton>
+          <CustomButton style={'custom_reject_button'}>Reject</CustomButton>
+          <CustomButton style={'custom_finalize_button'}>Finalize</CustomButton>
         </>
       )}
     </>

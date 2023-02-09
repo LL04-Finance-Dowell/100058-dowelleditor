@@ -30,6 +30,7 @@ const EditSection = () => {
     newToken,
     setNewToken,
     isFinializeDisabled,
+    isLoading,
     setIsLoading,
     data,
   } = useStateContext();
@@ -38,15 +39,18 @@ const EditSection = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const { authorized, process_id } = decoded?.details;
+
+  const saveButton = document.getElementById("saving-button");
+  console.log(saveButton);
   function handleFinalize() {
-    setIsLoading(true);
+    saveButton.click()
+    if(isLoading == false)
     Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
       action: "finalize",
       process_id: process_id,
       authorized: authorized,
     })
       .then((res) => {
-        setIsLoading(false);
         console.log(res);
         alert(res?.data);
       })
@@ -56,15 +60,19 @@ const EditSection = () => {
       });
   }
   function handleReject() {
+    setIsLoading(true)
     Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
       action: "reject",
-      process_id: authorized,
-      authorized: process_id,
+      process_id: process_id,
+      authorized: authorized,
     })
       .then((res) => {
+        setIsLoading(false)        
         console.log(res);
+        alert(res?.data);
       })
       .catch((err) => {
+        setIsLoading(false) 
         console.log(err);
       });
   }
