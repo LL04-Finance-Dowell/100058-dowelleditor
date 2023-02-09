@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import "./Header.css";
-import { headerData } from "../../data/data";
-import user from "../../assets/headerIcons/user.png";
+import React, { useEffect, useState } from 'react';
 import {
-  FaCopy
-} from "react-icons/fa";
-import CryptoJS from "crypto-js";
+  Container,
+  Row,
+  Col,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
+import './Header.css';
+import { headerData } from '../../data/data';
+import user from '../../assets/headerIcons/user.png';
+import { FaCopy } from 'react-icons/fa';
+import { BiImport, BiExport } from 'react-icons/bi';
+import CryptoJS from 'crypto-js';
 
-
-import { useStateContext } from "../../contexts/contextProvider";
-import Axios from "axios";
-import { CgPlayListRemove } from "react-icons/cg";
+import { useStateContext } from '../../contexts/contextProvider';
+import Axios from 'axios';
+import { CgPlayListRemove } from 'react-icons/cg';
 import {
   MdOutlinePostAdd,
   MdSignalCellular0Bar,
   MdOutlineFlipCameraAndroid,
-} from "react-icons/md";
+} from 'react-icons/md';
 
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from 'react-router-dom';
 
-import jwt_decode from "jwt-decode";
-import { current } from "@reduxjs/toolkit";
+import jwt_decode from 'jwt-decode';
+import { current } from '@reduxjs/toolkit';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
   const {
@@ -41,23 +46,22 @@ const Header = () => {
     setTitle,
     setData,
     setIsDataRetrieved,
-
   } = useStateContext();
   //   //console.log(headerData);
 
   const handleUndo = () => {
-    document.execCommand("undo");
+    document.execCommand('undo');
   };
   const handleRedo = () => {
-    document.execCommand("redo");
+    document.execCommand('redo');
   };
   const handleCut = () => {
-    document.querySelector(".focussedd").remove();
+    document.querySelector('.focussedd').remove();
   };
   const handleCopy = () => {
-    document.execCommand("copy");
+    document.execCommand('copy');
   };
-  let createPageNumber = item[item.length - 1].split("_")[1];
+  let createPageNumber = item[item.length - 1].split('_')[1];
   function createNewPage() {
     createPageNumber++;
     const current = [...item];
@@ -70,10 +74,12 @@ const Header = () => {
   function removePage() {
     const current = [...item];
 
-    var pageNumber = prompt("Enter the number of page to delete");
+    var pageNumber = prompt('Enter the number of page to delete');
     if (pageNumber != null) {
       const index = pageNumber - 1;
-      const page = document.getElementsByClassName("midSection_container")[index];
+      const page = document.getElementsByClassName('midSection_container')[
+        index
+      ];
 
       //console.log(page);
       // page.innerHTML = "";
@@ -99,12 +105,11 @@ const Header = () => {
         // current.splice(index, 1);
 
         page.parentElement.remove();
-        item.pop()
+        item.pop();
         // setItem(item);
       } else {
         console.warn(`Cant remove page`);
       }
-
     }
   }
 
@@ -113,7 +118,7 @@ const Header = () => {
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
     // //console.log(el);
-    const midSec = document.getElementById("midSection_container");
+    const midSec = document.getElementById('midSection_container');
 
     const rect = el.getBoundingClientRect();
     const midsectionRect = midSec.getBoundingClientRect();
@@ -153,12 +158,12 @@ const Header = () => {
     }
   };
   function savingTableData() {
-    const tables = document.getElementsByClassName("tableInput");
+    const tables = document.getElementsByClassName('tableInput');
     let tables_tags = [];
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
-        var new_table = document.getElementsByTagName("table")[0];
+        var new_table = document.getElementsByTagName('table')[0];
         //console.log("New Table");
         //console.log(new_table);
         tables_tags.push(new_table);
@@ -172,9 +177,9 @@ const Header = () => {
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
-    const txt = document.getElementsByClassName("textInput");
+    const txt = document.getElementsByClassName('textInput');
     if (txt.length) {
-      if (txt[0].parentElement.classList.contains("holderDIV")) {
+      if (txt[0].parentElement.classList.contains('holderDIV')) {
         for (let h = 0; h < txt.length; h++) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -187,7 +192,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: txt[h].parentElement.style.top,
             left: tempPosn.left,
-            type: "TEXT_INPUT",
+            type: 'TEXT_INPUT',
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
@@ -199,8 +204,8 @@ const Header = () => {
       }
     }
 
-    const img_input = document.getElementsByTagName("input");
-    const img = document.getElementsByClassName("imageInput");
+    const img_input = document.getElementsByTagName('input');
+    const img = document.getElementsByClassName('imageInput');
     if (img) {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
@@ -214,7 +219,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: img[h].parentElement.style.top,
           left: tempPosn.left,
-          type: "IMAGE_INPUT",
+          type: 'IMAGE_INPUT',
           data: img[h].style.backgroundImage,
           id: `i${h + 1}`,
         };
@@ -225,7 +230,7 @@ const Header = () => {
       // }
     }
 
-    const date = document.getElementsByClassName("dateInput");
+    const date = document.getElementsByClassName('dateInput');
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
         let tempElem = date[h].parentElement;
@@ -236,7 +241,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: date[h].parentElement.style.top,
           left: tempPosn.left,
-          type: "DATE_INPUT",
+          type: 'DATE_INPUT',
           data: date[h].innerHTML,
           id: `d${h + 1}`,
         };
@@ -244,7 +249,7 @@ const Header = () => {
       }
     }
 
-    const sign = document.getElementsByClassName("signInput");
+    const sign = document.getElementsByClassName('signInput');
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
         let tempElem = sign[h].parentElement;
@@ -257,11 +262,11 @@ const Header = () => {
           top: tempPosn.top,
           topp: sign[h].parentElement.style.top,
           left: tempPosn.left,
-          type: "SIGN_INPUT",
+          type: 'SIGN_INPUT',
           data:
             sign[h].firstElementChild === null
-              // decoded.details.action === "document"
-              ? sign[h].innerHTML
+              ? // decoded.details.action === "document"
+                sign[h].innerHTML
               : sign[h].firstElementChild.src,
           id: `s${h + 1}`,
         };
@@ -271,7 +276,7 @@ const Header = () => {
       }
     }
 
-    const tables = document.getElementsByClassName("tableInput");
+    const tables = document.getElementsByClassName('tableInput');
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
@@ -285,7 +290,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: tables[t].parentElement.style.top,
           left: tempPosn.left,
-          type: "TABLE_INPUT",
+          type: 'TABLE_INPUT',
           data: tables[t].firstElementChild.innerHTML,
           id: `tab${t + 1}`,
         };
@@ -294,7 +299,7 @@ const Header = () => {
         // page.push(elem);
       }
     }
-    const iframes = document.getElementsByClassName("iframeInput");
+    const iframes = document.getElementsByClassName('iframeInput');
 
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
@@ -308,10 +313,10 @@ const Header = () => {
           top: tempPosn.top,
           topp: iframes[i].parentElement.style.top,
           left: tempPosn.left,
-          type: "IFRAME_INPUT",
-          data: iframes[i].innerText ?
-            "iFrame here" :
-            iframes[i].firstElementChild.src,
+          type: 'IFRAME_INPUT',
+          data: iframes[i].innerText
+            ? 'iFrame here'
+            : iframes[i].firstElementChild.src,
           id: `ifr${i + 1}`,
         };
         dataInsertWithPage(tempPosn, elem);
@@ -319,7 +324,7 @@ const Header = () => {
         // page.push(elem);
       }
     }
-    const dropDowns = document.getElementsByClassName("dropdownInput");
+    const dropDowns = document.getElementsByClassName('dropdownInput');
 
     if (dropDowns.length) {
       for (let d = 0; d < dropDowns.length; d++) {
@@ -334,7 +339,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: dropDowns[d].parentElement.style.top,
           left: tempPosn.left,
-          type: "DROPDOWN_INPUT",
+          type: 'DROPDOWN_INPUT',
           data1: dropDowns[d].firstElementChild.innerHTML,
           data2: dropDowns[d].lastElementChild.innerHTML,
           id: `dd${d + 1}`,
@@ -353,30 +358,29 @@ const Header = () => {
   }
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.get('token');
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   //console.log("In header.js", decoded);
-
 
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
 
-    const titleName = document.querySelector(".title-name").innerHTML;
+    const titleName = document.querySelector('.title-name').innerHTML;
 
     const field = {
       _id: decoded.details._id,
     };
     let updateField = {};
-    if (decoded.details.action === "template") {
+    if (decoded.details.action === 'template') {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
       };
-    } else if (decoded.details.action === "document") {
+    } else if (decoded.details.action === 'document') {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
@@ -391,15 +395,15 @@ const Header = () => {
 
     function sendMessage() {
       const message =
-        decoded.details.action === "document"
-          ? "Document saved"
-          : "Template saved";
-      const iframe = document.querySelector("iframe");
-      iframe?.contentWindow?.postMessage(message, "*");
+        decoded.details.action === 'document'
+          ? 'Document saved'
+          : 'Template saved';
+      const iframe = document.querySelector('iframe');
+      iframe?.contentWindow?.postMessage(message, '*');
     }
 
     Axios.post(
-      "https://100058.pythonanywhere.com/api/save-data-into-collection/",
+      'https://100058.pythonanywhere.com/api/save-data-into-collection/',
       {
         cluster: decoded.details.cluster,
         collection: decoded.details.collection,
@@ -417,7 +421,7 @@ const Header = () => {
         if (res.status == 200) {
           setIsLoading(false);
           // alert("Data saved successfully");
-          toast.success("Saved successfully");
+          toast.success('Saved successfully');
           sendMessage();
         }
         //console.log(res);
@@ -448,8 +452,8 @@ const Header = () => {
   }
 
   var header = {
-    "alg": "HS256",
-    "typ": "JWT"
+    alg: 'HS256',
+    typ: 'JWT',
   };
 
   var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
@@ -458,19 +462,18 @@ const Header = () => {
   var dataa = {
     document_id: decoded.details._id,
     action: actionName,
-  }
+  };
 
   var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
   var encodedData = base64url(stringifiedData);
 
-  var exportToken = encodedHeader + "." + encodedData;
-  console.log("test token", exportToken);
+  var exportToken = encodedHeader + '.' + encodedData;
+  console.log('test token', exportToken);
   // token creation end
 
   const getPostData = async () => {
-
     const response = await Axios.post(
-      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+      'https://100058.pythonanywhere.com/api/get-data-from-collection/',
       {
         document_id: decoded.details._id,
         action: decoded.details.action,
@@ -481,9 +484,9 @@ const Header = () => {
         const loadedDataT = res.data;
         console.log(res);
 
-        if (decoded.details.action === "template") {
+        if (decoded.details.action === 'template') {
           setTitle(loadedDataT.template_name);
-        } else if (decoded.details.action === "document") {
+        } else if (decoded.details.action === 'document') {
           setTitle(loadedDataT.document_name);
         }
 
@@ -510,46 +513,43 @@ const Header = () => {
     getPostData();
   }, []);
 
-
   // copy text function
 
   function copyText() {
     let div = document.querySelector('.token_text');
     let text = div.innerText;
     let textArea = document.createElement('textarea');
-    textArea.width = "1px";
-    textArea.height = "1px";
-    textArea.background = "transparents";
+    textArea.width = '1px';
+    textArea.height = '1px';
+    textArea.background = 'transparents';
     textArea.value = text;
     document.body.append(textArea);
     textArea.select();
-    document.execCommand('copy');   //No i18n
+    document.execCommand('copy'); //No i18n
     document.body.removeChild(textArea);
     toast('Text coppied', {
-      position: "top-right",
+      position: 'top-right',
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: 'light',
     });
   }
   // copy text function end
 
-
   function handleToken() {
-    setData([])
-    setIsLoading(true)
-    var tokenn = prompt("Paste your token here");
+    setData([]);
+    setIsLoading(true);
+    var tokenn = prompt('Paste your token here');
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-      console.log("tokkkkkkennn", tokenn);
+      console.log('tokkkkkkennn', tokenn);
       const getPostData = async () => {
-
         const response = await Axios.post(
-          "https://100058.pythonanywhere.com/api/get-data-from-collection/",
+          'https://100058.pythonanywhere.com/api/get-data-from-collection/',
           {
             document_id: decodedTok.document_id,
             action: decodedTok.action,
@@ -560,10 +560,10 @@ const Header = () => {
             const loadedDataT = res.data;
             console.log(res);
 
-            if (decoded.details.action === "template") {
-              setTitle("Untitle-File");
-            } else if (decoded.details.action === "document") {
-              setTitle("Untitle-File");
+            if (decoded.details.action === 'template') {
+              setTitle('Untitle-File');
+            } else if (decoded.details.action === 'document') {
+              setTitle('Untitle-File');
             }
 
             //Handling content
@@ -583,19 +583,17 @@ const Header = () => {
             console.log(err);
           });
       };
-      getPostData()
+      getPostData();
     }
-
-
   }
 
+  console.log('page count check', item);
 
-
-  console.log("page count check", item);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
+      }`}
     >
       <Container fluid>
         <Row>
@@ -638,28 +636,48 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => { }} src={headerData[4].icon} alt="" />
-              <img onClick={() => { }} src={headerData[5].icon} alt="" />
-              {actionName == "template" && <button className="page_btn" onClick={() => createNewPage()}>
-                <MdOutlinePostAdd color="white" size={32} />
-              </button>
-              }
-              {actionName == "template" && <button className="page_btn" onClick={() => removePage()}>
-                <CgPlayListRemove color="white" size={32} />
-              </button>
-              }
+              <img onClick={() => {}} src={headerData[4].icon} alt="" />
+              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+
+              {actionName == 'template' && (
+                <button className="page_btn" onClick={() => createNewPage()}>
+                  <MdOutlinePostAdd color="white" size={32} />
+                </button>
+              )}
+              {actionName == 'template' && (
+                <CgPlayListRemove
+                  color="white"
+                  size={32}
+                  onClick={() => removePage()}
+                />
+              )}
+              <div className="d-flex">
+                <BiImport
+                  color="white"
+                  size={32}
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                />
+
+                <BiExport
+                  color="white"
+                  size={32}
+                  id="saving-button"
+                  onClick={handleToken}
+                />
+              </div>
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
               })} */}
             </div>
           </Col>
 
-          <Col className="d-flex justify-content-center header_p text-center">
+          <Col className="d-flex justify-content-center  header_p text-center">
             {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
             <div
               className="title-name"
               contentEditable={true}
-              style={{ color: "white", fontSize: 20 }}
+              style={{ color: 'white', fontSize: 20 }}
               spellCheck="false"
             >
               {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
@@ -669,49 +687,77 @@ const Header = () => {
           </Col>
           <Col>
             <div className="right_header">
-              <div className="mt-1 text-center p-2 " >
-                <button type="button" class="btn btn-warning rounded px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <div className="mt-1 text-center p-2">
+                {/* <button
+                  type="button"
+                  class="btn btn-warning rounded px-5"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
                   Export
-                </button>
+                </button> */}
 
                 {/* <!-- Modal --> */}
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div
+                  class="modal fade"
+                  id="exampleModal"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Token</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Token
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
-                      <div class="modal-body token_text">
-                        {exportToken}
-                      </div>
+                      <div class="modal-body token_text">{exportToken}</div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button onClick={copyText} type="button" data-bs-dismiss="modal" class="copyBtn"><FaCopy color="gray" size={32} /></button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          onClick={copyText}
+                          type="button"
+                          data-bs-dismiss="modal"
+                          class="copyBtn"
+                        >
+                          <FaCopy color="gray" size={32} />
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-1 text-center p-2 head_btn">
+              {/* <div className="mt-1 text-center p-2 head_btn">
                 <Button
                   variant="primary"
                   size="md"
-                  className="rounded px-5"
+                  className="btn rounded px-5"
                   id="saving-button"
                   onClick={handleToken}
                 >
                   Import
                 </Button>
-              </div>
+              </div> */}
             </div>
           </Col>
           <Col className="d-flex align-items-center justify-content-end header_user">
-
             <ToastContainer size={5} />
             <span className="badge bg-warning">
-              {actionName == "template" ? "Template" : "Document"}
+              {actionName == 'template' ? 'Template' : 'Document'}
             </span>
             {/* <MdOutlineFlipCameraAndroid
               className="ms-2 cursor_pointer"
