@@ -5,40 +5,27 @@ import { useRef, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useStateContext } from "../../contexts/contextProvider";
 
 const ImageRightSidebar = () => {
+ var { setIsFinializeDisabled } = useStateContext();
   const [file, setFile] = useState(null);
 
   const addImageButtonInput = useRef(null);
 
   var uploadedImage = "";
-  const iamgeElement = document.querySelector(".focussed");
-  if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
-    if(iamgeElement.getAttribute("style")){
-      if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
-          alert("Not Empty");
-      } else {
-          alert("Empty");
-      }
-  }
-  }
+
   //clicked choose file button
-  const chooseFileClick = () => {
+  const chooseFileClick = (e) => {
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
-  //   const iamgeElement = document.querySelector(".focussed");
-  // if (iamgeElement?.parentElement?.classList?.contains("focussedd")) {
-  //   if(iamgeElement.getAttribute("style")){
-  //     if(iamgeElement.getAttribute("style").indexOf("background-image") != -1){
-  //         alert("Not Empty");
-  //     } else {
-  //         alert("Empty");
-  //     }
-  // }
-  // }
-  };
+    var imageDiv = document.querySelector(".focussed");
+    if(imageDiv.parentElement.classList.contains("holderDIV")){
+      imageDiv.parentElement.classList.add("element_updated")
+    }
+    }
 
   function removeImage() {
     document.querySelector(".focussedd").remove();

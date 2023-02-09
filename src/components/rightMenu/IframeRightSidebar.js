@@ -10,6 +10,7 @@ const IframeRightSidebar = () => {
     const {
         setSidebar,
         handleClicked,
+        setIsFinializeDisabled
     } = useStateContext();
 
     const makeIframe = () => {
@@ -22,6 +23,11 @@ const IframeRightSidebar = () => {
 
         
         iframeDiv.appendChild(iframe);
+        //setIsFinializeDisabled(false)
+        if(iframeDiv.parentElement.classList.contains("holderDIV")){
+            iframeDiv.parentElement.classList.add("element_updated")
+            // console.log('iframe.parentElement', iframeDiv.parentElement);
+          }
     }
     function handleChange() {
         document.querySelector(".focussed").innerHTML = ""

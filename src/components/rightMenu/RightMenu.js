@@ -65,6 +65,26 @@ const RightMenu = () => {
     }
   }
 
+  function handleFinalize() {
+    setIsLoading(true)
+    Axios.post(
+      "https://100094.pythonanywhere.com/v0.1/process/verification/",
+      {
+        action: 'finalize',
+        process_id: process_id,
+        authorized: authorized,
+      }
+    )
+      .then((res) => {
+        setIsLoading(false)
+        console.log(res);
+        alert(res?.data)
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+      });
+  }
   function handleReject() {
     Axios.post(
       "https://100094.pythonanywhere.com/v0.1/process/verification/",
@@ -81,7 +101,7 @@ const RightMenu = () => {
         console.log(err);
       });
   }
-
+  
 
   useEffect(() => {
     if (isClicked.align2) {
@@ -194,7 +214,7 @@ const RightMenu = () => {
                 className="rounded px-5"
                 id="saving-button"
                 disabled={isFinializeDisabled}
-                onClick={() => alert("Finilize Clicked")}
+                onClick={handleFinalize}
               >
                 Finalize
               </Button>

@@ -111,7 +111,11 @@ const CalendarRightSidebar = (props) => {
               // console.log("date", date, startDate);
               if(date != startDate){
                 // console.log("date?.innerHTML", dateInnerText);
-                setIsFinializeDisabled(false)
+                //setIsFinializeDisabled(false)
+                var dateDiv = document.querySelector(".focussed");
+    if(dateDiv.parentElement.classList.contains("holderDIV")){
+      dateDiv.parentElement.classList.add("element_updated")
+    }
               }
               setRightSideDateMenu(true);
               setStartDate(date);

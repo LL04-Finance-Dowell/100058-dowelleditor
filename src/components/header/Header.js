@@ -41,7 +41,7 @@ const Header = () => {
     setTitle,
     setData,
     setIsDataRetrieved,
-
+    setIsFinializeDisabled
   } = useStateContext();
   //   //console.log(headerData);
 
@@ -66,7 +66,7 @@ const Header = () => {
     setItem(current);
     //console.log("create page click after", current);
   }
-
+// console.log('fetchedData', fetchedData);
   function removePage() {
     const current = [...item];
 
@@ -104,7 +104,6 @@ const Header = () => {
       } else {
         console.warn(`Cant remove page`);
       }
-
     }
   }
 
@@ -355,10 +354,17 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
+  const {action, authorized, process_id,document_map} = decoded?.details;
   const actionName = decoded?.details?.action;
-  //console.log("In header.js", decoded);
+  // console.log("In header.js", decoded, document_map);
+  const element_updated_length = document.getElementsByClassName("element_updated").length;
 
-
+useEffect(()=>{
+  // set_doc_map(document_map)
+  if(document_map.length == element_updated_length){
+    setIsFinializeDisabled(false)
+  }
+},[element_updated_length])
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -428,9 +434,9 @@ const Header = () => {
       });
   }
 
-  const handleFlipClick = (e) => {
-    setIsFlipClicked(!isFlipClicked);
-  };
+  // const handleFlipClick = (e) => {
+  //   setIsFlipClicked(!isFlipClicked);
+  // };
 
   // token creation code
   function base64url(source) {
@@ -464,7 +470,7 @@ const Header = () => {
   var encodedData = base64url(stringifiedData);
 
   var exportToken = encodedHeader + "." + encodedData;
-  console.log("test token", exportToken);
+  // console.log("test token", exportToken);
   // token creation end
 
   const getPostData = async () => {
@@ -479,7 +485,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res);
+        // console.log(res);
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);
@@ -491,8 +497,8 @@ const Header = () => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        console.log(loadedData);
-        console.log(loadedData[0][0]);
+        // console.log(loadedData);
+        // console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
         // setSort(loadedData[0][0]);
@@ -591,7 +597,7 @@ const Header = () => {
 
 
 
-  console.log("page count check", item);
+  // console.log("page count check", item);
   return (
     <div
       className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
@@ -654,7 +660,7 @@ const Header = () => {
             </div>
           </Col>
 
-          <Col className="d-flex justify-content-center header_p text-center">
+          <Col className="d-flex align-items-center justify-content-center header_p ">
             {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
             <div
               className="title-name"
