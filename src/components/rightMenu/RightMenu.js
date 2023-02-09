@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
-import {
-  FaCopy
-} from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import jwt_decode from "jwt-decode";
 import CryptoJS from "crypto-js";
 import "./RightMenu.css";
@@ -25,7 +23,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const RightMenu = () => {
-  const { isClicked,
+  const {
+    isClicked,
     setIsClicked,
     setSidebar,
     isFinializeDisabled,
@@ -44,7 +43,7 @@ const RightMenu = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  console.log(decoded);
+  // console.log(decoded);
 
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -54,54 +53,52 @@ const RightMenu = () => {
   console.log(authorized);
   console.log(process_id);
 
+  // if (actionName == "document" && docMap) {
+  //   setSidebar(true)
+  //   const delete_buttons = document.getElementsByClassName("remove_button");
+  //   //console.log(delete_buttons);
+  //   for (let d = 0; d < delete_buttons?.length; d++) {
+  //     //console.log(delete_buttons[d]);
+  //     delete_buttons[d].classList.add("disable_button")
+  //   }
+  // }
 
-  if (actionName == "document" && docMap) {
-    setSidebar(true)
-    const delete_buttons = document.getElementsByClassName("remove_button");
-    //console.log(delete_buttons);
-    for (let d = 0; d < delete_buttons?.length; d++) {
-      //console.log(delete_buttons[d]);
-      delete_buttons[d].classList.add("disable_button")
-    }
-  }
-
-  function handleFinalize() {
-    setIsLoading(true)
-    Axios.post(
-      "https://100094.pythonanywhere.com/v0.1/process/verification/",
-      {
-        action: 'finalize',
-        process_id: process_id,
-        authorized: authorized,
-      }
-    )
-      .then((res) => {
-        setIsLoading(false)
-        console.log(res);
-        alert(res?.data)
-      })
-      .catch((err) => {
-        setIsLoading(false)
-        console.log(err);
-      });
-  }
-  function handleReject() {
-    Axios.post(
-      "https://100094.pythonanywhere.com/v0.1/process/verification/",
-      {
-        action: "reject",
-        process_id: process_id,
-        authorized: authorized,
-      }
-    )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  
+  // function handleFinalize() {
+  //   setIsLoading(true)
+  //   Axios.post(
+  //     "https://100094.pythonanywhere.com/v0.1/process/verification/",
+  //     {
+  //       action: 'finalize',
+  //       process_id: process_id,
+  //       authorized: authorized,
+  //     }
+  //   )
+  //     .then((res) => {
+  //       setIsLoading(false)
+  //       console.log(res);
+  //       alert(res?.data)
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false)
+  //       console.log(err);
+  //     });
+  // }
+  // function handleReject() {
+  //   Axios.post(
+  //     "https://100094.pythonanywhere.com/v0.1/process/verification/",
+  //     {
+  //       action: "reject",
+  //       process_id: authorized,
+  //       authorized: process_id,
+  //     }
+  //   )
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   useEffect(() => {
     if (isClicked.align2) {
@@ -197,8 +194,8 @@ const RightMenu = () => {
   ]);
 
   return (
-    <div className="fixed3">
-      {actionName == "document" && docMap && data != '' &&
+    <>
+      {/* {actionName == "document" && docMap && data != '' &&
         isClicked.align2 == false &&
         isClicked.image2 == false &&
         isClicked.table2 == false &&
@@ -206,7 +203,7 @@ const RightMenu = () => {
         isClicked.calendar2 == false &&
         isClicked.iframe2 == false &&
         isClicked.dropdown2 == false && (
-          <>
+          <div className="finalize_reject">
             <div className="mt-2 text-center pt-5">
               <Button
                 variant="success"
@@ -232,17 +229,18 @@ const RightMenu = () => {
                 Reject
               </Button>
             </div>
-          </>
-        )}
-
-      {isClicked.align2 && <AlignRightSide />}
-      {isClicked.image2 && <ImageRightSidebar />}
-      {isClicked.table2 && <TableRightSidebar />}
-      {isClicked.signs2 && <SignsRightSidebar />}
-      {isClicked.calendar2 && <CalendarRightSidebar />}
-      {isClicked.dropdown2 && <DropDownRightSide />}
-      {isClicked.iframe2 && <IframeRightSidebar />}
-    </div>
+        </div>
+        )} */}
+      <div className="fixed3">
+        {isClicked.align2 && <AlignRightSide />}
+        {isClicked.image2 && <ImageRightSidebar />}
+        {isClicked.table2 && <TableRightSidebar />}
+        {isClicked.signs2 && <SignsRightSidebar />}
+        {isClicked.calendar2 && <CalendarRightSidebar />}
+        {isClicked.dropdown2 && <DropDownRightSide />}
+        {isClicked.iframe2 && <IframeRightSidebar />}
+      </div>
+    </>
   );
 };
 

@@ -117,11 +117,6 @@ const Header = () => {
     const rect = el.getBoundingClientRect();
     const midsectionRect = midSec.getBoundingClientRect();
 
-    // "[[{"width":584.1484375,"height":170.9921875,"top":90.9921875,"left":384.1484375,"type":"TEXT_INPUT","data":"left test text","id":"editTextBox 1"},{"width":1177.1484375,"height":169.9921875,"top":89.9921875,"left":977.1484375,"type":"TEXT_INPUT","data":"right test text","id":"editTextBox 2"}]]"
-
-    //     {width: 584.1484375, height: 170.9921875, top: 90.9921875, left: 384.1484375, type: 'TEXT_INPUT', …}
-    // {width: 1177.1484375, height: 169.9921875, top: 89.9921875, left: 977.1484375, type: 'TEXT_INPUT', …}
-
     return {
       top: rect.top - midsectionRect.top,
       left: rect.left - midsectionRect.left,
