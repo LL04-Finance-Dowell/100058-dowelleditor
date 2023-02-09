@@ -669,11 +669,16 @@ useEffect(()=>{
             </div>
           </Col>
           <Col>
-            <div className="right_header">
-              <div className="mt-1 text-center p-2">
-                <button type="button" class="btn btn-warning rounded px-5 btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div className="right_header buttons_right">
+              <div className="mt-1 text-center p-2 " >
+                <Button type="button"
+                  size="sm"
+                  style={{width: '100px'}}
+                  className="btn btn-warning rounded"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">
                   Export
-                </button>
+                </Button>
 
                 {/* <!-- Modal --> */}
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -695,13 +700,14 @@ useEffect(()=>{
                 </div>
               </div>
 
-              <div className="mt-1 text-center p-2 head_btn">
+              <div className="mt-1 text-center p-0 ">
                 <Button
                   variant="primary"
                   size="sm"
-                  className="rounded px-5"
+                  className="rounded"
                   id="saving-button"
                   onClick={handleToken}
+                  style={{ width: '100px' }}
                 >
                   Import
                 </Button>

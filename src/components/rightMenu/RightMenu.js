@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
-import {
-  FaCopy
-} from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import jwt_decode from "jwt-decode";
 import CryptoJS from "crypto-js";
 import "./RightMenu.css";
@@ -25,7 +23,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const RightMenu = () => {
-  const { isClicked,
+  const {
+    isClicked,
     setIsClicked,
     setSidebar,
     isFinializeDisabled,
@@ -45,12 +44,14 @@ const RightMenu = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   // console.log(decoded);
-  
+
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const authorized = decoded?.details?.authorized;
   const process_id = decoded?.details?.process_id;
 
+  console.log(authorized);
+  console.log(process_id);
 
   // if (actionName == "document" && docMap) {
   //   setSidebar(true)
@@ -98,7 +99,6 @@ const RightMenu = () => {
   //       console.log(err);
   //     });
   // }
-  
 
   useEffect(() => {
     if (isClicked.align2) {
@@ -232,15 +232,15 @@ const RightMenu = () => {
         </div>
         )} */}
       <div className="fixed3">
-      {isClicked.align2 && <AlignRightSide />}
-      {isClicked.image2 && <ImageRightSidebar />}
-      {isClicked.table2 && <TableRightSidebar />}
-      {isClicked.signs2 && <SignsRightSidebar />}
-      {isClicked.calendar2 && <CalendarRightSidebar />}
-      {isClicked.dropdown2 && <DropDownRightSide />}
-      {isClicked.iframe2 && <IframeRightSidebar />}
-    </div>
-  </>
+        {isClicked.align2 && <AlignRightSide />}
+        {isClicked.image2 && <ImageRightSidebar />}
+        {isClicked.table2 && <TableRightSidebar />}
+        {isClicked.signs2 && <SignsRightSidebar />}
+        {isClicked.calendar2 && <CalendarRightSidebar />}
+        {isClicked.dropdown2 && <DropDownRightSide />}
+        {isClicked.iframe2 && <IframeRightSidebar />}
+      </div>
+    </>
   );
 };
 
