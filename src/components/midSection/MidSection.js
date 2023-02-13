@@ -528,15 +528,26 @@ const MidSection = () => {
     return holderDIV;
   }
   function focuseddClassMaintain(e) {
+    // const tableDateDiv = document.getElementsByClassName("tableDateInput");
+    
     let allDiv = document.getElementsByClassName('focussedd');
     for (let i = 0; i < allDiv.length; i++) {
       allDiv[i].classList.remove('focussedd');
+
+      if(e.target.classList.contains("tableDateInput")){
+        allDiv[i].classList.remove('focussedd');
+      }
     }
+    
     e.target.parentElement.classList.add('focussedd');
 
     let focussedDiv = document.getElementsByClassName('focussed');
     for (let i = 0; i < focussedDiv.length; i++) {
       focussedDiv[i].classList.remove('focussed');
+
+      if(e.target.classList.contains("tableDateInput")){
+        focussedDiv[i].classList.remove('focussed');
+      }
     }
     e.target.classList.add('focussed');
 

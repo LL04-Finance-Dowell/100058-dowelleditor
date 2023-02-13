@@ -588,6 +588,8 @@ const Header = () => {
           });
       };
       getPostData();
+    } else {
+      setIsLoading(false);
     }
   }
 
