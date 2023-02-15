@@ -35,6 +35,7 @@ const Header = () => {
   const {
     item,
     setItem,
+    isLoading,
     setIsLoading,
     isFlipClicked,
     setIsFlipClicked,
@@ -44,7 +45,10 @@ const Header = () => {
     setDeletepages,
     title,
     setTitle,
+    data,
     setData,
+    isClicked,
+    isFinializeDisabled,
     setIsDataRetrieved,
     setIsFinializeDisabled
   } = useStateContext();
@@ -358,6 +362,7 @@ const Header = () => {
   var decoded = jwt_decode(token);
   const { action, authorized, process_id, document_map } = decoded?.details;
   const actionName = decoded?.details?.action;
+  const docMap = decoded?.details?.document_map;
   // console.log("In header.js", decoded, document_map);
   const element_updated_length = document.getElementsByClassName("element_updated").length;
 
@@ -593,6 +598,42 @@ const Header = () => {
 
   console.log('page count check', item);
 
+  const saveButton = document.getElementById("saving-button");
+  function handleFinalize() {
+    saveButton.click()
+    if (isLoading == false)
+      Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
+        action: "finalize",
+        process_id: process_id,
+        authorized: authorized,
+      })
+        .then((res) => {
+          console.log(res);
+          alert(res?.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
+  }
+
+  function handleReject() {
+    setIsLoading(true)
+    Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
+      action: "reject",
+      process_id: process_id,
+      authorized: authorized,
+    })
+      .then((res) => {
+        setIsLoading(false)
+        console.log(res);
+        alert(res?.data);
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        console.log(err);
+      });
+  }
 
   // console.log("page count check", item);
   return (
@@ -603,39 +644,9 @@ const Header = () => {
       <Container fluid>
         <Row>
           <Col className="d-flex justify-content-start lhs-header">
-            <div className="header_btn">
-              <Button
-                variant="primary"
-                size="md"
-                className="rounded "
-                id="saving-button"
-                onClick={submit}
-              >
-                Save
-              </Button>
-              {/* {actionName == "template" && (
-                <>
-                  <Button
-                    variant="success"
-                    size="md"
-                    className="rounded "
-                    id="saving-button"
-                    onClick={() => alert("Finilize Clicked")}
-                  >
-                    Finalize
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="md"
-                    className="rounded "
-                    id="saving-button"
-                    onClick={() => alert("Rejcet Clicked")}
-                  >
-                    Reject
-                  </Button>
-                </>
-              )} */}
-            </div>
+          <span className="badge bg-warning temp_doc">
+              {actionName == 'template' ? 'Template' : 'Document'}
+            </span>
             <div className="header_icons">
               <img onClick={handleUndo} src={headerData[0].icon} alt="" />
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
@@ -692,17 +703,19 @@ const Header = () => {
           </Col>
           <Col>
             <div className="right_header">
-              <div className="mt-1 text-center p-2">
-                {/* <button
-                  type="button"
-                  class="btn btn-warning rounded px-5"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
+              <div className={docMap ? "header_btn" : "savee" }>
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="rounded "
+                  id="saving-button"
+                  onClick={submit}
                 >
-                  Export
-                </button> */}
+                  Save
+                </Button>
 
-                {/* <!-- Modal --> */}
+              </div>
+              <div className="mt-1 text-center p-2">
                 <div
                   class="modal fade"
                   id="exampleModal"
@@ -746,33 +759,44 @@ const Header = () => {
                 </div>
               </div>
 
-              {/* <div className="mt-1 text-center p-2 head_btn">
-                <Button
-                  variant="primary"
-                  size="md"
-                  className="btn rounded px-5"
-                  id="saving-button"
-                  onClick={handleToken}
-                  style={{ width: '100px' }}
-                >
-                  Import
-                </Button>
-              </div> */}
+              {actionName == "document" &&
+                docMap &&
+                data != "" && (
+                  // <div className="finalize_reject_wraper">
+                  <>
+                    <div className="mt-2 text-center me-2 mb-2 px-2">
+                      {(isFinializeDisabled == false) && <Button
+                        variant="success"
+                        size="md"
+                        className="rounded px-4"
+                        id="saving-button"
+                        disabled={isFinializeDisabled}
+                        onClick={handleFinalize}
+                      >
+                        Finalize
+                      </Button>
+                      }
+                    </div>
+
+                    <div className="mt-2 text-center mb-2 px-2">
+                      <Button
+                        variant="danger"
+                        size="md"
+                        className="rounded px-4"
+                        id="saving-button"
+                        onClick={handleReject}
+                      >
+                        Reject
+                      </Button>
+                    </div>
+                  </>
+
+                )}
+
             </div>
-          </Col>
-          <Col className="d-flex align-items-center justify-content-end header_user">
             <ToastContainer size={5} />
-            <span className="badge bg-warning">
-              {actionName == 'template' ? 'Template' : 'Document'}
-            </span>
-            {/* <MdOutlineFlipCameraAndroid
-              className="ms-2 cursor_pointer"
-              color="white"
-              size={32}
-              onClick={handleFlipClick}
-            /> */}
-            {/* <img src={user} alt="" /> */}
           </Col>
+          
         </Row>
       </Container>
     </div>

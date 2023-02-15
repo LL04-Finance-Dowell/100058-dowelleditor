@@ -9,6 +9,13 @@
   padding: 15px 30px;
 }
 
+.finalize_reject{
+  background: #363636;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  /* border: solid 2px red; */
+}
 
 
 

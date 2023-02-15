@@ -41,23 +41,23 @@ const EditSection = () => {
   const { authorized, process_id } = decoded?.details;
 
   const saveButton = document.getElementById("saving-button");
-  console.log(saveButton);
+
   function handleFinalize() {
     saveButton.click()
-    if(isLoading == false)
-    Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
-      action: "finalize",
-      process_id: process_id,
-      authorized: authorized,
-    })
-      .then((res) => {
-        console.log(res);
-        alert(res?.data);
+    if (isLoading == false)
+      Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
+        action: "finalize",
+        process_id: process_id,
+        authorized: authorized,
       })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res);
+          alert(res?.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
   }
   function handleReject() {
     setIsLoading(true)
@@ -67,12 +67,12 @@ const EditSection = () => {
       authorized: authorized,
     })
       .then((res) => {
-        setIsLoading(false)        
+        setIsLoading(false)
         console.log(res);
         alert(res?.data);
       })
       .catch((err) => {
-        setIsLoading(false) 
+        setIsLoading(false)
         console.log(err);
       });
   }
@@ -100,7 +100,7 @@ const EditSection = () => {
             {/* <MidSection showSidebar={showSidebar}/> */}
 
             <MidSection />
-            {actionName == "document" &&
+            {/* {actionName == "document" &&
               docMap &&
               data != "" &&
               isClicked.align2 == false &&
@@ -112,16 +112,16 @@ const EditSection = () => {
               isClicked.dropdown2 == false && (
                 // <div className="finalize_reject_wraper">
                 <div
-                  className={`finalize_reject d-flex justify-content-center`}
+                  className={`finalize_reject d-flex`}
                   style={{
                     position: "fixed",
-                    top: window.innerHeight - 150,
-                    left: "44%",
+                    top: window.innerHeight - 120,
+                    left: "40%",
                     zIndex: 5,
                   }}
                 >
-                  <div className="mt-2 text-center pt-5 me-2">
-                    <Button
+                  <div className="mt-2 text-center me-2 mb-2 px-2">
+                    {(isFinializeDisabled == false) && <Button
                       variant="success"
                       size="md"
                       className="rounded px-5"
@@ -131,9 +131,10 @@ const EditSection = () => {
                     >
                       Finalize
                     </Button>
+                    }
                   </div>
 
-                  <div className="mt-2 text-center pt-5">
+                  <div className="mt-2 text-center mb-2 px-2">
                     <Button
                       variant="danger"
                       size="md"
@@ -146,7 +147,7 @@ const EditSection = () => {
                   </div>
                 </div>
                 // </div>
-              )}
+              )} */}
           </Col>
 
           <Col
