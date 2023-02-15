@@ -43,7 +43,7 @@ const TableRightSidebar = () => {
       inputField.style.position = "relative";
       inputField.style.cursor = "text";
 
-      document.getElementsByClassName("dropp").item(0).append(inputField);
+      e.target.append(inputField);
     } else if (typeOfOperation === "IMAGE_INPUT") {
       let imageField = document.createElement("div");
       imageField.className = "imageInput";
@@ -53,7 +53,7 @@ const TableRightSidebar = () => {
       imageField.style.borderRadius = "0px";
       imageField.style.outline = "0px";
       imageField.style.overflow = "overlay";
-      imageField.innerHTML = "hhhhhhhhhhhh";
+      imageField.innerHTML = "Image here";
       imageField.style.position = "relative";
 
       const imgBtn = document.createElement("input");
@@ -71,7 +71,7 @@ const TableRightSidebar = () => {
         reader.readAsDataURL(imgBtn.files[0]);
       });
 
-      document.getElementsByClassName("dropp").item(0).append(imageField);
+      e.target.append(imageField);
     } else if (typeOfOperation === "TEXT_FILL") {
       let texttField = document.createElement("textarea");
       texttField.className = "texttInput";
@@ -86,7 +86,7 @@ const TableRightSidebar = () => {
       // texttField.innerText = `${postData.textField.value}`
       texttField.style.position = "relative";
 
-      document.getElementsByClassName("dropp").item(0).append(texttField);
+      e.target.append(texttField);
     } else if (typeOfOperation === "SIGN_INPUT") {
       let signField = document.createElement("div");
       signField.className = "signInput";
@@ -96,7 +96,7 @@ const TableRightSidebar = () => {
       signField.style.borderRadius = "0px";
       signField.style.outline = "0px";
       signField.style.overflow = "overlay";
-      signField.innerHTML = "Sign input";
+      signField.innerHTML = 'Signature here';
       signField.style.position = "absolute";
 
       signField.onclick = (e) => {
@@ -120,7 +120,7 @@ const TableRightSidebar = () => {
       dateField.style.borderRadius = "0px";
       dateField.style.outline = "0px";
       dateField.style.overflow = "overlay";
-      dateField.innerText = "Date";
+      dateField.innerText = "mm/dd/yyyy";
       dateField.style.position = "relative";
       dateField.style.zIndex = 2;
 
@@ -129,7 +129,7 @@ const TableRightSidebar = () => {
         setSidebar(true);
       };
 
-      document.getElementsByClassName("focussedd").item(0).append(dateField);
+      e.target.append(dateField);
     }
   };
 
