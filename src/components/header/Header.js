@@ -764,7 +764,7 @@ const Header = () => {
                 data != "" && (
                   // <div className="finalize_reject_wraper">
                   <>
-                    <div className="mt-2 text-center me-2 mb-2 px-2">
+                    <div className="mt-2 text-center mb-2 px-2">
                       {(isFinializeDisabled == false) && <Button
                         variant="success"
                         size="md"
