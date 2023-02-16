@@ -43,11 +43,14 @@ const TableRightSidebar = () => {
       inputField.style.position = "relative";
       inputField.style.cursor = "text";
       inputField.onclick = (e) => {
-        if (inputField) {
-          handleClicked("align2", "table2");
-          setSidebar(true);
-          e.stopPropagation();
-        }
+        // if (inputField) {
+        //   handleClicked("align2", "table2");
+        //   setSidebar(true);
+        //   e.stopPropagation();
+        // }
+        handleClicked("align2", "table2");
+        setSidebar(true);
+        e.stopPropagation();
       };
 
       e.target.append(inputField);
