@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-} from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Header.css';
 import { headerData } from '../../data/data';
 import user from '../../assets/headerIcons/user.png';
@@ -50,7 +43,7 @@ const Header = () => {
     isClicked,
     isFinializeDisabled,
     setIsDataRetrieved,
-    setIsFinializeDisabled
+    setIsFinializeDisabled,
   } = useStateContext();
   //   //console.log(headerData);
 
@@ -266,7 +259,7 @@ const Header = () => {
           data:
             sign[h].firstElementChild === null
               ? // decoded.details.action === "document"
-              sign[h].innerHTML
+                sign[h].innerHTML
               : sign[h].firstElementChild.src,
           id: `s${h + 1}`,
         };
@@ -324,6 +317,33 @@ const Header = () => {
         // page.push(elem);
       }
     }
+    // Limon
+    // const scales = document.getElementsByClassName('iframeInput');
+
+    // if (scales.length) {
+    //   for (let i = 0; i < scales.length; i++) {
+    //     // var new_table = document.getElementsByTagName("table")[0];
+    //     let tempElem = scales[i].parentElement;
+    //     let tempPosn = getPosition(tempElem);
+    //     //console.log(iframes[i].innerText);
+    //     elem = {
+    //       width: tempPosn.width,
+    //       height: tempPosn.height,
+    //       top: tempPosn.top,
+    //       topp: scales[i].parentElement.style.top,
+    //       left: tempPosn.left,
+    //       type: 'SCALE_INPUT',
+    //       data: scales[i].innerText
+    //         ? 'Scale here'
+    //         : scales[i].firstElementChild.src,
+    //       id: `ifr${i + 1}`,
+    //     };
+    //     dataInsertWithPage(tempPosn, elem);
+
+    //     // page.push(elem);
+    //   }
+    // }
+    // Limon
     const dropDowns = document.getElementsByClassName('dropdownInput');
 
     if (dropDowns.length) {
@@ -367,14 +387,15 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   // console.log("In header.js", decoded, document_map);
-  const element_updated_length = document.getElementsByClassName("element_updated").length;
+  const element_updated_length =
+    document.getElementsByClassName('element_updated').length;
 
   useEffect(() => {
     // set_doc_map(document_map)
     if (document_map?.length == element_updated_length) {
-      setIsFinializeDisabled(false)
+      setIsFinializeDisabled(false);
     }
-  }, [element_updated_length])
+  }, [element_updated_length]);
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -479,7 +500,7 @@ const Header = () => {
   var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
   var encodedData = base64url(stringifiedData);
 
-  var exportToken = encodedHeader + "." + encodedData;
+  var exportToken = encodedHeader + '.' + encodedData;
   // console.log("test token", exportToken);
   // token creation end
 
@@ -641,8 +662,9 @@ const Header = () => {
   // console.log("page count check", item);
   return (
     <div
-      className={`header ${actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
-        }`}
+      className={`header ${
+        actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
+      }`}
     >
       <Container fluid>
         <Row>
@@ -655,8 +677,8 @@ const Header = () => {
               <img onClick={handleRedo} src={headerData[1].icon} alt="" />
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => { }} src={headerData[4].icon} alt="" />
-              <img onClick={() => { }} src={headerData[5].icon} alt="" />
+              <img onClick={() => {}} src={headerData[4].icon} alt="" />
+              <img onClick={() => {}} src={headerData[5].icon} alt="" />
 
               {actionName == 'template' && (
                 <button className="page_btn" onClick={() => createNewPage()}>

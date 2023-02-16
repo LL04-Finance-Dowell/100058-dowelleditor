@@ -108,6 +108,16 @@ const dragStartIframe = (e) => {
     document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
+// Limon
+const dragStartScale = (e) => {
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'SCALE_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
+  }
+};
+// Limon
 
 const dragEndFunc = () => {
   const element = document.getElementById('draggable');
@@ -213,6 +223,11 @@ const LeftMenu = ({ showSidebar }) => {
               dragStartFunc={dragStartIframe}
               customFunc={() => handleDrop('iframe')}
               icon={editSecOptions[8].icon}
+            />
+            <NavButton
+              dragStartFunc={dragStartScale}
+              customFunc={() => handleDrop('iframe')}
+              icon={editSecOptions[9].icon}
             />
           </div>
         )

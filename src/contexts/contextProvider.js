@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from 'react';
 
 const StateContext = createContext();
 
@@ -11,7 +11,8 @@ const initialState = {
   calendar: false,
   dropdown: false,
   containerr: false,
-  iframe: false
+  iframe: false,
+  scale: false,
 };
 const initialState2 = {
   align2: false,
@@ -21,11 +22,11 @@ const initialState2 = {
   signs2: false,
   calendar2: false,
   dropdown2: false,
-  iframe2: false
+  iframe2: false,
+  scale2: false,
 };
 
 export const ContextProvider = ({ children }) => {
-
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
@@ -35,7 +36,7 @@ export const ContextProvider = ({ children }) => {
 
   // Fetched Data
   const [data, setData] = useState([]);
-  const [title, setTitle] = useState(["Untitled-file"]);
+  const [title, setTitle] = useState(['Untitled-file']);
   const [isDataRetrieved, setIsDataRetrieved] = useState(false);
 
   //Right Sidebar context
@@ -44,10 +45,10 @@ export const ContextProvider = ({ children }) => {
   const [startDate, setStartDate] = useState(new Date()); // Calendar
 
   // //console.log("fetchedData", fetchedData);
-  const [dropdownName, setDropdownName] = useState("Dropdown Name");
-  const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
-  const [dropdownItems, setDropdownItems] = useState("");
-  const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"]);
+  const [dropdownName, setDropdownName] = useState('Dropdown Name');
+  const [dropdownLabel, setDropdownLabel] = useState('Dropdown Label');
+  const [dropdownItems, setDropdownItems] = useState('');
+  const [dropdownOptions, setDropdownOptions] = useState(['Enter List Items']);
 
   const [bold, setBold] = useState(false);
   const [italic, setItalic] = useState(false);
@@ -68,14 +69,14 @@ export const ContextProvider = ({ children }) => {
   const [rightSideDatemenu, setRightSideDateMenu] = useState(false);
   const [rightSideDropDown, setRightSideDropDown] = useState(false);
   // handling date format
-  const [method, setMethod] = useState("first");
+  const [method, setMethod] = useState('first');
   // handling page delete
   const [deletePages, setDeletepages] = useState([]);
   // const showSidebar = () => setSidebar(!sidebar);
   const [isFinializeDisabled, setIsFinializeDisabled] = useState(true);
   //handling new pages
 
-  const [item, setItem] = useState(["div_1"]);
+  const [item, setItem] = useState(['div_1']);
 
   //   //console.log("item check", item);
 
@@ -128,7 +129,7 @@ export const ContextProvider = ({ children }) => {
         setMethod,
         deletePages,
         setDeletepages,
-        isFinializeDisabled, 
+        isFinializeDisabled,
         setIsFinializeDisabled,
         newToken,
         setNewToken,
