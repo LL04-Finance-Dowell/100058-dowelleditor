@@ -176,6 +176,7 @@ const MidSection = () => {
       }
     )
       .then((res) => {
+        console.log('midSection', res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
@@ -650,19 +651,19 @@ const MidSection = () => {
           inputField.style.height = '100%';
           inputField.style.resize = 'none';
           inputField.style.zIndex = 2;
-          inputField.style.backgroundColor = "#0000";
-          inputField.style.borderRadius = "0px";
-          inputField.style.outline = "0px";
-          inputField.style.overflow = "overlay";
-          inputField.style.position = "relative";
-          inputField.style.cursor = "text";
-          inputField.oninput = (e) =>{
+          inputField.style.backgroundColor = '#0000';
+          inputField.style.borderRadius = '0px';
+          inputField.style.outline = '0px';
+          inputField.style.overflow = 'overlay';
+          inputField.style.position = 'relative';
+          inputField.style.cursor = 'text';
+          inputField.oninput = (e) => {
             //setIsFinializeDisabled(false);
             // const doc_map_copy = [...doc_map]
-            if(inputField.parentElement.classList.contains("holderDIV")){
-              inputField.parentElement.classList.add("element_updated")
+            if (inputField.parentElement.classList.contains('holderDIV')) {
+              inputField.parentElement.classList.add('element_updated');
             }
-          }
+          };
           inputField.onclick = (e) => {
             focuseddClassMaintain(e);
 
@@ -710,10 +711,10 @@ const MidSection = () => {
           imageField.style.outline = '0px';
           imageField.style.overflow = 'overlay';
           // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
-          imageField.style.position = "relative";
-          imageField.oninput = (e) =>{
+          imageField.style.position = 'relative';
+          imageField.oninput = (e) => {
             //setIsFinializeDisabled(false);
-          }
+          };
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
             handleClicked('image2');
@@ -941,10 +942,10 @@ const MidSection = () => {
           tableField.style.outline = '0px';
           tableField.style.overflow = 'overlay';
           // tableField.innerHTML = 'table';
-          tableField.style.position = "absolute";
-          tableField.oninput = (e) =>{
+          tableField.style.position = 'absolute';
+          tableField.oninput = (e) => {
             //setIsFinializeDisabled(false);
-          }
+          };
           tableField.onclick = (e) => {
             // focuseddClassMaintain(e);
 
@@ -1070,6 +1071,57 @@ const MidSection = () => {
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+        // Limon
+        // if (element.type === 'SCALE_INPUT') {
+        //   const measure = {
+        //     width: element.width + 'px',
+        //     height: element.height + 'px',
+        //     left: element.left + 'px',
+        //     top: element.topp,
+        //     auth_user: curr_user,
+        //   };
+        //   const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+        //   const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+        //   // const holderDIV = getHolderDIV(measure, pageNo);
+
+        //   let iframeField = document.createElement('div');
+        //   iframeField.className = 'iframeInput';
+        //   iframeField.style.width = '100%';
+        //   iframeField.style.height = '100%';
+        //   iframeField.style.backgroundColor = '#dedede';
+        //   iframeField.style.borderRadius = '0px';
+        //   iframeField.style.outline = '0px';
+        //   iframeField.style.overflow = 'overlay';
+        //   // iframeField.innerHTML = "iframe";
+        //   iframeField.style.position = 'absolute';
+
+        //   if (element.data == 'scale here') {
+        //     iframeField.innerHTML = element.data;
+        //   }
+        //   if (element.data != 'scale here') {
+        //     const iframe = document.createElement('iframe');
+        //     iframe.src = element.data;
+        //     iframe.width = '100%';
+        //     iframe.height = '100%';
+
+        //     iframeField.append(iframe);
+        //   }
+
+        //   iframeField.onclick = (e) => {
+        //     // focuseddClassMaintain(e);
+        //     table_dropdown_focuseddClassMaintain(e);
+        //     handleClicked('scale2');
+        //     setSidebar(true);
+        //   };
+
+        //   holderDIV.append(iframeField);
+
+        //   document
+        //     .getElementsByClassName('midSection_container')
+        //     [p - 1] // ?.item(0)
+        //     ?.append(holderDIV);
+        // }
+        // Limon
         if (element.type === 'DROPDOWN_INPUT') {
           const measure = {
             width: element.width + 'px',
@@ -1479,7 +1531,35 @@ const MidSection = () => {
       };
 
       holderDIV.append(iframeField);
-    } else if (
+    } //Limon
+    else if (
+      typeOfOperation === 'SCALE_INPUT' &&
+      decoded.details.action === 'template'
+    ) {
+      let iframeField = document.createElement('div');
+      iframeField.className = 'iframeInput';
+      iframeField.style.width = '100%';
+      iframeField.style.height = '100%';
+      iframeField.style.backgroundColor = '#dedede';
+      iframeField.style.borderRadius = '0px';
+      iframeField.style.outline = '0px';
+      iframeField.style.overflow = 'overlay';
+      // iframeField.innerHTML = "iframe";
+      iframeField.style.position = 'absolute';
+      iframeField.innerText = 'scale here';
+
+      iframeField.onclick = (e) => {
+        // focuseddClassMaintain(e);
+        table_dropdown_focuseddClassMaintain(e);
+        // tableField.classList.add("focussed");
+        handleClicked('scale2');
+        setSidebar(true);
+      };
+
+      holderDIV.append(iframeField);
+    }
+    // Limon
+    else if (
       typeOfOperation === 'SIGN_INPUT' &&
       decoded.details.action === 'template'
     ) {
