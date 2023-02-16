@@ -22,11 +22,141 @@ const TableRightSidebar = () => {
     strikethrough,
   } = useStateContext();
 
+  // const handleDropp = (e) => {
+  //   e.preventDefault();
+  //   const typeOfOperation = e.dataTransfer.getData("text/plain");
+  //   //console.log("cell has been dropped on " + typeOfOperation);
+
+  //   if (typeOfOperation === "TEXT_INPUT") {
+  //     let inputField = document.createElement("div");
+  //     //  inputField.setAttribute('draggable', true);
+  //     inputField.setAttribute("contenteditable", true);
+  //     inputField.className = "textInput";
+  //     inputField.innerHTML = "Enter text here";
+  //     inputField.style.width = "100%";
+  //     inputField.style.height = "100%";
+  //     inputField.style.resize = "none";
+  //     inputField.style.backgroundColor = "#0000";
+  //     inputField.style.borderRadius = "0px";
+  //     inputField.style.outline = "0px";
+  //     inputField.style.overflow = "overlay";
+  //     inputField.style.position = "relative";
+  //     inputField.style.cursor = "text";
+  //     inputField.onclick = (e) => {
+  //       // if (inputField) {
+  //       //   handleClicked("align2", "table2");
+  //       //   setSidebar(true);
+  //       //   e.stopPropagation();
+  //       // }
+  //       handleClicked("align2", "table2");
+  //       setSidebar(true);
+  //       e.stopPropagation();
+  //     };
+
+  //     e.target.append(inputField);
+  //   } else if (typeOfOperation === "IMAGE_INPUT") {
+  //     let imageField = document.createElement("div");
+  //     imageField.className = "imageInput";
+  //     imageField.style.width = "100%";
+  //     imageField.style.height = "50%";
+  //     imageField.style.backgroundColor = "#0000";
+  //     imageField.style.borderRadius = "0px";
+  //     imageField.style.outline = "0px";
+  //     imageField.style.overflow = "overlay";
+  //     imageField.innerHTML = "Image here";
+  //     imageField.style.position = "relative";
+
+  //     imageField.onclick = (e) => {
+  //       if (imageField) {
+  //         handleClicked("image2", "table2");
+  //         setSidebar(true);
+  //         e.stopPropagation();
+  //       }
+  //     };
+  //     const imgBtn = document.createElement("input");
+  //     imgBtn.type = "file";
+  //     imgBtn.style.objectFit = "cover";
+  //     var uploadedImage = "";
+
+  //     imgBtn.addEventListener("input", () => {
+  //       const reader = new FileReader();
+
+  //       reader.addEventListener("load", () => {
+  //         uploadedImage = reader.result;
+  //         imageField.style.backgroundImage = `url(${uploadedImage})`;
+  //       });
+  //       reader.readAsDataURL(imgBtn.files[0]);
+  //     });
+
+  //     e.target.append(imageField);
+  //   } else if (typeOfOperation === "TEXT_FILL") {
+  //     let texttField = document.createElement("textarea");
+  //     texttField.className = "texttInput";
+  //     texttField.placeholder = "input text here";
+  //     texttField.style.width = "100%";
+  //     texttField.style.height = "100%";
+  //     texttField.style.resize = "none";
+  //     texttField.style.backgroundColor = "#0000";
+  //     texttField.style.borderRadius = "0px";
+  //     texttField.style.outline = "0px";
+  //     texttField.style.overflow = "overlay";
+  //     // texttField.innerText = `${postData.textField.value}`
+  //     texttField.style.position = "relative";
+
+  //     e.target.append(texttField);
+  //   } else if (typeOfOperation === "SIGN_INPUT") {
+  //     let signField = document.createElement("div");
+  //     signField.className = "signInput";
+  //     signField.style.width = "100%";
+  //     signField.style.height = "100%";
+  //     signField.style.backgroundColor = "#0000";
+  //     signField.style.borderRadius = "0px";
+  //     signField.style.outline = "0px";
+  //     signField.style.overflow = "overlay";
+  //     signField.innerHTML = "Signature here";
+  //     signField.style.position = "absolute";
+
+  //     signField.onclick = (e) => {
+  //       // focuseddClassMaintain(e);
+  //       if (signField) {
+  //         // signField.classList.add("focussed");
+  //         handleClicked("signs2", "table2");
+  //         setSidebar(true);
+  //         e.stopPropagation();
+  //       } else {
+  //         setSidebar(false);
+  //       }
+  //     };
+  //     e.target.append(signField);
+  //     // document.getElementsByClassName("dropp").item(0).append(signField);
+  //   } else if (typeOfOperation === "DATE_INPUT") {
+  //     let dateField = document.createElement("div");
+  //     dateField.className = "dateInput";
+  //     dateField.style.width = "100%";
+  //     dateField.style.height = "100%";
+  //     dateField.style.backgroundColor = "#0000";
+  //     dateField.style.borderRadius = "0px";
+  //     dateField.style.outline = "0px";
+  //     dateField.style.overflow = "overlay";
+  //     dateField.innerText = "mm/dd/yyyy";
+  //     dateField.style.position = "relative";
+  //     dateField.style.zIndex = 2;
+
+  //     dateField.onclick = (e) => {
+  //       handleClicked("calendar2", "table2");
+  //       setSidebar(true);
+  //       e.stopPropagation();
+  //     };
+
+  //     e.target.append(dateField);
+  //   }
+  // };
+
   const handleDropp = (e) => {
     e.preventDefault();
     const typeOfOperation = e.dataTransfer.getData("text/plain");
     //console.log("cell has been dropped on " + typeOfOperation);
-
+    // const isTableDrag = document.getElementsByClassName("table_drag");
     if (typeOfOperation === "TEXT_INPUT") {
       let inputField = document.createElement("div");
       //  inputField.setAttribute('draggable', true);
@@ -42,15 +172,17 @@ const TableRightSidebar = () => {
       inputField.style.overflow = "overlay";
       inputField.style.position = "relative";
       inputField.style.cursor = "text";
+
       inputField.onclick = (e) => {
-        // if (inputField) {
-        //   handleClicked("align2", "table2");
-        //   setSidebar(true);
-        //   e.stopPropagation();
-        // }
+        // focuseddClassMaintain(e);
+
+        // alert("child div fired");
         handleClicked("align2", "table2");
         setSidebar(true);
         e.stopPropagation();
+        // holderDIV.classList.add('focussedd')
+        // inputField.classList.add("focussed");
+        // inputField.parentElement.focus()
       };
 
       e.target.append(inputField);
@@ -67,11 +199,9 @@ const TableRightSidebar = () => {
       imageField.style.position = "relative";
 
       imageField.onclick = (e) => {
-        if (imageField) {
-          handleClicked("image2", "table2");
-          setSidebar(true);
-          e.stopPropagation();
-        }
+        handleClicked("image2", "table2");
+        setSidebar(true);
+        e.stopPropagation();
       };
       const imgBtn = document.createElement("input");
       imgBtn.type = "file";
@@ -123,6 +253,8 @@ const TableRightSidebar = () => {
           handleClicked("signs2", "table2");
           setSidebar(true);
           e.stopPropagation();
+          // handleClicked("signs2");
+          // setSidebar(true);
         } else {
           setSidebar(false);
         }

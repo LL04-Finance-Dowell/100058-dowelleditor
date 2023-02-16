@@ -53,12 +53,12 @@ export const ContextProvider = ({ children }) => {
   const [underline, setUnderline] = useState(false);
   const [strikethrough, setStrikethrough] = useState(false);
 
-  const handleDrop = (dropped, tableRighMenu) => {
-    setIsDropped({ ...isDropped, [dropped]: true, [tableRighMenu]: false });
+  const handleDrop = (dropped) => {
+    setIsDropped({ ...isDropped, [dropped]: true });
   };
 
-  const handleClicked = (clicked) => {
-    setIsClicked({ ...isClicked, [clicked]: true });
+  const handleClicked = (clicked, tableRighMenu) => {
+    setIsClicked({ ...isClicked, [clicked]: true, [tableRighMenu]: false });
   };
   const [newToken, setNewToken] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
