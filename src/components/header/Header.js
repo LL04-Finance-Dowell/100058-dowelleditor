@@ -332,7 +332,9 @@ const Header = () => {
         let tempElem = dropDowns[d].parentElement;
         let tempPosn = getPosition(tempElem);
         //console.log(dropDowns[d].firstElementChild.innerHTML);
-        //console.log(dropDowns[d].lastElementChild.innerHTML);
+        const selectElement = dropDowns[d].lastElementChild;
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const selectedText = selectedOption.textContent;
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -340,6 +342,7 @@ const Header = () => {
           topp: dropDowns[d].parentElement.style.top,
           left: tempPosn.left,
           type: 'DROPDOWN_INPUT',
+          data: selectedText,
           data1: dropDowns[d].firstElementChild.innerHTML,
           data2: dropDowns[d].lastElementChild.innerHTML,
           id: `dd${d + 1}`,
@@ -491,7 +494,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        // console.log(res);
+        console.log(res);
 
         if (decoded.details.action === 'template') {
           setTitle(loadedDataT.template_name);
@@ -657,26 +660,23 @@ const Header = () => {
 
               {actionName == 'template' && (
                 <button className="page_btn" onClick={() => createNewPage()}>
-                  <MdOutlinePostAdd color="white" size={32} />
+                  <MdOutlinePostAdd color="white"  />
                 </button>
               )}
               {actionName == 'template' && (
                 <CgPlayListRemove
                   color="white"
-                  size={32}
                   onClick={() => removePage()}
                 />
               )}
               <div className="d-flex">
                 <BiImport
                   color="white"
-                  size={32}
                   onClick={handleToken}
                 />
 
                 <BiExport
                   color="white"
-                  size={32}
                   id="saving-button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -765,7 +765,7 @@ const Header = () => {
                   // <div className="finalize_reject_wraper">
                   <>
                     <div className="mt-2 text-center mb-2 px-2">
-                      {(isFinializeDisabled == false) && <Button
+                      <Button
                         variant="success"
                         size="md"
                         className="rounded px-4"
@@ -775,7 +775,7 @@ const Header = () => {
                       >
                         Finalize
                       </Button>
-                      }
+                      
                     </div>
 
                     <div className="mt-2 text-center mb-2 px-2">

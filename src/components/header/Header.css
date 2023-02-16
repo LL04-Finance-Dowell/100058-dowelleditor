@@ -50,6 +50,7 @@
 .header_icons > img,
 svg {
   width: fit-content;
+  height: 22px;
   color: #ffffff;
   /* margin-left: 33.9px; */
   margin-right: 20px;
@@ -82,7 +83,7 @@ svg {
 }
 .temp_doc{
   align-self: center;
-  height: 30px;
+  height: 25px;
 }
 /* .title-name {
   margin-top: 10px;
