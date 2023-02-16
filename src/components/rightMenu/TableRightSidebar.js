@@ -42,6 +42,13 @@ const TableRightSidebar = () => {
       inputField.style.overflow = "overlay";
       inputField.style.position = "relative";
       inputField.style.cursor = "text";
+      inputField.onclick = (e) => {
+        if (inputField) {
+          handleClicked("align2", "table2");
+          setSidebar(true);
+          e.stopPropagation();
+        }
+      };
 
       e.target.append(inputField);
     } else if (typeOfOperation === "IMAGE_INPUT") {
@@ -56,6 +63,13 @@ const TableRightSidebar = () => {
       imageField.innerHTML = "Image here";
       imageField.style.position = "relative";
 
+      imageField.onclick = (e) => {
+        if (imageField) {
+          handleClicked("image2", "table2");
+          setSidebar(true);
+          e.stopPropagation();
+        }
+      };
       const imgBtn = document.createElement("input");
       imgBtn.type = "file";
       imgBtn.style.objectFit = "cover";
@@ -96,15 +110,16 @@ const TableRightSidebar = () => {
       signField.style.borderRadius = "0px";
       signField.style.outline = "0px";
       signField.style.overflow = "overlay";
-      signField.innerHTML = 'Signature here';
+      signField.innerHTML = "Signature here";
       signField.style.position = "absolute";
 
       signField.onclick = (e) => {
         // focuseddClassMaintain(e);
         if (signField) {
           // signField.classList.add("focussed");
-          handleClicked("signs2");
+          handleClicked("signs2", "table2");
           setSidebar(true);
+          e.stopPropagation();
         } else {
           setSidebar(false);
         }
@@ -124,9 +139,10 @@ const TableRightSidebar = () => {
       dateField.style.position = "relative";
       dateField.style.zIndex = 2;
 
-      dateField.onclick = () => {
-        handleClicked("calendar2");
+      dateField.onclick = (e) => {
+        handleClicked("calendar2", "table2");
         setSidebar(true);
+        e.stopPropagation();
       };
 
       e.target.append(dateField);
@@ -165,79 +181,80 @@ const TableRightSidebar = () => {
       for (var i = 0; i < cells.length; i++) {
         cells[i].ondragover = function (e) {
           e.preventDefault();
-          const afterElement = getDragAfterElement(cells[i], e.clientY);
+          e.target.classList.add("table_drag");
+          // const afterElement = getDragAfterElement(cells[i], e.clientY);
           //console.log(afterElement);
           const draggable = document.querySelector(".dragging");
           cells[i].appendChild(draggable);
         };
 
-        function getDragAfterElement(container, y) {
-          const droppableCells = [...document.querySelectorAll(".dropp")];
+        // function getDragAfterElement(container, y) {
+        //   const droppableCells = [...document.querySelectorAll(".dropp")];
 
-          return droppableCells.reduce(
-            (closest, child) => {
-              const box = td.getBoundingClientRect();
-              const offset = y - box.top - box.height / 2;
-              //console.log(box);
-              //console.log(offset);
-              if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-              } else {
-                return closest;
-              }
-            },
-            { offset: Number.NEGATIVE_INFINITY }
-          ).element;
-        }
-        cells[i].onclick = function () {
-          if (this.hasAttribute("data-clicked")) {
-            return;
-          }
-          this.setAttribute("data-clicked", "yes");
-          this.setAttribute("data-text", this.innerHtml);
+        //   return droppableCells.reduce(
+        //     (closest, child) => {
+        //       const box = td.getBoundingClientRect();
+        //       const offset = y - box.top - box.height / 2;
+        //       //console.log(box);
+        //       //console.log(offset);
+        //       if (offset < 0 && offset > closest.offset) {
+        //         return { offset: offset, element: child };
+        //       } else {
+        //         return closest;
+        //       }
+        //     },
+        //     { offset: Number.NEGATIVE_INFINITY }
+        //   ).element;
+        // }
+        // cells[i].onclick = function () {
+        //   if (this.hasAttribute("data-clicked")) {
+        //     return;
+        //   }
+        //   this.setAttribute("data-clicked", "yes");
+        //   this.setAttribute("data-text", this.innerHtml);
 
-          var input = document.createElement("input");
-          input.setAttribute("type", "text");
-          // input.value = this.innerHtml;
-          input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
-          input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
-          input.style.border = "0px";
-          input.style.fontFamily = "inherit";
-          input.style.fontSize = "inherit";
-          input.style.textAlign = "inherit";
-          input.style.backgroundColor = "LightGoldenRodYellow";
+        //   var input = document.createElement("input");
+        //   input.setAttribute("type", "text");
+        //   // input.value = this.innerHtml;
+        //   input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
+        //   input.style.height = this.offsetHeight - this.clientTop * 2 + "px";
+        //   input.style.border = "0px";
+        //   input.style.fontFamily = "inherit";
+        //   input.style.fontSize = "inherit";
+        //   input.style.textAlign = "inherit";
+        //   input.style.backgroundColor = "LightGoldenRodYellow";
 
-          // var org_text = input.parentElement.getAttribute("data-text");
-          // //console.log("orginal text form on click", org_text);
+        //   // var org_text = input.parentElement.getAttribute("data-text");
+        //   // //console.log("orginal text form on click", org_text);
 
-          input.onblur = function () {
-            var td = input.parentElement;
-            var org_text = input.parentElement.getAttribute("data-text");
-            var current_text = this.value;
+        //   input.onblur = function () {
+        //     var td = input.parentElement;
+        //     var org_text = input.parentElement.getAttribute("data-text");
+        //     var current_text = this.value;
 
-            if (org_text != current_text && current_text !== "") {
-              td.removeAttribute("data-clicked");
-              td.removeAttribute("data-text");
-              td.innerHTML = current_text;
-              td.style.cssText = "padding: 5px";
-            } else {
-              td.removeAttribute("data-clicked");
-              td.removeAttribute("data-text");
-              td.style.cssText = "padding: 5px";
-              input.remove()
-            }
-          };
+        //     if (org_text != current_text && current_text !== "") {
+        //       td.removeAttribute("data-clicked");
+        //       td.removeAttribute("data-text");
+        //       td.innerHTML = current_text;
+        //       td.style.cssText = "padding: 5px";
+        //     } else {
+        //       td.removeAttribute("data-clicked");
+        //       td.removeAttribute("data-text");
+        //       td.style.cssText = "padding: 5px";
+        //       input.remove()
+        //     }
+        //   };
 
-          input.onkeydown = function (event) {
-            if (event.keyCode == 13) {
-              this.onblur();
-            }
-          };
-          this.innerHtml = "";
-          this.style.cssText = "padding: 0px 0px";
-          this.append(input);
-          this.firstElementChild.select();
-        };
+        //   input.onkeydown = function (event) {
+        //     if (event.keyCode == 13) {
+        //       this.onblur();
+        //     }
+        //   };
+        //   this.innerHtml = "";
+        //   this.style.cssText = "padding: 0px 0px";
+        //   this.append(input);
+        //   this.firstElementChild.select();
+        // };
 
         cells[i].ondrop = handleDropp;
       }
@@ -308,7 +325,11 @@ const TableRightSidebar = () => {
       </div> */}
 
       <div className="mt-2 text-center pt-5">
-        <Button variant="primary" className="px-5 remove_button" onClick={removeTable}>
+        <Button
+          variant="primary"
+          className="px-5 remove_button"
+          onClick={removeTable}
+        >
           Remove Table
         </Button>
       </div>

@@ -11,7 +11,7 @@ const initialState = {
   calendar: false,
   dropdown: false,
   containerr: false,
-  iframe: false
+  iframe: false,
 };
 const initialState2 = {
   align2: false,
@@ -21,11 +21,10 @@ const initialState2 = {
   signs2: false,
   calendar2: false,
   dropdown2: false,
-  iframe2: false
+  iframe2: false,
 };
 
 export const ContextProvider = ({ children }) => {
-
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
@@ -54,8 +53,8 @@ export const ContextProvider = ({ children }) => {
   const [underline, setUnderline] = useState(false);
   const [strikethrough, setStrikethrough] = useState(false);
 
-  const handleDrop = (dropped) => {
-    setIsDropped({ ...isDropped, [dropped]: true });
+  const handleDrop = (dropped, tableRighMenu) => {
+    setIsDropped({ ...isDropped, [dropped]: true, [tableRighMenu]: false });
   };
 
   const handleClicked = (clicked) => {
@@ -128,7 +127,7 @@ export const ContextProvider = ({ children }) => {
         setMethod,
         deletePages,
         setDeletepages,
-        isFinializeDisabled, 
+        isFinializeDisabled,
         setIsFinializeDisabled,
         newToken,
         setNewToken,

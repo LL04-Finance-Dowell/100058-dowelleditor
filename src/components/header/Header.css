@@ -82,7 +82,8 @@ svg {
   cursor: pointer;
 }
 .temp_doc{
-  align-self: center;
+  display: flex;
+  align-items: center;
   height: 25px;
 }
 /* .title-name {
