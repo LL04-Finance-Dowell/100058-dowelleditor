@@ -12,6 +12,7 @@ const initialState = {
   dropdown: false,
   containerr: false,
   iframe: false,
+  scale: false,
 };
 const initialState2 = {
   align2: false,
@@ -22,6 +23,7 @@ const initialState2 = {
   calendar2: false,
   dropdown2: false,
   iframe2: false,
+  scale2: false,
 };
 
 export const ContextProvider = ({ children }) => {

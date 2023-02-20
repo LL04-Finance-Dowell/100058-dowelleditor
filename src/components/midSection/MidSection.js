@@ -46,7 +46,7 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  var {
+  const {
     sidebar,
     dropdownName,
     setDropdownName,
@@ -74,7 +74,6 @@ const MidSection = () => {
     data,
     setData,
     isDataRetrieved,
-    setIsDataRetrieved,
     setIsDataRetrieved,
   } = useStateContext();
 
@@ -122,6 +121,7 @@ const MidSection = () => {
           signs2: false,
           calendar2: false,
           dropdown2: false,
+          scale2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -176,6 +176,7 @@ const MidSection = () => {
       }
     )
       .then((res) => {
+        console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
@@ -604,6 +605,11 @@ const MidSection = () => {
     if (e.target.classList.contains("iframeInput")) {
       e.target.classList.add("focussed");
     } else if (e.target.parentElement.classList.contains("iframeInput")) {
+      e.target.parentElement.classList.add("focussed");
+    }
+    if (e.target.classList.contains("scaleInput")) {
+      e.target.classList.add("focussed");
+    } else if (e.target.parentElement.classList.contains("scaleInput")) {
       e.target.parentElement.classList.add("focussed");
     }
     // e.target.classList.add("focussed");
@@ -1070,6 +1076,57 @@ const MidSection = () => {
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+        // Limon
+        if (element.type === "SCALE_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
+
+          let scaleField = document.createElement("div");
+          scaleField.className = "scaleInput";
+          scaleField.style.width = "100%";
+          scaleField.style.height = "100%";
+          scaleField.style.backgroundColor = "#dedede";
+          scaleField.style.borderRadius = "0px";
+          scaleField.style.outline = "0px";
+          scaleField.style.overflow = "overlay";
+          // iframeField.innerHTML = "iframe";
+          scaleField.style.position = "absolute";
+
+          if (element.data == "scale here") {
+            scaleField.innerHTML = element.data;
+          }
+          if (element.data != "scale here") {
+            const iframe = document.createElement("iframe");
+            iframe.src = element.data;
+            iframe.width = "100%";
+            iframe.height = "100%";
+
+            scaleField.append(iframe);
+          }
+
+          scaleField.onclick = (e) => {
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
+            handleClicked("scale2");
+            setSidebar(true);
+          };
+
+          holderDIV.append(scaleField);
+
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
+        // Limon
         if (element.type === "DROPDOWN_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -1315,6 +1372,245 @@ const MidSection = () => {
           // inputField.parentElement.focus()
         };
         holderDIV.append(inputField);
+      } else if (
+        typeOfOperation === "IMAGE_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let imageField = document.createElement("div");
+        imageField.className = "imageInput";
+        imageField.style.width = "100%";
+        imageField.style.height = "100%";
+        imageField.style.backgroundColor = "#0000";
+        imageField.style.borderRadius = "0px";
+        imageField.style.outline = "0px";
+        imageField.style.overflow = "overlay";
+        // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+        imageField.style.position = "relative";
+
+        imageField.onclick = (e) => {
+          focuseddClassMaintain(e);
+          // imageField.classList.add("focussed");
+          handleClicked("image2");
+          setSidebar(true);
+        };
+
+        const imageButton = document.createElement("div");
+        imageButton.className = "addImageButton";
+        imageButton.innerText = "Choose File";
+        imageButton.style.display = "none";
+        // imageButton.onclick = (e) => chooseFileClick(e);
+
+        const imgBtn = document.createElement("input");
+        imgBtn.className = "addImageButtonInput";
+        imgBtn.type = "file";
+        imgBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        imgBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            document.querySelector(
+              ".focussed"
+            ).style.backgroundImage = `url(${uploadedImage})`;
+          });
+          reader.readAsDataURL(imgBtn.files[0]);
+        });
+
+        // imgBtn.style.width = "100%";
+        imageButton.append(imgBtn);
+        holderDIV.append(imageField);
+        holderDIV.append(imageButton);
+      } else if (typeOfOperation === "TEXT_FILL") {
+        let texttField = document.createElement("textarea");
+        texttField.className = "texttInput";
+        texttField.placeholder = "input text here";
+        texttField.style.width = "100%";
+        texttField.style.height = "100%";
+        texttField.style.resize = "none";
+        texttField.style.backgroundColor = "#0000";
+        texttField.style.borderRadius = "0px";
+        texttField.style.outline = "0px";
+        texttField.style.overflow = "overlay";
+        // texttField.innerText = `${postData.textField.value}`
+        texttField.style.position = "relative";
+
+        texttField.onchange = (event) => {
+          event.preventDefault();
+          const textField = {
+            textField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          };
+
+          // postData.push(textField);
+          // setPostData({
+          //   ...postData,
+          //   textField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
+        };
+
+        holderDIV.append(texttField);
+      } else if (
+        typeOfOperation === "TABLE_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let tableField = document.createElement("div");
+        tableField.className = "tableInput";
+        tableField.style.width = "100%";
+        tableField.style.height = "100%";
+        tableField.style.backgroundColor = "#dedede";
+        tableField.style.borderRadius = "0px";
+        tableField.style.outline = "0px";
+        tableField.style.overflow = "overlay";
+        // tableField.innerHTML = 'table';
+        tableField.style.position = "absolute";
+
+        tableField.onchange = (event) => {
+          event.preventDefault();
+
+          setPostData({
+            ...postData,
+            tableField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          });
+        };
+
+        // if (tableField) {
+        //   const tableField = {
+        //     tableField: {
+        //       value: event.target.value,
+        //       xcoordinate: getOffset(holderDIV).left,
+        //       ycoordinate: getOffset(holderDIV).top,
+        //     },
+        //   };
+
+        //   // postData.push(tableField);
+        //   // setPostData({
+        //   //   ...postData,
+        //   //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+        //   // })
+        // }
+
+        tableField.onclick = (e) => {
+          // focuseddClassMaintain(e);
+          table_dropdown_focuseddClassMaintain(e);
+          // tableField.classList.add("focussed");
+          handleClicked("table2");
+          setSidebar(true);
+        };
+
+        // tableField.appendChild(tab)
+
+        // const para = document.createElement("p");
+        // para.innerHTML = "Table";
+        // tableField.append(para);
+        holderDIV.append(tableField);
+      } else if (
+        typeOfOperation === "IFRAME_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let iframeField = document.createElement("div");
+        iframeField.className = "iframeInput";
+        iframeField.style.width = "100%";
+        iframeField.style.height = "100%";
+        iframeField.style.backgroundColor = "#dedede";
+        iframeField.style.borderRadius = "0px";
+        iframeField.style.outline = "0px";
+        iframeField.style.overflow = "overlay";
+        // iframeField.innerHTML = "iframe";
+        iframeField.style.position = "absolute";
+        iframeField.innerText = "iFrame here";
+
+        iframeField.onclick = (e) => {
+          // focuseddClassMaintain(e);
+          table_dropdown_focuseddClassMaintain(e);
+          // tableField.classList.add("focussed");
+          handleClicked("iframe2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(iframeField);
+      } //Limon
+      else if (
+        typeOfOperation === "SCALE_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let scaleField = document.createElement("div");
+        scaleField.className = "scaleInput";
+        scaleField.style.width = "100%";
+        scaleField.style.height = "100%";
+        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.borderRadius = "0px";
+        scaleField.style.outline = "0px";
+        scaleField.style.overflow = "overlay";
+        // scaleField.innerHTML = 'iframe';
+        scaleField.style.position = "absolute";
+        scaleField.innerText = "scale here";
+        fetch("https://100035.pythonanywhere.com/api/nps_settings_create")
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Scale", data);
+          })
+          .catch((error) => {
+            // handle any errors that occur
+          });
+        scaleField.onclick = (e) => {
+          // focuseddClassMaintain(e);
+          // table_dropdown_focuseddClassMaintain(e);
+          // tableField.classList.add("focussed");
+          handleClicked("scale2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(scaleField);
+      }
+      // Limon
+      else if (
+        typeOfOperation === "SIGN_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let signField = document.createElement("div");
+        signField.className = "signInput";
+        signField.style.width = "100%";
+        signField.style.height = "100%";
+        signField.style.backgroundColor = "#0000";
+        signField.style.borderRadius = "0px";
+        signField.style.outline = "0px";
+        signField.style.overflow = "overlay";
+        signField.innerHTML = "Place your signature here";
+        signField.style.position = "absolute";
+
+        signField.onchange = (event) => {
+          event.preventDefault();
+          setPostData({
+            ...postData,
+            signField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          });
+        };
+
+        signField.onclick = (e) => {
+          focuseddClassMaintain(e);
+          if (actionName != "template") {
+            // signField.classList.add("focussed");
+            handleClicked("signs2");
+            setSidebar(true);
+            // holderDIV.classList.add('focussedd')
+            // inputField.classList.add("focussed");
+            // inputField.parentElement.focus()
+          }
+          holderDIV.append(signField);
+        };
       } else if (
         typeOfOperation === "IMAGE_INPUT" &&
         decoded.details.action === "template"

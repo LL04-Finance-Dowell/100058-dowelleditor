@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Header.css";
 import { headerData } from "../../data/data";
 import user from "../../assets/headerIcons/user.png";
@@ -300,7 +293,6 @@ const Header = () => {
       }
     }
     const iframes = document.getElementsByClassName("iframeInput");
-
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
         // var new_table = document.getElementsByTagName("table")[0];
@@ -324,6 +316,32 @@ const Header = () => {
         // page.push(elem);
       }
     }
+
+    // Limon
+
+    const scales = document.getElementsByClassName("scaleInput");
+    if (scales.length) {
+      for (let s = 0; s < scales.length; s++) {
+        let tempElem = scales[s].parentElement;
+        let tempPosn = getPosition(tempElem);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          topp: scales[s].parentElement.style.top,
+          left: tempPosn.left,
+          type: "SCALE_INPUT",
+          data: scales[s].innerText
+            ? "Scale here"
+            : scales[s].firstElementChild.src,
+          id: `scl${s + 1}`,
+        };
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
+      }
+    }
+    // Limon
     const dropDowns = document.getElementsByClassName("dropdownInput");
 
     if (dropDowns.length) {
@@ -652,7 +670,7 @@ const Header = () => {
     >
       <Container fluid>
         <Row>
-          <Col className="d-flex justify-content-start align-items-center lhs-header">
+          <Col className="d-flex justify-content-start lhs-header">
             <span className="badge bg-warning temp_doc">
               {actionName == "template" ? "Template" : "Document"}
             </span>

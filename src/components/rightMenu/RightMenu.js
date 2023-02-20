@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useStateContext } from "../../contexts/contextProvider";
+import React, { useEffect, useState } from 'react';
+import { useStateContext } from '../../contexts/contextProvider';
 
-import { useSearchParams } from "react-router-dom";
-import { FaCopy } from "react-icons/fa";
-import jwt_decode from "jwt-decode";
-import CryptoJS from "crypto-js";
-import "./RightMenu.css";
+import { useSearchParams } from 'react-router-dom';
+import { FaCopy } from 'react-icons/fa';
+import jwt_decode from 'jwt-decode';
+import CryptoJS from 'crypto-js';
+import './RightMenu.css';
 
-import Axios from "axios";
+import Axios from 'axios';
 
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
-import AlignRightSide from "./AlignRightSide";
-import CalendarRightSidebar from "./CalendarRightSidebar";
-import ImageRightSidebar from "./ImageRightSidebar";
-import SignsRightSidebar from "./SignsRightSidebar";
-import TableRightSidebar from "./TableRightSidebar";
-import DropDownRightSide from "./DropDownRightSide";
-import IframeRightSidebar from "./IframeRightSidebar";
+import AlignRightSide from './AlignRightSide';
+import CalendarRightSidebar from './CalendarRightSidebar';
+import ImageRightSidebar from './ImageRightSidebar';
+import SignsRightSidebar from './SignsRightSidebar';
+import TableRightSidebar from './TableRightSidebar';
+import DropDownRightSide from './DropDownRightSide';
+import IframeRightSidebar from './IframeRightSidebar';
+import ScaleRightSide from './ScaleRightSide';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RightMenu = () => {
   const {
@@ -41,7 +42,7 @@ const RightMenu = () => {
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.get('token');
   var decoded = jwt_decode(token);
   // console.log(decoded);
 
@@ -111,6 +112,7 @@ const RightMenu = () => {
         calendar2: false,
         dropdown2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.image2) {
@@ -123,6 +125,7 @@ const RightMenu = () => {
         calendar2: false,
         dropdown2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.table2) {
@@ -135,6 +138,7 @@ const RightMenu = () => {
         calendar2: false,
         dropdown2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.signs2) {
@@ -147,6 +151,7 @@ const RightMenu = () => {
         calendar2: false,
         dropdown2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.calendar2) {
@@ -159,6 +164,7 @@ const RightMenu = () => {
         signs2: false,
         dropdown2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.dropdown2) {
@@ -171,6 +177,7 @@ const RightMenu = () => {
         signs2: false,
         calendar2: false,
         iframe2: false,
+        scale2: false,
       });
     }
     if (isClicked.iframe2) {
@@ -181,7 +188,22 @@ const RightMenu = () => {
         image2: false,
         table2: false,
         signs2: false,
+        dropdown2: false,
         calendar2: false,
+        scale2: false,
+      });
+    }
+    if (isClicked.scale2) {
+      setIsClicked({
+        ...isClicked,
+        align2: false,
+        textfill2: false,
+        image2: false,
+        table2: false,
+        signs2: false,
+        dropdown2: false,
+        calendar2: false,
+        iframe2: false,
       });
     }
   }, [
@@ -239,6 +261,7 @@ const RightMenu = () => {
         {isClicked.calendar2 && <CalendarRightSidebar />}
         {isClicked.dropdown2 && <DropDownRightSide />}
         {isClicked.iframe2 && <IframeRightSidebar />}
+        {isClicked.scale2 && <ScaleRightSide />}
       </div>
     </>
   );
