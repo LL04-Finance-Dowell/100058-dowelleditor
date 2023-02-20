@@ -226,7 +226,7 @@ const LeftMenu = ({ showSidebar }) => {
             />
             <NavButton
               dragStartFunc={dragStartScale}
-              customFunc={() => handleDrop('iframe')}
+              customFunc={() => handleDrop('scale')}
               icon={editSecOptions[9].icon}
             />
           </div>

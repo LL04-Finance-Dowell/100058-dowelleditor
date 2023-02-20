@@ -61,6 +61,7 @@ export const ContextProvider = ({ children }) => {
 
   const handleClicked = (clicked) => {
     setIsClicked({ ...isClicked, [clicked]: true });
+    console.log('initial', initialState, 'initail 2', initialState2);
   };
   const [newToken, setNewToken] = useState(true);
   const [isLoading, setIsLoading] = useState(false);

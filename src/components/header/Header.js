@@ -293,7 +293,6 @@ const Header = () => {
       }
     }
     const iframes = document.getElementsByClassName('iframeInput');
-
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
         // var new_table = document.getElementsByTagName("table")[0];
@@ -317,32 +316,31 @@ const Header = () => {
         // page.push(elem);
       }
     }
+
     // Limon
-    // const scales = document.getElementsByClassName('iframeInput');
 
-    // if (scales.length) {
-    //   for (let i = 0; i < scales.length; i++) {
-    //     // var new_table = document.getElementsByTagName("table")[0];
-    //     let tempElem = scales[i].parentElement;
-    //     let tempPosn = getPosition(tempElem);
-    //     //console.log(iframes[i].innerText);
-    //     elem = {
-    //       width: tempPosn.width,
-    //       height: tempPosn.height,
-    //       top: tempPosn.top,
-    //       topp: scales[i].parentElement.style.top,
-    //       left: tempPosn.left,
-    //       type: 'SCALE_INPUT',
-    //       data: scales[i].innerText
-    //         ? 'Scale here'
-    //         : scales[i].firstElementChild.src,
-    //       id: `ifr${i + 1}`,
-    //     };
-    //     dataInsertWithPage(tempPosn, elem);
+    const scales = document.getElementsByClassName('scaleInput');
+    if (scales.length) {
+      for (let s = 0; s < scales.length; s++) {
+        let tempElem = scales[s].parentElement;
+        let tempPosn = getPosition(tempElem);
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          topp: scales[s].parentElement.style.top,
+          left: tempPosn.left,
+          type: 'SCALE_INPUT',
+          data: scales[s].innerText
+            ? 'Scale here'
+            : scales[s].firstElementChild.src,
+          id: `scl${s + 1}`,
+        };
+        dataInsertWithPage(tempPosn, elem);
 
-    //     // page.push(elem);
-    //   }
-    // }
+        // page.push(elem);
+      }
+    }
     // Limon
     const dropDowns = document.getElementsByClassName('dropdownInput');
 
@@ -353,7 +351,8 @@ const Header = () => {
         let tempPosn = getPosition(tempElem);
         //console.log(dropDowns[d].firstElementChild.innerHTML);
         const selectElement = dropDowns[d].lastElementChild;
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const selectedOption =
+          selectElement.options[selectElement.selectedIndex];
         const selectedText = selectedOption.textContent;
         elem = {
           width: tempPosn.width,
@@ -622,15 +621,18 @@ const Header = () => {
 
   console.log('page count check', item);
 
-  const saveButton = document.getElementById("saving-button");
+  const saveButton = document.getElementById('saving-button');
   function handleFinalize() {
-    saveButton.click()
+    saveButton.click();
     if (isLoading == false)
-      Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
-        action: "finalize",
-        process_id: process_id,
-        authorized: authorized,
-      })
+      Axios.post(
+        'https://100094.pythonanywhere.com/v0.1/process/verification/',
+        {
+          action: 'finalize',
+          process_id: process_id,
+          authorized: authorized,
+        }
+      )
         .then((res) => {
           console.log(res);
           alert(res?.data);
@@ -642,19 +644,19 @@ const Header = () => {
   }
 
   function handleReject() {
-    setIsLoading(true)
-    Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
-      action: "reject",
+    setIsLoading(true);
+    Axios.post('https://100094.pythonanywhere.com/v0.1/process/verification/', {
+      action: 'reject',
       process_id: process_id,
       authorized: authorized,
     })
       .then((res) => {
-        setIsLoading(false)
+        setIsLoading(false);
         console.log(res);
         alert(res?.data);
       })
       .catch((err) => {
-        setIsLoading(false)
+        setIsLoading(false);
         console.log(err);
       });
   }
@@ -669,7 +671,7 @@ const Header = () => {
       <Container fluid>
         <Row>
           <Col className="d-flex justify-content-start lhs-header">
-          <span className="badge bg-warning temp_doc">
+            <span className="badge bg-warning temp_doc">
               {actionName == 'template' ? 'Template' : 'Document'}
             </span>
             <div className="header_icons">
@@ -682,20 +684,14 @@ const Header = () => {
 
               {actionName == 'template' && (
                 <button className="page_btn" onClick={() => createNewPage()}>
-                  <MdOutlinePostAdd color="white"  />
+                  <MdOutlinePostAdd color="white" />
                 </button>
               )}
               {actionName == 'template' && (
-                <CgPlayListRemove
-                  color="white"
-                  onClick={() => removePage()}
-                />
+                <CgPlayListRemove color="white" onClick={() => removePage()} />
               )}
               <div className="d-flex">
-                <BiImport
-                  color="white"
-                  onClick={handleToken}
-                />
+                <BiImport color="white" onClick={handleToken} />
 
                 <BiExport
                   color="white"
@@ -725,7 +721,7 @@ const Header = () => {
           </Col>
           <Col>
             <div className="right_header">
-              <div className={docMap ? "header_btn" : "savee" }>
+              <div className={docMap ? 'header_btn' : 'savee'}>
                 <Button
                   variant="primary"
                   size="md"
@@ -735,7 +731,6 @@ const Header = () => {
                 >
                   Save
                 </Button>
-
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -781,44 +776,38 @@ const Header = () => {
                 </div>
               </div>
 
-              {actionName == "document" &&
-                docMap &&
-                data != "" && (
-                  // <div className="finalize_reject_wraper">
-                  <>
-                    <div className="mt-2 text-center mb-2 px-2">
-                      <Button
-                        variant="success"
-                        size="md"
-                        className="rounded px-4"
-                        id="saving-button"
-                        disabled={isFinializeDisabled}
-                        onClick={handleFinalize}
-                      >
-                        Finalize
-                      </Button>
-                      
-                    </div>
+              {actionName == 'document' && docMap && data != '' && (
+                // <div className="finalize_reject_wraper">
+                <>
+                  <div className="mt-2 text-center mb-2 px-2">
+                    <Button
+                      variant="success"
+                      size="md"
+                      className="rounded px-4"
+                      id="saving-button"
+                      disabled={isFinializeDisabled}
+                      onClick={handleFinalize}
+                    >
+                      Finalize
+                    </Button>
+                  </div>
 
-                    <div className="mt-2 text-center mb-2 px-2">
-                      <Button
-                        variant="danger"
-                        size="md"
-                        className="rounded px-4"
-                        id="saving-button"
-                        onClick={handleReject}
-                      >
-                        Reject
-                      </Button>
-                    </div>
-                  </>
-
-                )}
-
+                  <div className="mt-2 text-center mb-2 px-2">
+                    <Button
+                      variant="danger"
+                      size="md"
+                      className="rounded px-4"
+                      id="saving-button"
+                      onClick={handleReject}
+                    >
+                      Reject
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
             <ToastContainer size={5} />
           </Col>
-          
         </Row>
       </Container>
     </div>

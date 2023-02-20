@@ -46,7 +46,7 @@ const dummyData = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = () => {
-  var {
+  const {
     sidebar,
     dropdownName,
     setDropdownName,
@@ -74,7 +74,6 @@ const MidSection = () => {
     data,
     setData,
     isDataRetrieved,
-    setIsDataRetrieved,
     setIsDataRetrieved,
   } = useStateContext();
 
@@ -122,6 +121,7 @@ const MidSection = () => {
           signs2: false,
           calendar2: false,
           dropdown2: false,
+          scale2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -607,6 +607,11 @@ const MidSection = () => {
     } else if (e.target.parentElement.classList.contains('iframeInput')) {
       e.target.parentElement.classList.add('focussed');
     }
+    if (e.target.classList.contains('scaleInput')) {
+      e.target.classList.add('focussed');
+    } else if (e.target.parentElement.classList.contains('scaleInput')) {
+      e.target.parentElement.classList.add('focussed');
+    }
     // e.target.classList.add("focussed");
   }
 
@@ -1072,55 +1077,55 @@ const MidSection = () => {
             ?.append(holderDIV);
         }
         // Limon
-        // if (element.type === 'SCALE_INPUT') {
-        //   const measure = {
-        //     width: element.width + 'px',
-        //     height: element.height + 'px',
-        //     left: element.left + 'px',
-        //     top: element.topp,
-        //     auth_user: curr_user,
-        //   };
-        //   const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-        //   const holderDIV = getHolderDIV(measure, pageNo, idMatch);
-        //   // const holderDIV = getHolderDIV(measure, pageNo);
+        if (element.type === 'SCALE_INPUT') {
+          const measure = {
+            width: element.width + 'px',
+            height: element.height + 'px',
+            left: element.left + 'px',
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          // const holderDIV = getHolderDIV(measure, pageNo);
 
-        //   let iframeField = document.createElement('div');
-        //   iframeField.className = 'iframeInput';
-        //   iframeField.style.width = '100%';
-        //   iframeField.style.height = '100%';
-        //   iframeField.style.backgroundColor = '#dedede';
-        //   iframeField.style.borderRadius = '0px';
-        //   iframeField.style.outline = '0px';
-        //   iframeField.style.overflow = 'overlay';
-        //   // iframeField.innerHTML = "iframe";
-        //   iframeField.style.position = 'absolute';
+          let scaleField = document.createElement('div');
+          scaleField.className = 'scaleInput';
+          scaleField.style.width = '100%';
+          scaleField.style.height = '100%';
+          scaleField.style.backgroundColor = '#dedede';
+          scaleField.style.borderRadius = '0px';
+          scaleField.style.outline = '0px';
+          scaleField.style.overflow = 'overlay';
+          // iframeField.innerHTML = "iframe";
+          scaleField.style.position = 'absolute';
 
-        //   if (element.data == 'scale here') {
-        //     iframeField.innerHTML = element.data;
-        //   }
-        //   if (element.data != 'scale here') {
-        //     const iframe = document.createElement('iframe');
-        //     iframe.src = element.data;
-        //     iframe.width = '100%';
-        //     iframe.height = '100%';
+          if (element.data == 'scale here') {
+            scaleField.innerHTML = element.data;
+          }
+          if (element.data != 'scale here') {
+            const iframe = document.createElement('iframe');
+            iframe.src = element.data;
+            iframe.width = '100%';
+            iframe.height = '100%';
 
-        //     iframeField.append(iframe);
-        //   }
+            scaleField.append(iframe);
+          }
 
-        //   iframeField.onclick = (e) => {
-        //     // focuseddClassMaintain(e);
-        //     table_dropdown_focuseddClassMaintain(e);
-        //     handleClicked('scale2');
-        //     setSidebar(true);
-        //   };
+          scaleField.onclick = (e) => {
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
+            handleClicked('scale2');
+            setSidebar(true);
+          };
 
-        //   holderDIV.append(iframeField);
+          holderDIV.append(scaleField);
 
-        //   document
-        //     .getElementsByClassName('midSection_container')
-        //     [p - 1] // ?.item(0)
-        //     ?.append(holderDIV);
-        // }
+          document
+            .getElementsByClassName('midSection_container')
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         // Limon
         if (element.type === 'DROPDOWN_INPUT') {
           const measure = {
@@ -1536,27 +1541,34 @@ const MidSection = () => {
       typeOfOperation === 'SCALE_INPUT' &&
       decoded.details.action === 'template'
     ) {
-      let iframeField = document.createElement('div');
-      iframeField.className = 'iframeInput';
-      iframeField.style.width = '100%';
-      iframeField.style.height = '100%';
-      iframeField.style.backgroundColor = '#dedede';
-      iframeField.style.borderRadius = '0px';
-      iframeField.style.outline = '0px';
-      iframeField.style.overflow = 'overlay';
-      // iframeField.innerHTML = "iframe";
-      iframeField.style.position = 'absolute';
-      iframeField.innerText = 'scale here';
-
-      iframeField.onclick = (e) => {
+      let scaleField = document.createElement('div');
+      scaleField.className = 'scaleInput';
+      scaleField.style.width = '100%';
+      scaleField.style.height = '100%';
+      scaleField.style.backgroundColor = '#dedede';
+      scaleField.style.borderRadius = '0px';
+      scaleField.style.outline = '0px';
+      scaleField.style.overflow = 'overlay';
+      // scaleField.innerHTML = 'iframe';
+      scaleField.style.position = 'absolute';
+      scaleField.innerText = 'scale here';
+      fetch('https://100035.pythonanywhere.com/api/nps_settings_create')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Scale', data);
+        })
+        .catch((error) => {
+          // handle any errors that occur
+        });
+      scaleField.onclick = (e) => {
         // focuseddClassMaintain(e);
-        table_dropdown_focuseddClassMaintain(e);
+        // table_dropdown_focuseddClassMaintain(e);
         // tableField.classList.add("focussed");
         handleClicked('scale2');
         setSidebar(true);
       };
 
-      holderDIV.append(iframeField);
+      holderDIV.append(scaleField);
     }
     // Limon
     else if (
