@@ -19,7 +19,7 @@ const CalendarRightSidebar = (props) => {
     setRightSideDateMenu,
     method,
     setMethod,
-    setIsFinializeDisabled
+    setIsFinializeDisabled,
   } = useStateContext();
 
   const [datePickerMargin, setDatePickerMargin] = useState("");
@@ -109,13 +109,13 @@ const CalendarRightSidebar = (props) => {
             selected={startDate}
             onChange={(date) => {
               // console.log("date", date, startDate);
-              if(date != startDate){
+              if (date != startDate) {
                 // console.log("date?.innerHTML", dateInnerText);
                 //setIsFinializeDisabled(false)
                 var dateDiv = document.querySelector(".focussed");
-    if(dateDiv.parentElement.classList.contains("holderDIV")){
-      dateDiv.parentElement.classList.add("element_updated")
-    }
+                if (dateDiv.parentElement.classList.contains("holderDIV")) {
+                  dateDiv.parentElement.classList.add("element_updated");
+                }
               }
               setRightSideDateMenu(true);
               setStartDate(date);
@@ -130,7 +130,11 @@ const CalendarRightSidebar = (props) => {
         className={`text-center`}
         style={{ marginTop: !rightSideDatemenu && "225px" }}
       >
-        <Button variant="primary" onClick={removeDate} className ="remove_button">
+        <Button
+          variant="primary"
+          onClick={removeDate}
+          className="remove_button"
+        >
           Remove Date
         </Button>
       </div>
