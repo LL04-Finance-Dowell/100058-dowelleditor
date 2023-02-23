@@ -36,46 +36,7 @@ const EditSection = () => {
   var decoded = jwt_decode(token);
   const { authorized, process_id } = decoded?.details;
 
-  const saveButton = document.getElementById('saving-button');
-
-  function handleFinalize() {
-    saveButton.click();
-    if (isLoading == false)
-      Axios.post(
-        'https://100094.pythonanywhere.com/v0.1/process/verification/',
-        {
-          action: 'finalize',
-          process_id: process_id,
-          authorized: authorized,
-        }
-      )
-        .then((res) => {
-          console.log(res);
-          alert(res?.data);
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log(err);
-        });
-  }
-  function handleReject() {
-    setIsLoading(true);
-    Axios.post('https://100094.pythonanywhere.com/v0.1/process/verification/', {
-      action: 'reject',
-      process_id: process_id,
-      authorized: authorized,
-    })
-      .then((res) => {
-        setIsLoading(false);
-        console.log(res);
-        alert(res?.data);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
-  }
-
+ 
   const newPageButton = document.querySelector('.new-page-btn');
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -99,56 +60,7 @@ const EditSection = () => {
             {/* <MidSection showSidebar={showSidebar}/> */}
 
             <MidSection />
-            {actionName == 'document' &&
-              docMap &&
-              data != '' &&
-              isClicked.align2 == false &&
-              isClicked.image2 == false &&
-              isClicked.table2 == false &&
-              isClicked.signs2 == false &&
-              isClicked.calendar2 == false &&
-              isClicked.iframe2 == false &&
-              isClicked.scale2 == false &&
-              isClicked.dropdown2 == false && (
-                // <div className="finalize_reject_wraper">
-                <div
-                  className={`finalize_reject d-flex`}
-                  style={{
-                    position: 'fixed',
-                    top: window.innerHeight - 120,
-                    left: '40%',
-                    zIndex: 5,
-                  }}
-                >
-                  <div className="mt-2 text-center me-2 mb-2 px-2">
-                    {isFinializeDisabled == false && (
-                      <Button
-                        variant="success"
-                        size="md"
-                        className="rounded px-5"
-                        id="saving-button"
-                        disabled={isFinializeDisabled}
-                        onClick={handleFinalize}
-                      >
-                        Finalize
-                      </Button>
-                    )}
-                  </div>
-
-                  <div className="mt-2 text-center mb-2 px-2">
-                    <Button
-                      variant="danger"
-                      size="md"
-                      className="rounded px-5"
-                      id="saving-button"
-                      onClick={handleReject}
-                    >
-                      Reject
-                    </Button>
-                  </div>
-                </div>
-                // </div>
-              )}
+          
           </Col>
 
           <Col

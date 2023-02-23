@@ -620,8 +620,7 @@ const Header = () => {
   }
 
   console.log("page count check", item);
-
-  const saveButton = document.getElementById("saving-button");
+  const saveButton = document.getElementById('saving-buttonn');
   function handleFinalize() {
     saveButton.click();
     if (isLoading == false)
@@ -640,6 +639,7 @@ const Header = () => {
         .catch((err) => {
           setIsLoading(false);
           console.log(err);
+          alert(err?.message);
         });
   }
 
@@ -726,7 +726,7 @@ const Header = () => {
                   variant="primary"
                   size="md"
                   className="rounded "
-                  id="saving-button"
+                  id="saving-buttonn"
                   onClick={submit}
                 >
                   Save
