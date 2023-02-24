@@ -59,7 +59,12 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-  let createPageNumber = item[item.length - 1].split("_")[1];
+  let createPageNumber;
+  if (item?.length) {
+    createPageNumber = item[item?.length - 1].split("_")[1];
+  } else {
+    createPageNumber = 0;
+  }
   function createNewPage() {
     createPageNumber++;
     const current = [...item];

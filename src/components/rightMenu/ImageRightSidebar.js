@@ -8,7 +8,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
 
 const ImageRightSidebar = () => {
- var { setIsFinializeDisabled } = useStateContext();
+  var { setIsFinializeDisabled } = useStateContext();
   const [file, setFile] = useState(null);
 
   const addImageButtonInput = useRef(null);
@@ -22,10 +22,12 @@ const ImageRightSidebar = () => {
     );
     addImageButtonInput.item(0).click();
     var imageDiv = document.querySelector(".focussed");
-    if(imageDiv.parentElement.classList.contains("holderDIV")){
-      imageDiv.parentElement.classList.add("element_updated")
+    if (imageDiv) {
+      if (imageDiv.parentElement.classList.contains("holderDIV")) {
+        imageDiv.parentElement.classList.add("element_updated");
+      }
     }
-    }
+  };
 
   function removeImage() {
     document.querySelector(".focussedd").remove();
@@ -53,7 +55,11 @@ const ImageRightSidebar = () => {
         </Button>
       </div>
       <div className="mt-5 text-center pt-1">
-        <Button className="w-75 remove_button" variant="primary" onClick={removeImage}>
+        <Button
+          className="w-75 remove_button"
+          variant="primary"
+          onClick={removeImage}
+        >
           Remove Image
         </Button>
       </div>

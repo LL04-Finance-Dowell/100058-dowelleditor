@@ -1386,7 +1386,6 @@ const MidSection = () => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
-        // imageField.innerHTML = "Image here";
 
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);

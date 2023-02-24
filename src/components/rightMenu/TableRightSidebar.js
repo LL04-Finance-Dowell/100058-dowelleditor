@@ -20,6 +20,9 @@ const TableRightSidebar = () => {
     italic,
     underline,
     strikethrough,
+    setStartDate,
+    setMethod,
+    setRightSideDateMenu,
   } = useStateContext();
 
   function focuseddClassMaintain(e) {
@@ -37,113 +40,6 @@ const TableRightSidebar = () => {
 
     // e.target.style.backgroundColor = "lightBlue";
   }
-
-  function getHolderDIV(measure, i, idMatch) {
-    //console.log("from holder div", i);
-    //creating holder for every input field over the page
-    const holderDIV = document.createElement("div");
-    // holderDIV.style.border = '1px dotted rgb(255 191 0)';
-    holderDIV.style.position = "absolute";
-    holderDIV.style.overflow = "visible";
-    holderDIV.style.display = "flex";
-    // holderDIV.style.cursor = "move";
-    holderDIV.style.zIndex = 1;
-    holderDIV.className = "tableHolderDIV";
-    holderDIV.setAttribute("id", "tableHolderDIV");
-    // holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
-    holderDIV.style.display = "flex";
-    holderDIV.style.flexDirection = "column";
-    // holderDIV.style.border = "2px dotted gray";
-    holderDIV.tabIndex = "1";
-    // //console.log("measure", measure);
-    // holderDIV.style.width = measure.width;
-    // holderDIV.style.height = measure.height;
-    // holderDIV.style.left = measure.left;
-    // holderDIV.style.top = measure.top;
-    // holderDIV.classList.add(`page${i}`);
-    //console.log(idMatch);
-    // if (idMatch?.length > 0) {
-    //   holderDIV.classList.add(`enable_pointer_event`);
-    //   holderDIV.style.border = "1px solid green !important";
-    // } else if (idMatch?.length < 1 && actionName == "document") {
-    //   holderDIV.classList.add(`dotted_border`);
-    //   holderDIV.classList.add(`disable_pointer_event`);
-    // } else {
-    //   holderDIV.classList.add(`dotted_border`);
-    // }
-    //Putting resize button on holder
-
-    // const resizerTL = getResizer("top", "left");
-    // const resizerTR = getResizer("top", "right");
-    // const resizerBL = getResizer("bottom", "left");
-    // const resizerBR = getResizer("bottom", "right");
-    // const holderMenu = getHolderMenu(measure.auth_user);
-
-    // const isTemplate = JSON.parse(document.getElementById('template'));
-    // const currUser = JSON.parse(document.getElementById('curr_user'));
-
-    // if (isTemplate) {
-    //   holderDIV.style.border = '1px dotted rgb(255 191 0)';
-    //              const resizerTL = getResizer('top', 'left');
-    // const resizerTR = getResizer('top', 'right');
-    // const resizerBL = getResizer('bottom', 'left');
-    // const resizerBR = getResizer('bottom', 'right');
-
-    // holderDIV.onmousedown = holderDIV.addEventListener(
-    //   "mousedown",
-    //   (event) => {
-    //     dragElementOverPage(event);
-    //   },
-    //   false
-    // );
-
-    // holderDIV.onresize = (evntt) => {
-    //   //console.log("Holder resized");
-    // };
-    // }
-
-    // holderDIV.style.border = "2px dotted gray";
-
-    // holderDIV.addEventListener("focus", function (e) {
-    //   // holderDIV.classList.add("focussedd");
-    //   holderDIV.classList.add("zIndex-two");
-    //   holderDIV.style.border = "2px solid orange";
-    //   // holderDIV.append(holderMenu);
-
-    //   holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
-    // });
-
-    // holderDIV.addEventListener("click", function (e) {
-    //   let allDiv = document.getElementsByClassName("focussedd");
-    //   for (let i = 0; i < allDiv.length; i++) {
-    //     allDiv[i].classList.remove("focussedd");
-    //   }
-    //   e.target.parentElement.classList.add("focussedd");
-    // });
-    // holderDIV.addEventListener("focusout", function (e) {
-    //   // holderDIV.classList.remove("focussedd");
-    //   holderDIV.classList.remove("zIndex-two");
-    //   holderDIV.style.border = "2px dotted gray";
-    //   holderMenu.remove();
-    //   resizerTL.remove();
-    //   resizerTR.remove();
-    //   resizerBL.remove();
-    //   resizerBR.remove();
-    // });
-
-    // if (!isTemplate) {
-    //   if (currUser == measure.auth_user) {
-    //     //console.log("They are equal");
-    //     //console.log(measure.auth_user);
-    //     //console.log(currUser);
-
-    //   }
-
-    // }
-
-    return holderDIV;
-  }
-  const holderDIV = getHolderDIV();
 
   const handleDropp = (e) => {
     e.preventDefault();
@@ -223,8 +119,8 @@ const TableRightSidebar = () => {
       ) {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
-        imageField.style.width = "100%";
-        imageField.style.height = "100%";
+        imageField.style.minHeight = "100px";
+        imageField.style.minWidth = "100px";
         imageField.style.backgroundColor = "#0000";
         imageField.style.borderRadius = "0px";
         imageField.style.outline = "0px";
@@ -234,6 +130,7 @@ const TableRightSidebar = () => {
         imageField.innerHTML = "Image here";
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
+          e.target.innerHTML = null;
           // imageField.classList.add("focussed");
           handleClicked("image2", "table2");
           // handleClicked("image2");
@@ -267,8 +164,8 @@ const TableRightSidebar = () => {
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
-        e.target.append(imageButton);
         e.target.append(imageField);
+        e.target.append(imageButton);
       } else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
@@ -285,30 +182,97 @@ const TableRightSidebar = () => {
 
         e.target.append(texttField);
       } else if (typeOfOperation === "SIGN_INPUT") {
+        // {
+        //   let signField = document.createElement("div");
+        //   signField.className = "signInput";
+        //   signField.style.width = "100%";
+        //   signField.style.height = "100%";
+        //   signField.style.backgroundColor = "#0000";
+        //   signField.style.borderRadius = "0px";
+        //   signField.style.outline = "0px";
+        //   signField.style.overflow = "overlay";
+        //   signField.innerHTML = "Signature here";
+        //   signField.style.position = "absolute";
+
+        //   signField.onclick = (e) => {
+        //     // focuseddClassMaintain(e);
+        //     if (signField) {
+        //       // signField.classList.add("focussed");
+        //       handleClicked("signs2", "table2");
+        //       setSidebar(true);
+        //       e.stopPropagation();
+        //     } else {
+        //       setSidebar(false);
+        //     }
+        //   };
+        //   e.target.append(signField);
+        //   // document.getElementsByClassName("dropp").item(0).append(signField);
+        // }
         let signField = document.createElement("div");
         signField.className = "signInput";
-        signField.style.width = "100%";
-        signField.style.height = "100%";
+        signField.style.width = "100px";
+        signField.style.height = "100px";
         signField.style.backgroundColor = "#0000";
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";
         signField.style.overflow = "overlay";
-        signField.innerHTML = "Signature here";
+        signField.innerHTML = "signature here";
         signField.style.position = "absolute";
 
+        // signField.onchange = (event) => {
+        //   event.preventDefault();
+        //   setPostData({
+        //     ...postData,
+        //     signField: {
+        //       value: event.target.value,
+        //       xcoordinate: getOffset(holderDIV).left,
+        //       ycoordinate: getOffset(holderDIV).top,
+        //     },
+        //   });
+        // };
+
         signField.onclick = (e) => {
-          // focuseddClassMaintain(e);
-          if (signField) {
-            // signField.classList.add("focussed");
-            handleClicked("signs2", "table2");
-            setSidebar(true);
-            e.stopPropagation();
-          } else {
-            setSidebar(false);
-          }
+          focuseddClassMaintain(e);
+          // if (actionName != "template") {
+          // signField.classList.add("focussed");
+          // handleClicked("signs2");
+          // setSidebar(true);
+          handleClicked("signs2", "table2");
+          setSidebar(true);
+          e.stopPropagation();
+          // } else {
+          //   setSidebar(false);
+          // }
         };
+        const imageSignButton = document.createElement("div");
+        imageSignButton.className = "addImageSignButton";
+        imageSignButton.innerText = "Choose File";
+        imageSignButton.style.display = "none";
+
+        const signBtn = document.createElement("input");
+        signBtn.className = "addSignButtonInput";
+        signBtn.type = "file";
+        signBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        signBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+            document.querySelector(".focussed").innerHTML = signImage;
+          });
+          reader.readAsDataURL(signBtn.files[0]);
+        });
+
+        imageSignButton.append(signBtn);
+
+        // const para = document.createElement("p");
+        // para.innerHTML = "Place your signature here";
+        // signField.append(para);
         e.target.append(signField);
-        // document.getElementsByClassName("dropp").item(0).append(signField);
+        e.target.append(imageSignButton);
       } else if (typeOfOperation === "DATE_INPUT") {
         let dateField = document.createElement("div");
         dateField.className = "dateInput";
@@ -318,23 +282,54 @@ const TableRightSidebar = () => {
         dateField.style.borderRadius = "0px";
         dateField.style.outline = "0px";
         dateField.style.overflow = "overlay";
-        dateField.innerText = "mm/dd/yyyy";
         dateField.style.position = "relative";
-        dateField.style.zIndex = 2;
+
+        // dateField.onchange = (event) => {
+        //   event.preventDefault();
+        //   setPostData({
+        //     ...postData,
+        //     calenderField: {
+        //       value: event.target.value,
+        //       xcoordinate: getOffset(holderDIV).left,
+        //       ycoordinate: getOffset(holderDIV).top,
+        //     },
+        //   });
+        // };
+        setStartDate(new Date());
+        setMethod("select");
+
         function dateClick() {
           document.getElementById("date_picker").click();
-          // setRightSideDateMenu(false);
+          setRightSideDateMenu(false);
         }
-
         dateField.onclick = (e) => {
-          handleClicked("calendar2", "table2");
+          focuseddClassMaintain(e);
+          handleClicked("calendar2");
+          setRightSideDateMenu(false);
+          if (e.target.innerText != "mm/dd/yyyy") {
+            if (e.target.innerText.includes("/")) {
+              const setDate = new Date(e.target.innerText);
+              setMethod("first");
+              setStartDate(setDate);
+            } else {
+              if (e.target.innerText.includes("-")) {
+                setMethod("fourth");
+              } else {
+                setMethod("second");
+              }
+              const setDate = new Date(e.target.innerText);
+              setStartDate(setDate);
+            }
+          }
           setSidebar(true);
           setTimeout(dateClick, 0);
-          focuseddClassMaintain(e);
           e.stopPropagation();
         };
-        // holderDIV.append(dateField);
+        dateField.innerText = "mm/dd/yyyy";
+
+        // dateField.append(para)
         e.target.append(dateField);
+        //console.log(para);
       }
     }
   };
