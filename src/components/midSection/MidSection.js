@@ -1542,6 +1542,8 @@ const MidSection = () => {
         typeOfOperation === "SCALE_INPUT" &&
         decoded.details.action === "template"
       ) {
+        setIsLoading(true);
+       
         let scaleField = document.createElement("div");
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
@@ -1552,15 +1554,38 @@ const MidSection = () => {
         scaleField.style.overflow = "overlay";
         // scaleField.innerHTML = 'iframe';
         scaleField.style.position = "absolute";
-        scaleField.innerText = "scale here";
-        fetch("https://100035.pythonanywhere.com/api/nps_settings_create")
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Scale", data);
+        // scaleField.innerText = "scale here";
+        
+        let scale = document.createElement("iframe")
+        scaleField.append(scale);
+        Axios.post(
+          "https://100035.pythonanywhere.com/api/nps_settings_create/",
+          {
+            username: "nake",       
+            orientation: "horizontal",   
+            scalecolor: "#8f1e1e",       
+            roundcolor: "#938585",       
+            fontcolor: "#000000",       
+            fomat: "numbers",            
+            time: "00",               
+            name: "testAPI",   
+            left: "good",            
+            right: "best",          
+            center: "neutral",               
+            }     
+        )
+          .then((res) => {
+            setIsLoading(false);
+            // console.log(res.data.scale_urls);
+            scale.src = res.data.scale_urls
+     
           })
-          .catch((error) => {
-            // handle any errors that occur
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
           });
+       
+        
         scaleField.onclick = (e) => {
           // focuseddClassMaintain(e);
           // table_dropdown_focuseddClassMaintain(e);

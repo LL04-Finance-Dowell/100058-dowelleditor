@@ -625,13 +625,12 @@ const Header = () => {
   }
 
   console.log("page count check", item);
-
-  const saveButton = document.getElementById("saving-button");
+  const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
     saveButton.click();
     if (isLoading == false)
       Axios.post(
-        "https://100094.pythonanywhere.com/v0.1/process/verification/",
+        "https://100094.pythonanywhere.com/v0.1/process/action/mark/",
         {
           action: "finalize",
           process_id: process_id,
@@ -640,17 +639,20 @@ const Header = () => {
       )
         .then((res) => {
           console.log(res);
-          alert(res?.data);
+          // alert(res?.data);
+          toast.success(res?.data);
         })
         .catch((err) => {
           setIsLoading(false);
           console.log(err);
+          toast.error(err);
+          // alert(err?.message);
         });
   }
 
   function handleReject() {
     setIsLoading(true);
-    Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
+    Axios.post("https://100094.pythonanywhere.com/v0.1/process/action/mark/", {
       action: "reject",
       process_id: process_id,
       authorized: authorized,
@@ -658,11 +660,13 @@ const Header = () => {
       .then((res) => {
         setIsLoading(false);
         console.log(res);
-        alert(res?.data);
+        // alert(res?.data);
+        toast.error(res?.data);
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
+        toast.error(err);
       });
   }
 
@@ -731,7 +735,7 @@ const Header = () => {
                   variant="primary"
                   size="md"
                   className="rounded "
-                  id="saving-button"
+                  id="saving-buttonn"
                   onClick={submit}
                 >
                   Save
