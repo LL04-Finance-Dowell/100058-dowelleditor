@@ -59,7 +59,12 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-  let createPageNumber = item?.[item.length - 1].split("_")[1];
+  let createPageNumber;
+  if (item?.length) {
+    createPageNumber = item[item?.length - 1].split("_")[1];
+  } else {
+    createPageNumber = 0;
+  }
   function createNewPage() {
     createPageNumber++;
     const current = [...item];
@@ -620,12 +625,12 @@ const Header = () => {
   }
 
   console.log("page count check", item);
-  const saveButton = document.getElementById('saving-buttonn');
+  const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
     saveButton.click();
     if (isLoading == false)
       Axios.post(
-        "https://100094.pythonanywhere.com/v0.1/process/verification/",
+        "https://100094.pythonanywhere.com/v0.1/process/action/mark/",
         {
           action: "finalize",
           process_id: process_id,
@@ -634,12 +639,14 @@ const Header = () => {
       )
         .then((res) => {
           console.log(res);
-          alert(res?.data);
+          // alert(res?.data);
+          toast.success(res?.data);
         })
         .catch((err) => {
           setIsLoading(false);
           console.log(err);
-          alert(err?.message);
+          toast.error(err);
+          // alert(err?.message);
         });
   }
 
@@ -653,11 +660,13 @@ const Header = () => {
       .then((res) => {
         setIsLoading(false);
         console.log(res);
-        alert(res?.data);
+        // alert(res?.data);
+        toast.error(res?.data);
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
+        toast.error(err);
       });
   }
 
