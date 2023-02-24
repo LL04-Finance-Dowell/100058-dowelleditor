@@ -59,7 +59,7 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
-  let createPageNumber = item[item.length - 1].split("_")[1];
+  let createPageNumber = item?.[item.length - 1].split("_")[1];
   function createNewPage() {
     createPageNumber++;
     const current = [...item];
@@ -645,7 +645,7 @@ const Header = () => {
 
   function handleReject() {
     setIsLoading(true);
-    Axios.post("https://100094.pythonanywhere.com/v0.1/process/verification/", {
+    Axios.post("https://100094.pythonanywhere.com/v0.1/process/action/mark/", {
       action: "reject",
       process_id: process_id,
       authorized: authorized,

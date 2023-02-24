@@ -269,6 +269,7 @@ const TableRightSidebar = () => {
         imageButton.append(imgBtn);
         e.target.append(imageButton);
         e.target.append(imageField);
+        // e.target.style.backgroundImage = `url(${uploadedImage})`;
       } else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
