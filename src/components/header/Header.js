@@ -45,7 +45,7 @@ const Header = () => {
     setIsDataRetrieved,
     setIsFinializeDisabled,
   } = useStateContext();
-  //   //console.log(headerData);
+
 
   const handleUndo = () => {
     document.execCommand("undo");

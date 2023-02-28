@@ -212,6 +212,7 @@ const TableRightSidebar = () => {
         signField.className = "signInput";
         signField.style.width = "100px";
         signField.style.height = "100px";
+        signField.style.top = "0px";
         signField.style.backgroundColor = "#0000";
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";

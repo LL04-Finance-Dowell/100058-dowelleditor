@@ -75,6 +75,8 @@ const MidSection = () => {
     setData,
     isDataRetrieved,
     setIsDataRetrieved,
+    scaleId,
+    setScaleId,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -1576,7 +1578,16 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            // console.log(res.data.scale_urls);
+            console.log(res);
+            console.log(res.data.success);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id =successObj.inserted_id;
+            
+            if(id.length){
+              console.log(id);
+              setScaleId(id);
+            }
             scale.src = res.data.scale_urls
      
           })
@@ -1587,6 +1598,9 @@ const MidSection = () => {
        
         
         scaleField.onclick = (e) => {
+               console.log(scaleId);
+  
+        
           // focuseddClassMaintain(e);
           // table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
