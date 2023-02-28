@@ -36,7 +36,6 @@ const EditSection = () => {
   var decoded = jwt_decode(token);
   const { authorized, process_id } = decoded?.details;
 
- 
   const newPageButton = document.querySelector('.new-page-btn');
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -50,7 +49,7 @@ const EditSection = () => {
             style={
               actionName == 'document'
                 ? { background: '#e3eeff' }
-                : { background: '#ffffff' }
+                : { background: '#1c2b48' }
             }
           >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
@@ -60,7 +59,6 @@ const EditSection = () => {
             {/* <MidSection showSidebar={showSidebar}/> */}
 
             <MidSection />
-          
           </Col>
 
           <Col
