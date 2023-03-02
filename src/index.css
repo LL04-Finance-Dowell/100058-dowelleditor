@@ -18,7 +18,7 @@ code {
   z-index: 999;
 }
 .fixed2 {
-  position: sticky;
+  position: fixed;
   top: 9vh;
 }
 .fixed3 {

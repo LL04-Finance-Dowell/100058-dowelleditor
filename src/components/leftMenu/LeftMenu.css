@@ -6,6 +6,7 @@
   align-items: center;
   margin-top: 5.5rem;
   gap: 1rem;
+  margin-left: 18px;
 }
 .leftMenu > button {
   outline: transparent;
