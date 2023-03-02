@@ -109,6 +109,7 @@ const CalendarRightSidebar = (props) => {
             placeholderText=""
             openToDate={new Date()}
             selected={startDate}
+            open={true}
             onChange={(date) => {
               // console.log("date", date, startDate);
               if (date != startDate) {

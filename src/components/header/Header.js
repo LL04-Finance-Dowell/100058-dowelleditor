@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import './Header.css';
 import { headerData } from '../../data/data';
@@ -29,6 +29,7 @@ import { AiFillPrinter } from 'react-icons/ai';
 
 const Header = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const inputRef = useRef(null);
   const {
     item,
     setItem,
@@ -65,6 +66,24 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand('copy');
   };
+  const handleTitle = () => {
+    const divElement = inputRef.current;
+    divElement.focus();
+
+    const range = document.createRange();
+    range.selectNodeContents(divElement);
+
+    const endOffset = divElement.innerText.length;
+    range.setStart(divElement.firstChild, endOffset);
+    range.setEnd(divElement.firstChild, endOffset);
+
+    range.collapse(false);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  };
+
   let createPageNumber;
   if (item?.length) {
     createPageNumber = item[item?.length - 1].split('_')[1];
@@ -758,26 +777,27 @@ const Header = () => {
             {/* <span className="badge bg-warning temp_doc">
               {actionName == 'template' ? 'Template' : 'Document'}
             </span> */}
-            <div className="d-flex align-items-center gap-4 header_p">
+            <div className="d-flex align-items-center gap-2 header_p">
               {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
               <div
-                className="title-name"
+                className="title-name px-3"
                 contentEditable={true}
                 style={{ fontSize: 24 }}
                 spellCheck="false"
+                ref={inputRef}
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
                 {title && title}
               </div>
-              <FaPen />
+              <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>
           </Col>
 
           <Col>
             <div className="right_header">
               <div className={docMap ? 'header_btn' : 'savee'}>
-                <Button
+                {/* <Button
                   variant="outline"
                   size="md"
                   className="rounded share-btn me-4"
@@ -785,7 +805,7 @@ const Header = () => {
                   onClick={submit}
                 >
                   Share <BiExport />
-                </Button>
+                </Button> */}
                 <Button
                   size="md"
                   className="rounded"
