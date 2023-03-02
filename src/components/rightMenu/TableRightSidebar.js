@@ -127,7 +127,7 @@ const TableRightSidebar = () => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
-        imageField.innerHTML = "Image here";
+        imageField.innerHTML = "Choose Image";
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
           e.target.innerHTML = null;
@@ -157,7 +157,7 @@ const TableRightSidebar = () => {
             uploadedImage = reader.result;
             document.querySelector(
               ".focussed"
-            ).style.backgroundImage = `url(${uploadedImage})`;
+            ).parentElement.style.backgroundImage = `url(${uploadedImage})`;
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
@@ -211,13 +211,16 @@ const TableRightSidebar = () => {
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100px";
-        signField.style.height = "100px";
+        signField.style.height = "inherit";
         signField.style.backgroundColor = "#0000";
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";
         signField.style.overflow = "overlay";
         signField.innerHTML = "signature here";
         signField.style.position = "absolute";
+        signField.style.top = 0;
+        signField.style.left = 0;
+        e.target.style.position = "relative";
 
         // signField.onchange = (event) => {
         //   event.preventDefault();

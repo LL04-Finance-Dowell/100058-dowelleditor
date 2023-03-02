@@ -871,12 +871,12 @@ const MidSection = () => {
           signField.onclick = (e) => {
             // signFieldInnerText=e.target.innerText
             focuseddClassMaintain(e);
-            if (actionName != "template") {
-              handleClicked("signs2");
-              setSidebar(true);
-            } else {
-              setSidebar(false);
-            }
+            // if (actionName != "template") {
+            handleClicked("signs2");
+            setSidebar(true);
+            // } else {
+            //   setSidebar(false);
+            // }
           };
           // signField.onmouseleave = (e) =>{
           //   if(signFieldInnerText == e.target.innerText){
@@ -1543,7 +1543,7 @@ const MidSection = () => {
         decoded.details.action === "template"
       ) {
         setIsLoading(true);
-       
+
         let scaleField = document.createElement("div");
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
@@ -1555,37 +1555,35 @@ const MidSection = () => {
         // scaleField.innerHTML = 'iframe';
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
-        
-        let scale = document.createElement("iframe")
+
+        let scale = document.createElement("iframe");
         scaleField.append(scale);
         Axios.post(
           "https://100035.pythonanywhere.com/api/nps_settings_create/",
           {
-            username: "nake",       
-            orientation: "horizontal",   
-            scalecolor: "#8f1e1e",       
-            roundcolor: "#938585",       
-            fontcolor: "#000000",       
-            fomat: "numbers",            
-            time: "00",               
-            name: "testAPI",   
-            left: "good",            
-            right: "best",          
-            center: "neutral",               
-            }     
+            username: "nake",
+            orientation: "horizontal",
+            scalecolor: "#8f1e1e",
+            roundcolor: "#938585",
+            fontcolor: "#000000",
+            fomat: "numbers",
+            time: "00",
+            name: "testAPI",
+            left: "good",
+            right: "best",
+            center: "neutral",
+          }
         )
           .then((res) => {
             setIsLoading(false);
             // console.log(res.data.scale_urls);
-            scale.src = res.data.scale_urls
-     
+            scale.src = res.data.scale_urls;
           })
           .catch((err) => {
             setIsLoading(false);
             console.log(err);
           });
-       
-        
+
         scaleField.onclick = (e) => {
           // focuseddClassMaintain(e);
           // table_dropdown_focuseddClassMaintain(e);
@@ -1597,46 +1595,47 @@ const MidSection = () => {
         holderDIV.append(scaleField);
       }
       // Limon
+      // else if (
+      //   typeOfOperation === "SIGN_INPUT" &&
+      //   decoded.details.action === "template"
+      // ) {
+      //   let signField = document.createElement("div");
+      //   signField.className = "signInput";
+      //   signField.style.width = "100%";
+      //   signField.style.height = "100%";
+      //   signField.style.backgroundColor = "#0000";
+      //   signField.style.borderRadius = "0px";
+      //   signField.style.outline = "0px";
+      //   signField.style.overflow = "overlay";
+      //   signField.innerHTML = "Place your signature here";
+      //   signField.style.position = "absolute";
+
+      //   signField.onchange = (event) => {
+      //     event.preventDefault();
+      //     setPostData({
+      //       ...postData,
+      //       signField: {
+      //         value: event.target.value,
+      //         xcoordinate: getOffset(holderDIV).left,
+      //         ycoordinate: getOffset(holderDIV).top,
+      //       },
+      //     });
+      //   };
+
+      //   signField.onclick = (e) => {
+      //     focuseddClassMaintain(e);
+      //     // if (actionName != "template") {
+      //     // signField.classList.add("focussed");
+      //     handleClicked("signs2");
+      //     setSidebar(true);
+      //     // holderDIV.classList.add('focussedd')
+      //     // inputField.classList.add("focussed");
+      //     // inputField.parentElement.focus()
+      //     // }
+      //     holderDIV.append(signField);
+      //   };
+      // }
       else if (
-        typeOfOperation === "SIGN_INPUT" &&
-        decoded.details.action === "template"
-      ) {
-        let signField = document.createElement("div");
-        signField.className = "signInput";
-        signField.style.width = "100%";
-        signField.style.height = "100%";
-        signField.style.backgroundColor = "#0000";
-        signField.style.borderRadius = "0px";
-        signField.style.outline = "0px";
-        signField.style.overflow = "overlay";
-        signField.innerHTML = "Place your signature here";
-        signField.style.position = "absolute";
-
-        signField.onchange = (event) => {
-          event.preventDefault();
-          setPostData({
-            ...postData,
-            signField: {
-              value: event.target.value,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top,
-            },
-          });
-        };
-
-        signField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          if (actionName != "template") {
-            // signField.classList.add("focussed");
-            handleClicked("signs2");
-            setSidebar(true);
-            // holderDIV.classList.add('focussedd')
-            // inputField.classList.add("focussed");
-            // inputField.parentElement.focus()
-          }
-          holderDIV.append(signField);
-        };
-      } else if (
         typeOfOperation === "IMAGE_INPUT" &&
         decoded.details.action === "template"
       ) {
@@ -1830,13 +1829,13 @@ const MidSection = () => {
 
         signField.onclick = (e) => {
           focuseddClassMaintain(e);
-          if (actionName != "template") {
-            // signField.classList.add("focussed");
-            handleClicked("signs2");
-            setSidebar(true);
-          } else {
-            setSidebar(false);
-          }
+          // if (actionName != "template") {
+          // signField.classList.add("focussed");
+          handleClicked("signs2");
+          setSidebar(true);
+          // } else {
+          //   setSidebar(false);
+          // }
         };
         const imageSignButton = document.createElement("div");
         imageSignButton.className = "addImageSignButton";

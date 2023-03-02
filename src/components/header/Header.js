@@ -669,6 +669,17 @@ const Header = () => {
         toast.error(err);
       });
   }
+  const hanldePrint = (e) => {
+    const bodyEl = document.getElementsByTagName("BODY")[0];
+    bodyEl.style.visibility = "hidden";
+    const midsection = document.getElementsByClassName("midSection_container");
+    for (let i = 0; i < midsection?.length; i++) {
+      midsection[i].style.visibility = "visible";
+    }
+
+    window.print();
+    bodyEl.style.visibility = "visible";
+  };
 
   // console.log("page count check", item);
   return (
@@ -689,7 +700,13 @@ const Header = () => {
               <img onClick={handleCut} src={headerData[2].icon} alt="" />
               <img onClick={handleCopy} src={headerData[3].icon} alt="" />
               <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img onClick={() => {}} src={headerData[5].icon} alt="" />
+              <img
+                onClick={(e) => {
+                  hanldePrint(e);
+                }}
+                src={headerData[5].icon}
+                alt=""
+              />
 
               {actionName == "template" && (
                 <button className="page_btn" onClick={() => createNewPage()}>

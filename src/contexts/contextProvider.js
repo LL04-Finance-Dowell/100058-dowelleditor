@@ -80,6 +80,7 @@ export const ContextProvider = ({ children }) => {
 
   //   //console.log("item check", item);
 
+  console.log("initialState", initialState);
   return (
     <StateContext.Provider
       value={{
