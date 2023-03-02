@@ -4,13 +4,14 @@
   align-items: center;
   z-index: 1;
   padding: 0 1rem;
+  box-shadow: 1px 1px 8px #96969657;
 }
 .header_bg_template {
   /* background: #243485; */
   background: #fff;
 }
 .header_bg_document {
-  background: #106419;
+  background: #ffffff;
 }
 .header_btn {
   display: flex;
