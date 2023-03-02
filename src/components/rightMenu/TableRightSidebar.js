@@ -127,7 +127,7 @@ const TableRightSidebar = () => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
-        imageField.innerHTML = "Choose Image";
+        imageField.innerHTML = "Image here";
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
           e.target.innerHTML = null;
@@ -211,7 +211,7 @@ const TableRightSidebar = () => {
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100px";
-        signField.style.height = "inherit";
+        signField.style.height = "100px";
         signField.style.backgroundColor = "#0000";
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";

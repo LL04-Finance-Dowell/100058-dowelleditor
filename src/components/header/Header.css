@@ -3,12 +3,15 @@
   display: flex;
   align-items: center;
   z-index: 1;
+  padding: 0 1rem;
+  box-shadow: 1px 1px 8px #96969657;
 }
 .header_bg_template {
-  background: #243485;
+  /* background: #243485; */
+  background: #fff;
 }
 .header_bg_document {
-  background: #106419;
+  background: #ffffff;
 }
 .header_btn {
   display: flex;
@@ -18,6 +21,20 @@
   height: 100%;
   padding-right: 0px;
 }
+.head-bar {
+  width: 3rem !important;
+  height: 3rem !important;
+  background-color: #e3eeff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+}
+.bar-menu {
+  width: 14rem;
+  top: 2rem;
+  left: 4rem;
+  box-shadow: 2px 2px 8px #9696968a;
+  border-radius: 6px;
+}
 .savee {
   display: flex;
   align-items: center;
@@ -25,8 +42,20 @@
   width: 100%;
   height: 100%;
 }
-
-
+.savee button {
+  background-color: #3c61ea;
+  font-weight: 600;
+  outline: none;
+}
+.savee .share-btn {
+  background-color: transparent;
+  border: 1px solid #bababa4a;
+  box-shadow: 1px 1px 2px #aeaeae58;
+}
+#saving-buttonn svg {
+  margin-right: 0;
+  margin-left: 8px;
+}
 .head_btn {
   width: 40px;
   height: 100%;
@@ -35,8 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
-  height: 100%;
+  transition: all 0.3s ease-in-out;
   padding-left: 10px;
 }
 
@@ -49,9 +77,9 @@
 
 .header_icons > img,
 svg {
-  width: fit-content;
+  width: 1rem !important;
   height: 22px;
-  color: #ffffff;
+  color: #1c2b48;
   /* margin-left: 33.9px; */
   margin-right: 20px;
   cursor: pointer;
@@ -81,11 +109,22 @@ svg {
 .cursor_pointer {
   cursor: pointer;
 }
-.temp_doc{
+.temp_doc {
   display: flex;
   align-items: center;
   height: 25px;
 }
-/* .title-name {
-  margin-top: 10px;
-} */
+.title-name {
+  margin-left: 2rem;
+  font-weight: 700;
+}
+.menu {
+  opacity: 0;
+  /* transform: translateY(-50px); */
+  transition: opacity 0.2s ease-out;
+}
+
+.menu.show {
+  opacity: 1;
+  /* transform: translateY(0); */
+}

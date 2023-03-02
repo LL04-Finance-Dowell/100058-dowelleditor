@@ -146,14 +146,10 @@ th {
   min-width: 180px;
 }
 
-/* @media only{
-  body{
-    visibility: hidden;
-  }
-  .editSec_midSec{
-    visibility: visible;
-  }
-} */
+.disable_button {
+  opacity: 0.5;
+  pointer-events: none;
+}
 
 
 

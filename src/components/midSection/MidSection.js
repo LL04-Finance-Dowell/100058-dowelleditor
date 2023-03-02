@@ -75,6 +75,9 @@ const MidSection = () => {
     setData,
     isDataRetrieved,
     setIsDataRetrieved,
+    scaleId,
+    setScaleId,
+    title,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -871,7 +874,7 @@ const MidSection = () => {
           signField.onclick = (e) => {
             // signFieldInnerText=e.target.innerText
             focuseddClassMaintain(e);
-            // if (actionName != "template") {
+            // if ((actionName = 'template')) {
             handleClicked("signs2");
             setSidebar(true);
             // } else {
@@ -1537,7 +1540,9 @@ const MidSection = () => {
         };
 
         holderDIV.append(iframeField);
-      } //Limon
+      }
+
+      //Limon
       else if (
         typeOfOperation === "SCALE_INPUT" &&
         decoded.details.action === "template"
@@ -1568,7 +1573,7 @@ const MidSection = () => {
             fontcolor: "#000000",
             fomat: "numbers",
             time: "00",
-            name: "testAPI",
+            name: `${title}_scale`,
             left: "good",
             right: "best",
             center: "neutral",
@@ -1576,7 +1581,16 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            // console.log(res.data.scale_urls);
+            console.log(res);
+            console.log(res.data.success);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+
+            if (id.length) {
+              console.log(id);
+              setScaleId(id);
+            }
             scale.src = res.data.scale_urls;
           })
           .catch((err) => {
@@ -1585,9 +1599,7 @@ const MidSection = () => {
           });
 
         scaleField.onclick = (e) => {
-          // focuseddClassMaintain(e);
-          // table_dropdown_focuseddClassMaintain(e);
-          // tableField.classList.add("focussed");
+          focuseddClassMaintain(e);
           handleClicked("scale2");
           setSidebar(true);
         };
@@ -1596,19 +1608,20 @@ const MidSection = () => {
       }
       // Limon
       // else if (
-      //   typeOfOperation === "SIGN_INPUT" &&
-      //   decoded.details.action === "template"
+      //   typeOfOperation === 'SIGN_INPUT' &&
+      //   decoded.details.action === 'template'
       // ) {
-      //   let signField = document.createElement("div");
-      //   signField.className = "signInput";
-      //   signField.style.width = "100%";
-      //   signField.style.height = "100%";
-      //   signField.style.backgroundColor = "#0000";
-      //   signField.style.borderRadius = "0px";
-      //   signField.style.outline = "0px";
-      //   signField.style.overflow = "overlay";
-      //   signField.innerHTML = "Place your signature here";
-      //   signField.style.position = "absolute";
+      //   let signField = document.createElement('div');
+      //   signField.className = 'signInput';
+      //   signField.style.width = '100%';
+      //   signField.style.height = '100%';
+      //   signField.style.backgroundColor = '#dedede';
+      //   signField.style.borderRadius = '0px';
+      //   signField.style.outline = '0px';
+      //   signField.style.overflow = 'overlay';
+      //   // signField.innerHTML = 'Place your signature here';
+      //   signField.innerText = 'Place your signature here';
+      //   signField.style.position = 'absolute';
 
       //   signField.onchange = (event) => {
       //     event.preventDefault();
@@ -1624,13 +1637,12 @@ const MidSection = () => {
 
       //   signField.onclick = (e) => {
       //     focuseddClassMaintain(e);
-      //     // if (actionName != "template") {
+      //     // if (actionName != 'template') {
       //     // signField.classList.add("focussed");
-      //     handleClicked("signs2");
+      //     handleClicked('signs2');
       //     setSidebar(true);
+      //     // e.stopPropagation();
       //     // holderDIV.classList.add('focussedd')
-      //     // inputField.classList.add("focussed");
-      //     // inputField.parentElement.focus()
       //     // }
       //     holderDIV.append(signField);
       //   };
@@ -1812,7 +1824,8 @@ const MidSection = () => {
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";
         signField.style.overflow = "overlay";
-        signField.innerHTML = "Place your signature here";
+        // signField.innerHTML = 'Place your signature here';
+        signField.innerText = "Signature here";
         signField.style.position = "absolute";
 
         signField.onchange = (event) => {
@@ -1829,7 +1842,7 @@ const MidSection = () => {
 
         signField.onclick = (e) => {
           focuseddClassMaintain(e);
-          // if (actionName != "template") {
+          // if (actionName = "template") {
           // signField.classList.add("focussed");
           handleClicked("signs2");
           setSidebar(true);

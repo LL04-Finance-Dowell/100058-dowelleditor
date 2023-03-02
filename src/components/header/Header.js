@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Header.css";
 import { headerData } from "../../data/data";
 import user from "../../assets/headerIcons/user.png";
-import { FaCopy } from "react-icons/fa";
-import { BiImport, BiExport } from "react-icons/bi";
+import { FaCopy, FaPen, FaSave } from "react-icons/fa";
+import { BiImport, BiExport, BiCut, BiCopyAlt } from "react-icons/bi";
+import { ImRedo, ImUndo } from "react-icons/im";
 import CryptoJS from "crypto-js";
 
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
-import { CgPlayListRemove } from "react-icons/cg";
+import { CgMenuLeft, CgPlayListRemove } from "react-icons/cg";
 import {
   MdOutlinePostAdd,
   MdSignalCellular0Bar,
   MdOutlineFlipCameraAndroid,
+  MdOutlineIosShare,
 } from "react-icons/md";
 
 import { useSearchParams } from "react-router-dom";
@@ -23,8 +25,11 @@ import { current } from "@reduxjs/toolkit";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AiFillPrinter } from "react-icons/ai";
 
 const Header = () => {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const inputRef = useRef(null);
   const {
     item,
     setItem,
@@ -44,9 +49,14 @@ const Header = () => {
     isFinializeDisabled,
     setIsDataRetrieved,
     setIsFinializeDisabled,
+    companyId,
+    setCompanyId,
   } = useStateContext();
-  //   //console.log(headerData);
 
+  console.log(companyId);
+  const handleOptions = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
   const handleUndo = () => {
     document.execCommand("undo");
   };
@@ -59,6 +69,24 @@ const Header = () => {
   const handleCopy = () => {
     document.execCommand("copy");
   };
+  const handleTitle = () => {
+    const divElement = inputRef.current;
+    divElement.focus();
+
+    const range = document.createRange();
+    range.selectNodeContents(divElement);
+
+    const endOffset = divElement.innerText.length;
+    range.setStart(divElement.firstChild, endOffset);
+    range.setEnd(divElement.firstChild, endOffset);
+
+    range.collapse(false);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  };
+
   let createPageNumber;
   if (item?.length) {
     createPageNumber = item[item?.length - 1].split("_")[1];
@@ -387,9 +415,16 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  const { action, authorized, process_id, document_map } = decoded?.details;
+  console.log(decoded);
+  const { action, authorized, process_id, document_map, _id } =
+    decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+
+  console.log(authorized);
+  console.log(process_id);
+  console.log(_id);
+
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
     document.getElementsByClassName("element_updated").length;
@@ -400,6 +435,7 @@ const Header = () => {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -538,6 +574,10 @@ const Header = () => {
         // setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0][0]);
+
+        //Handling company_id
+        const company_id = res.data.company_id;
+        setCompanyId(company_id);
       })
       .catch((err) => {
         setIsLoading(false);
@@ -635,6 +675,8 @@ const Header = () => {
           action: "finalize",
           process_id: process_id,
           authorized: authorized,
+          document_id: _id,
+          company_id: companyId,
         }
       )
         .then((res) => {
@@ -656,6 +698,8 @@ const Header = () => {
       action: "reject",
       process_id: process_id,
       authorized: authorized,
+      document_id: _id,
+      company_id: companyId,
     })
       .then((res) => {
         setIsLoading(false);
@@ -690,72 +734,115 @@ const Header = () => {
     >
       <Container fluid>
         <Row>
-          <Col className="d-flex justify-content-start lhs-header">
-            <span className="badge bg-warning temp_doc">
-              {actionName == "template" ? "Template" : "Document"}
-            </span>
-            <div className="header_icons">
-              <img onClick={handleUndo} src={headerData[0].icon} alt="" />
-              <img onClick={handleRedo} src={headerData[1].icon} alt="" />
-              <img onClick={handleCut} src={headerData[2].icon} alt="" />
-              <img onClick={handleCopy} src={headerData[3].icon} alt="" />
-              <img onClick={() => {}} src={headerData[4].icon} alt="" />
-              <img
-                onClick={(e) => {
-                  hanldePrint(e);
-                }}
-                src={headerData[5].icon}
-                alt=""
-              />
+          <Col className="d-flex lhs-header">
+            <div className="header_icons position-relative">
+              <CgMenuLeft className="head-bar" onClick={handleOptions} />
+              {isMenuVisible && (
+                <div
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
+                >
+                  <div className="d-flex cursor_pointer" onClick={handleUndo}>
+                    <ImUndo />
+                    <p>Undo</p>
+                  </div>
+                  <div className="d-flex cursor_pointer" onClick={handleRedo}>
+                    <ImRedo />
+                    <p>Redo</p>
+                  </div>
+                  <div className="d-flex cursor_pointer" onClick={handleCut}>
+                    <BiCut />
+                    <p>Cut</p>
+                  </div>
+                  <div className="d-flex cursor_pointer" onClick={handleCopy}>
+                    <BiCopyAlt />
+                    <p>Copy</p>
+                  </div>
+                  <div className="d-flex cursor_pointer" onClick={hanldePrint}>
+                    <AiFillPrinter />
+                    <p>Print</p>
+                  </div>
 
-              {actionName == "template" && (
-                <button className="page_btn" onClick={() => createNewPage()}>
-                  <MdOutlinePostAdd color="white" />
-                </button>
+                  {/* <img onClick={handleRedo} src={headerData[1].icon} alt="" /> */}
+                  {/* <img onClick={handleCut} src={headerData[2].icon} alt="" /> */}
+                  {/* <img onClick={handleCopy} src={headerData[3].icon} alt="" /> */}
+                  {/* <img onClick={() => {}} src={headerData[4].icon} alt="" /> */}
+                  {/* <img onClick={() => {}} src={headerData[5].icon} alt="" /> */}
+                  {actionName == "template" && (
+                    <button
+                      className="page_btn p-0 d-flex"
+                      onClick={() => createNewPage()}
+                    >
+                      <MdOutlinePostAdd />
+                      <p>Add Page</p>
+                    </button>
+                  )}
+                  {actionName == "template" && (
+                    <div className="d-flex">
+                      <CgPlayListRemove onClick={() => removePage()} />
+                      <p>Remove Page</p>
+                    </div>
+                  )}
+                  <div className="d-flex">
+                    <BiImport onClick={handleToken} />
+                    <p>Import</p>
+                  </div>
+                  <div
+                    className="d-flex"
+                    id="saving-button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
+                    <BiExport />
+                    <p>Export</p>
+                  </div>
+                </div>
               )}
-              {actionName == "template" && (
-                <CgPlayListRemove color="white" onClick={() => removePage()} />
-              )}
-              <div className="d-flex">
-                <BiImport color="white" onClick={handleToken} />
 
-                <BiExport
-                  color="white"
-                  id="saving-button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                />
-              </div>
               {/* {headerData.map((item, index) => {
                 return <img src={item.icon} alt="icon" key={index} />;
               })} */}
             </div>
-          </Col>
-
-          <Col className="d-flex justify-content-center   header_p text-center">
-            {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
-            <div
-              className="title-name"
-              contentEditable={true}
-              style={{ color: "white", fontSize: 20 }}
-              spellCheck="false"
-            >
-              {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
+            {/* <span className="badge bg-warning temp_doc">
+              {actionName == 'template' ? 'Template' : 'Document'}
+            </span> */}
+            <div className="d-flex align-items-center gap-2 header_p">
+              {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
+              <div
+                className="title-name px-3"
+                contentEditable={true}
+                style={{ fontSize: 24 }}
+                spellCheck="false"
+                ref={inputRef}
+              >
+                {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-              {title && title}
+                {title && title}
+              </div>
+              <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>
           </Col>
+
           <Col>
             <div className="right_header">
               <div className={docMap ? "header_btn" : "savee"}>
-                <Button
-                  variant="primary"
+                {/* <Button
+                  variant="outline"
                   size="md"
-                  className="rounded "
+                  className="rounded share-btn me-4"
                   id="saving-buttonn"
                   onClick={submit}
                 >
-                  Save
+                  Share <BiExport />
+                </Button> */}
+                <Button
+                  size="md"
+                  className="rounded"
+                  id="saving-buttonn"
+                  onClick={submit}
+                >
+                  Save <FaSave color="white" />
                 </Button>
               </div>
               <div className="mt-1 text-center p-2">

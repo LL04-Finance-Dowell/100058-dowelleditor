@@ -29,6 +29,7 @@ const initialState2 = {
 export const ContextProvider = ({ children }) => {
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
+  console.log(isClicked, "limonnnnn");
 
   const [isDropped, setIsDropped] = useState(initialState);
 
@@ -50,6 +51,8 @@ export const ContextProvider = ({ children }) => {
   const [dropdownItems, setDropdownItems] = useState("");
   const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"]);
 
+  const [fontPlus, setFontPlus] = useState(false);
+  const [fontMinus, setFontMinus] = useState(false);
   const [bold, setBold] = useState(false);
   const [italic, setItalic] = useState(false);
   const [underline, setUnderline] = useState(false);
@@ -80,7 +83,12 @@ export const ContextProvider = ({ children }) => {
 
   //   //console.log("item check", item);
 
-  console.log("initialState", initialState);
+  // Scale id
+  const [scaleId, setScaleId] = useState("id");
+
+  //Company id
+  const [companyId, setCompanyId] = useState("");
+
   return (
     <StateContext.Provider
       value={{
@@ -98,6 +106,10 @@ export const ContextProvider = ({ children }) => {
         setSignState,
         startDate,
         setStartDate,
+        fontPlus,
+        setFontPlus,
+        fontMinus,
+        setFontMinus,
         bold,
         setBold,
         italic,
@@ -140,6 +152,10 @@ export const ContextProvider = ({ children }) => {
         setTitle,
         isDataRetrieved,
         setIsDataRetrieved,
+        scaleId,
+        setScaleId,
+        companyId,
+        setCompanyId,
       }}
     >
       {children}

@@ -5,6 +5,16 @@ import { editSecOptions } from '../../data/data';
 
 import { useStateContext } from '../../contexts/contextProvider';
 
+import { BiImage, BiText } from 'react-icons/bi';
+import {
+  BsCalendar2Date,
+  BsMenuButtonWideFill,
+  BsTable,
+  BsCodeSquare,
+} from 'react-icons/bs';
+import { FaSignature } from 'react-icons/fa';
+import { IoScale } from 'react-icons/io5';
+
 import MidSection from '../midSection/MidSection';
 import TextFill from './comp/TextFill';
 import TextBox from './comp/TextBox';
@@ -19,7 +29,8 @@ const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc }) => (
     onDragEnd={dragEndFunc}
     onClick={clickFunc}
   >
-    <img src={icon} alt="icon" />
+    {/* <img src={icon} alt="icon" /> */}
+    {icon}
   </button>
 );
 
@@ -185,49 +196,50 @@ const LeftMenu = ({ showSidebar }) => {
             <NavButton
               dragStartFunc={dragStartAlign}
               customFunc={() => handleDrop('align')}
-              icon={editSecOptions[1].icon}
-            />
+              // icon={editSecOptions[1].icon}
+              icon={<BiText />}
+            ></NavButton>
             {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
             <NavButton
               dragStartFunc={dragStartImage}
               customFunc={() => handleDrop('image')}
-              icon={editSecOptions[2].icon}
+              icon={<BiImage />}
             />
             <NavButton
               dragStartFunc={dragStartTable}
               customFunc={() => handleDrop('table')}
-              icon={editSecOptions[3].icon}
+              icon={<BsTable />}
             />
             <NavButton
               dragStartFunc={dragStartSigns}
               customFunc={() => handleDrop('signs')}
-              icon={editSecOptions[4].icon}
+              icon={<FaSignature />}
             />
             <NavButton
               dragStartFunc={dragStartCalendar}
               customFunc={() => handleDrop('calendar')}
-              icon={editSecOptions[5].icon}
+              icon={<BsCalendar2Date />}
             />
             <NavButton
               dragStartFunc={dragStartDropdown}
               customFunc={() => handleDrop('dropdown')}
-              icon={editSecOptions[6].icon}
+              icon={<BsMenuButtonWideFill />}
             />
-            <NavButton
+            {/* <NavButton
               dragStartFunc={dragStartContainerr}
               clickFunc={removeContainer}
               customFunc={() => handleDrop('containerr')}
-              icon={editSecOptions[0].icon}
-            />
+              icon={<BiImage />}
+            /> */}
             <NavButton
               dragStartFunc={dragStartIframe}
               customFunc={() => handleDrop('iframe')}
-              icon={editSecOptions[8].icon}
+              icon={<BsCodeSquare />}
             />
             <NavButton
               dragStartFunc={dragStartScale}
               customFunc={() => handleDrop('scale')}
-              icon={editSecOptions[9].icon}
+              icon={<IoScale />}
             />
           </div>
         )
