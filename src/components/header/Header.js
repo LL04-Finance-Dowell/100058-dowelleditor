@@ -28,7 +28,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { AiFillPrinter } from "react-icons/ai";
 
 const Header = () => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const inputRef = useRef(null);
   const {
     item,
@@ -51,6 +50,8 @@ const Header = () => {
     setIsFinializeDisabled,
     companyId,
     setCompanyId,
+    isMenuVisible,
+    setIsMenuVisible,
   } = useStateContext();
 
   console.log(companyId);
@@ -726,6 +727,7 @@ const Header = () => {
   };
 
   // console.log("page count check", item);
+  // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
       className={`header ${

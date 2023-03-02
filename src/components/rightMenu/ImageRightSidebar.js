@@ -8,7 +8,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
 
 const ImageRightSidebar = () => {
-  var { setIsFinializeDisabled, handleClicked } = useStateContext();
+  var { setIsFinializeDisabled, handleClicked, setSidebar } = useStateContext();
   const [file, setFile] = useState(null);
 
   const addImageButtonInput = useRef(null);
@@ -17,7 +17,8 @@ const ImageRightSidebar = () => {
 
   //clicked choose file button
   const chooseFileClick = (e) => {
-    
+    // handleClicked("image2");
+    // setSidebar(false);
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );

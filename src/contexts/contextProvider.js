@@ -88,6 +88,7 @@ export const ContextProvider = ({ children }) => {
 
   //Company id
   const [companyId, setCompanyId] = useState("");
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   return (
     <StateContext.Provider
@@ -156,6 +157,8 @@ export const ContextProvider = ({ children }) => {
         setScaleId,
         companyId,
         setCompanyId,
+        isMenuVisible,
+        setIsMenuVisible,
       }}
     >
       {children}

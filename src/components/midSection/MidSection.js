@@ -78,6 +78,8 @@ const MidSection = () => {
     scaleId,
     setScaleId,
     title,
+    isMenuVisible,
+    setIsMenuVisible,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -112,6 +114,7 @@ const MidSection = () => {
         if (document.querySelector(".focussed")) {
           document.querySelector(".focussed").classList.remove("focussed");
         }
+        setIsMenuVisible(false);
         setSidebar(false);
         setIsClicked(false);
         setRightSideDateMenu(false);
@@ -1457,65 +1460,67 @@ const MidSection = () => {
         };
 
         holderDIV.append(texttField);
-      } else if (
-        typeOfOperation === "TABLE_INPUT" &&
-        decoded.details.action === "template"
-      ) {
-        let tableField = document.createElement("div");
-        tableField.className = "tableInput";
-        tableField.style.width = "100%";
-        tableField.style.height = "100%";
-        tableField.style.backgroundColor = "#dedede";
-        tableField.style.borderRadius = "0px";
-        tableField.style.outline = "0px";
-        tableField.style.overflow = "overlay";
-        // tableField.innerHTML = 'table';
-        tableField.style.position = "absolute";
+      }
+      //  else if (
+      //   typeOfOperation === "TABLE_INPUT" &&
+      //   decoded.details.action === "template"
+      // ) {
+      //   let tableField = document.createElement("div");
+      //   tableField.className = "tableInput";
+      //   tableField.style.width = "100%";
+      //   tableField.style.height = "100%";
+      //   tableField.style.backgroundColor = "#dedede";
+      //   tableField.style.borderRadius = "0px";
+      //   tableField.style.outline = "0px";
+      //   tableField.style.overflow = "overlay";
+      //   // tableField.innerHTML = 'table';
+      //   tableField.style.position = "absolute";
 
-        tableField.onchange = (event) => {
-          event.preventDefault();
+      //   tableField.onchange = (event) => {
+      //     event.preventDefault();
 
-          setPostData({
-            ...postData,
-            tableField: {
-              value: event.target.value,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top,
-            },
-          });
-        };
+      //     setPostData({
+      //       ...postData,
+      //       tableField: {
+      //         value: event.target.value,
+      //         xcoordinate: getOffset(holderDIV).left,
+      //         ycoordinate: getOffset(holderDIV).top,
+      //       },
+      //     });
+      //   };
 
-        // if (tableField) {
-        //   const tableField = {
-        //     tableField: {
-        //       value: event.target.value,
-        //       xcoordinate: getOffset(holderDIV).left,
-        //       ycoordinate: getOffset(holderDIV).top,
-        //     },
-        //   };
+      //   // if (tableField) {
+      //   //   const tableField = {
+      //   //     tableField: {
+      //   //       value: event.target.value,
+      //   //       xcoordinate: getOffset(holderDIV).left,
+      //   //       ycoordinate: getOffset(holderDIV).top,
+      //   //     },
+      //   //   };
 
-        //   // postData.push(tableField);
-        //   // setPostData({
-        //   //   ...postData,
-        //   //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-        //   // })
-        // }
+      //   //   // postData.push(tableField);
+      //   //   // setPostData({
+      //   //   //   ...postData,
+      //   //   //   tableField: { value: tableField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+      //   //   // })
+      //   // }
 
-        tableField.onclick = (e) => {
-          // focuseddClassMaintain(e);
-          table_dropdown_focuseddClassMaintain(e);
-          // tableField.classList.add("focussed");
-          handleClicked("table2");
-          setSidebar(true);
-        };
+      //   tableField.onclick = (e) => {
+      //     // focuseddClassMaintain(e);
+      //     table_dropdown_focuseddClassMaintain(e);
+      //     // tableField.classList.add("focussed");
+      //     handleClicked("table2");
+      //     setSidebar(true);
+      //   };
 
-        // tableField.appendChild(tab)
+      //   // tableField.appendChild(tab)
 
-        // const para = document.createElement("p");
-        // para.innerHTML = "Table";
-        // tableField.append(para);
-        holderDIV.append(tableField);
-      } else if (
+      //   // const para = document.createElement("p");
+      //   // para.innerHTML = "Table";
+      //   // tableField.append(para);
+      //   holderDIV.append(tableField);
+      // }
+      else if (
         typeOfOperation === "IFRAME_INPUT" &&
         decoded.details.action === "template"
       ) {
