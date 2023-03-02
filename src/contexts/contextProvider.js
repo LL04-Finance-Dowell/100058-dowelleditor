@@ -83,6 +83,9 @@ export const ContextProvider = ({ children }) => {
   // Scale id
   const [scaleId, setScaleId] = useState("id");
 
+  //Company id
+  const [companyId, setCompanyId] = useState("")
+
   return (
     <StateContext.Provider
       value={{
@@ -144,6 +147,8 @@ export const ContextProvider = ({ children }) => {
         setIsDataRetrieved,
         scaleId,
         setScaleId,
+        companyId,
+        setCompanyId,
       }}
     >
       {children}

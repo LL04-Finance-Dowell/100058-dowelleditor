@@ -48,8 +48,12 @@ const Header = () => {
     isFinializeDisabled,
     setIsDataRetrieved,
     setIsFinializeDisabled,
+    companyId,
+    setCompanyId,
   } = useStateContext();
-  //   //console.log(headerData);
+
+
+    console.log(companyId);
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
   };
@@ -270,7 +274,7 @@ const Header = () => {
           data:
             sign[h].firstElementChild === null
               ? // decoded.details.action === "document"
-                sign[h].innerHTML
+              sign[h].innerHTML
               : sign[h].firstElementChild.src,
           id: `s${h + 1}`,
         };
@@ -393,9 +397,15 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   var decoded = jwt_decode(token);
-  const { action, authorized, process_id, document_map } = decoded?.details;
+  console.log(decoded);
+  const { action, authorized, process_id, document_map, _id } = decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+
+  console.log(authorized);
+  console.log(process_id);
+  console.log(_id);
+
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
     document.getElementsByClassName('element_updated').length;
@@ -406,6 +416,8 @@ const Header = () => {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
+
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -544,6 +556,10 @@ const Header = () => {
         // setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0][0]);
+
+        //Handling company_id
+        const company_id = res.data.company_id;
+        setCompanyId(company_id);
       })
       .catch((err) => {
         setIsLoading(false);
@@ -641,6 +657,8 @@ const Header = () => {
           action: 'finalize',
           process_id: process_id,
           authorized: authorized,
+          document_id: _id,
+          company_id: companyId,
         }
       )
         .then((res) => {
@@ -662,6 +680,8 @@ const Header = () => {
       action: 'reject',
       process_id: process_id,
       authorized: authorized,
+      document_id: _id,
+      company_id: companyId,
     })
       .then((res) => {
         setIsLoading(false);
@@ -676,12 +696,13 @@ const Header = () => {
       });
   }
 
+
+
   // console.log("page count check", item);
   return (
     <div
-      className={`header ${
-        actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
-      }`}
+      className={`header ${actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
+        }`}
     >
       <Container fluid>
         <Row>
@@ -690,9 +711,8 @@ const Header = () => {
               <CgMenuLeft className="head-bar" onClick={handleOptions} />
               {isMenuVisible && (
                 <div
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? 'show' : ''
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? 'show' : ''
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -777,7 +797,7 @@ const Header = () => {
           <Col>
             <div className="right_header">
               <div className={docMap ? 'header_btn' : 'savee'}>
-                <Button
+                {/* <Button
                   variant="outline"
                   size="md"
                   className="rounded share-btn me-4"
@@ -785,7 +805,7 @@ const Header = () => {
                   onClick={submit}
                 >
                   Share <BiExport />
-                </Button>
+                </Button> */}
                 <Button
                   size="md"
                   className="rounded"

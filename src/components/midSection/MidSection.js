@@ -77,6 +77,7 @@ const MidSection = () => {
     setIsDataRetrieved,
     scaleId,
     setScaleId,
+    title,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -1570,11 +1571,11 @@ const MidSection = () => {
             fontcolor: "#000000",       
             fomat: "numbers",            
             time: "00",               
-            name: "testAPI",   
+            name: `${title}_scale`,   
             left: "good",            
             right: "best",          
             center: "neutral",               
-            }     
+          }    
         )
           .then((res) => {
             setIsLoading(false);
@@ -1598,12 +1599,7 @@ const MidSection = () => {
        
         
         scaleField.onclick = (e) => {
-               console.log(scaleId);
-  
-        
-          // focuseddClassMaintain(e);
-          // table_dropdown_focuseddClassMaintain(e);
-          // tableField.classList.add("focussed");
+          focuseddClassMaintain(e);
           handleClicked("scale2");
           setSidebar(true);
         };

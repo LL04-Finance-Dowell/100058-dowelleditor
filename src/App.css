@@ -144,6 +144,11 @@ th {
   min-width: 180px;
 }
 
+.disable_button {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 
 
 

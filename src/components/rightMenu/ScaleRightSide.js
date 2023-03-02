@@ -3,9 +3,9 @@ import { Button, Form } from 'react-bootstrap';
 import { useStateContext } from '../../contexts/contextProvider';
 
 const ScaleRightSide = () => {
-  const { sidebar, scaleId } = useStateContext();
+  const { sidebar, scaleId, companyId } = useStateContext();
 
-
+  console.log(companyId);
 
   function showIframe() {
     const divIframeRight = document.getElementById("iframeRight");
@@ -32,11 +32,11 @@ const ScaleRightSide = () => {
       <div id='iframeRight' >
         <h3>Update scale</h3>
         <div>
-          <iframe style={{border: "solid 2px black", height: "400px"}}
-           src={iframeSrc}></iframe>
+          <iframe style={{ border: "solid 2px black", height: "400px" }}
+            src={iframeSrc}></iframe>
         </div>
       </div>
-      <div id='settingRight' style={{display: "none"}}>
+      <div id='settingRight' style={{ display: "none" }}>
         <h3>Configurations</h3>
         {/* iframe */}
         <div>
@@ -99,7 +99,7 @@ const ScaleRightSide = () => {
           <Button variant="primary" className="px-5">
             Save
           </Button>
-          <Button variant="secondary" className="px-5 mt-3">
+          <Button variant="secondary" className="px-5 mt-3 remove_button">
             Remove Scale
           </Button>
         </div>
