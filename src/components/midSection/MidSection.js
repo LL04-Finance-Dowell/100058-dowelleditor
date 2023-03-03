@@ -75,6 +75,8 @@ const MidSection = () => {
     setData,
     isDataRetrieved,
     setIsDataRetrieved,
+    scaleId,
+    setScaleId,
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -261,10 +263,23 @@ const MidSection = () => {
 
       const holderSize = (function () {
         const holderSize = {
-          width: holder.offsetWidth,
-          height: holder.offsetHeight,
-          top: holder.offsetTop,
-          left: holder.offsetLeft,
+          width:
+            decoded.details.action === 'template'
+              ? holder.offsetWidth
+              : undefined,
+          height:
+            decoded.details.action === 'template'
+              ? holder.offsetHeight
+              : undefined,
+          top:
+            decoded.details.action === 'template'
+              ? holder.offsetTop
+              : undefined,
+          left:
+            decoded.details.action === 'template'
+              ? holder.offsetLeft
+              : undefined,
+
           // width: parseInt(holder.style.width.slice(0, -2)),
           // height: parseInt(holder.style.height.slice(0, -2)),
           // top: parseInt(holder.style.top.slice(0, -2)),
@@ -343,8 +358,14 @@ const MidSection = () => {
       holder = hitTarget;
       const holderPos = (function () {
         const holderPos = {
-          top: holder.offsetTop,
-          left: holder.offsetLeft,
+          top:
+            decoded.details.action === 'template'
+              ? holder.offsetTop
+              : undefined,
+          left:
+            decoded.details.action === 'template'
+              ? holder.offsetLeft
+              : undefined,
           // top: parseInt(holder.style.top.slice(0, -2)),
           // left: parseInt(holder.style.left.slice(0, -2))
         };
@@ -1578,7 +1599,16 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            // console.log(res.data.scale_urls);
+            console.log(res);
+            console.log(res.data.success);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+
+            if (id.length) {
+              console.log(id);
+              setScaleId(id);
+            }
             scale.src = res.data.scale_urls;
           })
           .catch((err) => {
@@ -1587,6 +1617,8 @@ const MidSection = () => {
           });
 
         scaleField.onclick = (e) => {
+          console.log(scaleId);
+
           // focuseddClassMaintain(e);
           // table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
