@@ -79,7 +79,9 @@ table, th, td {
   min-height: 100px;
   min-width: 100px;
 }
-
+td{
+  height: 100px;
+}
 tr:nth-child(even) {
   background-color: #dddddd;
 }
@@ -142,6 +144,11 @@ th {
 
 .select-element {
   min-width: 180px;
+}
+
+.disable_button {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 

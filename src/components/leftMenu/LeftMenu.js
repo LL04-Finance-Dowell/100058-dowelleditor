@@ -225,12 +225,12 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop('dropdown')}
               icon={<BsMenuButtonWideFill />}
             />
-            <NavButton
+            {/* <NavButton
               dragStartFunc={dragStartContainerr}
               clickFunc={removeContainer}
               customFunc={() => handleDrop('containerr')}
               icon={<BiImage />}
-            />
+            /> */}
             <NavButton
               dragStartFunc={dragStartIframe}
               customFunc={() => handleDrop('iframe')}

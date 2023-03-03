@@ -50,9 +50,8 @@ const RightMenu = () => {
   const docMap = decoded?.details?.document_map;
   const authorized = decoded?.details?.authorized;
   const process_id = decoded?.details?.process_id;
+  const document_id = decoded?.details?._id;
 
-  console.log(authorized);
-  console.log(process_id);
 
   // if (actionName == "document" && docMap) {
   //   setSidebar(true)
@@ -213,6 +212,7 @@ const RightMenu = () => {
     isClicked.signs2,
     isClicked.calendar2,
     isClicked.dropdown2,
+    isClicked.scale2,
   ]);
 
   return (
