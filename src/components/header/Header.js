@@ -721,7 +721,7 @@ const Header = () => {
     const midsection = document.getElementsByClassName("midSection_container");
     for (let i = 0; i < midsection?.length; i++) {
       midsection[i].style.visibility = "visible";
-      midsection[0].style.marginTop = "-440px";
+      midsection[0].style.marginTop = "-420px";
       midsection[i].style.padding = "0px";
     }
 
