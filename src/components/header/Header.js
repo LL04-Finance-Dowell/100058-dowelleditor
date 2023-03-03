@@ -720,10 +720,13 @@ const Header = () => {
     const midsection = document.getElementsByClassName("midSection_container");
     for (let i = 0; i < midsection?.length; i++) {
       midsection[i].style.visibility = "visible";
+      midsection[0].style.marginTop = "-440px";
+      midsection[i].style.padding = "0px";
     }
 
     window.print();
     bodyEl.style.visibility = "visible";
+    midsection[0].style.marginTop = "0px";
   };
 
   // console.log("page count check", item);
