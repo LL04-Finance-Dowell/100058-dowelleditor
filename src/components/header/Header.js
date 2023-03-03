@@ -489,6 +489,7 @@ const Header = () => {
         team_member_ID: decoded.details.team_member_ID,
         update_field: updateField,
         page: item,
+        company_id: companyId,
       }
     )
       .then((res) => {

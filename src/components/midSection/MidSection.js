@@ -268,19 +268,19 @@ const MidSection = () => {
       const holderSize = (function () {
         const holderSize = {
           width:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetWidth
               : undefined,
           height:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetHeight
               : undefined,
           top:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetTop
               : undefined,
           left:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetLeft
               : undefined,
 
@@ -363,11 +363,11 @@ const MidSection = () => {
       const holderPos = (function () {
         const holderPos = {
           top:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetTop
               : undefined,
           left:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetLeft
               : undefined,
           // top: parseInt(holder.style.top.slice(0, -2)),

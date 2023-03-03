@@ -208,19 +208,6 @@ const TableRightSidebar = () => {
         //   e.target.append(signField);
         //   // document.getElementsByClassName("dropp").item(0).append(signField);
         // }
-<<<<<<< HEAD
-        let signField = document.createElement('div');
-        signField.className = 'signInput';
-        signField.style.width = '100px';
-        signField.style.height = '100px';
-        signField.style.top = '0px';
-        signField.style.backgroundColor = '#0000';
-        signField.style.borderRadius = '0px';
-        signField.style.outline = '0px';
-        signField.style.overflow = 'overlay';
-        signField.innerHTML = 'signature here';
-        signField.style.position = 'absolute';
-=======
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100px";
@@ -234,7 +221,6 @@ const TableRightSidebar = () => {
         signField.style.top = 0;
         signField.style.left = 0;
         e.target.style.position = "relative";
->>>>>>> 312e923664c3d4cd7005e45aa72d5eff68d212a3
 
         // signField.onchange = (event) => {
         //   event.preventDefault();
