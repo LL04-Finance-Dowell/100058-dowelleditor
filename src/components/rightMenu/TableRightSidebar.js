@@ -400,7 +400,7 @@ const TableRightSidebar = () => {
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          e.target.style.border = "1px solid black";
+          // e.target.style.border = "1px solid black";
         };
         // cells[i].ondragover = function (e) {
         //   e.preventDefault();
@@ -492,6 +492,58 @@ const TableRightSidebar = () => {
       }
     }
   }
+  const updateTable = (e) => {
+    var table = document.createElement("table");
+    table.style.border = "2";
+    table.id = "table";
+    table.className = "droppable";
+    var row = document.getElementById("rows").value;
+    var col = document.getElementById("cols").value;
+
+    var tableDiv = document.querySelector(".focussed");
+
+    for (var rowIndex = 0; rowIndex < row; rowIndex++) {
+      var tr = document.createElement("tr");
+
+      for (var colIndex = 0; colIndex < col; colIndex++) {
+        var td = document.createElement("td");
+        td.className = "dropp";
+
+        tr.appendChild(td);
+      }
+
+      table.appendChild(tr);
+
+      tableDiv.appendChild(table);
+
+      var tablee = document.querySelector(".focussed").firstElementChild;
+      var cells = tablee.getElementsByTagName("td");
+
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].ondragover = function (e) {
+          e.preventDefault();
+          e.target.classList.add("table_drag");
+          e.target.style.border = "2px solid green";
+          const draggable = document.querySelector(".dragging");
+          cells[i].appendChild(draggable);
+        };
+        cells[i].ondragleave = (e) => {
+          e.preventDefault();
+        };
+
+        cells[i].ondrop = function (e) {
+          e.preventDefault();
+          e.target.style.border = "1px solid black";
+        };
+        cells[i].addEventListener("focusout", function (e) {
+          e.target.style.border = "1px solid black";
+          console.log("focus out from", e.target);
+        });
+
+        cells[i].ondrop = handleDropp;
+      }
+    }
+  };
 
   function removeTable() {
     // const div = document.getElementById("holderId")
@@ -540,9 +592,12 @@ const TableRightSidebar = () => {
         />
       </div>
 
-      <div className="mt-2 text-center pt-5">
-        <Button variant="secondary" className="px-5" onClick={makeTable}>
+      <div className="d-flex mt-2 text-center pt-5">
+        <Button variant="secondary" className="px-5 me-3" onClick={makeTable}>
           Create Table
+        </Button>
+        <Button variant="success" className="px-5" onClick={updateTable}>
+          Update Table
         </Button>
       </div>
 
