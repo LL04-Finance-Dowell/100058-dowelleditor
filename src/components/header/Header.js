@@ -490,6 +490,7 @@ const Header = () => {
         update_field: updateField,
         page: item,
         company_id: companyId,
+        type: decoded.details.action,
       }
     )
       .then((res) => {
