@@ -498,6 +498,10 @@ const TableRightSidebar = () => {
     }
   }
 
+  function handleColDelClick(e) {
+    alert("e.target.innerText");
+  }
+
   function modalMakeTable() {
     const focusseddDiv = document.querySelector(".focussedd");
     if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
@@ -520,17 +524,53 @@ const TableRightSidebar = () => {
           // table.id = "table";
           table.className = "modalTable";
 
-          for (var rowIndex = 0; rowIndex < numOfROW; rowIndex++) {
+          for (var rowIndex = 0; rowIndex < numOfROW + 1; rowIndex++) {
             var tr = document.createElement("tr");
 
-            for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
+            for (var colIndex = 0; colIndex < numOfCol + 1; colIndex++) {
               var td = document.createElement("td");
               td.className = "dropp";
               td.style.height = "50px";
+              if (rowIndex == 0 && colIndex != numOfCol) {
+                const colDeleteBtn = document.createElement("button");
+                colDeleteBtn.className = "btn btn-warning";
+                colDeleteBtn.style.marginLeft = "5px";
+                colDeleteBtn.innerText = "Del Col";
+                colDeleteBtn.onclick = (e) => {
+                  const index = Array.from(
+                    e.target.parentElement.parentElement.children
+                  ).indexOf(e.target.parentElement);
+                  const modalTable = document.querySelector(".modalTable");
+                  const allTableTr = modalTable.querySelectorAll("tr");
+                  for (let i = 0; i < allTableTr.length; i++) {
+                    modalTable
+                      .querySelectorAll("tr")
+                      [i].childNodes[index].remove();
+                  }
+                };
+                td.style.border = "none";
+                td.appendChild(colDeleteBtn);
+              }
+              if (rowIndex == 0 && colIndex == numOfCol) {
+                td.style.border = "none";
+              }
+              if (colIndex == numOfCol && rowIndex != 0) {
+                const rowDeleteBtn = document.createElement("button");
+                rowDeleteBtn.className = "btn btn-warning";
+                rowDeleteBtn.style.marginLeft = "5px";
+                rowDeleteBtn.innerText = "Del Row";
+                rowDeleteBtn.onclick = (e) => {
+                  e.target?.parentElement?.parentElement?.remove();
+                };
+                td.style.border = "none";
+                td.style.background = "#fff";
+                td.appendChild(rowDeleteBtn);
+              }
               tr.appendChild(td);
             }
 
             table.appendChild(tr);
+            // table.appendChild(rowDeleteBtn);
 
             tableDiv.appendChild(table);
           }
@@ -646,10 +686,8 @@ const TableRightSidebar = () => {
   const handleAddRow = (e) => {
     const modalTable = document.querySelector(".modalTable");
     if (modalTable) {
-      // if (focusseddDiv?.firstElementChild?.firstElementChild) {
       const numOfTr = modalTable?.rows?.length;
       const numOfTd = modalTable.querySelectorAll("td").length;
-      // const numOfROW = numOfTr + 1;
       const numOfCol = numOfTd / numOfTr;
       for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
         var tr = document.createElement("tr");
@@ -658,6 +696,18 @@ const TableRightSidebar = () => {
           var td = document.createElement("td");
           td.className = "dropp";
           td.style.height = "50px";
+          if (colIndex == numOfCol - 1) {
+            const rowDeleteBtn = document.createElement("button");
+            rowDeleteBtn.className = "btn btn-warning";
+            rowDeleteBtn.style.marginLeft = "5px";
+            rowDeleteBtn.innerText = "Del Row";
+            rowDeleteBtn.onclick = (e) => {
+              e.target?.parentElement?.parentElement?.remove();
+            };
+            td.style.border = "none";
+            td.style.background = "#fff";
+            td.appendChild(rowDeleteBtn);
+          }
           tr.appendChild(td);
         }
         modalTable.appendChild(tr);
@@ -667,22 +717,31 @@ const TableRightSidebar = () => {
   const handleAddColumn = (e) => {
     const modalTable = document.querySelector(".modalTable");
     if (modalTable) {
-      // if (focusseddDiv?.firstElementChild?.firstElementChild) {
       const numOfTr = modalTable?.rows?.length;
       const numOfTd = modalTable.querySelectorAll("td").length;
-      // const numOfROW = numOfTr + 1;
-      const numOfCol = numOfTd / numOfTr;
       for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
-        // var tr = document.createElement("tr");
-
-        // for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
         var td = document.createElement("td");
         td.className = "dropp";
         td.style.height = "50px";
-        modalTable.querySelectorAll("tr")[rowIndex].appendChild(td);
-        // tr.appendChild(td);
-        // }
-        // modalTable.appendChild(tr);
+        if (rowIndex == 0) {
+          const colDeleteBtn = document.createElement("button");
+          colDeleteBtn.className = "btn btn-warning";
+          colDeleteBtn.style.marginLeft = "5px";
+          colDeleteBtn.innerText = "Del Col";
+          colDeleteBtn.onclick = (e) => {
+            const index = Array.from(
+              e.target.parentElement.parentElement.children
+            ).indexOf(e.target.parentElement);
+            const allTableTr = modalTable.querySelectorAll("tr");
+            for (let i = 0; i < allTableTr.length; i++) {
+              modalTable.querySelectorAll("tr")[i].childNodes[index].remove();
+            }
+          };
+          td.style.border = "none";
+          td.appendChild(colDeleteBtn);
+        }
+        const allTrs = modalTable.querySelectorAll("tr");
+        allTrs[rowIndex].insertBefore(td, allTrs[rowIndex].lastChild);
       }
     }
   };
@@ -724,7 +783,13 @@ const TableRightSidebar = () => {
           Create Table
         </Button>
         {/* ) : ( */}
-        <Button variant="success" className="px-5" onClick={updateTable}>
+        <Button
+          variant="success"
+          className="px-5"
+          data-bs-toggle="modal"
+          data-bs-target="#tableUpdateModal"
+          // onClick={updateTable}
+        >
           Update Table
         </Button>
         {/* )} */}

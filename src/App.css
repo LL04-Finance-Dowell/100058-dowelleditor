@@ -73,13 +73,14 @@ textarea{
 }
 
 table, th, td {
-  border: 1px solid black;
+ 
   border-collapse: collapse;
   padding: 5px;
   min-height: 100px;
   min-width: 100px;
 }
 td{
+  border: 1px solid black;
   height: 100px;
 }
 tr:nth-child(even) {
@@ -150,7 +151,9 @@ th {
   opacity: 0.5;
   pointer-events: none;
 }
-
+.modal-body {
+  overflow: auto;
+}
 
 
 
