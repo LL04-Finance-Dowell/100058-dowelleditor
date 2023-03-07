@@ -498,10 +498,6 @@ const TableRightSidebar = () => {
     }
   }
 
-  function handleColDelClick(e) {
-    alert("e.target.innerText");
-  }
-
   function modalMakeTable() {
     const focusseddDiv = document.querySelector(".focussedd");
     if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
