@@ -53,7 +53,7 @@ const ScaleRightSide = () => {
             // id="iframe_src"
             // onChange={handleChange}
           />
-          <Form.Label>Color</Form.Label>
+          {/* <Form.Label>Color</Form.Label>
           <Form.Control
             type="text"
             placeholder="Color"
@@ -75,7 +75,7 @@ const ScaleRightSide = () => {
             min="1"
             // id="iframe_width"
             className="shadow bg-white rounded mb-4"
-          />
+          /> */}
         </div>
         <div>
           <Form.Label>Custom Input 1</Form.Label>
