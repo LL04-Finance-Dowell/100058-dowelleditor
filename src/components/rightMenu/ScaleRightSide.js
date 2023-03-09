@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useStateContext } from '../../contexts/contextProvider';
 
@@ -8,16 +8,16 @@ const ScaleRightSide = () => {
   console.log(companyId);
 
   function showIframe() {
-    const divIframeRight = document.getElementById("iframeRight");
-    const divSettingRight = document.getElementById("settingRight");
-    divIframeRight.style.display = "block";
-    divSettingRight.style.display = "none";
+    const divIframeRight = document.getElementById('iframeRight');
+    const divSettingRight = document.getElementById('settingRight');
+    divIframeRight.style.display = 'block';
+    divSettingRight.style.display = 'none';
   }
   function showSetting() {
-    const divIframeRight = document.getElementById("iframeRight");
-    const divSettingRight = document.getElementById("settingRight");
-    divIframeRight.style.display = "none";
-    divSettingRight.style.display = "block";
+    const divIframeRight = document.getElementById('iframeRight');
+    const divSettingRight = document.getElementById('settingRight');
+    divIframeRight.style.display = 'none';
+    divSettingRight.style.display = 'block';
   }
 
   const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
@@ -26,17 +26,23 @@ const ScaleRightSide = () => {
   return (
     <>
       <div>
-        <button id='updateScale' onClick={showIframe}>Update</button>
-        <button id='setScale' onClick={showSetting}>Settings</button>
+        <button id="updateScale" onClick={showIframe}>
+          Update
+        </button>
+        <button id="setScale" onClick={showSetting}>
+          Settings
+        </button>
       </div>
-      <div id='iframeRight' >
+      <div id="iframeRight">
         <h3>Update scale</h3>
         <div>
-          <iframe style={{ border: "solid 2px black", height: "400px" }}
-            src={iframeSrc}></iframe>
+          <iframe
+            style={{ border: 'solid 2px black', height: '400px' }}
+            src={iframeSrc}
+          ></iframe>
         </div>
       </div>
-      <div id='settingRight' style={{ display: "none" }}>
+      <div id="settingRight" style={{ display: 'none' }}>
         <h3>Configurations</h3>
         {/* iframe */}
         <div>
@@ -44,22 +50,22 @@ const ScaleRightSide = () => {
           <Form.Control
             type="text"
             placeholder="Scale Type"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
           <Form.Label>Color</Form.Label>
           <Form.Control
             type="text"
             placeholder="Color"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
           <Form.Label>Orientation</Form.Label>
           <Form.Control
             type="text"
             placeholder="Orientation"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
           <Form.Label>Time</Form.Label>
 
@@ -76,22 +82,22 @@ const ScaleRightSide = () => {
           <Form.Control
             type="text"
             placeholder="Custom Input 1"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
           <Form.Label>Custom Input 2</Form.Label>
           <Form.Control
             type="text"
             placeholder="Custom Input 2"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
           <Form.Label>Custom Input 3</Form.Label>
           <Form.Control
             type="text"
             placeholder="Custom Input 3"
-          // id="iframe_src"
-          // onChange={handleChange}
+            // id="iframe_src"
+            // onChange={handleChange}
           />
         </div>
 
@@ -99,7 +105,7 @@ const ScaleRightSide = () => {
           <Button variant="primary" className="px-5">
             Save
           </Button>
-          <Button variant="secondary" className="px-5 mt-3 remove_button">
+          <Button variant="secondary" className="px-5 remove_button">
             Remove Scale
           </Button>
         </div>

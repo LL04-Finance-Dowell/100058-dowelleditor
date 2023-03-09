@@ -121,10 +121,26 @@ svg {
 .menu {
   opacity: 0;
   /* transform: translateY(-50px); */
-  transition: opacity 0.2s ease-out;
+  transition: opacity 2s ease-out;
+}
+.menu button:hover,
+.menu div:hover {
+  color: #00d3b0;
 }
 
 .menu.show {
   opacity: 1;
   /* transform: translateY(0); */
+}
+.head .copyBtnn {
+  color: #fff;
+  font-weight: 500;
+}
+.modal-header {
+  background-color: #00d3b0;
+  color: #fff;
+}
+.btn-close {
+  color: #fff !important;
+  background-color: #fff;
 }

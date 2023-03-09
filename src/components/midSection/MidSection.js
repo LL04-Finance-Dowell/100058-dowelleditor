@@ -77,10 +77,16 @@ const MidSection = () => {
     setIsDataRetrieved,
     scaleId,
     setScaleId,
+    scaleData,
+    setScaleData,
     title,
+    setTitle,
     isMenuVisible,
     setIsMenuVisible,
   } = useStateContext();
+
+  // const [scaleData, setScaleData] = useState([]);
+  console.log('lkkk', scaleData);
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
@@ -1598,6 +1604,7 @@ const MidSection = () => {
             fomat: 'numbers',
             time: '00',
             name: `${title}_scale`,
+            url: `${scaleData?.scale_urls}`,
             left: 'good',
             right: 'best',
             center: 'neutral',
@@ -1605,8 +1612,8 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res);
             console.log(res.data.success);
+            setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
