@@ -77,10 +77,16 @@ const MidSection = () => {
     setIsDataRetrieved,
     scaleId,
     setScaleId,
+    scaleData,
+    setScaleData,
     title,
+    setTitle,
     isMenuVisible,
     setIsMenuVisible,
   } = useStateContext();
+
+  // const [scaleData, setScaleData] = useState([]);
+  console.log('lkkk', scaleData);
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -522,8 +528,13 @@ const MidSection = () => {
     // });
     holderDIV.addEventListener("focusout", function (e) {
       // holderDIV.classList.remove("focussedd");
+      // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
+      //   holderDIV.style.border = "3px dotted gray";
+
+      // }
       holderDIV.classList.remove("zIndex-two");
-      holderDIV.style.border = "2px dotted gray";
+      holderDIV.style.border = "3px dotted gray";
+
       holderMenu.remove();
       resizerTL.remove();
       resizerTR.remove();
@@ -1595,8 +1606,8 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res);
             console.log(res.data.success);
+            setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
