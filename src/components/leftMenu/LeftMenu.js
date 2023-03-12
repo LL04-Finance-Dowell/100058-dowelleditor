@@ -20,9 +20,10 @@ import TextFill from './comp/TextFill';
 import TextBox from './comp/TextBox';
 import { EditorContent } from '@tiptap/react';
 
-const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc }) => (
+const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc, title }) => (
   <button
     type="button"
+    title={title}
     draggable="true"
     onDragStart={dragStartFunc}
     id="draggable"
@@ -198,32 +199,38 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop('align')}
               // icon={editSecOptions[1].icon}
               icon={<BiText />}
+              title="Text"
             ></NavButton>
             {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
             <NavButton
               dragStartFunc={dragStartImage}
               customFunc={() => handleDrop('image')}
               icon={<BiImage />}
+              title="Image"
             />
             <NavButton
               dragStartFunc={dragStartTable}
               customFunc={() => handleDrop('table')}
               icon={<BsTable />}
+              title="Table"
             />
             <NavButton
               dragStartFunc={dragStartSigns}
               customFunc={() => handleDrop('signs')}
               icon={<FaSignature />}
+              title="Signature"
             />
             <NavButton
               dragStartFunc={dragStartCalendar}
               customFunc={() => handleDrop('calendar')}
               icon={<BsCalendar2Date />}
+              title="Calender"
             />
             <NavButton
               dragStartFunc={dragStartDropdown}
               customFunc={() => handleDrop('dropdown')}
               icon={<BsMenuButtonWideFill />}
+              title="Dropdown"
             />
             {/* <NavButton
               dragStartFunc={dragStartContainerr}
@@ -235,11 +242,13 @@ const LeftMenu = ({ showSidebar }) => {
               dragStartFunc={dragStartIframe}
               customFunc={() => handleDrop('iframe')}
               icon={<BsCodeSquare />}
+              title="Iframe"
             />
             <NavButton
               dragStartFunc={dragStartScale}
               customFunc={() => handleDrop('scale')}
               icon={<IoScale />}
+              title="Scale"
             />
           </div>
         )

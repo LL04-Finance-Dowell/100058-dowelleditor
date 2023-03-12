@@ -52,6 +52,13 @@ const Header = () => {
   const inputRef = useRef(null);
   const componentRef = useRef(null);
 
+  // import { ToastContainer, toast } from 'react-toastify';
+  // import 'react-toastify/dist/ReactToastify.css';
+  // import { AiFillPrinter } from 'react-icons/ai';
+
+  // const Header = () => {
+  // const inputRef = useRef(null);
+  const menuRef = useRef(null);
   const {
     item,
     setItem,
@@ -71,6 +78,9 @@ const Header = () => {
     isFinializeDisabled,
     setIsDataRetrieved,
     setIsFinializeDisabled,
+    scaleId,
+    scaleData,
+    setScaleData,
     companyId,
     setCompanyId,
     isMenuVisible,
@@ -393,6 +403,7 @@ const Header = () => {
             ? "Scale here"
             : scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
+          scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
 
@@ -441,7 +452,7 @@ const Header = () => {
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   console.log(decoded);
-  const { action, authorized, process_id, document_map, _id } =
+  const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -449,6 +460,7 @@ const Header = () => {
   console.log(authorized);
   console.log(process_id);
   console.log(_id);
+  console.log(role);
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
@@ -617,6 +629,19 @@ const Header = () => {
     getPostData();
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        isMenuVisible(false);
+      }
+    }
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   // copy text function
 
   function copyText() {
@@ -704,6 +729,7 @@ const Header = () => {
           authorized: authorized,
           document_id: _id,
           company_id: companyId,
+          role: role,
         }
       )
         .then((res) => {
@@ -727,6 +753,7 @@ const Header = () => {
       authorized: authorized,
       document_id: _id,
       company_id: companyId,
+      role: role,
     })
       .then((res) => {
         setIsLoading(false);
@@ -744,23 +771,12 @@ const Header = () => {
     const bodyEl = document.getElementsByTagName("BODY")[0];
     bodyEl.style.visibility = "hidden";
     const midsection = document.getElementsByClassName("midSection_container");
-    console.log("midsection length", midsection.length);
     for (let i = 0; i < midsection?.length; i++) {
       midsection[i].style.visibility = "visible";
-      // midsection[0].style.marginTop = "-420px";
-      midsection[i].style.padding = "0px";
-      midsection[i].style.position = "absolute";
-      midsection[i].style.top = 0;
-      midsection[i].style.left = 0;
     }
 
     window.print();
     bodyEl.style.visibility = "visible";
-    for (let i = 0; i < midsection?.length; i++) {
-      midsection[i].style.position = "relative";
-
-      midsection[i].style.marginTop = "0px";
-    }
   };
 
   // console.log("page count check", item);
@@ -778,6 +794,7 @@ const Header = () => {
               <CgMenuLeft className="head-bar" onClick={handleOptions} />
               {isMenuVisible && (
                 <div
+                  ref={menuRef}
                   className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
                     isMenuVisible ? "show" : ""
                   }`}
@@ -838,24 +855,24 @@ const Header = () => {
                     </button>
                   )}
                   {actionName == "template" && (
-                    <div className="d-flex">
+                    <button className="page_btn p-0 d-flex">
                       <CgPlayListRemove onClick={() => removePage()} />
                       <p>Remove Page</p>
-                    </div>
+                    </button>
                   )}
-                  <div className="d-flex">
+                  <button className="page_btn p-0 d-flex">
                     <BiImport onClick={handleToken} />
                     <p>Import</p>
-                  </div>
-                  <div
-                    className="d-flex"
+                  </button>
+                  <button
+                    className="d-flex page_btn p-0"
                     id="saving-button"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                   >
                     <BiExport />
                     <p>Export</p>
-                  </div>
+                  </button>
                 </div>
               )}
 
@@ -926,7 +943,7 @@ const Header = () => {
                         ></button>
                       </div>
                       <div class="modal-body token_text">{exportToken}</div>
-                      <div class="modal-footer">
+                      <div class="modal-footer head">
                         <button
                           type="button"
                           class="btn btn-secondary"
@@ -938,9 +955,10 @@ const Header = () => {
                           onClick={copyText}
                           type="button"
                           data-bs-dismiss="modal"
-                          class="copyBtn"
+                          class="copyBtnn btn btn-primary"
                         >
-                          <FaCopy color="gray" size={32} />
+                          <FaCopy className="me-2" color="white" size={32} />
+                          Copy
                         </button>
                       </div>
                     </div>

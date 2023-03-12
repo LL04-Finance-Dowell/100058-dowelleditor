@@ -68,7 +68,7 @@ const TableRightSidebar = () => {
       e.target.style.border = "1px solid black";
     }
     const typeOfOperation = e.dataTransfer.getData("text/plain");
-    console.log("cell has been dropped on " + typeOfOperation);
+    // console.log("cell has been dropped on " + typeOfOperation);
     if (!e.target.hasChildNodes()) {
       if (typeOfOperation === "TEXT_INPUT") {
         let inputField = document.createElement("div");
@@ -834,6 +834,10 @@ const TableRightSidebar = () => {
     }
   };
   function removeTable() {
+    // const div = document.getElementById("holderId")
+    // const tab = document.getElementsByClassName("tableInput")
+    // const tabData = document.getElementsByClassName("droppable")
+    // document.querySelector(".focussedd").remove();
     const focusseddElmnt = document.querySelector(".focussedd");
     if (focusseddElmnt.classList.contains("holderDIV")) {
       document.querySelector(".focussedd").remove();
