@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import $ from "jquery";
 
@@ -24,8 +24,28 @@ const TableRightSidebar = () => {
     setMethod,
     setRightSideDateMenu,
   } = useStateContext();
-  const [numOfColumn, setNumOfColumn] = useState(null);
-  const [numOfRow, setNumOfRow] = useState(null);
+  // const [numOfColumn, setNumOfColumn] = useState(null);
+  // const [numOfRow, setNumOfRow] = useState(null);
+
+  const [isDisableTableRightMenu, setIsDisableTableRightMenu] = useState(false);
+  const [isCreateTableBtnDisabled, setIsCreateTableBtnDisabled] =
+    useState(false);
+
+  useEffect(() => {
+    const focusseddDiv = document.querySelector(".focussedd");
+    if (focusseddDiv?.firstChild.hasChildNodes()) {
+      setIsCreateTableBtnDisabled(true);
+    }
+    if (
+      focusseddDiv?.firstChild.hasChildNodes() &&
+      focusseddDiv?.firstChild?.firstChild?.classList?.contains(
+        "row_col_add_div"
+      )
+    ) {
+      setIsDisableTableRightMenu(true);
+    }
+  }, [isDisableTableRightMenu, isCreateTableBtnDisabled]);
+
   function focuseddClassMaintain(e) {
     let allDiv = document.getElementsByClassName("focussedd");
     for (let i = 0; i < allDiv.length; i++) {
@@ -44,8 +64,11 @@ const TableRightSidebar = () => {
 
   const handleDropp = (e) => {
     e.preventDefault();
+    if (!e.target.hasChildNodes()) {
+      e.target.style.border = "1px solid black";
+    }
     const typeOfOperation = e.dataTransfer.getData("text/plain");
-    //console.log("cell has been dropped on " + typeOfOperation);
+    console.log("cell has been dropped on " + typeOfOperation);
     if (!e.target.hasChildNodes()) {
       if (typeOfOperation === "TEXT_INPUT") {
         let inputField = document.createElement("div");
@@ -395,30 +418,37 @@ const TableRightSidebar = () => {
         cells[i].ondragover = function (e) {
           e.preventDefault();
           e.target.classList.add("table_drag");
-          e.target.style.border = "2px solid green";
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = "3px solid blue";
+          }
           // const afterElement = getDragAfterElement(cells[i], e.clientY);
           //console.log(afterElement);
-          const draggable = document.querySelector(".dragging");
-          cells[i].appendChild(draggable);
+          // const draggable = document.querySelector(".dragging");
+          // cells[i].appendChild(draggable);
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          // e.target.style.border = "1px solid black";
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = "1px solid black";
+          }
         };
         // cells[i].ondragover = function (e) {
         //   e.preventDefault();
         //   e.target.style.border = "2px solid green";
         //   alert("drag has been ended");
         // };
-        cells[i].ondrop = function (e) {
-          e.preventDefault();
-          e.target.style.border = "1px solid black";
-          // alert("drag has been ended");
-        };
-        cells[i].addEventListener("focusout", function (e) {
-          e.target.style.border = "1px solid black";
-          console.log("focus out from", e.target);
-        });
+        // cells[i].ondrop = function (e) {
+        //   e.preventDefault();
+        //   e.target.style.border = "1px solid black";
+        //   // alert("drag has been ended");
+        // };
+        // cells[i].addEventListener("focusout", function (e) {
+        //   e.target.style.border = "1px solid black";
+        //   console.log("focus out from", e.target);
+        // });
+        // cells[i].onfocusout = () => {
+        //   alert("Hi focusout");
+        // };
         // cells[i].ondragleave = (e) => {
         //   e.target.style = "2px solid black";
         // };
@@ -496,202 +526,258 @@ const TableRightSidebar = () => {
         document.getElementById("cols").value = "";
       }
     }
+    setIsCreateTableBtnDisabled(true);
   }
 
-  function modalMakeTable() {
+  // function modalMakeTable() {
+  //   const focusseddDiv = document.querySelector(".focussedd");
+  //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+  //     if (focusseddDiv?.firstElementChild?.firstElementChild) {
+  //       const numOfTr =
+  //         focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
+  //       const numOfTd =
+  //         focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
+  //           "td"
+  //         ).length;
+  //       // const numOfROW = numOfTr;
+  //       const numOfCol = numOfTd / numOfTr;
+  //       // setNumOfRow(numOfROW);
+  //       // setNumOfColumn(numOfCol);
+  //       var tableDiv = document.querySelector(".modalTableHolder");
+  //       if (tableDiv) {
+  //         tableDiv.innerHTML = "";
+  //         var table = document.createElement("table");
+  //         table.style.border = "2";
+  //         // table.id = "table";
+  //         table.className = "modalTable";
+
+  //         for (var rowIndex = 0; rowIndex < numOfTr + 1; rowIndex++) {
+  //           var tr = document.createElement("tr");
+
+  //           for (var colIndex = 0; colIndex < numOfCol + 1; colIndex++) {
+  //             var td = document.createElement("td");
+  //             td.className = "dropp";
+  //             td.style.height = "50px";
+  //             if (rowIndex == 0 && colIndex != numOfCol) {
+  //               const colDeleteBtn = document.createElement("button");
+  //               colDeleteBtn.className = "btn btn-warning";
+  //               colDeleteBtn.style.marginLeft = "5px";
+  //               colDeleteBtn.innerText = "Del Col";
+  //               colDeleteBtn.onclick = (e) => {
+  //                 const index = Array.from(
+  //                   e.target.parentElement.parentElement.children
+  //                 ).indexOf(e.target.parentElement);
+  //                 const modalTable = document.querySelector(".modalTable");
+  //                 const allTableTr = modalTable.querySelectorAll("tr");
+  //                 for (let i = 0; i < allTableTr.length; i++) {
+  //                   modalTable
+  //                     .querySelectorAll("tr")
+  //                     [i].childNodes[index].remove();
+  //                 }
+  //               };
+  //               td.style.border = "none";
+  //               td.appendChild(colDeleteBtn);
+  //             }
+  //             if (rowIndex == 0 && colIndex == numOfCol) {
+  //               td.style.border = "none";
+  //             }
+  //             if (colIndex == numOfCol && rowIndex != 0) {
+  //               const rowDeleteBtn = document.createElement("button");
+  //               rowDeleteBtn.className = "btn btn-warning";
+  //               rowDeleteBtn.style.marginLeft = "5px";
+  //               rowDeleteBtn.innerText = "Del Row";
+  //               rowDeleteBtn.onclick = (e) => {
+  //                 e.target?.parentElement?.parentElement?.remove();
+  //               };
+  //               td.style.border = "none";
+  //               td.style.background = "#fff";
+  //               td.appendChild(rowDeleteBtn);
+  //             }
+  //             tr.appendChild(td);
+  //           }
+
+  //           table.appendChild(tr);
+  //           // table.appendChild(rowDeleteBtn);
+
+  //           tableDiv.appendChild(table);
+  //         }
+  //       }
+  //     }
+
+  //     // var tablee = document.querySelector(".focussed").firstElementChild;
+  //     // var cells = tablee.getElementsByTagName("td");
+  //     // for (var i = 0; i < cells.length; i++) {
+  //     //   cells[i].ondragover = function (e) {
+  //     //     e.preventDefault();
+  //     //     e.target.classList.add("table_drag");
+  //     //     e.target.style.border = "2px solid green";
+  //     //     // const afterElement = getDragAfterElement(cells[i], e.clientY);
+  //     //     //console.log(afterElement);
+  //     //     const draggable = document.querySelector(".dragging");
+  //     //     cells[i].appendChild(draggable);
+  //     //   };
+  //     //   cells[i].ondragleave = (e) => {
+  //     //     e.preventDefault();
+  //     //   };
+  //     //   cells[i].ondrop = function (e) {
+  //     //     e.preventDefault();
+  //     //     e.target.style.border = "1px solid black";
+  //     //   };
+  //     //   cells[i].addEventListener("focusout", function (e) {
+  //     //     e.target.style.border = "1px solid black";
+  //     //     console.log("focus out from", e.target);
+  //     //   });
+  //     //   // cells[i].ondrop = handleDropp;
+  //     //   // document.getElementById("rows").value = "";
+  //     //   // document.getElementById("cols").value = "";
+  //     // }
+  //   }
+  // }
+  const hadleTableUpdateSave = (e) => {
     const focusseddDiv = document.querySelector(".focussedd");
     if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-      if (focusseddDiv?.firstElementChild?.firstElementChild) {
-        const numOfTr =
-          focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
-        const numOfTd =
-          focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
-            "td"
-          ).length;
-        const numOfROW = numOfTr;
-        const numOfCol = numOfTd / numOfTr;
-        // setNumOfRow(numOfROW);
-        // setNumOfColumn(numOfCol);
-        var tableDiv = document.querySelector(".modalTableHolder");
-        if (tableDiv) {
-          tableDiv.innerHTML = "";
-          var table = document.createElement("table");
-          table.style.border = "2";
-          // table.id = "table";
-          table.className = "modalTable";
-
-          for (var rowIndex = 0; rowIndex < numOfROW + 1; rowIndex++) {
-            var tr = document.createElement("tr");
-
-            for (var colIndex = 0; colIndex < numOfCol + 1; colIndex++) {
-              var td = document.createElement("td");
-              td.className = "dropp";
-              td.style.height = "50px";
-              if (rowIndex == 0 && colIndex != numOfCol) {
-                const colDeleteBtn = document.createElement("button");
-                colDeleteBtn.className = "btn btn-warning";
-                colDeleteBtn.style.marginLeft = "5px";
-                colDeleteBtn.innerText = "Del Col";
-                colDeleteBtn.onclick = (e) => {
-                  const index = Array.from(
-                    e.target.parentElement.parentElement.children
-                  ).indexOf(e.target.parentElement);
-                  const modalTable = document.querySelector(".modalTable");
-                  const allTableTr = modalTable.querySelectorAll("tr");
-                  for (let i = 0; i < allTableTr.length; i++) {
-                    modalTable
-                      .querySelectorAll("tr")
-                      [i].childNodes[index].remove();
-                  }
-                };
-                td.style.border = "none";
-                td.appendChild(colDeleteBtn);
-              }
-              if (rowIndex == 0 && colIndex == numOfCol) {
-                td.style.border = "none";
-              }
-              if (colIndex == numOfCol && rowIndex != 0) {
-                const rowDeleteBtn = document.createElement("button");
-                rowDeleteBtn.className = "btn btn-warning";
-                rowDeleteBtn.style.marginLeft = "5px";
-                rowDeleteBtn.innerText = "Del Row";
-                rowDeleteBtn.onclick = (e) => {
-                  e.target?.parentElement?.parentElement?.remove();
-                };
-                td.style.border = "none";
-                td.style.background = "#fff";
-                td.appendChild(rowDeleteBtn);
-              }
-              tr.appendChild(td);
-            }
-
-            table.appendChild(tr);
-            // table.appendChild(rowDeleteBtn);
-
-            tableDiv.appendChild(table);
-          }
-        }
+      focusseddDiv?.firstElementChild?.firstElementChild?.remove();
+      focusseddDiv?.firstElementChild?.firstElementChild?.firstElementChild?.remove();
+      const trNum =
+        focusseddDiv?.firstElementChild?.firstElementChild?.children;
+      for (let i = 0; i < trNum.length; i++) {
+        trNum[i].lastChild.remove();
       }
-
-      // var tablee = document.querySelector(".focussed").firstElementChild;
-      // var cells = tablee.getElementsByTagName("td");
-      // for (var i = 0; i < cells.length; i++) {
-      //   cells[i].ondragover = function (e) {
-      //     e.preventDefault();
-      //     e.target.classList.add("table_drag");
-      //     e.target.style.border = "2px solid green";
-      //     // const afterElement = getDragAfterElement(cells[i], e.clientY);
-      //     //console.log(afterElement);
-      //     const draggable = document.querySelector(".dragging");
-      //     cells[i].appendChild(draggable);
-      //   };
-      //   cells[i].ondragleave = (e) => {
-      //     e.preventDefault();
-      //   };
-      //   cells[i].ondrop = function (e) {
-      //     e.preventDefault();
-      //     e.target.style.border = "1px solid black";
-      //   };
-      //   cells[i].addEventListener("focusout", function (e) {
-      //     e.target.style.border = "1px solid black";
-      //     console.log("focus out from", e.target);
-      //   });
-      //   // cells[i].ondrop = handleDropp;
-      //   // document.getElementById("rows").value = "";
-      //   // document.getElementById("cols").value = "";
-      // }
+      var tablee = focusseddDiv?.firstElementChild?.firstElementChild;
+      var cells = tablee.getElementsByTagName("td");
+      console.log("cells", tablee, cells);
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].ondragover = function (e) {
+          e.preventDefault();
+          e.target.classList.add("table_drag");
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = "3px solid blue";
+          }
+        };
+        cells[i].ondragleave = (e) => {
+          e.preventDefault();
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = "1px solid black";
+          }
+        };
+        cells[i].ondrop = handleDropp;
+      }
+      e.target?.parentElement.remove();
+      setIsDisableTableRightMenu(false);
+      e.stopPropagation();
     }
-  }
+  };
   const updateTable = (e) => {
     const focusseddDiv = document.querySelector(".focussedd");
     if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-      if (focusseddDiv?.firstElementChild?.firstElementChild) {
+      var editDiv = document.createElement("div");
+      editDiv.className = "row_col_add_div";
+      var addRowBtn = document.createElement("BUTTON");
+      addRowBtn.onclick = handleAddRow;
+
+      var addColBtn = document.createElement("BUTTON");
+      addColBtn.onclick = handleAddColumn;
+      addRowBtn.className = "btn btn-primary me-3 my-3";
+      addRowBtn.innerText = "Add Row";
+      addColBtn.innerText = "Add Col";
+      addColBtn.className = "btn btn-primary my-3";
+      editDiv.appendChild(addRowBtn);
+      editDiv.appendChild(addColBtn);
+      editDiv.style.display = "flex";
+      // editDiv.style.justifyContent = ""
+      focusseddDiv?.firstElementChild?.prepend(editDiv);
+      if (focusseddDiv?.firstElementChild?.children[1]) {
         const numOfTr =
-          focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
+          focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
         const numOfTd =
-          focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
+          focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
             "td"
           ).length;
-        const numOfROW = numOfTr;
+        // const numOfROW = numOfTr;
         const numOfCol = numOfTd / numOfTr;
-        console.log("numOfColumn", numOfROW, numOfCol);
+        var tr = document.createElement("tr");
 
-        setNumOfRow(numOfROW);
-        setNumOfColumn(numOfCol);
-
-        // var table = document.createElement("table");
-        // table.style.border = "2";
-        // table.id = "table";
-        // table.className = "droppable";
-        var row = document.getElementById("rows").value;
-        var col = document.getElementById("cols").value;
-
-        // var tableDiv = document.querySelector(".focussed");
-
-        for (var rowIndex = 0; rowIndex < row; rowIndex++) {
-          var tr = document.createElement("tr");
-
-          for (var colIndex = 0; colIndex < col; colIndex++) {
-            var td = document.createElement("td");
-            td.className = "dropp";
-
-            tr.appendChild(td);
-          }
-
-          focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
-
-          focusseddDiv?.firstElementChild?.appendChild(
-            focusseddDiv?.firstElementChild?.firstElementChild
-          );
-
-          // var tablee = document.querySelector(".focussed").firstElementChild;
-          var cells =
-            focusseddDiv?.firstElementChild?.firstElementChild.getElementsByTagName(
-              "td"
-            );
-
-          for (var i = 0; i < cells.length; i++) {
-            cells[i].ondragover = function (e) {
-              e.preventDefault();
-              e.target.classList.add("table_drag");
-              e.target.style.border = "2px solid green";
-              const draggable = document.querySelector(".dragging");
-              cells[i].appendChild(draggable);
-            };
-            cells[i].ondragleave = (e) => {
-              e.preventDefault();
-            };
-
-            cells[i].ondrop = function (e) {
-              e.preventDefault();
-              e.target.style.border = "1px solid black";
-            };
-            cells[i].addEventListener("focusout", function (e) {
-              e.target.style.border = "1px solid black";
-              console.log("focus out from", e.target);
-            });
-
-            cells[i].ondrop = handleDropp;
-          }
+        for (let i = 0; i < numOfCol; i++) {
+          var td = document.createElement("td");
+          td.className = "dropp";
+          td.style.height = "50px";
+          // if (rowIndex == 0 && colIndex != numOfCol) {
+          const colDeleteBtn = document.createElement("button");
+          colDeleteBtn.className = "btn btn-warning";
+          colDeleteBtn.style.marginLeft = "5px";
+          colDeleteBtn.innerText = "Del Col";
+          colDeleteBtn.onclick = (e) => {
+            const index = Array.from(
+              e.target.parentElement.parentElement.children
+            ).indexOf(e.target.parentElement);
+            const allTableTr =
+              focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+                "tr"
+              );
+            for (let i = 0; i < allTableTr.length; i++) {
+              focusseddDiv?.firstElementChild?.children[1]
+                .querySelectorAll("tr")
+                [i].childNodes[index].remove();
+            }
+            e.stopPropagation();
+          };
+          td.style.border = "none";
+          td.appendChild(colDeleteBtn);
+          tr.appendChild(td);
         }
+        focusseddDiv?.firstElementChild?.children[1].prepend(tr);
+
+        for (let rowIndex = 1; rowIndex < numOfTr + 1; rowIndex++) {
+          for (let colIndex = 0; colIndex < numOfCol + 2; colIndex++) {
+            // if (colIndex == numOfCol && rowIndex != 0) {
+            var td = document.createElement("td");
+            const rowDeleteBtn = document.createElement("button");
+            rowDeleteBtn.className = "btn btn-warning";
+            rowDeleteBtn.style.marginLeft = "5px";
+            rowDeleteBtn.innerText = "Del Row";
+            rowDeleteBtn.onclick = (e) => {
+              e.target?.parentElement?.parentElement?.remove();
+              e.stopPropagation();
+            };
+            td.style.border = "none";
+            // td.style.background = "#fff";
+            td.appendChild(rowDeleteBtn);
+            // }
+          }
+          // console.log("child element check", focusseddDiv?.firstElementChild);
+          focusseddDiv?.firstElementChild?.children[1].childNodes[
+            rowIndex
+          ].appendChild(td);
+        }
+        // focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
       }
+      var saveDiv = document.createElement("div");
+      saveDiv.className = "table_update_save_div";
+      var saveBtn = document.createElement("BUTTON");
+      saveBtn.className = "btn btn-primary my-3";
+      saveBtn.innerText = "Save Changes";
+      saveBtn.onclick = hadleTableUpdateSave;
+      saveDiv.appendChild(saveBtn);
+      focusseddDiv?.firstElementChild?.appendChild(saveDiv);
     }
-    console.log("numOfColumn", numOfColumn, numOfRow);
+    setIsDisableTableRightMenu(true);
   };
 
   const handleAddRow = (e) => {
-    const modalTable = document.querySelector(".modalTable");
-    if (modalTable) {
-      const numOfTr = modalTable?.rows?.length;
-      const numOfTd = modalTable.querySelectorAll("td").length;
-      const numOfCol = numOfTd / numOfTr;
+    const focusseddDiv = document.querySelector(".focussedd");
+    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+      const editableTable = focusseddDiv?.firstElementChild?.children[1];
+      const numOfTr = editableTable?.rows?.length;
+      const numOfTd = editableTable.querySelectorAll("td").length;
+      const numOfCol = (numOfTd + 1) / numOfTr;
       for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
         var tr = document.createElement("tr");
 
         for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
+          console.log("numOfCol", numOfTr, numOfTd, numOfCol);
           var td = document.createElement("td");
           td.className = "dropp";
-          td.style.height = "50px";
+          // td.style.height = "50px";
           if (colIndex == numOfCol - 1) {
             const rowDeleteBtn = document.createElement("button");
             rowDeleteBtn.className = "btn btn-warning";
@@ -699,22 +785,25 @@ const TableRightSidebar = () => {
             rowDeleteBtn.innerText = "Del Row";
             rowDeleteBtn.onclick = (e) => {
               e.target?.parentElement?.parentElement?.remove();
+              e.stopPropagation();
             };
             td.style.border = "none";
-            td.style.background = "#fff";
+            // td.style.background = "#fff";
             td.appendChild(rowDeleteBtn);
           }
           tr.appendChild(td);
         }
-        modalTable.appendChild(tr);
+        editableTable.appendChild(tr);
       }
     }
   };
   const handleAddColumn = (e) => {
-    const modalTable = document.querySelector(".modalTable");
-    if (modalTable) {
-      const numOfTr = modalTable?.rows?.length;
-      const numOfTd = modalTable.querySelectorAll("td").length;
+    const focusseddDiv = document.querySelector(".focussedd");
+    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+      const editableTable = focusseddDiv?.firstElementChild?.children[1];
+      const numOfTr = editableTable?.rows?.length;
+      const numOfTd = editableTable.querySelectorAll("td").length;
+      const numOfCol = (numOfTd + 1) / numOfTr;
       for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
         var td = document.createElement("td");
         td.className = "dropp";
@@ -728,15 +817,18 @@ const TableRightSidebar = () => {
             const index = Array.from(
               e.target.parentElement.parentElement.children
             ).indexOf(e.target.parentElement);
-            const allTableTr = modalTable.querySelectorAll("tr");
+            const allTableTr = editableTable.querySelectorAll("tr");
             for (let i = 0; i < allTableTr.length; i++) {
-              modalTable.querySelectorAll("tr")[i].childNodes[index].remove();
+              editableTable
+                .querySelectorAll("tr")
+                [i].childNodes[index].remove();
             }
+            e.stopPropagation();
           };
           td.style.border = "none";
           td.appendChild(colDeleteBtn);
         }
-        const allTrs = modalTable.querySelectorAll("tr");
+        const allTrs = editableTable.querySelectorAll("tr");
         allTrs[rowIndex].insertBefore(td, allTrs[rowIndex].lastChild);
       }
     }
@@ -747,6 +839,7 @@ const TableRightSidebar = () => {
       document.querySelector(".focussedd").remove();
     }
   }
+  // console.log("isDisableTableRightMenu", isDisableTableRightMenu);
   return (
     <>
       <div>
@@ -758,7 +851,8 @@ const TableRightSidebar = () => {
           min="1"
           id="rows"
           className="shadow bg-white rounded mb-4"
-          defaultValue={numOfRow}
+          // defaultValue={numOfRow}
+          disabled={isDisableTableRightMenu}
         />
 
         <Form.Label>Enter Number of columns</Form.Label>
@@ -769,26 +863,32 @@ const TableRightSidebar = () => {
           min="1"
           id="cols"
           className="shadow bg-white rounded mb-4"
-          defaultValue={numOfColumn}
+          // defaultValue={numOfColumn}
+          disabled={isDisableTableRightMenu}
         />
       </div>
 
       <div className="d-flex mt-2 text-center pt-5">
         {/* {!numOfColumn && !numOfRow ? ( */}
-        <Button variant="secondary" className="px-5 me-3" onClick={makeTable}>
+
+        <Button
+          variant="secondary"
+          className="px-5 me-3"
+          onClick={makeTable}
+          disabled={isDisableTableRightMenu || isCreateTableBtnDisabled}
+        >
           Create Table
         </Button>
-        {/* ) : ( */}
         <Button
           variant="success"
           className="px-5"
-          data-bs-toggle="modal"
-          data-bs-target="#tableUpdateModal"
-          // onClick={updateTable}
+          // data-bs-toggle="modal"
+          // data-bs-target="#tableUpdateModal"
+          onClick={updateTable}
+          disabled={isDisableTableRightMenu}
         >
           Update Table
         </Button>
-        {/* )} */}
       </div>
 
       {/* <div className='dropdown pt-4'>
@@ -810,7 +910,7 @@ const TableRightSidebar = () => {
           Remove Table
         </Button>
       </div>
-      <div
+      {/* <div
         class="modal fade"
         id="tableUpdateModal"
         tabindex="-1"
@@ -844,7 +944,7 @@ const TableRightSidebar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -26,9 +26,32 @@ import { current } from "@reduxjs/toolkit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiFillPrinter } from "react-icons/ai";
+// import Printer from "../../utils/spinner/Printer";
+
+// import React, { useRef } from "react";
+import ReactToPrint from "react-to-print";
+import MidSection from "../midSection/MidSection";
+// import MidSection from "../../components/midSection/MidSection";
+
+// const Printer = () => {
+//   const componentRef = useRef();
+
+//   return (
+//     <div>
+//       <ReactToPrint
+//         trigger={() => <button>Print!</button>}
+//         content={() => componentRef.current}
+//       />
+//       <MidSection ref={componentRef} />
+//     </div>
+//   );
+// };
+// export default Printer;
 
 const Header = () => {
   const inputRef = useRef(null);
+  const componentRef = useRef(null);
+
   const {
     item,
     setItem,
@@ -54,6 +77,7 @@ const Header = () => {
     setIsMenuVisible,
   } = useStateContext();
 
+  const [printContent, setPrintContent] = useState(false);
   console.log(companyId);
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -774,9 +798,29 @@ const Header = () => {
                     <BiCopyAlt />
                     <p>Copy</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={hanldePrint}>
-                    <AiFillPrinter />
-                    <p>Print</p>
+                  <div
+                    className="d-flex cursor_pointer"
+                    onClick={() => setPrintContent(true)}
+                  >
+                    <ReactToPrint
+                      trigger={
+                        (e) => (
+                          <p>
+                            {/* {" "} */}
+                            <AiFillPrinter /> Print
+                          </p>
+                        )
+                        // setPrintContent(true)
+                        // {/* {" "} */}
+                        // </>
+                      }
+                      content={() => componentRef.current}
+                      // onBeforeGetContent={() => console.log("test")}
+                      // removeAfterPrint="true"
+                      // onBeforePrint={() => setPrintContent(true)}
+                      onAfterPrint={() => setPrintContent(false)}
+                    />
+                    {printContent && <MidSection ref={componentRef} />}
                   </div>
 
                   {/* <img onClick={handleRedo} src={headerData[1].icon} alt="" /> */}

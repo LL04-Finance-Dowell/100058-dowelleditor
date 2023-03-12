@@ -45,7 +45,7 @@ const dummyData = {
 };
 
 // const MidSection = ({showSidebar}) => {
-const MidSection = () => {
+const MidSection = React.forwardRef((props, ref) => {
   const {
     sidebar,
     dropdownName,
@@ -1789,17 +1789,17 @@ const MidSection = () => {
 
         tableField.onclick = (e) => {
           // focuseddClassMaintain(e);
-          tableField.removeAttribute("data-bs-toggle", "modal");
+          // tableField.removeAttribute("data-bs-toggle", "modal");
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
           handleClicked("table2");
           setSidebar(true);
         };
-        tableField.ondblclick = (e) => {
-          tableField.setAttribute("data-bs-toggle", "modal");
-          tableField.setAttribute("data-bs-target", "#tableUpdateModal");
-          tableField.click();
-        };
+        // tableField.ondblclick = (e) => {
+        //   tableField.setAttribute("data-bs-toggle", "modal");
+        //   tableField.setAttribute("data-bs-target", "#tableUpdateModal");
+        //   tableField.click();
+        // };
 
         // tableField.appendChild(tab)
 
@@ -2171,7 +2171,7 @@ const MidSection = () => {
         return (
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>
-          <div key={index} className="midSection">
+          <div ref={ref} key={index} className="midSection">
             <Container
               as="div"
               ref={midSectionRef}
@@ -2218,6 +2218,6 @@ const MidSection = () => {
     //   </Container>
     // </div>
   );
-};
+});
 
 export default MidSection;

@@ -17,6 +17,7 @@ import Axios from "axios";
 
 import "./EditSection.css";
 import { useStateContext } from "../../contexts/contextProvider";
+import Printer from "../../utils/spinner/Printer";
 export const editSec_midSec_ref = document.querySelector(".editSec_midSec");
 
 const EditSection = () => {
@@ -60,6 +61,7 @@ const EditSection = () => {
             }
           >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
+            {/* <Printer /> */}
             {actionName == "template" && <LeftMenu />}
           </Col>
           <Col lg={sidebar ? 8 : 11} as="div" className="editSec_midSec">
