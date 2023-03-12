@@ -64,12 +64,22 @@ const TableRightSidebar = () => {
 
   const handleDropp = (e) => {
     e.preventDefault();
-    if (!e.target.hasChildNodes()) {
+    if (
+      !e.target.hasChildNodes() &&
+      !e.target.classList.contains("imageInput")
+    ) {
       e.target.style.border = "1px solid black";
+    }
+    if (e.target.classList.contains("imageInput")) {
+      e.target.style.border = "none";
     }
     const typeOfOperation = e.dataTransfer.getData("text/plain");
     // console.log("cell has been dropped on " + typeOfOperation);
-    if (!e.target.hasChildNodes()) {
+    console.log("e.target", e.target, e.target.hasChildNodes());
+    if (
+      !e.target.hasChildNodes() &&
+      !e.target.classList.contains("imageInput")
+    ) {
       if (typeOfOperation === "TEXT_INPUT") {
         let inputField = document.createElement("div");
         //  inputField.setAttribute('draggable', true);
@@ -421,6 +431,9 @@ const TableRightSidebar = () => {
           if (!e.target.hasChildNodes()) {
             e.target.style.border = "3px solid blue";
           }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
           // const afterElement = getDragAfterElement(cells[i], e.clientY);
           //console.log(afterElement);
           // const draggable = document.querySelector(".dragging");
@@ -428,8 +441,14 @@ const TableRightSidebar = () => {
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          if (!e.target.hasChildNodes()) {
+          if (
+            !e.target.hasChildNodes() &&
+            !e.target.classList.contains("imageInput")
+          ) {
             e.target.style.border = "1px solid black";
+          }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
           }
         };
         // cells[i].ondragover = function (e) {
@@ -520,7 +539,7 @@ const TableRightSidebar = () => {
         //   this.append(input);
         //   this.firstElementChild.select();
         // };
-
+        console.log("cells[i]", cells[i].classList.contains("dropp"));
         cells[i].ondrop = handleDropp;
         document.getElementById("rows").value = "";
         document.getElementById("cols").value = "";
@@ -653,11 +672,20 @@ const TableRightSidebar = () => {
           if (!e.target.hasChildNodes()) {
             e.target.style.border = "3px solid blue";
           }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          if (!e.target.hasChildNodes()) {
+          if (
+            !e.target.hasChildNodes() &&
+            !e.target.classList.contains("imageInput")
+          ) {
             e.target.style.border = "1px solid black";
+          }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
           }
         };
         cells[i].ondrop = handleDropp;
