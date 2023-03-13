@@ -274,21 +274,15 @@ const MidSection = () => {
       const holderSize = (function () {
         const holderSize = {
           width:
-            decoded.details.action === 'template'
-              ? holder.offsetWidth
-              : undefined,
+            decoded.details.flag === 'editing' ? holder.offsetWidth : undefined,
           height:
-            decoded.details.action === 'template'
+            decoded.details.flag === 'editing'
               ? holder.offsetHeight
               : undefined,
           top:
-            decoded.details.action === 'template'
-              ? holder.offsetTop
-              : undefined,
+            decoded.details.flag === 'editing' ? holder.offsetTop : undefined,
           left:
-            decoded.details.action === 'template'
-              ? holder.offsetLeft
-              : undefined,
+            decoded.details.flag === 'editing' ? holder.offsetLeft : undefined,
 
           // width: parseInt(holder.style.width.slice(0, -2)),
           // height: parseInt(holder.style.height.slice(0, -2)),
@@ -369,13 +363,9 @@ const MidSection = () => {
       const holderPos = (function () {
         const holderPos = {
           top:
-            decoded.details.action === 'template'
-              ? holder.offsetTop
-              : undefined,
+            decoded.details.flag === 'editing' ? holder.offsetTop : undefined,
           left:
-            decoded.details.action === 'template'
-              ? holder.offsetLeft
-              : undefined,
+            decoded.details.flag === 'editing' ? holder.offsetLeft : undefined,
           // top: parseInt(holder.style.top.slice(0, -2)),
           // left: parseInt(holder.style.left.slice(0, -2))
         };
@@ -1608,6 +1598,9 @@ const MidSection = () => {
             left: 'good',
             right: 'best',
             center: 'neutral',
+            left: 'good',
+            right: 'best',
+            center: 'neutral',
           }
         )
           .then((res) => {
@@ -1806,10 +1799,16 @@ const MidSection = () => {
 
         tableField.onclick = (e) => {
           // focuseddClassMaintain(e);
+          tableField.removeAttribute('data-bs-toggle', 'modal');
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
           handleClicked('table2');
           setSidebar(true);
+        };
+        tableField.ondblclick = (e) => {
+          tableField.setAttribute('data-bs-toggle', 'modal');
+          tableField.setAttribute('data-bs-target', '#tableUpdateModal');
+          tableField.click();
         };
 
         // tableField.appendChild(tab)
@@ -2206,6 +2205,7 @@ const MidSection = () => {
           </div>
         );
       })}
+      {/* <!-- Modal --> */}
     </>
 
     // <div className="midSection" >

@@ -494,6 +494,8 @@ const Header = () => {
         update_field: updateField,
         page: item,
         scale_url: `${scaleData}`,
+        company_id: companyId,
+        type: decoded.details.action,
       }
     )
       .then((res) => {
@@ -736,12 +738,23 @@ const Header = () => {
     const bodyEl = document.getElementsByTagName('BODY')[0];
     bodyEl.style.visibility = 'hidden';
     const midsection = document.getElementsByClassName('midSection_container');
+    console.log('midsection length', midsection.length);
     for (let i = 0; i < midsection?.length; i++) {
       midsection[i].style.visibility = 'visible';
+      // midsection[0].style.marginTop = "-420px";
+      midsection[i].style.padding = '0px';
+      midsection[i].style.position = 'absolute';
+      midsection[i].style.top = 0;
+      midsection[i].style.left = 0;
     }
 
     window.print();
     bodyEl.style.visibility = 'visible';
+    for (let i = 0; i < midsection?.length; i++) {
+      midsection[i].style.position = 'relative';
+
+      midsection[i].style.marginTop = '0px';
+    }
   };
 
   // console.log("page count check", item);

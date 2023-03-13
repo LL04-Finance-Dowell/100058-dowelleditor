@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import $ from 'jquery';
 
@@ -24,7 +24,8 @@ const TableRightSidebar = () => {
     setMethod,
     setRightSideDateMenu,
   } = useStateContext();
-
+  const [numOfColumn, setNumOfColumn] = useState(null);
+  const [numOfRow, setNumOfRow] = useState(null);
   function focuseddClassMaintain(e) {
     let allDiv = document.getElementsByClassName('focussedd');
     for (let i = 0; i < allDiv.length; i++) {
@@ -344,6 +345,8 @@ const TableRightSidebar = () => {
     table.className = 'droppable';
     var row = document.getElementById('rows').value;
     var col = document.getElementById('cols').value;
+    // setNumOfRow(row);
+    // setNumOfColumn(col);
 
     var tableDiv = document.querySelector('.focussed');
 
@@ -400,7 +403,7 @@ const TableRightSidebar = () => {
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          e.target.style.border = '1px solid black';
+          // e.target.style.border = "1px solid black";
         };
         // cells[i].ondragover = function (e) {
         //   e.preventDefault();
@@ -489,33 +492,265 @@ const TableRightSidebar = () => {
         // };
 
         cells[i].ondrop = handleDropp;
+        document.getElementById('rows').value = '';
+        document.getElementById('cols').value = '';
       }
     }
   }
 
+  function handleColDelClick(e) {
+    alert('e.target.innerText');
+  }
+
+  function modalMakeTable() {
+    const focusseddDiv = document.querySelector('.focussedd');
+    if (focusseddDiv?.firstElementChild?.classList.contains('tableInput')) {
+      if (focusseddDiv?.firstElementChild?.firstElementChild) {
+        const numOfTr =
+          focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
+        const numOfTd =
+          focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
+            'td'
+          ).length;
+        const numOfROW = numOfTr;
+        const numOfCol = numOfTd / numOfTr;
+        // setNumOfRow(numOfROW);
+        // setNumOfColumn(numOfCol);
+        var tableDiv = document.querySelector('.modalTableHolder');
+        if (tableDiv) {
+          tableDiv.innerHTML = '';
+          var table = document.createElement('table');
+          table.style.border = '2';
+          // table.id = "table";
+          table.className = 'modalTable';
+
+          for (var rowIndex = 0; rowIndex < numOfROW + 1; rowIndex++) {
+            var tr = document.createElement('tr');
+
+            for (var colIndex = 0; colIndex < numOfCol + 1; colIndex++) {
+              var td = document.createElement('td');
+              td.className = 'dropp';
+              td.style.height = '50px';
+              if (rowIndex == 0 && colIndex != numOfCol) {
+                const colDeleteBtn = document.createElement('button');
+                colDeleteBtn.className = 'btn btn-warning';
+                colDeleteBtn.style.marginLeft = '5px';
+                colDeleteBtn.innerText = 'Del Col';
+                colDeleteBtn.onclick = (e) => {
+                  const index = Array.from(
+                    e.target.parentElement.parentElement.children
+                  ).indexOf(e.target.parentElement);
+                  const modalTable = document.querySelector('.modalTable');
+                  const allTableTr = modalTable.querySelectorAll('tr');
+                  for (let i = 0; i < allTableTr.length; i++) {
+                    modalTable
+                      .querySelectorAll('tr')
+                      [i].childNodes[index].remove();
+                  }
+                };
+                td.style.border = 'none';
+                td.appendChild(colDeleteBtn);
+              }
+              if (rowIndex == 0 && colIndex == numOfCol) {
+                td.style.border = 'none';
+              }
+              if (colIndex == numOfCol && rowIndex != 0) {
+                const rowDeleteBtn = document.createElement('button');
+                rowDeleteBtn.className = 'btn btn-warning';
+                rowDeleteBtn.style.marginLeft = '5px';
+                rowDeleteBtn.innerText = 'Del Row';
+                rowDeleteBtn.onclick = (e) => {
+                  e.target?.parentElement?.parentElement?.remove();
+                };
+                td.style.border = 'none';
+                td.style.background = '#fff';
+                td.appendChild(rowDeleteBtn);
+              }
+              tr.appendChild(td);
+            }
+
+            table.appendChild(tr);
+            // table.appendChild(rowDeleteBtn);
+
+            tableDiv.appendChild(table);
+          }
+        }
+      }
+
+      // var tablee = document.querySelector(".focussed").firstElementChild;
+      // var cells = tablee.getElementsByTagName("td");
+      // for (var i = 0; i < cells.length; i++) {
+      //   cells[i].ondragover = function (e) {
+      //     e.preventDefault();
+      //     e.target.classList.add("table_drag");
+      //     e.target.style.border = "2px solid green";
+      //     // const afterElement = getDragAfterElement(cells[i], e.clientY);
+      //     //console.log(afterElement);
+      //     const draggable = document.querySelector(".dragging");
+      //     cells[i].appendChild(draggable);
+      //   };
+      //   cells[i].ondragleave = (e) => {
+      //     e.preventDefault();
+      //   };
+      //   cells[i].ondrop = function (e) {
+      //     e.preventDefault();
+      //     e.target.style.border = "1px solid black";
+      //   };
+      //   cells[i].addEventListener("focusout", function (e) {
+      //     e.target.style.border = "1px solid black";
+      //     console.log("focus out from", e.target);
+      //   });
+      //   // cells[i].ondrop = handleDropp;
+      //   // document.getElementById("rows").value = "";
+      //   // document.getElementById("cols").value = "";
+      // }
+    }
+  }
+  const updateTable = (e) => {
+    const focusseddDiv = document.querySelector('.focussedd');
+    if (focusseddDiv?.firstElementChild?.classList.contains('tableInput')) {
+      if (focusseddDiv?.firstElementChild?.firstElementChild) {
+        const numOfTr =
+          focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
+        const numOfTd =
+          focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
+            'td'
+          ).length;
+        const numOfROW = numOfTr;
+        const numOfCol = numOfTd / numOfTr;
+        console.log('numOfColumn', numOfROW, numOfCol);
+
+        setNumOfRow(numOfROW);
+        setNumOfColumn(numOfCol);
+
+        // var table = document.createElement("table");
+        // table.style.border = "2";
+        // table.id = "table";
+        // table.className = "droppable";
+        var row = document.getElementById('rows').value;
+        var col = document.getElementById('cols').value;
+
+        // var tableDiv = document.querySelector(".focussed");
+
+        for (var rowIndex = 0; rowIndex < row; rowIndex++) {
+          var tr = document.createElement('tr');
+
+          for (var colIndex = 0; colIndex < col; colIndex++) {
+            var td = document.createElement('td');
+            td.className = 'dropp';
+
+            tr.appendChild(td);
+          }
+
+          focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
+
+          focusseddDiv?.firstElementChild?.appendChild(
+            focusseddDiv?.firstElementChild?.firstElementChild
+          );
+
+          // var tablee = document.querySelector(".focussed").firstElementChild;
+          var cells =
+            focusseddDiv?.firstElementChild?.firstElementChild.getElementsByTagName(
+              'td'
+            );
+
+          for (var i = 0; i < cells.length; i++) {
+            cells[i].ondragover = function (e) {
+              e.preventDefault();
+              e.target.classList.add('table_drag');
+              e.target.style.border = '2px solid green';
+              const draggable = document.querySelector('.dragging');
+              cells[i].appendChild(draggable);
+            };
+            cells[i].ondragleave = (e) => {
+              e.preventDefault();
+            };
+
+            cells[i].ondrop = function (e) {
+              e.preventDefault();
+              e.target.style.border = '1px solid black';
+            };
+            cells[i].addEventListener('focusout', function (e) {
+              e.target.style.border = '1px solid black';
+              console.log('focus out from', e.target);
+            });
+
+            cells[i].ondrop = handleDropp;
+          }
+        }
+      }
+    }
+    console.log('numOfColumn', numOfColumn, numOfRow);
+  };
+
+  const handleAddRow = (e) => {
+    const modalTable = document.querySelector('.modalTable');
+    if (modalTable) {
+      const numOfTr = modalTable?.rows?.length;
+      const numOfTd = modalTable.querySelectorAll('td').length;
+      const numOfCol = numOfTd / numOfTr;
+      for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
+        var tr = document.createElement('tr');
+
+        for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
+          var td = document.createElement('td');
+          td.className = 'dropp';
+          td.style.height = '50px';
+          if (colIndex == numOfCol - 1) {
+            const rowDeleteBtn = document.createElement('button');
+            rowDeleteBtn.className = 'btn btn-warning';
+            rowDeleteBtn.style.marginLeft = '5px';
+            rowDeleteBtn.innerText = 'Del Row';
+            rowDeleteBtn.onclick = (e) => {
+              e.target?.parentElement?.parentElement?.remove();
+            };
+            td.style.border = 'none';
+            td.style.background = '#fff';
+            td.appendChild(rowDeleteBtn);
+          }
+          tr.appendChild(td);
+        }
+        modalTable.appendChild(tr);
+      }
+    }
+  };
+  const handleAddColumn = (e) => {
+    const modalTable = document.querySelector('.modalTable');
+    if (modalTable) {
+      const numOfTr = modalTable?.rows?.length;
+      const numOfTd = modalTable.querySelectorAll('td').length;
+      for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
+        var td = document.createElement('td');
+        td.className = 'dropp';
+        td.style.height = '50px';
+        if (rowIndex == 0) {
+          const colDeleteBtn = document.createElement('button');
+          colDeleteBtn.className = 'btn btn-warning';
+          colDeleteBtn.style.marginLeft = '5px';
+          colDeleteBtn.innerText = 'Del Col';
+          colDeleteBtn.onclick = (e) => {
+            const index = Array.from(
+              e.target.parentElement.parentElement.children
+            ).indexOf(e.target.parentElement);
+            const allTableTr = modalTable.querySelectorAll('tr');
+            for (let i = 0; i < allTableTr.length; i++) {
+              modalTable.querySelectorAll('tr')[i].childNodes[index].remove();
+            }
+          };
+          td.style.border = 'none';
+          td.appendChild(colDeleteBtn);
+        }
+        const allTrs = modalTable.querySelectorAll('tr');
+        allTrs[rowIndex].insertBefore(td, allTrs[rowIndex].lastChild);
+      }
+    }
+  };
   function removeTable() {
-    // const div = document.getElementById("holderId")
-    // const tab = document.getElementsByClassName("tableInput")
-    // const tabData = document.getElementsByClassName("droppable")
-    // document.querySelector(".focussedd").remove();
     const focusseddElmnt = document.querySelector('.focussedd');
     if (focusseddElmnt.classList.contains('holderDIV')) {
       document.querySelector('.focussedd').remove();
     }
-    // if (tab[0].parentElement.classList.contains("holderDIV")) {
-    //   tabData[0].remove();
-    // }
-
-    // if (div.childNodes[0].classList.contains("tableInput")) {
-    //   div.focus()
-    // }
-
-    // if(div.focus){
-    //   document.activeElement.remove()
-    // }
   }
-  //console.log("table", document.getElementById("table"));
-  // document.getElementById('make').addEventListener("click", makeTable)
   return (
     <>
       <div>
@@ -527,6 +762,7 @@ const TableRightSidebar = () => {
           min="1"
           id="rows"
           className="shadow bg-white rounded mb-4"
+          defaultValue={numOfRow}
         />
 
         <Form.Label>Enter Number of columns</Form.Label>
@@ -537,13 +773,26 @@ const TableRightSidebar = () => {
           min="1"
           id="cols"
           className="shadow bg-white rounded mb-4"
+          defaultValue={numOfColumn}
         />
       </div>
 
-      <div className="mt-2 text-center pt-5">
-        <Button variant="secondary" className="px-5" onClick={makeTable}>
+      <div className="d-flex mt-2 text-center pt-5">
+        {/* {!numOfColumn && !numOfRow ? ( */}
+        <Button variant="secondary" className="px-5 me-3" onClick={makeTable}>
           Create Table
         </Button>
+        {/* ) : ( */}
+        <Button
+          variant="success"
+          className="px-5"
+          data-bs-toggle="modal"
+          data-bs-target="#tableUpdateModal"
+          // onClick={updateTable}
+        >
+          Update Table
+        </Button>
+        {/* )} */}
       </div>
 
       {/* <div className='dropdown pt-4'>
@@ -564,6 +813,41 @@ const TableRightSidebar = () => {
         >
           Remove Table
         </Button>
+      </div>
+      <div
+        class="modal fade"
+        id="tableUpdateModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Table
+              </h5>
+              <button onClick={handleAddRow} className="btn btn-primary mx-3">
+                Add Row
+              </button>
+              <button onClick={handleAddColumn} className="btn btn-primary">
+                Add Column
+              </button>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body modalTableHolder">{modalMakeTable()}</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
