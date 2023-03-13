@@ -75,7 +75,7 @@ const TableRightSidebar = () => {
     }
     const typeOfOperation = e.dataTransfer.getData("text/plain");
     // console.log("cell has been dropped on " + typeOfOperation);
-    console.log("e.target", e.target, e.target.hasChildNodes());
+    // console.log("e.target", e.target, e.target.hasChildNodes());
     if (
       !e.target.hasChildNodes() &&
       !e.target.classList.contains("imageInput")
@@ -164,11 +164,11 @@ const TableRightSidebar = () => {
         imageField.innerHTML = "Image here";
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
-          e.target.innerHTML = null;
           // imageField.classList.add("focussed");
           handleClicked("image2", "table2");
           // handleClicked("image2");
           setSidebar(true);
+          console.log("imageclick test", e.target);
           e.stopPropagation();
         };
 
@@ -194,8 +194,12 @@ const TableRightSidebar = () => {
             ).parentElement.style.backgroundImage = `url(${uploadedImage})`;
           });
           reader.readAsDataURL(imgBtn.files[0]);
+          // console.log("baprebap", document.querySelector(".focussed"));
+          // document.querySelector(".focussed").innerHTML = null;
         });
-
+        // if (uploadedImage) {
+        // console.log("imageField", imageField, uploadedImage);
+        // }
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
         e.target.append(imageField);

@@ -86,7 +86,7 @@ const MidSection = React.forwardRef((props, ref) => {
   } = useStateContext();
 
   // const [scaleData, setScaleData] = useState([]);
-  console.log('lkkk', scaleData);
+  console.log("lkkk", scaleData);
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -911,10 +911,10 @@ const MidSection = React.forwardRef((props, ref) => {
           // }
           if (
             decoded.details.action === "document" &&
-            element.data == "Place your signature here"
+            element.data == "Signature here"
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
-            signField.innerHTML = "Place your signature here";
+            signField.innerHTML = "Signature here";
           } else if (decoded.details.action === "document" && element.data) {
             signField.innerHTML = `<img src=${element.data} />`;
           } else {

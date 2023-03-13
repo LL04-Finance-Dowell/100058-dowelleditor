@@ -24,6 +24,10 @@ const ImageRightSidebar = () => {
     );
     addImageButtonInput.item(0).click();
     var imageDiv = document.querySelector(".focussed");
+    console.log("iamgeDiv from imageright menu", imageDiv);
+    if (imageDiv) {
+      imageDiv.innerHTML = null;
+    }
     if (imageDiv) {
       if (imageDiv.parentElement.classList.contains("holderDIV")) {
         imageDiv.parentElement.classList.add("element_updated");
@@ -32,7 +36,17 @@ const ImageRightSidebar = () => {
   };
 
   function removeImage() {
-    document.querySelector(".focussedd").remove();
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
+        const childLength =
+          document.querySelector(".focussedd").children.length;
+        for (let i = 0; i < childLength; i++) {
+          document.querySelector(".focussedd").firstElementChild.remove();
+        }
+      }
+    } else {
+      document.querySelector(".focussedd").remove();
+    }
   }
 
   return (
