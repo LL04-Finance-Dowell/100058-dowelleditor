@@ -915,10 +915,20 @@ const MidSection = React.forwardRef((props, ref) => {
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
             signField.innerHTML = "Signature here";
+          } else if(
+            decoded.details.action === "document" &&
+            element.data == "Place your signature here"
+          ) {
+            signField.innerHTML = "Signature here";
+          } else if(
+            decoded.details.action === "document" &&
+            element.data == "Signature here "
+          ) {
+            signField.innerHTML = "Signature here";
           } else if (decoded.details.action === "document" && element.data) {
-            signField.innerHTML = `<img src=${element.data} />`;
+            signField.innerHTML = `<img src=${element.data}  />`;
           } else {
-            signField.innerHTML = "Place your signature ";
+            signField.innerHTML = "Signature here";
           }
 
           const imageSignButton = document.createElement("div");

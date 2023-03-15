@@ -399,7 +399,8 @@ const Header = () => {
           topp: scales[s].parentElement.style.top,
           left: tempPosn.left,
           type: "SCALE_INPUT",
-          data: scales[s].innerText
+          data: `${title}_scale_${s+1}`,
+          scale_url: scales[s].innerText
             ? "Scale here"
             : scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
