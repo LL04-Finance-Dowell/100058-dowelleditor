@@ -241,7 +241,7 @@ const Header = () => {
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       for (let h = 0; h < txt.length; h++) {
-        if (txt[0]?.parentElement?.classList?.contains("holderDIV")) {
+        if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -443,7 +443,7 @@ const Header = () => {
           topp: scales[s].parentElement.style.top,
           left: tempPosn.left,
           type: "SCALE_INPUT",
-          data: `${title}_scale_${s+1}`,
+          data: `${title}_scale_${s + 1}`,
           scale_url: scales[s].innerText
             ? "Scale here"
             : scales[s].firstElementChild.src,

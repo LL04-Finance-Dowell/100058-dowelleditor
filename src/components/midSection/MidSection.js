@@ -903,12 +903,12 @@ const MidSection = React.forwardRef((props, ref) => {
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
             signField.innerHTML = "Signature here";
-          } else if(
+          } else if (
             decoded.details.action === "document" &&
             element.data == "Place your signature here"
           ) {
             signField.innerHTML = "Signature here";
-          } else if(
+          } else if (
             decoded.details.action === "document" &&
             element.data == "Signature here "
           ) {
@@ -990,13 +990,13 @@ const MidSection = React.forwardRef((props, ref) => {
           const tabb = document.createElement("table");
           // tabb.innerHTML = element.data;
           const tableData = element?.data;
-          console.log("tableData", tableData);
+          // console.log("tableData", tableData);
           for (let i = 0; i < tableData.length; i++) {
             const tabbTR = document.createElement("tr");
             const tableTRData = tableData[i]["tr"];
             for (let j = 0; j < tableTRData.length; j++) {
               const tableTDData = tableTRData[j]["td"];
-              console.log("tableTD", tableTRData[j]["td"]);
+              // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
               cells.ondragover = function (e) {
                 e.preventDefault();
