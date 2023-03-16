@@ -19,12 +19,15 @@ const ImageRightSidebar = () => {
   const chooseFileClick = (e) => {
     // handleClicked("image2");
     // setSidebar(false);
+    var imageDiv = document.querySelector(".focussed");
+    console.log("iamgeDiv from imageright menu", imageDiv);
+    handleClicked("image2", "table2");
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
-    var imageDiv = document.querySelector(".focussed");
-    console.log("iamgeDiv from imageright menu", imageDiv);
+    // var imageDiv = document.querySelector(".focussed");
+    // console.log("iamgeDiv from imageright menu", imageDiv);
     if (imageDiv) {
       imageDiv.innerHTML = null;
     }

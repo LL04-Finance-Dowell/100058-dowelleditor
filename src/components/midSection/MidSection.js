@@ -83,6 +83,8 @@ const MidSection = React.forwardRef((props, ref) => {
     setTitle,
     isMenuVisible,
     setIsMenuVisible,
+    handleDropp,
+    focuseddClassMaintain,
   } = useStateContext();
 
   // const [scaleData, setScaleData] = useState([]);
@@ -363,9 +365,9 @@ const MidSection = React.forwardRef((props, ref) => {
       const holderPos = (function () {
         const holderPos = {
           top:
-            decoded.details.flag === "editing" ? holder.offsetTop : undefined,
+            decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
           left:
-            decoded.details.flag === "editing" ? holder.offsetLeft : undefined,
+            decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
           // top: parseInt(holder.style.top.slice(0, -2)),
           // left: parseInt(holder.style.left.slice(0, -2))
         };
@@ -554,21 +556,6 @@ const MidSection = React.forwardRef((props, ref) => {
 
     return holderDIV;
   }
-  function focuseddClassMaintain(e) {
-    let allDiv = document.getElementsByClassName("focussedd");
-    for (let i = 0; i < allDiv.length; i++) {
-      allDiv[i].classList.remove("focussedd");
-    }
-    e.target.parentElement.classList.add("focussedd");
-
-    let focussedDiv = document.getElementsByClassName("focussed");
-    for (let i = 0; i < focussedDiv.length; i++) {
-      focussedDiv[i].classList.remove("focussed");
-    }
-    e.target.classList.add("focussed");
-
-    // e.target.style.backgroundColor = "lightBlue";
-  }
 
   function table_dropdown_focuseddClassMaintain(e) {
     let allDiv = document.getElementsByClassName("focussedd");
@@ -640,6 +627,8 @@ const MidSection = React.forwardRef((props, ref) => {
     }
     // e.target.classList.add("focussed");
   }
+
+  // table ondrop handle after retrieve
 
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
@@ -809,7 +798,6 @@ const MidSection = React.forwardRef((props, ref) => {
           dateField.style.borderRadius = "0px";
           dateField.style.outline = "0px";
           dateField.style.overflow = "overlay";
-          // dateField.innerText = `${postData.calenderField.value}`
           dateField.style.position = "relative";
 
           function dateClick() {
@@ -968,6 +956,9 @@ const MidSection = React.forwardRef((props, ref) => {
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let tableField = document.createElement("div");
+          tableField.className = "tableInput";
+          tableField.style.width = "100%";
+          tableField.style.height = "100%";
           tableField.style.backgroundColor = "#0000";
           tableField.style.borderRadius = "0px";
           tableField.style.outline = "0px";
@@ -987,60 +978,178 @@ const MidSection = React.forwardRef((props, ref) => {
           };
 
           const tabb = document.createElement("table");
-          tabb.innerHTML = element.data;
+          // tabb.innerHTML = element.data;
+          const tableData = element?.data;
+          console.log("tableData", tableData);
+          for (let i = 0; i < tableData.length; i++) {
+            const tabbTR = document.createElement("tr");
+            const tableTRData = tableData[i]["tr"];
+            for (let j = 0; j < tableTRData.length; j++) {
+              const tableTDData = tableTRData[j]["td"];
+              console.log("tableTD", tableTRData[j]["td"]);
+              var cells = document.createElement("td");
+              cells.ondragover = function (e) {
+                e.preventDefault();
+                e.target.classList.add("table_drag");
+                if (!e.target.hasChildNodes()) {
+                  e.target.style.border = "3px solid blue";
+                }
+                if (e.target.classList.contains("imageInput")) {
+                  e.target.style.border = "none";
+                }
+              };
+              cells.ondragleave = (e) => {
+                e.preventDefault();
+                if (
+                  !e.target.hasChildNodes() &&
+                  !e.target.classList.contains("imageInput")
+                ) {
+                  e.target.style.border = "1px solid black";
+                }
+                if (e.target.classList.contains("imageInput")) {
+                  e.target.style.border = "none";
+                }
+              };
+              cells.className = "dropp";
+              //  tableTDData.
+              const cellsDiv = document.createElement("div");
+              const dataType = tableTDData.type;
+              cellsDiv.className =
+                (dataType == "DATE_INPUT" && "dateInput") ||
+                (dataType == "TEXT_INPUT" && "textInput") ||
+                (dataType == "IMAGE_INPUT" && "imageInput") ||
+                (dataType == "SIGN_INPUT" && "signInput");
+              if (dataType == "DATE_INPUT") {
+                setStartDate(new Date());
+                setMethod("select");
 
-          tableField.append(tabb);
-          var cells = tabb.getElementsByTagName("td");
-
-          for (var i = 0; i < cells.length; i++) {
-            cells[i].onclick = function () {
-              if (this.hasAttribute("data-clicked")) {
-                return;
+                function dateClick() {
+                  document.getElementById("date_picker").click();
+                  setRightSideDateMenu(false);
+                }
+                cellsDiv.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  handleClicked("calendar2");
+                  setRightSideDateMenu(false);
+                  if (e.target.innerText != "mm/dd/yyyy") {
+                    if (e.target.innerText.includes("/")) {
+                      const setDate = new Date(e.target.innerText);
+                      setMethod("first");
+                      setStartDate(setDate);
+                    } else {
+                      if (e.target.innerText.includes("-")) {
+                        setMethod("fourth");
+                      } else {
+                        setMethod("second");
+                      }
+                      const setDate = new Date(e.target.innerText);
+                      setStartDate(setDate);
+                    }
+                  }
+                  setSidebar(true);
+                  setTimeout(dateClick, 0);
+                  e.stopPropagation();
+                };
               }
-              this.setAttribute("data-clicked", "yes");
-              this.setAttribute("data-text", this.innerHtml);
-
-              var input = document.createElement("input");
-              input.setAttribute("type", "text");
-              // input.value = this.innerHtml;
-              input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
-              input.style.height =
-                this.offsetHeight - this.clientTop * 2 + "px";
-              input.style.border = "0px";
-              input.style.fontFamily = "inherit";
-              input.style.fontSize = "inherit";
-              input.style.textAlign = "inherit";
-              input.style.backgroundColor = "LightGoldenRodYellow";
-
-              input.onblur = function () {
-                var td = input.parentElement;
-                var org_text = input.parentElement.getAttribute("data-text");
-                var current_text = this.value;
-
-                if (org_text != current_text && current_text !== "") {
-                  td.removeAttribute("data-clicked");
-                  td.removeAttribute("data-text");
-                  td.innerHTML = current_text;
-                  td.style.cssText = "padding: 5px";
-                } else {
-                  td.removeAttribute("data-clicked");
-                  td.removeAttribute("data-text");
-                  td.style.cssText = "padding: 5px";
-                  input.remove();
-                }
-              };
-
-              input.onkeydown = function (event) {
-                if (event.keyCode == 13) {
-                  this.onblur();
-                }
-              };
-              this.innerHtml = "";
-              this.style.cssText = "padding: 0px 0px";
-              this.append(input);
-              this.firstElementChild.select();
-            };
+              if (dataType == "TEXT_INPUT") {
+                cellsDiv.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  // handleClicked("align2");
+                  // setSidebar(true);
+                  handleClicked("align2", "table2");
+                  setSidebar(true);
+                  e.stopPropagation();
+                };
+              }
+              if (dataType == "IMAGE_INPUT") {
+                cellsDiv.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  // handleClicked("image2");
+                  // setSidebar(true);
+                  handleClicked("image2", "table2");
+                  setSidebar(true);
+                  console.log("imageclick test", e.target);
+                  e.stopPropagation();
+                };
+              }
+              if (dataType == "SIGN_INPUT") {
+                cellsDiv.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  // handleClicked("signs2");
+                  // setSidebar(true);
+                  handleClicked("signs2", "table2");
+                  setSidebar(true);
+                  e.stopPropagation();
+                };
+              }
+              cellsDiv.setAttribute("contenteditable", true);
+              cellsDiv.style.width = "100%";
+              cellsDiv.style.height = "100%";
+              cellsDiv.style.backgroundColor = "#0000";
+              cellsDiv.style.borderRadius = "0px";
+              cellsDiv.style.outline = "0px";
+              cellsDiv.style.overflow = "overlay";
+              cellsDiv.innerHTML = tableTDData?.data;
+              if (dataType) {
+                cells.appendChild(cellsDiv);
+              }
+              cells.ondrop = handleDropp;
+              tabbTR.appendChild(cells);
+            }
+            tabb.appendChild(tabbTR);
           }
+          tableField.append(tabb);
+          // var cells = tabb.getElementsByTagName("td");
+
+          // for (var i = 0; i < cells.length; i++) {
+          //   cells[i].onclick = function () {
+          //     if (this.hasAttribute("data-clicked")) {
+          //       return;
+          //     }
+          //     this.setAttribute("data-clicked", "yes");
+          //     this.setAttribute("data-text", this.innerHtml);
+
+          //     var input = document.createElement("input");
+          //     input.setAttribute("type", "text");
+          //     // input.value = this.innerHtml;
+          //     input.style.width = this.offsetWidth - this.clientLeft * 2 + "px";
+          //     input.style.height =
+          //       this.offsetHeight - this.clientTop * 2 + "px";
+          //     input.style.border = "0px";
+          //     input.style.fontFamily = "inherit";
+          //     input.style.fontSize = "inherit";
+          //     input.style.textAlign = "inherit";
+          //     input.style.backgroundColor = "LightGoldenRodYellow";
+
+          //     input.onblur = function () {
+          //       var td = input.parentElement;
+          //       var org_text = input.parentElement.getAttribute("data-text");
+          //       var current_text = this.value;
+
+          //       if (org_text != current_text && current_text !== "") {
+          //         td.removeAttribute("data-clicked");
+          //         td.removeAttribute("data-text");
+          //         td.innerHTML = current_text;
+          //         td.style.cssText = "padding: 5px";
+          //       } else {
+          //         td.removeAttribute("data-clicked");
+          //         td.removeAttribute("data-text");
+          //         td.style.cssText = "padding: 5px";
+          //         input.remove();
+          //       }
+          //     };
+
+          //     input.onkeydown = function (event) {
+          //       if (event.keyCode == 13) {
+          //         this.onblur();
+          //       }
+          //     };
+          //     this.innerHtml = "";
+          //     this.style.cssText = "padding: 0px 0px";
+          //     this.append(input);
+          //     this.firstElementChild.select();
+          //   };
+          // }
 
           // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
@@ -1690,7 +1799,7 @@ const MidSection = React.forwardRef((props, ref) => {
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
           // imageField.classList.add("focussed");
-          handleClicked("image2");
+          handleClicked("image2", "table2");
           setSidebar(true);
         };
 
