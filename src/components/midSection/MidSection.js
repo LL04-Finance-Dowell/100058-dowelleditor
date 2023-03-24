@@ -558,76 +558,99 @@ const MidSection = React.forwardRef((props, ref) => {
   }
 
   function table_dropdown_focuseddClassMaintain(e) {
+    console.log("tabletargettest", e.target);
+
+    if (
+      !e.target?.classList?.contains("addImageButtonInput") &&
+      !e.target?.classList?.contains("addSignButtonInput")
+    ) {
+      let allDiv = document.getElementsByClassName("focussedd");
+      for (let i = 0; i < allDiv.length; i++) {
+        allDiv[i].classList.remove("focussedd");
+      }
+      if (e.target.parentElement.classList.contains("holderDIV")) {
+        e.target.parentElement.classList.add("focussedd");
+      } else if (
+        e.target.parentElement.parentElement.classList.contains("holderDIV")
+      ) {
+        e.target.parentElement.parentElement.classList.add("focussedd");
+      } else if (
+        e.target.parentElement.parentElement.parentElement.classList.contains(
+          "holderDIV"
+        )
+      ) {
+        e.target.parentElement.parentElement.parentElement.classList.add(
+          "focussedd"
+        );
+      } else if (
+        e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+          "holderDIV"
+        )
+      ) {
+        e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
+          "focussedd"
+        );
+      } else if (
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+          "holderDIV"
+        )
+      ) {
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+          "focussedd"
+        );
+      } else if (
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+          "holderDIV"
+        )
+      ) {
+        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+          "focussedd"
+        );
+      }
+      let focussedDiv = document.getElementsByClassName("focussed");
+      for (let i = 0; i < focussedDiv.length; i++) {
+        focussedDiv[i].classList.remove("focussed");
+      }
+      if (e.target.classList.contains("dropdownInput")) {
+        e.target.classList.add("focussed");
+      } else if (e.target.parentElement.classList.contains("dropdownInput")) {
+        e.target.parentElement.classList.add("focussed");
+      }
+      if (e.target.classList.contains("tableInput")) {
+        e.target.classList.add("focussed");
+      } else if (e.target.parentElement.classList.contains("tableInput")) {
+        e.target.parentElement.classList.add("focussed");
+      }
+      if (e.target.classList.contains("iframeInput")) {
+        e.target.classList.add("focussed");
+      } else if (e.target.parentElement.classList.contains("iframeInput")) {
+        e.target.parentElement.classList.add("focussed");
+      }
+      if (e.target.classList.contains("scaleInput")) {
+        e.target.classList.add("focussed");
+      } else if (e.target.parentElement.classList.contains("scaleInput")) {
+        e.target.parentElement.classList.add("focussed");
+      }
+      // e.target.classList.add("focussed");
+    }
+  }
+  // function table_dropdown_focuseddClassMaintain(e) {}
+  function table_focuseddClassMaintain(e) {
+    e.preventDefault();
     let allDiv = document.getElementsByClassName("focussedd");
     for (let i = 0; i < allDiv.length; i++) {
       allDiv[i].classList.remove("focussedd");
     }
-    if (e.target.parentElement.classList.contains("holderDIV")) {
-      e.target.parentElement.classList.add("focussedd");
-    } else if (
-      e.target.parentElement.parentElement.classList.contains("holderDIV")
-    ) {
-      e.target.parentElement.parentElement.classList.add("focussedd");
-    } else if (
-      e.target.parentElement.parentElement.parentElement.classList.contains(
-        "holderDIV"
-      )
-    ) {
-      e.target.parentElement.parentElement.parentElement.classList.add(
-        "focussedd"
-      );
-    } else if (
-      e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-        "holderDIV"
-      )
-    ) {
-      e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
-        "focussedd"
-      );
-    } else if (
-      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-        "holderDIV"
-      )
-    ) {
-      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-        "focussedd"
-      );
-    } else if (
-      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-        "holderDIV"
-      )
-    ) {
-      e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-        "focussedd"
-      );
-    }
-    let focussedDiv = document.getElementsByClassName("focussed");
-    for (let i = 0; i < focussedDiv.length; i++) {
-      focussedDiv[i].classList.remove("focussed");
-    }
-    if (e.target.classList.contains("dropdownInput")) {
-      e.target.classList.add("focussed");
-    } else if (e.target.parentElement.classList.contains("dropdownInput")) {
-      e.target.parentElement.classList.add("focussed");
-    }
-    if (e.target.classList.contains("tableInput")) {
-      e.target.classList.add("focussed");
-    } else if (e.target.parentElement.classList.contains("tableInput")) {
-      e.target.parentElement.classList.add("focussed");
-    }
-    if (e.target.classList.contains("iframeInput")) {
-      e.target.classList.add("focussed");
-    } else if (e.target.parentElement.classList.contains("iframeInput")) {
-      e.target.parentElement.classList.add("focussed");
-    }
-    if (e.target.classList.contains("scaleInput")) {
-      e.target.classList.add("focussed");
-    } else if (e.target.parentElement.classList.contains("scaleInput")) {
-      e.target.parentElement.classList.add("focussed");
-    }
-    // e.target.classList.add("focussed");
+    e.target.classList.add("focussedd");
   }
 
+  function imageFocuseddClassMaintain(e) {
+    let allDiv = document.getElementsByClassName("focussedd");
+    for (let i = 0; i < allDiv.length; i++) {
+      allDiv[i].classList.remove("focussedd");
+    }
+    e.stopPropagation();
+  }
   // table ondrop handle after retrieve
 
   const onPost = () => {
@@ -982,6 +1005,7 @@ const MidSection = React.forwardRef((props, ref) => {
             // focuseddClassMaintain(e);
 
             table_dropdown_focuseddClassMaintain(e);
+            // table_focuseddClassMaintain(e);
 
             handleClicked("table2");
             setSidebar(true);
@@ -998,6 +1022,7 @@ const MidSection = React.forwardRef((props, ref) => {
               const tableTDData = tableTRData[j]["td"];
               // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
+              cells.className = "dropp";
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
@@ -1020,7 +1045,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   e.target.style.border = "none";
                 }
               };
-              cells.className = "dropp";
+
               //  tableTDData.
               const cellsDiv = document.createElement("div");
               const dataType = tableTDData.type;
@@ -1085,8 +1110,6 @@ const MidSection = React.forwardRef((props, ref) => {
               if (dataType == "SIGN_INPUT") {
                 cellsDiv.onclick = (e) => {
                   focuseddClassMaintain(e);
-                  // handleClicked("signs2");
-                  // setSidebar(true);
                   handleClicked("signs2", "table2");
                   setSidebar(true);
                   e.stopPropagation();
@@ -1099,10 +1122,45 @@ const MidSection = React.forwardRef((props, ref) => {
               cellsDiv.style.borderRadius = "0px";
               cellsDiv.style.outline = "0px";
               cellsDiv.style.overflow = "overlay";
-              cellsDiv.innerHTML = tableTDData?.data;
-              if (dataType) {
-                cells.appendChild(cellsDiv);
+
+              if (dataType == "IMAGE_INPUT") {
+                const imageButton = document.createElement("div");
+                imageButton.className = "addImageButton";
+                imageButton.innerText = "Choose File";
+                imageButton.style.display = "none";
+
+                const imgBtn = document.createElement("input");
+                imgBtn.className = "addImageButtonInput";
+                imgBtn.type = "file";
+                imgBtn.style.objectFit = "cover";
+                var uploadedImage = "";
+
+                imgBtn.addEventListener("input", () => {
+                  const reader = new FileReader();
+
+                  reader.addEventListener("load", () => {
+                    uploadedImage = reader.result;
+                    document.querySelector(
+                      ".focussed"
+                    ).style.backgroundImage = `url(${uploadedImage})`;
+                  });
+                  reader.readAsDataURL(imgBtn.files[0]);
+                });
+
+                cellsDiv.style.backgroundImage = `${tableTDData.data}`;
+
+                imageButton.append(imgBtn);
+                if (dataType) {
+                  cells.appendChild(cellsDiv);
+                  cells.appendChild(imgBtn);
+                }
+              } else {
+                cellsDiv.innerHTML = `${tableTDData.data}`;
+                if (dataType) {
+                  cells.appendChild(cellsDiv);
+                }
               }
+
               cells.ondrop = handleDropp;
               tabbTR.appendChild(cells);
             }

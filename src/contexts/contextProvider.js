@@ -191,14 +191,17 @@ export const ContextProvider = ({ children }) => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
-        imageField.innerHTML = "Image here";
+        // imageField.innerHTML = "Image here";
         imageField.onclick = (e) => {
-          focuseddClassMaintain(e);
+          // table_dropdown_focuseddClassMaintain(e);
           // imageField.classList.add("focussed");
+          focuseddClassMaintain(e);
+          // imageFocuseddClassMaintain(e);
+          e.preventDefault();
           handleClicked("image2", "table2");
           // handleClicked("image2");
           setSidebar(true);
-          console.log("imageclick test", e.target);
+          // console.log("imageclick test", e.target);
           e.stopPropagation();
         };
 
@@ -221,12 +224,13 @@ export const ContextProvider = ({ children }) => {
             uploadedImage = reader.result;
             document.querySelector(
               ".focussed"
-            ).parentElement.style.backgroundImage = `url(${uploadedImage})`;
+            ).style.backgroundImage = `url(${uploadedImage})`;
           });
           reader.readAsDataURL(imgBtn.files[0]);
           // console.log("baprebap", document.querySelector(".focussed"));
           // document.querySelector(".focussed").innerHTML = null;
         });
+
         // if (uploadedImage) {
         // console.log("imageField", imageField, uploadedImage);
         // }
@@ -401,13 +405,14 @@ export const ContextProvider = ({ children }) => {
       allDiv[i].classList.remove("focussedd");
     }
     e.target.parentElement.classList.add("focussedd");
+    // e.target.parentElement.classList.add("test_image");
 
     let focussedDiv = document.getElementsByClassName("focussed");
     for (let i = 0; i < focussedDiv.length; i++) {
       focussedDiv[i].classList.remove("focussed");
     }
     e.target.classList.add("focussed");
-
+    console.log("focussed class maintain", e);
     // e.target.style.backgroundColor = "lightBlue";
   }
 

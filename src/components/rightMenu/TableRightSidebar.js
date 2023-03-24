@@ -32,11 +32,11 @@ const TableRightSidebar = () => {
 
   useEffect(() => {
     const focusseddDiv = document.querySelector(".focussedd");
-    if (focusseddDiv?.firstChild.hasChildNodes()) {
+    if (focusseddDiv?.firstChild?.hasChildNodes()) {
       setIsCreateTableBtnDisabled(true);
     }
     if (
-      focusseddDiv?.firstChild.hasChildNodes() &&
+      focusseddDiv?.firstChild?.hasChildNodes() &&
       focusseddDiv?.firstChild?.firstChild?.classList?.contains(
         "row_col_add_div"
       )
@@ -44,7 +44,9 @@ const TableRightSidebar = () => {
       setIsDisableTableRightMenu(true);
     }
   }, [isDisableTableRightMenu, isCreateTableBtnDisabled]);
+  //
 
+  //
   function makeTable() {
     var table = document.createElement("table");
     table.style.border = "2";
@@ -316,6 +318,9 @@ const TableRightSidebar = () => {
   };
   function removeTable() {
     const focusseddElmnt = document.querySelector(".focussedd");
+    if (focusseddElmnt.classList.contains("dropp")) {
+      document.querySelector(".focussedd").remove();
+    }
     if (focusseddElmnt.classList.contains("holderDIV")) {
       document.querySelector(".focussedd").remove();
     }

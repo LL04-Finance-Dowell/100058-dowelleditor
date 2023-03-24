@@ -17,20 +17,24 @@ const ImageRightSidebar = () => {
 
   //clicked choose file button
   const chooseFileClick = (e) => {
-    // handleClicked("image2");
-    // setSidebar(false);
-    var imageDiv = document.querySelector(".focussed");
-    console.log("iamgeDiv from imageright menu", imageDiv);
-    handleClicked("image2", "table2");
+    // e.stopPropagation();
+
+    var imageDiv = document.querySelector(".focussedd");
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
-    // var imageDiv = document.querySelector(".focussed");
-    // console.log("iamgeDiv from imageright menu", imageDiv);
-    if (imageDiv) {
-      imageDiv.innerHTML = null;
-    }
+    // console.log(
+    //   "imageDiv.classList.contains",
+    //   imageDiv.classList.contains("holderDIV")
+    // );
+    // if (!imageDiv.classList.contains("holderDIV")) {
+    // imageDiv.classList.add("focussedd");
+    // }
+    // imageDiv.firstElementChild.classList.add("focussed");
+
+    handleClicked("image2", "table2");
+
     if (imageDiv) {
       if (imageDiv.parentElement.classList.contains("holderDIV")) {
         imageDiv.parentElement.classList.add("element_updated");

@@ -372,8 +372,13 @@ const Header = () => {
                       (TdDivClassName == "textInput" && "TEXT_INPUT") ||
                       (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
                       (TdDivClassName == "signInput" && "SIGN_INPUT"),
-                    data: tableChildren[i].children[j]?.firstElementChild
-                      ?.innerHTML,
+                    // if(){
+                    data:
+                      TdDivClassName == "imageInput"
+                        ? tableChildren[i].children[j]?.firstElementChild.style
+                            .backgroundImage
+                        : tableChildren[i].children[j]?.firstElementChild
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
