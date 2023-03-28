@@ -85,6 +85,9 @@ export const ContextProvider = ({ children }) => {
   // Scale id
   const [scaleId, setScaleId] = useState('id');
   const [scaleData, setScaleData] = useState([]);
+  const [custom1, setCustom1] = useState('');
+  const [custom2, setCustom2] = useState('');
+  const [custom3, setCustom3] = useState('');
 
   //Company id
   const [companyId, setCompanyId] = useState('');
@@ -157,6 +160,12 @@ export const ContextProvider = ({ children }) => {
         setScaleId,
         scaleData,
         setScaleData,
+        custom1,
+        setCustom1,
+        custom2,
+        setCustom2,
+        custom3,
+        setCustom3,
         companyId,
         setCompanyId,
         isMenuVisible,

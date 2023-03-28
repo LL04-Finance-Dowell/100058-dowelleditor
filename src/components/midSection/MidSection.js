@@ -45,7 +45,7 @@ const dummyData = {
 };
 
 // const MidSection = ({showSidebar}) => {
-const MidSection = () => {
+const MidSection = React.forwardRef((props, ref) => {
   const {
     sidebar,
     dropdownName,
@@ -84,9 +84,6 @@ const MidSection = () => {
     isMenuVisible,
     setIsMenuVisible,
   } = useStateContext();
-
-  // const [scaleData, setScaleData] = useState([]);
-  console.log('lkkk', scaleData);
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
@@ -528,8 +525,13 @@ const MidSection = () => {
     // });
     holderDIV.addEventListener('focusout', function (e) {
       // holderDIV.classList.remove("focussedd");
+      // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
+      //   holderDIV.style.border = "3px dotted gray";
+
+      // }
       holderDIV.classList.remove('zIndex-two');
-      holderDIV.style.border = '2px dotted gray';
+      holderDIV.style.border = '3px dotted gray';
+
       holderMenu.remove();
       resizerTL.remove();
       resizerTR.remove();
@@ -906,10 +908,10 @@ const MidSection = () => {
           // }
           if (
             decoded.details.action === 'document' &&
-            element.data == 'Place your signature here'
+            element.data == 'Signature here'
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
-            signField.innerHTML = 'Place your signature here';
+            signField.innerHTML = 'Signature here';
           } else if (decoded.details.action === 'document' && element.data) {
             signField.innerHTML = `<img src=${element.data} />`;
           } else {
@@ -1594,10 +1596,6 @@ const MidSection = () => {
             fomat: 'numbers',
             time: '00',
             name: `${title}_scale`,
-            url: `${scaleData?.scale_urls}`,
-            left: 'good',
-            right: 'best',
-            center: 'neutral',
             left: 'good',
             right: 'best',
             center: 'neutral',
@@ -1605,7 +1603,7 @@ const MidSection = () => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res.data.success);
+            console.log(res.data);
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
@@ -1799,17 +1797,17 @@ const MidSection = () => {
 
         tableField.onclick = (e) => {
           // focuseddClassMaintain(e);
-          tableField.removeAttribute('data-bs-toggle', 'modal');
+          // tableField.removeAttribute("data-bs-toggle", "modal");
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
           handleClicked('table2');
           setSidebar(true);
         };
-        tableField.ondblclick = (e) => {
-          tableField.setAttribute('data-bs-toggle', 'modal');
-          tableField.setAttribute('data-bs-target', '#tableUpdateModal');
-          tableField.click();
-        };
+        // tableField.ondblclick = (e) => {
+        //   tableField.setAttribute("data-bs-toggle", "modal");
+        //   tableField.setAttribute("data-bs-target", "#tableUpdateModal");
+        //   tableField.click();
+        // };
 
         // tableField.appendChild(tab)
 
@@ -2181,7 +2179,7 @@ const MidSection = () => {
         return (
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>
-          <div key={index} className="midSection">
+          <div ref={ref} key={index} className="midSection">
             <Container
               as="div"
               ref={midSectionRef}
@@ -2228,6 +2226,6 @@ const MidSection = () => {
     //   </Container>
     // </div>
   );
-};
+});
 
 export default MidSection;

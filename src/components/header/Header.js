@@ -26,9 +26,38 @@ import { current } from '@reduxjs/toolkit';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AiFillPrinter } from 'react-icons/ai';
+// import Printer from "../../utils/spinner/Printer";
+
+// import React, { useRef } from "react";
+import ReactToPrint from 'react-to-print';
+import MidSection from '../midSection/MidSection';
+// import MidSection from "../../components/midSection/MidSection";
+
+// const Printer = () => {
+//   const componentRef = useRef();
+
+//   return (
+//     <div>
+//       <ReactToPrint
+//         trigger={() => <button>Print!</button>}
+//         content={() => componentRef.current}
+//       />
+//       <MidSection ref={componentRef} />
+//     </div>
+//   );
+// };
+// export default Printer;
 
 const Header = () => {
   const inputRef = useRef(null);
+  const componentRef = useRef(null);
+
+  // import { ToastContainer, toast } from 'react-toastify';
+  // import 'react-toastify/dist/ReactToastify.css';
+  // import { AiFillPrinter } from 'react-icons/ai';
+
+  // const Header = () => {
+  // const inputRef = useRef(null);
   const menuRef = useRef(null);
   const {
     item,
@@ -50,13 +79,22 @@ const Header = () => {
     setIsDataRetrieved,
     setIsFinializeDisabled,
     scaleId,
+    setScaleId,
     scaleData,
     setScaleData,
+    custom1,
+    setCustom1,
+    custom2,
+    setCustom2,
+    custom3,
+    setCustom3,
     companyId,
     setCompanyId,
     isMenuVisible,
     setIsMenuVisible,
   } = useStateContext();
+
+  const [printContent, setPrintContent] = useState(false);
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -420,15 +458,16 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   var decoded = jwt_decode(token);
-  console.log(decoded);
-  const { action, authorized, process_id, document_map, _id } =
+  console.log(decoded.details);
+  const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
 
-  console.log(authorized);
-  console.log(process_id);
-  console.log(_id);
+  // console.log(authorized);
+  // console.log(process_id);
+  // console.log(_id);
+  // console.log(role);
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
@@ -510,6 +549,29 @@ const Header = () => {
       .catch((err) => {
         setIsLoading(false);
         //console.log(err);
+      });
+
+    Axios.post('https://100035.pythonanywhere.com/api/nps_custom_data/', {
+      template_id: decoded.details._id,
+      scale_id: scaleId,
+      custom_input_groupings: {
+        group1: {
+          custom_input_1: custom1,
+          custom_input_2: custom2,
+          custom_input_3: custom3,
+        },
+      },
+    })
+      .then((res) => {
+        if (res.status == 200) {
+          setIsLoading(false);
+          sendMessage();
+        }
+        console.log(res, 'kk');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
       });
   }
 
@@ -685,7 +747,7 @@ const Header = () => {
     }
   }
 
-  console.log('page count check', item);
+  // console.log('page count check', item);
   const saveButton = document.getElementById('saving-buttonn');
   function handleFinalize() {
     saveButton.click();
@@ -698,6 +760,7 @@ const Header = () => {
           authorized: authorized,
           document_id: _id,
           company_id: companyId,
+          role: role,
         }
       )
         .then((res) => {
@@ -721,6 +784,7 @@ const Header = () => {
       authorized: authorized,
       document_id: _id,
       company_id: companyId,
+      role: role,
     })
       .then((res) => {
         setIsLoading(false);
@@ -738,23 +802,12 @@ const Header = () => {
     const bodyEl = document.getElementsByTagName('BODY')[0];
     bodyEl.style.visibility = 'hidden';
     const midsection = document.getElementsByClassName('midSection_container');
-    console.log('midsection length', midsection.length);
     for (let i = 0; i < midsection?.length; i++) {
       midsection[i].style.visibility = 'visible';
-      // midsection[0].style.marginTop = "-420px";
-      midsection[i].style.padding = '0px';
-      midsection[i].style.position = 'absolute';
-      midsection[i].style.top = 0;
-      midsection[i].style.left = 0;
     }
 
     window.print();
     bodyEl.style.visibility = 'visible';
-    for (let i = 0; i < midsection?.length; i++) {
-      midsection[i].style.position = 'relative';
-
-      midsection[i].style.marginTop = '0px';
-    }
   };
 
   // console.log("page count check", item);
@@ -793,14 +846,30 @@ const Header = () => {
                     <BiCopyAlt />
                     <p>Copy</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handleCopy}>
-                    <BiCopyAlt />
-                    <p>Paste</p>
+                  <div
+                    className="d-flex cursor_pointer"
+                    onClick={() => setPrintContent(true)}
+                  >
+                    <ReactToPrint
+                      trigger={
+                        (e) => (
+                          <p>
+                            {/* {" "} */}
+                            <AiFillPrinter /> Print
+                          </p>
+                        )
+                        // setPrintContent(true)
+                        // {/* {" "} */}
+                        // </>
+                      }
+                      content={() => componentRef.current}
+                      // onBeforeGetContent={() => console.log("test")}
+                      // removeAfterPrint="true"
+                      // onBeforePrint={() => setPrintContent(true)}
+                      onAfterPrint={() => setPrintContent(false)}
+                    />
+                    {printContent && <MidSection ref={componentRef} />}
                   </div>
-                  <button className="d-flex page_btn p-0" onClick={hanldePrint}>
-                    <AiFillPrinter />
-                    <p>Print</p>
-                  </button>
 
                   {/* <img onClick={handleRedo} src={headerData[1].icon} alt="" /> */}
                   {/* <img onClick={handleCut} src={headerData[2].icon} alt="" /> */}

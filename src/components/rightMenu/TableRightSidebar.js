@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import $ from 'jquery';
 
@@ -26,6 +26,26 @@ const TableRightSidebar = () => {
   } = useStateContext();
   const [numOfColumn, setNumOfColumn] = useState(null);
   const [numOfRow, setNumOfRow] = useState(null);
+
+  const [isDisableTableRightMenu, setIsDisableTableRightMenu] = useState(false);
+  const [isCreateTableBtnDisabled, setIsCreateTableBtnDisabled] =
+    useState(false);
+
+  useEffect(() => {
+    const focusseddDiv = document.querySelector('.focussedd');
+    if (focusseddDiv?.firstChild.hasChildNodes()) {
+      setIsCreateTableBtnDisabled(true);
+    }
+    if (
+      focusseddDiv?.firstChild.hasChildNodes() &&
+      focusseddDiv?.firstChild?.firstChild?.classList?.contains(
+        'row_col_add_div'
+      )
+    ) {
+      setIsDisableTableRightMenu(true);
+    }
+  }, [isDisableTableRightMenu, isCreateTableBtnDisabled]);
+
   function focuseddClassMaintain(e) {
     let allDiv = document.getElementsByClassName('focussedd');
     for (let i = 0; i < allDiv.length; i++) {
@@ -44,9 +64,22 @@ const TableRightSidebar = () => {
 
   const handleDropp = (e) => {
     e.preventDefault();
+    if (
+      !e.target.hasChildNodes() &&
+      !e.target.classList.contains('imageInput')
+    ) {
+      e.target.style.border = '1px solid black';
+    }
+    if (e.target.classList.contains('imageInput')) {
+      e.target.style.border = 'none';
+    }
     const typeOfOperation = e.dataTransfer.getData('text/plain');
-    //console.log("cell has been dropped on " + typeOfOperation);
-    if (!e.target.hasChildNodes()) {
+    // console.log("cell has been dropped on " + typeOfOperation);
+    // console.log("e.target", e.target, e.target.hasChildNodes());
+    if (
+      !e.target.hasChildNodes() &&
+      !e.target.classList.contains('imageInput')
+    ) {
       if (typeOfOperation === 'TEXT_INPUT') {
         let inputField = document.createElement('div');
         //  inputField.setAttribute('draggable', true);
@@ -131,11 +164,11 @@ const TableRightSidebar = () => {
         imageField.innerHTML = 'Image here';
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
-          e.target.innerHTML = null;
           // imageField.classList.add("focussed");
           handleClicked('image2', 'table2');
           // handleClicked("image2");
           setSidebar(true);
+          console.log('imageclick test', e.target);
           e.stopPropagation();
         };
 
@@ -161,8 +194,12 @@ const TableRightSidebar = () => {
             ).parentElement.style.backgroundImage = `url(${uploadedImage})`;
           });
           reader.readAsDataURL(imgBtn.files[0]);
+          // console.log("baprebap", document.querySelector(".focussed"));
+          // document.querySelector(".focussed").innerHTML = null;
         });
-
+        // if (uploadedImage) {
+        // console.log("imageField", imageField, uploadedImage);
+        // }
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
         e.target.append(imageField);
@@ -395,30 +432,46 @@ const TableRightSidebar = () => {
         cells[i].ondragover = function (e) {
           e.preventDefault();
           e.target.classList.add('table_drag');
-          e.target.style.border = '2px solid green';
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = '3px solid blue';
+          }
+          if (e.target.classList.contains('imageInput')) {
+            e.target.style.border = 'none';
+          }
           // const afterElement = getDragAfterElement(cells[i], e.clientY);
           //console.log(afterElement);
-          const draggable = document.querySelector('.dragging');
-          cells[i].appendChild(draggable);
+          // const draggable = document.querySelector(".dragging");
+          // cells[i].appendChild(draggable);
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
-          // e.target.style.border = "1px solid black";
+          if (
+            !e.target.hasChildNodes() &&
+            !e.target.classList.contains('imageInput')
+          ) {
+            e.target.style.border = '1px solid black';
+          }
+          if (e.target.classList.contains('imageInput')) {
+            e.target.style.border = 'none';
+          }
         };
         // cells[i].ondragover = function (e) {
         //   e.preventDefault();
         //   e.target.style.border = "2px solid green";
         //   alert("drag has been ended");
         // };
-        cells[i].ondrop = function (e) {
-          e.preventDefault();
-          e.target.style.border = '1px solid black';
-          // alert("drag has been ended");
-        };
-        cells[i].addEventListener('focusout', function (e) {
-          e.target.style.border = '1px solid black';
-          console.log('focus out from', e.target);
-        });
+        // cells[i].ondrop = function (e) {
+        //   e.preventDefault();
+        //   e.target.style.border = "1px solid black";
+        //   // alert("drag has been ended");
+        // };
+        // cells[i].addEventListener("focusout", function (e) {
+        //   e.target.style.border = "1px solid black";
+        //   console.log("focus out from", e.target);
+        // });
+        // cells[i].onfocusout = () => {
+        //   alert("Hi focusout");
+        // };
         // cells[i].ondragleave = (e) => {
         //   e.target.style = "2px solid black";
         // };
@@ -490,12 +543,13 @@ const TableRightSidebar = () => {
         //   this.append(input);
         //   this.firstElementChild.select();
         // };
-
+        console.log('cells[i]', cells[i].classList.contains('dropp'));
         cells[i].ondrop = handleDropp;
         document.getElementById('rows').value = '';
         document.getElementById('cols').value = '';
       }
     }
+    setIsCreateTableBtnDisabled(true);
   }
 
   function handleColDelClick(e) {
@@ -507,7 +561,7 @@ const TableRightSidebar = () => {
     if (focusseddDiv?.firstElementChild?.classList.contains('tableInput')) {
       if (focusseddDiv?.firstElementChild?.firstElementChild) {
         const numOfTr =
-          focusseddDiv?.firstElementChild?.firstElementChild?.rows?.length;
+          focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
         const numOfTd =
           focusseddDiv?.firstElementChild?.firstElementChild?.querySelectorAll(
             'td'
@@ -703,6 +757,7 @@ const TableRightSidebar = () => {
             rowDeleteBtn.innerText = 'Del Row';
             rowDeleteBtn.onclick = (e) => {
               e.target?.parentElement?.parentElement?.remove();
+              e.stopPropagation();
             };
             td.style.border = 'none';
             td.style.background = '#fff';
@@ -710,7 +765,7 @@ const TableRightSidebar = () => {
           }
           tr.appendChild(td);
         }
-        modalTable.appendChild(tr);
+        // editableTable.appendChild(tr);
       }
     }
   };
@@ -736,6 +791,7 @@ const TableRightSidebar = () => {
             for (let i = 0; i < allTableTr.length; i++) {
               modalTable.querySelectorAll('tr')[i].childNodes[index].remove();
             }
+            e.stopPropagation();
           };
           td.style.border = 'none';
           td.appendChild(colDeleteBtn);
@@ -746,11 +802,16 @@ const TableRightSidebar = () => {
     }
   };
   function removeTable() {
+    // const div = document.getElementById("holderId")
+    // const tab = document.getElementsByClassName("tableInput")
+    // const tabData = document.getElementsByClassName("droppable")
+    // document.querySelector(".focussedd").remove();
     const focusseddElmnt = document.querySelector('.focussedd');
     if (focusseddElmnt.classList.contains('holderDIV')) {
       document.querySelector('.focussedd').remove();
     }
   }
+  // console.log("isDisableTableRightMenu", isDisableTableRightMenu);
   return (
     <>
       <div>
@@ -762,7 +823,8 @@ const TableRightSidebar = () => {
           min="1"
           id="rows"
           className="shadow bg-white rounded mb-4"
-          defaultValue={numOfRow}
+          // defaultValue={numOfRow}
+          disabled={isDisableTableRightMenu}
         />
 
         <Form.Label>Enter Number of columns</Form.Label>
@@ -773,26 +835,32 @@ const TableRightSidebar = () => {
           min="1"
           id="cols"
           className="shadow bg-white rounded mb-4"
-          defaultValue={numOfColumn}
+          // defaultValue={numOfColumn}
+          disabled={isDisableTableRightMenu}
         />
       </div>
 
       <div className="d-flex mt-2 text-center pt-5">
         {/* {!numOfColumn && !numOfRow ? ( */}
-        <Button variant="secondary" className="px-5 me-3" onClick={makeTable}>
+
+        <Button
+          variant="secondary"
+          className="px-5 me-3"
+          onClick={makeTable}
+          disabled={isDisableTableRightMenu || isCreateTableBtnDisabled}
+        >
           Create Table
         </Button>
-        {/* ) : ( */}
         <Button
           variant="success"
           className="px-5"
-          data-bs-toggle="modal"
-          data-bs-target="#tableUpdateModal"
-          // onClick={updateTable}
+          // data-bs-toggle="modal"
+          // data-bs-target="#tableUpdateModal"
+          onClick={updateTable}
+          disabled={isDisableTableRightMenu}
         >
           Update Table
         </Button>
-        {/* )} */}
       </div>
 
       {/* <div className='dropdown pt-4'>
@@ -814,7 +882,7 @@ const TableRightSidebar = () => {
           Remove Table
         </Button>
       </div>
-      <div
+      {/* <div
         class="modal fade"
         id="tableUpdateModal"
         tabindex="-1"
@@ -848,7 +916,7 @@ const TableRightSidebar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
