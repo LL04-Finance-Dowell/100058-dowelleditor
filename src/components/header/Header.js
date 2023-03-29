@@ -247,8 +247,8 @@ const Header = () => {
   function saveDocument() {
     const txt = document.getElementsByClassName('textInput');
     if (txt.length) {
-      if (txt[0].parentElement.classList.contains('holderDIV')) {
-        for (let h = 0; h < txt.length; h++) {
+      for (let h = 0; h < txt.length; h++) {
+        if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -278,69 +278,74 @@ const Header = () => {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
       for (let h = 0; h < img.length; h++) {
-        const reader = new FileReader();
-        let tempElem = img[h].parentElement;
-        let tempPosn = getPosition(tempElem);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: img[h].parentElement.style.top,
-          left: tempPosn.left,
-          type: 'IMAGE_INPUT',
-          data: img[h].style.backgroundImage,
-          id: `i${h + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (img[h]?.parentElement?.classList?.contains("holderDIV")) {
+          const reader = new FileReader();
+          let tempElem = img[h].parentElement;
+          let tempPosn = getPosition(tempElem);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: img[h].parentElement.style.top,
+            left: tempPosn.left,
+            type: "IMAGE_INPUT",
+            data: img[h].style.backgroundImage,
+            id: `i${h + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
-      // }
     }
 
     const date = document.getElementsByClassName('dateInput');
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
-        let tempElem = date[h].parentElement;
-        let tempPosn = getPosition(tempElem);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: date[h].parentElement.style.top,
-          left: tempPosn.left,
-          type: 'DATE_INPUT',
-          data: date[h].innerHTML,
-          id: `d${h + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (date[h]?.parentElement?.classList?.contains("holderDIV")) {
+          let tempElem = date[h].parentElement;
+          let tempPosn = getPosition(tempElem);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: date[h].parentElement.style.top,
+            left: tempPosn.left,
+            type: "DATE_INPUT",
+            data: date[h].innerHTML,
+            id: `d${h + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
+        }
       }
     }
 
     const sign = document.getElementsByClassName('signInput');
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
-        let tempElem = sign[h].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(sign[h].innerHTML);
-        //console.log(sign[h].firstElementChild);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: sign[h].parentElement.style.top,
-          left: tempPosn.left,
-          type: 'SIGN_INPUT',
-          data:
-            sign[h].firstElementChild === null
-              ? // decoded.details.action === "document"
-                sign[h].innerHTML
-              : sign[h].firstElementChild.src,
-          id: `s${h + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (sign[h]?.parentElement?.classList?.contains("holderDIV")) {
+          let tempElem = sign[h].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(sign[h].innerHTML);
+          //console.log(sign[h].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: sign[h].parentElement.style.top,
+            left: tempPosn.left,
+            type: "SIGN_INPUT",
+            data:
+              sign[h].firstElementChild === null
+                ? // decoded.details.action === "document"
+                  sign[h].innerHTML
+                : sign[h].firstElementChild.src,
+            id: `s${h + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
@@ -348,23 +353,67 @@ const Header = () => {
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
-        // var new_table = document.getElementsByTagName("table")[0];
-        let tempElem = tables[t].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(tables[t].firstElementChild.innerHTML);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: tables[t].parentElement.style.top,
-          left: tempPosn.left,
-          type: 'TABLE_INPUT',
-          data: tables[t].firstElementChild.innerHTML,
-          id: `tab${t + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (tables[t]?.parentElement?.classList?.contains("holderDIV")) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = tables[t].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(tables[t].firstElementChild.innerHTML);
+          function getChildData() {
+            const allTableCCells = [];
+            const tableChildren = tables[t].firstElementChild.children;
+            for (let i = 0; i < tableChildren.length; i++) {
+              const tableTR = { tr: null };
+              const newTableTR = [];
+              for (let j = 0; j < tableChildren[i].children.length; j++) {
+                // const element = tableChildren[i];
 
-        // page.push(elem);
+                const TdDivClassName =
+                  tableChildren[i].children[
+                    j
+                  ]?.firstElementChild?.className.split(" ")[0];
+
+                const trChild = {
+                  td: {
+                    type:
+                      (TdDivClassName == "dateInput" && "DATE_INPUT") ||
+                      (TdDivClassName == "textInput" && "TEXT_INPUT") ||
+                      (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
+                      (TdDivClassName == "signInput" && "SIGN_INPUT"),
+                    // if(){
+                    data:
+                      TdDivClassName == "imageInput"
+                        ? tableChildren[i].children[j]?.firstElementChild.style
+                            .backgroundImage
+                        : tableChildren[i].children[j]?.firstElementChild
+                            ?.innerHTML,
+                    id: `tableTd${j + 1}`,
+                  },
+                };
+
+                newTableTR.push(trChild);
+              }
+              tableTR.tr = newTableTR;
+              allTableCCells.push(tableTR);
+            }
+            console.log("allTableCCells", allTableCCells);
+            return allTableCCells;
+          }
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: tables[t].parentElement.style.top,
+            left: tempPosn.left,
+            type: "TABLE_INPUT",
+            // start work here
+            // data: tables[t].firstElementChild.innerHTML,
+            data: getChildData(),
+            id: `tab${t + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
+
+          // page.push(elem);
+        }
       }
     }
     const iframes = document.getElementsByClassName('iframeInput');
@@ -405,9 +454,10 @@ const Header = () => {
           top: tempPosn.top,
           topp: scales[s].parentElement.style.top,
           left: tempPosn.left,
-          type: 'SCALE_INPUT',
-          data: scales[s].innerText
-            ? 'Scale here'
+          type: "SCALE_INPUT",
+          data: `${title}_scale_${s + 1}`,
+          scale_url: scales[s].innerText
+            ? "Scale here"
             : scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
           scale_url: `${scaleData}`,

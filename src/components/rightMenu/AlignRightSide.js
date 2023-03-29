@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from "react-bootstrap";
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 import {
   BiFont,
   BiAlignLeft,
   BiAlignMiddle,
   BiAlignRight,
-} from 'react-icons/bi';
-import { MdBorderColor, MdFormatColorFill } from 'react-icons/md';
+} from "react-icons/bi";
+import { MdBorderColor, MdFormatColorFill } from "react-icons/md";
 import {
   AiOutlineArrowUp,
   AiOutlineArrowDown,
   AiOutlineFontColors,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 import {
   FaBold,
   FaItalic,
@@ -28,8 +28,8 @@ import {
   FaIndent,
   FaListUl,
   FaListOl,
-} from 'react-icons/fa';
-import { useStateContext } from '../../contexts/contextProvider';
+} from "react-icons/fa";
+import { useStateContext } from "../../contexts/contextProvider";
 
 const AlignRightSide = () => {
   const {
@@ -62,58 +62,58 @@ const AlignRightSide = () => {
 
   const handleBold = () => {
     setBold(!bold);
-    document.execCommand('bold');
+    document.execCommand("bold");
   };
   const handleItalic = () => {
     setItalic(!italic);
-    document.execCommand('italic');
+    document.execCommand("italic");
   };
   const handleUnderline = () => {
     setUnderline(!underline);
-    document.execCommand('underline');
+    document.execCommand("underline");
   };
   const handleStrikethrough = () => {
     setStrikethrough(!strikethrough);
-    document.execCommand('strikeThrough');
+    document.execCommand("strikeThrough");
   };
   const handleFontColor = () => {
-    document.execCommand('forecolor', false);
+    document.execCommand("forecolor", false);
   };
   const handleRightAlign = () => {
-    document.execCommand('justifyRight');
+    document.execCommand("justifyRight");
   };
   const handleLeftAlign = () => {
-    document.execCommand('justifyLeft');
+    document.execCommand("justifyLeft");
   };
   const handleMiddleAlign = () => {
-    document.execCommand('justifyCenter');
+    document.execCommand("justifyCenter");
   };
   const handleOrderedList = () => {
-    document.execCommand('insertOrderedList');
+    document.execCommand("insertOrderedList");
   };
   const handleUnorderedList = () => {
-    document.execCommand('insertUnorderedList');
+    document.execCommand("insertUnorderedList");
   };
   const handleOutdent = () => {
-    document.execCommand('outdent');
+    document.execCommand("outdent");
   };
   const handleIndent = () => {
-    document.execCommand('indent');
+    document.execCommand("indent");
   };
 
   const handleIncreaseSize = () => {
-    document.execCommand('increaseFontSize');
+    document.execCommand("increaseFontSize");
   };
   const handleDecreaseSize = () => {
-    document.execCommand('decreaseFontSize');
+    document.execCommand("decreaseFontSize");
   };
 
   function handleSizing(event) {
     var sel = document.getSelection(); // Gets selection
     if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
-      var e = document.createElement('span');
-      e.style = 'font-size:' + event.target.value + 'pt' + ';';
+      var e = document.createElement("span");
+      e.style = "font-size:" + event.target.value + "pt" + ";";
       e.innerHTML = sel.toString();
 
       var range = sel.getRangeAt(0);
@@ -126,8 +126,8 @@ const AlignRightSide = () => {
     var sel = document.getSelection(); // Gets selection
     if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
-      var e = document.createElement('span');
-      e.style = 'font-family:' + font.target.value + ';';
+      var e = document.createElement("span");
+      e.style = "font-family:" + font.target.value + ";";
       e.innerHTML = sel.toString();
 
       var range = sel.getRangeAt(0);
@@ -140,8 +140,8 @@ const AlignRightSide = () => {
     var sel = document.getSelection(); // Gets selection
     if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
-      var e = document.createElement('span');
-      e.style = 'color:' + font.target.value + ';';
+      var e = document.createElement("span");
+      e.style = "color:" + font.target.value + ";";
       e.innerHTML = sel.toString();
 
       var range = sel.getRangeAt(0);
@@ -151,17 +151,17 @@ const AlignRightSide = () => {
   }
 
   function changeBgColor(font) {
-    const textDiv = document.getElementsByClassName('textInput').item(0);
+    const textDiv = document.getElementsByClassName("textInput").item(0);
 
-    textDiv.style = 'background-color:' + font.target.value + ';';
+    textDiv.style = "background-color:" + font.target.value + ";";
   }
 
   function changeFontTBgColor(font) {
     var sel = document.getSelection(); // Gets selection
     if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
-      var e = document.createElement('span');
-      e.style = 'background-color:' + font.target.value + ';';
+      var e = document.createElement("span");
+      e.style = "background-color:" + font.target.value + ";";
       e.innerHTML = sel.toString();
 
       var range = sel.getRangeAt(0);
@@ -179,38 +179,49 @@ const AlignRightSide = () => {
   // });
 
   function showColorInput() {
-    const fontColor = document.getElementById('colorInputColor');
+    const fontColor = document.getElementById("colorInputColor");
     //console.log(fontColor);
-    if (fontColor.style.diplay === 'none') {
-      fontColor.style.display = 'block';
+    if (fontColor.style.diplay === "none") {
+      fontColor.style.display = "block";
     } else {
-      fontColor.style.display = 'block';
+      fontColor.style.display = "block";
     }
   }
   function showBgColorInput() {
-    const BgColor = document.getElementById('colorBgInputColor');
-    if (BgColor.style.diplay === 'none') {
-      BgColor.style.display = 'block';
+    const BgColor = document.getElementById("colorBgInputColor");
+    if (BgColor.style.diplay === "none") {
+      BgColor.style.display = "block";
     } else {
-      BgColor.style.display = 'block';
+      BgColor.style.display = "block";
     }
   }
   function showTBgColorInput() {
-    const tBgColor = document.getElementById('colorTBgInputColor');
-    if (tBgColor.style.diplay === 'none') {
-      tBgColor.style.display = 'block';
+    const tBgColor = document.getElementById("colorTBgInputColor");
+    if (tBgColor.style.diplay === "none") {
+      tBgColor.style.display = "block";
     } else {
-      tBgColor.style.display = 'block';
+      tBgColor.style.display = "block";
     }
   }
 
   function removeTextBox() {
-    document.querySelector('.focussedd').remove();
+    // document.querySelector('.focussedd').remove();
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
+        const childLength =
+          document.querySelector(".focussedd").children.length;
+        for (let i = 0; i < childLength; i++) {
+          document.querySelector(".focussedd").firstElementChild.remove();
+        }
+      }
+    } else {
+      document.querySelector(".focussedd").remove();
+    }
   }
 
   useEffect(() => {
     const windowHeight = window.innerHeight;
-    const elementHight = document.querySelector('.align');
+    const elementHight = document.querySelector(".align");
     if (elementHight) {
       if (elementHight.offsetHeight > windowHeight) {
         setIsWindowHightSmall(true);
@@ -223,7 +234,7 @@ const AlignRightSide = () => {
       style={{
         height: isWindowHightSmall && `${window.innerHeight - 100}px`,
         overflowY: isWindowHightSmall && `auto`,
-        overflowX: 'hidden',
+        overflowX: "hidden",
       }}
     >
       <Container fluid className="px-2 p-0">
@@ -289,7 +300,7 @@ const AlignRightSide = () => {
               onClick={handleDecreaseSize}
               className="d-flex select bg-white rounded"
             >
-              <BiFont color="gray" size={16} />{' '}
+              <BiFont color="gray" size={16} />{" "}
               <AiOutlineArrowDown color="gray" size={16} />
             </Button>
           </Col>
@@ -336,7 +347,7 @@ const AlignRightSide = () => {
               type="color"
               id="colorInputColor"
               onChange={changeFontColor}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
           </Col>
 
@@ -348,7 +359,7 @@ const AlignRightSide = () => {
               type="color"
               id="colorTBgInputColor"
               onChange={changeFontTBgColor}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
           </Col>
 
@@ -360,7 +371,7 @@ const AlignRightSide = () => {
               type="color"
               id="colorBgInputColor"
               onChange={changeBgColor}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
           </Col>
         </Row>
