@@ -71,43 +71,43 @@ const SignsRightSidebar = () => {
 
   return (
     <div>
-      {/* {decoded.details.action === "document" && ( */}
-      <>
-        <h3>Add Signature</h3>
-        <div>
-          <div className="signature">
-            <SignatureCanvas
-              penColor="black"
-              canvasProps={{
-                width: 200,
-                height: 200,
-                className: "sigCanvas",
-              }}
-              ref={sigPad}
-            />
+      {decoded.details.action === "document" && (
+        <>
+          <h3>Add Signature</h3>
+          <div>
+            <div className="signature">
+              <SignatureCanvas
+                penColor="black"
+                canvasProps={{
+                  width: 200,
+                  height: 200,
+                  className: "sigCanvas",
+                }}
+                ref={sigPad}
+              />
+            </div>
+            <div className="mt-5 text-left pt-1">
+              <Button
+                className="w-75"
+                variant="secondary"
+                onClick={(e) => chooseFileClick(e)}
+              >
+                Upload Sign
+              </Button>
+            </div>
+            <div className="buttons p-4">
+              <Button onClick={clear} variant="secondary">
+                Clear
+              </Button>{" "}
+              &nbsp;
+              <Button onClick={save} variant="primary">
+                Done
+              </Button>
+            </div>
           </div>
-          <div className="mt-5 text-left pt-1">
-            <Button
-              className="w-75"
-              variant="secondary"
-              onClick={(e) => chooseFileClick(e)}
-            >
-              Upload Sign
-            </Button>
-          </div>
-          <div className="buttons p-4">
-            <Button onClick={clear} variant="secondary">
-              Clear
-            </Button>{" "}
-            &nbsp;
-            <Button onClick={save} variant="primary">
-              Done
-            </Button>
-          </div>
-        </div>
-        <hr />
+          <hr />
 
-        {/* <div className='dropdown pt-2'>
+          {/* <div className='dropdown pt-2'>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-75 h-75'>
           <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -116,11 +116,11 @@ const SignsRightSidebar = () => {
           <option value="Something else">Something else</option>
         </select>
       </div> */}
-      </>
-      {/* )} */}
+        </>
+      )}
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
       <div className="mt-5 text-center">
-        {/* {decoded.details.action === "template" ? (
+        {decoded.details.action === "template" ? (
           <Button
             variant="primary"
             onClick={removeSign}
@@ -128,15 +128,15 @@ const SignsRightSidebar = () => {
           >
             Remove Signature
           </Button>
-        ) : ( */}
-        <Button
-          variant="disabled bg-primary text-white"
-          onClick={removeSign}
-          className="remove_button disable_button"
-        >
-          Remove Signature
-        </Button>
-        {/* )} */}
+        ) : (
+          <Button
+            variant="disabled bg-primary text-white"
+            onClick={removeSign}
+            className="remove_button disable_button"
+          >
+            Remove Signature
+          </Button>
+        )}
       </div>
     </div>
   );

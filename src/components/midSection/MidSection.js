@@ -565,45 +565,57 @@ const MidSection = React.forwardRef((props, ref) => {
       for (let i = 0; i < allDiv.length; i++) {
         allDiv[i].classList.remove("focussedd");
       }
-      if (e.target.parentElement.classList.contains("holderDIV")) {
-        e.target.parentElement.classList.add("focussedd");
-      } else if (
-        e.target.parentElement.parentElement.classList.contains("holderDIV")
-      ) {
-        e.target.parentElement.parentElement.classList.add("focussedd");
-      } else if (
-        e.target.parentElement.parentElement.parentElement.classList.contains(
-          "holderDIV"
-        )
-      ) {
-        e.target.parentElement.parentElement.parentElement.classList.add(
-          "focussedd"
-        );
-      } else if (
-        e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-          "holderDIV"
-        )
-      ) {
-        e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
-          "focussedd"
-        );
-      } else if (
-        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-          "holderDIV"
-        )
-      ) {
-        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-          "focussedd"
-        );
-      } else if (
-        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-          "holderDIV"
-        )
-      ) {
-        e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-          "focussedd"
-        );
+
+      const findFocusElement = e.target.parentElement;
+
+      while (1) {
+        if (findFocusElement.classList.contains("holderDIV")) {
+          findFocusElement.classList.add("focussedd");
+          break;
+        } else {
+          findFocusElement = findFocusElement.parentElement;
+        }
       }
+
+      // if (e.target.parentElement.classList.contains("holderDIV")) {
+      //   e.target.parentElement.classList.add("focussedd");
+      // } else if (
+      //   e.target.parentElement.parentElement.classList.contains("holderDIV")
+      // ) {
+      //   e.target.parentElement.parentElement.classList.add("focussedd");
+      // } else if (
+      //   e.target.parentElement.parentElement.parentElement.classList.contains(
+      //     "holderDIV"
+      //   )
+      // ) {
+      //   e.target.parentElement.parentElement.parentElement.classList.add(
+      //     "focussedd"
+      //   );
+      // } else if (
+      //   e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+      //     "holderDIV"
+      //   )
+      // ) {
+      //   e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
+      //     "focussedd"
+      //   );
+      // } else if (
+      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+      //     "holderDIV"
+      //   )
+      // ) {
+      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+      //     "focussedd"
+      //   );
+      // } else if (
+      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+      //     "holderDIV"
+      //   )
+      // ) {
+      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+      //     "focussedd"
+      //   );
+      // }
       let focussedDiv = document.getElementsByClassName("focussed");
       for (let i = 0; i < focussedDiv.length; i++) {
         focussedDiv[i].classList.remove("focussed");
@@ -916,17 +928,20 @@ const MidSection = React.forwardRef((props, ref) => {
           ) {
             // signField.innerHTML = `<img src=${element.data} />`;
             signField.innerHTML = "Signature here";
-          } else if (
-            decoded.details.action === "document" &&
-            element.data == "Place your signature here"
-          ) {
-            signField.innerHTML = "Signature here";
-          } else if (
-            decoded.details.action === "document" &&
-            element.data == "Signature here "
-          ) {
-            signField.innerHTML = "Signature here";
-          } else if (decoded.details.action === "document" && element.data) {
+          }
+          // else if (
+          //   decoded.details.action === "document" &&
+          //   element.data == "Place your signature here"
+          // ) {
+          //   signField.innerHTML = "Signature here";
+          // }
+          // else if (
+          //   decoded.details.action === "document" &&
+          //   element.data == "Signature here "
+          // ) {
+          //   signField.innerHTML = "Signature here";
+          // }
+          else if (decoded.details.action === "document" && element.data) {
             signField.innerHTML = `<img src=${element.data}  />`;
           } else {
             signField.innerHTML = "Signature here";
