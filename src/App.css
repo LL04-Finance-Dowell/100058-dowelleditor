@@ -154,7 +154,49 @@ th {
 .modal-body {
   overflow: auto;
 }
+@media print{
+  body * {
+    margin: 0;
+    padding: 0;
+    visibility:hidden;
+  }
+  .print_container * {
+    visibility:visible;
+    /* background-color: aquamarine; */
+   
+  }
+  .midSection_container {
+    /* margin-top: -100px; */
+    /* position: absolute;
+    left: 0px;
+    top: 0PX; */
+  }
+  .midSection {
+    /* visibility: visible; */
+    height: 290mm;
+    margin-top: -175px;
+    /* position: relative;
+    left: 0px;
+    top: 0px; */
+    /* height: 0px; */
+  }
+  .print_midsection_0{
+    /* margin-top: -170px; */
+  }
 
+  * {
+    -webkit-print-color-adjust: exact !important;  
+    color-adjust: exact !important;                 
+    print-color-adjust: exact !important;    
+    margin: 0;
+    padding: 0;      
+  }
+  /* .print_container {
+    padding: 0px;
+    margin: 0px;
+   
+  } */
+}
 
 
 

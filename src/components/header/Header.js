@@ -818,15 +818,18 @@ const Header = () => {
       });
   }
   const hanldePrint = (e) => {
-    const bodyEl = document.getElementsByTagName("BODY")[0];
-    bodyEl.style.visibility = "hidden";
-    const midsection = document.getElementsByClassName("midSection_container");
-    for (let i = 0; i < midsection?.length; i++) {
-      midsection[i].style.visibility = "visible";
-    }
-
+    // const bodyEl = document.getElementsByTagName("BODY")[0];
+    // bodyEl.style.display = "none";
+    // const midsection = document.getElementsByClassName("midSection_container");
+    // for (let i = 0; i < midsection?.length; i++) {
+    //   midsection[i].style.display = "block";
+    // }
+    // const print_mideSctions = document.getElementsByClassName(`midSection`);
+    // for (let i = 0; i < print_mideSctions.length; i++) {
+    //   print_mideSctions[i].style.mirginTop = "-170px";
+    // }
     window.print();
-    bodyEl.style.visibility = "visible";
+    // bodyEl.style.display = "block";
   };
 
   // console.log("page count check", item);
@@ -835,7 +838,7 @@ const Header = () => {
     <div
       className={`header ${
         actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      } hidden.print`}
     >
       <Container fluid>
         <Row>
@@ -869,17 +872,13 @@ const Header = () => {
                     className="d-flex cursor_pointer"
                     onClick={() => setPrintContent(true)}
                   >
-                    <ReactToPrint
+                    {/* <ReactToPrint
                       trigger={
-                        (e) => (
-                          <p>
-                            {/* {" "} */}
-                            <AiFillPrinter /> Print
-                          </p>
-                        )
-                        // setPrintContent(true)
-                        // {/* {" "} */}
-                        // </>
+                        (e) => ( */}
+                    <p onClick={hanldePrint}>
+                      <AiFillPrinter /> Print
+                    </p>
+                    {/* )
                       }
                       content={() => componentRef.current}
                       // onBeforeGetContent={() => console.log("test")}
@@ -887,7 +886,7 @@ const Header = () => {
                       // onBeforePrint={() => setPrintContent(true)}
                       onAfterPrint={() => setPrintContent(false)}
                     />
-                    {printContent && <MidSection ref={componentRef} />}
+                    {printContent && <MidSection ref={componentRef} />} */}
                   </div>
 
                   {/* <img onClick={handleRedo} src={headerData[1].icon} alt="" /> */}

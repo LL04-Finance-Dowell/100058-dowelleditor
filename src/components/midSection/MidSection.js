@@ -644,13 +644,6 @@ const MidSection = React.forwardRef((props, ref) => {
     e.target.classList.add("focussedd");
   }
 
-  function imageFocuseddClassMaintain(e) {
-    let allDiv = document.getElementsByClassName("focussedd");
-    for (let i = 0; i < allDiv.length; i++) {
-      allDiv[i].classList.remove("focussedd");
-    }
-    e.stopPropagation();
-  }
   // table ondrop handle after retrieve
 
   const onPost = () => {
@@ -2359,14 +2352,18 @@ const MidSection = React.forwardRef((props, ref) => {
         return (
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>
-          <div ref={ref} key={index} className="midSection">
+          <div
+            ref={ref}
+            key={index}
+            className={`midSection print_midsection_${index}`}
+          >
             <Container
               as="div"
               ref={midSectionRef}
               className={
                 // !sidebar
                 //   ? "midSection_without_RightMenu_container"
-                "midSection_container"
+                "midSection_container print_container"
               }
               // className="midSection_container"
               id="midSection_container"
