@@ -87,9 +87,6 @@ const MidSection = React.forwardRef((props, ref) => {
     focuseddClassMaintain,
   } = useStateContext();
 
-  // const [scaleData, setScaleData] = useState([]);
-  console.log("lkkk", scaleData);
-
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -1776,7 +1773,7 @@ const MidSection = React.forwardRef((props, ref) => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res.data.success);
+            console.log(res.data);
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);

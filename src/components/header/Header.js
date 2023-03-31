@@ -79,8 +79,15 @@ const Header = () => {
     setIsDataRetrieved,
     setIsFinializeDisabled,
     scaleId,
+    setScaleId,
     scaleData,
     setScaleData,
+    custom1,
+    setCustom1,
+    custom2,
+    setCustom2,
+    custom3,
+    setCustom3,
     companyId,
     setCompanyId,
     isMenuVisible,
@@ -88,7 +95,7 @@ const Header = () => {
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
-  console.log(companyId);
+
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
   };
@@ -501,16 +508,16 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  console.log(decoded);
+  console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
 
-  console.log(authorized);
-  console.log(process_id);
-  console.log(_id);
-  console.log(role);
+  // console.log(authorized);
+  // console.log(process_id);
+  // console.log(_id);
+  // console.log(role);
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
@@ -575,6 +582,7 @@ const Header = () => {
         team_member_ID: decoded.details.team_member_ID,
         update_field: updateField,
         page: item,
+        scale_url: `${scaleData}`,
         company_id: companyId,
         type: decoded.details.action,
       }
@@ -591,6 +599,29 @@ const Header = () => {
       .catch((err) => {
         setIsLoading(false);
         //console.log(err);
+      });
+
+    Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
+      template_id: decoded.details._id,
+      scale_id: scaleId,
+      custom_input_groupings: {
+        group1: {
+          custom_input_1: custom1,
+          custom_input_2: custom2,
+          custom_input_3: custom3,
+        },
+      },
+    })
+      .then((res) => {
+        if (res.status == 200) {
+          setIsLoading(false);
+          sendMessage();
+        }
+        console.log(res, "kk");
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
       });
   }
 
@@ -766,7 +797,7 @@ const Header = () => {
     }
   }
 
-  console.log("page count check", item);
+  // console.log('page count check', item);
   const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
     saveButton.click();
@@ -838,7 +869,7 @@ const Header = () => {
     <div
       className={`header ${
         actionName == "template" ? "header_bg_template" : "header_bg_document"
-      } hidden.print`}
+      }`}
     >
       <Container fluid>
         <Row>
