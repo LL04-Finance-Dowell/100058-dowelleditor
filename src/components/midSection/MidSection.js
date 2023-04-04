@@ -566,7 +566,7 @@ const MidSection = React.forwardRef((props, ref) => {
         allDiv[i].classList.remove("focussedd");
       }
 
-      const findFocusElement = e.target.parentElement;
+      let findFocusElement = e.target.parentElement;
 
       while (1) {
         if (findFocusElement.classList.contains("holderDIV")) {
