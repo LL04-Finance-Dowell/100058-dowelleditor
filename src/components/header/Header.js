@@ -786,7 +786,7 @@ const Header = () => {
         `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
         {
           action: "finalize",
-          process_id: process_id,
+          item_id: process_id,
           authorized: authorized,
           document_id: _id,
           company_id: companyId,
@@ -810,7 +810,7 @@ const Header = () => {
     setIsLoading(true);
     Axios.post(`https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`, {
       action: 'reject',
-      process_id: process_id,
+      item_id: process_id,
       authorized: authorized,
       document_id: _id,
       company_id: companyId,
