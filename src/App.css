@@ -73,7 +73,6 @@ textarea{
 }
 
 table, th, td {
- 
   border-collapse: collapse;
   padding: 5px;
   min-height: 100px;
@@ -197,6 +196,13 @@ th {
    
   } */
 }
+.icon_div>svg:hover {
+  background: #00d3b0;
+}
+.remove-svg-margin{
+  margin-left: -20px;
+}
+
 
 
 

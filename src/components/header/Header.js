@@ -530,6 +530,12 @@ const Header = () => {
     }
   }, [element_updated_length]);
 
+  console.log(
+    "Document_map test",
+    element_updated_length,
+    document_map?.length
+  );
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
