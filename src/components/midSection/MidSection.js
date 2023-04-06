@@ -1306,11 +1306,11 @@ const MidSection = React.forwardRef((props, ref) => {
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != "scale here") {
-            const iframe = document.createElement("iframe");
-            iframe.src = element.data;
-            iframe.width = "100%";
-            iframe.height = "100%";
+          if (element.data != 'scale here') {
+            const iframe = document.createElement('iframe');
+            iframe.src = element.scale_url;
+            iframe.width = '100%';
+            iframe.height = '100%';
 
             scaleField.append(iframe);
           }

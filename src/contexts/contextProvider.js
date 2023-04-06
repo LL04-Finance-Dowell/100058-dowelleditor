@@ -186,8 +186,8 @@ export const ContextProvider = ({ children }) => {
       ) {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
-        imageField.style.minHeight = "100px";
-        imageField.style.minWidth = "100px";
+        imageField.style.minHeight = "100%";
+        imageField.style.minWidth = "100%";
         imageField.style.backgroundColor = "#0000";
         imageField.style.borderRadius = "0px";
         imageField.style.outline = "0px";
@@ -241,6 +241,7 @@ export const ContextProvider = ({ children }) => {
         imageButton.append(imgBtn);
         e.target.append(imageField);
         e.target.append(imageButton);
+        e.target.style.width = imageField.style.width
       } else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
@@ -285,8 +286,8 @@ export const ContextProvider = ({ children }) => {
         // }
         let signField = document.createElement("div");
         signField.className = "signInput";
-        signField.style.width = "100px";
-        signField.style.height = "100px";
+        signField.style.width = "100%";
+        signField.style.height = "100%";
         signField.style.backgroundColor = "#0000";
         signField.style.borderRadius = "0px";
         signField.style.outline = "0px";
@@ -351,6 +352,8 @@ export const ContextProvider = ({ children }) => {
         // signField.append(para);
         e.target.append(signField);
         e.target.append(imageSignButton);
+        e.target.style.width = signField.style.width;
+        e.target.style.height = signField.style.height;
       } else if (typeOfOperation === "DATE_INPUT") {
         let dateField = document.createElement("div");
         dateField.className = "dateInput";
