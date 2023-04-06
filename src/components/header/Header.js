@@ -448,6 +448,7 @@ const Header = () => {
       for (let s = 0; s < scales.length; s++) {
         let tempElem = scales[s].parentElement;
         let tempPosn = getPosition(tempElem);
+        console.log(scales[s].firstElementChild.src);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -601,28 +602,7 @@ const Header = () => {
         //console.log(err);
       });
 
-    Axios.post('https://100035.pythonanywhere.com/api/nps_custom_data/', {
-      template_id: decoded.details._id,
-      scale_id: scaleId,
-      custom_input_groupings: {
-        group1: {
-          custom_input_1: custom1,
-          custom_input_2: custom2,
-          custom_input_3: custom3,
-        },
-      },
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          sendMessage();
-        }
-        console.log(res, 'kk');
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
+     
   }
 
   // const handleFlipClick = (e) => {
@@ -803,7 +783,7 @@ const Header = () => {
     saveButton.click();
     if (isLoading == false)
       Axios.post(
-        'https://100094.pythonanywhere.com/v0.1/process/action/mark/',
+        `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
         {
           action: 'finalize',
           process_id: process_id,
@@ -828,7 +808,7 @@ const Header = () => {
 
   function handleReject() {
     setIsLoading(true);
-    Axios.post('https://100094.pythonanywhere.com/v0.1/process/action/mark/', {
+    Axios.post(`https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`, {
       action: 'reject',
       process_id: process_id,
       authorized: authorized,

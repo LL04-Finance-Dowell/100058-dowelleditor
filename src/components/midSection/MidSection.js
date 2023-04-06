@@ -726,7 +726,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === 'IMAGE_INPUT') {
@@ -795,7 +795,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === 'DATE_INPUT') {
@@ -871,7 +871,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === 'SIGN_INPUT') {
@@ -970,7 +970,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === 'TABLE_INPUT') {
@@ -1224,7 +1224,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === 'IFRAME_INPUT') {
@@ -1273,7 +1273,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -1305,7 +1305,7 @@ const MidSection = React.forwardRef((props, ref) => {
           }
           if (element.data != 'scale here') {
             const iframe = document.createElement('iframe');
-            iframe.src = element.data;
+            iframe.src = element.scale_url;
             iframe.width = '100%';
             iframe.height = '100%';
 
@@ -1323,7 +1323,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -1381,7 +1381,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName('midSection_container')
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -1527,6 +1527,7 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.className = 'textInput';
         inputField.innerHTML = 'Enter text here';
         inputField.style.width = '100%';
+        inputField.style.fontSize = '30px';
         inputField.style.height = '100%';
         inputField.style.resize = 'none';
         inputField.style.backgroundColor = '#0000';
@@ -2249,6 +2250,15 @@ const MidSection = React.forwardRef((props, ref) => {
       }
       if (decoded.details.action === 'template') {
         document.querySelector('.drop_zone').append(holderDIV);
+
+        const txt = document.getElementsByClassName('textInput');
+        if (txt.length) {
+          for (let h = 0; h < txt.length; h++) {
+            if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
+              txt[h].id = `t${h+1}`
+            }
+          }
+        }
       }
     }
   };
