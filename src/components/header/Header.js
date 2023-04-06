@@ -1,36 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import './Header.css';
-import { headerData } from '../../data/data';
-import user from '../../assets/headerIcons/user.png';
-import { FaCopy, FaPen, FaSave } from 'react-icons/fa';
-import { BiImport, BiExport, BiCut, BiCopyAlt } from 'react-icons/bi';
-import { ImRedo, ImUndo } from 'react-icons/im';
-import CryptoJS from 'crypto-js';
+import React, { useEffect, useRef, useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import "./Header.css";
+import { headerData } from "../../data/data";
+import user from "../../assets/headerIcons/user.png";
+import { FaCopy, FaPen, FaSave } from "react-icons/fa";
+import { BiImport, BiExport, BiCut, BiCopyAlt } from "react-icons/bi";
+import { ImRedo, ImUndo } from "react-icons/im";
+import CryptoJS from "crypto-js";
 
-import { useStateContext } from '../../contexts/contextProvider';
-import Axios from 'axios';
-import { CgMenuLeft, CgPlayListRemove } from 'react-icons/cg';
+import { useStateContext } from "../../contexts/contextProvider";
+import Axios from "axios";
+import { CgMenuLeft, CgPlayListRemove } from "react-icons/cg";
 import {
   MdOutlinePostAdd,
   MdSignalCellular0Bar,
   MdOutlineFlipCameraAndroid,
   MdOutlineIosShare,
-} from 'react-icons/md';
+} from "react-icons/md";
 
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
-import jwt_decode from 'jwt-decode';
-import { current } from '@reduxjs/toolkit';
+import jwt_decode from "jwt-decode";
+import { current } from "@reduxjs/toolkit";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { AiFillPrinter } from 'react-icons/ai';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AiFillPrinter } from "react-icons/ai";
 // import Printer from "../../utils/spinner/Printer";
 
 // import React, { useRef } from "react";
-import ReactToPrint from 'react-to-print';
-import MidSection from '../midSection/MidSection';
+import ReactToPrint from "react-to-print";
+import MidSection from "../midSection/MidSection";
 // import MidSection from "../../components/midSection/MidSection";
 
 // const Printer = () => {
@@ -100,16 +100,16 @@ const Header = () => {
     setIsMenuVisible(!isMenuVisible);
   };
   const handleUndo = () => {
-    document.execCommand('undo');
+    document.execCommand("undo");
   };
   const handleRedo = () => {
-    document.execCommand('redo');
+    document.execCommand("redo");
   };
   const handleCut = () => {
-    document.querySelector('.focussedd').remove();
+    document.querySelector(".focussedd").remove();
   };
   const handleCopy = () => {
-    document.execCommand('copy');
+    document.execCommand("copy");
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -131,7 +131,7 @@ const Header = () => {
 
   let createPageNumber;
   if (item?.length) {
-    createPageNumber = item[item?.length - 1].split('_')[1];
+    createPageNumber = item[item?.length - 1].split("_")[1];
   } else {
     createPageNumber = 0;
   }
@@ -147,10 +147,10 @@ const Header = () => {
   function removePage() {
     const current = [...item];
 
-    var pageNumber = prompt('Enter the number of page to delete');
+    var pageNumber = prompt("Enter the number of page to delete");
     if (pageNumber != null) {
       const index = pageNumber - 1;
-      const page = document.getElementsByClassName('midSection_container')[
+      const page = document.getElementsByClassName("midSection_container")[
         index
       ];
 
@@ -191,7 +191,7 @@ const Header = () => {
   function getPosition(el) {
     // const rect = el[0].getBoundingClientRect();
     // //console.log(el);
-    const midSec = document.getElementById('midSection_container');
+    const midSec = document.getElementById("midSection_container");
 
     const rect = el.getBoundingClientRect();
     const midsectionRect = midSec.getBoundingClientRect();
@@ -226,12 +226,12 @@ const Header = () => {
     }
   };
   function savingTableData() {
-    const tables = document.getElementsByClassName('tableInput');
+    const tables = document.getElementsByClassName("tableInput");
     let tables_tags = [];
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
-        var new_table = document.getElementsByTagName('table')[0];
+        var new_table = document.getElementsByTagName("table")[0];
         //console.log("New Table");
         //console.log(new_table);
         tables_tags.push(new_table);
@@ -245,7 +245,7 @@ const Header = () => {
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
   function saveDocument() {
-    const txt = document.getElementsByClassName('textInput');
+    const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       for (let h = 0; h < txt.length; h++) {
         if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
@@ -260,7 +260,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: txt[h].parentElement.style.top,
             left: tempPosn.left,
-            type: 'TEXT_INPUT',
+            type: "TEXT_INPUT",
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
@@ -272,8 +272,8 @@ const Header = () => {
       }
     }
 
-    const img_input = document.getElementsByTagName('input');
-    const img = document.getElementsByClassName('imageInput');
+    const img_input = document.getElementsByTagName("input");
+    const img = document.getElementsByClassName("imageInput");
     if (img) {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
@@ -299,7 +299,7 @@ const Header = () => {
       }
     }
 
-    const date = document.getElementsByClassName('dateInput');
+    const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
         if (date[h]?.parentElement?.classList?.contains("holderDIV")) {
@@ -320,7 +320,7 @@ const Header = () => {
       }
     }
 
-    const sign = document.getElementsByClassName('signInput');
+    const sign = document.getElementsByClassName("signInput");
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
         if (sign[h]?.parentElement?.classList?.contains("holderDIV")) {
@@ -349,7 +349,7 @@ const Header = () => {
       }
     }
 
-    const tables = document.getElementsByClassName('tableInput');
+    const tables = document.getElementsByClassName("tableInput");
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
@@ -416,7 +416,7 @@ const Header = () => {
         }
       }
     }
-    const iframes = document.getElementsByClassName('iframeInput');
+    const iframes = document.getElementsByClassName("iframeInput");
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
         // var new_table = document.getElementsByTagName("table")[0];
@@ -429,9 +429,9 @@ const Header = () => {
           top: tempPosn.top,
           topp: iframes[i].parentElement.style.top,
           left: tempPosn.left,
-          type: 'IFRAME_INPUT',
+          type: "IFRAME_INPUT",
           data: iframes[i].innerText
-            ? 'iFrame here'
+            ? "iFrame here"
             : iframes[i].firstElementChild.src,
           id: `ifr${i + 1}`,
         };
@@ -443,7 +443,7 @@ const Header = () => {
 
     // Limon
 
-    const scales = document.getElementsByClassName('scaleInput');
+    const scales = document.getElementsByClassName("scaleInput");
     if (scales.length) {
       for (let s = 0; s < scales.length; s++) {
         let tempElem = scales[s].parentElement;
@@ -469,7 +469,7 @@ const Header = () => {
       }
     }
     // Limon
-    const dropDowns = document.getElementsByClassName('dropdownInput');
+    const dropDowns = document.getElementsByClassName("dropdownInput");
 
     if (dropDowns.length) {
       for (let d = 0; d < dropDowns.length; d++) {
@@ -487,7 +487,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: dropDowns[d].parentElement.style.top,
           left: tempPosn.left,
-          type: 'DROPDOWN_INPUT',
+          type: "DROPDOWN_INPUT",
           data: selectedText,
           data1: dropDowns[d].firstElementChild.innerHTML,
           data2: dropDowns[d].lastElementChild.innerHTML,
@@ -507,7 +507,7 @@ const Header = () => {
   }
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
@@ -522,7 +522,7 @@ const Header = () => {
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
-    document.getElementsByClassName('element_updated').length;
+    document.getElementsByClassName("element_updated").length;
 
   useEffect(() => {
     // set_doc_map(document_map)
@@ -536,19 +536,19 @@ const Header = () => {
     setIsLoading(true);
     const dataa = saveDocument();
 
-    const titleName = document.querySelector('.title-name').innerHTML;
+    const titleName = document.querySelector(".title-name").innerHTML;
 
     const field = {
       _id: decoded.details._id,
     };
     let updateField = {};
-    if (decoded.details.action === 'template') {
+    if (decoded.details.action === "template") {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
       };
-    } else if (decoded.details.action === 'document') {
+    } else if (decoded.details.action === "document") {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
@@ -563,15 +563,15 @@ const Header = () => {
 
     function sendMessage() {
       const message =
-        decoded.details.action === 'document'
-          ? 'Document saved'
-          : 'Template saved';
-      const iframe = document.querySelector('iframe');
-      iframe?.contentWindow?.postMessage(message, '*');
+        decoded.details.action === "document"
+          ? "Document saved"
+          : "Template saved";
+      const iframe = document.querySelector("iframe");
+      iframe?.contentWindow?.postMessage(message, "*");
     }
 
     Axios.post(
-      'https://100058.pythonanywhere.com/api/save-data-into-collection/',
+      "https://100058.pythonanywhere.com/api/save-data-into-collection/",
       {
         cluster: decoded.details.cluster,
         collection: decoded.details.collection,
@@ -592,7 +592,7 @@ const Header = () => {
         if (res.status == 200) {
           setIsLoading(false);
           // alert("Data saved successfully");
-          toast.success('Saved successfully');
+          toast.success("Saved successfully");
           sendMessage();
         }
         //console.log(res);
@@ -615,18 +615,18 @@ const Header = () => {
     var encodedSource = CryptoJS.enc.Base64.stringify(source);
 
     // Remove padding equal characters
-    encodedSource = encodedSource.replace(/=+$/, '');
+    encodedSource = encodedSource.replace(/=+$/, "");
 
     // Replace characters according to base64url specifications
-    encodedSource = encodedSource.replace(/\+/g, '-');
-    encodedSource = encodedSource.replace(/\//g, '_');
+    encodedSource = encodedSource.replace(/\+/g, "-");
+    encodedSource = encodedSource.replace(/\//g, "_");
 
     return encodedSource;
   }
 
   var header = {
-    alg: 'HS256',
-    typ: 'JWT',
+    alg: "HS256",
+    typ: "JWT",
   };
 
   var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
@@ -640,13 +640,13 @@ const Header = () => {
   var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
   var encodedData = base64url(stringifiedData);
 
-  var exportToken = encodedHeader + '.' + encodedData;
+  var exportToken = encodedHeader + "." + encodedData;
   // console.log("test token", exportToken);
   // token creation end
 
   const getPostData = async () => {
     const response = await Axios.post(
-      'https://100058.pythonanywhere.com/api/get-data-from-collection/',
+      "https://100058.pythonanywhere.com/api/get-data-from-collection/",
       {
         document_id: decoded.details._id,
         action: decoded.details.action,
@@ -657,9 +657,9 @@ const Header = () => {
         const loadedDataT = res.data;
         console.log(res);
 
-        if (decoded.details.action === 'template') {
+        if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);
-        } else if (decoded.details.action === 'document') {
+        } else if (decoded.details.action === "document") {
           setTitle(loadedDataT.document_name);
         }
 
@@ -696,36 +696,36 @@ const Header = () => {
         isMenuVisible(false);
       }
     }
-    window.addEventListener('click', handleClickOutside);
+    window.addEventListener("click", handleClickOutside);
 
     return () => {
-      window.removeEventListener('click', handleClickOutside);
+      window.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   // copy text function
 
   function copyText() {
-    let div = document.querySelector('.token_text');
+    let div = document.querySelector(".token_text");
     let text = div.innerText;
-    let textArea = document.createElement('textarea');
-    textArea.width = '1px';
-    textArea.height = '1px';
-    textArea.background = 'transparents';
+    let textArea = document.createElement("textarea");
+    textArea.width = "1px";
+    textArea.height = "1px";
+    textArea.background = "transparents";
     textArea.value = text;
     document.body.append(textArea);
     textArea.select();
-    document.execCommand('copy'); //No i18n
+    document.execCommand("copy"); //No i18n
     document.body.removeChild(textArea);
-    toast('Text coppied', {
-      position: 'top-right',
+    toast("Text coppied", {
+      position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: 'light',
+      theme: "light",
     });
   }
   // copy text function end
@@ -733,13 +733,13 @@ const Header = () => {
   function handleToken() {
     setData([]);
     setIsLoading(true);
-    var tokenn = prompt('Paste your token here');
+    var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-      console.log('tokkkkkkennn', tokenn);
+      console.log("tokkkkkkennn", tokenn);
       const getPostData = async () => {
         const response = await Axios.post(
-          'https://100058.pythonanywhere.com/api/get-data-from-collection/',
+          "https://100058.pythonanywhere.com/api/get-data-from-collection/",
           {
             document_id: decodedTok.document_id,
             action: decodedTok.action,
@@ -750,10 +750,10 @@ const Header = () => {
             const loadedDataT = res.data;
             console.log(res);
 
-            if (decoded.details.action === 'template') {
-              setTitle('Untitle-File');
-            } else if (decoded.details.action === 'document') {
-              setTitle('Untitle-File');
+            if (decoded.details.action === "template") {
+              setTitle("Untitle-File");
+            } else if (decoded.details.action === "document") {
+              setTitle("Untitle-File");
             }
 
             //Handling content
@@ -778,14 +778,14 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const saveButton = document.getElementById('saving-buttonn');
+  const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
     saveButton.click();
     if (isLoading == false)
       Axios.post(
         `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
         {
-          action: 'finalize',
+          action: "finalize",
           process_id: process_id,
           authorized: authorized,
           document_id: _id,
@@ -829,15 +829,18 @@ const Header = () => {
       });
   }
   const hanldePrint = (e) => {
-    const bodyEl = document.getElementsByTagName('BODY')[0];
-    bodyEl.style.visibility = 'hidden';
-    const midsection = document.getElementsByClassName('midSection_container');
-    for (let i = 0; i < midsection?.length; i++) {
-      midsection[i].style.visibility = 'visible';
-    }
-
+    // const bodyEl = document.getElementsByTagName("BODY")[0];
+    // bodyEl.style.display = "none";
+    // const midsection = document.getElementsByClassName("midSection_container");
+    // for (let i = 0; i < midsection?.length; i++) {
+    //   midsection[i].style.display = "block";
+    // }
+    // const print_mideSctions = document.getElementsByClassName(`midSection`);
+    // for (let i = 0; i < print_mideSctions.length; i++) {
+    //   print_mideSctions[i].style.mirginTop = "-170px";
+    // }
     window.print();
-    bodyEl.style.visibility = 'visible';
+    // bodyEl.style.display = "block";
   };
 
   // console.log("page count check", item);
@@ -845,7 +848,7 @@ const Header = () => {
   return (
     <div
       className={`header ${
-        actionName == 'template' ? 'header_bg_template' : 'header_bg_document'
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
       }`}
     >
       <Container fluid>
@@ -857,7 +860,7 @@ const Header = () => {
                 <div
                   ref={menuRef}
                   className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? 'show' : ''
+                    isMenuVisible ? "show" : ""
                   }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
@@ -880,17 +883,13 @@ const Header = () => {
                     className="d-flex cursor_pointer"
                     onClick={() => setPrintContent(true)}
                   >
-                    <ReactToPrint
+                    {/* <ReactToPrint
                       trigger={
-                        (e) => (
-                          <p>
-                            {/* {" "} */}
-                            <AiFillPrinter /> Print
-                          </p>
-                        )
-                        // setPrintContent(true)
-                        // {/* {" "} */}
-                        // </>
+                        (e) => ( */}
+                    <p onClick={hanldePrint}>
+                      <AiFillPrinter /> Print
+                    </p>
+                    {/* )
                       }
                       content={() => componentRef.current}
                       // onBeforeGetContent={() => console.log("test")}
@@ -898,7 +897,7 @@ const Header = () => {
                       // onBeforePrint={() => setPrintContent(true)}
                       onAfterPrint={() => setPrintContent(false)}
                     />
-                    {printContent && <MidSection ref={componentRef} />}
+                    {printContent && <MidSection ref={componentRef} />} */}
                   </div>
 
                   {/* <img onClick={handleRedo} src={headerData[1].icon} alt="" /> */}
@@ -906,7 +905,7 @@ const Header = () => {
                   {/* <img onClick={handleCopy} src={headerData[3].icon} alt="" /> */}
                   {/* <img onClick={() => {}} src={headerData[4].icon} alt="" /> */}
                   {/* <img onClick={() => {}} src={headerData[5].icon} alt="" /> */}
-                  {actionName == 'template' && (
+                  {actionName == "template" && (
                     <button
                       className="page_btn p-0 d-flex"
                       onClick={() => createNewPage()}
@@ -915,7 +914,7 @@ const Header = () => {
                       <p>Add Page</p>
                     </button>
                   )}
-                  {actionName == 'template' && (
+                  {actionName == "template" && (
                     <button className="page_btn p-0 d-flex">
                       <CgPlayListRemove onClick={() => removePage()} />
                       <p>Remove Page</p>
@@ -963,7 +962,7 @@ const Header = () => {
 
           <Col>
             <div className="right_header">
-              <div className={docMap ? 'header_btn' : 'savee'}>
+              <div className={docMap ? "header_btn" : "savee"}>
                 {/* <Button
                   variant="outline"
                   size="md"
@@ -1027,7 +1026,7 @@ const Header = () => {
                 </div>
               </div>
 
-              {actionName == 'document' && docMap && data != '' && (
+              {actionName == "document" && docMap && data != "" && (
                 // <div className="finalize_reject_wraper">
                 <>
                   <div className="mt-2 text-center mb-2 px-2">
