@@ -36,16 +36,18 @@ const TableRightSidebar = () => {
     const focusseddDiv = document.querySelector(".focussedd");
     if (focusseddDiv?.firstChild?.hasChildNodes()) {
       setIsCreateTableBtnDisabled(true);
+    } else {
+      setIsCreateTableBtnDisabled(false);
     }
-    if (
-      focusseddDiv?.firstChild?.hasChildNodes() &&
-      focusseddDiv?.firstChild?.firstChild?.classList?.contains(
-        "row_col_add_div"
-      )
-    ) {
-      setIsDisableTableRightMenu(true);
-    }
-  }, [isDisableTableRightMenu, isCreateTableBtnDisabled]);
+    // if (
+    //   focusseddDiv?.firstChild?.hasChildNodes() &&
+    //   focusseddDiv?.firstChild?.firstChild?.classList?.contains(
+    //     "row_col_add_div"
+    //   )
+    // ) {
+    //   setIsDisableTableRightMenu(true);
+    // }
+  }, [isCreateTableBtnDisabled]);
   //
   function habdleTableUpdateBtn(e) {
     // let allDiv = document.getElementsByClassName("focussedd");
@@ -195,13 +197,17 @@ const TableRightSidebar = () => {
     // iconDiv.style.width = `${(cells?.length / 2) * 100}px`;
     iconDiv.className = "icon_div";
     iconDiv.style.textAlign = "right";
-    iconDiv.style.padding = "5px 10px";
+    iconDiv.style.position = "absolute";
+    iconDiv.style.top = "-5px";
+    iconDiv.style.right = "-20px";
+    iconDiv.style.zIndex = "2";
+    // iconDiv.style.padding = "5px 10px";
     iconDiv.innerHTML =
       '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6Z" fill="currentColor"></path><path d="M3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z" fill="currentColor"></path><path d="M3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H10.2625L7.61456 15.6479L4.96662 13H4C3.44772 13 3 12.5523 3 12Z" fill="currentColor"></path></svg>';
     iconDiv.style.cursor = "pointer";
     iconDiv.onclick = habdleTableUpdateBtn;
     // iconDiv.appendChild(<CgMenuCheese />);
-    tableDiv.style.top = "30px";
+    // tableDiv.style.top = "30px";
     tableDiv?.parentElement?.prepend(iconDiv);
     setIsCreateTableBtnDisabled(true);
   }
@@ -639,12 +645,21 @@ const TableRightSidebar = () => {
   };
   function removeTable() {
     const focusseddElmnt = document.querySelector(".focussedd");
-    if (focusseddElmnt.classList.contains("dropp")) {
-      document.querySelector(".focussedd").remove();
+
+    var child = focusseddElmnt.lastElementChild;
+    while (child) {
+      if (focusseddElmnt.classList.contains("holderDIV")) {
+        focusseddElmnt.removeChild(child);
+        child = focusseddElmnt.lastElementChild;
+      }
     }
-    if (focusseddElmnt.classList.contains("holderDIV")) {
-      document.querySelector(".focussedd").remove();
-    }
+
+    // if (focusseddElmnt.classList.contains("dropp")) {
+    //   document.querySelector(".focussedd").remove();
+    // }
+    // if (focusseddElmnt.classList.contains("holderDIV")) {
+    //   document.querySelector(".focussedd").remove();
+    // }
   }
   return (
     <>
