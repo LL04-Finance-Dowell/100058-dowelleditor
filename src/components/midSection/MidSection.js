@@ -17,6 +17,7 @@ import Axios from "axios";
 // import TextFill from "../leftMenu/comp/TextFill";
 // import { editSec_midSec_ref } from '../editSection/EditSection';
 import jwt_decode from "jwt-decode";
+import { table_dropdown_focuseddClassMaintain } from "../../utils/spinner/focusClassMaintain/focusClass";
 
 // tHIS IS FOR A TEST COMMIT
 
@@ -553,105 +554,96 @@ const MidSection = React.forwardRef((props, ref) => {
 
     return holderDIV;
   }
+  // table_dropdown_focuseddClassMaintain
+  // function table_dropdown_focuseddClassMaintain(e) {
+  //   console.log("tabletargettest", e.target);
 
-  function table_dropdown_focuseddClassMaintain(e) {
-    console.log("tabletargettest", e.target);
+  //   if (
+  //     !e.target?.classList?.contains("addImageButtonInput") &&
+  //     !e.target?.classList?.contains("addSignButtonInput")
+  //   ) {
+  //     let allDiv = document.getElementsByClassName("focussedd");
+  //     for (let i = 0; i < allDiv.length; i++) {
+  //       allDiv[i].classList.remove("focussedd");
+  //     }
 
-    if (
-      !e.target?.classList?.contains("addImageButtonInput") &&
-      !e.target?.classList?.contains("addSignButtonInput")
-    ) {
-      let allDiv = document.getElementsByClassName("focussedd");
-      for (let i = 0; i < allDiv.length; i++) {
-        allDiv[i].classList.remove("focussedd");
-      }
+  //     let findFocusElement = e.target.parentElement;
 
-      const findFocusElement = e.target.parentElement;
+  //     while (1) {
+  //       if (findFocusElement.classList.contains("holderDIV")) {
+  //         findFocusElement.classList.add("focussedd");
+  //         break;
+  //       } else {
+  //         findFocusElement = findFocusElement.parentElement;
+  //       }
+  //     }
 
-      while (1) {
-        if (findFocusElement.classList.contains("holderDIV")) {
-          findFocusElement.classList.add("focussedd");
-          break;
-        } else {
-          findFocusElement = findFocusElement.parentElement;
-        }
-      }
-
-      // if (e.target.parentElement.classList.contains("holderDIV")) {
-      //   e.target.parentElement.classList.add("focussedd");
-      // } else if (
-      //   e.target.parentElement.parentElement.classList.contains("holderDIV")
-      // ) {
-      //   e.target.parentElement.parentElement.classList.add("focussedd");
-      // } else if (
-      //   e.target.parentElement.parentElement.parentElement.classList.contains(
-      //     "holderDIV"
-      //   )
-      // ) {
-      //   e.target.parentElement.parentElement.parentElement.classList.add(
-      //     "focussedd"
-      //   );
-      // } else if (
-      //   e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-      //     "holderDIV"
-      //   )
-      // ) {
-      //   e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
-      //     "focussedd"
-      //   );
-      // } else if (
-      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-      //     "holderDIV"
-      //   )
-      // ) {
-      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-      //     "focussedd"
-      //   );
-      // } else if (
-      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-      //     "holderDIV"
-      //   )
-      // ) {
-      //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-      //     "focussedd"
-      //   );
-      // }
-      let focussedDiv = document.getElementsByClassName("focussed");
-      for (let i = 0; i < focussedDiv.length; i++) {
-        focussedDiv[i].classList.remove("focussed");
-      }
-      if (e.target.classList.contains("dropdownInput")) {
-        e.target.classList.add("focussed");
-      } else if (e.target.parentElement.classList.contains("dropdownInput")) {
-        e.target.parentElement.classList.add("focussed");
-      }
-      if (e.target.classList.contains("tableInput")) {
-        e.target.classList.add("focussed");
-      } else if (e.target.parentElement.classList.contains("tableInput")) {
-        e.target.parentElement.classList.add("focussed");
-      }
-      if (e.target.classList.contains("iframeInput")) {
-        e.target.classList.add("focussed");
-      } else if (e.target.parentElement.classList.contains("iframeInput")) {
-        e.target.parentElement.classList.add("focussed");
-      }
-      if (e.target.classList.contains("scaleInput")) {
-        e.target.classList.add("focussed");
-      } else if (e.target.parentElement.classList.contains("scaleInput")) {
-        e.target.parentElement.classList.add("focussed");
-      }
-      // e.target.classList.add("focussed");
-    }
-  }
-  // function table_dropdown_focuseddClassMaintain(e) {}
-  function table_focuseddClassMaintain(e) {
-    e.preventDefault();
-    let allDiv = document.getElementsByClassName("focussedd");
-    for (let i = 0; i < allDiv.length; i++) {
-      allDiv[i].classList.remove("focussedd");
-    }
-    e.target.classList.add("focussedd");
-  }
+  //     // if (e.target.parentElement.classList.contains("holderDIV")) {
+  //     //   e.target.parentElement.classList.add("focussedd");
+  //     // } else if (
+  //     //   e.target.parentElement.parentElement.classList.contains("holderDIV")
+  //     // ) {
+  //     //   e.target.parentElement.parentElement.classList.add("focussedd");
+  //     // } else if (
+  //     //   e.target.parentElement.parentElement.parentElement.classList.contains(
+  //     //     "holderDIV"
+  //     //   )
+  //     // ) {
+  //     //   e.target.parentElement.parentElement.parentElement.classList.add(
+  //     //     "focussedd"
+  //     //   );
+  //     // } else if (
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
+  //     //     "holderDIV"
+  //     //   )
+  //     // ) {
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
+  //     //     "focussedd"
+  //     //   );
+  //     // } else if (
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+  //     //     "holderDIV"
+  //     //   )
+  //     // ) {
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+  //     //     "focussedd"
+  //     //   );
+  //     // } else if (
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
+  //     //     "holderDIV"
+  //     //   )
+  //     // ) {
+  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
+  //     //     "focussedd"
+  //     //   );
+  //     // }
+  //     let focussedDiv = document.getElementsByClassName("focussed");
+  //     for (let i = 0; i < focussedDiv.length; i++) {
+  //       focussedDiv[i].classList.remove("focussed");
+  //     }
+  //     if (e.target.classList.contains("dropdownInput")) {
+  //       e.target.classList.add("focussed");
+  //     } else if (e.target.parentElement.classList.contains("dropdownInput")) {
+  //       e.target.parentElement.classList.add("focussed");
+  //     }
+  //     if (e.target.classList.contains("tableInput")) {
+  //       e.target.classList.add("focussed");
+  //     } else if (e.target.parentElement.classList.contains("tableInput")) {
+  //       e.target.parentElement.classList.add("focussed");
+  //     }
+  //     if (e.target.classList.contains("iframeInput")) {
+  //       e.target.classList.add("focussed");
+  //     } else if (e.target.parentElement.classList.contains("iframeInput")) {
+  //       e.target.parentElement.classList.add("focussed");
+  //     }
+  //     if (e.target.classList.contains("scaleInput")) {
+  //       e.target.classList.add("focussed");
+  //     } else if (e.target.parentElement.classList.contains("scaleInput")) {
+  //       e.target.parentElement.classList.add("focussed");
+  //     }
+  //     // e.target.classList.add("focussed");
+  //   }
+  // }
 
   // table ondrop handle after retrieve
 
@@ -760,6 +752,9 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.oninput = (e) => {
             //setIsFinializeDisabled(false);
           };
+          if (imageField?.parentElement?.classList.contains("holderDIV")) {
+            imageField?.parentElement?.classList.add("element_updated");
+          }
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
             handleClicked("image2");
