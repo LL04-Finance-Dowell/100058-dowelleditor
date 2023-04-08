@@ -196,15 +196,23 @@ th {
    
   } */
 }
-.icon_div>svg:hover {
+/* .icon_div>svg:hover {
   background: #00d3b0;
-}
+} */
 .remove-svg-margin{
   margin-left: -20px;
 }
+/* .focussedd:hover .icon_div{ display:block !important; } */
 
-
-
-
-
-
+.cells_menu{
+  position: relative;
+}
+.cells_menu:hover .icon_div{
+  display: block !important;
+}
+/* .focussedd{
+  direction: rtl;
+}
+.focussedd>.tableInput{
+  direction: ltr;
+} */

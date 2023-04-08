@@ -17,7 +17,7 @@ import Axios from "axios";
 // import TextFill from "../leftMenu/comp/TextFill";
 // import { editSec_midSec_ref } from '../editSection/EditSection';
 import jwt_decode from "jwt-decode";
-import { table_dropdown_focuseddClassMaintain } from "../../utils/spinner/focusClassMaintain/focusClass";
+import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
 
 // tHIS IS FOR A TEST COMMIT
 
@@ -1306,11 +1306,11 @@ const MidSection = React.forwardRef((props, ref) => {
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != 'scale here') {
-            const iframe = document.createElement('iframe');
+          if (element.data != "scale here") {
+            const iframe = document.createElement("iframe");
             iframe.src = element.scale_url;
-            iframe.width = '100%';
-            iframe.height = '100%';
+            iframe.width = "100%";
+            iframe.height = "100%";
 
             scaleField.append(iframe);
           }

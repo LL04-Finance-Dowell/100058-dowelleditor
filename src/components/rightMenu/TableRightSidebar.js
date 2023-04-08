@@ -7,8 +7,8 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
-import { CgMenuCheese } from "react-icons/cg";
-import { table_dropdown_focuseddClassMaintain } from "../../utils/spinner/focusClassMaintain/focusClass";
+import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
+// import { CgMenuCheese } from "react-icons/cg";
 
 const TableRightSidebar = () => {
   const {
@@ -49,18 +49,41 @@ const TableRightSidebar = () => {
     // }
   }, [isCreateTableBtnDisabled]);
   //
+  // const focusseddDivResize = document.querySelector(".focussedd");
+  // focusseddDivResize.onresize = (e) => {
+  //   console.log(
+  //     "focusseddDivResize",
+  //     focusseddDivResize.scrollHeight > focusseddDivResize.clientHeight
+  //   );
+  // };
+  const createIconMenu = () => {
+    const iconDiv = document.createElement("div");
+    iconDiv.className = "icon_div";
+    iconDiv.style.textAlign = "right";
+    iconDiv.style.position = "absolute";
+    iconDiv.style.top = "0px";
+    iconDiv.style.right = "0px";
+    iconDiv.style.zIndex = "2";
+    iconDiv.style.padding = "0px 4px";
+    iconDiv.style.width = "25px";
+    iconDiv.style.borderBottomLeftRadius = "2px";
+    iconDiv.style.backgroundColor = "#00d3b0";
+    iconDiv.style.display = "none";
+    iconDiv.innerHTML =
+      '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6Z" fill="currentColor"></path><path d="M3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z" fill="currentColor"></path><path d="M3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H10.2625L7.61456 15.6479L4.96662 13H4C3.44772 13 3 12.5523 3 12Z" fill="currentColor"></path></svg>';
+    iconDiv.style.cursor = "pointer";
+    iconDiv.onclick = habdleTableUpdateBtn;
+    return iconDiv;
+  };
+
   function habdleTableUpdateBtn(e) {
-    // let allDiv = document.getElementsByClassName("focussedd");
-    // for (let i = 0; i < allDiv.length; i++) {
-    //   allDiv[i].classList.remove("focussedd");
-    // }
-    // e.target.parentElement.parentElement.classList.add("focussedd");
     table_dropdown_focuseddClassMaintain(e);
 
     const focussedDiv = document.querySelector(".focussedd");
     const icon_div = document.querySelector(".icon_div");
-    // console.log("child nodes", icon_div.childNodes);
-    if (focussedDiv.firstChild.childNodes.length == 1) {
+    const cells_menu = document.querySelector(".cells_menu");
+
+    if (!icon_div.children[1].classList.contains("table_menu_update")) {
       const tableMenuParentDiv = document.createElement("div");
 
       const insertRabove = document.createElement("div");
@@ -116,21 +139,20 @@ const TableRightSidebar = () => {
         hrParentDivBottom
       );
 
-      // tableMenuParentDiv.appendChild(hrParentDivMid);
       tableMenuParentDiv.className = "table_menu_update";
       tableMenuParentDiv.style.backgroundColor = "#fff";
       tableMenuParentDiv.style.borderRadius = "10px";
-      tableMenuParentDiv.style.boxShadow = "-6px 7px 10px";
+      tableMenuParentDiv.style.boxShadow = "0px 1px 10px";
       tableMenuParentDiv.style.width = "185px";
       tableMenuParentDiv.style.position = "absolute";
       tableMenuParentDiv.style.right = "7px";
-      tableMenuParentDiv.style.top = "30px";
+      tableMenuParentDiv.style.top = "0px";
       tableMenuParentDiv.style.padding = "10px 15px";
       tableMenuParentDiv.style.textAlign = "left";
       tableMenuParentDiv.style.zIndex = 2;
-      focussedDiv.firstChild.appendChild(tableMenuParentDiv);
+      icon_div.appendChild(tableMenuParentDiv);
     } else {
-      focussedDiv?.firstChild?.childNodes[1]?.remove();
+      icon_div.children[1].remove();
     }
   }
 
@@ -163,8 +185,31 @@ const TableRightSidebar = () => {
       var cells = tablee.getElementsByTagName("td");
 
       for (var i = 0; i < cells.length; i++) {
+        cells[i].onmouseover = function (e) {
+          if (e.target.hasChildNodes()) {
+            while (e.target?.firstChild?.classList.contains("icon_div")) {
+              e.target.removeChild(e.target.firstChild);
+            }
+          }
+          const iconMenu = createIconMenu();
+          e.target.prepend(iconMenu);
+          e.target.classList.add("cells_menu");
+        };
+        cells[i].onmouseleave = function (e) {
+          // e.target.classList.remove("cells_menu");
+          // if (e.target.hasChildNodes()) {
+          //   while (e.target?.firstChild?.classList.contains("icon_div")) {
+          //     e.target.removeChild(e.target.firstChild);
+          //   }
+          // }
+        };
         cells[i].ondragover = function (e) {
           e.preventDefault();
+          if (e.target.hasChildNodes()) {
+            while (e.target.firstChild) {
+              e.target.removeChild(e.target.firstChild);
+            }
+          }
           e.target.classList.add("table_drag");
           if (!e.target.hasChildNodes()) {
             e.target.style.border = "3px solid blue";
@@ -187,28 +232,14 @@ const TableRightSidebar = () => {
         };
 
         // console.log("cells[i]", cells[i].classList.contains("dropp"));
+
         cells[i].ondrop = handleDropp;
         document.getElementById("rows").value = "";
         document.getElementById("cols").value = "";
       }
     }
-    const iconDiv = document.createElement("div");
 
-    // iconDiv.style.width = `${(cells?.length / 2) * 100}px`;
-    iconDiv.className = "icon_div";
-    iconDiv.style.textAlign = "right";
-    iconDiv.style.position = "absolute";
-    iconDiv.style.top = "-5px";
-    iconDiv.style.right = "-20px";
-    iconDiv.style.zIndex = "2";
-    // iconDiv.style.padding = "5px 10px";
-    iconDiv.innerHTML =
-      '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 6C3 5.44772 3.44772 5 4 5H20C20.5523 5 21 5.44772 21 6C21 6.55228 20.5523 7 20 7H4C3.44772 7 3 6.55228 3 6Z" fill="currentColor"></path><path d="M3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z" fill="currentColor"></path><path d="M3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H10.2625L7.61456 15.6479L4.96662 13H4C3.44772 13 3 12.5523 3 12Z" fill="currentColor"></path></svg>';
-    iconDiv.style.cursor = "pointer";
-    iconDiv.onclick = habdleTableUpdateBtn;
-    // iconDiv.appendChild(<CgMenuCheese />);
-    // tableDiv.style.top = "30px";
-    tableDiv?.parentElement?.prepend(iconDiv);
+    // tableDiv?.parentElement?.prepend(iconDiv);
     setIsCreateTableBtnDisabled(true);
   }
 
@@ -226,6 +257,11 @@ const TableRightSidebar = () => {
       var cells = tablee.getElementsByTagName("td");
       console.log("cells", tablee, cells);
       for (let i = 0; i < cells.length; i++) {
+        console.log("cells", cells[i]);
+        cells[i].onmouseover = function (e) {
+          alert("hi");
+          console.log("mouseOver", e.target);
+        };
         cells[i].ondragover = function (e) {
           e.preventDefault();
           e.target.classList.add("table_drag");
@@ -643,24 +679,32 @@ const TableRightSidebar = () => {
     e.stopPropagation();
     // }
   };
-  function removeTable() {
+  function removeTable(e) {
     const focusseddElmnt = document.querySelector(".focussedd");
 
     var child = focusseddElmnt.lastElementChild;
-    while (child) {
-      if (focusseddElmnt.classList.contains("holderDIV")) {
-        focusseddElmnt.removeChild(child);
-        child = focusseddElmnt.lastElementChild;
-      }
-    }
+    // while (child) {
+    //   if (focusseddElmnt.classList.contains("holderDIV")) {
+    //     focusseddElmnt.removeChild(child);
+    //     child = focusseddElmnt.lastElementChild;
+    //   }
+    // }
 
     // if (focusseddElmnt.classList.contains("dropp")) {
-    //   document.querySelector(".focussedd").remove();
+    //   focusseddElmnt.children[1].firstChild.remove();
+    //   focusseddElmnt.children[0].remove();
     // }
-    // if (focusseddElmnt.classList.contains("holderDIV")) {
-    //   document.querySelector(".focussedd").remove();
-    // }
+    if (focusseddElmnt.classList.contains("holderDIV")) {
+      //   document.querySelector(".focussedd").remove();
+      focusseddElmnt.children[1].firstChild.remove();
+      focusseddElmnt.children[0].remove();
+      setIsCreateTableBtnDisabled(false);
+      // focusseddElmnt.style.border = "1px solid black";
+      focusseddElmnt.firstChild.classList.add("focussed");
+    }
+    e.stopPropagation();
   }
+  console.log("isCreateTableBtnDisabled", isCreateTableBtnDisabled);
   return (
     <>
       <div>
@@ -696,7 +740,7 @@ const TableRightSidebar = () => {
           variant="secondary"
           className="px-5 me-3"
           onClick={makeTable}
-          disabled={isDisableTableRightMenu || isCreateTableBtnDisabled}
+          disabled={isCreateTableBtnDisabled}
         >
           Create Table
         </Button>
