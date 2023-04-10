@@ -111,7 +111,8 @@ const TableRightSidebar = () => {
       const insertColToRight = document.createElement("div");
       insertColToRight.style.cursor = "pointer";
 
-      insertColToRight.innerHTML = "<strong> + </strong> Insert Col to Right";
+      insertColToRight.innerHTML =
+        "<strong> + </strong> Insert Column to Right";
       insertColToRight.onclick = handleAddColumnRight;
 
       const hrParentDiv = document.createElement("div");
