@@ -1307,6 +1307,7 @@ const MidSection = React.forwardRef((props, ref) => {
             scaleField.innerHTML = element.data;
           }
           if (element.data != 'scale here') {
+            console.log(element.scale_url);
             const iframe = document.createElement('iframe');
             iframe.src = element.scale_url;
             iframe.width = '100%';

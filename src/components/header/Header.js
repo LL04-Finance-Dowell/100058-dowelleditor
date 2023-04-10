@@ -448,7 +448,7 @@ const Header = () => {
       for (let s = 0; s < scales.length; s++) {
         let tempElem = scales[s].parentElement;
         let tempPosn = getPosition(tempElem);
-        console.log(scales[s].firstElementChild.src);
+        console.log(scales[s].firstElementChild);
         elem = {
           width: tempPosn.width,
           height: tempPosn.height,
@@ -457,11 +457,8 @@ const Header = () => {
           left: tempPosn.left,
           type: "SCALE_INPUT",
           data: `${title}_scale_${s + 1}`,
-          scale_url: scales[s].innerText
-            ? "Scale here"
-            : scales[s].firstElementChild.src,
+          scale_url: scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
-          scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
 
@@ -589,7 +586,7 @@ const Header = () => {
         team_member_ID: decoded.details.team_member_ID,
         update_field: updateField,
         page: item,
-        scale_url: `${scaleData}`,
+        // scale_url: `${scaleData}`,
         company_id: companyId,
         type: decoded.details.action,
       }
