@@ -97,7 +97,7 @@ export const ContextProvider = ({ children }) => {
   const handleDropp = (e) => {
     e.preventDefault();
     if (
-      !e.target.hasChildNodes() &&
+      e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
     ) {
       e.target.style.border = "1px solid black";
@@ -109,7 +109,7 @@ export const ContextProvider = ({ children }) => {
     // console.log("cell has been dropped on " + typeOfOperation);
     // console.log("e.target", e.target, e.target.hasChildNodes());
     if (
-      !e.target.hasChildNodes() &&
+      e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
     ) {
       if (typeOfOperation === "TEXT_INPUT") {

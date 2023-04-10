@@ -794,6 +794,7 @@ const Header = () => {
           // item_id: process_id,
           authorized: authorized,
           // document_id: _id,
+          item_type: action,
           item_id: _id,
           company_id: companyId,
           role: role,
@@ -1044,7 +1045,7 @@ const Header = () => {
                       size="md"
                       className="rounded px-4"
                       id="saving-button"
-                      disabled={isFinializeDisabled}
+                      // disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                     >
                       Finalize
