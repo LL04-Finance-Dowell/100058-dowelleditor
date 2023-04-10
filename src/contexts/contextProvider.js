@@ -85,9 +85,9 @@ export const ContextProvider = ({ children }) => {
   // Scale id
   const [scaleId, setScaleId] = useState("id");
   const [scaleData, setScaleData] = useState([]);
-  const [custom1, setCustom1] = useState('');
-  const [custom2, setCustom2] = useState('');
-  const [custom3, setCustom3] = useState('');
+  const [custom1, setCustom1] = useState("");
+  const [custom2, setCustom2] = useState("");
+  const [custom3, setCustom3] = useState("");
 
   //Company id
   const [companyId, setCompanyId] = useState("");
@@ -97,7 +97,7 @@ export const ContextProvider = ({ children }) => {
   const handleDropp = (e) => {
     e.preventDefault();
     if (
-      !e.target.hasChildNodes() &&
+      e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
     ) {
       e.target.style.border = "1px solid black";
@@ -109,7 +109,7 @@ export const ContextProvider = ({ children }) => {
     // console.log("cell has been dropped on " + typeOfOperation);
     // console.log("e.target", e.target, e.target.hasChildNodes());
     if (
-      !e.target.hasChildNodes() &&
+      e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
     ) {
       if (typeOfOperation === "TEXT_INPUT") {
@@ -241,7 +241,7 @@ export const ContextProvider = ({ children }) => {
         imageButton.append(imgBtn);
         e.target.append(imageField);
         e.target.append(imageButton);
-        e.target.style.width = imageField.style.width
+        e.target.style.width = imageField.style.width;
       } else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";

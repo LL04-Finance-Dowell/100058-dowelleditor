@@ -604,8 +604,6 @@ const Header = () => {
         setIsLoading(false);
         //console.log(err);
       });
-
-     
   }
 
   // const handleFlipClick = (e) => {
@@ -786,12 +784,15 @@ const Header = () => {
     saveButton.click();
     if (isLoading == false)
       Axios.post(
-        `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
+        // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
+        `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
         {
           action: "finalize",
-          item_id: process_id,
+          // item_id: process_id,
           authorized: authorized,
-          document_id: _id,
+          // document_id: _id,
+          item_type: action,
+          item_id: _id,
           company_id: companyId,
           role: role,
         }
@@ -811,14 +812,17 @@ const Header = () => {
 
   function handleReject() {
     setIsLoading(true);
-    Axios.post(`https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`, {
-      action: 'reject',
-      item_id: process_id,
-      authorized: authorized,
-      document_id: _id,
-      company_id: companyId,
-      role: role,
-    })
+    Axios.post(
+      `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
+      {
+        action: "reject",
+        item_id: process_id,
+        authorized: authorized,
+        document_id: _id,
+        company_id: companyId,
+        role: role,
+      }
+    )
       .then((res) => {
         setIsLoading(false);
         console.log(res);
@@ -1038,7 +1042,7 @@ const Header = () => {
                       size="md"
                       className="rounded px-4"
                       id="saving-button"
-                      disabled={isFinializeDisabled}
+                      // disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                     >
                       Finalize
