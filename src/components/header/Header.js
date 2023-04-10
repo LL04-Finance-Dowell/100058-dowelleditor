@@ -1045,7 +1045,7 @@ const Header = () => {
                       size="md"
                       className="rounded px-4"
                       id="saving-button"
-                      // disabled={isFinializeDisabled}
+                      disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                     >
                       Finalize
