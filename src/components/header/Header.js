@@ -7,7 +7,7 @@ import { FaCopy, FaPen, FaSave } from "react-icons/fa";
 import { BiImport, BiExport, BiCut, BiCopyAlt } from "react-icons/bi";
 import { ImRedo, ImUndo } from "react-icons/im";
 import CryptoJS from "crypto-js";
-
+import print from "print-js";
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import { CgMenuLeft, CgPlayListRemove } from "react-icons/cg";
@@ -351,71 +351,71 @@ const Header = () => {
 
     const tables = document.getElementsByClassName("tableInput");
 
-    if (tables.length) {
-      for (let t = 0; t < tables.length; t++) {
-        if (tables[t]?.parentElement?.classList?.contains("holderDIV")) {
-          // var new_table = document.getElementsByTagName("table")[0];
-          let tempElem = tables[t].parentElement;
-          let tempPosn = getPosition(tempElem);
-          //console.log(tables[t].firstElementChild.innerHTML);
-          function getChildData() {
-            const allTableCCells = [];
-            const tableChildren = tables[t].firstElementChild.children;
-            for (let i = 0; i < tableChildren.length; i++) {
-              const tableTR = { tr: null };
-              const newTableTR = [];
-              for (let j = 0; j < tableChildren[i].children.length; j++) {
-                // const element = tableChildren[i];
+    // if (tables.length) {
+    //   for (let t = 0; t < tables.length; t++) {
+    //     if (tables[t]?.parentElement?.classList?.contains("holderDIV")) {
+    //       // var new_table = document.getElementsByTagName("table")[0];
+    //       let tempElem = tables[t].parentElement;
+    //       let tempPosn = getPosition(tempElem);
+    //       //console.log(tables[t].firstElementChild.innerHTML);
+    //       function getChildData() {
+    //         const allTableCCells = [];
+    //         const tableChildren = tables[t].firstElementChild.children;
+    //         for (let i = 0; i < tableChildren.length; i++) {
+    //           const tableTR = { tr: null };
+    //           const newTableTR = [];
+    //           for (let j = 0; j < tableChildren[i].children.length; j++) {
+    //             // const element = tableChildren[i];
 
-                const TdDivClassName =
-                  tableChildren[i].children[
-                    j
-                  ]?.firstElementChild?.className.split(" ")[0];
+    //             const TdDivClassName =
+    //               tableChildren[i].children[
+    //                 j
+    //               ]?.firstElementChild?.className.split(" ")[0];
 
-                const trChild = {
-                  td: {
-                    type:
-                      (TdDivClassName == "dateInput" && "DATE_INPUT") ||
-                      (TdDivClassName == "textInput" && "TEXT_INPUT") ||
-                      (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
-                      (TdDivClassName == "signInput" && "SIGN_INPUT"),
-                    // if(){
-                    data:
-                      TdDivClassName == "imageInput"
-                        ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
-                        : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
-                    id: `tableTd${j + 1}`,
-                  },
-                };
+    //             const trChild = {
+    //               td: {
+    //                 type:
+    //                   (TdDivClassName == "dateInput" && "DATE_INPUT") ||
+    //                   (TdDivClassName == "textInput" && "TEXT_INPUT") ||
+    //                   (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
+    //                   (TdDivClassName == "signInput" && "SIGN_INPUT"),
+    //                 // if(){
+    //                 data:
+    //                   TdDivClassName == "imageInput"
+    //                     ? tableChildren[i].children[j]?.firstElementChild.style
+    //                         .backgroundImage
+    //                     : tableChildren[i].children[j]?.firstElementChild
+    //                         ?.innerHTML,
+    //                 id: `tableTd${j + 1}`,
+    //               },
+    //             };
 
-                newTableTR.push(trChild);
-              }
-              tableTR.tr = newTableTR;
-              allTableCCells.push(tableTR);
-            }
-            console.log("allTableCCells", allTableCCells);
-            return allTableCCells;
-          }
-          elem = {
-            width: tempPosn.width,
-            height: tempPosn.height,
-            top: tempPosn.top,
-            topp: tables[t].parentElement.style.top,
-            left: tempPosn.left,
-            type: "TABLE_INPUT",
-            // start work here
-            // data: tables[t].firstElementChild.innerHTML,
-            data: getChildData(),
-            id: `tab${t + 1}`,
-          };
-          dataInsertWithPage(tempPosn, elem);
+    //             newTableTR.push(trChild);
+    //           }
+    //           tableTR.tr = newTableTR;
+    //           allTableCCells.push(tableTR);
+    //         }
+    //         console.log("allTableCCells", allTableCCells);
+    //         return allTableCCells;
+    //       }
+    //       elem = {
+    //         width: tempPosn.width,
+    //         height: tempPosn.height,
+    //         top: tempPosn.top,
+    //         topp: tables[t].parentElement.style.top,
+    //         left: tempPosn.left,
+    //         type: "TABLE_INPUT",
+    //         // start work here
+    //         // data: tables[t].firstElementChild.innerHTML,
+    //         data: getChildData(),
+    //         id: `tab${t + 1}`,
+    //       };
+    //       dataInsertWithPage(tempPosn, elem);
 
-          // page.push(elem);
-        }
-      }
-    }
+    //       // page.push(elem);
+    //     }
+    //   }
+    // }
     const iframes = document.getElementsByClassName("iframeInput");
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
@@ -897,6 +897,7 @@ const Header = () => {
                       trigger={
                         (e) => ( */}
                     <p onClick={hanldePrint}>
+                      {/* <p onClick={printJS('docs/printjs.pdf')}> */}
                       <AiFillPrinter /> Print
                     </p>
                     {/* )
