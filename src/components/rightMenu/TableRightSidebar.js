@@ -115,8 +115,7 @@ const TableRightSidebar = () => {
       const insertColToRight = document.createElement("div");
       insertColToRight.style.cursor = "pointer";
 
-      insertColToRight.innerHTML =
-        "<strong> + </strong> Insert Column to Right";
+      insertColToRight.innerHTML = "<strong> + </strong> Insert Col to Right";
       insertColToRight.onclick = handleAddColumnRight;
 
       const hrParentDiv = document.createElement("div");
@@ -173,7 +172,7 @@ const TableRightSidebar = () => {
       tableMenuParentDiv.style.top = "15px";
       tableMenuParentDiv.style.padding = "10px 15px";
       tableMenuParentDiv.style.textAlign = "left";
-      tableMenuParentDiv.style.zIndex = 2;
+      tableMenuParentDiv.style.zIndex = 99999;
       cells_menu.appendChild(tableMenuParentDiv);
     } else {
       cells_menu.children[1].remove();
@@ -609,11 +608,12 @@ const TableRightSidebar = () => {
     const editableTable = findTArgetElement?.children[0];
 
     const numOfTr = editableTable?.rows?.length;
-    const numOfTd = editableTable.querySelectorAll("td").length;
+    const numOfTdElement = editableTable.querySelectorAll("td");
+    const numOfTd = numOfTdElement.length;
     const numOfCol = numOfTd / numOfTr;
 
     console.log("numOfTr", numOfTr, "numOfTd", numOfTd, "numOfCol", numOfCol);
-    for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
+    for (let rowIndex = 0; rowIndex < numOfTd; rowIndex++) {
       var td = document.createElement("td");
       td.className = "dropp";
       td.style.height = "50px";
@@ -635,6 +635,13 @@ const TableRightSidebar = () => {
       //   td.style.border = "none";
       //   td.appendChild(colDeleteBtn);
       // }
+      // numOfTd.onclick = (e) => {
+      //   console.log("e.target", e.target);
+      // };
+      if (e.target.parentElement.parentElement == numOfTdElement[rowIndex]) {
+        console.log("u find me!");
+      }
+      console.log("test target", e.target.parentElement.parentElement);
       td.ondragover = function (e) {
         e.preventDefault();
         e.target.classList.add("table_drag");
@@ -672,16 +679,16 @@ const TableRightSidebar = () => {
         //   editableTable.querySelectorAll("td")[i] ==
         //   e.target.parentElement.parentElement
         // ) {
-        console.log(
-          "element test",
-          editableTable.querySelectorAll("td")[i],
-          e.target.parentElement.parentElement
-        );
+        // console.log(
+        //   "element test",
+        //   editableTable.querySelectorAll("td")[i],
+        //   e.target.parentElement.parentElement
+        // );
         targetTD = i;
         // break;
         // }
       }
-      console.log("targetTr", targetTD);
+      // console.log("targetTr", targetTD);
       // allTrs[rowIndex].insertBefore(td, allTrs[rowIndex]);
     }
     e.stopPropagation();
