@@ -338,7 +338,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -383,9 +383,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -781,33 +781,35 @@ const Header = () => {
   // console.log('page count check', item);
   const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
-    saveButton.click();
-    if (isLoading == false)
-      Axios.post(
-        // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
-        `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
-        {
-          action: "finalize",
-          // item_id: process_id,
-          authorized: authorized,
-          // document_id: _id,
-          item_type: action,
-          item_id: _id,
-          company_id: companyId,
-          role: role,
-        }
-      )
-        .then((res) => {
-          console.log(res);
-          // alert(res?.data);
-          toast.success(res?.data);
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log(err);
-          toast.error(err);
-          // alert(err?.message);
-        });
+
+    setIsLoading(true);
+
+    Axios.post(
+      // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
+      `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
+      {
+        action: "finalize",
+        // item_id: process_id,
+        authorized: authorized,
+        // document_id: _id,
+        item_type: action,
+        item_id: _id,
+        company_id: companyId,
+        role: role,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+        // alert(res?.data);
+        toast.success(res?.data);
+        saveButton.click();
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+        toast.error(err);
+        // alert(err?.message);
+      });
   }
 
   function handleReject() {
@@ -854,9 +856,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -866,9 +867,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
