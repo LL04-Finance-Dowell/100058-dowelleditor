@@ -90,29 +90,32 @@ const TableRightSidebar = () => {
         break;
       }
     }
-    console.log("onmouse leave", notes, cells_menu.childNodes.length);
+    // console.log("onmouse leave", notes, cells_menu.childNodes.length);
     if (!notes) {
       const tableMenuParentDiv = document.createElement("div");
 
       const insertRabove = document.createElement("div");
       insertRabove.style.cursor = "pointer";
       insertRabove.innerHTML = "<strong> + </strong> Insert Row Above";
-      insertRabove.onclick = handleAddRowAbove;
+      insertRabove.onclick = (e) => {
+        handleAddRow(e, "above");
+      };
       const insertRbelow = document.createElement("div");
       insertRbelow.style.cursor = "pointer";
 
       insertRbelow.innerHTML = "<strong> + </strong> Insert Row Below";
-      insertRbelow.onclick = handleAddRowBelow;
+      insertRbelow.onclick = (e) => {
+        handleAddRow(e, "below");
+      };
       const insertColToLeft = document.createElement("div");
       insertColToLeft.style.cursor = "pointer";
 
       insertColToLeft.innerHTML = "<strong> + </strong> Insert Col to Left";
-      insertColToLeft.onclick = handleAddColumnLeft;
+      insertColToLeft.onclick = handleAddColumnRight;
       const insertColToRight = document.createElement("div");
       insertColToRight.style.cursor = "pointer";
 
-      insertColToRight.innerHTML =
-        "<strong> + </strong> Insert Column to Right";
+      insertColToRight.innerHTML = "<strong> + </strong> Insert Col to Right";
       insertColToRight.onclick = handleAddColumnRight;
 
       const hrParentDiv = document.createElement("div");
@@ -128,14 +131,14 @@ const TableRightSidebar = () => {
 
       deleteRow.innerHTML =
         '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 5V4C17 2.89543 16.1046 2 15 2H9C7.89543 2 7 2.89543 7 4V5H4C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H5V18C5 19.6569 6.34315 21 8 21H16C17.6569 21 19 19.6569 19 18V7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H17ZM15 4H9V5H15V4ZM17 7H7V18C7 18.5523 7.44772 19 8 19H16C16.5523 19 17 18.5523 17 18V7Z" fill="currentColor"></path><path d="M9 9H11V17H9V9Z" fill="currentColor"></path><path d="M13 9H15V17H13V9Z" fill="currentColor"></path></svg> <span class="remove-svg-margin">Delete Row</span>';
-      deleteRow.onclick = handleAddRowAbove;
+      // deleteRow.onclick = handleAddRowAbove;
 
       const deleteColumn = document.createElement("div");
       deleteColumn.style.cursor = "pointer";
 
       deleteColumn.innerHTML =
         '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 5V4C17 2.89543 16.1046 2 15 2H9C7.89543 2 7 2.89543 7 4V5H4C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H5V18C5 19.6569 6.34315 21 8 21H16C17.6569 21 19 19.6569 19 18V7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H17ZM15 4H9V5H15V4ZM17 7H7V18C7 18.5523 7.44772 19 8 19H16C16.5523 19 17 18.5523 17 18V7Z" fill="currentColor"></path><path d="M9 9H11V17H9V9Z" fill="currentColor"></path><path d="M13 9H15V17H13V9Z" fill="currentColor"></path></svg> <span class="remove-svg-margin">Delete Column</span>';
-      deleteColumn.onclick = handleAddRowAbove;
+      // deleteColumn.onclick = handleAddRowAbove;
 
       const deleteTable = document.createElement("div");
       deleteTable.innerHTML =
@@ -169,11 +172,12 @@ const TableRightSidebar = () => {
       tableMenuParentDiv.style.top = "15px";
       tableMenuParentDiv.style.padding = "10px 15px";
       tableMenuParentDiv.style.textAlign = "left";
-      tableMenuParentDiv.style.zIndex = 2;
+      tableMenuParentDiv.style.zIndex = 99999;
       cells_menu.appendChild(tableMenuParentDiv);
     } else {
       cells_menu.children[1].remove();
     }
+    e.stopPropagation();
   }
 
   //
@@ -318,10 +322,10 @@ const TableRightSidebar = () => {
       var editDiv = document.createElement("div");
       editDiv.className = "row_col_add_div";
       var addRowBtn = document.createElement("BUTTON");
-      addRowBtn.onclick = handleAddRowBelow;
+      // addRowBtn.onclick = handleAddRowBelow;
 
       var addColBtn = document.createElement("BUTTON");
-      addColBtn.onclick = handleAddColumnRight;
+      // addColBtn.onclick = handleAddColumnRight;
       addRowBtn.className = "btn btn-primary me-3 my-3";
       addRowBtn.innerText = "Add Row";
       addColBtn.innerText = "Add Col";
@@ -408,97 +412,94 @@ const TableRightSidebar = () => {
     setIsDisableTableRightMenu(true);
   };
 
-  const handleAddRowBelow = (e) => {
+  // const handleAddRowBelow = (e) => {
+  //   const focusseddDiv = document.querySelector(".focussedd");
+
+  //   let findTArgetElement = focusseddDiv;
+
+  //   while (1) {
+  //     if (findTArgetElement.classList.contains("tableInput")) {
+  //       // findTArgetElement.classList.add("focussedd");
+  //       break;
+  //     } else {
+  //       findTArgetElement = findTArgetElement.children[1];
+  //     }
+  //   }
+
+  //   // if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+  //   const editableTable = findTArgetElement?.children[0];
+  //   // console.log("findTArgetElement", findTArgetElement, editableTable);
+  //   const numOfTr = editableTable?.rows?.length;
+  //   const numOfTd = editableTable.querySelectorAll("td").length;
+  //   const numOfCol = numOfTd / numOfTr;
+  //   for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
+  //     var tr = document.createElement("tr");
+
+  //     for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
+  //       // console.log("numOfCol", numOfTr, numOfTd, numOfCol);
+  //       var td = document.createElement("td");
+  //       td.className = "dropp";
+  //       // td.style.height = "50px";
+  //       // if (colIndex == numOfCol - 1) {
+  //       //   const rowDeleteBtn = document.createElement("button");
+  //       //   rowDeleteBtn.className = "btn btn-warning";
+  //       //   rowDeleteBtn.style.marginLeft = "5px";
+  //       //   rowDeleteBtn.innerText = "Del Row";
+  //       //   rowDeleteBtn.onclick = (e) => {
+  //       //     e.target?.parentElement?.parentElement?.remove();
+  //       //     e.stopPropagation();
+  //       //   };
+  //       //   td.style.border = "none";
+  //       //   // td.style.background = "#fff";
+  //       //   td.appendChild(rowDeleteBtn);
+  //       // }
+  //       td.ondragover = function (e) {
+  //         e.preventDefault();
+  //         e.target.classList.add("table_drag");
+  //         if (!e.target.hasChildNodes()) {
+  //           e.target.style.border = "3px solid blue";
+  //         }
+  //         if (e.target.classList.contains("imageInput")) {
+  //           e.target.style.border = "none";
+  //         }
+  //       };
+  //       td.ondragleave = (e) => {
+  //         e.preventDefault();
+  //         if (
+  //           !e.target.hasChildNodes() &&
+  //           !e.target.classList.contains("imageInput")
+  //         ) {
+  //           e.target.style.border = "1px solid black";
+  //         }
+  //         if (e.target.classList.contains("imageInput")) {
+  //           e.target.style.border = "none";
+  //         }
+  //       };
+
+  //       // console.log("td", td.classList.contains("dropp"));
+  //       td.ondrop = handleDropp;
+  //       tr.appendChild(td);
+  //     }
+  //     editableTable.appendChild(tr);
+  //   }
+  //   e.stopPropagation();
+  //   // }
+  // };
+
+  const handleAddRow = (e, direction) => {
     const focusseddDiv = document.querySelector(".focussedd");
 
     let findTArgetElement = focusseddDiv;
 
     while (1) {
       if (findTArgetElement.classList.contains("tableInput")) {
-        // findTArgetElement.classList.add("focussedd");
-        break;
-      } else {
-        findTArgetElement = findTArgetElement.children[1];
-      }
-    }
-
-    // if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-    const editableTable = findTArgetElement?.children[0];
-    // console.log("findTArgetElement", findTArgetElement, editableTable);
-    const numOfTr = editableTable?.rows?.length;
-    const numOfTd = editableTable.querySelectorAll("td").length;
-    const numOfCol = numOfTd / numOfTr;
-    for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
-      var tr = document.createElement("tr");
-
-      for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
-        // console.log("numOfCol", numOfTr, numOfTd, numOfCol);
-        var td = document.createElement("td");
-        td.className = "dropp";
-        // td.style.height = "50px";
-        // if (colIndex == numOfCol - 1) {
-        //   const rowDeleteBtn = document.createElement("button");
-        //   rowDeleteBtn.className = "btn btn-warning";
-        //   rowDeleteBtn.style.marginLeft = "5px";
-        //   rowDeleteBtn.innerText = "Del Row";
-        //   rowDeleteBtn.onclick = (e) => {
-        //     e.target?.parentElement?.parentElement?.remove();
-        //     e.stopPropagation();
-        //   };
-        //   td.style.border = "none";
-        //   // td.style.background = "#fff";
-        //   td.appendChild(rowDeleteBtn);
-        // }
-        td.ondragover = function (e) {
-          e.preventDefault();
-          e.target.classList.add("table_drag");
-          if (!e.target.hasChildNodes()) {
-            e.target.style.border = "3px solid blue";
-          }
-          if (e.target.classList.contains("imageInput")) {
-            e.target.style.border = "none";
-          }
-        };
-        td.ondragleave = (e) => {
-          e.preventDefault();
-          if (
-            !e.target.hasChildNodes() &&
-            !e.target.classList.contains("imageInput")
-          ) {
-            e.target.style.border = "1px solid black";
-          }
-          if (e.target.classList.contains("imageInput")) {
-            e.target.style.border = "none";
-          }
-        };
-
-        // console.log("td", td.classList.contains("dropp"));
-        td.ondrop = handleDropp;
-        tr.appendChild(td);
-      }
-      editableTable.appendChild(tr);
-    }
-    e.stopPropagation();
-    // }
-  };
-
-  const handleAddRowAbove = (e) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-
-    let findTArgetElement = focusseddDiv;
-
-    while (1) {
-      if (findTArgetElement.classList.contains("tableInput")) {
-        // findTArgetElement.classList.add("focussedd");
         break;
       } else {
         findTArgetElement = findTArgetElement.firstChild;
       }
     }
 
-    // if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
     const editableTable = findTArgetElement?.children[0];
-    // console.log("findTArgetElement", findTArgetElement, editableTable);
     const numOfTr = editableTable?.rows?.length;
     const numOfTd = editableTable.querySelectorAll("td").length;
     const numOfCol = numOfTd / numOfTr;
@@ -583,29 +584,36 @@ const TableRightSidebar = () => {
           // break;
         }
       }
-
-      editableTable.querySelectorAll("tr")[targetTr].before(tr);
+      if (direction == "above") {
+        editableTable.querySelectorAll("tr")[targetTr].before(tr);
+      } else {
+        editableTable.querySelectorAll("tr")[targetTr].after(tr);
+      }
     }
     e.stopPropagation();
   };
   const handleAddColumnRight = (e) => {
     const focusseddDiv = document.querySelector(".focussedd");
+
     let findTArgetElement = focusseddDiv;
 
     while (1) {
       if (findTArgetElement.classList.contains("tableInput")) {
-        // findTArgetElement.classList.add("focussedd");
         break;
       } else {
-        findTArgetElement = findTArgetElement.children[1];
+        findTArgetElement = findTArgetElement.firstChild;
       }
     }
-    // if (focusseddDiv?.children[1]?.classList.contains("tableInput")) {
+
     const editableTable = findTArgetElement?.children[0];
+
     const numOfTr = editableTable?.rows?.length;
-    const numOfTd = editableTable.querySelectorAll("td").length;
-    const numOfCol = (numOfTd + 1) / numOfTr;
-    for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
+    const numOfTdElement = editableTable.querySelectorAll("td");
+    const numOfTd = numOfTdElement.length;
+    const numOfCol = numOfTd / numOfTr;
+
+    console.log("numOfTr", numOfTr, "numOfTd", numOfTd, "numOfCol", numOfCol);
+    for (let rowIndex = 0; rowIndex < numOfTd; rowIndex++) {
       var td = document.createElement("td");
       td.className = "dropp";
       td.style.height = "50px";
@@ -627,10 +635,17 @@ const TableRightSidebar = () => {
       //   td.style.border = "none";
       //   td.appendChild(colDeleteBtn);
       // }
+      // numOfTd.onclick = (e) => {
+      //   console.log("e.target", e.target);
+      // };
+      if (e.target.parentElement.parentElement == numOfTdElement[rowIndex]) {
+        console.log("u find me!");
+      }
+      console.log("test target", e.target.parentElement.parentElement);
       td.ondragover = function (e) {
         e.preventDefault();
         e.target.classList.add("table_drag");
-        if (!e.target.hasChildNodes()) {
+        if (e.target.childNodes.length < 2) {
           e.target.style.border = "3px solid blue";
         }
         if (e.target.classList.contains("imageInput")) {
@@ -640,7 +655,7 @@ const TableRightSidebar = () => {
       td.ondragleave = (e) => {
         e.preventDefault();
         if (
-          !e.target.hasChildNodes() &&
+          e.target.childNodes.length < 2 &&
           !e.target.classList.contains("imageInput")
         ) {
           e.target.style.border = "1px solid black";
@@ -653,9 +668,28 @@ const TableRightSidebar = () => {
       // console.log("cells", cells.classList.contains("dropp"));
       td.ondrop = handleDropp;
       const allTrs = editableTable.querySelectorAll("tr");
-      allTrs[rowIndex].appendChild(td);
+      // allTrs[rowIndex].appendChild(td);
 
-      // allTrs[rowIndex].insertBefore(td, allTrs[rowIndex].lastChild);
+      // allTrs[rowIndex].after(td);
+
+      // const AllTrOfEditableTable = editableTable.querySelectorAll("tr");
+      let targetTD = null;
+      for (let i = 0; i < numOfCol; i++) {
+        // if (
+        //   editableTable.querySelectorAll("td")[i] ==
+        //   e.target.parentElement.parentElement
+        // ) {
+        // console.log(
+        //   "element test",
+        //   editableTable.querySelectorAll("td")[i],
+        //   e.target.parentElement.parentElement
+        // );
+        targetTD = i;
+        // break;
+        // }
+      }
+      // console.log("targetTr", targetTD);
+      // allTrs[rowIndex].insertBefore(td, allTrs[rowIndex]);
     }
     e.stopPropagation();
     // }
@@ -787,7 +821,7 @@ const TableRightSidebar = () => {
         />
       </div>
 
-      <div className="d-flex mt-2 text-center pt-5">
+      <div className="d-flex mt-2 justify-content-center pt-5">
         {/* {!numOfColumn && !numOfRow ? ( */}
 
         <Button
@@ -798,7 +832,7 @@ const TableRightSidebar = () => {
         >
           Create Table
         </Button>
-        <Button
+        {/* <Button
           variant="success"
           className="px-5"
           // data-bs-toggle="modal"
@@ -807,7 +841,7 @@ const TableRightSidebar = () => {
           disabled={isDisableTableRightMenu}
         >
           Update Table
-        </Button>
+        </Button> */}
       </div>
 
       {/* <div className='dropdown pt-4'>

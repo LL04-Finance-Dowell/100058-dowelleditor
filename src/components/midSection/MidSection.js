@@ -18,7 +18,7 @@ import Axios from "axios";
 // import { editSec_midSec_ref } from '../editSection/EditSection';
 import jwt_decode from "jwt-decode";
 import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
-
+import PrintProvider, { Print, NoPrint } from "react-easy-print";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -2359,32 +2359,34 @@ const MidSection = React.forwardRef((props, ref) => {
         return (
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>
-          <div
-            ref={ref}
-            key={index}
-            className={`midSection print_midsection_${index}`}
-          >
-            <Container
-              as="div"
-              ref={midSectionRef}
-              className={
-                // !sidebar
-                //   ? "midSection_without_RightMenu_container"
-                "midSection_container print_container"
-              }
-              // className="midSection_container"
-              id="midSection_container"
-              onDragOver={dragOver}
-              onDrop={onDrop}
+          <Print>
+            <div
+              ref={ref}
+              key={index}
+              className={`midSection print_midsection_${index}`}
             >
-              <Row>
-                <Col className="d-flex justify-content-end header_user">
-                  <span>{index + 1}</span>
-                  {isLoading && <Spinner />}
-                </Col>
-              </Row>
-            </Container>
-          </div>
+              <Container
+                as="div"
+                ref={midSectionRef}
+                className={
+                  // !sidebar
+                  //   ? "midSection_without_RightMenu_container"
+                  "midSection_container print_container"
+                }
+                // className="midSection_container"
+                id="midSection_container"
+                onDragOver={dragOver}
+                onDrop={onDrop}
+              >
+                <Row>
+                  <Col className="d-flex justify-content-end header_user">
+                    <span>{index + 1}</span>
+                    {isLoading && <Spinner />}
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          </Print>
         );
       })}
       {/* <!-- Modal --> */}
