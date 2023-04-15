@@ -65,7 +65,7 @@ const TableRightSidebar = () => {
     iconDiv.style.right = "0px";
     iconDiv.style.zIndex = "2";
     iconDiv.style.padding = "0px 5px";
-    iconDiv.style.marginTop = "-4px";
+    iconDiv.style.marginTop = "0px";
     iconDiv.style.width = "25px";
     iconDiv.style.borderBottomLeftRadius = "2px";
     iconDiv.style.backgroundColor = "#00d3b0";
@@ -111,12 +111,16 @@ const TableRightSidebar = () => {
       insertColToLeft.style.cursor = "pointer";
 
       insertColToLeft.innerHTML = "<strong> + </strong> Insert Col to Left";
-      insertColToLeft.onclick = handleAddColumnRight;
+      insertColToLeft.onclick = (e) => {
+        handleAddColumn(e, "left");
+      };
       const insertColToRight = document.createElement("div");
       insertColToRight.style.cursor = "pointer";
 
       insertColToRight.innerHTML = "<strong> + </strong> Insert Col to Right";
-      insertColToRight.onclick = handleAddColumnRight;
+      insertColToRight.onclick = (e) => {
+        handleAddColumn(e, "right");
+      };
 
       const hrParentDiv = document.createElement("div");
       const hrElement = document.createElement("hr");
@@ -131,14 +135,14 @@ const TableRightSidebar = () => {
 
       deleteRow.innerHTML =
         '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 5V4C17 2.89543 16.1046 2 15 2H9C7.89543 2 7 2.89543 7 4V5H4C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H5V18C5 19.6569 6.34315 21 8 21H16C17.6569 21 19 19.6569 19 18V7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H17ZM15 4H9V5H15V4ZM17 7H7V18C7 18.5523 7.44772 19 8 19H16C16.5523 19 17 18.5523 17 18V7Z" fill="currentColor"></path><path d="M9 9H11V17H9V9Z" fill="currentColor"></path><path d="M13 9H15V17H13V9Z" fill="currentColor"></path></svg> <span class="remove-svg-margin">Delete Row</span>';
-      // deleteRow.onclick = handleAddRowAbove;
+      deleteRow.onclick = handleDeleteRow;
 
       const deleteColumn = document.createElement("div");
       deleteColumn.style.cursor = "pointer";
 
       deleteColumn.innerHTML =
         '<svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M17 5V4C17 2.89543 16.1046 2 15 2H9C7.89543 2 7 2.89543 7 4V5H4C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H5V18C5 19.6569 6.34315 21 8 21H16C17.6569 21 19 19.6569 19 18V7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H17ZM15 4H9V5H15V4ZM17 7H7V18C7 18.5523 7.44772 19 8 19H16C16.5523 19 17 18.5523 17 18V7Z" fill="currentColor"></path><path d="M9 9H11V17H9V9Z" fill="currentColor"></path><path d="M13 9H15V17H13V9Z" fill="currentColor"></path></svg> <span class="remove-svg-margin">Delete Column</span>';
-      // deleteColumn.onclick = handleAddRowAbove;
+      deleteColumn.onclick = handleDeleteCol;
 
       const deleteTable = document.createElement("div");
       deleteTable.innerHTML =
@@ -316,101 +320,101 @@ const TableRightSidebar = () => {
       e.stopPropagation();
     }
   };
-  const updateTable = (e) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-      var editDiv = document.createElement("div");
-      editDiv.className = "row_col_add_div";
-      var addRowBtn = document.createElement("BUTTON");
-      // addRowBtn.onclick = handleAddRowBelow;
+  // const updateTable = (e) => {
+  //   const focusseddDiv = document.querySelector(".focussedd");
+  //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+  //     var editDiv = document.createElement("div");
+  //     editDiv.className = "row_col_add_div";
+  //     var addRowBtn = document.createElement("BUTTON");
+  //     // addRowBtn.onclick = handleAddRowBelow;
 
-      var addColBtn = document.createElement("BUTTON");
-      // addColBtn.onclick = handleAddColumnRight;
-      addRowBtn.className = "btn btn-primary me-3 my-3";
-      addRowBtn.innerText = "Add Row";
-      addColBtn.innerText = "Add Col";
-      addColBtn.className = "btn btn-primary my-3";
-      editDiv.appendChild(addRowBtn);
-      editDiv.appendChild(addColBtn);
-      editDiv.style.display = "flex";
-      // editDiv.style.justifyContent = ""
-      focusseddDiv?.firstElementChild?.prepend(editDiv);
-      if (focusseddDiv?.firstElementChild?.children[1]) {
-        const numOfTr =
-          focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
-        const numOfTd =
-          focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
-            "td"
-          ).length;
-        // const numOfROW = numOfTr;
-        const numOfCol = numOfTd / numOfTr;
-        var tr = document.createElement("tr");
+  //     var addColBtn = document.createElement("BUTTON");
+  //     // addColBtn.onclick = handleAddColumn;
+  //     addRowBtn.className = "btn btn-primary me-3 my-3";
+  //     addRowBtn.innerText = "Add Row";
+  //     addColBtn.innerText = "Add Col";
+  //     addColBtn.className = "btn btn-primary my-3";
+  //     editDiv.appendChild(addRowBtn);
+  //     editDiv.appendChild(addColBtn);
+  //     editDiv.style.display = "flex";
+  //     // editDiv.style.justifyContent = ""
+  //     focusseddDiv?.firstElementChild?.prepend(editDiv);
+  //     if (focusseddDiv?.firstElementChild?.children[1]) {
+  //       const numOfTr =
+  //         focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
+  //       const numOfTd =
+  //         focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+  //           "td"
+  //         ).length;
+  //       // const numOfROW = numOfTr;
+  //       const numOfCol = numOfTd / numOfTr;
+  //       var tr = document.createElement("tr");
 
-        for (let i = 0; i < numOfCol; i++) {
-          var td = document.createElement("td");
-          td.className = "dropp";
-          td.style.height = "50px";
-          // if (rowIndex == 0 && colIndex != numOfCol) {
-          const colDeleteBtn = document.createElement("button");
-          colDeleteBtn.className = "btn btn-warning";
-          colDeleteBtn.style.marginLeft = "5px";
-          colDeleteBtn.innerText = "Del Col";
-          colDeleteBtn.onclick = (e) => {
-            const index = Array.from(
-              e.target.parentElement.parentElement.children
-            ).indexOf(e.target.parentElement);
-            const allTableTr =
-              focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
-                "tr"
-              );
-            for (let i = 0; i < allTableTr.length; i++) {
-              focusseddDiv?.firstElementChild?.children[1]
-                .querySelectorAll("tr")
-                [i].childNodes[index].remove();
-            }
-            e.stopPropagation();
-          };
-          td.style.border = "none";
-          td.appendChild(colDeleteBtn);
-          tr.appendChild(td);
-        }
-        focusseddDiv?.firstElementChild?.children[1].prepend(tr);
+  //       for (let i = 0; i < numOfCol; i++) {
+  //         var td = document.createElement("td");
+  //         td.className = "dropp";
+  //         td.style.height = "50px";
+  //         // if (rowIndex == 0 && colIndex != numOfCol) {
+  //         const colDeleteBtn = document.createElement("button");
+  //         colDeleteBtn.className = "btn btn-warning";
+  //         colDeleteBtn.style.marginLeft = "5px";
+  //         colDeleteBtn.innerText = "Del Col";
+  //         colDeleteBtn.onclick = (e) => {
+  //           const index = Array.from(
+  //             e.target.parentElement.parentElement.children
+  //           ).indexOf(e.target.parentElement);
+  //           const allTableTr =
+  //             focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+  //               "tr"
+  //             );
+  //           for (let i = 0; i < allTableTr.length; i++) {
+  //             focusseddDiv?.firstElementChild?.children[1]
+  //               .querySelectorAll("tr")
+  //               [i].childNodes[index].remove();
+  //           }
+  //           e.stopPropagation();
+  //         };
+  //         td.style.border = "none";
+  //         td.appendChild(colDeleteBtn);
+  //         tr.appendChild(td);
+  //       }
+  //       focusseddDiv?.firstElementChild?.children[1].prepend(tr);
 
-        for (let rowIndex = 1; rowIndex < numOfTr + 1; rowIndex++) {
-          for (let colIndex = 0; colIndex < numOfCol + 2; colIndex++) {
-            // if (colIndex == numOfCol && rowIndex != 0) {
-            var td = document.createElement("td");
-            const rowDeleteBtn = document.createElement("button");
-            rowDeleteBtn.className = "btn btn-warning";
-            rowDeleteBtn.style.marginLeft = "5px";
-            rowDeleteBtn.innerText = "Del Row";
-            rowDeleteBtn.onclick = (e) => {
-              e.target?.parentElement?.parentElement?.remove();
-              e.stopPropagation();
-            };
-            td.style.border = "none";
-            // td.style.background = "#fff";
-            td.appendChild(rowDeleteBtn);
-            // }
-          }
-          // console.log("child element check", focusseddDiv?.firstElementChild);
-          focusseddDiv?.firstElementChild?.children[1].childNodes[
-            rowIndex
-          ].appendChild(td);
-        }
-        // focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
-      }
-      var saveDiv = document.createElement("div");
-      saveDiv.className = "table_update_save_div";
-      var saveBtn = document.createElement("BUTTON");
-      saveBtn.className = "btn btn-primary my-3";
-      saveBtn.innerText = "Save Changes";
-      saveBtn.onclick = hadleTableUpdateSave;
-      saveDiv.appendChild(saveBtn);
-      focusseddDiv?.firstElementChild?.appendChild(saveDiv);
-    }
-    setIsDisableTableRightMenu(true);
-  };
+  //       for (let rowIndex = 1; rowIndex < numOfTr + 1; rowIndex++) {
+  //         for (let colIndex = 0; colIndex < numOfCol + 2; colIndex++) {
+  //           // if (colIndex == numOfCol && rowIndex != 0) {
+  //           var td = document.createElement("td");
+  //           const rowDeleteBtn = document.createElement("button");
+  //           rowDeleteBtn.className = "btn btn-warning";
+  //           rowDeleteBtn.style.marginLeft = "5px";
+  //           rowDeleteBtn.innerText = "Del Row";
+  //           rowDeleteBtn.onclick = (e) => {
+  //             e.target?.parentElement?.parentElement?.remove();
+  //             e.stopPropagation();
+  //           };
+  //           td.style.border = "none";
+  //           // td.style.background = "#fff";
+  //           td.appendChild(rowDeleteBtn);
+  //           // }
+  //         }
+  //         // console.log("child element check", focusseddDiv?.firstElementChild);
+  //         focusseddDiv?.firstElementChild?.children[1].childNodes[
+  //           rowIndex
+  //         ].appendChild(td);
+  //       }
+  //       // focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
+  //     }
+  //     var saveDiv = document.createElement("div");
+  //     saveDiv.className = "table_update_save_div";
+  //     var saveBtn = document.createElement("BUTTON");
+  //     saveBtn.className = "btn btn-primary my-3";
+  //     saveBtn.innerText = "Save Changes";
+  //     saveBtn.onclick = hadleTableUpdateSave;
+  //     saveDiv.appendChild(saveBtn);
+  //     focusseddDiv?.firstElementChild?.appendChild(saveDiv);
+  //   }
+  //   setIsDisableTableRightMenu(true);
+  // };
 
   // const handleAddRowBelow = (e) => {
   //   const focusseddDiv = document.querySelector(".focussedd");
@@ -487,19 +491,7 @@ const TableRightSidebar = () => {
   // };
 
   const handleAddRow = (e, direction) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-
-    let findTArgetElement = focusseddDiv;
-
-    while (1) {
-      if (findTArgetElement.classList.contains("tableInput")) {
-        break;
-      } else {
-        findTArgetElement = findTArgetElement.firstChild;
-      }
-    }
-
-    const editableTable = findTArgetElement?.children[0];
+    const editableTable = findEditableTable();
     const numOfTr = editableTable?.rows?.length;
     const numOfTd = editableTable.querySelectorAll("td").length;
     const numOfCol = numOfTd / numOfTr;
@@ -592,56 +584,43 @@ const TableRightSidebar = () => {
     }
     e.stopPropagation();
   };
-  const handleAddColumnRight = (e) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-
-    let findTArgetElement = focusseddDiv;
-
-    while (1) {
-      if (findTArgetElement.classList.contains("tableInput")) {
-        break;
-      } else {
-        findTArgetElement = findTArgetElement.firstChild;
-      }
-    }
-
-    const editableTable = findTArgetElement?.children[0];
-
+  const handleAddColumn = (e, direction) => {
+    const editableTable = findEditableTable();
     const numOfTr = editableTable?.rows?.length;
     const numOfTdElement = editableTable.querySelectorAll("td");
     const numOfTd = numOfTdElement.length;
     const numOfCol = numOfTd / numOfTr;
 
-    console.log("numOfTr", numOfTr, "numOfTd", numOfTd, "numOfCol", numOfCol);
-    for (let rowIndex = 0; rowIndex < numOfTd; rowIndex++) {
+    // console.log("numOfTr", numOfTr, "numOfTd", numOfTd, "numOfCol", numOfCol);
+    const AllTrOfEditableTable = editableTable.querySelectorAll("tr");
+
+    const index = Array.from(
+      e.target.parentElement.parentElement.parentElement.children
+    ).indexOf(e.target.parentElement.parentElement);
+    for (let i = 0; i < AllTrOfEditableTable.length; i++) {
       var td = document.createElement("td");
       td.className = "dropp";
       td.style.height = "50px";
-      // if (rowIndex == 0) {
-      //   const colDeleteBtn = document.createElement("button");
-      //   colDeleteBtn.className = "btn btn-warning";
-      //   colDeleteBtn.style.marginLeft = "5px";
-      //   colDeleteBtn.innerText = "Del Col";
-      //   colDeleteBtn.onclick = (e) => {
-      //     const index = Array.from(
-      //       e.target.parentElement.parentElement.children
-      //     ).indexOf(e.target.parentElement);
-      //     const allTableTr = editableTable.querySelectorAll("tr");
-      //     for (let i = 0; i < allTableTr.length; i++) {
-      //       editableTable.querySelectorAll("tr")[i].childNodes[index].remove();
-      //     }
-      //     e.stopPropagation();
-      //   };
-      //   td.style.border = "none";
-      //   td.appendChild(colDeleteBtn);
-      // }
-      // numOfTd.onclick = (e) => {
-      //   console.log("e.target", e.target);
-      // };
-      if (e.target.parentElement.parentElement == numOfTdElement[rowIndex]) {
-        console.log("u find me!");
-      }
-      console.log("test target", e.target.parentElement.parentElement);
+      const iconMenu = createIconMenu();
+      td.appendChild(iconMenu);
+      td.onmouseover = function (e) {
+        e.preventDefault();
+        if (e.target.classList.contains("dropp"))
+          e.target.classList.add("cells_menu");
+      };
+      td.onmouseleave = function (e) {
+        e.preventDefault();
+        var notes = null;
+        for (var i = 0; i < e.target.childNodes.length; i++) {
+          if (e.target.childNodes[i].className == "table_menu_update") {
+            notes = e.target.childNodes[i];
+            break;
+          }
+        }
+        if (notes) e.target.removeChild(notes);
+
+        e.target.classList.remove("cells_menu");
+      };
       td.ondragover = function (e) {
         e.preventDefault();
         e.target.classList.add("table_drag");
@@ -665,107 +644,58 @@ const TableRightSidebar = () => {
         }
       };
 
-      // console.log("cells", cells.classList.contains("dropp"));
+      // console.log("td", td.classList.contains("dropp"));
       td.ondrop = handleDropp;
-      const allTrs = editableTable.querySelectorAll("tr");
-      // allTrs[rowIndex].appendChild(td);
-
-      // allTrs[rowIndex].after(td);
-
-      // const AllTrOfEditableTable = editableTable.querySelectorAll("tr");
-      let targetTD = null;
-      for (let i = 0; i < numOfCol; i++) {
-        // if (
-        //   editableTable.querySelectorAll("td")[i] ==
-        //   e.target.parentElement.parentElement
-        // ) {
-        // console.log(
-        //   "element test",
-        //   editableTable.querySelectorAll("td")[i],
-        //   e.target.parentElement.parentElement
-        // );
-        targetTD = i;
-        // break;
-        // }
-      }
-      // console.log("targetTr", targetTD);
-      // allTrs[rowIndex].insertBefore(td, allTrs[rowIndex]);
+      AllTrOfEditableTable[i].insertBefore(
+        td,
+        direction == "left"
+          ? AllTrOfEditableTable[i].childNodes[index]
+          : AllTrOfEditableTable[i].childNodes[index].nextSibling
+      );
     }
+
     e.stopPropagation();
     // }
   };
-
-  const handleAddColumnLeft = (e) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-    let findTArgetElement = focusseddDiv;
-
-    while (1) {
-      if (findTArgetElement.classList.contains("tableInput")) {
-        // findTArgetElement.classList.add("focussedd");
-        break;
-      } else {
-        findTArgetElement = findTArgetElement.children[1];
+  const handleDeleteRow = (e) => {
+    const editableTable = findEditableTable();
+    const AllTrOfEditableTable = editableTable.querySelectorAll("tr");
+    let targetTr = null;
+    for (let i = 0; i < AllTrOfEditableTable.length; i++) {
+      if (
+        AllTrOfEditableTable[i] ==
+        e.target.parentElement.parentElement.parentElement.parentElement
+      ) {
+        targetTr = i;
       }
     }
-    // if (focusseddDiv?.children[1]?.classList.contains("tableInput")) {
-    const editableTable = findTArgetElement?.children[0];
-    const numOfTr = editableTable?.rows?.length;
-    const numOfTd = editableTable.querySelectorAll("td").length;
-    const numOfCol = (numOfTd + 1) / numOfTr;
-    for (var rowIndex = 0; rowIndex < numOfTr; rowIndex++) {
-      var td = document.createElement("td");
-      td.className = "dropp";
-      td.style.height = "50px";
-      // if (rowIndex == 0) {
-      //   const colDeleteBtn = document.createElement("button");
-      //   colDeleteBtn.className = "btn btn-warning";
-      //   colDeleteBtn.style.marginLeft = "5px";
-      //   colDeleteBtn.innerText = "Del Col";
-      //   colDeleteBtn.onclick = (e) => {
-      //     const index = Array.from(
-      //       e.target.parentElement.parentElement.children
-      //     ).indexOf(e.target.parentElement);
-      //     const allTableTr = editableTable.querySelectorAll("tr");
-      //     for (let i = 0; i < allTableTr.length; i++) {
-      //       editableTable.querySelectorAll("tr")[i].childNodes[index].remove();
-      //     }
-      //     e.stopPropagation();
-      //   };
-      //   td.style.border = "none";
-      //   td.appendChild(colDeleteBtn);
-      // }
-      td.ondragover = function (e) {
-        e.preventDefault();
-        e.target.classList.add("table_drag");
-        if (!e.target.hasChildNodes()) {
-          e.target.style.border = "3px solid blue";
-        }
-        if (e.target.classList.contains("imageInput")) {
-          e.target.style.border = "none";
-        }
-      };
-      td.ondragleave = (e) => {
-        e.preventDefault();
-        if (
-          !e.target.hasChildNodes() &&
-          !e.target.classList.contains("imageInput")
-        ) {
-          e.target.style.border = "1px solid black";
-        }
-        if (e.target.classList.contains("imageInput")) {
-          e.target.style.border = "none";
-        }
-      };
+    AllTrOfEditableTable[targetTr].remove();
+    e.stopPropagation();
+  };
+  const handleDeleteCol = (e) => {
+    const editableTable = findEditableTable();
+    const index = Array.from(
+      e.target.parentElement.parentElement.parentElement.parentElement.children
+    ).indexOf(e.target.parentElement.parentElement.parentElement);
 
-      // console.log("cells", cells.classList.contains("dropp"));
-      td.ondrop = handleDropp;
-      const allTrs = editableTable.querySelectorAll("tr");
-      allTrs[rowIndex].prepend(td);
-
-      // allTrs[rowIndex].insertBefore(td, allTrs[rowIndex].lastChild);
+    const AllTrOfEditableTable = editableTable.querySelectorAll("tr");
+    for (let i = 0; i < AllTrOfEditableTable.length; i++) {
+      AllTrOfEditableTable[i].childNodes[index].remove();
     }
     e.stopPropagation();
-    // }
+  };
+  const findEditableTable = () => {
+    const focusseddDiv = document.querySelector(".focussedd");
+    let findTArgetElement = focusseddDiv;
+    while (1) {
+      if (findTArgetElement.classList.contains("tableInput")) {
+        break;
+      } else {
+        findTArgetElement = findTArgetElement.firstChild;
+      }
+    }
+    const editableTable = findTArgetElement?.children[0];
+    return editableTable;
   };
   function removeTable(e) {
     const focusseddElmnt = document.querySelector(".focussedd");
