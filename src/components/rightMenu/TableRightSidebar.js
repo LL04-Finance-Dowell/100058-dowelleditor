@@ -705,10 +705,10 @@ const TableRightSidebar = () => {
     const focusseddDiv = document.querySelector(".focussedd");
     let findTArgetElement = focusseddDiv;
     while (1) {
-      if (findTArgetElement.classList.contains("tableInput")) {
+      if (findTArgetElement?.classList.contains("tableInput")) {
         break;
       } else {
-        findTArgetElement = findTArgetElement.firstChild;
+        findTArgetElement = findTArgetElement?.firstChild;
       }
     }
     const editableTable = findTArgetElement?.children[0];
