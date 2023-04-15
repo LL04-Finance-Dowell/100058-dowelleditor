@@ -87,13 +87,18 @@ const MidSection = React.forwardRef((props, ref) => {
     handleDropp,
     focuseddClassMaintain,
   } = useStateContext();
-
+  const [focusedElement, setFocusedElement] = useState(null);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
   const documnetMap = decoded?.details?.document_map;
+
+  // useEffect(() => {
+  //   localStorage.setItem('elementId', scaleId);
+  //   console.log(scaleId, 'scaleId on localSt');
+  // }, [scaleId]);
 
   function boldCommand() {
     const strongElement = document.createElement("strong");
@@ -192,7 +197,7 @@ const MidSection = React.forwardRef((props, ref) => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        //console.log(loadedData);
+        // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
@@ -667,6 +672,7 @@ const MidSection = React.forwardRef((props, ref) => {
       pageNo++;
       //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
+        const id = `${element.id}`;
         //console.log("each content", element);
         if (element.type === "TEXT_INPUT") {
           const measure = {
@@ -679,6 +685,8 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          console.log(id);
 
           let inputField = document.createElement("div");
           inputField.setAttribute("contenteditable", true);
@@ -736,6 +744,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log(idMatch, 'idMatch');
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -1292,25 +1301,26 @@ const MidSection = React.forwardRef((props, ref) => {
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
-          let scaleField = document.createElement("div");
-          scaleField.className = "scaleInput";
-          scaleField.style.width = "100%";
-          scaleField.style.height = "100%";
-          scaleField.style.backgroundColor = "#dedede";
-          scaleField.style.borderRadius = "0px";
-          scaleField.style.outline = "0px";
-          scaleField.style.overflow = "overlay";
+          let scaleField = document.createElement('div');
+          scaleField.className = 'scaleInput';
+          scaleField.id = id;
+          scaleField.style.width = '100%';
+          scaleField.style.height = '100%';
+          scaleField.style.backgroundColor = '#dedede';
+          scaleField.style.borderRadius = '0px';
+          scaleField.style.outline = '0px';
+          scaleField.style.overflow = 'overlay';
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != "scale here") {
-            const iframe = document.createElement("iframe");
+          if (element.data != 'scale here') {
+            const iframe = document.createElement('iframe');
             iframe.src = element.scale_url;
-            iframe.width = "100%";
-            iframe.height = "100%";
+            iframe.width = '100%';
+            iframe.height = '100%';
 
             scaleField.append(iframe);
           }
@@ -1783,14 +1793,14 @@ const MidSection = React.forwardRef((props, ref) => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res.data);
+            console.log(res.data, 'scaleData');
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
-
+            console.log(res.scale_urls, 'stateScale');
             if (id.length) {
-              console.log(id);
+              console.log(id, 'id');
               setScaleId(id);
             }
             scale.src = res.data.scale_urls;
