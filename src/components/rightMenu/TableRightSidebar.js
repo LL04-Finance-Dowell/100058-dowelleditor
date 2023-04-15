@@ -498,6 +498,8 @@ const TableRightSidebar = () => {
   // };
 
   const handleAddRow = (e, direction) => {
+    const focussedDiv = document.querySelector(".focussedd");
+
     const editableTable = findEditableTable();
     const numOfTr = editableTable?.rows?.length;
     const numOfTd = editableTable.querySelectorAll("td").length;
@@ -595,6 +597,8 @@ const TableRightSidebar = () => {
     e.stopPropagation();
   };
   const handleAddColumn = (e, direction) => {
+    const focussedDiv = document.querySelector(".focussedd");
+
     const editableTable = findEditableTable();
     const numOfTr = editableTable?.rows?.length;
     const numOfTdElement = editableTable.querySelectorAll("td");
