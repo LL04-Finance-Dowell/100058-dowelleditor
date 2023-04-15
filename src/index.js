@@ -1,36 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   HashRouter,
-} from 'react-router-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ContextProvider } from './contexts/contextProvider';
+} from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ContextProvider } from "./contexts/contextProvider";
 
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
-import { applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import reducers from './reducers';
+import { applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import reducers from "./reducers";
 
 // const store = configureStore(reducers, compose(applyMiddleware(thunk)))
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import PrintProvider from "react-easy-print";
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ContextProvider>
-    <React.StrictMode>
-      <Router basename={window.location.pathname || ''}>
-        <Routes>
-          <Route path="/" element={<App />} />
-        </Routes>
-      </Router>
-    </React.StrictMode>
+    <PrintProvider>
+      <React.StrictMode>
+        <Router basename={window.location.pathname || ""}>
+          <Routes>
+            <Route path="/" element={<App />} />
+          </Routes>
+        </Router>
+      </React.StrictMode>
+    </PrintProvider>
   </ContextProvider>
 );
 

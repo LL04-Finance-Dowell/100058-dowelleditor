@@ -83,11 +83,11 @@ export const ContextProvider = ({ children }) => {
   //   //console.log("item check", item);
 
   // Scale id
-  const [scaleId, setScaleId] = useState('');
-  const [scaleData, setScaleData] = useState({});
-  const [custom1, setCustom1] = useState('');
-  const [custom2, setCustom2] = useState('');
-  const [custom3, setCustom3] = useState('');
+  const [scaleId, setScaleId] = useState("id");
+  const [scaleData, setScaleData] = useState([]);
+  const [custom1, setCustom1] = useState("");
+  const [custom2, setCustom2] = useState("");
+  const [custom3, setCustom3] = useState("");
 
   //Company id
   const [companyId, setCompanyId] = useState('');
@@ -97,8 +97,8 @@ export const ContextProvider = ({ children }) => {
   const handleDropp = (e) => {
     e.preventDefault();
     if (
-      !e.target.hasChildNodes() &&
-      !e.target.classList.contains('imageInput')
+      e.target.childNodes.length < 2 &&
+      !e.target.classList.contains("imageInput")
     ) {
       e.target.style.border = '1px solid black';
     }
@@ -109,8 +109,8 @@ export const ContextProvider = ({ children }) => {
     // console.log("cell has been dropped on " + typeOfOperation);
     // console.log("e.target", e.target, e.target.hasChildNodes());
     if (
-      !e.target.hasChildNodes() &&
-      !e.target.classList.contains('imageInput')
+      e.target.childNodes.length < 2 &&
+      !e.target.classList.contains("imageInput")
     ) {
       if (typeOfOperation === 'TEXT_INPUT') {
         let inputField = document.createElement('div');
@@ -184,14 +184,14 @@ export const ContextProvider = ({ children }) => {
         //  &&
         // decoded.details.action === "template"
       ) {
-        let imageField = document.createElement('div');
-        imageField.className = 'imageInput';
-        imageField.style.minHeight = '100px';
-        imageField.style.minWidth = '100px';
-        imageField.style.backgroundColor = '#0000';
-        imageField.style.borderRadius = '0px';
-        imageField.style.outline = '0px';
-        imageField.style.overflow = 'overlay';
+        let imageField = document.createElement("div");
+        imageField.className = "imageInput";
+        imageField.style.minHeight = "100%";
+        imageField.style.minWidth = "100%";
+        imageField.style.backgroundColor = "#0000";
+        imageField.style.borderRadius = "0px";
+        imageField.style.outline = "0px";
+        imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = 'relative';
         // imageField.innerHTML = "Image here";
@@ -241,17 +241,18 @@ export const ContextProvider = ({ children }) => {
         imageButton.append(imgBtn);
         e.target.append(imageField);
         e.target.append(imageButton);
-      } else if (typeOfOperation === 'TEXT_FILL') {
-        let texttField = document.createElement('textarea');
-        texttField.className = 'texttInput';
-        texttField.placeholder = 'input text here';
-        texttField.style.width = '100%';
-        texttField.style.height = '100%';
-        texttField.style.resize = 'none';
-        texttField.style.backgroundColor = '#0000';
-        texttField.style.borderRadius = '0px';
-        texttField.style.outline = '0px';
-        texttField.style.overflow = 'overlay';
+        e.target.style.width = imageField.style.width;
+      } else if (typeOfOperation === "TEXT_FILL") {
+        let texttField = document.createElement("textarea");
+        texttField.className = "texttInput";
+        texttField.placeholder = "input text here";
+        texttField.style.width = "100%";
+        texttField.style.height = "100%";
+        texttField.style.resize = "none";
+        texttField.style.backgroundColor = "#0000";
+        texttField.style.borderRadius = "0px";
+        texttField.style.outline = "0px";
+        texttField.style.overflow = "overlay";
         // texttField.innerText = `${postData.textField.value}`
         texttField.style.position = 'relative';
 
@@ -283,16 +284,16 @@ export const ContextProvider = ({ children }) => {
         //   e.target.append(signField);
         //   // document.getElementsByClassName("dropp").item(0).append(signField);
         // }
-        let signField = document.createElement('div');
-        signField.className = 'signInput';
-        signField.style.width = '100px';
-        signField.style.height = '100px';
-        signField.style.backgroundColor = '#0000';
-        signField.style.borderRadius = '0px';
-        signField.style.outline = '0px';
-        signField.style.overflow = 'overlay';
-        signField.innerHTML = 'signature here';
-        signField.style.position = 'absolute';
+        let signField = document.createElement("div");
+        signField.className = "signInput";
+        signField.style.width = "100%";
+        signField.style.height = "100%";
+        signField.style.backgroundColor = "#0000";
+        signField.style.borderRadius = "0px";
+        signField.style.outline = "0px";
+        signField.style.overflow = "overlay";
+        signField.innerHTML = "signature here";
+        signField.style.position = "absolute";
         signField.style.top = 0;
         signField.style.left = 0;
         e.target.style.position = 'relative';
@@ -351,16 +352,18 @@ export const ContextProvider = ({ children }) => {
         // signField.append(para);
         e.target.append(signField);
         e.target.append(imageSignButton);
-      } else if (typeOfOperation === 'DATE_INPUT') {
-        let dateField = document.createElement('div');
-        dateField.className = 'dateInput';
-        dateField.style.width = '100%';
-        dateField.style.height = '100%';
-        dateField.style.backgroundColor = '#0000';
-        dateField.style.borderRadius = '0px';
-        dateField.style.outline = '0px';
-        dateField.style.overflow = 'overlay';
-        dateField.style.position = 'relative';
+        e.target.style.width = signField.style.width;
+        e.target.style.height = signField.style.height;
+      } else if (typeOfOperation === "DATE_INPUT") {
+        let dateField = document.createElement("div");
+        dateField.className = "dateInput";
+        dateField.style.width = "100%";
+        dateField.style.height = "100%";
+        dateField.style.backgroundColor = "#0000";
+        dateField.style.borderRadius = "0px";
+        dateField.style.outline = "0px";
+        dateField.style.overflow = "overlay";
+        dateField.style.position = "relative";
 
         setStartDate(new Date());
         setMethod('select');
