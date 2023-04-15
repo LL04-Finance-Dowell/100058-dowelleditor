@@ -86,13 +86,18 @@ const MidSection = React.forwardRef((props, ref) => {
     handleDropp,
     focuseddClassMaintain,
   } = useStateContext();
-
+  const [focusedElement, setFocusedElement] = useState(null);
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
   const documnetMap = decoded?.details?.document_map;
+
+  // useEffect(() => {
+  //   localStorage.setItem('elementId', scaleId);
+  //   console.log(scaleId, 'scaleId on localSt');
+  // }, [scaleId]);
 
   function boldCommand() {
     const strongElement = document.createElement('strong');
@@ -191,7 +196,7 @@ const MidSection = React.forwardRef((props, ref) => {
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
-        //console.log(loadedData);
+        // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
         setData(loadedData[0][0]);
         setIsDataRetrieved(true);
@@ -670,6 +675,7 @@ const MidSection = React.forwardRef((props, ref) => {
       pageNo++;
       //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
+        const id = `${element.id}`;
         //console.log("each content", element);
         if (element.type === 'TEXT_INPUT') {
           const measure = {
@@ -682,11 +688,14 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          console.log(id);
 
           let inputField = document.createElement('div');
           inputField.setAttribute('contenteditable', true);
           //  inputField.setAttribute('draggable', true);
           inputField.className = 'textInput';
+          inputField.id = id;
           inputField.style.width = '100%';
           inputField.style.height = '100%';
           inputField.style.resize = 'none';
@@ -739,11 +748,13 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log(idMatch, 'idMatch');
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let imageField = document.createElement('div');
           imageField.className = 'imageInput';
+          imageField.id = id;
           imageField.style.width = '100%';
           imageField.style.height = '100%';
           imageField.style.backgroundColor = '#0000';
@@ -812,6 +823,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           let dateField = document.createElement('div');
           dateField.className = 'dateInput';
+          dateField.id = id;
           dateField.style.width = '100%';
           dateField.style.height = '100%';
           dateField.style.backgroundColor = '#dedede';
@@ -889,6 +901,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           let signField = document.createElement('div');
           signField.className = 'signInput';
+          signField.id = id;
           signField.style.width = '100%';
           signField.style.height = '100%';
           signField.style.backgroundColor = '#0000';
@@ -987,6 +1000,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           let tableField = document.createElement('div');
           tableField.className = 'tableInput';
+          tableField.id = id;
           tableField.style.width = '100%';
           tableField.style.height = '100%';
           tableField.style.backgroundColor = '#0000';
@@ -1241,6 +1255,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           let iframeField = document.createElement('div');
           iframeField.className = 'iframeInput';
+          iframeField.id = id;
           iframeField.style.width = '100%';
           iframeField.style.height = '100%';
           iframeField.style.backgroundColor = '#dedede';
@@ -1291,6 +1306,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           let scaleField = document.createElement('div');
           scaleField.className = 'scaleInput';
+          scaleField.id = id;
           scaleField.style.width = '100%';
           scaleField.style.height = '100%';
           scaleField.style.backgroundColor = '#dedede';
@@ -1305,7 +1321,7 @@ const MidSection = React.forwardRef((props, ref) => {
           }
           if (element.data != 'scale here') {
             const iframe = document.createElement('iframe');
-            iframe.src = element.data;
+            iframe.src = element.scale_url;
             iframe.width = '100%';
             iframe.height = '100%';
 
@@ -1340,6 +1356,7 @@ const MidSection = React.forwardRef((props, ref) => {
           // const holderDIV = getHolderDIV(measure, pageNo);
           let dropdownField = document.createElement('div');
           dropdownField.className = 'dropdownInput';
+          dropdownField.id = id;
           dropdownField.style.width = '100%';
           dropdownField.style.height = '100%';
           dropdownField.style.backgroundColor = '#0000';
@@ -1535,6 +1552,15 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.overflow = 'overlay';
         inputField.style.position = 'relative';
         inputField.style.cursor = 'text';
+        // const txt = document.getElementsByClassName('textInput');
+        // console.log(inputField, 'txt');
+        // if (txt.length) {
+        //   for (let h = 1; h <= txt.length; h++) {
+        //     inputField.id = `t${h}`;
+        //   }
+        // }
+
+        // inputField.id = 't1';
 
         // inputField.innerText = `${postData.editTextField.value}`
 
@@ -1780,14 +1806,14 @@ const MidSection = React.forwardRef((props, ref) => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res.data);
+            console.log(res.data, 'scaleData');
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
-
+            console.log(res.scale_urls, 'stateScale');
             if (id.length) {
-              console.log(id);
+              console.log(id, 'id');
               setScaleId(id);
             }
             scale.src = res.data.scale_urls;

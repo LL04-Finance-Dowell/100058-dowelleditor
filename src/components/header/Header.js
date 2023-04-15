@@ -248,7 +248,7 @@ const Header = () => {
     const txt = document.getElementsByClassName('textInput');
     if (txt.length) {
       for (let h = 0; h < txt.length; h++) {
-        if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (txt[h]?.parentElement?.classList?.contains('holderDIV')) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -278,7 +278,7 @@ const Header = () => {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
       for (let h = 0; h < img.length; h++) {
-        if (img[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (img[h]?.parentElement?.classList?.contains('holderDIV')) {
           const reader = new FileReader();
           let tempElem = img[h].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -288,7 +288,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: img[h].parentElement.style.top,
             left: tempPosn.left,
-            type: "IMAGE_INPUT",
+            type: 'IMAGE_INPUT',
             data: img[h].style.backgroundImage,
             id: `i${h + 1}`,
           };
@@ -302,7 +302,7 @@ const Header = () => {
     const date = document.getElementsByClassName('dateInput');
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
-        if (date[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (date[h]?.parentElement?.classList?.contains('holderDIV')) {
           let tempElem = date[h].parentElement;
           let tempPosn = getPosition(tempElem);
           elem = {
@@ -311,7 +311,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: date[h].parentElement.style.top,
             left: tempPosn.left,
-            type: "DATE_INPUT",
+            type: 'DATE_INPUT',
             data: date[h].innerHTML,
             id: `d${h + 1}`,
           };
@@ -323,7 +323,7 @@ const Header = () => {
     const sign = document.getElementsByClassName('signInput');
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
-        if (sign[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (sign[h]?.parentElement?.classList?.contains('holderDIV')) {
           let tempElem = sign[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(sign[h].innerHTML);
@@ -334,7 +334,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: sign[h].parentElement.style.top,
             left: tempPosn.left,
-            type: "SIGN_INPUT",
+            type: 'SIGN_INPUT',
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
@@ -353,7 +353,7 @@ const Header = () => {
 
     if (tables.length) {
       for (let t = 0; t < tables.length; t++) {
-        if (tables[t]?.parentElement?.classList?.contains("holderDIV")) {
+        if (tables[t]?.parentElement?.classList?.contains('holderDIV')) {
           // var new_table = document.getElementsByTagName("table")[0];
           let tempElem = tables[t].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -370,18 +370,18 @@ const Header = () => {
                 const TdDivClassName =
                   tableChildren[i].children[
                     j
-                  ]?.firstElementChild?.className.split(" ")[0];
+                  ]?.firstElementChild?.className.split(' ')[0];
 
                 const trChild = {
                   td: {
                     type:
-                      (TdDivClassName == "dateInput" && "DATE_INPUT") ||
-                      (TdDivClassName == "textInput" && "TEXT_INPUT") ||
-                      (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
-                      (TdDivClassName == "signInput" && "SIGN_INPUT"),
+                      (TdDivClassName == 'dateInput' && 'DATE_INPUT') ||
+                      (TdDivClassName == 'textInput' && 'TEXT_INPUT') ||
+                      (TdDivClassName == 'imageInput' && 'IMAGE_INPUT') ||
+                      (TdDivClassName == 'signInput' && 'SIGN_INPUT'),
                     // if(){
                     data:
-                      TdDivClassName == "imageInput"
+                      TdDivClassName == 'imageInput'
                         ? tableChildren[i].children[j]?.firstElementChild.style
                             .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
@@ -395,7 +395,7 @@ const Header = () => {
               tableTR.tr = newTableTR;
               allTableCCells.push(tableTR);
             }
-            console.log("allTableCCells", allTableCCells);
+            console.log('allTableCCells', allTableCCells);
             return allTableCCells;
           }
           elem = {
@@ -404,7 +404,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: tables[t].parentElement.style.top,
             left: tempPosn.left,
-            type: "TABLE_INPUT",
+            type: 'TABLE_INPUT',
             // start work here
             // data: tables[t].firstElementChild.innerHTML,
             data: getChildData(),
@@ -454,13 +454,11 @@ const Header = () => {
           top: tempPosn.top,
           topp: scales[s].parentElement.style.top,
           left: tempPosn.left,
-          type: "SCALE_INPUT",
+          type: 'SCALE_INPUT',
           data: `${title}_scale_${s + 1}`,
-          scale_url: scales[s].innerText
-            ? "Scale here"
-            : scales[s].firstElementChild.src,
+          scale_url: scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
-          scale_url: `${scaleData}`,
+          // scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
 
@@ -508,7 +506,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   var decoded = jwt_decode(token);
-  console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -600,29 +598,6 @@ const Header = () => {
         setIsLoading(false);
         //console.log(err);
       });
-
-    Axios.post('https://100035.pythonanywhere.com/api/nps_custom_data/', {
-      template_id: decoded.details._id,
-      scale_id: scaleId,
-      custom_input_groupings: {
-        group1: {
-          custom_input_1: custom1,
-          custom_input_2: custom2,
-          custom_input_3: custom3,
-        },
-      },
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          sendMessage();
-        }
-        console.log(res, 'kk');
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
   }
 
   // const handleFlipClick = (e) => {
@@ -675,7 +650,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res);
+        console.log(res.data.content, 'loaded');
 
         if (decoded.details.action === 'template') {
           setTitle(loadedDataT.template_name);
@@ -694,6 +669,7 @@ const Header = () => {
         // setSort(loadedData[0][0]);
         setIsLoading(false);
         setFetchedData(loadedData[0][0]);
+        // setScaleId(scaleId);
 
         //Handling company_id
         const company_id = res.data.company_id;
