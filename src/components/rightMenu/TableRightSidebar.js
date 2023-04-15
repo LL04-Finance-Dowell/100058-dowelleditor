@@ -79,7 +79,7 @@ const TableRightSidebar = () => {
 
   function habdleTableUpdateBtn(e) {
     table_dropdown_focuseddClassMaintain(e);
-    // alert("hello");
+    const editableTable = findEditableTable();
     const focussedDiv = document.querySelector(".focussedd");
     const icon_div = document.querySelector(".icon_div");
     const cells_menu = document.querySelector(".cells_menu");
@@ -92,6 +92,8 @@ const TableRightSidebar = () => {
     }
     // console.log("onmouse leave", notes, cells_menu.childNodes.length);
     if (!notes) {
+      focussedDiv.style.border = "none";
+      editableTable.parentElement.classList.add("over_flow_maintainer");
       const tableMenuParentDiv = document.createElement("div");
 
       const insertRabove = document.createElement("div");
@@ -180,12 +182,15 @@ const TableRightSidebar = () => {
       cells_menu.appendChild(tableMenuParentDiv);
     } else {
       cells_menu.children[1].remove();
+      editableTable.parentElement.classList.remove("over_flow_maintainer");
+      focussedDiv.style.border = "2px solid orange";
     }
     e.stopPropagation();
   }
 
   //
   function makeTable() {
+    const focussedDiv = document.querySelector(".focussedd");
     var table = document.createElement("table");
     table.style.border = "2";
     table.id = "table";
@@ -229,8 +234,10 @@ const TableRightSidebar = () => {
             }
           }
           if (notes) e.target.removeChild(notes);
-
           e.target.classList.remove("cells_menu");
+          const editableTable = findEditableTable();
+          editableTable.parentElement.classList.remove("over_flow_maintainer");
+          focussedDiv.style.border = "2px solid orange";
         };
         cells[i].ondragover = function (e) {
           e.preventDefault();
@@ -272,54 +279,54 @@ const TableRightSidebar = () => {
     setIsCreateTableBtnDisabled(true);
   }
 
-  const hadleTableUpdateSave = (e) => {
-    const focusseddDiv = document.querySelector(".focussedd");
-    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-      focusseddDiv?.firstElementChild?.firstElementChild?.remove();
-      focusseddDiv?.firstElementChild?.firstElementChild?.firstElementChild?.remove();
-      const trNum =
-        focusseddDiv?.firstElementChild?.firstElementChild?.children;
-      for (let i = 0; i < trNum.length; i++) {
-        trNum[i].lastChild.remove();
-      }
-      var tablee = focusseddDiv?.firstElementChild?.firstElementChild;
-      var cells = tablee.getElementsByTagName("td");
-      // console.log("cells", tablee, cells);
-      for (let i = 0; i < cells.length; i++) {
-        // console.log("cells", cells[i]);
-        cells[i].onmouseover = function (e) {
-          alert("hi");
-          // console.log("mouseOver", e.target);
-        };
-        cells[i].ondragover = function (e) {
-          e.preventDefault();
-          e.target.classList.add("table_drag");
-          if (!e.target.hasChildNodes()) {
-            e.target.style.border = "3px solid blue";
-          }
-          if (e.target.classList.contains("imageInput")) {
-            e.target.style.border = "none";
-          }
-        };
-        cells[i].ondragleave = (e) => {
-          e.preventDefault();
-          if (
-            !e.target.hasChildNodes() &&
-            !e.target.classList.contains("imageInput")
-          ) {
-            e.target.style.border = "1px solid black";
-          }
-          if (e.target.classList.contains("imageInput")) {
-            e.target.style.border = "none";
-          }
-        };
-        cells[i].ondrop = handleDropp;
-      }
-      e.target?.parentElement.remove();
-      setIsDisableTableRightMenu(false);
-      e.stopPropagation();
-    }
-  };
+  // const hadleTableUpdateSave = (e) => {
+  //   const focusseddDiv = document.querySelector(".focussedd");
+  //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+  //     focusseddDiv?.firstElementChild?.firstElementChild?.remove();
+  //     focusseddDiv?.firstElementChild?.firstElementChild?.firstElementChild?.remove();
+  //     const trNum =
+  //       focusseddDiv?.firstElementChild?.firstElementChild?.children;
+  //     for (let i = 0; i < trNum.length; i++) {
+  //       trNum[i].lastChild.remove();
+  //     }
+  //     var tablee = focusseddDiv?.firstElementChild?.firstElementChild;
+  //     var cells = tablee.getElementsByTagName("td");
+  //     // console.log("cells", tablee, cells);
+  //     for (let i = 0; i < cells.length; i++) {
+  //       // console.log("cells", cells[i]);
+  //       cells[i].onmouseover = function (e) {
+  //         alert("hi");
+  //         // console.log("mouseOver", e.target);
+  //       };
+  //       cells[i].ondragover = function (e) {
+  //         e.preventDefault();
+  //         e.target.classList.add("table_drag");
+  //         if (!e.target.hasChildNodes()) {
+  //           e.target.style.border = "3px solid blue";
+  //         }
+  //         if (e.target.classList.contains("imageInput")) {
+  //           e.target.style.border = "none";
+  //         }
+  //       };
+  //       cells[i].ondragleave = (e) => {
+  //         e.preventDefault();
+  //         if (
+  //           !e.target.hasChildNodes() &&
+  //           !e.target.classList.contains("imageInput")
+  //         ) {
+  //           e.target.style.border = "1px solid black";
+  //         }
+  //         if (e.target.classList.contains("imageInput")) {
+  //           e.target.style.border = "none";
+  //         }
+  //       };
+  //       cells[i].ondrop = handleDropp;
+  //     }
+  //     e.target?.parentElement.remove();
+  //     setIsDisableTableRightMenu(false);
+  //     e.stopPropagation();
+  //   }
+  // };
   // const updateTable = (e) => {
   //   const focusseddDiv = document.querySelector(".focussedd");
   //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
@@ -535,6 +542,9 @@ const TableRightSidebar = () => {
           if (notes) e.target.removeChild(notes);
 
           e.target.classList.remove("cells_menu");
+          const editableTable = findEditableTable();
+          editableTable.parentElement.classList.remove("over_flow_maintainer");
+          focussedDiv.style.border = "2px solid orange";
         };
         td.ondragover = function (e) {
           e.preventDefault();
@@ -620,6 +630,9 @@ const TableRightSidebar = () => {
         if (notes) e.target.removeChild(notes);
 
         e.target.classList.remove("cells_menu");
+        const editableTable = findEditableTable();
+        editableTable.parentElement.classList.remove("over_flow_maintainer");
+        focussedDiv.style.border = "2px solid orange";
       };
       td.ondragover = function (e) {
         e.preventDefault();

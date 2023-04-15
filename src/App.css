@@ -210,6 +210,9 @@ th {
 .cells_menu:hover .icon_div{
   display: block !important;
 }
+.over_flow_maintainer{
+  overflow: inherit !important ;
+}
 /* .focussedd{
   direction: rtl;
 }
