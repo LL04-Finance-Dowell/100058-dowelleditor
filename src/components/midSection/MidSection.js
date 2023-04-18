@@ -744,7 +744,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          console.log(idMatch, 'idMatch');
+          console.log(idMatch, "idMatch");
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -1301,26 +1301,26 @@ const MidSection = React.forwardRef((props, ref) => {
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           // const holderDIV = getHolderDIV(measure, pageNo);
 
-          let scaleField = document.createElement('div');
-          scaleField.className = 'scaleInput';
+          let scaleField = document.createElement("div");
+          scaleField.className = "scaleInput";
           scaleField.id = id;
-          scaleField.style.width = '100%';
-          scaleField.style.height = '100%';
-          scaleField.style.backgroundColor = '#dedede';
-          scaleField.style.borderRadius = '0px';
-          scaleField.style.outline = '0px';
-          scaleField.style.overflow = 'overlay';
+          scaleField.style.width = "100%";
+          scaleField.style.height = "100%";
+          scaleField.style.backgroundColor = "#dedede";
+          scaleField.style.borderRadius = "0px";
+          scaleField.style.outline = "0px";
+          scaleField.style.overflow = "overlay";
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != 'scale here') {
-            const iframe = document.createElement('iframe');
+          if (element.data != "scale here") {
+            const iframe = document.createElement("iframe");
             iframe.src = element.scale_url;
-            iframe.width = '100%';
-            iframe.height = '100%';
+            iframe.width = "100%";
+            iframe.height = "100%";
 
             scaleField.append(iframe);
           }
@@ -1481,6 +1481,7 @@ const MidSection = React.forwardRef((props, ref) => {
   const dragOver = (event) => {
     //console.log("log from on drag", event);
     const isLink = event.dataTransfer.types.includes("text/plain");
+    console.log("isLink", isLink);
     if (isLink) {
       event.preventDefault();
       event.currentTarget.classList.add("drop_zone");
@@ -1511,6 +1512,7 @@ const MidSection = React.forwardRef((props, ref) => {
     // document.querySelector('.drop_zone').classList.remove('drop_zone')
     const has_table_drag_class = event.target.classList.contains("table_drag");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
+    console.log("typeOfOperation in midsection", typeOfOperation);
     const curr_user = document.getElementById("current-user");
 
     const midSec = document.querySelector(".drop_zone");
@@ -1793,14 +1795,14 @@ const MidSection = React.forwardRef((props, ref) => {
         )
           .then((res) => {
             setIsLoading(false);
-            console.log(res.data, 'scaleData');
+            console.log(res.data, "scaleData");
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
-            console.log(res.scale_urls, 'stateScale');
+            console.log(res.scale_urls, "stateScale");
             if (id.length) {
-              console.log(id, 'id');
+              console.log(id, "id");
               setScaleId(id);
             }
             scale.src = res.data.scale_urls;
