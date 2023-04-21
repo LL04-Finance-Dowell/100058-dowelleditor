@@ -92,6 +92,7 @@ const Header = () => {
     setCompanyId,
     isMenuVisible,
     setIsMenuVisible,
+    buttonLink,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -441,7 +442,7 @@ const Header = () => {
       }
     }
 
-    // Limon
+
 
     const scales = document.getElementsByClassName("scaleInput");
     if (scales.length) {
@@ -466,7 +467,32 @@ const Header = () => {
         // page.push(elem);
       }
     }
-    // Limon
+
+    const buttons = document.getElementsByClassName("buttonInput");
+    if (buttons.length) {
+      for (let b = 0; b < buttons.length; b++) {
+        let tempElem = buttons[b].parentElement;
+        let tempPosn = getPosition(tempElem);
+        const link = buttonLink
+
+        elem = {
+          width: tempPosn.width,
+          height: tempPosn.height,
+          top: tempPosn.top,
+          topp: buttons[b].parentElement.style.top,
+          left: tempPosn.left,
+          type: 'BUTTON_INPUT',
+          data: buttons[b].textContent,
+          raw_data: link,
+          id: `btn${b + 1}`,
+
+        };
+        dataInsertWithPage(tempPosn, elem);
+
+        // page.push(elem);
+      }
+    }
+
     const dropDowns = document.getElementsByClassName("dropdownInput");
 
     if (dropDowns.length) {
@@ -1044,7 +1070,7 @@ const Header = () => {
                       variant="success"
                       size="md"
                       className="rounded px-4"
-                      id="saving-button"
+                      id="finalize-button"
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                     >
@@ -1057,7 +1083,7 @@ const Header = () => {
                       variant="danger"
                       size="md"
                       className="rounded px-4"
-                      id="saving-button"
+                      id="reject-button"
                       onClick={handleReject}
                     >
                       Reject

@@ -86,6 +86,7 @@ const MidSection = React.forwardRef((props, ref) => {
     setIsMenuVisible,
     handleDropp,
     focuseddClassMaintain,
+    buttonLink,
   } = useStateContext();
   const [focusedElement, setFocusedElement] = useState(null);
   const [searchParams] = useSearchParams();
@@ -672,7 +673,7 @@ const MidSection = React.forwardRef((props, ref) => {
       pageNo++;
       //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
-        const id = `${element.id}`;
+
         //console.log("each content", element);
         if (element.type === "TEXT_INPUT") {
           const measure = {
@@ -692,6 +693,7 @@ const MidSection = React.forwardRef((props, ref) => {
           inputField.setAttribute("contenteditable", true);
           //  inputField.setAttribute('draggable', true);
           inputField.className = "textInput";
+          inputField.id = id;
           inputField.style.width = "100%";
           inputField.style.height = "100%";
           inputField.style.resize = "none";
@@ -731,7 +733,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -746,10 +748,12 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           console.log(idMatch, 'idMatch');
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let imageField = document.createElement("div");
           imageField.className = "imageInput";
+          imageField.id = id;
           imageField.style.width = "100%";
           imageField.style.height = "100%";
           imageField.style.backgroundColor = "#0000";
@@ -804,7 +808,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -817,10 +821,12 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let dateField = document.createElement("div");
           dateField.className = "dateInput";
+          dateField.id = id;
           dateField.style.width = "100%";
           dateField.style.height = "100%";
           dateField.style.backgroundColor = "#dedede";
@@ -880,7 +886,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -894,10 +900,12 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           //console.log("signupmatch", idMatch);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let signField = document.createElement("div");
           signField.className = "signInput";
+          signField.id = id;
           signField.style.width = "100%";
           signField.style.height = "100%";
           signField.style.backgroundColor = "#0000";
@@ -982,7 +990,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -995,10 +1003,12 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let tableField = document.createElement("div");
           tableField.className = "tableInput";
+          tableField.id = id;
           tableField.style.width = "100%";
           tableField.style.height = "100%";
           tableField.style.backgroundColor = "#0000";
@@ -1236,7 +1246,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -1249,10 +1259,12 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let iframeField = document.createElement("div");
           iframeField.className = "iframeInput";
+          iframeField.id = id;
           iframeField.style.width = "100%";
           iframeField.style.height = "100%";
           iframeField.style.backgroundColor = "#dedede";
@@ -1285,10 +1297,56 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        // Limon
+
+
+        if (element.type === "BUTTON_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+
+          let buttonField = document.createElement("button");
+          buttonField.className = "buttonInput";
+          buttonField.id = id;
+          buttonField.style.width = "100%";
+          buttonField.style.height = "100%";
+          buttonField.style.backgroundColor = "#0000";
+          buttonField.style.borderRadius = "0px";
+          buttonField.style.outline = "0px";
+          buttonField.style.overflow = "overlay";
+          buttonField.style.position = "absolute";
+          buttonField.textContent = element.data;
+  
+          buttonField.onmouseover = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("button2");
+            setSidebar(true);
+          }
+          buttonField.onclick = (e) => {
+            window.open(element.raw_data, '_blank');
+          }
+  
+  
+          holderDIV.append(buttonField);
+          document
+            .getElementsByClassName("midSection_container")
+          [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+
+
+        }
+        
+
         if (element.type === "SCALE_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -1299,6 +1357,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let scaleField = document.createElement('div');
@@ -1336,7 +1395,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -1350,9 +1409,11 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
           let dropdownField = document.createElement("div");
           dropdownField.className = "dropdownInput";
+          dropdownField.id = id;
           dropdownField.style.width = "100%";
           dropdownField.style.height = "100%";
           dropdownField.style.backgroundColor = "#0000";
@@ -1394,7 +1455,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -1549,6 +1610,13 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
 
+        const txt = document.getElementsByClassName("textInput");
+        if (txt.length) {
+          const h = txt.length;
+          inputField.id = `t${h + 1}`;
+        } else {
+          inputField.id = "t1";
+        }
         // inputField.innerText = `${postData.editTextField.value}`
 
         // inputField.oninput = (event) => {
@@ -1599,6 +1667,14 @@ const MidSection = React.forwardRef((props, ref) => {
         imageField.style.overflow = "overlay";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
+
+        const img = document.getElementsByClassName("imageInput");
+        if (img.length) {
+          const h = img.length;
+          imageField.id = `i${h + 1}`;
+        } else {
+          imageField.id = "i1";
+        }
 
         imageField.onclick = (e) => {
           focuseddClassMaintain(e);
@@ -1743,6 +1819,14 @@ const MidSection = React.forwardRef((props, ref) => {
         iframeField.style.position = "absolute";
         iframeField.innerText = "iFrame here";
 
+        const iframes = document.getElementsByClassName("iframeInput");
+        if (iframes.length) {
+          const i = iframes.length;
+          iframeField.id = `ifr${i + 1}`
+        } else {
+          iframeField.id = "ifr1"
+        }
+
         iframeField.onclick = (e) => {
           // focuseddClassMaintain(e);
           table_dropdown_focuseddClassMaintain(e);
@@ -1772,6 +1856,14 @@ const MidSection = React.forwardRef((props, ref) => {
         // scaleField.innerHTML = 'iframe';
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
+
+        const scales = document.getElementsByClassName("scaleInput");
+        if (scales.length) {
+          const s = scales.length;
+          scaleField.id = `scl${s + 1}`;
+        } else {
+          scaleField.id = "scl1";
+        }
 
         let scale = document.createElement("iframe");
         scaleField.append(scale);
@@ -1859,57 +1951,8 @@ const MidSection = React.forwardRef((props, ref) => {
       //     holderDIV.append(signField);
       //   };
       // }
-      else if (
-        typeOfOperation === "IMAGE_INPUT" &&
-        decoded.details.action === "template"
-      ) {
-        let imageField = document.createElement("div");
-        imageField.className = "imageInput";
-        imageField.style.width = "100%";
-        imageField.style.height = "100%";
-        imageField.style.backgroundColor = "#0000";
-        imageField.style.borderRadius = "0px";
-        imageField.style.outline = "0px";
-        imageField.style.overflow = "overlay";
-        // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
-        imageField.style.position = "relative";
 
-        imageField.onclick = (e) => {
-          focuseddClassMaintain(e);
-          // imageField.classList.add("focussed");
-          handleClicked("image2", "table2");
-          setSidebar(true);
-        };
-
-        const imageButton = document.createElement("div");
-        imageButton.className = "addImageButton";
-        imageButton.innerText = "Choose File";
-        imageButton.style.display = "none";
-        // imageButton.onclick = (e) => chooseFileClick(e);
-
-        const imgBtn = document.createElement("input");
-        imgBtn.className = "addImageButtonInput";
-        imgBtn.type = "file";
-        imgBtn.style.objectFit = "cover";
-        var uploadedImage = "";
-
-        imgBtn.addEventListener("input", () => {
-          const reader = new FileReader();
-
-          reader.addEventListener("load", () => {
-            uploadedImage = reader.result;
-            document.querySelector(
-              ".focussed"
-            ).style.backgroundImage = `url(${uploadedImage})`;
-          });
-          reader.readAsDataURL(imgBtn.files[0]);
-        });
-
-        // imgBtn.style.width = "100%";
-        imageButton.append(imgBtn);
-        holderDIV.append(imageField);
-        holderDIV.append(imageButton);
-      } else if (typeOfOperation === "TEXT_FILL") {
+      else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
         texttField.placeholder = "input text here";
@@ -2005,31 +2048,6 @@ const MidSection = React.forwardRef((props, ref) => {
         // para.innerHTML = "Table";
         // tableField.append(para);
         holderDIV.append(tableField);
-      } else if (
-        typeOfOperation === "IFRAME_INPUT" &&
-        decoded.details.action === "template"
-      ) {
-        let iframeField = document.createElement("div");
-        iframeField.className = "iframeInput";
-        iframeField.style.width = "100%";
-        iframeField.style.height = "100%";
-        iframeField.style.backgroundColor = "#dedede";
-        iframeField.style.borderRadius = "0px";
-        iframeField.style.outline = "0px";
-        iframeField.style.overflow = "overlay";
-        // iframeField.innerHTML = "iframe";
-        iframeField.style.position = "absolute";
-        iframeField.innerText = "iFrame here";
-
-        iframeField.onclick = (e) => {
-          // focuseddClassMaintain(e);
-          table_dropdown_focuseddClassMaintain(e);
-          // tableField.classList.add("focussed");
-          handleClicked("iframe2");
-          setSidebar(true);
-        };
-
-        holderDIV.append(iframeField);
       } else if (
         typeOfOperation === "SIGN_INPUT" &&
         decoded.details.action === "template"
@@ -2244,21 +2262,28 @@ const MidSection = React.forwardRef((props, ref) => {
         dropdownField.append(selectElement);
         holderDIV.append(dropdownField);
       } else if (
-        typeOfOperation === "CONTAINER_INPUT" &&
+        typeOfOperation === "BUTTON_INPUT" &&
         decoded.details.action === "template"
       ) {
-        let containerField = document.createElement("div");
-        containerField.className = "containerInput";
-        containerField.id = "containerInput";
-        containerField.style.width = "100%";
-        containerField.style.height = "100%";
-        containerField.style.backgroundColor = "#0000";
-        containerField.style.borderRadius = "0px";
-        containerField.style.outline = "0px";
-        containerField.style.overflow = "overlay";
-        containerField.style.position = "absolute";
+        let buttonField = document.createElement("button");
+        buttonField.className = "buttonInput";
+        buttonField.style.width = "100%";
+        buttonField.style.height = "100%";
+        buttonField.style.backgroundColor = "#0000";
+        buttonField.style.borderRadius = "0px";
+        buttonField.style.outline = "0px";
+        buttonField.style.overflow = "overlay";
+        buttonField.style.position = "absolute";
+        buttonField.textContent = "Button";
 
-        holderDIV.append(containerField);
+        buttonField.onmouseover = (e) => {
+          focuseddClassMaintain(e);
+          handleClicked("button2");
+          setSidebar(true);
+        }
+
+
+        holderDIV.append(buttonField);
       }
       if (decoded.details.action === "template") {
         document.querySelector(".drop_zone").append(holderDIV);

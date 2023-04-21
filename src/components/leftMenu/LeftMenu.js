@@ -12,6 +12,7 @@ import {
   BsTable,
   BsCodeSquare,
 } from 'react-icons/bs';
+import { SiBigbluebutton } from 'react-icons/si';
 import { FaSignature } from 'react-icons/fa';
 import { IoScale } from 'react-icons/io5';
 
@@ -120,7 +121,7 @@ const dragStartIframe = (e) => {
     document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
-// Limon
+
 const dragStartScale = (e) => {
   const element = document.getElementById('draggable');
   e.dataTransfer.setData('text/plain', 'SCALE_INPUT');
@@ -129,7 +130,15 @@ const dragStartScale = (e) => {
     document.querySelector('.drop_zone').classList.remove('drop_zone');
   }
 };
-// Limon
+const dragStartButton = (e) => {
+  const element = document.getElementById('draggable');
+  e.dataTransfer.setData('text/plain', 'BUTTON_INPUT');
+  element.classList.add('dragging');
+  if (document.querySelector('.drop_zone')) {
+    document.querySelector('.drop_zone').classList.remove('drop_zone');
+  }
+};
+
 
 const dragEndFunc = () => {
   const element = document.getElementById('draggable');
@@ -249,6 +258,12 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop('scale')}
               icon={<IoScale />}
               title="Scale"
+            />
+            <NavButton
+              dragStartFunc={dragStartButton}
+              customFunc={() => handleDrop('button')}
+              icon={<SiBigbluebutton />}
+              title="Button"
             />
           </div>
         )
