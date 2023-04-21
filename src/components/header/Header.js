@@ -93,6 +93,7 @@ const Header = () => {
     isMenuVisible,
     setIsMenuVisible,
     buttonLink,
+    buttonPurpose,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -484,6 +485,7 @@ const Header = () => {
           type: 'BUTTON_INPUT',
           data: buttons[b].textContent,
           raw_data: link,
+          purpose: buttonPurpose,
           id: `btn${b + 1}`,
 
         };

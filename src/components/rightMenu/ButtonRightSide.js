@@ -18,6 +18,7 @@ const ButtonRightSide = () => {
     useEffect(() => {
         if (button) {
             button.addEventListener('click', function () {
+                console.log(purpose);
                 const selectedValue = select?.value;
                 if (purpose === 'finalize') {
                     console.log('finalize selected');
@@ -34,7 +35,7 @@ const ButtonRightSide = () => {
                 }
             });
         }
-    }, [])
+    }, [purpose])
 
     // useEffect(() => {
     //     if (button) {
