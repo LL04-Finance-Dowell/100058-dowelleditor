@@ -249,7 +249,7 @@ const Header = () => {
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       for (let h = 0; h < txt.length; h++) {
-        if (txt[h]?.parentElement?.classList?.contains('holderDIV')) {
+        if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -279,7 +279,7 @@ const Header = () => {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
       for (let h = 0; h < img.length; h++) {
-        if (img[h]?.parentElement?.classList?.contains('holderDIV')) {
+        if (img[h]?.parentElement?.classList?.contains("holderDIV")) {
           const reader = new FileReader();
           let tempElem = img[h].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -289,7 +289,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: img[h].parentElement.style.top,
             left: tempPosn.left,
-            type: 'IMAGE_INPUT',
+            type: "IMAGE_INPUT",
             data: img[h].style.backgroundImage,
             id: `i${h + 1}`,
           };
@@ -303,7 +303,7 @@ const Header = () => {
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
-        if (date[h]?.parentElement?.classList?.contains('holderDIV')) {
+        if (date[h]?.parentElement?.classList?.contains("holderDIV")) {
           let tempElem = date[h].parentElement;
           let tempPosn = getPosition(tempElem);
           elem = {
@@ -312,7 +312,7 @@ const Header = () => {
             top: tempPosn.top,
             topp: date[h].parentElement.style.top,
             left: tempPosn.left,
-            type: 'DATE_INPUT',
+            type: "DATE_INPUT",
             data: date[h].innerHTML,
             id: `d${h + 1}`,
           };
@@ -324,7 +324,7 @@ const Header = () => {
     const sign = document.getElementsByClassName("signInput");
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
-        if (sign[h]?.parentElement?.classList?.contains('holderDIV')) {
+        if (sign[h]?.parentElement?.classList?.contains("holderDIV")) {
           let tempElem = sign[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(sign[h].innerHTML);
@@ -335,11 +335,11 @@ const Header = () => {
             top: tempPosn.top,
             topp: sign[h].parentElement.style.top,
             left: tempPosn.left,
-            type: 'SIGN_INPUT',
+            type: "SIGN_INPUT",
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -456,7 +456,7 @@ const Header = () => {
           top: tempPosn.top,
           topp: scales[s].parentElement.style.top,
           left: tempPosn.left,
-          type: 'SCALE_INPUT',
+          type: "SCALE_INPUT",
           data: `${title}_scale_${s + 1}`,
           scale_url: scales[s].firstElementChild.src,
           id: `scl${s + 1}`,
@@ -683,7 +683,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res.data.content, 'loaded');
+        console.log(res.data.content, "loaded");
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);
@@ -809,7 +809,6 @@ const Header = () => {
   // console.log('page count check', item);
   const saveButton = document.getElementById("saving-buttonn");
   function handleFinalize() {
-
     setIsLoading(true);
 
     Axios.post(
@@ -843,12 +842,15 @@ const Header = () => {
   function handleReject() {
     setIsLoading(true);
     Axios.post(
-      `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
+      // `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
+      `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
         action: "reject",
-        item_id: process_id,
+        // item_id: process_id,
         authorized: authorized,
-        document_id: _id,
+        // document_id: _id,
+        item_type: action,
+        item_id: _id,
         company_id: companyId,
         role: role,
       }
@@ -884,8 +886,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -895,8 +898,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

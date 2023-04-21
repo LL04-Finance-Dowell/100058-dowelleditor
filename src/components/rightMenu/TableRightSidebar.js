@@ -48,14 +48,7 @@ const TableRightSidebar = () => {
     //   setIsDisableTableRightMenu(true);
     // }
   }, [isCreateTableBtnDisabled]);
-  //
-  // const focusseddDivResize = document.querySelector(".focussedd");
-  // focusseddDivResize.onresize = (e) => {
-  //   console.log(
-  //     "focusseddDivResize",
-  //     focusseddDivResize.scrollHeight > focusseddDivResize.clientHeight
-  //   );
-  // };
+
   const createIconMenu = () => {
     const iconDiv = document.createElement("div");
     iconDiv.className = "icon_div";
@@ -774,7 +767,7 @@ const TableRightSidebar = () => {
         <Button
           variant="secondary"
           className="px-5 me-3"
-          onClick={makeTable}
+          // onClick={makeTable}
           disabled={isCreateTableBtnDisabled}
         >
           Create Table
