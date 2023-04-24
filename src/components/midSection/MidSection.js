@@ -87,6 +87,7 @@ const MidSection = React.forwardRef((props, ref) => {
     handleDropp,
     focuseddClassMaintain,
     buttonLink,
+    setButtonPurpose,
   } = useStateContext();
   const [focusedElement, setFocusedElement] = useState(null);
   const [searchParams] = useSearchParams();
@@ -718,10 +719,10 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
             // inputField.parentElement.focus()
           };
-          inputField.ontouchstart = () => {
-            handleClicked("align2");
-            setSidebar(true);
-          };
+          // inputField.ontouchstart = () => {
+          //   handleClicked("align2");
+          //   setSidebar(true);
+          // };
           const text = `${element.raw_data}`;
 
           inputField.innerHTML = text;
@@ -1312,7 +1313,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
 
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const holderDIV = getHolderDIV(measure, pageNo);
           const id = `${element.id}`;
 
           let buttonField = document.createElement("button");
@@ -1326,18 +1327,43 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.overflow = "overlay";
           buttonField.style.position = "absolute";
           buttonField.textContent = element.data;
-  
+
+
+          if (decoded.details.action === "template") {
+            buttonField.onclick = (e) => {
+              focuseddClassMaintain(e);
+              handleClicked("button2");
+              setSidebar(true);
+            }
+          }
+
+
           buttonField.onmouseover = (e) => {
-            focuseddClassMaintain(e);
-            handleClicked("button2");
-            setSidebar(true);
+            if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+              buttonField?.parentElement?.classList.add("element_updated");
+            }
+
           }
+
+
           buttonField.onclick = (e) => {
-            window.open(element.raw_data, '_blank');
+            if (element.raw_data !== "") {
+              window.open(element.raw_data, '_blank');
+            }
           }
-  
-  
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.innerHTML = element.raw_data;
+          linkHolder.style.display = "none"
+
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.innerHTML = element.purpose;
+          purposeHolder.style.display = "none"
+
           holderDIV.append(buttonField);
+          holderDIV.append(linkHolder);
+          holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
           [p - 1] // ?.item(0)
@@ -1345,7 +1371,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
 
         }
-        
+
 
         if (element.type === "SCALE_INPUT") {
           const measure = {
@@ -2278,14 +2304,24 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.position = "absolute";
         buttonField.textContent = "Button";
 
-        buttonField.onmouseover = (e) => {
+        buttonField.onclick = (e) => {
           focuseddClassMaintain(e);
           handleClicked("button2");
           setSidebar(true);
         }
 
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none"
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none"
 
         holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
+
       }
       if (decoded.details.action === "template") {
         document.querySelector(".drop_zone").append(holderDIV);

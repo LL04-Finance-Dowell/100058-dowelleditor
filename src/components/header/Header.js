@@ -484,8 +484,8 @@ const Header = () => {
           left: tempPosn.left,
           type: 'BUTTON_INPUT',
           data: buttons[b].textContent,
-          raw_data: link,
-          purpose: buttonPurpose,
+          raw_data: tempElem.children[1].innerHTML,
+          purpose: tempElem.children[2].innerHTML,
           id: `btn${b + 1}`,
 
         };
@@ -535,7 +535,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  // console.log(decoded.details);
+   console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -588,7 +588,7 @@ const Header = () => {
       };
     }
 
-    //console.log(updateField);
+    console.log(updateField);
     //console.log(field);
 
     <iframe src="http://localhost:5500/"></iframe>;

@@ -8,22 +8,24 @@ const ButtonRightSide = () => {
     const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose } = useStateContext();
 
     const button = document.querySelector('.focussed');
-    const purpose = buttonPurpose;
-    const link = buttonLink;
+    const holderDIV = document.querySelector('.focussedd');
 
     const finalizeButton = document.getElementById("finalize-button");
     const select = document.getElementById("selectt");
     const rejectButton = document.getElementById("reject-button");
+
+    const purpose = holderDIV?.children[2].innerHTML;
+    const link = holderDIV?.children[1].innerHTML;
 
     useEffect(() => {
         if (button) {
             button.addEventListener('click', function () {
                 console.log(purpose);
                 const selectedValue = select?.value;
-                if (purpose === 'finalize') {
+                if (purpose === 'finalize' && link == "") {
                     console.log('finalize selected');
                     finalizeButton?.click();
-                } else if (purpose === 'reject') {
+                } else if (purpose === 'reject' && link == "") {
                     console.log('reject 2 selected');
                     rejectButton?.click();
                 } else if (purpose === 'custom' && link != "") {
@@ -67,7 +69,8 @@ const ButtonRightSide = () => {
     const handleUpdate = () => {
         const btnName = document.getElementById("button_name");
         const button = document.querySelector('.focussed');
-        console.log(button);
+   
+      
         if (btnName.value != "") {
             button.textContent = btnName.value;
         }
@@ -75,17 +78,21 @@ const ButtonRightSide = () => {
         const link = document.getElementById("link").value;
         if (link.value != "") {
             setButtonLink(link);
+            holderDIV.children[1].innerHTML = link;
         }
 
     }
 
     const handleSelect = (event) => {
         let selectField = document.getElementById('selectt');
-        const linkDiv = document.getElementById('website_link')
+        const linkDiv = document.getElementById('website_link');
+        const holderDIV = document.querySelector('.focussedd');
 
         let selectedOption = selectField.options[selectField.selectedIndex];
 
-        setButtonPurpose(selectedOption.value)
+        setButtonPurpose(selectedOption.value);
+        holderDIV.children[2].innerHTML = selectedOption.value;
+
         if (selectedOption.value == "custom") {
             linkDiv.style.display = "block";
         } else if (selectedOption.value !== "custom") {
