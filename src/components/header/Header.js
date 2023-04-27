@@ -529,11 +529,11 @@ const Header = () => {
     }
   }, [element_updated_length]);
 
-  console.log(
-    "Document_map test",
-    element_updated_length,
-    document_map?.length
-  );
+  // console.log(
+  //   "Document_map test",
+  //   element_updated_length,
+  //   document_map?.length
+  // );
 
   function submit(e) {
     e.preventDefault();
@@ -657,7 +657,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res.data.content, "loaded");
+        // console.log(res.data.content, "loaded");
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);

@@ -24,6 +24,7 @@ const ImageRightSidebar = () => {
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
+    imageDiv.firstElementChild.innerText = "";
     // console.log(
     //   "imageDiv.classList.contains",
     //   imageDiv.classList.contains("holderDIV")
