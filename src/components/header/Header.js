@@ -460,6 +460,7 @@ const Header = () => {
           type: "SCALE_INPUT",
           data: `${title}_scale_${s + 1}`,
           scale_url: scales[s].firstElementChild.src,
+          scaleId: tempElem.children[1].innerHTML,
           id: `scl${s + 1}`,
           // scale_url: `${scaleData}`,
         };

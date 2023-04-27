@@ -1315,6 +1315,8 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo);
           const id = `${element.id}`;
+          const finalizeButton = document.getElementById("finalize-button");
+          const rejectButton = document.getElementById("reject-button");
 
           let buttonField = document.createElement("button");
           buttonField.className = "buttonInput";
@@ -1329,7 +1331,7 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.textContent = element.data;
 
 
-          if (decoded.details.action === "template") {
+          if (decoded.details.action === "template" && element.raw_data == "" && element.purpose == "") {
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
               handleClicked("button2");
@@ -1345,12 +1347,23 @@ const MidSection = React.forwardRef((props, ref) => {
 
           }
 
-
-          buttonField.onclick = (e) => {
-            if (element.raw_data !== "") {
+          if (decoded.details.action === "document" && element.purpose == "custom" && element.raw_data !== "") {
+            buttonField.onclick = (e) => {
               window.open(element.raw_data, '_blank');
             }
           }
+
+          if (decoded.details.action === "document" && element.purpose == "finalize") {
+            buttonField.onclick = (e) => {
+              finalizeButton?.click();
+            }
+          }
+          if (decoded.details.action === "document" && element.purpose == "reject") {
+            buttonField.onclick = (e) => {
+              rejectButton?.click();
+            }
+          }
+
           const linkHolder = document.createElement("div");
           linkHolder.className = "link_holder";
           linkHolder.innerHTML = element.raw_data;
@@ -1404,11 +1417,16 @@ const MidSection = React.forwardRef((props, ref) => {
           if (element.data != "scale here") {
             const iframe = document.createElement("iframe");
             iframe.src = element.scale_url;
-            iframe.width = "100%";
-            iframe.height = "100%";
+            iframe.width = "auto";
+            iframe.height = "auto";
 
             scaleField.append(iframe);
           }
+
+          const scaleIdHolder = document.createElement("div");
+          scaleIdHolder.className = "scaleId_holder";
+          scaleIdHolder.innerHTML=element.scaleId;
+          scaleIdHolder.style.display = "none"
 
           scaleField.onclick = (e) => {
             // focuseddClassMaintain(e);
@@ -1418,6 +1436,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
 
           holderDIV.append(scaleField);
+          holderDIV.append(scaleIdHolder);
 
           document
             .getElementsByClassName("midSection_container")
@@ -1894,6 +1913,9 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
         let scale = document.createElement("iframe");
+        const scaleIdHolder = document.createElement("div");
+        scaleIdHolder.className = "scaleId_holder";
+        scaleIdHolder.style.display = "none"
         scaleField.append(scale);
         Axios.post(
           "https://100035.pythonanywhere.com/api/nps_settings_create/",
@@ -1921,7 +1943,8 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log(res.scale_urls, "stateScale");
             if (id.length) {
               console.log(id, "id");
-              setScaleId(id);
+              // setScaleId(id);
+              scaleIdHolder.innerHTML = id;
             }
             scale.src = res.data.scale_urls;
           })
@@ -1931,12 +1954,14 @@ const MidSection = React.forwardRef((props, ref) => {
           });
 
         scaleField.onclick = (e) => {
-          focuseddClassMaintain(e);
+          table_dropdown_focuseddClassMaintain(e);
           handleClicked("scale2");
           setSidebar(true);
         };
 
         holderDIV.append(scaleField);
+        holderDIV.append(scaleIdHolder);
+
       }
       // Limon
       // else if (
