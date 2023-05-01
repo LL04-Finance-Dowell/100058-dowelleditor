@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useRef, useState, useEffect } from "react";
-
+import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -42,6 +42,13 @@ const ImageRightSidebar = () => {
       }
     }
   };
+  const handleUpdate = () => {
+    const imageName = document.getElementById("image_name");
+    const button = document.querySelector(".focussed");
+    if (imageName.value != "") {
+      button.textContent = imageName.value;
+    }
+  };
 
   function removeImage() {
     if (document.querySelector(".focussedd").classList.contains("dropp")) {
@@ -69,6 +76,21 @@ const ImageRightSidebar = () => {
         </select>
       </div> */}
 
+      <div className="mt-2 mb-3 w-100">
+        <h3>Image Settings</h3>
+        <Form.Label>Place Holder Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Choose Image"
+          id="image_name"
+          onChange={() => {}}
+        />
+      </div>
+      <div className="mt-2 text-center pt-5">
+        <Button variant="secondary" className="px-5" onClick={handleUpdate}>
+          Update Changes
+        </Button>
+      </div>
       <div className="mt-5 text-center pt-1">
         <Button
           className="w-75"

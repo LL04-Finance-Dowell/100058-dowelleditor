@@ -12,9 +12,10 @@ import {
   BsTable,
   BsCodeSquare,
 } from "react-icons/bs";
+
+import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
 import { IoScale } from "react-icons/io5";
-import { SiLinuxcontainers } from "react-icons/si";
 
 import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
@@ -141,7 +142,14 @@ const dragStartScale = (e) => {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
-// Limon
+const dragStartButton = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "BUTTON_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  }
+};
 
 const dragEndFunc = () => {
   const element = document.getElementById("draggable");
@@ -276,13 +284,12 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<IoScale />}
               title="Scale"
             />
-            {/* <NavButton
-              dragStartFunc={dragStartContainer}
-              customFunc={() => handleDrop("container")}
-              onDrop={handleContainerDrop}
-              icon={<SiLinuxcontainers />}
-              title="Container"
-            /> */}
+            <NavButton
+              dragStartFunc={dragStartButton}
+              customFunc={() => handleDrop("button")}
+              icon={<SiBigbluebutton />}
+              title="Button"
+            />
           </div>
         )
       ) : (

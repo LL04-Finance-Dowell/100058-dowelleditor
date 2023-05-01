@@ -13,6 +13,7 @@ const initialState = {
   containerr: false,
   iframe: false,
   scale: false,
+  button: false,
 };
 const initialState2 = {
   align2: false,
@@ -24,6 +25,7 @@ const initialState2 = {
   dropdown2: false,
   iframe2: false,
   scale2: false,
+  button2: false,
 };
 
 export const ContextProvider = ({ children }) => {
@@ -44,11 +46,14 @@ export const ContextProvider = ({ children }) => {
 
   const [startDate, setStartDate] = useState(new Date()); // Calendar
 
-  // //console.log("fetchedData", fetchedData);
-  const [dropdownName, setDropdownName] = useState("Dropdown Name");
-  const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
-  const [dropdownItems, setDropdownItems] = useState("");
-  const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"]);
+
+  const [dropdownName, setDropdownName] = useState('Dropdown Name');
+  const [dropdownLabel, setDropdownLabel] = useState('Dropdown Label');
+  const [dropdownItems, setDropdownItems] = useState('');
+  const [dropdownOptions, setDropdownOptions] = useState(['Enter List Items']);
+
+  const [buttonLink, setButtonLink] = useState('');
+  const [buttonPurpose, setButtonPurpose] = useState('');
 
   const [fontPlus, setFontPlus] = useState(false);
   const [fontMinus, setFontMinus] = useState(false);
@@ -501,6 +506,10 @@ export const ContextProvider = ({ children }) => {
         setIsMenuVisible,
         handleDropp,
         focuseddClassMaintain,
+        buttonLink, 
+        setButtonLink,
+        buttonPurpose, 
+        setButtonPurpose,
       }}
     >
       {children}

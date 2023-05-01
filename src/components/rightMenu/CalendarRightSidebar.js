@@ -106,11 +106,11 @@ const CalendarRightSidebar = (props) => {
           <option value="second" selected={method == "second"}>
             Tuesday, April 19, 2023
           </option>
-          <option value="third">April 19, 2022</option>
+          {/* <option value="third">April 19, 2022</option> */}
           <option value="fourth" selected={method == "fourth"}>
             2023-04-19
           </option>
-          <option value="fifth">19-April-2022</option>
+          {/* <option value="fifth">19-April-2022</option> */}
         </select>
 
         <div id="date_picker_container">

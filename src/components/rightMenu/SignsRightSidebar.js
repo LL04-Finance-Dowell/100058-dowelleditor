@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
@@ -68,7 +69,13 @@ const SignsRightSidebar = () => {
       document.querySelector(".focussedd").remove();
     }
   }
-
+  const handleUpdate = () => {
+    const imageName = document.getElementById("image_name");
+    const button = document.querySelector(".focussed");
+    if (imageName.value != "") {
+      button.textContent = imageName.value;
+    }
+  };
   return (
     <div>
       {decoded.details.action === "document" && (
@@ -118,6 +125,22 @@ const SignsRightSidebar = () => {
       </div> */}
         </>
       )}
+      <div className="mt-2 mb-3 w-100">
+        <h3>Signature Settings</h3>
+        <Form.Label>Place Holder Name</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Choose Image"
+          id="image_name"
+          onChange={() => {}}
+        />
+      </div>
+      <div className="mt-2 text-center pt-5">
+        <Button variant="secondary" className="px-5" onClick={handleUpdate}>
+          Update Changes
+        </Button>
+      </div>
+      <hr />
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
       <div className="mt-5 text-center">
         {decoded.details.action === "template" ? (
