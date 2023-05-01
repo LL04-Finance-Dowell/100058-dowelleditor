@@ -395,7 +395,7 @@ const MidSection = React.forwardRef((props, ref) => {
         if (
           ev.screenX > midsectionRect.left &&
           ev.screenY > midsectionRect.top &&
-          ev.screenX < midsectionRect.right
+          ev.screenX < midsectionRect.right 
         ) {
           //console.log("checking motion");
           const diffX = ev.screenX - initX;
@@ -1414,7 +1414,7 @@ const MidSection = React.forwardRef((props, ref) => {
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != "scale here") {
+          if (element.data != "scale here" && decoded.details.action === "template") {
             const iframe = document.createElement("iframe");
             iframe.src = element.scale_url;
             iframe.width = "auto";
@@ -1423,10 +1423,49 @@ const MidSection = React.forwardRef((props, ref) => {
             scaleField.append(iframe);
           }
 
+          if (element.data != "scale here" && decoded.details.action === "document") {
+            const iframe = document.createElement("iframe");
+            iframe.src = element.scale_url;
+            iframe.width = "auto";
+            iframe.height = "auto";
+
+            Axios.post(
+              "https://100035.pythonanywhere.com/api/nps_create_instance/",
+              {
+                scale_id: element.scaleId,
+              }
+            )
+              .then((res) => {
+                setIsLoading(false);
+                console.log(res.data, "scaleData");
+                const success = res.data.success;
+                var successObj = JSON.parse(success);
+                const id = successObj.inserted_id;
+                console.log(res.scale_urls, "stateScale");
+                if (id.length) {
+                  console.log(id, "id");
+                  // setScaleId(id);
+                  // scaleIdHolder.innerHTML = id;
+                }
+                
+              })
+              .catch((err) => {
+                setIsLoading(false);
+                console.log(err);
+              });
+
+            scaleField.append(iframe);
+          }
+
           const scaleIdHolder = document.createElement("div");
+
           scaleIdHolder.className = "scaleId_holder";
           scaleIdHolder.innerHTML=element.scaleId;
           scaleIdHolder.style.display = "none"
+
+          const labelHolder = document.createElement("div");
+          labelHolder.className = "label_holder";
+          labelHolder.style.display = "none"
 
           scaleField.onclick = (e) => {
             // focuseddClassMaintain(e);
@@ -1437,6 +1476,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           holderDIV.append(scaleField);
           holderDIV.append(scaleIdHolder);
+          holderDIV.append(labelHolder);
 
           document
             .getElementsByClassName("midSection_container")
@@ -1916,6 +1956,12 @@ const MidSection = React.forwardRef((props, ref) => {
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none"
+
+        const labelHolder = document.createElement("div");
+        labelHolder.className = "label_holder";
+        labelHolder.style.display = "none"
+
+
         scaleField.append(scale);
         Axios.post(
           "https://100035.pythonanywhere.com/api/nps_settings_create/",
@@ -1961,6 +2007,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         holderDIV.append(scaleField);
         holderDIV.append(scaleIdHolder);
+        holderDIV.append(labelHolder);
 
       }
       // Limon

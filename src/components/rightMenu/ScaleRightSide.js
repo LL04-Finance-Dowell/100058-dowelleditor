@@ -32,26 +32,11 @@ const ScaleRightSide = () => {
 
   const holderDIV = document.querySelector('.focussedd');
   const scaleId = holderDIV?.children[1].innerHTML;
+  const label = holderDIV?.children[2];
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    label.innerHTML = e.target.value
 
-    switch (name) {
-      case 'label':
-        setCustom1(value);
-        localStorage.setItem('inputValue1', e.target.value);
-        break;
-      case 'custom2':
-        setCustom2(value);
-        localStorage.setItem('inputValue2', e.target.value);
-        break;
-      case 'custom3':
-        setCustom3(value);
-        localStorage.setItem('inputValue3', e.target.value);
-        break;
-      default:
-        break;
-    }
   };
 
   useEffect(() => {
@@ -60,20 +45,20 @@ const ScaleRightSide = () => {
     setCustom3(localStorage.getItem('inputValue3'));
   }, []);
 
-  useEffect(() => {
-    // Access the iframe's window object and add an event listener to it
-    const iframeWindow = document.getElementById("update_ifr");
-    iframeWindow.addEventListener('click', handleClick);
+  // useEffect(() => {
+  //   // Access the iframe's window object and add an event listener to it
+  //   const iframeWindow = document.getElementById("update_ifr");
+  //   iframeWindow.addEventListener('click', handleClick);
 
-    // Remove the event listener when the component unmounts
-    return () => {
-      iframeWindow.removeEventListener('blur', handleClick);
-    };
-  }, []);
-  function handleClick(event) {
-    console.log('Click event inside iframe:', event);
-    setIframeKey(prevKey => prevKey + 1);
-  }
+  //   // Remove the event listener when the component unmounts
+  //   return () => {
+  //     iframeWindow.removeEventListener('blur', handleClick);
+  //   };
+  // }, []);
+  // function handleClick(event) {
+  //   console.log('Click event inside iframe:', event);
+  //   setIframeKey(prevKey => prevKey + 1);
+  // }
 
   function sendMessage() {
     const message =
@@ -92,6 +77,7 @@ const ScaleRightSide = () => {
       custom_input_groupings: {
         selectedOptions
       },
+      scale_label: label,
     })
       .then((res) => {
         if (res.status == 200) {
@@ -177,7 +163,7 @@ const ScaleRightSide = () => {
     // }
   };
 
-  const options = myArray.map((element, index) => (
+  const options = myArray?.map((element, index) => (
     <option key={index} value={element.type} id={element.id}>
       {`${element.type} ${element.id}`}
     </option>
@@ -197,12 +183,10 @@ const ScaleRightSide = () => {
         <h3>Update scale</h3>
         <div className="mb-4">
           <Form.Label>Scale Type</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Scale Type"
-          // id="iframe_src"
-          // onChange={handleChange}
-          />
+          <select className='rounded w-100 h-75 p-2 '>
+            <option>select</option>
+            <option>nps scale</option>
+          </select>
         </div>
         <div>
           <iframe
@@ -217,15 +201,16 @@ const ScaleRightSide = () => {
         <h3>Configurations</h3>
         {/* iframe */}
         <div>
-          <Form.Label>Scale Name</Form.Label>
-          <Form.Control
+
+          
+          {/* <Form.Control
             type="text"
             placeholder={`${decoded.details._id}_scl1`}
             disabled
             className="mb-4"
           // id="iframe_src"
           // onChange={handleChange}
-          />
+          /> */}
 
           <select
             onChange={handleSelect}
