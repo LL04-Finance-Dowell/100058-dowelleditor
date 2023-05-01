@@ -9,7 +9,6 @@ const ScaleRightSide = () => {
   const {
     sidebar,
     setIsLoading,
-    scaleId,
     scaleData,
     data,
     item,
@@ -22,12 +21,17 @@ const ScaleRightSide = () => {
     custom3,
     setCustom3,
   } = useStateContext();
-  const [selectedElement, setSelectedElement] = useState('');
+
+  const [iframeKey, setIframeKey] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState({});
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   var decoded = jwt_decode(token);
   console.log(data, 'data');
   console.log(companyId);
+
+  const holderDIV = document.querySelector('.focussedd');
+  const scaleId = holderDIV?.children[1].innerHTML;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,11 +53,28 @@ const ScaleRightSide = () => {
         break;
     }
   };
+
   useEffect(() => {
     setCustom1(localStorage.getItem('inputValue1'));
     setCustom2(localStorage.getItem('inputValue2'));
     setCustom3(localStorage.getItem('inputValue3'));
   }, []);
+
+  useEffect(() => {
+    // Access the iframe's window object and add an event listener to it
+    const iframeWindow = document.getElementById("update_ifr");
+    iframeWindow.addEventListener('click', handleClick);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      iframeWindow.removeEventListener('blur', handleClick);
+    };
+  }, []);
+  function handleClick(event) {
+    console.log('Click event inside iframe:', event);
+    setIframeKey(prevKey => prevKey + 1);
+  }
+
   function sendMessage() {
     const message =
       decoded.details.action === 'document'
@@ -69,11 +90,7 @@ const ScaleRightSide = () => {
       template_id: decoded.details._id,
       scale_id: scaleId,
       custom_input_groupings: {
-        group1: {
-          custom_input_1: custom1,
-          custom_input_2: custom2,
-          custom_input_3: custom3,
-        },
+        selectedOptions
       },
     })
       .then((res) => {
@@ -102,6 +119,8 @@ const ScaleRightSide = () => {
     divSettingRight.style.display = 'block';
   }
 
+
+
   const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
   console.log(iframeSrc, 'iframeSrc');
 
@@ -112,9 +131,25 @@ const ScaleRightSide = () => {
     }
   }
   const myArray = Object.values(data)[0];
+  const elems = document.getElementsByClassName("holderDIV")
+  for (let index = 0; index < elems.length; index++) {
+    const element = elems[index];
+    console.log(element.children[0]);
+  }
 
   const handleSelect = (event) => {
     let selectField = document.getElementById('select');
+    var selectedValues = {};
+    const options = selectField.options;
+
+    for (let i = 0; i < options.length; i++) {
+      const option = options[i];
+      if (option.selected) {
+        selectedValues[option.value] = option.id;
+      }
+    }
+    console.log(selectedValues);
+    setSelectedOptions(selectedValues)
 
     let selectedOption = selectField.options[selectField.selectedIndex];
     let selectedElementId = selectedOption.id;
@@ -165,13 +200,15 @@ const ScaleRightSide = () => {
           <Form.Control
             type="text"
             placeholder="Scale Type"
-            // id="iframe_src"
-            // onChange={handleChange}
+          // id="iframe_src"
+          // onChange={handleChange}
           />
         </div>
         <div>
           <iframe
+            key={iframeKey}
             style={{ border: 'solid 2px black', height: '400px' }}
+            id="update_ifr"
             src={iframeSrc}
           ></iframe>
         </div>
@@ -186,15 +223,16 @@ const ScaleRightSide = () => {
             placeholder={`${decoded.details._id}_scl1`}
             disabled
             className="mb-4"
-            // id="iframe_src"
-            // onChange={handleChange}
+          // id="iframe_src"
+          // onChange={handleChange}
           />
 
           <select
             onChange={handleSelect}
             id="select"
             // onChange={handleDateMethod}
-            className="select border-0 bg-white rounded w-100 h-75 p-2"
+            className="select border-0 bg-white rounded w-100 h-75 p-2 "
+            multiple
           >
             <option value="select">Select Element</option>
             {options}
@@ -210,24 +248,7 @@ const ScaleRightSide = () => {
             // id="iframe_src"
             onChange={handleChange}
           />
-          <Form.Label>Custom Input 2</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Custom Input 2"
-            value={custom2}
-            name="custom2"
-            // id="iframe_src"
-            onChange={handleChange}
-          />
-          <Form.Label>Custom Input 3</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Custom Input 3"
-            value={custom3}
-            name="custom3"
-            // id="iframe_src"
-            onChange={handleChange}
-          />
+      
         </div>
 
         <div className="mt-2 text-center pt-5">

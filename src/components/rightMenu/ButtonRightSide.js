@@ -17,54 +17,28 @@ const ButtonRightSide = () => {
     const purpose = holderDIV?.children[2].innerHTML;
     const link = holderDIV?.children[1].innerHTML;
 
-    useEffect(() => {
-        if (button) {
-            button.addEventListener('click', function () {
-                console.log(purpose);
-                const selectedValue = select?.value;
-                if (purpose === 'finalize' && link == "") {
-                    console.log('finalize selected');
-                    finalizeButton?.click();
-                } else if (purpose === 'reject' && link == "") {
-                    console.log('reject 2 selected');
-                    rejectButton?.click();
-                } else if (purpose === 'custom' && link != "") {
-                    console.log('custom 3 selected');
-                    window.open(link, '_blank');
-
-                } else {
-                    console.log('No option selected');
-                }
-            });
-        }
-    }, [purpose])
-
     // useEffect(() => {
     //     if (button) {
-
-    //         console.log(purpose);
-    //         if (purpose == "custom") {
-    //             button.addEventListener('click', function () {
-    //                 console.log(link)
+    //         button.addEventListener('click', function () {
+    //             console.log(purpose);
+    //             const selectedValue = select?.value;
+    //             if (purpose === 'finalize' && link == "") {
+    //                 console.log('finalize selected');
+    //                 finalizeButton?.click();
+    //             } else if (purpose === 'reject' && link == "") {
+    //                 console.log('reject 2 selected');
+    //                 rejectButton?.click();
+    //             } else if (purpose === 'custom' && link != "") {
+    //                 console.log('custom 3 selected');
     //                 window.open(link, '_blank');
-    //             })
-    //         } 
-    //          if (purpose == "finalize" && finalizeButton !== null) {
-    //             button.addEventListener('click', function () {
-    //                 finalizeButton.click();
-    //             })
 
-    //         } 
-    //          if (purpose == "reject" && rejectButton !== null) {
-    //             button.addEventListener('click', function () {
-    //                 rejectButton.click();
-    //             })
+    //             } else {
+    //                 console.log('No option selected');
+    //             }
+    //         });
+    //     }
+    // }, [purpose])
 
-    //         }
-    //     };
-
-
-    // }, [])
 
     const handleUpdate = () => {
         const btnName = document.getElementById("button_name");
