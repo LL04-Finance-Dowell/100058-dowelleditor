@@ -2477,6 +2477,11 @@ const MidSection = React.forwardRef((props, ref) => {
         containerField.style.outline = "0px";
         containerField.style.overflow = "overlay";
         containerField.style.position = "absolute";
+        containerField.onclick = (e) => {
+          focuseddClassMaintain(e);
+          handleClicked("container2");
+          setSidebar(true);
+        };
         containerField.ondrop = (event) => {
           const typeOfOperationContainer =
             event.dataTransfer.getData("text/plain");
