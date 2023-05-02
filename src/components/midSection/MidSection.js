@@ -2534,6 +2534,8 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
         containerField.ondrop = (event) => {
+          const container = event.target
+          const containerRect = container.getBoundingClientRect();
           const typeOfOperationContainer =
             event.dataTransfer.getData("text/plain");
           //             const midSec = document.querySelector(".drop_zone");
@@ -2548,8 +2550,8 @@ const MidSection = React.forwardRef((props, ref) => {
           const measureContainer = {
             width: "200px",
             height: "80px",
-            left: event.clientX - event.left + "px",
-            top: event.clientY - event.top + "px",
+            left: event.clientX - containerRect.left + "px",
+            top: event.clientY - containerRect.top + "px",
             auth_user: curr_user,
           };
 
