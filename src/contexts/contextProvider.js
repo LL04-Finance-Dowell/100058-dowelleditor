@@ -70,7 +70,7 @@ export const ContextProvider = ({ children }) => {
     setIsClicked({ ...isClicked, [clicked]: true, [tableRighMenu]: false });
   };
 
-  console.log("isClicked", isClicked);
+  // console.log("isClicked", isClicked);
   const [newToken, setNewToken] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFlipClicked, setIsFlipClicked] = useState(true);

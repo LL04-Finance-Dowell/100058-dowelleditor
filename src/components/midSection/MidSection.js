@@ -491,6 +491,11 @@ const MidSection = React.forwardRef((props, ref) => {
     } else {
       holderDIV.classList.add(`dotted_border`);
     }
+
+    holderDIV.addEventListener("dragstart", (event) => {
+      console.log("dragStart fun called");
+    });
+
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -2404,6 +2409,12 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
           setTimeout(dateClick, 0);
         };
+        dateField.ondragstart = (e) => {
+          console.log("dragStart fun called");
+        };
+        dateField.ondragend = (e) => {
+          console.log("ondragend fun called");
+        };
         dateField.innerText = "mm/dd/yyyy";
 
         // //console.log(startDate);
@@ -2583,8 +2594,9 @@ const MidSection = React.forwardRef((props, ref) => {
               setRightSideDateMenu(false);
             }
             dateFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               focuseddClassMaintain(e);
-              handleClicked("calendar2");
+              handleClicked("calendar2", "container2");
               setRightSideDateMenu(false);
               if (e.target.innerText != "mm/dd/yyyy") {
                 if (e.target.innerText.includes("/")) {
@@ -2620,6 +2632,7 @@ const MidSection = React.forwardRef((props, ref) => {
             imageFieldContainer.style.position = "relative";
 
             imageFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("image2", "table2");
               setSidebar(true);
@@ -2695,6 +2708,7 @@ const MidSection = React.forwardRef((props, ref) => {
             // }
 
             dropdownFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               table_dropdown_focuseddClassMaintain(e);
               handleClicked("dropdown2");
               setRightSideDropDown(false);
@@ -2743,6 +2757,7 @@ const MidSection = React.forwardRef((props, ref) => {
             }
 
             inputFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("align2");
               setSidebar(true);
@@ -2773,6 +2788,7 @@ const MidSection = React.forwardRef((props, ref) => {
             };
 
             signFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("signs2");
               setSidebar(true);
@@ -2815,6 +2831,7 @@ const MidSection = React.forwardRef((props, ref) => {
             iframeFieldContainer.innerText = "iFrame here";
 
             iframeFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               table_dropdown_focuseddClassMaintain(e);
               handleClicked("iframe2");
               setSidebar(true);
@@ -2874,6 +2891,7 @@ const MidSection = React.forwardRef((props, ref) => {
               });
 
             scaleFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("scale2");
               setSidebar(true);
@@ -2905,6 +2923,7 @@ const MidSection = React.forwardRef((props, ref) => {
             };
 
             tableFieldContainer.onclick = (e) => {
+              e.stopPropagation();
               table_dropdown_focuseddClassMaintain(e);
               handleClicked("table2");
               setSidebar(true);
