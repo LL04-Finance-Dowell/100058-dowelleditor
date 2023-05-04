@@ -1,12 +1,17 @@
+/* html:sc */
+
 .leftMenu {
-  height: 60vh;
+  height: 80%;
+  /* height: 90vh; */
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-top: 5.5rem;
+  margin-top: 3.5rem;
   gap: 1rem;
   margin-left: 18px;
+  overflow-y: auto;
+  padding: 120px 0 20px 0;
 }
 .leftMenu > button {
   outline: transparent;
@@ -14,6 +19,7 @@
   background-color: #394869;
   padding: 0.6rem 0.8rem;
   border-radius: 6px;
+  /* margin-top: 1rem; */
 }
 .leftMenu > button:hover {
   background-color: #25c7a3;

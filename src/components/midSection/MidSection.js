@@ -46,7 +46,8 @@ const dummyData = {
 };
 
 // const MidSection = ({showSidebar}) => {
-const MidSection = React.forwardRef((props, ref) => {
+const MidSection = React.forwardRef((props, ref) =>
+{
   const {
     sidebar,
     dropdownName,
@@ -102,7 +103,8 @@ const MidSection = React.forwardRef((props, ref) => {
   //   console.log(scaleId, 'scaleId on localSt');
   // }, [scaleId]);
 
-  function boldCommand() {
+  function boldCommand()
+  {
     const strongElement = document.createElement("strong");
     const userSelection = window.getSelection();
     const selectedTextRange = userSelection.getRangeAt(0);
@@ -111,20 +113,25 @@ const MidSection = React.forwardRef((props, ref) => {
 
   const midSectionRef = useRef([]);
 
-  useEffect(() => {
-    document.addEventListener("mousedown", (event) => {
+  useEffect(() =>
+  {
+    document.addEventListener("mousedown", (event) =>
+    {
       const holderDIV = document.getElementsByClassName("holderDIV");
       const holderr = document.getElementsByClassName("holder-menu");
       const resizerr = document.getElementsByClassName("resizeBtn");
       //console.log("mouseDown inside if condition", event.target.id);
       // //console.log("mouseDown inside if condition", midSectionRef.current.id);
 
-      if (event?.target?.id === midSectionRef?.current?.id) {
+      if (event?.target?.id === midSectionRef?.current?.id)
+      {
         // holderDIV.classList.remove('focussedd')
-        if (document.querySelector(".focussedd")) {
+        if (document.querySelector(".focussedd"))
+        {
           document.querySelector(".focussedd").classList.remove("focussedd");
         }
-        if (document.querySelector(".focussed")) {
+        if (document.querySelector(".focussed"))
+        {
           document.querySelector(".focussed").classList.remove("focussed");
         }
         setIsMenuVisible(false);
@@ -177,7 +184,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // const [isLoading, setIsLoading] = useState(true);
 
-  const getPostData = async () => {
+  const getPostData = async () =>
+  {
     var decoded = jwt_decode(token);
     //console.log(decoded);
     const response = await Axios.post(
@@ -194,7 +202,8 @@ const MidSection = React.forwardRef((props, ref) => {
         action: decoded.details.action,
       }
     )
-      .then((res) => {
+      .then((res) =>
+      {
         console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
@@ -208,7 +217,8 @@ const MidSection = React.forwardRef((props, ref) => {
         setFetchedData(loadedData[0][0]);
         //  setData(oldArray => [...data, loadedData[0]]);
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         //console.log("error response from midsection get request", err);
         // //console.log(err);
@@ -220,13 +230,16 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // //console.log(JSON.stringify(postData));
 
-  useEffect(() => {
-    if (data !== undefined) {
+  useEffect(() =>
+  {
+    if (data !== undefined)
+    {
       //console.log(data);
 
       onPost();
       // onParagraphPost()
-    } else {
+    } else
+    {
       //console.log("loading data");
     }
   }, [isDataRetrieved]);
@@ -236,7 +249,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // const isTemplate = JSON.parse(document.getElementById('template'));
 
-  function getResizer(attr1, attr2) {
+  function getResizer(attr1, attr2)
+  {
     const resizer = document.createElement("span");
     resizer.style.width = "5px";
     resizer.style.height = "5px";
@@ -245,32 +259,41 @@ const MidSection = React.forwardRef((props, ref) => {
     resizer.style.position = "absolute";
     resizer.style.backgroundColor = "#00aaff";
 
-    if (attr1 === "top") {
+    if (attr1 === "top")
+    {
       resizer.style.top = "-5px";
-    } else {
+    } else
+    {
       resizer.style.bottom = "-5px";
     }
 
-    if (attr2 === "left") {
+    if (attr2 === "left")
+    {
       resizer.style.left = "-5px";
-    } else {
+    } else
+    {
       resizer.style.right = "-5px";
     }
 
     if (
       (attr1 == "top" && attr2 === "right") ||
       (attr1 == "bottom" && attr2 === "left")
-    ) {
-      resizer.onmouseover = (event) => {
+    )
+    {
+      resizer.onmouseover = (event) =>
+      {
         event.target.style.cursor = "nesw-resize";
       };
-    } else {
-      resizer.onmouseover = (event) => {
+    } else
+    {
+      resizer.onmouseover = (event) =>
+      {
         event.target.style.cursor = "nwse-resize";
       };
     }
 
-    resizer.onmousedown = (event) => {
+    resizer.onmousedown = (event) =>
+    {
       let initX = event.screenX;
       let initY = event.screenY;
       resizing = true;
@@ -278,7 +301,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
       const holder = event.target.parentNode;
 
-      const holderSize = (function () {
+      const holderSize = (function ()
+      {
         const holderSize = {
           width:
             decoded.details.flag === "editing" ? holder.offsetWidth : undefined,
@@ -300,28 +324,34 @@ const MidSection = React.forwardRef((props, ref) => {
       })();
 
       window.addEventListener("mousemove", resizeElement);
-      function resizeElement(ev) {
+      function resizeElement(ev)
+      {
         const el = document.getElementById("midSection_container");
         const midsectionRect = el.getBoundingClientRect();
         if (
           ev.screenX > midsectionRect.left &&
           ev.screenY > midsectionRect.top &&
           ev.screenX < midsectionRect.right
-        ) {
-          if (attr1 == "bottom" && attr2 == "right") {
+        )
+        {
+          if (attr1 == "bottom" && attr2 == "right")
+          {
             holder.style.width = ev.screenX - initX + holderSize.width + "px";
             holder.style.height = ev.screenY - initY + holderSize.height + "px";
-          } else if (attr1 == "bottom" && attr2 == "left") {
+          } else if (attr1 == "bottom" && attr2 == "left")
+          {
             holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
             holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
             holder.style.height = ev.screenY - initY + holderSize.height + "px";
-          } else if (attr1 == "top" && attr2 == "left") {
+          } else if (attr1 == "top" && attr2 == "left")
+          {
             holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
             holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
             holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
             holder.style.height =
               holderSize.height - (ev.screenY - initY) + "px";
-          } else if (attr1 == "top" && attr2 == "right") {
+          } else if (attr1 == "top" && attr2 == "right")
+          {
             holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
             holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
             holder.style.height =
@@ -331,7 +361,8 @@ const MidSection = React.forwardRef((props, ref) => {
       }
 
       window.addEventListener("mouseup", stopResizing);
-      function stopResizing(ev) {
+      function stopResizing(ev)
+      {
         window.removeEventListener("mousemove", resizeElement);
         window.removeEventListener("mouseup", stopResizing);
         resizing = false;
@@ -343,10 +374,12 @@ const MidSection = React.forwardRef((props, ref) => {
 
   //Draggin element over page
 
-  const dragElementOverPage = (event) => {
+  const dragElementOverPage = (event) =>
+  {
     let holder;
     //console.log("dragElement", event);
-    if (!resizing) {
+    if (!resizing)
+    {
       let initX = event.screenX;
       let initY = event.screenY;
 
@@ -354,12 +387,15 @@ const MidSection = React.forwardRef((props, ref) => {
       var counterCheck = true;
       var tempTarget = event.target;
       var hitTarget = "";
-      while (counterCheck) {
+      while (counterCheck)
+      {
         // if(tempTarget.className === 'holderDIV'){
-        if (tempTarget.classList.contains("holderDIV")) {
+        if (tempTarget.classList.contains("holderDIV"))
+        {
           hitTarget = tempTarget;
           counterCheck = false;
-        } else if (tempTarget.classList.contains("textInput")) {
+        } else if (tempTarget.classList.contains("textInput"))
+        {
           hitTarget = null;
           counterCheck = false;
         }
@@ -367,7 +403,8 @@ const MidSection = React.forwardRef((props, ref) => {
       }
 
       holder = hitTarget;
-      const holderPos = (function () {
+      const holderPos = (function ()
+      {
         const holderPos = {
           top:
             decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
@@ -380,7 +417,8 @@ const MidSection = React.forwardRef((props, ref) => {
       })();
 
       window.addEventListener("mousemove", moveObject);
-      function moveObject(ev) {
+      function moveObject(ev)
+      {
         //console.log(ev);
         ev.preventDefault();
         const el = document.getElementById("midSection_container");
@@ -396,27 +434,31 @@ const MidSection = React.forwardRef((props, ref) => {
           ev.screenX > midsectionRect.left &&
           ev.screenY > midsectionRect.top &&
           ev.screenX < midsectionRect.right
-        ) {
+        )
+        {
           //console.log("checking motion");
           const diffX = ev.screenX - initX;
           const diffY = ev.screenY - initY;
           holder.style.top = holderPos.top + diffY + "px";
           holder.style.left = holderPos.left + diffX + "px";
-        } else {
+        } else
+        {
           holder.style.top = holderPos.top + "px";
           holder.style.left = holderPos.left + "px";
         }
       }
 
       window.addEventListener("mouseup", stopMove);
-      function stopMove(ev) {
+      function stopMove(ev)
+      {
         window.removeEventListener("mousemove", moveObject);
         window.removeEventListener("mouseup", stopMove);
       }
     }
   };
 
-  function getHolderMenu(auth_user) {
+  function getHolderMenu(auth_user)
+  {
     //putting functional menu on holder
 
     const HMContainer = document.createElement("div");
@@ -451,7 +493,8 @@ const MidSection = React.forwardRef((props, ref) => {
     return holderMenu;
   }
 
-  function getHolderDIV(measure, i, idMatch) {
+  function getHolderDIV(measure, i, idMatch)
+  {
     //console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
@@ -475,13 +518,16 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.style.top = measure.top;
     holderDIV.classList.add(`page${i}`);
     //console.log(idMatch);
-    if (idMatch?.length > 0) {
+    if (idMatch?.length > 0)
+    {
       holderDIV.classList.add(`enable_pointer_event`);
       holderDIV.style.border = "1px solid green !important";
-    } else if (idMatch?.length < 1 && actionName == "document") {
+    } else if (idMatch?.length < 1 && actionName == "document")
+    {
       holderDIV.classList.add(`dotted_border`);
       holderDIV.classList.add(`disable_pointer_event`);
-    } else {
+    } else
+    {
       holderDIV.classList.add(`dotted_border`);
     }
     //Putting resize button on holder
@@ -504,20 +550,23 @@ const MidSection = React.forwardRef((props, ref) => {
 
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
-      (event) => {
+      (event) =>
+      {
         dragElementOverPage(event);
       },
       false
     );
 
-    holderDIV.onresize = (evntt) => {
+    holderDIV.onresize = (evntt) =>
+    {
       //console.log("Holder resized");
     };
     // }
 
     // holderDIV.style.border = "2px dotted gray";
 
-    holderDIV.addEventListener("focus", function (e) {
+    holderDIV.addEventListener("focus", function (e)
+    {
       // holderDIV.classList.add("focussedd");
       holderDIV.classList.add("zIndex-two");
       holderDIV.style.border = "2px solid orange";
@@ -533,7 +582,8 @@ const MidSection = React.forwardRef((props, ref) => {
     //   }
     //   e.target.parentElement.classList.add("focussedd");
     // });
-    holderDIV.addEventListener("focusout", function (e) {
+    holderDIV.addEventListener("focusout", function (e)
+    {
       // holderDIV.classList.remove("focussedd");
       // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
       //   holderDIV.style.border = "3px dotted gray";
@@ -654,7 +704,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // table ondrop handle after retrieve
 
-  const onPost = () => {
+  const onPost = () =>
+  {
     const curr_user = document.getElementById("curr_user");
 
     const midSec = document.getElementsByClassName("midSection_container");
@@ -662,7 +713,8 @@ const MidSection = React.forwardRef((props, ref) => {
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
-    for (let p = 1; p <= item?.length; p++) {
+    for (let p = 1; p <= item?.length; p++)
+    {
       // const page = midSec[p];
       // if(item && page?.childNodes.length < 2){
       //   // midSec[p].parentElement.remove()
@@ -673,10 +725,12 @@ const MidSection = React.forwardRef((props, ref) => {
       // arrayData.forEach((element) => {
       pageNo++;
       //console.log("data" + [p], fetchedData[p]);
-      fetchedData[p]?.forEach((element) => {
+      fetchedData[p]?.forEach((element) =>
+      {
 
         //console.log("each content", element);
-        if (element.type === "TEXT_INPUT") {
+        if (element.type === "TEXT_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -705,14 +759,17 @@ const MidSection = React.forwardRef((props, ref) => {
           inputField.style.overflow = "overlay";
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
-          inputField.oninput = (e) => {
+          inputField.oninput = (e) =>
+          {
             //setIsFinializeDisabled(false);
             // const doc_map_copy = [...doc_map]
-            if (inputField.parentElement.classList.contains("holderDIV")) {
+            if (inputField.parentElement.classList.contains("holderDIV"))
+            {
               inputField.parentElement.classList.add("element_updated");
             }
           };
-          inputField.onclick = (e) => {
+          inputField.onclick = (e) =>
+          {
             focuseddClassMaintain(e);
 
             handleClicked("align2");
@@ -737,7 +794,8 @@ const MidSection = React.forwardRef((props, ref) => {
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        if (element.type === "IMAGE_INPUT") {
+        if (element.type === "IMAGE_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -763,13 +821,16 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.style.overflow = "overlay";
           // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
           imageField.style.position = "relative";
-          imageField.oninput = (e) => {
+          imageField.oninput = (e) =>
+          {
             //setIsFinializeDisabled(false);
           };
-          if (imageField?.parentElement?.classList.contains("holderDIV")) {
+          if (imageField?.parentElement?.classList.contains("holderDIV"))
+          {
             imageField?.parentElement?.classList.add("element_updated");
           }
-          imageField.onclick = (e) => {
+          imageField.onclick = (e) =>
+          {
             focuseddClassMaintain(e);
             handleClicked("image2");
             setSidebar(true);
@@ -786,10 +847,12 @@ const MidSection = React.forwardRef((props, ref) => {
           imgBtn.style.objectFit = "cover";
           var uploadedImage = "";
 
-          imgBtn.addEventListener("input", () => {
+          imgBtn.addEventListener("input", () =>
+          {
             const reader = new FileReader();
 
-            reader.addEventListener("load", () => {
+            reader.addEventListener("load", () =>
+            {
               uploadedImage = reader.result;
               document.querySelector(
                 ".focussed"
@@ -812,7 +875,8 @@ const MidSection = React.forwardRef((props, ref) => {
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        if (element.type === "DATE_INPUT") {
+        if (element.type === "DATE_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -836,29 +900,36 @@ const MidSection = React.forwardRef((props, ref) => {
           dateField.style.overflow = "overlay";
           dateField.style.position = "relative";
 
-          function dateClick() {
+          function dateClick()
+          {
             document.getElementById("date_picker")?.click();
           }
           // let dateFieldInnerText = "";
           // dateField.oninput = (e) =>{
           //   setIsFinializeDisabled(false);
           // }
-          dateField.onclick = (e) => {
+          dateField.onclick = (e) =>
+          {
             // dateFieldInnerText = e?.target?.innerText;
             focuseddClassMaintain(e);
             handleClicked("calendar2");
             setRightSideDateMenu(false);
             //console.log("innerText", e.target.innerText);
-            if (e.target.innerText != "mm/dd/yyyy") {
-              if (e.target.innerText.includes("/")) {
+            if (e.target.innerText != "mm/dd/yyyy")
+            {
+              if (e.target.innerText.includes("/"))
+              {
                 const setDate = new Date(e.target.innerText);
                 //console.log("First from Midsection", setDate);
                 setMethod("first");
                 setStartDate(setDate);
-              } else {
-                if (e.target.innerText.includes("-")) {
+              } else
+              {
+                if (e.target.innerText.includes("-"))
+                {
                   setMethod("fourth");
-                } else {
+                } else
+                {
                   setMethod("second");
                 }
                 const setDate = new Date(e.target.innerText);
@@ -890,7 +961,8 @@ const MidSection = React.forwardRef((props, ref) => {
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        if (element.type === "SIGN_INPUT") {
+        if (element.type === "SIGN_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -920,7 +992,8 @@ const MidSection = React.forwardRef((props, ref) => {
           // }
           // let signFieldInnerText = "";
 
-          signField.onclick = (e) => {
+          signField.onclick = (e) =>
+          {
             // signFieldInnerText=e.target.innerText
             focuseddClassMaintain(e);
             // if ((actionName = 'template')) {
@@ -938,7 +1011,8 @@ const MidSection = React.forwardRef((props, ref) => {
           if (
             decoded.details.action === "document" &&
             element.data == "Signature here"
-          ) {
+          )
+          {
             // signField.innerHTML = `<img src=${element.data} />`;
             signField.innerHTML = "Signature here";
           }
@@ -954,9 +1028,11 @@ const MidSection = React.forwardRef((props, ref) => {
           // ) {
           //   signField.innerHTML = "Signature here";
           // }
-          else if (decoded.details.action === "document" && element.data) {
+          else if (decoded.details.action === "document" && element.data)
+          {
             signField.innerHTML = `<img src=${element.data}  />`;
-          } else {
+          } else
+          {
             signField.innerHTML = "Signature here";
           }
 
@@ -971,10 +1047,12 @@ const MidSection = React.forwardRef((props, ref) => {
           signBtn.style.objectFit = "cover";
           var uploadedImage = "";
 
-          signBtn.addEventListener("input", () => {
+          signBtn.addEventListener("input", () =>
+          {
             const reader = new FileReader();
 
-            reader.addEventListener("load", () => {
+            reader.addEventListener("load", () =>
+            {
               uploadedImage = reader.result;
               const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
               document.querySelector(".focussed").innerHTML = signImage;
@@ -994,7 +1072,8 @@ const MidSection = React.forwardRef((props, ref) => {
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        if (element.type === "TABLE_INPUT") {
+        if (element.type === "TABLE_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1018,10 +1097,12 @@ const MidSection = React.forwardRef((props, ref) => {
           tableField.style.overflow = "overlay";
           // tableField.innerHTML = 'table';
           tableField.style.position = "absolute";
-          tableField.oninput = (e) => {
+          tableField.oninput = (e) =>
+          {
             //setIsFinializeDisabled(false);
           };
-          tableField.onclick = (e) => {
+          tableField.onclick = (e) =>
+          {
             // focuseddClassMaintain(e);
 
             table_dropdown_focuseddClassMaintain(e);
@@ -1035,33 +1116,41 @@ const MidSection = React.forwardRef((props, ref) => {
           // tabb.innerHTML = element.data;
           const tableData = element?.data;
           // console.log("tableData", tableData);
-          for (let i = 0; i < tableData.length; i++) {
+          for (let i = 0; i < tableData.length; i++)
+          {
             const tabbTR = document.createElement("tr");
             const tableTRData = tableData[i]["tr"];
-            for (let j = 0; j < tableTRData.length; j++) {
+            for (let j = 0; j < tableTRData.length; j++)
+            {
               const tableTDData = tableTRData[j]["td"];
               // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
               cells.className = "dropp";
-              cells.ondragover = function (e) {
+              cells.ondragover = function (e)
+              {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                if (!e.target.hasChildNodes()) {
+                if (!e.target.hasChildNodes())
+                {
                   e.target.style.border = "3px solid blue";
                 }
-                if (e.target.classList.contains("imageInput")) {
+                if (e.target.classList.contains("imageInput"))
+                {
                   e.target.style.border = "none";
                 }
               };
-              cells.ondragleave = (e) => {
+              cells.ondragleave = (e) =>
+              {
                 e.preventDefault();
                 if (
                   !e.target.hasChildNodes() &&
                   !e.target.classList.contains("imageInput")
-                ) {
+                )
+                {
                   e.target.style.border = "1px solid black";
                 }
-                if (e.target.classList.contains("imageInput")) {
+                if (e.target.classList.contains("imageInput"))
+                {
                   e.target.style.border = "none";
                 }
               };
@@ -1074,27 +1163,35 @@ const MidSection = React.forwardRef((props, ref) => {
                 (dataType == "TEXT_INPUT" && "textInput") ||
                 (dataType == "IMAGE_INPUT" && "imageInput") ||
                 (dataType == "SIGN_INPUT" && "signInput");
-              if (dataType == "DATE_INPUT") {
+              if (dataType == "DATE_INPUT")
+              {
                 setStartDate(new Date());
                 setMethod("select");
 
-                function dateClick() {
+                function dateClick()
+                {
                   document.getElementById("date_picker").click();
                   setRightSideDateMenu(false);
                 }
-                cellsDiv.onclick = (e) => {
+                cellsDiv.onclick = (e) =>
+                {
                   focuseddClassMaintain(e);
                   handleClicked("calendar2");
                   setRightSideDateMenu(false);
-                  if (e.target.innerText != "mm/dd/yyyy") {
-                    if (e.target.innerText.includes("/")) {
+                  if (e.target.innerText != "mm/dd/yyyy")
+                  {
+                    if (e.target.innerText.includes("/"))
+                    {
                       const setDate = new Date(e.target.innerText);
                       setMethod("first");
                       setStartDate(setDate);
-                    } else {
-                      if (e.target.innerText.includes("-")) {
+                    } else
+                    {
+                      if (e.target.innerText.includes("-"))
+                      {
                         setMethod("fourth");
-                      } else {
+                      } else
+                      {
                         setMethod("second");
                       }
                       const setDate = new Date(e.target.innerText);
@@ -1106,8 +1203,10 @@ const MidSection = React.forwardRef((props, ref) => {
                   e.stopPropagation();
                 };
               }
-              if (dataType == "TEXT_INPUT") {
-                cellsDiv.onclick = (e) => {
+              if (dataType == "TEXT_INPUT")
+              {
+                cellsDiv.onclick = (e) =>
+                {
                   focuseddClassMaintain(e);
                   // handleClicked("align2");
                   // setSidebar(true);
@@ -1116,8 +1215,10 @@ const MidSection = React.forwardRef((props, ref) => {
                   e.stopPropagation();
                 };
               }
-              if (dataType == "IMAGE_INPUT") {
-                cellsDiv.onclick = (e) => {
+              if (dataType == "IMAGE_INPUT")
+              {
+                cellsDiv.onclick = (e) =>
+                {
                   focuseddClassMaintain(e);
                   // handleClicked("image2");
                   // setSidebar(true);
@@ -1127,8 +1228,10 @@ const MidSection = React.forwardRef((props, ref) => {
                   e.stopPropagation();
                 };
               }
-              if (dataType == "SIGN_INPUT") {
-                cellsDiv.onclick = (e) => {
+              if (dataType == "SIGN_INPUT")
+              {
+                cellsDiv.onclick = (e) =>
+                {
                   focuseddClassMaintain(e);
                   handleClicked("signs2", "table2");
                   setSidebar(true);
@@ -1143,7 +1246,8 @@ const MidSection = React.forwardRef((props, ref) => {
               cellsDiv.style.outline = "0px";
               cellsDiv.style.overflow = "overlay";
 
-              if (dataType == "IMAGE_INPUT") {
+              if (dataType == "IMAGE_INPUT")
+              {
                 const imageButton = document.createElement("div");
                 imageButton.className = "addImageButton";
                 imageButton.innerText = "Choose File";
@@ -1155,10 +1259,12 @@ const MidSection = React.forwardRef((props, ref) => {
                 imgBtn.style.objectFit = "cover";
                 var uploadedImage = "";
 
-                imgBtn.addEventListener("input", () => {
+                imgBtn.addEventListener("input", () =>
+                {
                   const reader = new FileReader();
 
-                  reader.addEventListener("load", () => {
+                  reader.addEventListener("load", () =>
+                  {
                     uploadedImage = reader.result;
                     document.querySelector(
                       ".focussed"
@@ -1170,13 +1276,16 @@ const MidSection = React.forwardRef((props, ref) => {
                 cellsDiv.style.backgroundImage = `${tableTDData.data}`;
 
                 imageButton.append(imgBtn);
-                if (dataType) {
+                if (dataType)
+                {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
+              } else
+              {
                 cellsDiv.innerHTML = `${tableTDData.data}`;
-                if (dataType) {
+                if (dataType)
+                {
                   cells.appendChild(cellsDiv);
                 }
               }
@@ -1250,7 +1359,8 @@ const MidSection = React.forwardRef((props, ref) => {
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
-        if (element.type === "IFRAME_INPUT") {
+        if (element.type === "IFRAME_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1275,10 +1385,12 @@ const MidSection = React.forwardRef((props, ref) => {
           // iframeField.innerHTML = "iframe";
           iframeField.style.position = "absolute";
 
-          if (element.data == "iFrame here") {
+          if (element.data == "iFrame here")
+          {
             iframeField.innerHTML = element.data;
           }
-          if (element.data != "iFrame here") {
+          if (element.data != "iFrame here")
+          {
             const iframe = document.createElement("iframe");
             iframe.src = element.data;
             iframe.width = "100%";
@@ -1287,7 +1399,8 @@ const MidSection = React.forwardRef((props, ref) => {
             iframeField.append(iframe);
           }
 
-          iframeField.onclick = (e) => {
+          iframeField.onclick = (e) =>
+          {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("iframe2");
@@ -1303,7 +1416,8 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
 
-        if (element.type === "BUTTON_INPUT") {
+        if (element.type === "BUTTON_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1331,8 +1445,10 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.textContent = element.data;
 
 
-          if (decoded.details.action === "template" && element.raw_data == "" && element.purpose == "") {
-            buttonField.onclick = (e) => {
+          if (decoded.details.action === "template" && element.raw_data == "" && element.purpose == "")
+          {
+            buttonField.onclick = (e) =>
+            {
               focuseddClassMaintain(e);
               handleClicked("button2");
               setSidebar(true);
@@ -1340,26 +1456,34 @@ const MidSection = React.forwardRef((props, ref) => {
           }
 
 
-          buttonField.onmouseover = (e) => {
-            if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+          buttonField.onmouseover = (e) =>
+          {
+            if (buttonField?.parentElement?.classList.contains("holderDIV"))
+            {
               buttonField?.parentElement?.classList.add("element_updated");
             }
 
           }
 
-          if (decoded.details.action === "document" && element.purpose == "custom" && element.raw_data !== "") {
-            buttonField.onclick = (e) => {
+          if (decoded.details.action === "document" && element.purpose == "custom" && element.raw_data !== "")
+          {
+            buttonField.onclick = (e) =>
+            {
               window.open(element.raw_data, '_blank');
             }
           }
 
-          if (decoded.details.action === "document" && element.purpose == "finalize") {
-            buttonField.onclick = (e) => {
+          if (decoded.details.action === "document" && element.purpose == "finalize")
+          {
+            buttonField.onclick = (e) =>
+            {
               finalizeButton?.click();
             }
           }
-          if (decoded.details.action === "document" && element.purpose == "reject") {
-            buttonField.onclick = (e) => {
+          if (decoded.details.action === "document" && element.purpose == "reject")
+          {
+            buttonField.onclick = (e) =>
+            {
               rejectButton?.click();
             }
           }
@@ -1386,7 +1510,8 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
 
-        if (element.type === "SCALE_INPUT") {
+        if (element.type === "SCALE_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1411,10 +1536,12 @@ const MidSection = React.forwardRef((props, ref) => {
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
-          if (element.data == "scale here") {
+          if (element.data == "scale here")
+          {
             scaleField.innerHTML = element.data;
           }
-          if (element.data != "scale here") {
+          if (element.data != "scale here")
+          {
             const iframe = document.createElement("iframe");
             iframe.src = element.scale_url;
             iframe.width = "auto";
@@ -1425,10 +1552,11 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const scaleIdHolder = document.createElement("div");
           scaleIdHolder.className = "scaleId_holder";
-          scaleIdHolder.innerHTML=element.scaleId;
+          scaleIdHolder.innerHTML = element.scaleId;
           scaleIdHolder.style.display = "none"
 
-          scaleField.onclick = (e) => {
+          scaleField.onclick = (e) =>
+          {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("scale2");
@@ -1444,7 +1572,8 @@ const MidSection = React.forwardRef((props, ref) => {
             ?.append(holderDIV);
         }
         // Limon
-        if (element.type === "DROPDOWN_INPUT") {
+        if (element.type === "DROPDOWN_INPUT")
+        {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1473,7 +1602,8 @@ const MidSection = React.forwardRef((props, ref) => {
           // selectElement.style.width = "auto";
           // selectElement.style.height = "auto";
 
-          dropdownField.onclick = (e) => {
+          dropdownField.onclick = (e) =>
+          {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("dropdown2");
@@ -1508,7 +1638,8 @@ const MidSection = React.forwardRef((props, ref) => {
     // });
   };
 
-  const onParagraphPost = () => {
+  const onParagraphPost = () =>
+  {
     const curr_user = document.getElementById("curr_user");
 
     const measure = {
@@ -1534,7 +1665,8 @@ const MidSection = React.forwardRef((props, ref) => {
     paragraphField.style.overflow = "overlay";
     paragraphField.style.position = "relative";
     paragraphField.style.cursor = "text";
-    paragraphField.onclick = () => {
+    paragraphField.onclick = () =>
+    {
       handleClicked("align2");
       setSidebar(true);
       paragraphField.parentElement.focus();
@@ -1551,7 +1683,8 @@ const MidSection = React.forwardRef((props, ref) => {
       .append(holderDIV);
   };
 
-  function getOffset(el) {
+  function getOffset(el)
+  {
     const parent = document.getElementById("midSection_container");
     const parentPos = parent.getBoundingClientRect();
     const rect = el.getBoundingClientRect();
@@ -1566,7 +1699,8 @@ const MidSection = React.forwardRef((props, ref) => {
     };
   }
 
-  function getPosition(el) {
+  function getPosition(el)
+  {
     const rect = el[0].getBoundingClientRect();
 
     return {
@@ -1577,24 +1711,29 @@ const MidSection = React.forwardRef((props, ref) => {
     };
   }
 
-  const chooseFileClick = () => {
+  const chooseFileClick = () =>
+  {
     const addImageButtonInput = document.getElementsByClassName(
       "addImageButtonInput"
     );
     addImageButtonInput.item(0).click();
   };
 
-  const dragOver = (event) => {
+  const dragOver = (event) =>
+  {
     //console.log("log from on drag", event);
     const isLink = event.dataTransfer.types.includes("text/plain");
     console.log("isLink", isLink);
-    if (isLink) {
+    if (isLink)
+    {
       event.preventDefault();
       event.currentTarget.classList.add("drop_zone");
-      if (document.querySelector(".focussedd")) {
+      if (document.querySelector(".focussedd"))
+      {
         document.querySelector(".focussedd").classList.remove("focussedd");
       }
-      if (document.querySelector(".focussed")) {
+      if (document.querySelector(".focussed"))
+      {
         document.querySelector(".focussed").classList.remove("focussed");
       }
       setSidebar(false);
@@ -1612,7 +1751,8 @@ const MidSection = React.forwardRef((props, ref) => {
     }
   };
 
-  const onDrop = (event) => {
+  const onDrop = (event) =>
+  {
     event.preventDefault();
     //console.log("log from on drop", event);
     // document.querySelector('.drop_zone').classList.remove('drop_zone')
@@ -1637,11 +1777,13 @@ const MidSection = React.forwardRef((props, ref) => {
     // inputField.setAttribute('draggable', false);
     // let editButtonField = undefined;
 
-    if (!has_table_drag_class) {
+    if (!has_table_drag_class)
+    {
       if (
         typeOfOperation === "TEXT_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let inputField = document.createElement("div");
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
@@ -1658,17 +1800,20 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.cursor = "text";
 
         const txt = document.getElementsByClassName("textInput");
-        if (txt.length) {
+        if (txt.length)
+        {
           const h = txt.length;
           inputField.id = `t${h + 1}`;
-        } else {
+        } else
+        {
           inputField.id = "t1";
         }
         // inputField.innerText = `${postData.editTextField.value}`
 
         // inputField.oninput = (event) => {
         //   event.preventDefault();
-        if (inputField.innerHTML[0]) {
+        if (inputField.innerHTML[0])
+        {
           const editTextField = {
             editTextField: {
               value: inputField.innerHTML,
@@ -1684,14 +1829,16 @@ const MidSection = React.forwardRef((props, ref) => {
           // })
         }
 
-        if (inputField.value !== "") {
+        if (inputField.value !== "")
+        {
           // setPostData({
           //   ...postData,
           //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
           // })
         }
 
-        inputField.onclick = (e) => {
+        inputField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           handleClicked("align2");
           setSidebar(true);
@@ -1703,7 +1850,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "IMAGE_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
         imageField.style.width = "100%";
@@ -1716,14 +1864,17 @@ const MidSection = React.forwardRef((props, ref) => {
         imageField.style.position = "relative";
 
         const img = document.getElementsByClassName("imageInput");
-        if (img.length) {
+        if (img.length)
+        {
           const h = img.length;
           imageField.id = `i${h + 1}`;
-        } else {
+        } else
+        {
           imageField.id = "i1";
         }
 
-        imageField.onclick = (e) => {
+        imageField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           // imageField.classList.add("focussed");
           handleClicked("image2");
@@ -1742,10 +1893,12 @@ const MidSection = React.forwardRef((props, ref) => {
         imgBtn.style.objectFit = "cover";
         var uploadedImage = "";
 
-        imgBtn.addEventListener("input", () => {
+        imgBtn.addEventListener("input", () =>
+        {
           const reader = new FileReader();
 
-          reader.addEventListener("load", () => {
+          reader.addEventListener("load", () =>
+          {
             uploadedImage = reader.result;
             document.querySelector(
               ".focussed"
@@ -1758,7 +1911,9 @@ const MidSection = React.forwardRef((props, ref) => {
         imageButton.append(imgBtn);
         holderDIV.append(imageField);
         holderDIV.append(imageButton);
-      } else if (typeOfOperation === "TEXT_FILL") {
+      }
+      else if (typeOfOperation === "TEXT_FILL")
+      {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
         texttField.placeholder = "input text here";
@@ -1772,7 +1927,8 @@ const MidSection = React.forwardRef((props, ref) => {
         // texttField.innerText = `${postData.textField.value}`
         texttField.style.position = "relative";
 
-        texttField.onchange = (event) => {
+        texttField.onchange = (event) =>
+        {
           event.preventDefault();
           const textField = {
             textField: {
@@ -1853,7 +2009,8 @@ const MidSection = React.forwardRef((props, ref) => {
       else if (
         typeOfOperation === "IFRAME_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let iframeField = document.createElement("div");
         iframeField.className = "iframeInput";
         iframeField.style.width = "100%";
@@ -1867,14 +2024,17 @@ const MidSection = React.forwardRef((props, ref) => {
         iframeField.innerText = "iFrame here";
 
         const iframes = document.getElementsByClassName("iframeInput");
-        if (iframes.length) {
+        if (iframes.length)
+        {
           const i = iframes.length;
           iframeField.id = `ifr${i + 1}`
-        } else {
+        } else
+        {
           iframeField.id = "ifr1"
         }
 
-        iframeField.onclick = (e) => {
+        iframeField.onclick = (e) =>
+        {
           // focuseddClassMaintain(e);
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
@@ -1889,7 +2049,8 @@ const MidSection = React.forwardRef((props, ref) => {
       else if (
         typeOfOperation === "SCALE_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         setIsLoading(true);
 
         let scaleField = document.createElement("div");
@@ -1905,10 +2066,12 @@ const MidSection = React.forwardRef((props, ref) => {
         // scaleField.innerText = "scale here";
 
         const scales = document.getElementsByClassName("scaleInput");
-        if (scales.length) {
+        if (scales.length)
+        {
           const s = scales.length;
           scaleField.id = `scl${s + 1}`;
-        } else {
+        } else
+        {
           scaleField.id = "scl1";
         }
 
@@ -1933,7 +2096,8 @@ const MidSection = React.forwardRef((props, ref) => {
             center: "neutral",
           }
         )
-          .then((res) => {
+          .then((res) =>
+          {
             setIsLoading(false);
             console.log(res.data, "scaleData");
             setScaleData(res.data);
@@ -1941,19 +2105,22 @@ const MidSection = React.forwardRef((props, ref) => {
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
             console.log(res.scale_urls, "stateScale");
-            if (id.length) {
+            if (id.length)
+            {
               console.log(id, "id");
               // setScaleId(id);
               scaleIdHolder.innerHTML = id;
             }
             scale.src = res.data.scale_urls;
           })
-          .catch((err) => {
+          .catch((err) =>
+          {
             setIsLoading(false);
             console.log(err);
           });
 
-        scaleField.onclick = (e) => {
+        scaleField.onclick = (e) =>
+        {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("scale2");
           setSidebar(true);
@@ -2005,7 +2172,8 @@ const MidSection = React.forwardRef((props, ref) => {
       //   };
       // }
 
-      else if (typeOfOperation === "TEXT_FILL") {
+      else if (typeOfOperation === "TEXT_FILL")
+      {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
         texttField.placeholder = "input text here";
@@ -2019,7 +2187,8 @@ const MidSection = React.forwardRef((props, ref) => {
         // texttField.innerText = `${postData.textField.value}`
         texttField.style.position = "relative";
 
-        texttField.onchange = (event) => {
+        texttField.onchange = (event) =>
+        {
           event.preventDefault();
           const textField = {
             textField: {
@@ -2040,7 +2209,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "TABLE_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let tableField = document.createElement("div");
         tableField.className = "tableInput";
         tableField.style.width = "100%";
@@ -2052,7 +2222,8 @@ const MidSection = React.forwardRef((props, ref) => {
         // tableField.innerHTML = 'table';
         tableField.style.position = "absolute";
 
-        tableField.onchange = (event) => {
+        tableField.onchange = (event) =>
+        {
           event.preventDefault();
 
           setPostData({
@@ -2081,7 +2252,8 @@ const MidSection = React.forwardRef((props, ref) => {
         //   // })
         // }
 
-        tableField.onclick = (e) => {
+        tableField.onclick = (e) =>
+        {
           // focuseddClassMaintain(e);
           // tableField.removeAttribute("data-bs-toggle", "modal");
           table_dropdown_focuseddClassMaintain(e);
@@ -2104,7 +2276,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "SIGN_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100%";
@@ -2117,7 +2290,8 @@ const MidSection = React.forwardRef((props, ref) => {
         signField.innerText = "Signature here";
         signField.style.position = "absolute";
 
-        signField.onchange = (event) => {
+        signField.onchange = (event) =>
+        {
           event.preventDefault();
           setPostData({
             ...postData,
@@ -2129,7 +2303,8 @@ const MidSection = React.forwardRef((props, ref) => {
           });
         };
 
-        signField.onclick = (e) => {
+        signField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           // if (actionName = "template") {
           // signField.classList.add("focussed");
@@ -2150,10 +2325,12 @@ const MidSection = React.forwardRef((props, ref) => {
         signBtn.style.objectFit = "cover";
         var uploadedImage = "";
 
-        signBtn.addEventListener("input", () => {
+        signBtn.addEventListener("input", () =>
+        {
           const reader = new FileReader();
 
-          reader.addEventListener("load", () => {
+          reader.addEventListener("load", () =>
+          {
             uploadedImage = reader.result;
             const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
             document.querySelector(".focussed").innerHTML = signImage;
@@ -2171,7 +2348,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "DATE_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let dateField = document.createElement("div");
         dateField.className = "dateInput";
         dateField.style.width = "100%";
@@ -2183,7 +2361,8 @@ const MidSection = React.forwardRef((props, ref) => {
         // dateField.innerText = `${postData.calenderField.value}`
         dateField.style.position = "relative";
 
-        dateField.onchange = (event) => {
+        dateField.onchange = (event) =>
+        {
           event.preventDefault();
           setPostData({
             ...postData,
@@ -2211,23 +2390,30 @@ const MidSection = React.forwardRef((props, ref) => {
         //   //   calenderField: { value: dateField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
         //   // })
         // }
-        function dateClick() {
+        function dateClick()
+        {
           document.getElementById("date_picker").click();
           setRightSideDateMenu(false);
         }
-        dateField.onclick = (e) => {
+        dateField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           handleClicked("calendar2");
           setRightSideDateMenu(false);
-          if (e.target.innerText != "mm/dd/yyyy") {
-            if (e.target.innerText.includes("/")) {
+          if (e.target.innerText != "mm/dd/yyyy")
+          {
+            if (e.target.innerText.includes("/"))
+            {
               const setDate = new Date(e.target.innerText);
               setMethod("first");
               setStartDate(setDate);
-            } else {
-              if (e.target.innerText.includes("-")) {
+            } else
+            {
+              if (e.target.innerText.includes("-"))
+              {
                 setMethod("fourth");
-              } else {
+              } else
+              {
                 setMethod("second");
               }
               const setDate = new Date(e.target.innerText);
@@ -2248,7 +2434,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "DROPDOWN_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let dropdownField = document.createElement("div");
         dropdownField.className = "dropdownInput";
         dropdownField.style.width = "100%";
@@ -2264,11 +2451,13 @@ const MidSection = React.forwardRef((props, ref) => {
         selectElement.className = "select-element";
         selectElement.style.width = "500";
         selectElement.style.height = "auto";
-        selectElement.onclick = () => {
+        selectElement.onclick = () =>
+        {
           selectElement.parentElement.click();
         };
 
-        dropdownField.onchange = (event) => {
+        dropdownField.onchange = (event) =>
+        {
           event.preventDefault();
           setPostData({
             ...postData,
@@ -2280,7 +2469,8 @@ const MidSection = React.forwardRef((props, ref) => {
           });
         };
 
-        if (dropdownField) {
+        if (dropdownField)
+        {
           const dropdownField = {
             dropdownField: {
               value: event.target.value,
@@ -2296,7 +2486,8 @@ const MidSection = React.forwardRef((props, ref) => {
           // })
         }
 
-        dropdownField.onclick = (e) => {
+        dropdownField.onclick = (e) =>
+        {
           // focuseddClassMaintain(e);
           table_dropdown_focuseddClassMaintain(e);
           // dropdownField.classList.add("focussed");
@@ -2308,16 +2499,19 @@ const MidSection = React.forwardRef((props, ref) => {
         const para = document.createElement("p");
         para.innerHTML = " Dropdown Name";
         para.className = "dropdownName";
-        para.onclick = () => {
+        para.onclick = () =>
+        {
           para.parentElement.click();
         };
         dropdownField.append(para);
         dropdownField.append(selectElement);
         holderDIV.append(dropdownField);
-      } else if (
+      }
+      else if (
         typeOfOperation === "BUTTON_INPUT" &&
         decoded.details.action === "template"
-      ) {
+      )
+      {
         let buttonField = document.createElement("button");
         buttonField.className = "buttonInput";
         buttonField.style.width = "100%";
@@ -2329,7 +2523,8 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.position = "absolute";
         buttonField.textContent = "Button";
 
-        buttonField.onclick = (e) => {
+        buttonField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           handleClicked("button2");
           setSidebar(true);
@@ -2348,7 +2543,163 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(purposeHolder);
 
       }
-      if (decoded.details.action === "template") {
+      else if (
+        typeOfOperation === "FORM" &&
+        decoded.details.action === "template"
+      )
+      {
+        let buttonField = document.createElement("div");
+        buttonField.className = "emailInput";
+        buttonField.style.width = "100%";
+        buttonField.style.height = "100%";
+        buttonField.style.backgroundColor = "#0000";
+        buttonField.style.borderRadius = "0px";
+        buttonField.style.outline = "0px";
+        buttonField.style.overflow = "overlay";
+        buttonField.style.position = "absolute";
+        // // buttonField.textContent = "Button";
+        // buttonField.innerText = "Email";
+        buttonField.style.display = 'flex';
+        buttonField.style.flexDirection = 'column';
+        buttonField.style.alignItems = 'center';
+
+
+
+        // create div element for form container
+        // const formContainer = document.createElement('div');
+        // buttonField.style.maxWidth = '500px';
+        // buttonField.style.height = '10%';
+        buttonField.style.margin = '0 auto';
+        buttonField.style.padding = '10%';
+        buttonField.style.border = '1px solid #0000';
+
+        // create form element
+        const form = document.createElement('form');
+        form.style.display = 'flex';
+        form.style.flexDirection = 'column';
+        form.style.maxWidth = '500px';
+
+        // create first row of input fields
+        const firstRow = document.createElement('div');
+        firstRow.style.display = 'flex';
+        firstRow.style.justifyContent = 'space-between';
+        firstRow.style.marginBottom = '10px';
+
+        // create first input field for name
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.name = 'name';
+        nameInput.placeholder = 'To Name';
+        nameInput.style.width = '48%';
+        firstRow.appendChild(nameInput);
+
+        // create second input field for email
+        const emailInput = document.createElement('input');
+        emailInput.type = 'email';
+        emailInput.name = 'email';
+        emailInput.placeholder = 'Email';
+        emailInput.style.width = '48%';
+        firstRow.appendChild(emailInput);
+
+        // add first row to form
+        form.appendChild(firstRow);
+
+        // create second row of input fields
+        const secondRow = document.createElement('div');
+        secondRow.style.display = 'flex';
+        secondRow.style.justifyContent = 'space-between';
+        secondRow.style.marginBottom = '10px';
+
+        // create third input field for subject
+        const nameInput1 = document.createElement('input');
+        nameInput1.type = 'text';
+        nameInput1.name = 'name';
+        nameInput1.placeholder = 'From Name';
+        nameInput1.style.width = '48%';
+        secondRow.appendChild(nameInput1);
+
+        // create fourth input field for second message
+        const emailInput1 = document.createElement('input');
+        emailInput1.name = 'email';
+        emailInput1.placeholder = 'Email';
+        emailInput1.style.width = '48%';
+        secondRow.appendChild(emailInput1);
+
+        // add second row to form
+        form.appendChild(secondRow);
+
+
+        // create third input field for subject
+        const subjectInput = document.createElement('input');
+        subjectInput.type = 'text';
+        subjectInput.name = 'subject';
+        subjectInput.placeholder = 'Subject';
+        subjectInput.style.width = '100%';
+        subjectInput.style.marginBottom = '10px';
+        form.appendChild(subjectInput);
+
+        // create textarea for message field for message
+        const messageInput = document.createElement('textarea');
+        messageInput.name = 'message';
+        messageInput.placeholder = 'Message';
+        messageInput.style.marginBottom = '10px';
+        form.appendChild(messageInput);
+
+        // create submit button
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.textContent = 'Send';
+        submitButton.style.backgroundColor = '#007bff';
+        submitButton.style.color = '#fff';
+        submitButton.style.border = 'none';
+        submitButton.style.padding = '10px 20px';
+        // add onClick event listener
+        submitButton.addEventListener('click', e =>
+        {
+          // prevent default form submission
+          e.preventDefault();
+          const formData = {
+            name: nameInput.value,
+            email: emailInput.value,
+            name1: nameInput1.value,
+            email1: emailInput1.value,
+            subject: subjectInput.value,
+            message: messageInput.value
+          };
+          alert("button clicked");
+          console.log(formData); // log form data to console
+        });
+        form.appendChild(submitButton);
+
+        // add form to the form container
+        buttonField.appendChild(form);
+
+        // add form container to the document
+        document.body.appendChild(buttonField);
+
+
+        // buttonField.onclick = (e) =>
+        // {
+        //   focuseddClassMaintain(e);
+        //   handleClicked("button2");
+        //   setSidebar(true);
+        // }
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none"
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none"
+
+        holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
+
+      }
+      if (decoded.details.action === "template")
+      {
         document.querySelector(".drop_zone").append(holderDIV);
       }
     }
@@ -2358,10 +2709,13 @@ const MidSection = React.forwardRef((props, ref) => {
   let page = [];
 
   let elem = {};
-  function saveDocument() {
+  function saveDocument()
+  {
     const txt = document.getElementsByClassName("textInput");
-    if (txt.length) {
-      if (txt[0].parentElement.classList.contains("holderDIV")) {
+    if (txt.length)
+    {
+      if (txt[0].parentElement.classList.contains("holderDIV"))
+      {
         elem = {
           width: getPosition(txt).right,
           height: getPosition(txt).bottom,
@@ -2375,9 +2729,11 @@ const MidSection = React.forwardRef((props, ref) => {
     }
 
     const img_input = document.getElementsByTagName("input");
-    if (img_input.length) {
+    if (img_input.length)
+    {
       //console.log("Image_input", img_input[0]);
-      if (img_input[0].type === "file") {
+      if (img_input[0].type === "file")
+      {
         elem = {
           width: getPosition(img_input).right,
           height: getPosition(img_input).bottom,
@@ -2392,8 +2748,10 @@ const MidSection = React.forwardRef((props, ref) => {
 
     const text2 = document.getElementsByClassName("texttInput");
 
-    if (text2.length) {
-      if (text2[0].parentElement.classList.contains("holderDIV")) {
+    if (text2.length)
+    {
+      if (text2[0].parentElement.classList.contains("holderDIV"))
+      {
         elem = {
           width: getPosition(text2).right,
           height: getPosition(text2).bottom,
@@ -2407,7 +2765,8 @@ const MidSection = React.forwardRef((props, ref) => {
     }
 
     const date = document.getElementsByClassName("dateInput");
-    if (date.length) {
+    if (date.length)
+    {
       elem = {
         width: getPosition(date).right,
         height: getPosition(date).bottom,
@@ -2419,9 +2778,11 @@ const MidSection = React.forwardRef((props, ref) => {
       page.push(elem);
     }
     const tablee = document.getElementsByTagName("TABLE");
-    if (tablee.length < 1) {
+    if (tablee.length < 1)
+    {
       const img = document.getElementsByTagName("img");
-      if (img.length) {
+      if (img.length)
+      {
         const canvas = document.createElement("canvas");
         canvas.setAttribute("width", document.style.width);
         canvas.setAttribute("height", document.style.height);
@@ -2453,7 +2814,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
   return (
     <>
-      {item?.map((currentItem, index) => {
+      {item?.map((currentItem, index) =>
+      {
         return (
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>

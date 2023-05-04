@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useStateContext } from '../../contexts/contextProvider';
-const ButtonRightSide = () => {
+const ButtonRightSide = () =>
+{
 
+    const [links, setLinks] = useState('');
     const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose } = useStateContext();
 
     const button = document.querySelector('.focussed');
@@ -40,24 +42,28 @@ const ButtonRightSide = () => {
     // }, [purpose])
 
 
-    const handleUpdate = () => {
+    const handleUpdate = () =>
+    {
         const btnName = document.getElementById("button_name");
         const button = document.querySelector('.focussed');
-   
-      
-        if (btnName.value != "") {
+
+
+        if (btnName.value != "")
+        {
             button.textContent = btnName.value;
         }
 
         const link = document.getElementById("link").value;
-        if (link.value != "") {
+        if (link.value != "")
+        {
             setButtonLink(link);
             holderDIV.children[1].innerHTML = link;
         }
 
     }
 
-    const handleSelect = (event) => {
+    const handleSelect = (event) =>
+    {
         let selectField = document.getElementById('selectt');
         const linkDiv = document.getElementById('website_link');
         const holderDIV = document.querySelector('.focussedd');
@@ -67,18 +73,36 @@ const ButtonRightSide = () => {
         setButtonPurpose(selectedOption.value);
         holderDIV.children[2].innerHTML = selectedOption.value;
 
-        if (selectedOption.value == "custom") {
+        if (selectedOption.value == "custom")
+        {
             linkDiv.style.display = "block";
-        } else if (selectedOption.value !== "custom") {
+        } else if (selectedOption.value !== "custom")
+        {
             setButtonLink("");
-        } else {
+        } else
+        {
             console.log('No option selected');
         }
     }
 
-    const removeButton = () => {
+    const removeButton = () =>
+    {
         document.querySelector('.focussedd').remove();
     }
+
+    const handleLinkChange = (e) =>
+    {
+        setLinks(e.target.value);
+    };
+
+    const handlePreviewClick = () =>
+    {
+        if (links.trim() !== '')
+        {
+            window.open(links, '_blank');
+        }
+    };
+
     return (
         <>
             <div className='mt-2 mb-3 w-100'>
@@ -112,9 +136,19 @@ const ButtonRightSide = () => {
                     type="text"
                     placeholder="Website link"
                     id="link"
-                    onChange={() => { }}
+                    // onChange={() => { }}
+                    onChange={handleLinkChange}
+                    value={links}
                 />
+                {/* preview button */}
+                <div className="mt-2 text-center pt-5">
+                    <Button variant="secondary" className="px-5" onClick={handlePreviewClick}>
+                        Preview Link
+                    </Button>
+
+                </div>
             </div>
+
 
             <div className="mt-2 text-center pt-5">
                 <Button variant="secondary" className="px-5" onClick={handleUpdate}>
