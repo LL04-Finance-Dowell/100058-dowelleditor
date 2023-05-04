@@ -238,6 +238,8 @@ th {
   position: fixed;
   /* scroll-behavior: auto; */
   overflow: auto;
+  padding: 0px 30px;
+  margin-left: -12px;
   padding-bottom: 40px;
 }
 
