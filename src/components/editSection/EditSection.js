@@ -54,7 +54,8 @@ const EditSection = () => {
         <Row>
           <Col
             lg={1}
-            style={actionName == "document" && { background: "#e3eeff" }}
+            // style={actionName == "document" && { background: "#e3eeff" }}
+            className={`${actionName == "document" && "document_left_col"}`}
           >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             {/* <Printer /> */}
