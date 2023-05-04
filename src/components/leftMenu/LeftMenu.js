@@ -290,6 +290,14 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<SiBigbluebutton />}
               title="Button"
             />
+
+            {/* test div */}
+            {/* <NavButton
+              dragStartFunc={dragStartButton}
+              customFunc={() => handleDrop("button")}
+              icon={<IoScale />}
+              title="Button"
+            /> */}
           </div>
         )
       ) : (
