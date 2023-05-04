@@ -52,7 +52,10 @@ const EditSection = () => {
     <div className="editSec">
       <Container fluid>
         <Row>
-          <Col lg={1}>
+          <Col
+            lg={1}
+            style={actionName == "document" && { background: "#e3eeff" }}
+          >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             {/* <Printer /> */}
 
