@@ -1,27 +1,27 @@
-import React, { Children, useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import './LeftMenu.css';
-import { editSecOptions } from '../../data/data';
+import React, { Children, useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import "./LeftMenu.css";
+import { editSecOptions } from "../../data/data";
 
-import { useStateContext } from '../../contexts/contextProvider';
+import { useStateContext } from "../../contexts/contextProvider";
 
-import { BiImage, BiText } from 'react-icons/bi';
+import { BiImage, BiText } from "react-icons/bi";
 import
-{
-  BsCalendar2Date,
-  BsMenuButtonWideFill,
-  BsTable,
-  BsCodeSquare,
-} from 'react-icons/bs';
-import { SiBigbluebutton } from 'react-icons/si';
-import { FaSignature } from 'react-icons/fa';
-import { AiOutlineMail } from 'react-icons/ai';
-import { IoScale } from 'react-icons/io5';
+  {
+    BsCalendar2Date,
+    BsMenuButtonWideFill,
+    BsTable,
+    BsCodeSquare,
+  } from "react-icons/bs";
 
-import MidSection from '../midSection/MidSection';
-import TextFill from './comp/TextFill';
-import TextBox from './comp/TextBox';
-import { EditorContent } from '@tiptap/react';
+import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
+import { FaSignature } from "react-icons/fa";
+import { IoScale } from "react-icons/io5";
+
+import MidSection from "../midSection/MidSection";
+import TextFill from "./comp/TextFill";
+import TextBox from "./comp/TextBox";
+import { EditorContent } from "@tiptap/react";
 
 const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc, title }) => (
   <button
@@ -46,146 +46,146 @@ const CustomButton = ({ children, style }) => (
 
 const dragStartAlign = (e) =>
 {
-  const element = document.getElementById('draggable');
+  const element = document.getElementById("draggable");
 
-  e.dataTransfer.setData('text/plain', 'TEXT_INPUT');
-  element.classList.add('dragging');
+  e.dataTransfer.setData("text/plain", "TEXT_INPUT");
+  element.classList.add("dragging");
   //console.log("drag start fumb");
-  if (document.querySelector('.drop_zone'))
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartTextF = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'TEXT_FILL');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "TEXT_FILL");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartImage = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'IMAGE_INPUT');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "IMAGE_INPUT");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartTable = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'TABLE_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "TABLE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartSigns = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'SIGN_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "SIGN_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartCalendar = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'DATE_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "DATE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 const dragStartDropdown = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'DROPDOWN_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "DROPDOWN_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
-const dragStartContainerr = (e) =>
-{
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'CONTAINER_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
-  {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
-  }
-};
+// const dragStartContainerr = (e) => {
+//   const element = document.getElementById("draggable");
+//   e.dataTransfer.setData("text/plain", "CONTAINER_INPUT");
+//   element.classList.add("dragging");
+//   if (document.querySelector(".drop_zone")) {
+//     document.querySelector(".drop_zone").classList.remove("drop_zone");
+//   }
+// };
 const dragStartIframe = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'IFRAME_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "IFRAME_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  }
+};
+// container
+
+const dragStartContainer = (e) =>
+{
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "CONTAINER_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
+  {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
+// Limon
 const dragStartScale = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'SCALE_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "SCALE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 const dragStartButton = (e) =>
 {
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'BUTTON_INPUT');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "BUTTON_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
   {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
-const dragStartEmail = (e) =>
-{
-  const element = document.getElementById('draggable');
-  e.dataTransfer.setData('text/plain', 'FORM');
-  element.classList.add('dragging');
-  if (document.querySelector('.drop_zone'))
-  {
-    document.querySelector('.drop_zone').classList.remove('drop_zone');
-  }
-};
-
 
 const dragEndFunc = () =>
 {
-  const element = document.getElementById('draggable');
-  element.classList.remove('dragging');
+  const element = document.getElementById("draggable");
+  element.classList.remove("dragging");
   //console.log("dragend func");
 };
 
 export const onDrop = (event) =>
 {
   event.preventDefault();
-  const data = event.dataTransfer.getData('text/plain');
-  if (data === 'TEXT_INPUT')
+  const data = event.dataTransfer.getData("text/plain");
+  if (data === "TEXT_INPUT")
   {
     //console.log("text inputtt");
     // const textInput = document.createElement("textarea");
@@ -216,7 +216,7 @@ const LeftMenu = ({ showSidebar }) =>
   const [isMobileView, setIsMobileView] = useState(false);
   function removeContainer()
   {
-    document.getElementById('containerInput').parentElement.remove();
+    document.getElementById("containerInput").parentElement.remove();
   }
   // const leftMenuWidth = leftMenuRef.current;
   // //console.log(leftMenuWidth);
@@ -235,6 +235,11 @@ const LeftMenu = ({ showSidebar }) =>
   // //console.log(bodyElement);
   // //console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
+
+  // const handleContainerDrop = (event) => {
+  //   const typeOfOperation = event.dataTransfer.getData("text/plain");
+  //   console.log("typeOfOperation in left menu", typeOfOperation);
+  // };
   return (
     <>
       {isFlipClicked ? (
@@ -244,7 +249,7 @@ const LeftMenu = ({ showSidebar }) =>
           <div className="leftMenu fixed2" ref={leftMenuRef}>
             <NavButton
               dragStartFunc={dragStartAlign}
-              customFunc={() => handleDrop('align')}
+              customFunc={() => handleDrop("align")}
               // icon={editSecOptions[1].icon}
               icon={<BiText />}
               title="Text"
@@ -252,31 +257,40 @@ const LeftMenu = ({ showSidebar }) =>
             {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
             <NavButton
               dragStartFunc={dragStartImage}
-              customFunc={() => handleDrop('image')}
+              customFunc={() => handleDrop("image")}
               icon={<BiImage />}
               title="Image"
             />
+            {/* test place to see console */}
+            <NavButton
+              icon={<SiLinuxcontainers />}
+              title="Container"
+              dragStartFunc={dragStartContainer}
+              customFunc={() => handleDrop("container")}
+            // onDrop={handleContainerDrop}
+            // onDragOver = {e=>{console.log(alert("I am contianer"));}}
+            />
             <NavButton
               dragStartFunc={dragStartTable}
-              customFunc={() => handleDrop('table')}
+              customFunc={() => handleDrop("table")}
               icon={<BsTable />}
               title="Table"
             />
             <NavButton
               dragStartFunc={dragStartSigns}
-              customFunc={() => handleDrop('signs')}
+              customFunc={() => handleDrop("signs")}
               icon={<FaSignature />}
               title="Signature"
             />
             <NavButton
               dragStartFunc={dragStartCalendar}
-              customFunc={() => handleDrop('calendar')}
+              customFunc={() => handleDrop("calendar")}
               icon={<BsCalendar2Date />}
               title="Calender"
             />
             <NavButton
               dragStartFunc={dragStartDropdown}
-              customFunc={() => handleDrop('dropdown')}
+              customFunc={() => handleDrop("dropdown")}
               icon={<BsMenuButtonWideFill />}
               title="Dropdown"
             />
@@ -288,34 +302,36 @@ const LeftMenu = ({ showSidebar }) =>
             /> */}
             <NavButton
               dragStartFunc={dragStartIframe}
-              customFunc={() => handleDrop('iframe')}
+              customFunc={() => handleDrop("iframe")}
               icon={<BsCodeSquare />}
               title="Iframe"
             />
             <NavButton
               dragStartFunc={dragStartScale}
-              customFunc={() => handleDrop('scale')}
+              customFunc={() => handleDrop("scale")}
               icon={<IoScale />}
               title="Scale"
             />
             <NavButton
               dragStartFunc={dragStartButton}
-              customFunc={() => handleDrop('button')}
+              customFunc={() => handleDrop("button")}
               icon={<SiBigbluebutton />}
               title="Button"
             />
-            <NavButton
-              dragStartFunc={dragStartEmail}
-              customFunc={() => handleDrop('email')}
-              icon={<AiOutlineMail />}
-              title="Email"
-            />
+
+            {/* test div */}
+            {/* <NavButton
+              dragStartFunc={dragStartButton}
+              customFunc={() => handleDrop("button")}
+              icon={<IoScale />}
+              title="Button"
+            /> */}
           </div>
         )
       ) : (
         <>
-          <CustomButton style={'custom_reject_button'}>Reject</CustomButton>
-          <CustomButton style={'custom_finalize_button'}>Finalize</CustomButton>
+          <CustomButton style={"custom_reject_button"}>Reject</CustomButton>
+          <CustomButton style={"custom_finalize_button"}>Finalize</CustomButton>
         </>
       )}
     </>

@@ -250,7 +250,12 @@ const Header = () => {
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
       for (let h = 0; h < txt.length; h++) {
-        if (txt[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (
+          txt[h]?.parentElement?.classList?.contains("holderDIV") &&
+          !txt[h]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -280,10 +285,23 @@ const Header = () => {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
       for (let h = 0; h < img.length; h++) {
-        if (img[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (
+          img[h]?.parentElement?.classList?.contains("holderDIV") &&
+          !img[h]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
           const reader = new FileReader();
           let tempElem = img[h].parentElement;
           let tempPosn = getPosition(tempElem);
+          console.log(
+            "img[h].style.backgroundImage",
+            img[h].style.backgroundImage
+          );
+          const dataName = img[h].style.backgroundImage
+            ? img[h].style.backgroundImage
+            : img[h].innerText;
+          console.log("dataName", dataName);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -291,7 +309,7 @@ const Header = () => {
             topp: img[h].parentElement.style.top,
             left: tempPosn.left,
             type: "IMAGE_INPUT",
-            data: img[h].style.backgroundImage,
+            data: dataName,
             id: `i${h + 1}`,
           };
           dataInsertWithPage(tempPosn, elem);
@@ -304,7 +322,12 @@ const Header = () => {
     const date = document.getElementsByClassName("dateInput");
     if (date.length) {
       for (let h = 0; h < date.length; h++) {
-        if (date[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (
+          date[h]?.parentElement?.classList?.contains("holderDIV") &&
+          !date[h]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
           let tempElem = date[h].parentElement;
           let tempPosn = getPosition(tempElem);
           elem = {
@@ -325,7 +348,12 @@ const Header = () => {
     const sign = document.getElementsByClassName("signInput");
     if (sign.length) {
       for (let h = 0; h < sign.length; h++) {
-        if (sign[h]?.parentElement?.classList?.contains("holderDIV")) {
+        if (
+          sign[h]?.parentElement?.classList?.contains("holderDIV") &&
+          !sign[h]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
           let tempElem = sign[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(sign[h].innerHTML);
@@ -353,71 +381,204 @@ const Header = () => {
 
     const tables = document.getElementsByClassName("tableInput");
 
-    // if (tables.length) {
-    //   for (let t = 0; t < tables.length; t++) {
-    //     if (tables[t]?.parentElement?.classList?.contains("holderDIV")) {
-    //       // var new_table = document.getElementsByTagName("table")[0];
-    //       let tempElem = tables[t].parentElement;
-    //       let tempPosn = getPosition(tempElem);
-    //       //console.log(tables[t].firstElementChild.innerHTML);
-    //       function getChildData() {
-    //         const allTableCCells = [];
-    //         const tableChildren = tables[t].firstElementChild.children;
-    //         for (let i = 0; i < tableChildren.length; i++) {
-    //           const tableTR = { tr: null };
-    //           const newTableTR = [];
-    //           for (let j = 0; j < tableChildren[i].children.length; j++) {
-    //             // const element = tableChildren[i];
+    if (tables.length) {
+      for (let t = 0; t < tables.length; t++) {
+        if (
+          tables[t]?.parentElement?.classList?.contains("holderDIV") &&
+          !tables[t]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = tables[t].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(tables[t].firstElementChild.innerHTML);
+          function getChildData() {
+            const allTableCCells = [];
+            const tableChildren = tables[t].firstElementChild.children;
+            for (let i = 0; i < tableChildren.length; i++) {
+              const tableTR = { tr: null };
+              const newTableTR = [];
+              for (let j = 0; j < tableChildren[i].children.length; j++) {
+                // const element = tableChildren[i];
 
-    //             const TdDivClassName =
-    //               tableChildren[i].children[
-    //                 j
-    //               ]?.firstElementChild?.className.split(" ")[0];
+                const TdDivClassName =
+                  tableChildren[i].children[
+                    j
+                  ]?.firstElementChild?.className.split(" ")[0];
 
-    //             const trChild = {
-    //               td: {
-    //                 type:
-    //                   (TdDivClassName == "dateInput" && "DATE_INPUT") ||
-    //                   (TdDivClassName == "textInput" && "TEXT_INPUT") ||
-    //                   (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
-    //                   (TdDivClassName == "signInput" && "SIGN_INPUT"),
-    //                 // if(){
-    //                 data:
-    //                   TdDivClassName == "imageInput"
-    //                     ? tableChildren[i].children[j]?.firstElementChild.style
-    //                         .backgroundImage
-    //                     : tableChildren[i].children[j]?.firstElementChild
-    //                         ?.innerHTML,
-    //                 id: `tableTd${j + 1}`,
-    //               },
-    //             };
+                const trChild = {
+                  td: {
+                    type:
+                      (TdDivClassName == "dateInput" && "DATE_INPUT") ||
+                      (TdDivClassName == "textInput" && "TEXT_INPUT") ||
+                      (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
+                      (TdDivClassName == "signInput" && "SIGN_INPUT"),
+                    // if(){
+                    data:
+                      TdDivClassName == "imageInput"
+                        ? tableChildren[i].children[j]?.firstElementChild.style
+                            .backgroundImage
+                        : tableChildren[i].children[j]?.firstElementChild
+                            ?.innerHTML,
+                    id: `tableTd${j + 1}`,
+                  },
+                };
 
-    //             newTableTR.push(trChild);
-    //           }
-    //           tableTR.tr = newTableTR;
-    //           allTableCCells.push(tableTR);
-    //         }
-    //         console.log("allTableCCells", allTableCCells);
-    //         return allTableCCells;
-    //       }
-    //       elem = {
-    //         width: tempPosn.width,
-    //         height: tempPosn.height,
-    //         top: tempPosn.top,
-    //         topp: tables[t].parentElement.style.top,
-    //         left: tempPosn.left,
-    //         type: "TABLE_INPUT",
-    //         // start work here
-    //         // data: tables[t].firstElementChild.innerHTML,
-    //         data: getChildData(),
-    //         id: `tab${t + 1}`,
-    //       };
-    //       dataInsertWithPage(tempPosn, elem);
+                newTableTR.push(trChild);
+              }
+              tableTR.tr = newTableTR;
+              allTableCCells.push(tableTR);
+            }
+            console.log("allTableCCells", allTableCCells);
+            return allTableCCells;
+          }
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: tables[t].parentElement.style.top,
+            left: tempPosn.left,
+            type: "TABLE_INPUT",
+            // start work here
+            // data: tables[t].firstElementChild.innerHTML,
+            data: getChildData(),
+            id: `tab${t + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-    //       // page.push(elem);
-    //     }
-    //   }
-    // }
+          // page.push(elem);
+        }
+      }
+    }
+
+    const containerElements = document.getElementsByClassName("containerInput");
+    // console.log("containerInput", containerElements[0]);
+    if (containerElements.length) {
+      for (let h = 0; h < containerElements.length; h++) {
+        if (
+          containerElements[h]?.parentElement?.classList?.contains("holderDIV")
+        ) {
+          let tempElem = containerElements[h].parentElement;
+          let tempPosn = getPosition(tempElem);
+
+          function getChildData() {
+            const allContainerChildren = [];
+            const containerChildren = containerElements[h].children;
+            // console.log(
+            //   "containerChildren",
+            //   containerChildren.length,
+            //   containerChildren
+            // );
+            for (let i = 0; i < containerChildren.length; i++) {
+              const element = containerChildren[i];
+              // console.log("elements", i, " ", element);
+              // let tempElem = element.parentElement;
+              let tempPosn = getPosition(element);
+              const containerChildClassName =
+                containerChildren[i].firstElementChild?.className.split(" ")[0];
+              const childData = {};
+              childData.width = tempPosn.width;
+              childData.height = tempPosn.height;
+              childData.top = tempPosn.top;
+              childData.topp = containerElements[h].parentElement.style.top;
+              childData.left = tempPosn.left;
+
+              // const foo = 0;
+              let type = "";
+              // console.log("containerChildClassName", containerChildClassName);
+              switch (containerChildClassName) {
+                case "dateInput":
+                  type = "DATE_INPUT";
+                  break;
+                case "textInput":
+                  type = "TEXT_INPUT";
+                  break;
+                case "imageInput":
+                  type = "IMAGE_INPUT";
+                  break;
+                case "signInput":
+                  type = "SIGN_INPUT";
+                  break;
+                default:
+                  type = "";
+              }
+
+              // (containerChildClassName == "dateInput" && "DATE_INPUT") ||
+              //         (containerChildClassName == "textInput" && "TEXT_INPUT") ||
+              //         (containerChildClassName == "imageInput" && "IMAGE_INPUT") ||
+              //         (containerChildClassName == "signInput" && "SIGN_INPUT"),
+              childData.type = type;
+              const imageData =
+                "imageInput" && element.firstElementChild.style.backgroundImage
+                  ? element.firstElementChild.style.backgroundImage
+                  : element.firstElementChild?.innerHTML;
+              // console.log(
+              //   "iamge data",
+              //   imageData,
+              //   element.firstElementChild,
+              //   element.firstElementChild?.innerHTML
+              // );
+
+              // if(imageData){
+              childData.data = imageData;
+              // else{
+              // childData.data = element.firstElementChild.innerHTML
+              // }
+              childData.id = `${containerChildClassName[0]}${h + 1}`;
+              allContainerChildren.push(childData);
+            }
+            // for (let i = 0; i < tableChildren.length; i++) {
+            //   const tableTR = { tr: null };
+            //   const newTableTR = [];
+            //   for (let j = 0; j < tableChildren[i].children.length; j++) {
+            //     // const element = tableChildren[i];
+
+            //     const TdDivClassName =
+            //       tableChildren[i].children[
+            //         j
+            //       ]?.firstElementChild?.className.split(" ")[0];
+
+            //     const trChild = {
+            //       td: {
+            //         type:
+            //           (TdDivClassName == "dateInput" && "DATE_INPUT") ||
+            //           (TdDivClassName == "textInput" && "TEXT_INPUT") ||
+            //           (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
+            //           (TdDivClassName == "signInput" && "SIGN_INPUT"),
+            //         // if(){
+            //         data:
+            //           TdDivClassName == "imageInput"
+            //             ? tableChildren[i].children[j]?.firstElementChild.style
+            //                 .backgroundImage
+            //             : tableChildren[i].children[j]?.firstElementChild
+            //                 ?.innerHTML,
+            //         id: `tableTd${j + 1}`,
+            //       },
+            //     };
+
+            //     newTableTR.push(trChild);
+            //   }
+            //   tableTR.tr = newTableTR;
+            //   allTableCCells.push(tableTR);
+            // }
+            console.log("allTableCCells", allContainerChildren);
+            return allContainerChildren;
+          }
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: containerElements[h].parentElement.style.top,
+            left: tempPosn.left,
+            type: "CONTAINER_INPUT",
+            data: getChildData(),
+            id: `c${h + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
+        }
+      }
+    }
     const iframes = document.getElementsByClassName("iframeInput");
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
@@ -442,8 +603,6 @@ const Header = () => {
         // page.push(elem);
       }
     }
-
-
 
     const scales = document.getElementsByClassName("scaleInput");
     if (scales.length) {
@@ -475,7 +634,7 @@ const Header = () => {
       for (let b = 0; b < buttons.length; b++) {
         let tempElem = buttons[b].parentElement;
         let tempPosn = getPosition(tempElem);
-        const link = buttonLink
+        const link = buttonLink;
 
         elem = {
           width: tempPosn.width,
@@ -483,12 +642,11 @@ const Header = () => {
           top: tempPosn.top,
           topp: buttons[b].parentElement.style.top,
           left: tempPosn.left,
-          type: 'BUTTON_INPUT',
+          type: "BUTTON_INPUT",
           data: buttons[b].textContent,
           raw_data: tempElem.children[1].innerHTML,
           purpose: tempElem.children[2].innerHTML,
           id: `btn${b + 1}`,
-
         };
         dataInsertWithPage(tempPosn, elem);
 
@@ -536,7 +694,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-   console.log(decoded.details);
+  //  console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -558,11 +716,11 @@ const Header = () => {
     }
   }, [element_updated_length]);
 
-  console.log(
-    "Document_map test",
-    element_updated_length,
-    document_map?.length
-  );
+  // console.log(
+  //   "Document_map test",
+  //   element_updated_length,
+  //   document_map?.length
+  // );
 
   function submit(e) {
     e.preventDefault();
@@ -686,7 +844,7 @@ const Header = () => {
       .then((res) => {
         // Handling title
         const loadedDataT = res.data;
-        console.log(res.data.content, "loaded");
+        // console.log(res.data.content, "loaded");
 
         if (decoded.details.action === "template") {
           setTitle(loadedDataT.template_name);

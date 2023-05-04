@@ -10,7 +10,7 @@ const initialState = {
   signs: false,
   calendar: false,
   dropdown: false,
-  containerr: false,
+  container: false,
   iframe: false,
   scale: false,
   button: false,
@@ -26,6 +26,7 @@ const initialState2 = {
   dropdown2: false,
   iframe2: false,
   scale2: false,
+  container2: false,
   button2: false,
   email2: false,
 
@@ -50,14 +51,13 @@ export const ContextProvider = ({ children }) =>
 
   const [startDate, setStartDate] = useState(new Date()); // Calendar
 
+  const [dropdownName, setDropdownName] = useState("Dropdown Name");
+  const [dropdownLabel, setDropdownLabel] = useState("Dropdown Label");
+  const [dropdownItems, setDropdownItems] = useState("");
+  const [dropdownOptions, setDropdownOptions] = useState(["Enter List Items"]);
 
-  const [dropdownName, setDropdownName] = useState('Dropdown Name');
-  const [dropdownLabel, setDropdownLabel] = useState('Dropdown Label');
-  const [dropdownItems, setDropdownItems] = useState('');
-  const [dropdownOptions, setDropdownOptions] = useState(['Enter List Items']);
-
-  const [buttonLink, setButtonLink] = useState('');
-  const [buttonPurpose, setButtonPurpose] = useState('');
+  const [buttonLink, setButtonLink] = useState("");
+  const [buttonPurpose, setButtonPurpose] = useState("");
 
   const [fontPlus, setFontPlus] = useState(false);
   const [fontMinus, setFontMinus] = useState(false);
@@ -75,6 +75,8 @@ export const ContextProvider = ({ children }) =>
   {
     setIsClicked({ ...isClicked, [clicked]: true, [tableRighMenu]: false });
   };
+
+  console.log("isClicked", isClicked);
   const [newToken, setNewToken] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFlipClicked, setIsFlipClicked] = useState(true);
