@@ -1,4 +1,4 @@
-.leftMenu {
+/* .leftMenu {
   height: 60vh;
   display: flex;
   flex-direction: column;
@@ -7,7 +7,23 @@
   margin-top: 5.5rem;
   gap: 1rem;
   margin-left: 18px;
+} */
+
+.leftMenu {
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* margin-top: 5.5rem; */
+  gap: 1rem;
+  /* margin-left: 18px; */
+  /* height: 100vh; */
+  /* position: fixed; */
+  /* scroll-behavior: auto; */
+  /* overflow: auto; */
 }
+
 .leftMenu > button {
   outline: transparent;
   border: none;
@@ -87,11 +103,10 @@
     align-items: center;
     margin-top: 0px;
   }
-  .fixed2 {
+  /* .fixed2 {
     position: fixed;
-    /* top: 50px; */
     width: 100%;
     margin-left: -10px;
     z-index: 999;
-  }
+  } */
 }

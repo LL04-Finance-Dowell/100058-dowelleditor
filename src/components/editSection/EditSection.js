@@ -53,6 +53,7 @@ const EditSection = () => {
       <Container fluid>
         <Row>
           <Col
+            className="left_menu_wrapper scrollbar"
             lg={1}
             style={
               actionName == "document"
