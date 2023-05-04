@@ -220,3 +220,33 @@ th {
 .focussedd>.tableInput{
   direction: ltr;
 } */
+
+
+.left_menu_wrapper {
+  /* overflow-y: scroll; */
+  /* height: 300px; */
+  /* height: 100vh; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-around; */
+  /* align-items: center; */
+  /* margin-top: 5.5rem; */
+  /* gap: 1rem; */
+  /* margin-left: 18px; */
+  /* height: 100vh; */
+  height: 95%;
+  position: fixed;
+  /* scroll-behavior: auto; */
+  overflow: auto;
+  padding-bottom: 40px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(184, 177, 177);
+  border-radius: 5px;
+}
+
