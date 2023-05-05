@@ -1487,7 +1487,7 @@ const MidSection = React.forwardRef((props, ref) => {
               .then((res) => {
                 setIsLoading(false);
                 console.log(res, "scaleData");
-                const lastInstance = res.response.instances.slice(-1)[0];
+                const lastInstance = res.data.response.instances.slice(-1)[0];
                 const lastValue = Object.values(lastInstance)[0];
                 iframe.src = lastValue;
                 console.log(lastValue);
