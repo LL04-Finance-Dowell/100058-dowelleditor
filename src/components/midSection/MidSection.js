@@ -748,7 +748,6 @@ const MidSection = React.forwardRef((props, ref) => {
           document
             .getElementsByClassName("midSection_container")
             [p - 1] // ?.item(0)
-            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -1480,7 +1479,7 @@ const MidSection = React.forwardRef((props, ref) => {
             iframe.style.height = "90%";
 
             Axios.post(
-              "https://100035.pythonanywhere.com/api/nps_create_instance/",
+              "https://100035.pythonanywhere.com/api/nps_create_instance",
               {
                 scale_id: element.scaleId,
               }
