@@ -740,7 +740,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -822,7 +822,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -900,7 +900,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -1016,7 +1016,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -1272,7 +1272,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -1323,7 +1323,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -1414,7 +1414,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -1451,21 +1451,25 @@ const MidSection = React.forwardRef((props, ref) => {
             decoded.details.action === "template"
           ) {
             const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
             iframe.src = element.scale_url;
-            iframe.width = "auto";
-            iframe.height = "auto";
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
 
             scaleField.append(iframe);
           }
 
           if (
-            element.data != "scale here" &&
-            decoded.details.action === "document"
+            element.details === "Template scale" &&
+            decoded.details.action === "document" 
           ) {
             const iframe = document.createElement("iframe");
-            iframe.src = element.scale_url;
-            iframe.width = "auto";
-            iframe.height = "auto";
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
 
             Axios.post(
               "https://100035.pythonanywhere.com/api/nps_create_instance/",
@@ -1475,24 +1479,42 @@ const MidSection = React.forwardRef((props, ref) => {
             )
               .then((res) => {
                 setIsLoading(false);
-                console.log(res.data, "scaleData");
-                const success = res.data.success;
-                var successObj = JSON.parse(success);
-                const id = successObj.inserted_id;
-                console.log(res.scale_urls, "stateScale");
-                if (id.length) {
-                  console.log(id, "id");
-                  // setScaleId(id);
-                  // scaleIdHolder.innerHTML = id;
-                }
+                console.log(res, "scaleData");
+                const lastInstance = res.response.instances.slice(-1)[0];
+                const lastValue = Object.values(lastInstance)[0];
+                iframe.src = lastValue;
+                console.log(lastValue);
+                
               })
               .catch((err) => {
                 setIsLoading(false);
                 console.log(err);
               });
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
 
             scaleField.append(iframe);
           }
+
+          if (
+            element.details === "Document instance" &&
+            decoded.details.action === "document"
+          ) {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
 
           const scaleIdHolder = document.createElement("div");
 
@@ -1517,7 +1539,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -1577,7 +1599,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -2076,6 +2098,8 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
         let scale = document.createElement("iframe");
+        scale.style.width = "90%";
+        scale.style.height = "90%";
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
@@ -2083,6 +2107,11 @@ const MidSection = React.forwardRef((props, ref) => {
         const labelHolder = document.createElement("div");
         labelHolder.className = "label_holder";
         labelHolder.style.display = "none";
+
+        scaleField.addEventListener("resize", () => {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
 
         scaleField.append(scale);
         Axios.post(

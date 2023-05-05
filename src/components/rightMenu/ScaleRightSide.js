@@ -77,7 +77,7 @@ const ScaleRightSide = () => {
       custom_input_groupings: {
         selectedOptions
       },
-      scale_label: label,
+      scale_label: label.innerHTML,
     })
       .then((res) => {
         if (res.status == 200) {

@@ -468,6 +468,7 @@ const Header = () => {
           scale_url: scales[s].firstElementChild.src,
           scaleId: tempElem.children[1].innerHTML,
           id: `scl${s + 1}`,
+          details: decoded.details.action === "document" ? "Document instance" : "Template scale",
           // scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
@@ -541,7 +542,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  //  console.log(decoded.details);
+   console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
