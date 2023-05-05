@@ -472,6 +472,7 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.style.zIndex = 1;
     holderDIV.className = "holderDIV";
     holderDIV.setAttribute("id", "holderId");
+    holderDIV.setAttribute("draggable", true);
     holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
     holderDIV.style.display = "flex";
     holderDIV.style.flexDirection = "column";
@@ -495,7 +496,7 @@ const MidSection = React.forwardRef((props, ref) => {
     }
 
     holderDIV.addEventListener("dragstart", (event) => {
-      console.log("dragStart fun called");
+      console.log("dragStart fun called from holder div");
     });
 
     //Putting resize button on holder
@@ -3183,6 +3184,8 @@ const MidSection = React.forwardRef((props, ref) => {
         dateField.style.overflow = "overlay";
         // dateField.innerText = `${postData.calenderField.value}`
         dateField.style.position = "relative";
+        dateField.setAttribute("draggable", true);
+        dateField?.parentElement?.setAttribute("draggable", true);
 
         dateField.onchange = (event) => {
           event.preventDefault();
@@ -3377,6 +3380,9 @@ const MidSection = React.forwardRef((props, ref) => {
           handleClicked("container2");
           setSidebar(true);
           console.log("container field clicked");
+        };
+        containerField.ondragover = (e) => {
+          console.log("console from container", e.target);
         };
         containerField.ondrop = (event) => {
           const container = event.target;
