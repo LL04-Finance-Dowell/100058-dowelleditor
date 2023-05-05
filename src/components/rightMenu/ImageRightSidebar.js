@@ -33,16 +33,25 @@ const ImageRightSidebar = () => {
     // imageDiv.classList.add("focussedd");
     // }
     // imageDiv.firstElementChild.classList.add("focussed");
+    handleClicked("image2", "table2");
 
     console.log("iamgeDiv", imageDiv);
     const removalbeFocusseddDiv = document.getElementsByClassName("focussedd");
-    console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
+    // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
     if (removalbeFocusseddDiv) {
       for (let i = 0; i < removalbeFocusseddDiv?.length; i++) {
-        removalbeFocusseddDiv.classList.remove("focussedd");
+        removalbeFocusseddDiv[i].classList.remove("focussedd");
       }
     }
-    // addImageButton;
+
+    const removalbeFocussedDiv = document.getElementsByClassName("focussed");
+    // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
+    if (removalbeFocussedDiv) {
+      for (let i = 0; i < removalbeFocussedDiv?.length; i++) {
+        removalbeFocussedDiv[i].classList.remove("focussed");
+      }
+    }
+    // // addImageButton;
     while (1) {
       if (imageDiv.classList.contains("holderDIV")) {
         imageDiv.classList.add("focussedd");
@@ -53,7 +62,6 @@ const ImageRightSidebar = () => {
         imageDiv = imageDiv.parentElement;
       }
     }
-    handleClicked("image2", "table2");
 
     // if(imageDiv.)
 
