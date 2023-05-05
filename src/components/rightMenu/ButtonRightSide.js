@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useStateContext } from "../../contexts/contextProvider";
-const ButtonRightSide = () => {
+const ButtonRightSide = () =>
+{
   const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose } =
     useStateContext();
 
@@ -39,22 +40,26 @@ const ButtonRightSide = () => {
   //     }
   // }, [purpose])
 
-  const handleUpdate = () => {
+  const handleUpdate = () =>
+  {
     const btnName = document.getElementById("button_name");
     const button = document.querySelector(".focussed");
 
-    if (btnName.value != "") {
+    if (btnName.value != "")
+    {
       button.textContent = btnName.value;
     }
 
     const link = document.getElementById("link").value;
-    if (link.value != "") {
+    if (link.value != "")
+    {
       setButtonLink(link);
       holderDIV.children[1].innerHTML = link;
     }
   };
 
-  const handleSelect = (event) => {
+  const handleSelect = (event) =>
+  {
     let selectField = document.getElementById("selectt");
     const linkDiv = document.getElementById("website_link");
     const holderDIV = document.querySelector(".focussedd");
@@ -64,16 +69,20 @@ const ButtonRightSide = () => {
     setButtonPurpose(selectedOption.value);
     holderDIV.children[2].innerHTML = selectedOption.value;
 
-    if (selectedOption.value == "custom") {
+    if (selectedOption.value == "custom")
+    {
       linkDiv.style.display = "block";
-    } else if (selectedOption.value !== "custom") {
+    } else if (selectedOption.value !== "custom")
+    {
       setButtonLink("");
-    } else {
+    } else
+    {
       console.log("No option selected");
     }
   };
 
-  const removeButton = () => {
+  const removeButton = () =>
+  {
     document.querySelector(".focussedd").remove();
   };
   return (
@@ -85,7 +94,7 @@ const ButtonRightSide = () => {
           type="text"
           placeholder="Button name"
           id="button_name"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <select
@@ -110,7 +119,7 @@ const ButtonRightSide = () => {
           type="text"
           placeholder="Website link"
           id="link"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
 

@@ -496,7 +496,7 @@ const MidSection = React.forwardRef((props, ref) => {
     }
 
     holderDIV.addEventListener("dragstart", (event) => {
-      console.log("dragStart fun called from holder div");
+      console.log("dragStart fun called");
     });
 
     //Putting resize button on holder
@@ -748,6 +748,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
@@ -1459,21 +1460,25 @@ const MidSection = React.forwardRef((props, ref) => {
             decoded.details.action === "template"
           ) {
             const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
             iframe.src = element.scale_url;
-            iframe.width = "auto";
-            iframe.height = "auto";
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
 
             scaleField.append(iframe);
           }
 
           if (
-            element.data != "scale here" &&
+            element.details === "Template scale" &&
             decoded.details.action === "document"
           ) {
             const iframe = document.createElement("iframe");
-            iframe.src = element.scale_url;
-            iframe.width = "auto";
-            iframe.height = "auto";
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
 
             Axios.post(
               "https://100035.pythonanywhere.com/api/nps_create_instance/",
@@ -1483,21 +1488,37 @@ const MidSection = React.forwardRef((props, ref) => {
             )
               .then((res) => {
                 setIsLoading(false);
-                console.log(res.data, "scaleData");
-                const success = res.data.success;
-                var successObj = JSON.parse(success);
-                const id = successObj.inserted_id;
-                console.log(res.scale_urls, "stateScale");
-                if (id.length) {
-                  console.log(id, "id");
-                  // setScaleId(id);
-                  // scaleIdHolder.innerHTML = id;
-                }
+                console.log(res, "scaleData");
+                const lastInstance = res.response.instances.slice(-1)[0];
+                const lastValue = Object.values(lastInstance)[0];
+                iframe.src = lastValue;
+                console.log(lastValue);
               })
               .catch((err) => {
                 setIsLoading(false);
                 console.log(err);
               });
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          if (
+            element.details === "Document instance" &&
+            decoded.details.action === "document"
+          ) {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
 
             scaleField.append(iframe);
           }
@@ -2907,6 +2928,8 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
         let scale = document.createElement("iframe");
+        scale.style.width = "90%";
+        scale.style.height = "90%";
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
@@ -2914,6 +2937,11 @@ const MidSection = React.forwardRef((props, ref) => {
         const labelHolder = document.createElement("div");
         labelHolder.className = "label_holder";
         labelHolder.style.display = "none";
+
+        scaleField.addEventListener("resize", () => {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
 
         scaleField.append(scale);
         Axios.post(
@@ -3777,6 +3805,153 @@ const MidSection = React.forwardRef((props, ref) => {
             containerField.append(holderDIVContainer);
         };
         holderDIV.append(containerField);
+      } else if (
+        typeOfOperation === "FORM" &&
+        decoded.details.action === "template"
+      ) {
+        let buttonField = document.createElement("div");
+        buttonField.className = "emailInput";
+        buttonField.style.width = "100%";
+        buttonField.style.height = "100%";
+        buttonField.style.backgroundColor = "#0000";
+        buttonField.style.borderRadius = "0px";
+        buttonField.style.outline = "0px";
+        buttonField.style.overflow = "overlay";
+        buttonField.style.position = "absolute";
+        // // buttonField.textContent = "Button";
+        // buttonField.innerText = "Email";
+        buttonField.style.display = "flex";
+        buttonField.style.flexDirection = "column";
+        buttonField.style.alignItems = "center";
+
+        // create div element for form container
+        // const formContainer = document.createElement('div');
+        // buttonField.style.maxWidth = '500px';
+        // buttonField.style.height = '10%';
+        buttonField.style.margin = "0 auto";
+        buttonField.style.padding = "10%";
+        buttonField.style.border = "1px solid #0000";
+
+        // create form element
+        const form = document.createElement("form");
+        form.style.display = "flex";
+        form.style.flexDirection = "column";
+        form.style.maxWidth = "500px";
+
+        // create first row of input fields
+        const firstRow = document.createElement("div");
+        firstRow.style.display = "flex";
+        firstRow.style.justifyContent = "space-between";
+        firstRow.style.marginBottom = "10px";
+
+        // create first input field for name
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.name = "name";
+        nameInput.placeholder = "To Name";
+        nameInput.style.width = "48%";
+        firstRow.appendChild(nameInput);
+
+        // create second input field for email
+        const emailInput = document.createElement("input");
+        emailInput.type = "email";
+        emailInput.name = "email";
+        emailInput.placeholder = "Email";
+        emailInput.style.width = "48%";
+        firstRow.appendChild(emailInput);
+
+        // add first row to form
+        form.appendChild(firstRow);
+
+        // create second row of input fields
+        const secondRow = document.createElement("div");
+        secondRow.style.display = "flex";
+        secondRow.style.justifyContent = "space-between";
+        secondRow.style.marginBottom = "10px";
+
+        // create third input field for subject
+        const nameInput1 = document.createElement("input");
+        nameInput1.type = "text";
+        nameInput1.name = "name";
+        nameInput1.placeholder = "From Name";
+        nameInput1.style.width = "48%";
+        secondRow.appendChild(nameInput1);
+
+        // create fourth input field for second message
+        const emailInput1 = document.createElement("input");
+        emailInput1.name = "email";
+        emailInput1.placeholder = "Email";
+        emailInput1.style.width = "48%";
+        secondRow.appendChild(emailInput1);
+
+        // add second row to form
+        form.appendChild(secondRow);
+
+        // create third input field for subject
+        const subjectInput = document.createElement("input");
+        subjectInput.type = "text";
+        subjectInput.name = "subject";
+        subjectInput.placeholder = "Subject";
+        subjectInput.style.width = "100%";
+        subjectInput.style.marginBottom = "10px";
+        form.appendChild(subjectInput);
+
+        // create textarea for message field for message
+        const messageInput = document.createElement("textarea");
+        messageInput.name = "message";
+        messageInput.placeholder = "Message";
+        messageInput.style.marginBottom = "10px";
+        form.appendChild(messageInput);
+
+        // create submit button
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.textContent = "Send";
+        submitButton.style.backgroundColor = "#007bff";
+        submitButton.style.color = "#fff";
+        submitButton.style.border = "none";
+        submitButton.style.padding = "10px 20px";
+        // add onClick event listener
+        submitButton.addEventListener("click", (e) => {
+          // prevent default form submission
+          e.preventDefault();
+          const formData = {
+            name: nameInput.value,
+            email: emailInput.value,
+            name1: nameInput1.value,
+            email1: emailInput1.value,
+            subject: subjectInput.value,
+            message: messageInput.value,
+          };
+          alert("button clicked");
+          console.log(formData); // log form data to console
+        });
+        form.appendChild(submitButton);
+
+        // add form to the form container
+        buttonField.appendChild(form);
+
+        // add form container to the document
+        document.body.appendChild(buttonField);
+
+        // buttonField.onclick = (e) =>
+        // {
+        //   focuseddClassMaintain(e);
+        //   handleClicked("button2");
+        //   setSidebar(true);
+        // }
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none";
+
+        holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
       }
       if (decoded.details.action === "template") {
         document.querySelector(".drop_zone").append(holderDIV);

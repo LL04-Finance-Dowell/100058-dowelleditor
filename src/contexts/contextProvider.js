@@ -14,6 +14,7 @@ const initialState = {
   iframe: false,
   scale: false,
   button: false,
+  email: false,
 };
 const initialState2 = {
   align2: false,
@@ -27,9 +28,12 @@ const initialState2 = {
   scale2: false,
   container2: false,
   button2: false,
+  email2: false,
+
 };
 
-export const ContextProvider = ({ children }) => {
+export const ContextProvider = ({ children }) =>
+{
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
@@ -62,11 +66,13 @@ export const ContextProvider = ({ children }) => {
   const [underline, setUnderline] = useState(false);
   const [strikethrough, setStrikethrough] = useState(false);
 
-  const handleDrop = (dropped) => {
+  const handleDrop = (dropped) =>
+  {
     setIsDropped({ ...isDropped, [dropped]: true });
   };
 
-  const handleClicked = (clicked, tableRighMenu) => {
+  const handleClicked = (clicked, tableRighMenu) =>
+  {
     setIsClicked({ ...isClicked, [clicked]: true, [tableRighMenu]: false });
   };
 
@@ -101,15 +107,18 @@ export const ContextProvider = ({ children }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   // handle drop event for table and retrieve midsection
 
-  const handleDropp = (e) => {
+  const handleDropp = (e) =>
+  {
     e.preventDefault();
     if (
       e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
-    ) {
+    )
+    {
       e.target.style.border = "1px solid black";
     }
-    if (e.target.classList.contains("imageInput")) {
+    if (e.target.classList.contains("imageInput"))
+    {
       e.target.style.border = "none";
     }
     const typeOfOperation = e.dataTransfer.getData("text/plain");
@@ -118,8 +127,10 @@ export const ContextProvider = ({ children }) => {
     if (
       e.target.childNodes.length < 2 &&
       !e.target.classList.contains("imageInput")
-    ) {
-      if (typeOfOperation === "TEXT_INPUT") {
+    )
+    {
+      if (typeOfOperation === "TEXT_INPUT")
+      {
         let inputField = document.createElement("div");
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
@@ -134,8 +145,10 @@ export const ContextProvider = ({ children }) => {
         inputField.style.overflow = "overlay";
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
-        inputField.onclick = (e) => {
-          if (inputField) {
+        inputField.onclick = (e) =>
+        {
+          if (inputField)
+          {
             //   handleClicked("align2", "table2");
             //   setSidebar(true);
             //   e.stopPropagation();
@@ -190,7 +203,8 @@ export const ContextProvider = ({ children }) => {
         typeOfOperation === "IMAGE_INPUT"
         //  &&
         // decoded.details.action === "template"
-      ) {
+      )
+      {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
         imageField.style.minHeight = "100%";
@@ -202,7 +216,8 @@ export const ContextProvider = ({ children }) => {
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
         // imageField.innerHTML = "Image here";
-        imageField.onclick = (e) => {
+        imageField.onclick = (e) =>
+        {
           // table_dropdown_focuseddClassMaintain(e);
           // imageField.classList.add("focussed");
           focuseddClassMaintain(e);
@@ -227,10 +242,12 @@ export const ContextProvider = ({ children }) => {
         imgBtn.style.objectFit = "cover";
         var uploadedImage = "";
 
-        imgBtn.addEventListener("input", () => {
+        imgBtn.addEventListener("input", () =>
+        {
           const reader = new FileReader();
 
-          reader.addEventListener("load", () => {
+          reader.addEventListener("load", () =>
+          {
             uploadedImage = reader.result;
             document.querySelector(
               ".focussed"
@@ -249,7 +266,9 @@ export const ContextProvider = ({ children }) => {
         e.target.append(imageField);
         e.target.append(imageButton);
         e.target.style.width = imageField.style.width;
-      } else if (typeOfOperation === "TEXT_FILL") {
+      }
+      else if (typeOfOperation === "TEXT_FILL")
+      {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
         texttField.placeholder = "input text here";
@@ -264,7 +283,18 @@ export const ContextProvider = ({ children }) => {
         texttField.style.position = "relative";
 
         e.target.append(texttField);
-      } else if (typeOfOperation === "SIGN_INPUT") {
+      }
+      else if (typeOfOperation === "FORM")
+      {
+        let texttField = document.createElement("div");
+        texttField.className = "texttField";
+        texttField.style.width = "100%";
+        texttField.style.height = "30vh";
+        texttField.style.position = "relative";
+        e.target.append(texttField);
+      }
+      else if (typeOfOperation === "SIGN_INPUT")
+      {
         // {
         //   let signField = document.createElement("div");
         //   signField.className = "signInput";
@@ -317,7 +347,8 @@ export const ContextProvider = ({ children }) => {
         //   });
         // };
 
-        signField.onclick = (e) => {
+        signField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           // if (actionName != "template") {
           // signField.classList.add("focussed");
@@ -341,10 +372,12 @@ export const ContextProvider = ({ children }) => {
         signBtn.style.objectFit = "cover";
         var uploadedImage = "";
 
-        signBtn.addEventListener("input", () => {
+        signBtn.addEventListener("input", () =>
+        {
           const reader = new FileReader();
 
-          reader.addEventListener("load", () => {
+          reader.addEventListener("load", () =>
+          {
             uploadedImage = reader.result;
             const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
             document.querySelector(".focussed").innerHTML = signImage;
@@ -361,7 +394,8 @@ export const ContextProvider = ({ children }) => {
         e.target.append(imageSignButton);
         e.target.style.width = signField.style.width;
         e.target.style.height = signField.style.height;
-      } else if (typeOfOperation === "DATE_INPUT") {
+      } else if (typeOfOperation === "DATE_INPUT")
+      {
         let dateField = document.createElement("div");
         dateField.className = "dateInput";
         dateField.style.width = "100%";
@@ -375,23 +409,30 @@ export const ContextProvider = ({ children }) => {
         setStartDate(new Date());
         setMethod("select");
 
-        function dateClick() {
+        function dateClick()
+        {
           document.getElementById("date_picker").click();
           setRightSideDateMenu(false);
         }
-        dateField.onclick = (e) => {
+        dateField.onclick = (e) =>
+        {
           focuseddClassMaintain(e);
           handleClicked("calendar2");
           setRightSideDateMenu(false);
-          if (e.target.innerText != "mm/dd/yyyy") {
-            if (e.target.innerText.includes("/")) {
+          if (e.target.innerText != "mm/dd/yyyy")
+          {
+            if (e.target.innerText.includes("/"))
+            {
               const setDate = new Date(e.target.innerText);
               setMethod("first");
               setStartDate(setDate);
-            } else {
-              if (e.target.innerText.includes("-")) {
+            } else
+            {
+              if (e.target.innerText.includes("-"))
+              {
                 setMethod("fourth");
-              } else {
+              } else
+              {
                 setMethod("second");
               }
               const setDate = new Date(e.target.innerText);
@@ -412,16 +453,19 @@ export const ContextProvider = ({ children }) => {
   };
 
   // focus class maintain for table and midsection
-  function focuseddClassMaintain(e) {
+  function focuseddClassMaintain(e)
+  {
     let allDiv = document.getElementsByClassName("focussedd");
-    for (let i = 0; i < allDiv.length; i++) {
+    for (let i = 0; i < allDiv.length; i++)
+    {
       allDiv[i].classList.remove("focussedd");
     }
     e.target.parentElement.classList.add("focussedd");
     // e.target.parentElement.classList.add("test_image");
 
     let focussedDiv = document.getElementsByClassName("focussed");
-    for (let i = 0; i < focussedDiv.length; i++) {
+    for (let i = 0; i < focussedDiv.length; i++)
+    {
       focussedDiv[i].classList.remove("focussed");
     }
     e.target.classList.add("focussed");

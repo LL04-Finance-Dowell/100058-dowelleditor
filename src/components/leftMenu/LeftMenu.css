@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-top: 5.5rem;
+  margin-top: 3.5rem;
   gap: 1rem;
   margin-left: 18px;
 } */
@@ -30,6 +30,7 @@
   background-color: #394869;
   padding: 0.6rem 0.8rem;
   border-radius: 6px;
+  /* margin-top: 1rem; */
 }
 .leftMenu > button:hover {
   background-color: #25c7a3;
