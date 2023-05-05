@@ -54,15 +54,24 @@ const EditSection = () => {
         <Row>
           <Col
             lg={1}
-            style={
-              actionName == "document"
-                ? { background: "#e3eeff" }
-                : { background: "#1c2b48" }
-            }
+            // style={actionName == "document" && { background: "#e3eeff" }}
+            className={`${actionName == "document" && "document_left_col"}`}
           >
             {/* <LeftMenu showSidebar={showSidebar} /> */}
             {/* <Printer /> */}
-            {actionName == "template" && <LeftMenu />}
+
+            {actionName == "template" && (
+              <div
+                style={
+                  actionName == "document"
+                    ? { background: "#e3eeff" }
+                    : { background: "#1c2b48" }
+                }
+                className="left_menu_wrapper scrollbar"
+              >
+                <LeftMenu />
+              </div>
+            )}
           </Col>
           <Col lg={sidebar ? 8 : 11} as="div" className="editSec_midSec">
             {/* <MidSection showSidebar={showSidebar}/> */}

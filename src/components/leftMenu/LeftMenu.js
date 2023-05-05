@@ -6,12 +6,13 @@ import { editSecOptions } from "../../data/data";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { BiImage, BiText } from "react-icons/bi";
-import {
-  BsCalendar2Date,
-  BsMenuButtonWideFill,
-  BsTable,
-  BsCodeSquare,
-} from "react-icons/bs";
+import
+  {
+    BsCalendar2Date,
+    BsMenuButtonWideFill,
+    BsTable,
+    BsCodeSquare,
+  } from "react-icons/bs";
 
 import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
@@ -43,66 +44,80 @@ const CustomButton = ({ children, style }) => (
   </button>
 );
 
-const dragStartAlign = (e) => {
+const dragStartAlign = (e) =>
+{
   const element = document.getElementById("draggable");
 
   e.dataTransfer.setData("text/plain", "TEXT_INPUT");
   element.classList.add("dragging");
   //console.log("drag start fumb");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartTextF = (e) => {
+const dragStartTextF = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "TEXT_FILL");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartImage = (e) => {
+const dragStartImage = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "IMAGE_INPUT");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartTable = (e) => {
+const dragStartTable = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "TABLE_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartSigns = (e) => {
+const dragStartSigns = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "SIGN_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartCalendar = (e) => {
+const dragStartCalendar = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "DATE_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragStartDropdown = (e) => {
+const dragStartDropdown = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "DROPDOWN_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
@@ -114,53 +129,64 @@ const dragStartDropdown = (e) => {
 //     document.querySelector(".drop_zone").classList.remove("drop_zone");
 //   }
 // };
-const dragStartIframe = (e) => {
+const dragStartIframe = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "IFRAME_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 // container
 
-const dragStartContainer = (e) => {
+const dragStartContainer = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "CONTAINER_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
 // Limon
-const dragStartScale = (e) => {
+const dragStartScale = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "SCALE_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
-const dragStartButton = (e) => {
+const dragStartButton = (e) =>
+{
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "BUTTON_INPUT");
   element.classList.add("dragging");
-  if (document.querySelector(".drop_zone")) {
+  if (document.querySelector(".drop_zone"))
+  {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
 
-const dragEndFunc = () => {
+const dragEndFunc = () =>
+{
   const element = document.getElementById("draggable");
   element.classList.remove("dragging");
   //console.log("dragend func");
 };
 
-export const onDrop = (event) => {
+export const onDrop = (event) =>
+{
   event.preventDefault();
   const data = event.dataTransfer.getData("text/plain");
-  if (data === "TEXT_INPUT") {
+  if (data === "TEXT_INPUT")
+  {
     //console.log("text inputtt");
     // const textInput = document.createElement("textarea");
     // textInput.className = "dropped7";
@@ -177,7 +203,8 @@ export const onDrop = (event) => {
   // } return TextBox();
 };
 
-const LeftMenu = ({ showSidebar }) => {
+const LeftMenu = ({ showSidebar }) =>
+{
   const leftMenuRef = useRef(null);
   const alignRef = useRef(null);
   const textfillRef = useRef(null);
@@ -187,7 +214,8 @@ const LeftMenu = ({ showSidebar }) => {
   const calendarRef = useRef(null);
   const dropdownRef = useRef(null);
   const [isMobileView, setIsMobileView] = useState(false);
-  function removeContainer() {
+  function removeContainer()
+  {
     document.getElementById("containerInput").parentElement.remove();
   }
   // const leftMenuWidth = leftMenuRef.current;
@@ -225,7 +253,7 @@ const LeftMenu = ({ showSidebar }) => {
               // icon={editSecOptions[1].icon}
               icon={<BiText />}
               title="Text"
-            ></NavButton>
+            />
             {/* <NavButton dragStartFunc={dragStartTextF} customFunc={() => handleDrop('textfill')} icon={editSecOptions[1].icon} /> */}
             <NavButton
               dragStartFunc={dragStartImage}
@@ -239,8 +267,8 @@ const LeftMenu = ({ showSidebar }) => {
               title="Container"
               dragStartFunc={dragStartContainer}
               customFunc={() => handleDrop("container")}
-              // onDrop={handleContainerDrop}
-              // onDragOver = {e=>{console.log(alert("I am contianer"));}}
+            // onDrop={handleContainerDrop}
+            // onDragOver = {e=>{console.log(alert("I am contianer"));}}
             />
             <NavButton
               dragStartFunc={dragStartTable}
@@ -290,6 +318,14 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<SiBigbluebutton />}
               title="Button"
             />
+
+            {/* test div */}
+            {/* <NavButton
+              dragStartFunc={dragStartButton}
+              customFunc={() => handleDrop("button")}
+              icon={<IoScale />}
+              title="Button"
+            /> */}
           </div>
         )
       ) : (
