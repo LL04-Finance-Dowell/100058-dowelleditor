@@ -756,7 +756,6 @@ const MidSection = React.forwardRef((props, ref) =>
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
-          console.log(id);
 
           let inputField = document.createElement("div");
           inputField.setAttribute("contenteditable", true);
@@ -2142,7 +2141,6 @@ const MidSection = React.forwardRef((props, ref) =>
                   console.log(res.scale_urls, "stateScale");
                   if (id.length)
                   {
-                    console.log(id, "id");
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;
@@ -2573,7 +2571,6 @@ const MidSection = React.forwardRef((props, ref) =>
                   console.log(res.scale_urls, "stateScale");
                   if (id.length)
                   {
-                    console.log(id, "id");
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;

@@ -69,14 +69,14 @@ const ScaleRightSide = () => {
     iframe?.contentWindow?.postMessage(message, '*');
   }
   function scaleSubmit(e) {
+    console.log(selectedOptions);
+    console.log(selectedOptions[0]);
     e.preventDefault();
     setIsLoading(true);
     Axios.post('https://100035.pythonanywhere.com/api/nps_custom_data/', {
       template_id: decoded.details._id,
       scale_id: scaleId,
-      custom_input_groupings: {
-        selectedOptions
-      },
+      custom_input_groupings: selectedOptions,
       scale_label: label.innerHTML,
     })
       .then((res) => {
