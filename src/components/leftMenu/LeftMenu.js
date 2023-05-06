@@ -7,15 +7,16 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { BiImage, BiText } from "react-icons/bi";
 import
-  {
-    BsCalendar2Date,
-    BsMenuButtonWideFill,
-    BsTable,
-    BsCodeSquare,
-  } from "react-icons/bs";
+{
+  BsCalendar2Date,
+  BsMenuButtonWideFill,
+  BsTable,
+  BsCodeSquare,
+} from "react-icons/bs";
 
 import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
+import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
 
 import MidSection from "../midSection/MidSection";
@@ -173,6 +174,16 @@ const dragStartButton = (e) =>
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
+const dragStartEmail = (e) =>
+{
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "FORM");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone"))
+  {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+  }
+};
 
 const dragEndFunc = () =>
 {
@@ -317,6 +328,12 @@ const LeftMenu = ({ showSidebar }) =>
               customFunc={() => handleDrop("button")}
               icon={<SiBigbluebutton />}
               title="Button"
+            />
+            <NavButton
+              dragStartFunc={dragStartEmail}
+              customFunc={() => handleDrop("email")}
+              icon={<AiOutlineMail />}
+              title="Email"
             />
 
             {/* test div */}
