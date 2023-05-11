@@ -359,6 +359,7 @@ const MidSection = React.forwardRef((props, ref) => {
       let initX = event.screenX;
       let initY = event.screenY;
 
+      console.log("initX ", initX, "initY ", initY);
       /* Ensure That target has changed */
       var counterCheck = true;
       var tempTarget = event.target;
@@ -378,15 +379,29 @@ const MidSection = React.forwardRef((props, ref) => {
       holder = hitTarget;
       const holderPos = (function () {
         const holderPos = {
-          top:
-            decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
-          left:
-            decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          // top: parseInt(holder.style.top.slice(0, -2)),
-          // left: parseInt(holder.style.left.slice(0, -2))
+          // top:
+          //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+          // left:
+          //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+          top: parseInt(holder.style.top.slice(0, -2)),
+          left: parseInt(holder.style.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
+
+      // code for conatainer element move start
+      let holderParentHolder = "";
+      let holderParentHolderRect = "";
+      let hodlerRect = "";
+      if (holder?.parentElement.classList.contains("containerInput")) {
+        holderParentHolder = holder?.parentElement?.parentElement;
+      }
+      if (holderParentHolder) {
+        holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+      }
+      hodlerRect = holder.getBoundingClientRect();
+      // code for container element move end
+      console.log("finding moveable element", holderPos);
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev) {
@@ -401,19 +416,89 @@ const MidSection = React.forwardRef((props, ref) => {
         // );
         //  screenX: 531, screenY: 175, clientX: 531, Top-left
         //  screenX: 1061, screenY: 154, Top right
-        if (
-          ev.screenX > midsectionRect.left &&
-          ev.screenY > midsectionRect.top &&
-          ev.screenX < midsectionRect.right
-        ) {
-          //console.log("checking motion");
-          const diffX = ev.screenX - initX;
-          const diffY = ev.screenY - initY;
-          holder.style.top = holderPos.top + diffY + "px";
-          holder.style.left = holderPos.left + diffX + "px";
+
+        // console.log("midsectionRect", midsectionRect);
+        // const eventClientX = ev.clientX;
+        const elemtnMeasureX =
+          ev.screenX + holderPos.left + hodlerRect.width - initX;
+        const elmentMeasureY =
+          ev.screenY + holderPos.top + hodlerRect.height - initY;
+        console.log(
+          "ev.screenX",
+          ev.screenX,
+          "hodlerRect",
+          hodlerRect,
+          "midsectionRect",
+          midsectionRect,
+          "elemtnMeasureX",
+          elemtnMeasureX,
+          "elmentMeasureY",
+          elmentMeasureY
+        );
+
+        // console.log(
+        //   "cientX",
+        //   holder.style.left,
+        //   " ",
+        //   eventClientX,
+        //   "ev.screenX",
+        //   ev.screenX,
+        //   "finding measures",
+        //   elemtnMeasureX,
+        //   "elmentMeasureY",
+        //   elmentMeasureY,
+        //   holderParentHolderRect.width
+        // );
+        // console.log(
+        //   "test data",
+        //   ev.screenX,
+        //   holderPos.left,
+        //   holder.width,
+        //   initX
+        // );
+        // if (
+        //   ev.screenX > holderParentHolderRect.left &&
+        //   ev.screenY > holderParentHolderRect.top &&
+        //   ev.screenX < holderParentHolderRect.right
+        // ) {
+        if (holder?.parentElement.classList.contains("containerInput")) {
+          if (
+            holderParentHolderRect.width > elemtnMeasureX + 5 &&
+            holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            holderParentHolderRect.height > elmentMeasureY + 5 &&
+            holderParentHolderRect.top - 50 < elmentMeasureY
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         } else {
-          holder.style.top = holderPos.top + "px";
-          holder.style.left = holderPos.left + "px";
+          // if (
+          //   ev.screenX > midsectionRect.left &&
+          //   ev.screenY > midsectionRect.top &&
+          //   ev.screenX < midsectionRect.right
+          // ) {
+
+          if (
+            midsectionRect.width > elemtnMeasureX + 5 &&
+            midsectionRect.left + 20 < elemtnMeasureX &&
+            midsectionRect.height > elmentMeasureY + 5 &&
+            midsectionRect.top - 50 < elmentMeasureY
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         }
       }
 
@@ -498,7 +583,9 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.addEventListener("dragstart", (event) => {
       console.log("dragStart fun called");
     });
-
+    holderDIV.ondragstart = (e) => {
+      console.log("dragStart fun called");
+    };
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -1615,7 +1702,7 @@ const MidSection = React.forwardRef((props, ref) => {
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp,
+            top: element.top + "px",
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -1638,7 +1725,7 @@ const MidSection = React.forwardRef((props, ref) => {
             handleClicked("container2");
             setSidebar(true);
           };
-          console.log("element.data container input retrieve", element.data);
+          // console.log("element.data container input retrieve", element.data);
           for (let p = 0; p < element.data.length; p++) {
             const containerElement = element.data[p];
             // const measureContainer = {
@@ -1651,8 +1738,8 @@ const MidSection = React.forwardRef((props, ref) => {
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
-              left: containerElement.left + "px",
-              top: containerElement.topp,
+              left: containerElement.left - element.left + "px",
+              top: containerElement.top - element.top + "px",
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
@@ -2546,7 +2633,7 @@ const MidSection = React.forwardRef((props, ref) => {
     const has_container_drag_class =
       event.target.classList.contains("containerInput");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
-    // console.log("typeOfOperation in midsection", typeOfOperation);
+    console.log("typeOfOperation in midsection", typeOfOperation);
     const curr_user = document.getElementById("current-user");
 
     const midSec = document.querySelector(".drop_zone");
@@ -3273,6 +3360,11 @@ const MidSection = React.forwardRef((props, ref) => {
         dateField.ondragstart = (e) => {
           console.log("dragStart fun called");
         };
+        // if (dateField) {
+        //   dateField.parentElement.ondragstart = (e) => {
+        //     console.log("dragStart fun called parentElement");
+        //   };
+        // }
         dateField.ondragend = (e) => {
           console.log("ondragend fun called");
         };
