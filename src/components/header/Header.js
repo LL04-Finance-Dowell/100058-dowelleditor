@@ -475,17 +475,17 @@ const Header = () => {
               const element = containerChildren[i];
               // console.log("elements", i, " ", element);
               // let tempElem = element.parentElement;
-              let tempPosn = getPosition(element);
+              let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
               const childData = {};
-              childData.width = tempPosn.width;
-              childData.height = tempPosn.height;
-              childData.top = tempPosn.top;
+              childData.width = tempPosnChild.width;
+              childData.height = tempPosnChild.height;
+              childData.top = tempPosnChild.top;
               childData.topp = containerElements[h].parentElement.style.top;
-              childData.left = tempPosn.left;
+              childData.left = tempPosnChild.left;
 
-              // const foo = 0;
+              console.log("childData", childData);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -622,7 +622,10 @@ const Header = () => {
           scale_url: scales[s].firstElementChild.src,
           scaleId: tempElem.children[1].innerHTML,
           id: `scl${s + 1}`,
-          details: decoded.details.action === "document" ? "Document instance" : "Template scale",
+          details:
+            decoded.details.action === "document"
+              ? "Document instance"
+              : "Template scale",
           // scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
@@ -696,7 +699,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;

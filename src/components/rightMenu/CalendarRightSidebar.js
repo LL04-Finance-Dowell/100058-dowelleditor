@@ -6,9 +6,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 import "react-datepicker/dist/react-datepicker.css";
+import jwt_decode from "jwt-decode";
 
 import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
+import { useSearchParams } from "react-router-dom";
 
 const CalendarRightSidebar = (props) => {
   const {
@@ -21,6 +23,12 @@ const CalendarRightSidebar = (props) => {
     setMethod,
     setIsFinializeDisabled,
   } = useStateContext();
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+  const actionName = decoded?.details?.action;
+  const documnetMap = decoded?.details?.document_map;
 
   const [datePickerMargin, setDatePickerMargin] = useState("");
   const date = document.querySelector(".focussed");
@@ -139,18 +147,20 @@ const CalendarRightSidebar = (props) => {
         </div>
       </div>
       {/* <hr /> */}
-      <div
-        className={`text-center`}
-        style={{ marginTop: !rightSideDatemenu && "25px" }}
-      >
-        <Button
-          variant="primary"
-          onClick={removeDate}
-          className="remove_button"
+      {!documnetMap && (
+        <div
+          className={`text-center`}
+          style={{ marginTop: !rightSideDatemenu && "25px" }}
         >
-          Remove Date
-        </Button>
-      </div>
+          <Button
+            variant="primary"
+            onClick={removeDate}
+            className="remove_button"
+          >
+            Remove Date
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
