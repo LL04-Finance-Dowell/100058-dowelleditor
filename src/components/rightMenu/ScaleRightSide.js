@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row } from 'react-bootstrap';
 import { useStateContext } from '../../contexts/contextProvider';
 import Axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useSearchParams } from 'react-router-dom';
 
-const ScaleRightSide = () => {
+const ScaleRightSide = () =>
+{
   const {
     sidebar,
     setIsLoading,
@@ -22,6 +23,10 @@ const ScaleRightSide = () => {
     setCustom3,
   } = useStateContext();
 
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
+
   const [iframeKey, setIframeKey] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [searchParams] = useSearchParams();
@@ -34,12 +39,14 @@ const ScaleRightSide = () => {
   const scaleId = holderDIV?.children[1].innerHTML;
   const label = holderDIV?.children[2];
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
+  {
     label.innerHTML = e.target.value
 
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setCustom1(localStorage.getItem('inputValue1'));
     setCustom2(localStorage.getItem('inputValue2'));
     setCustom3(localStorage.getItem('inputValue3'));
@@ -60,7 +67,8 @@ const ScaleRightSide = () => {
   //   setIframeKey(prevKey => prevKey + 1);
   // }
 
-  function sendMessage() {
+  function sendMessage()
+  {
     const message =
       decoded.details.action === 'document'
         ? 'Document saved'
@@ -68,7 +76,8 @@ const ScaleRightSide = () => {
     const iframe = document.querySelector('iframe');
     iframe?.contentWindow?.postMessage(message, '*');
   }
-  function scaleSubmit(e) {
+  function scaleSubmit(e)
+  {
     console.log(selectedOptions);
     console.log(selectedOptions[0]);
     e.preventDefault();
@@ -79,26 +88,31 @@ const ScaleRightSide = () => {
       custom_input_groupings: selectedOptions,
       scale_label: label.innerHTML,
     })
-      .then((res) => {
-        if (res.status == 200) {
+      .then((res) =>
+      {
+        if (res.status == 200)
+        {
           setIsLoading(false);
           sendMessage();
           console.log(res, 'kk');
         }
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         console.log(err);
       });
   }
 
-  function showIframe() {
+  function showIframe()
+  {
     const divIframeRight = document.getElementById('iframeRight');
     const divSettingRight = document.getElementById('settingRight');
     divIframeRight.style.display = 'block';
     divSettingRight.style.display = 'none';
   }
-  function showSetting() {
+  function showSetting()
+  {
     const divIframeRight = document.getElementById('iframeRight');
     const divSettingRight = document.getElementById('settingRight');
     divIframeRight.style.display = 'none';
@@ -110,27 +124,33 @@ const ScaleRightSide = () => {
   const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
   console.log(iframeSrc, 'iframeSrc');
 
-  function removeScale() {
+  function removeScale()
+  {
     const focusseddElmnt = document.querySelector('.focussedd');
-    if (focusseddElmnt.classList.contains('holderDIV')) {
+    if (focusseddElmnt.classList.contains('holderDIV'))
+    {
       document.querySelector('.focussedd').remove();
     }
   }
   const myArray = Object.values(data)[0];
   const elems = document.getElementsByClassName("holderDIV")
-  for (let index = 0; index < elems.length; index++) {
+  for (let index = 0; index < elems.length; index++)
+  {
     const element = elems[index];
     console.log(element.children[0]);
   }
 
-  const handleSelect = (event) => {
+  const handleSelect = (event) =>
+  {
     let selectField = document.getElementById('select');
     var selectedValues = {};
     const options = selectField.options;
 
-    for (let i = 0; i < options.length; i++) {
+    for (let i = 0; i < options.length; i++)
+    {
       const option = options[i];
-      if (option.selected) {
+      if (option.selected)
+      {
         selectedValues[option.value] = option.id;
       }
     }
@@ -169,6 +189,22 @@ const ScaleRightSide = () => {
     </option>
   ));
 
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+
+  };
   return (
     <>
       <div>
@@ -197,12 +233,45 @@ const ScaleRightSide = () => {
           ></iframe>
         </div>
       </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
       <div id="settingRight" style={{ display: 'none' }}>
         <h3>Configurations</h3>
         {/* iframe */}
         <div>
 
-          
+
           {/* <Form.Control
             type="text"
             placeholder={`${decoded.details._id}_scl1`}
@@ -233,7 +302,7 @@ const ScaleRightSide = () => {
             // id="iframe_src"
             onChange={handleChange}
           />
-      
+
         </div>
 
         <div className="mt-2 text-center pt-5">
