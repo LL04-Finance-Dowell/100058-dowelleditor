@@ -94,6 +94,7 @@ const Header = () => {
     setIsMenuVisible,
     buttonLink,
     buttonPurpose,
+    setCustomId,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -368,7 +369,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -418,9 +419,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -695,7 +696,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-   console.log(decoded.details);
+  console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -869,12 +870,32 @@ const Header = () => {
         //Handling company_id
         const company_id = res.data.company_id;
         setCompanyId(company_id);
+        npsCustomData();
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
       });
   };
+
+  const npsCustomData = () => {
+    console.log(decoded.details._id);
+     Axios.post(
+      "https://100035.pythonanywhere.com/api/nps_custom_data_all",
+      {
+        template_id: decoded.details._id,
+      }
+    ).then((res) => {
+      console.log(res.data);
+      const data = res.data.data
+      setCustomId(data);
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  }
+
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -1048,9 +1069,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1060,9 +1080,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

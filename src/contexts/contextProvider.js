@@ -46,6 +46,9 @@ export const ContextProvider = ({ children }) =>
   const [title, setTitle] = useState(["Untitled-file"]);
   const [isDataRetrieved, setIsDataRetrieved] = useState(false);
 
+  //nps scale custom data
+  const [customId, setCustomId] = useState([]);
+
   //Right Sidebar context
   const [signState, setSignState] = React.useState({ trimmedDataURL: null }); // Signature
 
@@ -556,6 +559,8 @@ export const ContextProvider = ({ children }) =>
         setButtonLink,
         buttonPurpose,
         setButtonPurpose,
+        customId, 
+        setCustomId,
       }}
     >
       {children}
