@@ -789,7 +789,6 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
-          console.log(id);
 
           let inputField = document.createElement("div");
           inputField.setAttribute("contenteditable", true);
@@ -835,7 +834,6 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
@@ -1568,7 +1566,7 @@ const MidSection = React.forwardRef((props, ref) => {
             iframe.style.height = "90%";
 
             Axios.post(
-              "https://100035.pythonanywhere.com/api/nps_create_instance/",
+              "https://100035.pythonanywhere.com/api/nps_create_instance",
               {
                 scale_id: element.scaleId,
               }
@@ -1576,7 +1574,7 @@ const MidSection = React.forwardRef((props, ref) => {
               .then((res) => {
                 setIsLoading(false);
                 console.log(res, "scaleData");
-                const lastInstance = res.response.instances.slice(-1)[0];
+                const lastInstance = res.data.response.instances.slice(-1)[0];
                 const lastValue = Object.values(lastInstance)[0];
                 iframe.src = lastValue;
                 console.log(lastValue);
@@ -2062,8 +2060,8 @@ const MidSection = React.forwardRef((props, ref) => {
                   var successObj = JSON.parse(success);
                   const id = successObj.inserted_id;
                   console.log(res.scale_urls, "stateScale");
-                  if (id.length) {
-                    console.log(id, "id");
+                  if (id.length)
+                  {
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;
@@ -2455,8 +2453,8 @@ const MidSection = React.forwardRef((props, ref) => {
                   var successObj = JSON.parse(success);
                   const id = successObj.inserted_id;
                   console.log(res.scale_urls, "stateScale");
-                  if (id.length) {
-                    console.log(id, "id");
+                  if (id.length)
+                  {
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;
