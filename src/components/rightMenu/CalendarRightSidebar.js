@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-// import Form from "react-bootstrap/Form";
-// import Button from "react-bootstrap/Button";
-import { Row, Button, Form } from "react-bootstrap";
-
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
 import "react-datepicker/dist/react-datepicker.css";
+import jwt_decode from "jwt-decode";
 
 import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
+import { useSearchParams } from "react-router-dom";
 
 const CalendarRightSidebar = (props) =>
 {
@@ -25,12 +25,15 @@ const CalendarRightSidebar = (props) =>
     setIsFinializeDisabled,
   } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+  const actionName = decoded?.details?.action;
+  const documnetMap = decoded?.details?.document_map;
+
   const [datePickerMargin, setDatePickerMargin] = useState("");
   const date = document.querySelector(".focussed");
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
-  const [showSlider, setShowSlider] = useState(false);
   // enable disable finalize btn
   // let dateInnerText = "";
 
@@ -109,24 +112,6 @@ const CalendarRightSidebar = (props) =>
 
   // //console.log("datePickerMargin", datePickerMargin);
   //console.log("rightSideDatemenu", rightSideDatemenu);
-
-
-  const handleBorderSizeChange = (e) =>
-  {
-    setBorderSize(e.target.value);
-
-    const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
-
-  };
-
-  const handleBorderColorChange = (e) =>
-  {
-    setBorderColor(e.target.value);
-    const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
-
-  };
   return (
     <div>
       <div className="dropdown pb-3">
@@ -181,51 +166,20 @@ const CalendarRightSidebar = (props) =>
         </div>
       </div>
       {/* <hr /> */}
-      <hr />
-      <Row className="pt-4">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <h6 style={{ marginRight: "10rem" }}>Border</h6>
-          <label className="switch">
-            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
-            <span className="slider round"></span>
-          </label>
-        </div>
-        {showSlider && (
-          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
-            <input
-              type="color"
-              value={borderColor}
-              onChange={handleBorderColorChange}
-              id="color"
-              style={{ border: "none", width: "10%", height: "15px" }}
-            />
-            <input
-              type="range"
-              min="-10"
-              max="20"
-              value={borderSize}
-              onChange={handleBorderSizeChange}
-              id="range"
-              className="range-color"
-
-            />
-
-          </div>
-        )}
-      </Row>
-      <hr />
-      <div
-        className={`text-center`}
-        style={{ marginTop: !rightSideDatemenu && "25px" }}
-      >
-        <Button
-          variant="primary"
-          onClick={removeDate}
-          className="remove_button"
+      {!documnetMap && (
+        <div
+          className={`text-center`}
+          style={{ marginTop: !rightSideDatemenu && "25px" }}
         >
-          Remove Date
-        </Button>
-      </div>
+          <Button
+            variant="primary"
+            onClick={removeDate}
+            className="remove_button"
+          >
+            Remove Date
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

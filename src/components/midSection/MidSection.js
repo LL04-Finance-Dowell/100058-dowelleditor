@@ -394,6 +394,7 @@ const MidSection = React.forwardRef((props, ref) =>
       let initX = event.screenX;
       let initY = event.screenY;
 
+      console.log("initX ", initX, "initY ", initY);
       /* Ensure That target has changed */
       var counterCheck = true;
       var tempTarget = event.target;
@@ -417,15 +418,31 @@ const MidSection = React.forwardRef((props, ref) =>
       const holderPos = (function ()
       {
         const holderPos = {
-          top:
-            decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
-          left:
-            decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          // top: parseInt(holder.style.top.slice(0, -2)),
-          // left: parseInt(holder.style.left.slice(0, -2))
+          // top:
+          //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+          // left:
+          //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+          top: parseInt(holder.style.top.slice(0, -2)),
+          left: parseInt(holder.style.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
+
+      // code for conatainer element move start
+      let holderParentHolder = "";
+      let holderParentHolderRect = "";
+      let hodlerRect = "";
+      if (holder?.parentElement.classList.contains("containerInput"))
+      {
+        holderParentHolder = holder?.parentElement?.parentElement;
+      }
+      if (holderParentHolder)
+      {
+        holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+      }
+      hodlerRect = holder.getBoundingClientRect();
+      // code for container element move end
+      console.log("finding moveable element", holderPos);
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev)
@@ -441,21 +458,95 @@ const MidSection = React.forwardRef((props, ref) =>
         // );
         //  screenX: 531, screenY: 175, clientX: 531, Top-left
         //  screenX: 1061, screenY: 154, Top right
-        if (
-          ev.screenX > midsectionRect.left &&
-          ev.screenY > midsectionRect.top &&
-          ev.screenX < midsectionRect.right
-        )
+
+        // console.log("midsectionRect", midsectionRect);
+        // const eventClientX = ev.clientX;
+        const elemtnMeasureX =
+          ev.screenX + holderPos.left + hodlerRect.width - initX;
+        const elmentMeasureY =
+          ev.screenY + holderPos.top + hodlerRect.height - initY;
+        console.log(
+          "ev.screenX",
+          ev.screenX,
+          "hodlerRect",
+          hodlerRect,
+          "midsectionRect",
+          midsectionRect,
+          "elemtnMeasureX",
+          elemtnMeasureX,
+          "elmentMeasureY",
+          elmentMeasureY
+        );
+
+        // console.log(
+        //   "cientX",
+        //   holder.style.left,
+        //   " ",
+        //   eventClientX,
+        //   "ev.screenX",
+        //   ev.screenX,
+        //   "finding measures",
+        //   elemtnMeasureX,
+        //   "elmentMeasureY",
+        //   elmentMeasureY,
+        //   holderParentHolderRect.width
+        // );
+        // console.log(
+        //   "test data",
+        //   ev.screenX,
+        //   holderPos.left,
+        //   holder.width,
+        //   initX
+        // );
+        // if (
+        //   ev.screenX > holderParentHolderRect.left &&
+        //   ev.screenY > holderParentHolderRect.top &&
+        //   ev.screenX < holderParentHolderRect.right
+        // ) {
+        if (holder?.parentElement.classList.contains("containerInput"))
         {
-          //console.log("checking motion");
-          const diffX = ev.screenX - initX;
-          const diffY = ev.screenY - initY;
-          holder.style.top = holderPos.top + diffY + "px";
-          holder.style.left = holderPos.left + diffX + "px";
+          if (
+            holderParentHolderRect.width > elemtnMeasureX + 5 &&
+            holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            holderParentHolderRect.height > elmentMeasureY + 5 &&
+            holderParentHolderRect.top - 50 < elmentMeasureY
+          )
+          {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else
+          {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         } else
         {
-          holder.style.top = holderPos.top + "px";
-          holder.style.left = holderPos.left + "px";
+          // if (
+          //   ev.screenX > midsectionRect.left &&
+          //   ev.screenY > midsectionRect.top &&
+          //   ev.screenX < midsectionRect.right
+          // ) {
+
+          if (
+            midsectionRect.width > elemtnMeasureX + 5 &&
+            midsectionRect.left + 20 < elemtnMeasureX &&
+            midsectionRect.height > elmentMeasureY + 5 &&
+            midsectionRect.top - 50 < elmentMeasureY
+          )
+          {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else
+          {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         }
       }
 
@@ -547,7 +638,10 @@ const MidSection = React.forwardRef((props, ref) =>
     {
       console.log("dragStart fun called");
     });
-
+    holderDIV.ondragstart = (e) =>
+    {
+      console.log("dragStart fun called");
+    };
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -1751,7 +1845,7 @@ const MidSection = React.forwardRef((props, ref) =>
             width: element.width + "px",
             height: element.height + "px",
             left: element.left + "px",
-            top: element.topp,
+            top: element.top + "px",
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -1778,870 +1872,873 @@ const MidSection = React.forwardRef((props, ref) =>
           console.log("element.data container input retrieve", element.data);
           for (let p = 0; p < element.data.length; p++)
           {
-            const containerElement = element.data[p];
-            // const measureContainer = {
-            //   width: "200px",
-            //   height: "80px",
-            //   left: event.clientX - containerRect.left + "px",
-            //   top: event.clientY - containerRect.top + "px",
-            //   auth_user: curr_user,
-            // };
-            const measureContainer = {
-              width: containerElement.width + "px",
-              height: containerElement.height + "px",
-              left: containerElement.left + "px",
-              top: containerElement.topp,
-              auth_user: curr_user,
-            };
-            const typeOfOperationContainer = containerElement.type;
-            const holderDIVContainer = getHolderDIV(measureContainer);
-            if (typeOfOperationContainer === "DATE_INPUT")
+            // console.log("element.data container input retrieve", element.data);
+            for (let p = 0; p < element.data.length; p++)
             {
-              let dateFieldContainer = document.createElement("div");
-              dateFieldContainer.className = "dateInput";
-              dateFieldContainer.style.width = "100%";
-              dateFieldContainer.style.height = "100%";
-              dateFieldContainer.style.backgroundColor = "#0000";
-              dateFieldContainer.style.borderRadius = "0px";
-              dateFieldContainer.style.outline = "0px";
-              dateFieldContainer.style.overflow = "overlay";
-              dateFieldContainer.style.position = "relative";
-
-              dateFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  calenderField: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
+              const containerElement = element.data[p];
+              // const measureContainer = {
+              //   width: "200px",
+              //   height: "80px",
+              //   left: event.clientX - containerRect.left + "px",
+              //   top: event.clientY - containerRect.top + "px",
+              //   auth_user: curr_user,
+              // };
+              const measureContainer = {
+                width: containerElement.width + "px",
+                height: containerElement.height + "px",
+                left: containerElement.left - element.left + "px",
+                top: containerElement.top - element.top + "px",
+                auth_user: curr_user,
               };
-              setStartDate(new Date());
-              setMethod("select");
-              function dateClick()
+              const typeOfOperationContainer = containerElement.type;
+              const holderDIVContainer = getHolderDIV(measureContainer);
+              if (typeOfOperationContainer === "DATE_INPUT")
               {
-                document.getElementById("date_picker").click();
-                setRightSideDateMenu(false);
-              }
-              dateFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("calendar2", "container2");
-                setRightSideDateMenu(false);
-                if (e.target.innerText != "mm/dd/yyyy")
+                let dateFieldContainer = document.createElement("div");
+                dateFieldContainer.className = "dateInput";
+                dateFieldContainer.style.width = "100%";
+                dateFieldContainer.style.height = "100%";
+                dateFieldContainer.style.backgroundColor = "#0000";
+                dateFieldContainer.style.borderRadius = "0px";
+                dateFieldContainer.style.outline = "0px";
+                dateFieldContainer.style.overflow = "overlay";
+                dateFieldContainer.style.position = "relative";
+
+                dateFieldContainer.onchange = (event) =>
                 {
-                  if (e.target.innerText.includes("/"))
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    calenderField: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+                setStartDate(new Date());
+                setMethod("select");
+                function dateClick()
+                {
+                  document.getElementById("date_picker").click();
+                  setRightSideDateMenu(false);
+                }
+                dateFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("calendar2", "container2");
+                  setRightSideDateMenu(false);
+                  if (e.target.innerText != "mm/dd/yyyy")
                   {
-                    const setDate = new Date(e.target.innerText);
-                    setMethod("first");
-                    setStartDate(setDate);
-                  } else
-                  {
-                    if (e.target.innerText.includes("-"))
+                    if (e.target.innerText.includes("/"))
                     {
-                      setMethod("fourth");
+                      const setDate = new Date(e.target.innerText);
+                      setMethod("first");
+                      setStartDate(setDate);
                     } else
                     {
-                      setMethod("second");
+                      if (e.target.innerText.includes("-"))
+                      {
+                        setMethod("fourth");
+                      } else
+                      {
+                        setMethod("second");
+                      }
+                      const setDate = new Date(e.target.innerText);
+                      setStartDate(setDate);
                     }
-                    const setDate = new Date(e.target.innerText);
-                    setStartDate(setDate);
                   }
-                }
-                setSidebar(true);
-                setTimeout(dateClick, 0);
-              };
-              dateFieldContainer.innerText = containerElement.data;
-
-              holderDIVContainer.append(dateFieldContainer);
-            } else if (typeOfOperationContainer === "IMAGE_INPUT")
-            {
-              let imageFieldContainer = document.createElement("div");
-              imageFieldContainer.className = "imageInput";
-              imageFieldContainer.style.width = "100%";
-              imageFieldContainer.style.height = "100%";
-              imageFieldContainer.style.backgroundColor = "#0000";
-              imageFieldContainer.style.borderRadius = "0px";
-              imageFieldContainer.style.outline = "0px";
-              imageFieldContainer.style.overflow = "overlay";
-              // imageFieldContainer.innerText = "Choose Image";
-              imageFieldContainer.style.position = "relative";
-
-              containerElement.data.startsWith("url(")
-                ? (imageFieldContainer.style.backgroundImage = `${containerElement.data}`)
-                : (imageFieldContainer.innerText = `${containerElement.data}`);
-
-              imageFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("image2", "table2");
-                setSidebar(true);
-              };
-
-              const imageButtonContainer = document.createElement("div");
-              imageButtonContainer.className = "addImageButton";
-              imageButtonContainer.innerText = "Choose File";
-              imageButtonContainer.style.display = "none";
-              // imageButtonContainer.onclick = (e) => chooseFileClick(e);
-
-              const imgBtnContainer = document.createElement("input");
-              imgBtnContainer.className = "addImageButtonInput";
-              imgBtnContainer.type = "file";
-              imgBtnContainer.style.objectFit = "cover";
-              var uploadedImage = "";
-
-              imgBtnContainer.addEventListener("input", () =>
-              {
-                const reader = new FileReader();
-
-                reader.addEventListener("load", () =>
-                {
-                  uploadedImage = reader.result;
-                  document.querySelector(
-                    ".focussed"
-                  ).style.backgroundImage = `url(${uploadedImage})`;
-                });
-                reader.readAsDataURL(imgBtnContainer.files[0]);
-              });
-
-              // imgBtnContainer.style.width = "100%";
-              imageButtonContainer.append(imgBtnContainer);
-              holderDIVContainer.append(imageFieldContainer);
-              holderDIVContainer.append(imageButtonContainer);
-            } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
-            {
-              let dropdownFieldContainer = document.createElement("div");
-              dropdownFieldContainer.className = "dropdownInput";
-              dropdownFieldContainer.style.width = "100%";
-              dropdownFieldContainer.style.height = "100%";
-              dropdownFieldContainer.style.backgroundColor = "#0000";
-              dropdownFieldContainer.style.borderRadius = "0px";
-              dropdownFieldContainer.style.outline = "0px";
-              dropdownFieldContainer.style.overflow = "overlay";
-              dropdownFieldContainer.style.position = "absolute";
-
-              const selectElement = document.createElement("select");
-              selectElement.className = "select-element";
-              selectElement.style.width = "500";
-              selectElement.style.height = "auto";
-              selectElement.onclick = () =>
-              {
-                selectElement.parentElement.click();
-              };
-
-              dropdownFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  dropdownFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-
-              // if (dropdownFieldContainer) {
-              //   const dropdownFieldContainer = {
-              //     dropdownFieldContainer: {
-              //       value: event.target.value,
-              //       xcoordinate: getOffset(holderDIVContainer).left,
-              //       ycoordinate: getOffset(holderDIVContainer).top,
-              //     },
-              //   };
-              // }
-
-              dropdownFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("dropdown2");
-                setRightSideDropDown(false);
-                setSidebar(true);
-              };
-
-              const para = document.createElement("p");
-              para.innerHTML = " Dropdown Name";
-              para.className = "dropdownName";
-              para.onclick = () =>
-              {
-                para.parentElement.click();
-              };
-              dropdownFieldContainer.append(para);
-              dropdownFieldContainer.append(selectElement);
-              holderDIVContainer.append(dropdownFieldContainer);
-            } else if (typeOfOperationContainer === "TEXT_INPUT")
-            {
-              let inputFieldContainer = document.createElement("div");
-              //  inputFieldContainer.setAttribute('draggable', true);
-              inputFieldContainer.setAttribute("contenteditable", true);
-              inputFieldContainer.className = "textInput";
-              inputFieldContainer.innerHTML = "Enter text here";
-              inputFieldContainer.style.width = "100%";
-              inputFieldContainer.style.height = "100%";
-              inputFieldContainer.style.resize = "none";
-              inputFieldContainer.style.backgroundColor = "#0000";
-              inputFieldContainer.style.borderRadius = "0px";
-              inputFieldContainer.style.outline = "0px";
-              inputFieldContainer.style.overflow = "overlay";
-              inputFieldContainer.style.position = "relative";
-              inputFieldContainer.style.cursor = "text";
-              if (inputFieldContainer.innerHTML[0])
-              {
-                const editTextField = {
-                  editTextField: {
-                    value: inputFieldContainer.innerHTML,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
+                  setSidebar(true);
+                  setTimeout(dateClick, 0);
                 };
-              }
+                dateFieldContainer.innerText = containerElement.data;
 
-              if (inputFieldContainer.value !== "")
+                holderDIVContainer.append(dateFieldContainer);
+              } else if (typeOfOperationContainer === "IMAGE_INPUT")
               {
-                // setPostData({
-                //   ...postData,
-                //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
-                // })
-              }
+                let imageFieldContainer = document.createElement("div");
+                imageFieldContainer.className = "imageInput";
+                imageFieldContainer.style.width = "100%";
+                imageFieldContainer.style.height = "100%";
+                imageFieldContainer.style.backgroundColor = "#0000";
+                imageFieldContainer.style.borderRadius = "0px";
+                imageFieldContainer.style.outline = "0px";
+                imageFieldContainer.style.overflow = "overlay";
+                // imageFieldContainer.innerText = "Choose Image";
+                imageFieldContainer.style.position = "relative";
 
-              inputFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("align2");
-                setSidebar(true);
-              };
-              holderDIVContainer.append(inputFieldContainer);
-            } else if (typeOfOperationContainer === "SIGN_INPUT")
-            {
-              let signFieldContainer = document.createElement("div");
-              signFieldContainer.className = "signInput";
-              signFieldContainer.style.width = "100%";
-              signFieldContainer.style.height = "100%";
-              signFieldContainer.style.backgroundColor = "#0000";
-              signFieldContainer.style.borderRadius = "0px";
-              signFieldContainer.style.outline = "0px";
-              signFieldContainer.style.overflow = "overlay";
-              signFieldContainer.innerText = "Signature here";
-              signFieldContainer.style.position = "absolute";
+                containerElement.data.startsWith("url(")
+                  ? (imageFieldContainer.style.backgroundImage = `${containerElement.data}`)
+                  : (imageFieldContainer.innerText = `${containerElement.data}`);
 
-              signFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  signFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-
-              signFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("signs2");
-                setSidebar(true);
-              };
-              const imageSignButton = document.createElement("div");
-              imageSignButton.className = "addImageSignButton";
-              imageSignButton.innerText = "Choose File";
-              imageSignButton.style.display = "none";
-
-              const signBtn = document.createElement("input");
-              signBtn.className = "addSignButtonInput";
-              signBtn.type = "file";
-              signBtn.style.objectFit = "cover";
-              var uploadedImage = "";
-
-              signBtn.addEventListener("input", () =>
-              {
-                const reader = new FileReader();
-
-                reader.addEventListener("load", () =>
+                imageFieldContainer.onclick = (e) =>
                 {
-                  uploadedImage = reader.result;
-                  const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-                  document.querySelector(".focussed").innerHTML = signImage;
-                });
-                reader.readAsDataURL(signBtn.files[0]);
-              });
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("image2", "table2");
+                  setSidebar(true);
+                };
 
-              imageSignButton.append(signBtn);
-              holderDIVContainer.append(signFieldContainer);
-              holderDIVContainer.append(imageSignButton);
-            } else if (typeOfOperationContainer === "IFRAME_INPUT")
-            {
-              let iframeFieldContainer = document.createElement("div");
-              iframeFieldContainer.className = "iframeInput";
-              iframeFieldContainer.style.width = "100%";
-              iframeFieldContainer.style.height = "100%";
-              iframeFieldContainer.style.backgroundColor = "#dedede";
-              iframeFieldContainer.style.borderRadius = "0px";
-              iframeFieldContainer.style.outline = "0px";
-              iframeFieldContainer.style.overflow = "overlay";
-              iframeFieldContainer.style.position = "absolute";
-              iframeFieldContainer.innerText = "iFrame here";
+                const imageButtonContainer = document.createElement("div");
+                imageButtonContainer.className = "addImageButton";
+                imageButtonContainer.innerText = "Choose File";
+                imageButtonContainer.style.display = "none";
+                // imageButtonContainer.onclick = (e) => chooseFileClick(e);
 
-              iframeFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("iframe2");
-                setSidebar(true);
-              };
+                const imgBtnContainer = document.createElement("input");
+                imgBtnContainer.className = "addImageButtonInput";
+                imgBtnContainer.type = "file";
+                imgBtnContainer.style.objectFit = "cover";
+                var uploadedImage = "";
 
-              holderDIVContainer.append(iframeFieldContainer);
-            } else if (typeOfOperationContainer === "SCALE_INPUT")
-            {
-              setIsLoading(true);
-
-              let scaleFieldContainer = document.createElement("div");
-              scaleFieldContainer.className = "scaleInput";
-              scaleFieldContainer.style.width = "100%";
-              scaleFieldContainer.style.height = "100%";
-              scaleFieldContainer.style.backgroundColor = "#dedede";
-              scaleFieldContainer.style.borderRadius = "0px";
-              scaleFieldContainer.style.outline = "0px";
-              scaleFieldContainer.style.overflow = "overlay";
-              // scaleFieldContainer.innerHTML = 'iframe';
-              scaleFieldContainer.style.position = "absolute";
-              // scaleFieldContainer.innerText = "scale here";
-
-              let scale = document.createElement("iframe");
-              scaleFieldContainer.append(scale);
-              Axios.post(
-                "https://100035.pythonanywhere.com/api/nps_settings_create/",
+                imgBtnContainer.addEventListener("input", () =>
                 {
-                  username: "nake",
-                  orientation: "horizontal",
-                  scalecolor: "#8f1e1e",
-                  roundcolor: "#938585",
-                  fontcolor: "#000000",
-                  fomat: "numbers",
-                  time: "00",
-                  name: `${title}_scale`,
-                  left: "good",
-                  right: "best",
-                  center: "neutral",
-                }
-              )
-                .then((res) =>
-                {
-                  setIsLoading(false);
-                  console.log(res.data, "scaleData");
-                  setScaleData(res.data);
-                  const success = res.data.success;
-                  var successObj = JSON.parse(success);
-                  const id = successObj.inserted_id;
-                  console.log(res.scale_urls, "stateScale");
-                  if (id.length)
+                  const reader = new FileReader();
+
+                  reader.addEventListener("load", () =>
                   {
-                    setScaleId(id);
-                  }
-                  scale.src = res.data.scale_urls;
-                })
-                .catch((err) =>
+                    uploadedImage = reader.result;
+                    document.querySelector(
+                      ".focussed"
+                    ).style.backgroundImage = `url(${uploadedImage})`;
+                  });
+                  reader.readAsDataURL(imgBtnContainer.files[0]);
+                });
+
+                // imgBtnContainer.style.width = "100%";
+                imageButtonContainer.append(imgBtnContainer);
+                holderDIVContainer.append(imageFieldContainer);
+                holderDIVContainer.append(imageButtonContainer);
+              } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
+              {
+                let dropdownFieldContainer = document.createElement("div");
+                dropdownFieldContainer.className = "dropdownInput";
+                dropdownFieldContainer.style.width = "100%";
+                dropdownFieldContainer.style.height = "100%";
+                dropdownFieldContainer.style.backgroundColor = "#0000";
+                dropdownFieldContainer.style.borderRadius = "0px";
+                dropdownFieldContainer.style.outline = "0px";
+                dropdownFieldContainer.style.overflow = "overlay";
+                dropdownFieldContainer.style.position = "absolute";
+
+                const selectElement = document.createElement("select");
+                selectElement.className = "select-element";
+                selectElement.style.width = "500";
+                selectElement.style.height = "auto";
+                selectElement.onclick = () =>
                 {
-                  setIsLoading(false);
-                  console.log(err);
+                  selectElement.parentElement.click();
+                };
+
+                dropdownFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    dropdownFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                // if (dropdownFieldContainer) {
+                //   const dropdownFieldContainer = {
+                //     dropdownFieldContainer: {
+                //       value: event.target.value,
+                //       xcoordinate: getOffset(holderDIVContainer).left,
+                //       ycoordinate: getOffset(holderDIVContainer).top,
+                //     },
+                //   };
+                // }
+
+                dropdownFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("dropdown2");
+                  setRightSideDropDown(false);
+                  setSidebar(true);
+                };
+
+                const para = document.createElement("p");
+                para.innerHTML = " Dropdown Name";
+                para.className = "dropdownName";
+                para.onclick = () =>
+                {
+                  para.parentElement.click();
+                };
+                dropdownFieldContainer.append(para);
+                dropdownFieldContainer.append(selectElement);
+                holderDIVContainer.append(dropdownFieldContainer);
+              } else if (typeOfOperationContainer === "TEXT_INPUT")
+              {
+                let inputFieldContainer = document.createElement("div");
+                //  inputFieldContainer.setAttribute('draggable', true);
+                inputFieldContainer.setAttribute("contenteditable", true);
+                inputFieldContainer.className = "textInput";
+                inputFieldContainer.innerHTML = "Enter text here";
+                inputFieldContainer.style.width = "100%";
+                inputFieldContainer.style.height = "100%";
+                inputFieldContainer.style.resize = "none";
+                inputFieldContainer.style.backgroundColor = "#0000";
+                inputFieldContainer.style.borderRadius = "0px";
+                inputFieldContainer.style.outline = "0px";
+                inputFieldContainer.style.overflow = "overlay";
+                inputFieldContainer.style.position = "relative";
+                inputFieldContainer.style.cursor = "text";
+                if (inputFieldContainer.innerHTML[0])
+                {
+                  const editTextField = {
+                    editTextField: {
+                      value: inputFieldContainer.innerHTML,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  };
+                }
+
+                if (inputFieldContainer.value !== "")
+                {
+                  // setPostData({
+                  //   ...postData,
+                  //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
+                  // })
+                }
+
+                inputFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("align2");
+                  setSidebar(true);
+                };
+                holderDIVContainer.append(inputFieldContainer);
+              } else if (typeOfOperationContainer === "SIGN_INPUT")
+              {
+                let signFieldContainer = document.createElement("div");
+                signFieldContainer.className = "signInput";
+                signFieldContainer.style.width = "100%";
+                signFieldContainer.style.height = "100%";
+                signFieldContainer.style.backgroundColor = "#0000";
+                signFieldContainer.style.borderRadius = "0px";
+                signFieldContainer.style.outline = "0px";
+                signFieldContainer.style.overflow = "overlay";
+                signFieldContainer.innerText = "Signature here";
+                signFieldContainer.style.position = "absolute";
+
+                signFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    signFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                signFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("signs2");
+                  setSidebar(true);
+                };
+                const imageSignButton = document.createElement("div");
+                imageSignButton.className = "addImageSignButton";
+                imageSignButton.innerText = "Choose File";
+                imageSignButton.style.display = "none";
+
+                const signBtn = document.createElement("input");
+                signBtn.className = "addSignButtonInput";
+                signBtn.type = "file";
+                signBtn.style.objectFit = "cover";
+                var uploadedImage = "";
+
+                signBtn.addEventListener("input", () =>
+                {
+                  const reader = new FileReader();
+
+                  reader.addEventListener("load", () =>
+                  {
+                    uploadedImage = reader.result;
+                    const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+                    document.querySelector(".focussed").innerHTML = signImage;
+                  });
+                  reader.readAsDataURL(signBtn.files[0]);
                 });
 
-              scaleFieldContainer.onclick = (e) =>
+                imageSignButton.append(signBtn);
+                holderDIVContainer.append(signFieldContainer);
+                holderDIVContainer.append(imageSignButton);
+              } else if (typeOfOperationContainer === "IFRAME_INPUT")
               {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("scale2");
-                setSidebar(true);
-              };
+                let iframeFieldContainer = document.createElement("div");
+                iframeFieldContainer.className = "iframeInput";
+                iframeFieldContainer.style.width = "100%";
+                iframeFieldContainer.style.height = "100%";
+                iframeFieldContainer.style.backgroundColor = "#dedede";
+                iframeFieldContainer.style.borderRadius = "0px";
+                iframeFieldContainer.style.outline = "0px";
+                iframeFieldContainer.style.overflow = "overlay";
+                iframeFieldContainer.style.position = "absolute";
+                iframeFieldContainer.innerText = "iFrame here";
 
-              holderDIVContainer.append(scaleFieldContainer);
-            } else if (typeOfOperationContainer === "TABLE_INPUT")
-            {
-              let tableFieldContainer = document.createElement("div");
-              tableFieldContainer.className = "tableInput";
-              tableFieldContainer.style.width = "100%";
-              tableFieldContainer.style.height = "100%";
-              tableFieldContainer.style.backgroundColor = "#dedede";
-              tableFieldContainer.style.borderRadius = "0px";
-              tableFieldContainer.style.outline = "0px";
-              tableFieldContainer.style.overflow = "overlay";
-              tableFieldContainer.style.position = "absolute";
+                iframeFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("iframe2");
+                  setSidebar(true);
+                };
 
-              tableFieldContainer.onchange = (event) =>
+                holderDIVContainer.append(iframeFieldContainer);
+              } else if (typeOfOperationContainer === "SCALE_INPUT")
               {
-                event.preventDefault();
+                setIsLoading(true);
 
-                setPostData({
-                  ...postData,
-                  tableFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
+                let scaleFieldContainer = document.createElement("div");
+                scaleFieldContainer.className = "scaleInput";
+                scaleFieldContainer.style.width = "100%";
+                scaleFieldContainer.style.height = "100%";
+                scaleFieldContainer.style.backgroundColor = "#dedede";
+                scaleFieldContainer.style.borderRadius = "0px";
+                scaleFieldContainer.style.outline = "0px";
+                scaleFieldContainer.style.overflow = "overlay";
+                // scaleFieldContainer.innerHTML = 'iframe';
+                scaleFieldContainer.style.position = "absolute";
+                // scaleFieldContainer.innerText = "scale here";
 
-              tableFieldContainer.onclick = (e) =>
+                let scale = document.createElement("iframe");
+                scaleFieldContainer.append(scale);
+                Axios.post(
+                  "https://100035.pythonanywhere.com/api/nps_settings_create/",
+                  {
+                    username: "nake",
+                    orientation: "horizontal",
+                    scalecolor: "#8f1e1e",
+                    roundcolor: "#938585",
+                    fontcolor: "#000000",
+                    fomat: "numbers",
+                    time: "00",
+                    name: `${title}_scale`,
+                    left: "good",
+                    right: "best",
+                    center: "neutral",
+                  }
+                )
+                  .then((res) =>
+                  {
+                    setIsLoading(false);
+                    console.log(res.data, "scaleData");
+                    setScaleData(res.data);
+                    const success = res.data.success;
+                    var successObj = JSON.parse(success);
+                    const id = successObj.inserted_id;
+                    console.log(res.scale_urls, "stateScale");
+                    if (id.length)
+                    {
+                      setScaleId(id);
+                    }
+                    scale.src = res.data.scale_urls;
+                  })
+                  .catch((err) =>
+                  {
+                    setIsLoading(false);
+                    console.log(err);
+                  });
+
+                scaleFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("scale2");
+                  setSidebar(true);
+                };
+
+                holderDIVContainer.append(scaleFieldContainer);
+              } else if (typeOfOperationContainer === "TABLE_INPUT")
               {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("table2");
-                setSidebar(true);
-              };
-              holderDIVContainer.append(tableFieldContainer);
+                let tableFieldContainer = document.createElement("div");
+                tableFieldContainer.className = "tableInput";
+                tableFieldContainer.style.width = "100%";
+                tableFieldContainer.style.height = "100%";
+                tableFieldContainer.style.backgroundColor = "#dedede";
+                tableFieldContainer.style.borderRadius = "0px";
+                tableFieldContainer.style.outline = "0px";
+                tableFieldContainer.style.overflow = "overlay";
+                tableFieldContainer.style.position = "absolute";
+
+                tableFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+
+                  setPostData({
+                    ...postData,
+                    tableFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                tableFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("table2");
+                  setSidebar(true);
+                };
+                holderDIVContainer.append(tableFieldContainer);
+              }
+              if (typeOfOperationContainer !== "CONTAINER_INPUT")
+                containerField.append(holderDIVContainer);
             }
-            if (typeOfOperationContainer !== "CONTAINER_INPUT")
-              containerField.append(holderDIVContainer);
+
+            containerField.ondrop = (event) =>
+            {
+              const container = event.target;
+              const containerRect = container.getBoundingClientRect();
+              const typeOfOperationContainer =
+                event.dataTransfer.getData("text/plain");
+              //             const midSec = document.querySelector(".drop_zone");
+              //     const midsectionRect = midSec.getBoundingClientRect();
+              // const measure = {
+              //       width: "200px",
+              //       height: "80px",
+              //       left: event.clientX - midsectionRect.left + "px",
+              //       top: event.clientY - midsectionRect.top + "px",
+              //       auth_user: curr_user,
+              //     };
+              // console.log("typeOfOperationContainer", typeOfOperationContainer);
+              const measureContainer = {
+                width: "200px",
+                height: "80px",
+                left: event.clientX - containerRect.left + "px",
+                top: event.clientY - containerRect.top + "px",
+                auth_user: curr_user,
+              };
+
+              const holderDIVContainer = getHolderDIV(measureContainer);
+              if (typeOfOperationContainer === "DATE_INPUT")
+              {
+                let dateFieldContainer = document.createElement("div");
+                dateFieldContainer.className = "dateInput";
+                dateFieldContainer.style.width = "100%";
+                dateFieldContainer.style.height = "100%";
+                dateFieldContainer.style.backgroundColor = "#0000";
+                dateFieldContainer.style.borderRadius = "0px";
+                dateFieldContainer.style.outline = "0px";
+                dateFieldContainer.style.overflow = "overlay";
+                dateFieldContainer.style.position = "relative";
+
+                dateFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    calenderField: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+                setStartDate(new Date());
+                setMethod("select");
+                function dateClick()
+                {
+                  document.getElementById("date_picker").click();
+                  setRightSideDateMenu(false);
+                }
+                dateFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("calendar2", "container2");
+                  setRightSideDateMenu(false);
+                  if (e.target.innerText != "mm/dd/yyyy")
+                  {
+                    if (e.target.innerText.includes("/"))
+                    {
+                      const setDate = new Date(e.target.innerText);
+                      setMethod("first");
+                      setStartDate(setDate);
+                    } else
+                    {
+                      if (e.target.innerText.includes("-"))
+                      {
+                        setMethod("fourth");
+                      } else
+                      {
+                        setMethod("second");
+                      }
+                      const setDate = new Date(e.target.innerText);
+                      setStartDate(setDate);
+                    }
+                  }
+                  setSidebar(true);
+                  setTimeout(dateClick, 0);
+                };
+                dateFieldContainer.innerText = "mm/dd/yyyy";
+
+                holderDIVContainer.append(dateFieldContainer);
+              } else if (typeOfOperationContainer === "IMAGE_INPUT")
+              {
+                let imageFieldContainer = document.createElement("div");
+                imageFieldContainer.className = "imageInput";
+                imageFieldContainer.style.width = "100%";
+                imageFieldContainer.style.height = "100%";
+                imageFieldContainer.style.backgroundColor = "#0000";
+                imageFieldContainer.style.borderRadius = "0px";
+                imageFieldContainer.style.outline = "0px";
+                imageFieldContainer.style.overflow = "overlay";
+                imageFieldContainer.innerText = "Choose Image";
+                imageFieldContainer.style.position = "relative";
+
+                imageFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("image2");
+                  setSidebar(true);
+                };
+
+                const imageButtonContainer = document.createElement("div");
+                imageButtonContainer.className = "addImageButton";
+                imageButtonContainer.innerText = "Choose File";
+                imageButtonContainer.style.display = "none";
+                // imageButtonContainer.onclick = (e) => chooseFileClick(e);
+
+                const imgBtnContainer = document.createElement("input");
+                imgBtnContainer.className = "addImageButtonInput";
+                imgBtnContainer.type = "file";
+                imgBtnContainer.style.objectFit = "cover";
+                var uploadedImage = "";
+
+                imgBtnContainer.addEventListener("input", () =>
+                {
+                  const reader = new FileReader();
+
+                  reader.addEventListener("load", () =>
+                  {
+                    uploadedImage = reader.result;
+                    document.querySelector(
+                      ".focussed"
+                    ).style.backgroundImage = `url(${uploadedImage})`;
+                  });
+                  reader.readAsDataURL(imgBtnContainer.files[0]);
+                });
+
+                // imgBtnContainer.style.width = "100%";
+                imageButtonContainer.append(imgBtnContainer);
+                holderDIVContainer.append(imageFieldContainer);
+                holderDIVContainer.append(imageButtonContainer);
+              } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
+              {
+                let dropdownFieldContainer = document.createElement("div");
+                dropdownFieldContainer.className = "dropdownInput";
+                dropdownFieldContainer.style.width = "100%";
+                dropdownFieldContainer.style.height = "100%";
+                dropdownFieldContainer.style.backgroundColor = "#0000";
+                dropdownFieldContainer.style.borderRadius = "0px";
+                dropdownFieldContainer.style.outline = "0px";
+                dropdownFieldContainer.style.overflow = "overlay";
+                dropdownFieldContainer.style.position = "absolute";
+
+                const selectElement = document.createElement("select");
+                selectElement.className = "select-element";
+                selectElement.style.width = "500";
+                selectElement.style.height = "auto";
+                selectElement.onclick = () =>
+                {
+                  selectElement.parentElement.click();
+                };
+
+                dropdownFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    dropdownFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                // if (dropdownFieldContainer) {
+                //   const dropdownFieldContainer = {
+                //     dropdownFieldContainer: {
+                //       value: event.target.value,
+                //       xcoordinate: getOffset(holderDIVContainer).left,
+                //       ycoordinate: getOffset(holderDIVContainer).top,
+                //     },
+                //   };
+                // }
+
+                dropdownFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("dropdown2");
+                  setRightSideDropDown(false);
+                  setSidebar(true);
+                };
+
+                const para = document.createElement("p");
+                para.innerHTML = " Dropdown Name";
+                para.className = "dropdownName";
+                para.onclick = () =>
+                {
+                  para.parentElement.click();
+                };
+                dropdownFieldContainer.append(para);
+                dropdownFieldContainer.append(selectElement);
+                holderDIVContainer.append(dropdownFieldContainer);
+              } else if (typeOfOperationContainer === "TEXT_INPUT")
+              {
+                let inputFieldContainer = document.createElement("div");
+                //  inputFieldContainer.setAttribute('draggable', true);
+                inputFieldContainer.setAttribute("contenteditable", true);
+                inputFieldContainer.className = "textInput";
+                inputFieldContainer.innerHTML = "Enter text here";
+                inputFieldContainer.style.width = "100%";
+                inputFieldContainer.style.height = "100%";
+                inputFieldContainer.style.resize = "none";
+                inputFieldContainer.style.backgroundColor = "#0000";
+                inputFieldContainer.style.borderRadius = "0px";
+                inputFieldContainer.style.outline = "0px";
+                inputFieldContainer.style.overflow = "overlay";
+                inputFieldContainer.style.position = "relative";
+                inputFieldContainer.style.cursor = "text";
+                if (inputFieldContainer.innerHTML[0])
+                {
+                  const editTextField = {
+                    editTextField: {
+                      value: inputFieldContainer.innerHTML,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  };
+                }
+
+                if (inputFieldContainer.value !== "")
+                {
+                  // setPostData({
+                  //   ...postData,
+                  //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
+                  // })
+                }
+
+                inputFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("align2");
+                  setSidebar(true);
+                };
+                holderDIVContainer.append(inputFieldContainer);
+              } else if (typeOfOperationContainer === "SIGN_INPUT")
+              {
+                let signFieldContainer = document.createElement("div");
+                signFieldContainer.className = "signInput";
+                signFieldContainer.style.width = "100%";
+                signFieldContainer.style.height = "100%";
+                signFieldContainer.style.backgroundColor = "#0000";
+                signFieldContainer.style.borderRadius = "0px";
+                signFieldContainer.style.outline = "0px";
+                signFieldContainer.style.overflow = "overlay";
+                signFieldContainer.innerText = "Signature here";
+                signFieldContainer.style.position = "absolute";
+
+                signFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+                  setPostData({
+                    ...postData,
+                    signFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                signFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("signs2");
+                  setSidebar(true);
+                };
+                const imageSignButton = document.createElement("div");
+                imageSignButton.className = "addImageSignButton";
+                imageSignButton.innerText = "Choose File";
+                imageSignButton.style.display = "none";
+
+                const signBtn = document.createElement("input");
+                signBtn.className = "addSignButtonInput";
+                signBtn.type = "file";
+                signBtn.style.objectFit = "cover";
+                // eslint-disable-next-line no-redeclare
+                var uploadedImage = "";
+
+                signBtn.addEventListener("input", () =>
+                {
+                  const reader = new FileReader();
+
+                  reader.addEventListener("load", () =>
+                  {
+                    uploadedImage = reader.result;
+                    const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+                    document.querySelector(".focussed").innerHTML = signImage;
+                  });
+                  reader.readAsDataURL(signBtn.files[0]);
+                });
+
+                imageSignButton.append(signBtn);
+                holderDIVContainer.append(signFieldContainer);
+                holderDIVContainer.append(imageSignButton);
+              } else if (typeOfOperationContainer === "IFRAME_INPUT")
+              {
+                let iframeFieldContainer = document.createElement("div");
+                iframeFieldContainer.className = "iframeInput";
+                iframeFieldContainer.style.width = "100%";
+                iframeFieldContainer.style.height = "100%";
+                iframeFieldContainer.style.backgroundColor = "#dedede";
+                iframeFieldContainer.style.borderRadius = "0px";
+                iframeFieldContainer.style.outline = "0px";
+                iframeFieldContainer.style.overflow = "overlay";
+                iframeFieldContainer.style.position = "absolute";
+                iframeFieldContainer.innerText = "iFrame here";
+
+                iframeFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("iframe2");
+                  setSidebar(true);
+                };
+
+                holderDIVContainer.append(iframeFieldContainer);
+              } else if (typeOfOperationContainer === "SCALE_INPUT")
+              {
+                setIsLoading(true);
+
+                let scaleFieldContainer = document.createElement("div");
+                scaleFieldContainer.className = "scaleInput";
+                scaleFieldContainer.style.width = "100%";
+                scaleFieldContainer.style.height = "100%";
+                scaleFieldContainer.style.backgroundColor = "#dedede";
+                scaleFieldContainer.style.borderRadius = "0px";
+                scaleFieldContainer.style.outline = "0px";
+                scaleFieldContainer.style.overflow = "overlay";
+                // scaleFieldContainer.innerHTML = 'iframe';
+                scaleFieldContainer.style.position = "absolute";
+                // scaleFieldContainer.innerText = "scale here";
+
+                let scale = document.createElement("iframe");
+                scaleFieldContainer.append(scale);
+                Axios.post(
+                  "https://100035.pythonanywhere.com/api/nps_settings_create/",
+                  {
+                    username: "nake",
+                    orientation: "horizontal",
+                    scalecolor: "#8f1e1e",
+                    roundcolor: "#938585",
+                    fontcolor: "#000000",
+                    fomat: "numbers",
+                    time: "00",
+                    name: `${title}_scale`,
+                    left: "good",
+                    right: "best",
+                    center: "neutral",
+                  }
+                )
+                  .then((res) =>
+                  {
+                    setIsLoading(false);
+                    console.log(res.data, "scaleData");
+                    setScaleData(res.data);
+                    const success = res.data.success;
+                    var successObj = JSON.parse(success);
+                    const id = successObj.inserted_id;
+                    console.log(res.scale_urls, "stateScale");
+                    if (id.length)
+                    {
+                      setScaleId(id);
+                    }
+                    scale.src = res.data.scale_urls;
+                  })
+                  .catch((err) =>
+                  {
+                    setIsLoading(false);
+                    console.log(err);
+                  });
+
+                scaleFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  focuseddClassMaintain(e);
+                  handleClicked("scale2");
+                  setSidebar(true);
+                };
+
+                holderDIVContainer.append(scaleFieldContainer);
+              } else if (typeOfOperationContainer === "TABLE_INPUT")
+              {
+                let tableFieldContainer = document.createElement("div");
+                tableFieldContainer.className = "tableInput";
+                tableFieldContainer.style.width = "100%";
+                tableFieldContainer.style.height = "100%";
+                tableFieldContainer.style.backgroundColor = "#dedede";
+                tableFieldContainer.style.borderRadius = "0px";
+                tableFieldContainer.style.outline = "0px";
+                tableFieldContainer.style.overflow = "overlay";
+                tableFieldContainer.style.position = "absolute";
+
+                tableFieldContainer.onchange = (event) =>
+                {
+                  event.preventDefault();
+
+                  setPostData({
+                    ...postData,
+                    tableFieldContainer: {
+                      value: event.target.value,
+                      xcoordinate: getOffset(holderDIVContainer).left,
+                      ycoordinate: getOffset(holderDIVContainer).top,
+                    },
+                  });
+                };
+
+                tableFieldContainer.onclick = (e) =>
+                {
+                  e.stopPropagation();
+                  table_dropdown_focuseddClassMaintain(e);
+                  handleClicked("table2");
+                  setSidebar(true);
+                };
+                holderDIVContainer.append(tableFieldContainer);
+              }
+              if (typeOfOperationContainer !== "CONTAINER_INPUT")
+                containerField.append(holderDIVContainer);
+            };
+
+            holderDIV.append(containerField);
+            document
+              .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+              ?.append(holderDIV);
           }
-
-          containerField.ondrop = (event) =>
-          {
-            const container = event.target;
-            const containerRect = container.getBoundingClientRect();
-            const typeOfOperationContainer =
-              event.dataTransfer.getData("text/plain");
-            //             const midSec = document.querySelector(".drop_zone");
-            //     const midsectionRect = midSec.getBoundingClientRect();
-            // const measure = {
-            //       width: "200px",
-            //       height: "80px",
-            //       left: event.clientX - midsectionRect.left + "px",
-            //       top: event.clientY - midsectionRect.top + "px",
-            //       auth_user: curr_user,
-            //     };
-            // console.log("typeOfOperationContainer", typeOfOperationContainer);
-            const measureContainer = {
-              width: "200px",
-              height: "80px",
-              left: event.clientX - containerRect.left + "px",
-              top: event.clientY - containerRect.top + "px",
-              auth_user: curr_user,
-            };
-
-            const holderDIVContainer = getHolderDIV(measureContainer);
-            if (typeOfOperationContainer === "DATE_INPUT")
-            {
-              let dateFieldContainer = document.createElement("div");
-              dateFieldContainer.className = "dateInput";
-              dateFieldContainer.style.width = "100%";
-              dateFieldContainer.style.height = "100%";
-              dateFieldContainer.style.backgroundColor = "#0000";
-              dateFieldContainer.style.borderRadius = "0px";
-              dateFieldContainer.style.outline = "0px";
-              dateFieldContainer.style.overflow = "overlay";
-              dateFieldContainer.style.position = "relative";
-
-              dateFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  calenderField: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-              setStartDate(new Date());
-              setMethod("select");
-              function dateClick()
-              {
-                document.getElementById("date_picker").click();
-                setRightSideDateMenu(false);
-              }
-              dateFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("calendar2", "container2");
-                setRightSideDateMenu(false);
-                if (e.target.innerText != "mm/dd/yyyy")
-                {
-                  if (e.target.innerText.includes("/"))
-                  {
-                    const setDate = new Date(e.target.innerText);
-                    setMethod("first");
-                    setStartDate(setDate);
-                  } else
-                  {
-                    if (e.target.innerText.includes("-"))
-                    {
-                      setMethod("fourth");
-                    } else
-                    {
-                      setMethod("second");
-                    }
-                    const setDate = new Date(e.target.innerText);
-                    setStartDate(setDate);
-                  }
-                }
-                setSidebar(true);
-                setTimeout(dateClick, 0);
-              };
-              dateFieldContainer.innerText = "mm/dd/yyyy";
-
-              holderDIVContainer.append(dateFieldContainer);
-            } else if (typeOfOperationContainer === "IMAGE_INPUT")
-            {
-              let imageFieldContainer = document.createElement("div");
-              imageFieldContainer.className = "imageInput";
-              imageFieldContainer.style.width = "100%";
-              imageFieldContainer.style.height = "100%";
-              imageFieldContainer.style.backgroundColor = "#0000";
-              imageFieldContainer.style.borderRadius = "0px";
-              imageFieldContainer.style.outline = "0px";
-              imageFieldContainer.style.overflow = "overlay";
-              imageFieldContainer.innerText = "Choose Image";
-              imageFieldContainer.style.position = "relative";
-
-              imageFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("image2");
-                setSidebar(true);
-              };
-
-              const imageButtonContainer = document.createElement("div");
-              imageButtonContainer.className = "addImageButton";
-              imageButtonContainer.innerText = "Choose File";
-              imageButtonContainer.style.display = "none";
-              // imageButtonContainer.onclick = (e) => chooseFileClick(e);
-
-              const imgBtnContainer = document.createElement("input");
-              imgBtnContainer.className = "addImageButtonInput";
-              imgBtnContainer.type = "file";
-              imgBtnContainer.style.objectFit = "cover";
-              var uploadedImage = "";
-
-              imgBtnContainer.addEventListener("input", () =>
-              {
-                const reader = new FileReader();
-
-                reader.addEventListener("load", () =>
-                {
-                  uploadedImage = reader.result;
-                  document.querySelector(
-                    ".focussed"
-                  ).style.backgroundImage = `url(${uploadedImage})`;
-                });
-                reader.readAsDataURL(imgBtnContainer.files[0]);
-              });
-
-              // imgBtnContainer.style.width = "100%";
-              imageButtonContainer.append(imgBtnContainer);
-              holderDIVContainer.append(imageFieldContainer);
-              holderDIVContainer.append(imageButtonContainer);
-            } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
-            {
-              let dropdownFieldContainer = document.createElement("div");
-              dropdownFieldContainer.className = "dropdownInput";
-              dropdownFieldContainer.style.width = "100%";
-              dropdownFieldContainer.style.height = "100%";
-              dropdownFieldContainer.style.backgroundColor = "#0000";
-              dropdownFieldContainer.style.borderRadius = "0px";
-              dropdownFieldContainer.style.outline = "0px";
-              dropdownFieldContainer.style.overflow = "overlay";
-              dropdownFieldContainer.style.position = "absolute";
-
-              const selectElement = document.createElement("select");
-              selectElement.className = "select-element";
-              selectElement.style.width = "500";
-              selectElement.style.height = "auto";
-              selectElement.onclick = () =>
-              {
-                selectElement.parentElement.click();
-              };
-
-              dropdownFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  dropdownFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-
-              // if (dropdownFieldContainer) {
-              //   const dropdownFieldContainer = {
-              //     dropdownFieldContainer: {
-              //       value: event.target.value,
-              //       xcoordinate: getOffset(holderDIVContainer).left,
-              //       ycoordinate: getOffset(holderDIVContainer).top,
-              //     },
-              //   };
-              // }
-
-              dropdownFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("dropdown2");
-                setRightSideDropDown(false);
-                setSidebar(true);
-              };
-
-              const para = document.createElement("p");
-              para.innerHTML = " Dropdown Name";
-              para.className = "dropdownName";
-              para.onclick = () =>
-              {
-                para.parentElement.click();
-              };
-              dropdownFieldContainer.append(para);
-              dropdownFieldContainer.append(selectElement);
-              holderDIVContainer.append(dropdownFieldContainer);
-            } else if (typeOfOperationContainer === "TEXT_INPUT")
-            {
-              let inputFieldContainer = document.createElement("div");
-              //  inputFieldContainer.setAttribute('draggable', true);
-              inputFieldContainer.setAttribute("contenteditable", true);
-              inputFieldContainer.className = "textInput";
-              inputFieldContainer.innerHTML = "Enter text here";
-              inputFieldContainer.style.width = "100%";
-              inputFieldContainer.style.height = "100%";
-              inputFieldContainer.style.resize = "none";
-              inputFieldContainer.style.backgroundColor = "#0000";
-              inputFieldContainer.style.borderRadius = "0px";
-              inputFieldContainer.style.outline = "0px";
-              inputFieldContainer.style.overflow = "overlay";
-              inputFieldContainer.style.position = "relative";
-              inputFieldContainer.style.cursor = "text";
-              if (inputFieldContainer.innerHTML[0])
-              {
-                const editTextField = {
-                  editTextField: {
-                    value: inputFieldContainer.innerHTML,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                };
-              }
-
-              if (inputFieldContainer.value !== "")
-              {
-                // setPostData({
-                //   ...postData,
-                //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
-                // })
-              }
-
-              inputFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("align2");
-                setSidebar(true);
-              };
-              holderDIVContainer.append(inputFieldContainer);
-            } else if (typeOfOperationContainer === "SIGN_INPUT")
-            {
-              let signFieldContainer = document.createElement("div");
-              signFieldContainer.className = "signInput";
-              signFieldContainer.style.width = "100%";
-              signFieldContainer.style.height = "100%";
-              signFieldContainer.style.backgroundColor = "#0000";
-              signFieldContainer.style.borderRadius = "0px";
-              signFieldContainer.style.outline = "0px";
-              signFieldContainer.style.overflow = "overlay";
-              signFieldContainer.innerText = "Signature here";
-              signFieldContainer.style.position = "absolute";
-
-              signFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-                setPostData({
-                  ...postData,
-                  signFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-
-              signFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("signs2");
-                setSidebar(true);
-              };
-              const imageSignButton = document.createElement("div");
-              imageSignButton.className = "addImageSignButton";
-              imageSignButton.innerText = "Choose File";
-              imageSignButton.style.display = "none";
-
-              const signBtn = document.createElement("input");
-              signBtn.className = "addSignButtonInput";
-              signBtn.type = "file";
-              signBtn.style.objectFit = "cover";
-              // eslint-disable-next-line no-redeclare
-              var uploadedImage = "";
-
-              signBtn.addEventListener("input", () =>
-              {
-                const reader = new FileReader();
-
-                reader.addEventListener("load", () =>
-                {
-                  uploadedImage = reader.result;
-                  const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-                  document.querySelector(".focussed").innerHTML = signImage;
-                });
-                reader.readAsDataURL(signBtn.files[0]);
-              });
-
-              imageSignButton.append(signBtn);
-              holderDIVContainer.append(signFieldContainer);
-              holderDIVContainer.append(imageSignButton);
-            } else if (typeOfOperationContainer === "IFRAME_INPUT")
-            {
-              let iframeFieldContainer = document.createElement("div");
-              iframeFieldContainer.className = "iframeInput";
-              iframeFieldContainer.style.width = "100%";
-              iframeFieldContainer.style.height = "100%";
-              iframeFieldContainer.style.backgroundColor = "#dedede";
-              iframeFieldContainer.style.borderRadius = "0px";
-              iframeFieldContainer.style.outline = "0px";
-              iframeFieldContainer.style.overflow = "overlay";
-              iframeFieldContainer.style.position = "absolute";
-              iframeFieldContainer.innerText = "iFrame here";
-
-              iframeFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("iframe2");
-                setSidebar(true);
-              };
-
-              holderDIVContainer.append(iframeFieldContainer);
-            } else if (typeOfOperationContainer === "SCALE_INPUT")
-            {
-              setIsLoading(true);
-
-              let scaleFieldContainer = document.createElement("div");
-              scaleFieldContainer.className = "scaleInput";
-              scaleFieldContainer.style.width = "100%";
-              scaleFieldContainer.style.height = "100%";
-              scaleFieldContainer.style.backgroundColor = "#dedede";
-              scaleFieldContainer.style.borderRadius = "0px";
-              scaleFieldContainer.style.outline = "0px";
-              scaleFieldContainer.style.overflow = "overlay";
-              // scaleFieldContainer.innerHTML = 'iframe';
-              scaleFieldContainer.style.position = "absolute";
-              // scaleFieldContainer.innerText = "scale here";
-
-              let scale = document.createElement("iframe");
-              scaleFieldContainer.append(scale);
-              Axios.post(
-                "https://100035.pythonanywhere.com/api/nps_settings_create/",
-                {
-                  username: "nake",
-                  orientation: "horizontal",
-                  scalecolor: "#8f1e1e",
-                  roundcolor: "#938585",
-                  fontcolor: "#000000",
-                  fomat: "numbers",
-                  time: "00",
-                  name: `${title}_scale`,
-                  left: "good",
-                  right: "best",
-                  center: "neutral",
-                }
-              )
-                .then((res) =>
-                {
-                  setIsLoading(false);
-                  console.log(res.data, "scaleData");
-                  setScaleData(res.data);
-                  const success = res.data.success;
-                  var successObj = JSON.parse(success);
-                  const id = successObj.inserted_id;
-                  console.log(res.scale_urls, "stateScale");
-                  if (id.length)
-                  {
-                    setScaleId(id);
-                  }
-                  scale.src = res.data.scale_urls;
-                })
-                .catch((err) =>
-                {
-                  setIsLoading(false);
-                  console.log(err);
-                });
-
-              scaleFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                focuseddClassMaintain(e);
-                handleClicked("scale2");
-                setSidebar(true);
-              };
-
-              holderDIVContainer.append(scaleFieldContainer);
-            } else if (typeOfOperationContainer === "TABLE_INPUT")
-            {
-              let tableFieldContainer = document.createElement("div");
-              tableFieldContainer.className = "tableInput";
-              tableFieldContainer.style.width = "100%";
-              tableFieldContainer.style.height = "100%";
-              tableFieldContainer.style.backgroundColor = "#dedede";
-              tableFieldContainer.style.borderRadius = "0px";
-              tableFieldContainer.style.outline = "0px";
-              tableFieldContainer.style.overflow = "overlay";
-              tableFieldContainer.style.position = "absolute";
-
-              tableFieldContainer.onchange = (event) =>
-              {
-                event.preventDefault();
-
-                setPostData({
-                  ...postData,
-                  tableFieldContainer: {
-                    value: event.target.value,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                });
-              };
-
-              tableFieldContainer.onclick = (e) =>
-              {
-                e.stopPropagation();
-                table_dropdown_focuseddClassMaintain(e);
-                handleClicked("table2");
-                setSidebar(true);
-              };
-              holderDIVContainer.append(tableFieldContainer);
-            }
-            if (typeOfOperationContainer !== "CONTAINER_INPUT")
-              containerField.append(holderDIVContainer);
-          };
-
-          holderDIV.append(containerField);
-          document
-            .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
-            ?.append(holderDIV);
-        }
-      });
+        });
     }
     // });
   };
@@ -2768,7 +2865,7 @@ const MidSection = React.forwardRef((props, ref) =>
     const has_container_drag_class =
       event.target.classList.contains("containerInput");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
-    // console.log("typeOfOperation in midsection", typeOfOperation);
+    console.log("typeOfOperation in midsection", typeOfOperation);
     const curr_user = document.getElementById("current-user");
 
     const midSec = document.querySelector(".drop_zone");
@@ -3544,908 +3641,915 @@ const MidSection = React.forwardRef((props, ref) =>
         };
         dateField.ondragend = (e) =>
         {
-          console.log("ondragend fun called");
-        };
-        dateField.innerText = "mm/dd/yyyy";
-
-        // //console.log(startDate);
-        const para = document.createElement("p");
-
-        // dateField.append(para)
-        holderDIV.append(dateField);
-        //console.log(para);
-      } else if (
-        typeOfOperation === "DROPDOWN_INPUT" &&
-        decoded.details.action === "template"
-      )
-      {
-        let dropdownField = document.createElement("div");
-        dropdownField.className = "dropdownInput";
-        dropdownField.style.width = "100%";
-        dropdownField.style.height = "100%";
-        dropdownField.style.backgroundColor = "#0000";
-        dropdownField.style.borderRadius = "0px";
-        dropdownField.style.outline = "0px";
-        dropdownField.style.overflow = "overlay";
-        // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
-        dropdownField.style.position = "absolute";
-
-        const selectElement = document.createElement("select");
-        selectElement.className = "select-element";
-        selectElement.style.width = "500";
-        selectElement.style.height = "auto";
-        selectElement.onclick = () =>
-        {
-          selectElement.parentElement.click();
-        };
-
-        dropdownField.onchange = (event) =>
-        {
-          event.preventDefault();
-          setPostData({
-            ...postData,
-            dropdownField: {
-              value: event.target.value,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top,
-            },
-          });
-        };
-
-        if (dropdownField)
-        {
-          const dropdownField = {
-            dropdownField: {
-              value: event.target.value,
-              xcoordinate: getOffset(holderDIV).left,
-              ycoordinate: getOffset(holderDIV).top,
-            },
-          };
-
-          // postData.push(dropdownField);
-          // setPostData({
-          //   ...postData,
-          //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-          // })
-        }
-
-        dropdownField.onclick = (e) =>
-        {
-          e.stopPropagation();
-          // focuseddClassMaintain(e);
-          table_dropdown_focuseddClassMaintain(e);
-          // dropdownField.classList.add("focussed");
-          handleClicked("dropdown2", "container2");
-          setRightSideDropDown(false);
-          setSidebar(true);
-        };
-
-        const para = document.createElement("p");
-        para.innerHTML = " Dropdown Name";
-        para.className = "dropdownName";
-        para.onclick = () =>
-        {
-          para.parentElement.click();
-        };
-        dropdownField.append(para);
-        dropdownField.append(selectElement);
-        holderDIV.append(dropdownField);
-      } else if (
-        typeOfOperation === "BUTTON_INPUT" &&
-        decoded.details.action === "template"
-      )
-      {
-        let buttonField = document.createElement("button");
-        buttonField.className = "buttonInput";
-        buttonField.style.width = "100%";
-        buttonField.style.height = "100%";
-        buttonField.style.backgroundColor = "#0000";
-        buttonField.style.borderRadius = "0px";
-        buttonField.style.outline = "0px";
-        buttonField.style.overflow = "overlay";
-        buttonField.style.position = "absolute";
-        buttonField.textContent = "Button";
-
-        buttonField.onclick = (e) =>
-        {
-          e.stopPropagation();
-          focuseddClassMaintain(e);
-          handleClicked("button2", "container2");
-          setSidebar(true);
-        };
-
-        const linkHolder = document.createElement("div");
-        linkHolder.className = "link_holder";
-        linkHolder.style.display = "none";
-
-        const purposeHolder = document.createElement("div");
-        purposeHolder.className = "purpose_holder";
-        purposeHolder.style.display = "none";
-
-        holderDIV.append(buttonField);
-        holderDIV.append(linkHolder);
-        holderDIV.append(purposeHolder);
-      } else if (
-        typeOfOperation === "CONTAINER_INPUT" &&
-        decoded.details.action === "template"
-      )
-      {
-        console.log("typeOfOperation", typeOfOperation);
-        let containerField = document.createElement("div");
-        containerField.className = "containerInput";
-        containerField.id = "containerInput";
-        containerField.style.width = "100%";
-        containerField.style.height = "100%";
-        containerField.style.backgroundColor = "#0000";
-        containerField.style.borderRadius = "0px";
-        containerField.style.outline = "0px";
-        containerField.style.overflow = "overlay";
-        containerField.style.position = "absolute";
-        containerField.onclick = (e) =>
-        {
-          e.stopPropagation();
-          focuseddClassMaintain(e);
-          handleClicked("container2");
-          setSidebar(true);
-          console.log("container field clicked");
-        };
-        containerField.ondragover = (e) =>
-        {
-          console.log("console from container", e.target);
-        };
-        containerField.ondrop = (event) =>
-        {
-          const container = event.target;
-          const containerRect = container.getBoundingClientRect();
-          const typeOfOperationContainer =
-            event.dataTransfer.getData("text/plain");
-          //             const midSec = document.querySelector(".drop_zone");
-          //     const midsectionRect = midSec.getBoundingClientRect();
-          // const measure = {
-          //       width: "200px",
-          //       height: "80px",
-          //       left: event.clientX - midsectionRect.left + "px",
-          //       top: event.clientY - midsectionRect.top + "px",
-          //       auth_user: curr_user,
-          //     };
-          // console.log("typeOfOperationContainer", typeOfOperationContainer);
-          const measureContainer = {
-            width: "200px",
-            height: "80px",
-            left: event.clientX - containerRect.left + "px",
-            top: event.clientY - containerRect.top + "px",
-            auth_user: curr_user,
-          };
-
-          const holderDIVContainer = getHolderDIV(measureContainer);
-          if (typeOfOperationContainer === "DATE_INPUT")
+          // if (dateField) {
+          //   dateField.parentElement.ondragstart = (e) => {
+          //     console.log("dragStart fun called parentElement");
+          //   };
+          // }
+          dateField.ondragend = (e) =>
           {
-            let dateFieldContainer = document.createElement("div");
-            dateFieldContainer.className = "dateInput";
-            dateFieldContainer.style.width = "100%";
-            dateFieldContainer.style.height = "100%";
-            dateFieldContainer.style.backgroundColor = "#0000";
-            dateFieldContainer.style.borderRadius = "0px";
-            dateFieldContainer.style.outline = "0px";
-            dateFieldContainer.style.overflow = "overlay";
-            dateFieldContainer.style.position = "relative";
+            console.log("ondragend fun called");
+          };
+          dateField.innerText = "mm/dd/yyyy";
 
-            dateFieldContainer.onchange = (event) =>
-            {
-              event.preventDefault();
-              setPostData({
-                ...postData,
-                calenderField: {
-                  value: event.target.value,
-                  xcoordinate: getOffset(holderDIVContainer).left,
-                  ycoordinate: getOffset(holderDIVContainer).top,
-                },
-              });
+          // //console.log(startDate);
+          const para = document.createElement("p");
+
+          // dateField.append(para)
+          holderDIV.append(dateField);
+          //console.log(para);
+        } else if (
+          typeOfOperation === "DROPDOWN_INPUT" &&
+          decoded.details.action === "template"
+        )
+        {
+          let dropdownField = document.createElement("div");
+          dropdownField.className = "dropdownInput";
+          dropdownField.style.width = "100%";
+          dropdownField.style.height = "100%";
+          dropdownField.style.backgroundColor = "#0000";
+          dropdownField.style.borderRadius = "0px";
+          dropdownField.style.outline = "0px";
+          dropdownField.style.overflow = "overlay";
+          // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+          dropdownField.style.position = "absolute";
+
+          const selectElement = document.createElement("select");
+          selectElement.className = "select-element";
+          selectElement.style.width = "500";
+          selectElement.style.height = "auto";
+          selectElement.onclick = () =>
+          {
+            selectElement.parentElement.click();
+          };
+
+          dropdownField.onchange = (event) =>
+          {
+            event.preventDefault();
+            setPostData({
+              ...postData,
+              dropdownField: {
+                value: event.target.value,
+                xcoordinate: getOffset(holderDIV).left,
+                ycoordinate: getOffset(holderDIV).top,
+              },
+            });
+          };
+
+          if (dropdownField)
+          {
+            const dropdownField = {
+              dropdownField: {
+                value: event.target.value,
+                xcoordinate: getOffset(holderDIV).left,
+                ycoordinate: getOffset(holderDIV).top,
+              },
             };
-            setStartDate(new Date());
-            setMethod("select");
-            function dateClick()
+
+            // postData.push(dropdownField);
+            // setPostData({
+            //   ...postData,
+            //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+            // })
+          }
+
+          dropdownField.onclick = (e) =>
+          {
+            e.stopPropagation();
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
+            // dropdownField.classList.add("focussed");
+            handleClicked("dropdown2", "container2");
+            setRightSideDropDown(false);
+            setSidebar(true);
+          };
+
+          const para = document.createElement("p");
+          para.innerHTML = " Dropdown Name";
+          para.className = "dropdownName";
+          para.onclick = () =>
+          {
+            para.parentElement.click();
+          };
+          dropdownField.append(para);
+          dropdownField.append(selectElement);
+          holderDIV.append(dropdownField);
+        } else if (
+          typeOfOperation === "BUTTON_INPUT" &&
+          decoded.details.action === "template"
+        )
+        {
+          let buttonField = document.createElement("button");
+          buttonField.className = "buttonInput";
+          buttonField.style.width = "100%";
+          buttonField.style.height = "100%";
+          buttonField.style.backgroundColor = "#0000";
+          buttonField.style.borderRadius = "0px";
+          buttonField.style.outline = "0px";
+          buttonField.style.overflow = "overlay";
+          buttonField.style.position = "absolute";
+          buttonField.textContent = "Button";
+
+          buttonField.onclick = (e) =>
+          {
+            e.stopPropagation();
+            focuseddClassMaintain(e);
+            handleClicked("button2", "container2");
+            setSidebar(true);
+          };
+
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.style.display = "none";
+
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.style.display = "none";
+
+          holderDIV.append(buttonField);
+          holderDIV.append(linkHolder);
+          holderDIV.append(purposeHolder);
+        } else if (
+          typeOfOperation === "CONTAINER_INPUT" &&
+          decoded.details.action === "template"
+        )
+        {
+          console.log("typeOfOperation", typeOfOperation);
+          let containerField = document.createElement("div");
+          containerField.className = "containerInput";
+          containerField.id = "containerInput";
+          containerField.style.width = "100%";
+          containerField.style.height = "100%";
+          containerField.style.backgroundColor = "#0000";
+          containerField.style.borderRadius = "0px";
+          containerField.style.outline = "0px";
+          containerField.style.overflow = "overlay";
+          containerField.style.position = "absolute";
+          containerField.onclick = (e) =>
+          {
+            e.stopPropagation();
+            focuseddClassMaintain(e);
+            handleClicked("container2");
+            setSidebar(true);
+            console.log("container field clicked");
+          };
+          containerField.ondragover = (e) =>
+          {
+            console.log("console from container", e.target);
+          };
+          containerField.ondrop = (event) =>
+          {
+            const container = event.target;
+            const containerRect = container.getBoundingClientRect();
+            const typeOfOperationContainer =
+              event.dataTransfer.getData("text/plain");
+            //             const midSec = document.querySelector(".drop_zone");
+            //     const midsectionRect = midSec.getBoundingClientRect();
+            // const measure = {
+            //       width: "200px",
+            //       height: "80px",
+            //       left: event.clientX - midsectionRect.left + "px",
+            //       top: event.clientY - midsectionRect.top + "px",
+            //       auth_user: curr_user,
+            //     };
+            // console.log("typeOfOperationContainer", typeOfOperationContainer);
+            const measureContainer = {
+              width: "200px",
+              height: "80px",
+              left: event.clientX - containerRect.left + "px",
+              top: event.clientY - containerRect.top + "px",
+              auth_user: curr_user,
+            };
+
+            const holderDIVContainer = getHolderDIV(measureContainer);
+            if (typeOfOperationContainer === "DATE_INPUT")
             {
-              document.getElementById("date_picker").click();
-              setRightSideDateMenu(false);
-            }
-            dateFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("calendar2", "container2");
-              setRightSideDateMenu(false);
-              if (e.target.innerText != "mm/dd/yyyy")
+              let dateFieldContainer = document.createElement("div");
+              dateFieldContainer.className = "dateInput";
+              dateFieldContainer.style.width = "100%";
+              dateFieldContainer.style.height = "100%";
+              dateFieldContainer.style.backgroundColor = "#0000";
+              dateFieldContainer.style.borderRadius = "0px";
+              dateFieldContainer.style.outline = "0px";
+              dateFieldContainer.style.overflow = "overlay";
+              dateFieldContainer.style.position = "relative";
+
+              dateFieldContainer.onchange = (event) =>
               {
-                if (e.target.innerText.includes("/"))
+                event.preventDefault();
+                setPostData({
+                  ...postData,
+                  calenderField: {
+                    value: event.target.value,
+                    xcoordinate: getOffset(holderDIVContainer).left,
+                    ycoordinate: getOffset(holderDIVContainer).top,
+                  },
+                });
+              };
+              setStartDate(new Date());
+              setMethod("select");
+              function dateClick()
+              {
+                document.getElementById("date_picker").click();
+                setRightSideDateMenu(false);
+              }
+              dateFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("calendar2", "container2");
+                setRightSideDateMenu(false);
+                if (e.target.innerText != "mm/dd/yyyy")
                 {
-                  const setDate = new Date(e.target.innerText);
-                  setMethod("first");
-                  setStartDate(setDate);
-                } else
-                {
-                  if (e.target.innerText.includes("-"))
+                  if (e.target.innerText.includes("/"))
                   {
-                    setMethod("fourth");
+                    const setDate = new Date(e.target.innerText);
+                    setMethod("first");
+                    setStartDate(setDate);
                   } else
                   {
-                    setMethod("second");
+                    if (e.target.innerText.includes("-"))
+                    {
+                      setMethod("fourth");
+                    } else
+                    {
+                      setMethod("second");
+                    }
+                    const setDate = new Date(e.target.innerText);
+                    setStartDate(setDate);
                   }
-                  const setDate = new Date(e.target.innerText);
-                  setStartDate(setDate);
                 }
-              }
-              setSidebar(true);
-              setTimeout(dateClick, 0);
-            };
-            dateFieldContainer.innerText = "mm/dd/yyyy";
-
-            holderDIVContainer.append(dateFieldContainer);
-          } else if (typeOfOperationContainer === "IMAGE_INPUT")
-          {
-            let imageFieldContainer = document.createElement("div");
-            imageFieldContainer.className = "imageInput";
-            imageFieldContainer.style.width = "100%";
-            imageFieldContainer.style.height = "100%";
-            imageFieldContainer.style.backgroundColor = "#0000";
-            imageFieldContainer.style.borderRadius = "0px";
-            imageFieldContainer.style.outline = "0px";
-            imageFieldContainer.style.overflow = "overlay";
-            imageFieldContainer.innerText = "Choose Image";
-            imageFieldContainer.style.position = "relative";
-
-            imageFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("image2");
-              setSidebar(true);
-            };
-
-            const imageButtonContainer = document.createElement("div");
-            imageButtonContainer.className = "addImageButton";
-            imageButtonContainer.innerText = "Choose File";
-            imageButtonContainer.style.display = "none";
-            // imageButtonContainer.onclick = (e) => chooseFileClick(e);
-
-            const imgBtnContainer = document.createElement("input");
-            imgBtnContainer.className = "addImageButtonInput";
-            imgBtnContainer.type = "file";
-            imgBtnContainer.style.objectFit = "cover";
-            var uploadedImage = "";
-
-            imgBtnContainer.addEventListener("input", () =>
-            {
-              const reader = new FileReader();
-
-              reader.addEventListener("load", () =>
-              {
-                uploadedImage = reader.result;
-                document.querySelector(
-                  ".focussed"
-                ).style.backgroundImage = `url(${uploadedImage})`;
-              });
-              reader.readAsDataURL(imgBtnContainer.files[0]);
-            });
-
-            // imgBtnContainer.style.width = "100%";
-            imageButtonContainer.append(imgBtnContainer);
-            holderDIVContainer.append(imageFieldContainer);
-            holderDIVContainer.append(imageButtonContainer);
-          } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
-          {
-            let dropdownFieldContainer = document.createElement("div");
-            dropdownFieldContainer.className = "dropdownInput";
-            dropdownFieldContainer.style.width = "100%";
-            dropdownFieldContainer.style.height = "100%";
-            dropdownFieldContainer.style.backgroundColor = "#0000";
-            dropdownFieldContainer.style.borderRadius = "0px";
-            dropdownFieldContainer.style.outline = "0px";
-            dropdownFieldContainer.style.overflow = "overlay";
-            dropdownFieldContainer.style.position = "absolute";
-
-            const selectElement = document.createElement("select");
-            selectElement.className = "select-element";
-            selectElement.style.width = "500";
-            selectElement.style.height = "auto";
-            selectElement.onclick = () =>
-            {
-              selectElement.parentElement.click();
-            };
-
-            dropdownFieldContainer.onchange = (event) =>
-            {
-              event.preventDefault();
-              setPostData({
-                ...postData,
-                dropdownFieldContainer: {
-                  value: event.target.value,
-                  xcoordinate: getOffset(holderDIVContainer).left,
-                  ycoordinate: getOffset(holderDIVContainer).top,
-                },
-              });
-            };
-
-            // if (dropdownFieldContainer) {
-            //   const dropdownFieldContainer = {
-            //     dropdownFieldContainer: {
-            //       value: event.target.value,
-            //       xcoordinate: getOffset(holderDIVContainer).left,
-            //       ycoordinate: getOffset(holderDIVContainer).top,
-            //     },
-            //   };
-            // }
-
-            dropdownFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              table_dropdown_focuseddClassMaintain(e);
-              handleClicked("dropdown2");
-              setRightSideDropDown(false);
-              setSidebar(true);
-            };
-
-            const para = document.createElement("p");
-            para.innerHTML = " Dropdown Name";
-            para.className = "dropdownName";
-            para.onclick = () =>
-            {
-              para.parentElement.click();
-            };
-            dropdownFieldContainer.append(para);
-            dropdownFieldContainer.append(selectElement);
-            holderDIVContainer.append(dropdownFieldContainer);
-          } else if (typeOfOperationContainer === "TEXT_INPUT")
-          {
-            let inputFieldContainer = document.createElement("div");
-            //  inputFieldContainer.setAttribute('draggable', true);
-            inputFieldContainer.setAttribute("contenteditable", true);
-            inputFieldContainer.className = "textInput";
-            inputFieldContainer.innerHTML = "Enter text here";
-            inputFieldContainer.style.width = "100%";
-            inputFieldContainer.style.height = "100%";
-            inputFieldContainer.style.resize = "none";
-            inputFieldContainer.style.backgroundColor = "#0000";
-            inputFieldContainer.style.borderRadius = "0px";
-            inputFieldContainer.style.outline = "0px";
-            inputFieldContainer.style.overflow = "overlay";
-            inputFieldContainer.style.position = "relative";
-            inputFieldContainer.style.cursor = "text";
-            if (inputFieldContainer.innerHTML[0])
-            {
-              const editTextField = {
-                editTextField: {
-                  value: inputFieldContainer.innerHTML,
-                  xcoordinate: getOffset(holderDIVContainer).left,
-                  ycoordinate: getOffset(holderDIVContainer).top,
-                },
+                setSidebar(true);
+                setTimeout(dateClick, 0);
               };
-            }
+              dateFieldContainer.innerText = "mm/dd/yyyy";
 
-            if (inputFieldContainer.value !== "")
+              holderDIVContainer.append(dateFieldContainer);
+            } else if (typeOfOperationContainer === "IMAGE_INPUT")
             {
-              // setPostData({
-              //   ...postData,
-              //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
-              // })
-            }
+              let imageFieldContainer = document.createElement("div");
+              imageFieldContainer.className = "imageInput";
+              imageFieldContainer.style.width = "100%";
+              imageFieldContainer.style.height = "100%";
+              imageFieldContainer.style.backgroundColor = "#0000";
+              imageFieldContainer.style.borderRadius = "0px";
+              imageFieldContainer.style.outline = "0px";
+              imageFieldContainer.style.overflow = "overlay";
+              imageFieldContainer.innerText = "Choose Image";
+              imageFieldContainer.style.position = "relative";
 
-            inputFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("align2");
-              setSidebar(true);
-            };
-            holderDIVContainer.append(inputFieldContainer);
-          } else if (typeOfOperationContainer === "SIGN_INPUT")
-          {
-            let signFieldContainer = document.createElement("div");
-            signFieldContainer.className = "signInput";
-            signFieldContainer.style.width = "100%";
-            signFieldContainer.style.height = "100%";
-            signFieldContainer.style.backgroundColor = "#0000";
-            signFieldContainer.style.borderRadius = "0px";
-            signFieldContainer.style.outline = "0px";
-            signFieldContainer.style.overflow = "overlay";
-            signFieldContainer.innerText = "Signature here";
-            signFieldContainer.style.position = "absolute";
-
-            signFieldContainer.onchange = (event) =>
-            {
-              event.preventDefault();
-              setPostData({
-                ...postData,
-                signFieldContainer: {
-                  value: event.target.value,
-                  xcoordinate: getOffset(holderDIVContainer).left,
-                  ycoordinate: getOffset(holderDIVContainer).top,
-                },
-              });
-            };
-
-            signFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("signs2");
-              setSidebar(true);
-            };
-            const imageSignButton = document.createElement("div");
-            imageSignButton.className = "addImageSignButton";
-            imageSignButton.innerText = "Choose File";
-            imageSignButton.style.display = "none";
-
-            const signBtn = document.createElement("input");
-            signBtn.className = "addSignButtonInput";
-            signBtn.type = "file";
-            signBtn.style.objectFit = "cover";
-            var uploadedImage = "";
-
-            signBtn.addEventListener("input", () =>
-            {
-              const reader = new FileReader();
-
-              reader.addEventListener("load", () =>
+              imageFieldContainer.onclick = (e) =>
               {
-                uploadedImage = reader.result;
-                const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-                document.querySelector(".focussed").innerHTML = signImage;
-              });
-              reader.readAsDataURL(signBtn.files[0]);
-            });
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("image2");
+                setSidebar(true);
+              };
 
-            imageSignButton.append(signBtn);
-            holderDIVContainer.append(signFieldContainer);
-            holderDIVContainer.append(imageSignButton);
-          } else if (typeOfOperationContainer === "IFRAME_INPUT")
-          {
-            let iframeFieldContainer = document.createElement("div");
-            iframeFieldContainer.className = "iframeInput";
-            iframeFieldContainer.style.width = "100%";
-            iframeFieldContainer.style.height = "100%";
-            iframeFieldContainer.style.backgroundColor = "#dedede";
-            iframeFieldContainer.style.borderRadius = "0px";
-            iframeFieldContainer.style.outline = "0px";
-            iframeFieldContainer.style.overflow = "overlay";
-            iframeFieldContainer.style.position = "absolute";
-            iframeFieldContainer.innerText = "iFrame here";
+              const imageButtonContainer = document.createElement("div");
+              imageButtonContainer.className = "addImageButton";
+              imageButtonContainer.innerText = "Choose File";
+              imageButtonContainer.style.display = "none";
+              // imageButtonContainer.onclick = (e) => chooseFileClick(e);
 
-            iframeFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              table_dropdown_focuseddClassMaintain(e);
-              handleClicked("iframe2");
-              setSidebar(true);
-            };
+              const imgBtnContainer = document.createElement("input");
+              imgBtnContainer.className = "addImageButtonInput";
+              imgBtnContainer.type = "file";
+              imgBtnContainer.style.objectFit = "cover";
+              var uploadedImage = "";
 
-            holderDIVContainer.append(iframeFieldContainer);
-          } else if (typeOfOperationContainer === "SCALE_INPUT")
-          {
-            setIsLoading(true);
-
-            let scaleFieldContainer = document.createElement("div");
-            scaleFieldContainer.className = "scaleInput";
-            scaleFieldContainer.style.width = "100%";
-            scaleFieldContainer.style.height = "100%";
-            scaleFieldContainer.style.backgroundColor = "#dedede";
-            scaleFieldContainer.style.borderRadius = "0px";
-            scaleFieldContainer.style.outline = "0px";
-            scaleFieldContainer.style.overflow = "overlay";
-            // scaleFieldContainer.innerHTML = 'iframe';
-            scaleFieldContainer.style.position = "absolute";
-            // scaleFieldContainer.innerText = "scale here";
-
-            let scale = document.createElement("iframe");
-            scaleFieldContainer.append(scale);
-            Axios.post(
-              "https://100035.pythonanywhere.com/api/nps_settings_create/",
+              imgBtnContainer.addEventListener("input", () =>
               {
-                username: "nake",
-                orientation: "horizontal",
-                scalecolor: "#8f1e1e",
-                roundcolor: "#938585",
-                fontcolor: "#000000",
-                fomat: "numbers",
-                time: "00",
-                name: `${title}_scale`,
-                left: "good",
-                right: "best",
-                center: "neutral",
-              }
-            )
-              .then((res) =>
-              {
-                setIsLoading(false);
-                console.log(res.data, "scaleData");
-                setScaleData(res.data);
-                const success = res.data.success;
-                var successObj = JSON.parse(success);
-                const id = successObj.inserted_id;
-                console.log(res.scale_urls, "stateScale");
-                if (id.length)
+                const reader = new FileReader();
+
+                reader.addEventListener("load", () =>
                 {
-                  console.log(id, "id");
-                  setScaleId(id);
-                }
-                scale.src = res.data.scale_urls;
-              })
-              .catch((err) =>
+                  uploadedImage = reader.result;
+                  document.querySelector(
+                    ".focussed"
+                  ).style.backgroundImage = `url(${uploadedImage})`;
+                });
+                reader.readAsDataURL(imgBtnContainer.files[0]);
+              });
+
+              // imgBtnContainer.style.width = "100%";
+              imageButtonContainer.append(imgBtnContainer);
+              holderDIVContainer.append(imageFieldContainer);
+              holderDIVContainer.append(imageButtonContainer);
+            } else if (typeOfOperationContainer === "DROPDOWN_INPUT")
+            {
+              let dropdownFieldContainer = document.createElement("div");
+              dropdownFieldContainer.className = "dropdownInput";
+              dropdownFieldContainer.style.width = "100%";
+              dropdownFieldContainer.style.height = "100%";
+              dropdownFieldContainer.style.backgroundColor = "#0000";
+              dropdownFieldContainer.style.borderRadius = "0px";
+              dropdownFieldContainer.style.outline = "0px";
+              dropdownFieldContainer.style.overflow = "overlay";
+              dropdownFieldContainer.style.position = "absolute";
+
+              const selectElement = document.createElement("select");
+              selectElement.className = "select-element";
+              selectElement.style.width = "500";
+              selectElement.style.height = "auto";
+              selectElement.onclick = () =>
               {
-                setIsLoading(false);
-                console.log(err);
+                selectElement.parentElement.click();
+              };
+
+              dropdownFieldContainer.onchange = (event) =>
+              {
+                event.preventDefault();
+                setPostData({
+                  ...postData,
+                  dropdownFieldContainer: {
+                    value: event.target.value,
+                    xcoordinate: getOffset(holderDIVContainer).left,
+                    ycoordinate: getOffset(holderDIVContainer).top,
+                  },
+                });
+              };
+
+              // if (dropdownFieldContainer) {
+              //   const dropdownFieldContainer = {
+              //     dropdownFieldContainer: {
+              //       value: event.target.value,
+              //       xcoordinate: getOffset(holderDIVContainer).left,
+              //       ycoordinate: getOffset(holderDIVContainer).top,
+              //     },
+              //   };
+              // }
+
+              dropdownFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                table_dropdown_focuseddClassMaintain(e);
+                handleClicked("dropdown2");
+                setRightSideDropDown(false);
+                setSidebar(true);
+              };
+
+              const para = document.createElement("p");
+              para.innerHTML = " Dropdown Name";
+              para.className = "dropdownName";
+              para.onclick = () =>
+              {
+                para.parentElement.click();
+              };
+              dropdownFieldContainer.append(para);
+              dropdownFieldContainer.append(selectElement);
+              holderDIVContainer.append(dropdownFieldContainer);
+            } else if (typeOfOperationContainer === "TEXT_INPUT")
+            {
+              let inputFieldContainer = document.createElement("div");
+              //  inputFieldContainer.setAttribute('draggable', true);
+              inputFieldContainer.setAttribute("contenteditable", true);
+              inputFieldContainer.className = "textInput";
+              inputFieldContainer.innerHTML = "Enter text here";
+              inputFieldContainer.style.width = "100%";
+              inputFieldContainer.style.height = "100%";
+              inputFieldContainer.style.resize = "none";
+              inputFieldContainer.style.backgroundColor = "#0000";
+              inputFieldContainer.style.borderRadius = "0px";
+              inputFieldContainer.style.outline = "0px";
+              inputFieldContainer.style.overflow = "overlay";
+              inputFieldContainer.style.position = "relative";
+              inputFieldContainer.style.cursor = "text";
+              if (inputFieldContainer.innerHTML[0])
+              {
+                const editTextField = {
+                  editTextField: {
+                    value: inputFieldContainer.innerHTML,
+                    xcoordinate: getOffset(holderDIVContainer).left,
+                    ycoordinate: getOffset(holderDIVContainer).top,
+                  },
+                };
+              }
+
+              if (inputFieldContainer.value !== "")
+              {
+                // setPostData({
+                //   ...postData,
+                //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
+                // })
+              }
+
+              inputFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("align2");
+                setSidebar(true);
+              };
+              holderDIVContainer.append(inputFieldContainer);
+            } else if (typeOfOperationContainer === "SIGN_INPUT")
+            {
+              let signFieldContainer = document.createElement("div");
+              signFieldContainer.className = "signInput";
+              signFieldContainer.style.width = "100%";
+              signFieldContainer.style.height = "100%";
+              signFieldContainer.style.backgroundColor = "#0000";
+              signFieldContainer.style.borderRadius = "0px";
+              signFieldContainer.style.outline = "0px";
+              signFieldContainer.style.overflow = "overlay";
+              signFieldContainer.innerText = "Signature here";
+              signFieldContainer.style.position = "absolute";
+
+              signFieldContainer.onchange = (event) =>
+              {
+                event.preventDefault();
+                setPostData({
+                  ...postData,
+                  signFieldContainer: {
+                    value: event.target.value,
+                    xcoordinate: getOffset(holderDIVContainer).left,
+                    ycoordinate: getOffset(holderDIVContainer).top,
+                  },
+                });
+              };
+
+              signFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("signs2");
+                setSidebar(true);
+              };
+              const imageSignButton = document.createElement("div");
+              imageSignButton.className = "addImageSignButton";
+              imageSignButton.innerText = "Choose File";
+              imageSignButton.style.display = "none";
+
+              const signBtn = document.createElement("input");
+              signBtn.className = "addSignButtonInput";
+              signBtn.type = "file";
+              signBtn.style.objectFit = "cover";
+              var uploadedImage = "";
+
+              signBtn.addEventListener("input", () =>
+              {
+                const reader = new FileReader();
+
+                reader.addEventListener("load", () =>
+                {
+                  uploadedImage = reader.result;
+                  const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+                  document.querySelector(".focussed").innerHTML = signImage;
+                });
+                reader.readAsDataURL(signBtn.files[0]);
               });
 
-            scaleFieldContainer.onclick = (e) =>
+              imageSignButton.append(signBtn);
+              holderDIVContainer.append(signFieldContainer);
+              holderDIVContainer.append(imageSignButton);
+            } else if (typeOfOperationContainer === "IFRAME_INPUT")
             {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("scale2");
-              setSidebar(true);
-            };
+              let iframeFieldContainer = document.createElement("div");
+              iframeFieldContainer.className = "iframeInput";
+              iframeFieldContainer.style.width = "100%";
+              iframeFieldContainer.style.height = "100%";
+              iframeFieldContainer.style.backgroundColor = "#dedede";
+              iframeFieldContainer.style.borderRadius = "0px";
+              iframeFieldContainer.style.outline = "0px";
+              iframeFieldContainer.style.overflow = "overlay";
+              iframeFieldContainer.style.position = "absolute";
+              iframeFieldContainer.innerText = "iFrame here";
 
-            holderDIVContainer.append(scaleFieldContainer);
-          } else if (typeOfOperationContainer === "TABLE_INPUT")
-          {
-            let tableFieldContainer = document.createElement("div");
-            tableFieldContainer.className = "tableInput";
-            tableFieldContainer.style.width = "100%";
-            tableFieldContainer.style.height = "100%";
-            tableFieldContainer.style.backgroundColor = "#dedede";
-            tableFieldContainer.style.borderRadius = "0px";
-            tableFieldContainer.style.outline = "0px";
-            tableFieldContainer.style.overflow = "overlay";
-            tableFieldContainer.style.position = "absolute";
+              iframeFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                table_dropdown_focuseddClassMaintain(e);
+                handleClicked("iframe2");
+                setSidebar(true);
+              };
 
-            tableFieldContainer.onchange = (event) =>
+              holderDIVContainer.append(iframeFieldContainer);
+            } else if (typeOfOperationContainer === "SCALE_INPUT")
             {
-              event.preventDefault();
+              setIsLoading(true);
 
-              setPostData({
-                ...postData,
-                tableFieldContainer: {
-                  value: event.target.value,
-                  xcoordinate: getOffset(holderDIVContainer).left,
-                  ycoordinate: getOffset(holderDIVContainer).top,
-                },
-              });
-            };
+              let scaleFieldContainer = document.createElement("div");
+              scaleFieldContainer.className = "scaleInput";
+              scaleFieldContainer.style.width = "100%";
+              scaleFieldContainer.style.height = "100%";
+              scaleFieldContainer.style.backgroundColor = "#dedede";
+              scaleFieldContainer.style.borderRadius = "0px";
+              scaleFieldContainer.style.outline = "0px";
+              scaleFieldContainer.style.overflow = "overlay";
+              // scaleFieldContainer.innerHTML = 'iframe';
+              scaleFieldContainer.style.position = "absolute";
+              // scaleFieldContainer.innerText = "scale here";
 
-            tableFieldContainer.onclick = (e) =>
-            {
-              e.stopPropagation();
-              table_dropdown_focuseddClassMaintain(e);
-              handleClicked("table2");
-              setSidebar(true);
-            };
-            holderDIVContainer.append(tableFieldContainer);
-          }
-          if (typeOfOperationContainer !== "CONTAINER_INPUT")
-            containerField.append(holderDIVContainer);
-        };
-        holderDIV.append(containerField);
-      } else if (
-        typeOfOperation === "FORM" &&
-        decoded.details.action === "template"
-      )
-      {
-        let buttonField = document.createElement("div");
-        buttonField.className = "emailInput";
-        buttonField.style.width = "100%";
-        buttonField.style.height = "100%";
-        buttonField.style.backgroundColor = "#0000";
-        buttonField.style.borderRadius = "0px";
-        buttonField.style.outline = "0px";
-        buttonField.style.overflow = "overlay";
-        buttonField.style.position = "absolute";
-        // // buttonField.textContent = "Button";
-        // buttonField.innerText = "Email";
-        buttonField.style.display = "flex";
-        buttonField.style.flexDirection = "column";
-        buttonField.style.alignItems = "center";
-
-        // create div element for form container
-        // const formContainer = document.createElement('div');
-        // buttonField.style.maxWidth = '500px';
-        // buttonField.style.height = '10%';
-        buttonField.style.margin = "0 auto";
-        buttonField.style.padding = "10%";
-        buttonField.style.border = "1px solid #0000";
-
-        // create form element
-        const form = document.createElement("form");
-        form.style.display = "flex";
-        form.style.flexDirection = "column";
-        form.style.maxWidth = "500px";
-
-        // create first row of input fields
-        const firstRow = document.createElement("div");
-        firstRow.style.display = "flex";
-        firstRow.style.justifyContent = "space-between";
-        firstRow.style.marginBottom = "10px";
-
-        // create first input field for name
-        const nameInput = document.createElement("input");
-        nameInput.type = "text";
-        nameInput.name = "name";
-        nameInput.placeholder = "To Name";
-        nameInput.style.width = "48%";
-        firstRow.appendChild(nameInput);
-
-        // create second input field for email
-        const emailInput = document.createElement("input");
-        emailInput.type = "email";
-        emailInput.name = "email";
-        emailInput.placeholder = "Email";
-        emailInput.style.width = "48%";
-        firstRow.appendChild(emailInput);
-
-        // add first row to form
-        form.appendChild(firstRow);
-
-        // create second row of input fields
-        const secondRow = document.createElement("div");
-        secondRow.style.display = "flex";
-        secondRow.style.justifyContent = "space-between";
-        secondRow.style.marginBottom = "10px";
-
-        // create third input field for subject
-        const nameInput1 = document.createElement("input");
-        nameInput1.type = "text";
-        nameInput1.name = "name";
-        nameInput1.placeholder = "From Name";
-        nameInput1.style.width = "48%";
-        secondRow.appendChild(nameInput1);
-
-        // create fourth input field for second message
-        const emailInput1 = document.createElement("input");
-        emailInput1.name = "email";
-        emailInput1.placeholder = "Email";
-        emailInput1.style.width = "48%";
-        secondRow.appendChild(emailInput1);
-
-        // add second row to form
-        form.appendChild(secondRow);
-
-        // create third input field for subject
-        const subjectInput = document.createElement("input");
-        subjectInput.type = "text";
-        subjectInput.name = "subject";
-        subjectInput.placeholder = "Subject";
-        subjectInput.style.width = "100%";
-        subjectInput.style.marginBottom = "10px";
-        form.appendChild(subjectInput);
-
-        // create textarea for message field for message
-        const messageInput = document.createElement("textarea");
-        messageInput.name = "message";
-        messageInput.placeholder = "Message";
-        messageInput.style.marginBottom = "10px";
-        form.appendChild(messageInput);
-
-        // create submit button
-        const submitButton = document.createElement("button");
-        submitButton.type = "submit";
-        submitButton.textContent = "Send";
-        submitButton.style.backgroundColor = "#007bff";
-        submitButton.style.color = "#fff";
-        submitButton.style.border = "none";
-        submitButton.style.padding = "10px 20px";
-
-        // add onClick event listener
-        submitButton.addEventListener("click", (e) =>
-        {
-          // prevent default form submission
-          e.preventDefault();
-          const formData = {
-            topic: "EditorMailComponent",
-            toName: nameInput.value,
-            fromName: nameInput1.value,
-            toEmail: emailInput.value,
-            fromeEmail: emailInput1.value,
-            subject: subjectInput.value,
-            email_body: messageInput.value,
-          };
-          // Handle validations
-          Axios.post("https://100085.pythonanywhere.com/api/editor-component/", formData)
-            .then((response) =>
-            {
-              console.log(response);
-            });
-          // alert("Mail sent!");
-          console.log(formData); // log form data to console
-        });
-        form.appendChild(submitButton);
-
-        // add form to the form container
-        buttonField.appendChild(form);
-
-        // add form container to the document
-        document.body.appendChild(buttonField);
-
-        // buttonField.onclick = (e) =>
-        // {
-        //   focuseddClassMaintain(e);
-        //   handleClicked("button2");
-        //   setSidebar(true);
-        // }
-
-        const linkHolder = document.createElement("div");
-        linkHolder.className = "link_holder";
-        linkHolder.style.display = "none";
-
-        const purposeHolder = document.createElement("div");
-        purposeHolder.className = "purpose_holder";
-        purposeHolder.style.display = "none";
-
-        holderDIV.append(buttonField);
-        holderDIV.append(linkHolder);
-        holderDIV.append(purposeHolder);
-      }
-      if (decoded.details.action === "template")
-      {
-        document.querySelector(".drop_zone").append(holderDIV);
-      }
-    }
-  };
-
-  contentFile = [];
-  let page = [];
-
-  let elem = {};
-  // function saveDocument() {
-  //   const txt = document.getElementsByClassName("textInput");
-  //   if (txt.length) {
-  //     if (txt[0].parentElement.classList.contains("holderDIV")) {
-  //       elem = {
-  //         width: getPosition(txt).right,
-  //         height: getPosition(txt).bottom,
-  //         top: getPosition(txt).top,
-  //         left: getPosition(txt).left,
-  //         type: "TEXT_INPUT",
-  //         data: txt[0].innerHTML,
-  //       };
-  //       page.push(elem);
-  //     }
-  //   }
-
-  //   const img_input = document.getElementsByTagName("input");
-  //   if (img_input.length) {
-  //     //console.log("Image_input", img_input[0]);
-  //     if (img_input[0].type === "file") {
-  //       elem = {
-  //         width: getPosition(img_input).right,
-  //         height: getPosition(img_input).bottom,
-  //         top: getPosition(img_input).top,
-  //         left: getPosition(img_input).left,
-  //         type: "IMAGE_INPUT",
-  //         data: img_input[0].value,
-  //       };
-  //       page.push(elem);
-  //     }
-  //   }
-
-  //   const text2 = document.getElementsByClassName("texttInput");
-
-  //   if (text2.length) {
-  //     if (text2[0].parentElement.classList.contains("holderDIV")) {
-  //       elem = {
-  //         width: getPosition(text2).right,
-  //         height: getPosition(text2).bottom,
-  //         top: getPosition(text2).top,
-  //         left: getPosition(text2).left,
-  //         type: "TEXT_FILL",
-  //         data: text2[0].value,
-  //       };
-  //       page.push(elem);
-  //     }
-  //   }
-
-  //   const date = document.getElementsByClassName("dateInput");
-  //   if (date.length) {
-  //     elem = {
-  //       width: getPosition(date).right,
-  //       height: getPosition(date).bottom,
-  //       top: getPosition(date).top,
-  //       left: getPosition(date).left,
-  //       type: "DATE_INPUT",
-  //       data: date[0].innerHTML,
-  //     };
-  //     page.push(elem);
-  //   }
-  //   const tablee = document.getElementsByTagName("TABLE");
-  //   if (tablee.length < 1) {
-  //     const img = document.getElementsByTagName("img");
-  //     if (img.length) {
-  //       const canvas = document.createElement("canvas");
-  //       canvas.setAttribute("width", document.style.width);
-  //       canvas.setAttribute("height", document.style.height);
-  //       const ctx = canvas.getContext("2d");
-  //       ctx.drawImage(
-  //         img[0],
-  //         0,
-  //         0,
-  //         parseInt(document.style.width.slice(0, -2)),
-  //         parseInt(document.style.height.slice(0, -2))
-  //       );
-  //       elem = {
-  //         width: getPosition(tablee).style.width,
-  //         height: getPosition(tablee).style.height,
-  //         top: getPosition(tablee).style.top,
-  //         left: getPosition(tablee).style.left,
-  //         type: "IMG_INPUT",
-  //         data: canvas.toDataURL(),
-  //       };
-  //       page.push(elem);
-  //     }
-  //   }
-
-  //   contentFile.push(page);
-  //   //console.log("ContentFile While saveDoc", contentFile);
-
-  //   return contentFile;
-  // }
-
-  return (
-    <>
-      {item?.map((currentItem, index) =>
-      {
-        return (
-          // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
-          // <div key={index} className={`midSection disable_pointer_event`}>
-          <Print>
-            <div
-              ref={ref}
-              key={index}
-              className={`midSection print_midsection_${index}`}
-            >
-              <Container
-                as="div"
-                ref={midSectionRef}
-                className={
-                  // !sidebar
-                  //   ? "midSection_without_RightMenu_container"
-                  "midSection_container print_container"
+              let scale = document.createElement("iframe");
+              scaleFieldContainer.append(scale);
+              Axios.post(
+                "https://100035.pythonanywhere.com/api/nps_settings_create/",
+                {
+                  username: "nake",
+                  orientation: "horizontal",
+                  scalecolor: "#8f1e1e",
+                  roundcolor: "#938585",
+                  fontcolor: "#000000",
+                  fomat: "numbers",
+                  time: "00",
+                  name: `${title}_scale`,
+                  left: "good",
+                  right: "best",
+                  center: "neutral",
                 }
-                // className="midSection_container"
-                id="midSection_container"
-                onDragOver={dragOver}
-                onDrop={onDrop}
+              )
+                .then((res) =>
+                {
+                  setIsLoading(false);
+                  console.log(res.data, "scaleData");
+                  setScaleData(res.data);
+                  const success = res.data.success;
+                  var successObj = JSON.parse(success);
+                  const id = successObj.inserted_id;
+                  console.log(res.scale_urls, "stateScale");
+                  if (id.length)
+                  {
+                    console.log(id, "id");
+                    setScaleId(id);
+                  }
+                  scale.src = res.data.scale_urls;
+                })
+                .catch((err) =>
+                {
+                  setIsLoading(false);
+                  console.log(err);
+                });
+
+              scaleFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("scale2");
+                setSidebar(true);
+              };
+
+              holderDIVContainer.append(scaleFieldContainer);
+            } else if (typeOfOperationContainer === "TABLE_INPUT")
+            {
+              let tableFieldContainer = document.createElement("div");
+              tableFieldContainer.className = "tableInput";
+              tableFieldContainer.style.width = "100%";
+              tableFieldContainer.style.height = "100%";
+              tableFieldContainer.style.backgroundColor = "#dedede";
+              tableFieldContainer.style.borderRadius = "0px";
+              tableFieldContainer.style.outline = "0px";
+              tableFieldContainer.style.overflow = "overlay";
+              tableFieldContainer.style.position = "absolute";
+
+              tableFieldContainer.onchange = (event) =>
+              {
+                event.preventDefault();
+
+                setPostData({
+                  ...postData,
+                  tableFieldContainer: {
+                    value: event.target.value,
+                    xcoordinate: getOffset(holderDIVContainer).left,
+                    ycoordinate: getOffset(holderDIVContainer).top,
+                  },
+                });
+              };
+
+              tableFieldContainer.onclick = (e) =>
+              {
+                e.stopPropagation();
+                table_dropdown_focuseddClassMaintain(e);
+                handleClicked("table2");
+                setSidebar(true);
+              };
+              holderDIVContainer.append(tableFieldContainer);
+            }
+            if (typeOfOperationContainer !== "CONTAINER_INPUT")
+              containerField.append(holderDIVContainer);
+          };
+          holderDIV.append(containerField);
+        } else if (
+          typeOfOperation === "FORM" &&
+          decoded.details.action === "template"
+        )
+        {
+          let buttonField = document.createElement("div");
+          buttonField.className = "emailInput";
+          buttonField.style.width = "100%";
+          buttonField.style.height = "100%";
+          buttonField.style.backgroundColor = "#0000";
+          buttonField.style.borderRadius = "0px";
+          buttonField.style.outline = "0px";
+          buttonField.style.overflow = "overlay";
+          buttonField.style.position = "absolute";
+          // // buttonField.textContent = "Button";
+          // buttonField.innerText = "Email";
+          buttonField.style.display = "flex";
+          buttonField.style.flexDirection = "column";
+          buttonField.style.alignItems = "center";
+
+          // create div element for form container
+          // const formContainer = document.createElement('div');
+          // buttonField.style.maxWidth = '500px';
+          // buttonField.style.height = '10%';
+          buttonField.style.margin = "0 auto";
+          buttonField.style.padding = "10%";
+          buttonField.style.border = "1px solid #0000";
+
+          // create form element
+          const form = document.createElement("form");
+          form.style.display = "flex";
+          form.style.flexDirection = "column";
+          form.style.maxWidth = "500px";
+
+          // create first row of input fields
+          const firstRow = document.createElement("div");
+          firstRow.style.display = "flex";
+          firstRow.style.justifyContent = "space-between";
+          firstRow.style.marginBottom = "10px";
+
+          // create first input field for name
+          const nameInput = document.createElement("input");
+          nameInput.type = "text";
+          nameInput.name = "name";
+          nameInput.placeholder = "To Name";
+          nameInput.style.width = "48%";
+          firstRow.appendChild(nameInput);
+
+          // create second input field for email
+          const emailInput = document.createElement("input");
+          emailInput.type = "email";
+          emailInput.name = "email";
+          emailInput.placeholder = "Email";
+          emailInput.style.width = "48%";
+          firstRow.appendChild(emailInput);
+
+          // add first row to form
+          form.appendChild(firstRow);
+
+          // create second row of input fields
+          const secondRow = document.createElement("div");
+          secondRow.style.display = "flex";
+          secondRow.style.justifyContent = "space-between";
+          secondRow.style.marginBottom = "10px";
+
+          // create third input field for subject
+          const nameInput1 = document.createElement("input");
+          nameInput1.type = "text";
+          nameInput1.name = "name";
+          nameInput1.placeholder = "From Name";
+          nameInput1.style.width = "48%";
+          secondRow.appendChild(nameInput1);
+
+          // create fourth input field for second message
+          const emailInput1 = document.createElement("input");
+          emailInput1.name = "email";
+          emailInput1.placeholder = "Email";
+          emailInput1.style.width = "48%";
+          secondRow.appendChild(emailInput1);
+
+          // add second row to form
+          form.appendChild(secondRow);
+
+          // create third input field for subject
+          const subjectInput = document.createElement("input");
+          subjectInput.type = "text";
+          subjectInput.name = "subject";
+          subjectInput.placeholder = "Subject";
+          subjectInput.style.width = "100%";
+          subjectInput.style.marginBottom = "10px";
+          form.appendChild(subjectInput);
+
+          // create textarea for message field for message
+          const messageInput = document.createElement("textarea");
+          messageInput.name = "message";
+          messageInput.placeholder = "Message";
+          messageInput.style.marginBottom = "10px";
+          form.appendChild(messageInput);
+
+          // create submit button
+          const submitButton = document.createElement("button");
+          submitButton.type = "submit";
+          submitButton.textContent = "Send";
+          submitButton.style.backgroundColor = "#007bff";
+          submitButton.style.color = "#fff";
+          submitButton.style.border = "none";
+          submitButton.style.padding = "10px 20px";
+
+          // add onClick event listener
+          submitButton.addEventListener("click", (e) =>
+          {
+            // prevent default form submission
+            e.preventDefault();
+            const formData = {
+              topic: "EditorMailComponent",
+              toName: nameInput.value,
+              fromName: nameInput1.value,
+              toEmail: emailInput.value,
+              fromeEmail: emailInput1.value,
+              subject: subjectInput.value,
+              email_body: messageInput.value,
+            };
+            // Handle validations
+            Axios.post("https://100085.pythonanywhere.com/api/editor-component/", formData)
+              .then((response) =>
+              {
+                console.log(response);
+              });
+            // alert("Mail sent!");
+            console.log(formData); // log form data to console
+          });
+          form.appendChild(submitButton);
+
+          // add form to the form container
+          buttonField.appendChild(form);
+
+          // add form container to the document
+          document.body.appendChild(buttonField);
+
+          // buttonField.onclick = (e) =>
+          // {
+          //   focuseddClassMaintain(e);
+          //   handleClicked("button2");
+          //   setSidebar(true);
+          // }
+
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.style.display = "none";
+
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.style.display = "none";
+
+          holderDIV.append(buttonField);
+          holderDIV.append(linkHolder);
+          holderDIV.append(purposeHolder);
+        }
+        if (decoded.details.action === "template")
+        {
+          document.querySelector(".drop_zone").append(holderDIV);
+        }
+      }
+    };
+
+    contentFile = [];
+    let page = [];
+
+    let elem = {};
+    // function saveDocument() {
+    //   const txt = document.getElementsByClassName("textInput");
+    //   if (txt.length) {
+    //     if (txt[0].parentElement.classList.contains("holderDIV")) {
+    //       elem = {
+    //         width: getPosition(txt).right,
+    //         height: getPosition(txt).bottom,
+    //         top: getPosition(txt).top,
+    //         left: getPosition(txt).left,
+    //         type: "TEXT_INPUT",
+    //         data: txt[0].innerHTML,
+    //       };
+    //       page.push(elem);
+    //     }
+    //   }
+
+    //   const img_input = document.getElementsByTagName("input");
+    //   if (img_input.length) {
+    //     //console.log("Image_input", img_input[0]);
+    //     if (img_input[0].type === "file") {
+    //       elem = {
+    //         width: getPosition(img_input).right,
+    //         height: getPosition(img_input).bottom,
+    //         top: getPosition(img_input).top,
+    //         left: getPosition(img_input).left,
+    //         type: "IMAGE_INPUT",
+    //         data: img_input[0].value,
+    //       };
+    //       page.push(elem);
+    //     }
+    //   }
+
+    //   const text2 = document.getElementsByClassName("texttInput");
+
+    //   if (text2.length) {
+    //     if (text2[0].parentElement.classList.contains("holderDIV")) {
+    //       elem = {
+    //         width: getPosition(text2).right,
+    //         height: getPosition(text2).bottom,
+    //         top: getPosition(text2).top,
+    //         left: getPosition(text2).left,
+    //         type: "TEXT_FILL",
+    //         data: text2[0].value,
+    //       };
+    //       page.push(elem);
+    //     }
+    //   }
+
+    //   const date = document.getElementsByClassName("dateInput");
+    //   if (date.length) {
+    //     elem = {
+    //       width: getPosition(date).right,
+    //       height: getPosition(date).bottom,
+    //       top: getPosition(date).top,
+    //       left: getPosition(date).left,
+    //       type: "DATE_INPUT",
+    //       data: date[0].innerHTML,
+    //     };
+    //     page.push(elem);
+    //   }
+    //   const tablee = document.getElementsByTagName("TABLE");
+    //   if (tablee.length < 1) {
+    //     const img = document.getElementsByTagName("img");
+    //     if (img.length) {
+    //       const canvas = document.createElement("canvas");
+    //       canvas.setAttribute("width", document.style.width);
+    //       canvas.setAttribute("height", document.style.height);
+    //       const ctx = canvas.getContext("2d");
+    //       ctx.drawImage(
+    //         img[0],
+    //         0,
+    //         0,
+    //         parseInt(document.style.width.slice(0, -2)),
+    //         parseInt(document.style.height.slice(0, -2))
+    //       );
+    //       elem = {
+    //         width: getPosition(tablee).style.width,
+    //         height: getPosition(tablee).style.height,
+    //         top: getPosition(tablee).style.top,
+    //         left: getPosition(tablee).style.left,
+    //         type: "IMG_INPUT",
+    //         data: canvas.toDataURL(),
+    //       };
+    //       page.push(elem);
+    //     }
+    //   }
+
+    //   contentFile.push(page);
+    //   //console.log("ContentFile While saveDoc", contentFile);
+
+    //   return contentFile;
+    // }
+
+    return (
+      <>
+        {item?.map((currentItem, index) =>
+        {
+          return (
+            // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
+            // <div key={index} className={`midSection disable_pointer_event`}>
+            <Print>
+              <div
+                ref={ref}
+                key={index}
+                className={`midSection print_midsection_${index}`}
               >
-                <Row>
-                  <Col className="d-flex justify-content-end header_user">
-                    <span>{index + 1}</span>
-                    {isLoading && <Spinner />}
-                  </Col>
-                </Row>
-              </Container>
-            </div>
-          </Print>
-        );
-      })}
-      {/* <!-- Modal --> */}
-    </>
+                <Container
+                  as="div"
+                  ref={midSectionRef}
+                  className={
+                    // !sidebar
+                    //   ? "midSection_without_RightMenu_container"
+                    "midSection_container print_container"
+                  }
+                  // className="midSection_container"
+                  id="midSection_container"
+                  onDragOver={dragOver}
+                  onDrop={onDrop}
+                >
+                  <Row>
+                    <Col className="d-flex justify-content-end header_user">
+                      <span>{index + 1}</span>
+                      {isLoading && <Spinner />}
+                    </Col>
+                  </Row>
+                </Container>
+              </div>
+            </Print>
+          );
+        })}
+        {/* <!-- Modal --> */}
+      </>
 
-    // <div className="midSection" >
-    //   <Container as="div" ref={midSectionRef} className="midSection_container"
-    //     onDragOver={dragOver}
-    //     onDrop={onDrop}
+      // <div className="midSection" >
+      //   <Container as="div" ref={midSectionRef} className="midSection_container"
+      //     onDragOver={dragOver}
+      //     onDrop={onDrop}
 
-    //   >
-    //     {/* <button onClick={saveDocument}>
-    //       Save
-    //     </button> */}
-    //     {/* {isDropped.align && <TextBox />}  */}
-    //     {/* {isDropped.textfill && <TextFill />}
-    //     {isDropped.image && <Image />}
-    //     {isDropped.table && <Table />}
-    //     {isDropped.signs && <Signs />}
-    //     {isDropped.calendar && <Calender />}
-    //     {isDropped.dropdown && <DropDown />}  */}
+      //   >
+      //     {/* <button onClick={saveDocument}>
+      //       Save
+      //     </button> */}
+      //     {/* {isDropped.align && <TextBox />}  */}
+      //     {/* {isDropped.textfill && <TextFill />}
+      //     {isDropped.image && <Image />}
+      //     {isDropped.table && <Table />}
+      //     {isDropped.signs && <Signs />}
+      //     {isDropped.calendar && <Calender />}
+      //     {isDropped.dropdown && <DropDown />}  */}
 
-    //   </Container>
-    // </div>
-  );
-});
+      //   </Container>
+      // </div>
+    );
+  });
 
 export default MidSection;

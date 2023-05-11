@@ -94,6 +94,7 @@ const Header = () => {
     setIsMenuVisible,
     buttonLink,
     buttonPurpose,
+    setCustomId,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -368,7 +369,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -418,9 +419,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -474,17 +475,17 @@ const Header = () => {
               const element = containerChildren[i];
               // console.log("elements", i, " ", element);
               // let tempElem = element.parentElement;
-              let tempPosn = getPosition(element);
+              let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
               const childData = {};
-              childData.width = tempPosn.width;
-              childData.height = tempPosn.height;
-              childData.top = tempPosn.top;
+              childData.width = tempPosnChild.width;
+              childData.height = tempPosnChild.height;
+              childData.top = tempPosnChild.top;
               childData.topp = containerElements[h].parentElement.style.top;
-              childData.left = tempPosn.left;
+              childData.left = tempPosnChild.left;
 
-              // const foo = 0;
+              console.log("childData", childData);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -621,7 +622,10 @@ const Header = () => {
           scale_url: scales[s].firstElementChild.src,
           scaleId: tempElem.children[1].innerHTML,
           id: `scl${s + 1}`,
-          details: decoded.details.action === "document" ? "Document instance" : "Template scale",
+          details:
+            decoded.details.action === "document"
+              ? "Document instance"
+              : "Template scale",
           // scale_url: `${scaleData}`,
         };
         dataInsertWithPage(tempPosn, elem);
@@ -695,7 +699,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-   console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -869,12 +873,32 @@ const Header = () => {
         //Handling company_id
         const company_id = res.data.company_id;
         setCompanyId(company_id);
+        npsCustomData();
       })
       .catch((err) => {
         setIsLoading(false);
         console.log(err);
       });
   };
+
+  const npsCustomData = () => {
+    console.log(decoded.details._id);
+     Axios.post(
+      "https://100035.pythonanywhere.com/api/nps_custom_data_all",
+      {
+        template_id: decoded.details._id,
+      }
+    ).then((res) => {
+      console.log(res.data);
+      const data = res.data.data
+      setCustomId(data);
+    }).catch((err) => {
+      console.log(err);
+    });
+
+  }
+
+  
 
   useEffect(() => {
     setIsLoading(true);
@@ -1048,9 +1072,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1060,9 +1083,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
