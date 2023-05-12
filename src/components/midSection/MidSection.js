@@ -355,11 +355,14 @@ const MidSection = React.forwardRef((props, ref) => {
     let holder;
     console.log("dragElement", event.target);
     // event.dataTransfer.setData("text/plain", "DATE_INPUT");
+    // event.target.ondragstart = (e) => {
+    //   console.log("i am dragged");
+    // };
     if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
 
-      console.log("initX ", initX, "initY ", initY);
+      // console.log("initX ", initX, "initY ", initY);
       /* Ensure That target has changed */
       var counterCheck = true;
       var tempTarget = event.target;
@@ -388,7 +391,9 @@ const MidSection = React.forwardRef((props, ref) => {
         };
         return Object.seal(holderPos);
       })();
-
+      // holder.ondragstart = (e) => {
+      //   console.log("i am dragged", e.target);
+      // };
       // code for conatainer element move start
       let holderParentHolder = "";
       let holderParentHolderRect = "";
@@ -401,11 +406,14 @@ const MidSection = React.forwardRef((props, ref) => {
       }
       hodlerRect = holder.getBoundingClientRect();
       // code for container element move end
-      console.log("finding moveable element", holderPos);
+      // console.log("finding moveable element", holderPos);
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev) {
-        //console.log(ev);
+        // console.log(ev.target);
+        ev.target.parentElement.ondragend = (e) => {
+          console.log("thanks a lot");
+        };
         ev.preventDefault();
         const el = document.getElementById("midSection_container");
         const midsectionRect = el.getBoundingClientRect();
@@ -423,39 +431,6 @@ const MidSection = React.forwardRef((props, ref) => {
           ev.screenX + holderPos.left + hodlerRect.width - initX;
         const elmentMeasureY =
           ev.screenY + holderPos.top + hodlerRect.height - initY;
-        console.log(
-          "ev.screenX",
-          ev.screenX,
-          "hodlerRect",
-          hodlerRect,
-          "midsectionRect",
-          midsectionRect,
-          "elemtnMeasureX",
-          elemtnMeasureX,
-          "elmentMeasureY",
-          elmentMeasureY
-        );
-
-        // console.log(
-        //   "cientX",
-        //   holder.style.left,
-        //   " ",
-        //   eventClientX,
-        //   "ev.screenX",
-        //   ev.screenX,
-        //   "finding measures",
-        //   elemtnMeasureX,
-        //   "elmentMeasureY",
-        //   elmentMeasureY,
-        //   holderParentHolderRect.width
-        // );
-        // console.log(
-        //   "test data",
-        //   ev.screenX,
-        //   holderPos.left,
-        //   holder.width,
-        //   initX
-        // );
         // if (
         //   ev.screenX > holderParentHolderRect.left &&
         //   ev.screenY > holderParentHolderRect.top &&
@@ -464,9 +439,11 @@ const MidSection = React.forwardRef((props, ref) => {
         if (holder?.parentElement.classList.contains("containerInput")) {
           if (
             holderParentHolderRect.width > elemtnMeasureX + 5 &&
-            holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            // holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            ev.screenX + holderPos.left - initX > 0 &&
             holderParentHolderRect.height > elmentMeasureY + 5 &&
-            holderParentHolderRect.top - 50 < elmentMeasureY
+            // holderParentHolderRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
           ) {
             //console.log("checking motion");
             const diffX = ev.screenX - initX;
@@ -486,9 +463,10 @@ const MidSection = React.forwardRef((props, ref) => {
 
           if (
             midsectionRect.width > elemtnMeasureX + 5 &&
-            midsectionRect.left + 20 < elemtnMeasureX &&
+            ev.screenX + holderPos.left - initX > 0 &&
             midsectionRect.height > elmentMeasureY + 5 &&
-            midsectionRect.top - 50 < elmentMeasureY
+            // midsectionRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
           ) {
             //console.log("checking motion");
             const diffX = ev.screenX - initX;
@@ -663,6 +641,37 @@ const MidSection = React.forwardRef((props, ref) => {
 
     return holderDIV;
   }
+
+  // dragging test
+
+  let dragged = null;
+
+  const source = document.querySelector(".focussedd");
+
+  if (source) {
+    source.addEventListener("dragstart", (event) => {
+      // store a ref. on the dragged elem
+      dragged = event.target;
+      console.log("dragged", dragged);
+    });
+  }
+
+  // const target = document.getElementById("droptarget");
+  // target.addEventListener("dragover", (event) => {
+  //   // prevent default to allow drop
+  //   event.preventDefault();
+  // });
+
+  // target.addEventListener("drop", (event) => {
+  //   // prevent default action (open as link for some elements)
+  //   event.preventDefault();
+  //   // move dragged element to the selected drop target
+  //   if (event.target.className === "dropzone") {
+  //     dragged.parentNode.removeChild(dragged);
+  //     event.target.appendChild(dragged);
+  //   }
+  // });
+
   // table_dropdown_focuseddClassMaintain
   // function table_dropdown_focuseddClassMaintain(e) {
   //   console.log("tabletargettest", e.target);
@@ -2060,8 +2069,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   var successObj = JSON.parse(success);
                   const id = successObj.inserted_id;
                   console.log(res.scale_urls, "stateScale");
-                  if (id.length)
-                  {
+                  if (id.length) {
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;
@@ -2110,6 +2118,99 @@ const MidSection = React.forwardRef((props, ref) => {
                 setSidebar(true);
               };
               holderDIVContainer.append(tableFieldContainer);
+            } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+              const measure = {
+                width: element.width + "px",
+                height: element.height + "px",
+                left: element.left + "px",
+                top: element.topp,
+                auth_user: curr_user,
+              };
+
+              const idMatch = documnetMap?.filter(
+                (elmnt) => elmnt == element?.id
+              );
+              // const holderDIV = getHolderDIV(measure, pageNo);
+              const id = `${element.id}`;
+              const finalizeButton = document.getElementById("finalize-button");
+              const rejectButton = document.getElementById("reject-button");
+
+              let buttonFieldContainer = document.createElement("button");
+              buttonFieldContainer.className = "buttonInput";
+              buttonFieldContainer.id = id;
+              buttonFieldContainer.style.width = "100%";
+              buttonFieldContainer.style.height = "100%";
+              buttonFieldContainer.style.backgroundColor = "#0000";
+              buttonFieldContainer.style.borderRadius = "0px";
+              buttonFieldContainer.style.outline = "0px";
+              buttonFieldContainer.style.overflow = "overlay";
+              buttonFieldContainer.style.position = "absolute";
+              buttonFieldContainer.textContent = containerElement.data;
+
+              if (
+                decoded.details.action === "template" &&
+                containerElement.raw_data == "" &&
+                containerElement.purpose == ""
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  handleClicked("button2", "container2");
+                  setSidebar(true);
+                };
+              }
+
+              buttonFieldContainer.onmouseover = (e) => {
+                if (
+                  buttonFieldContainer?.parentElement?.classList.contains(
+                    "holderDIV"
+                  )
+                ) {
+                  buttonFieldContainer?.parentElement?.classList.add(
+                    "element_updated"
+                  );
+                }
+              };
+
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "custom" &&
+                containerElement.raw_data !== ""
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  window.open(containerElement.raw_data, "_blank");
+                };
+              }
+
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "finalize"
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  finalizeButton?.click();
+                };
+              }
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "reject"
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  rejectButton?.click();
+                };
+              }
+
+              const linkHolder = document.createElement("div");
+              linkHolder.className = "link_holder";
+              linkHolder.innerHTML = containerElement.raw_data;
+              linkHolder.style.display = "none";
+
+              const purposeHolder = document.createElement("div");
+              purposeHolder.className = "purpose_holder";
+              purposeHolder.innerHTML = containerElement.purpose;
+              purposeHolder.style.display = "none";
+
+              holderDIVContainer.append(buttonFieldContainer);
+              holderDIVContainer.append(linkHolder);
+              holderDIVContainer.append(purposeHolder);
             }
             if (typeOfOperationContainer !== "CONTAINER_INPUT")
               containerField.append(holderDIVContainer);
@@ -2453,8 +2554,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   var successObj = JSON.parse(success);
                   const id = successObj.inserted_id;
                   console.log(res.scale_urls, "stateScale");
-                  if (id.length)
-                  {
+                  if (id.length) {
                     setScaleId(id);
                   }
                   scale.src = res.data.scale_urls;
@@ -2503,6 +2603,37 @@ const MidSection = React.forwardRef((props, ref) => {
                 setSidebar(true);
               };
               holderDIVContainer.append(tableFieldContainer);
+            } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+              let buttonField = document.createElement("button");
+              buttonField.className = "buttonInput";
+              buttonField.style.width = "100%";
+              buttonField.style.height = "100%";
+              buttonField.style.backgroundColor = "#0000";
+              buttonField.style.borderRadius = "0px";
+              buttonField.style.outline = "0px";
+              buttonField.style.overflow = "overlay";
+              buttonField.style.position = "absolute";
+              buttonField.textContent = "Button";
+
+              buttonField.onclick = (e) => {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("button2", "container2");
+                setSidebar(true);
+              };
+
+              const linkHolder = document.createElement("div");
+              linkHolder.className = "link_holder";
+              linkHolder.style.display = "none";
+
+              const purposeHolder = document.createElement("div");
+              purposeHolder.className = "purpose_holder";
+              purposeHolder.style.display = "none";
+
+              // holderDIVContainer.append(dateFieldContainer);
+              holderDIVContainer.append(buttonField);
+              holderDIVContainer.append(linkHolder);
+              holderDIVContainer.append(purposeHolder);
             }
             if (typeOfOperationContainer !== "CONTAINER_INPUT")
               containerField.append(holderDIVContainer);
@@ -3500,7 +3631,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log("container field clicked");
         };
         containerField.ondragover = (e) => {
-          console.log("console from container", e.target);
+          console.log("console from container dragover", e.target);
         };
         containerField.ondrop = (event) => {
           const container = event.target;
@@ -3890,6 +4021,37 @@ const MidSection = React.forwardRef((props, ref) => {
               setSidebar(true);
             };
             holderDIVContainer.append(tableFieldContainer);
+          } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+            let buttonField = document.createElement("button");
+            buttonField.className = "buttonInput";
+            buttonField.style.width = "100%";
+            buttonField.style.height = "100%";
+            buttonField.style.backgroundColor = "#0000";
+            buttonField.style.borderRadius = "0px";
+            buttonField.style.outline = "0px";
+            buttonField.style.overflow = "overlay";
+            buttonField.style.position = "absolute";
+            buttonField.textContent = "Button";
+
+            buttonField.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              handleClicked("button2", "container2");
+              setSidebar(true);
+            };
+
+            const linkHolder = document.createElement("div");
+            linkHolder.className = "link_holder";
+            linkHolder.style.display = "none";
+
+            const purposeHolder = document.createElement("div");
+            purposeHolder.className = "purpose_holder";
+            purposeHolder.style.display = "none";
+
+            // holderDIVContainer.append(dateFieldContainer);
+            holderDIVContainer.append(buttonField);
+            holderDIVContainer.append(linkHolder);
+            holderDIVContainer.append(purposeHolder);
           }
           if (typeOfOperationContainer !== "CONTAINER_INPUT")
             containerField.append(holderDIVContainer);

@@ -369,7 +369,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -419,9 +419,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -501,6 +501,18 @@ const Header = () => {
                 case "signInput":
                   type = "SIGN_INPUT";
                   break;
+                case "iframeInput":
+                  type = "IFRAME_INPUT";
+                  break;
+                case "scaleInput":
+                  type = "SCALE_INPUT";
+                  break;
+                case "buttonInput":
+                  type = "BUTTON_INPUT";
+                  break;
+                case "dropdownInput":
+                  type = "DROPDOWN_INPUT";
+                  break;
                 default:
                   type = "";
               }
@@ -511,7 +523,8 @@ const Header = () => {
               //         (containerChildClassName == "signInput" && "SIGN_INPUT"),
               childData.type = type;
               const imageData =
-                "imageInput" && element.firstElementChild.style.backgroundImage
+                "imageInput" &&
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               // console.log(
@@ -583,79 +596,97 @@ const Header = () => {
     const iframes = document.getElementsByClassName("iframeInput");
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
-        // var new_table = document.getElementsByTagName("table")[0];
-        let tempElem = iframes[i].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(iframes[i].innerText);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: iframes[i].parentElement.style.top,
-          left: tempPosn.left,
-          type: "IFRAME_INPUT",
-          data: iframes[i].innerText
-            ? "iFrame here"
-            : iframes[i].firstElementChild.src,
-          id: `ifr${i + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !iframes[i]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = iframes[i].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(iframes[i].innerText);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: iframes[i].parentElement.style.top,
+            left: tempPosn.left,
+            type: "IFRAME_INPUT",
+            data: iframes[i].innerText
+              ? "iFrame here"
+              : iframes[i].firstElementChild.src,
+            id: `ifr${i + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
     const scales = document.getElementsByClassName("scaleInput");
     if (scales.length) {
       for (let s = 0; s < scales.length; s++) {
-        let tempElem = scales[s].parentElement;
-        let tempPosn = getPosition(tempElem);
-        console.log(scales[s].firstElementChild);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: scales[s].parentElement.style.top,
-          left: tempPosn.left,
-          type: "SCALE_INPUT",
-          data: `${title}_scale_${s + 1}`,
-          scale_url: scales[s].firstElementChild.src,
-          scaleId: tempElem.children[1].innerHTML,
-          id: `scl${s + 1}`,
-          details:
-            decoded.details.action === "document"
-              ? "Document instance"
-              : "Template scale",
-          // scale_url: `${scaleData}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !scales[s]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = scales[s].parentElement;
+          let tempPosn = getPosition(tempElem);
+          console.log(scales[s].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: scales[s].parentElement.style.top,
+            left: tempPosn.left,
+            type: "SCALE_INPUT",
+            data: `${title}_scale_${s + 1}`,
+            scale_url: scales[s].firstElementChild.src,
+            scaleId: tempElem.children[1].innerHTML,
+            id: `scl${s + 1}`,
+            details:
+              decoded.details.action === "document"
+                ? "Document instance"
+                : "Template scale",
+            // scale_url: `${scaleData}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
       for (let b = 0; b < buttons.length; b++) {
-        let tempElem = buttons[b].parentElement;
-        let tempPosn = getPosition(tempElem);
-        const link = buttonLink;
+        if (
+          !buttons[b]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = buttons[b].parentElement;
+          let tempPosn = getPosition(tempElem);
+          const link = buttonLink;
 
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: buttons[b].parentElement.style.top,
-          left: tempPosn.left,
-          type: "BUTTON_INPUT",
-          data: buttons[b].textContent,
-          raw_data: tempElem.children[1].innerHTML,
-          purpose: tempElem.children[2].innerHTML,
-          id: `btn${b + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: buttons[b].parentElement.style.top,
+            left: tempPosn.left,
+            type: "BUTTON_INPUT",
+            data: buttons[b].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `btn${b + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
@@ -663,29 +694,35 @@ const Header = () => {
 
     if (dropDowns.length) {
       for (let d = 0; d < dropDowns.length; d++) {
-        // var new_table = document.getElementsByTagName("table")[0];
-        let tempElem = dropDowns[d].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(dropDowns[d].firstElementChild.innerHTML);
-        const selectElement = dropDowns[d].lastElementChild;
-        const selectedOption =
-          selectElement.options[selectElement.selectedIndex];
-        const selectedText = selectedOption.textContent;
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: dropDowns[d].parentElement.style.top,
-          left: tempPosn.left,
-          type: "DROPDOWN_INPUT",
-          data: selectedText,
-          data1: dropDowns[d].firstElementChild.innerHTML,
-          data2: dropDowns[d].lastElementChild.innerHTML,
-          id: `dd${d + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !dropDowns[d]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = dropDowns[d].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(dropDowns[d].firstElementChild.innerHTML);
+          const selectElement = dropDowns[d].lastElementChild;
+          const selectedOption =
+            selectElement.options[selectElement.selectedIndex];
+          const selectedText = selectedOption?.textContent;
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: dropDowns[d].parentElement.style.top,
+            left: tempPosn.left,
+            type: "DROPDOWN_INPUT",
+            data: selectedText,
+            data1: dropDowns[d].firstElementChild.innerHTML,
+            data2: dropDowns[d].lastElementChild.innerHTML,
+            id: `dd${d + 1}`,
+          };
+          dataInsertWithPage(tempPosn, elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
@@ -883,22 +920,18 @@ const Header = () => {
 
   const npsCustomData = () => {
     console.log(decoded.details._id);
-     Axios.post(
-      "https://100035.pythonanywhere.com/api/nps_custom_data_all",
-      {
-        template_id: decoded.details._id,
-      }
-    ).then((res) => {
-      console.log(res.data);
-      const data = res.data.data
-      setCustomId(data);
-    }).catch((err) => {
-      console.log(err);
-    });
-
-  }
-
-  
+    Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data_all", {
+      template_id: decoded.details._id,
+    })
+      .then((res) => {
+        console.log(res.data);
+        const data = res.data.data;
+        setCustomId(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -1072,8 +1105,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -1083,8 +1117,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
