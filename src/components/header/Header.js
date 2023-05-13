@@ -198,9 +198,14 @@ const Header = () => {
 
     const rect = el.getBoundingClientRect();
     const midsectionRect = midSec.getBoundingClientRect();
-
+    // const rect = el.getBoundingClientRect();
+    // console.log("element check ", el);
+    // console.log("heaer react and midesctionRect", rect, midsectionRect);
     return {
-      top: rect.top - midsectionRect.top,
+      top:
+        rect.top > 0
+          ? Math.abs(midsectionRect.top)
+          : rect.top - midsectionRect.top,
       left: rect.left - midsectionRect.left,
       bottom: rect.bottom,
       right: rect.right,
@@ -227,6 +232,21 @@ const Header = () => {
       low += 1122;
       high += 1122;
     }
+  };
+
+  const findPaageNum = (element) => {
+    let targetParent = element;
+    let pageNum = null;
+    while (1) {
+      if (targetParent.classList.contains("midSection_container")) {
+        targetParent = targetParent;
+        break;
+      } else {
+        targetParent = targetParent.parentElement;
+      }
+    }
+    pageNum = targetParent.innerText.split("\n")[0];
+    return pageNum;
   };
   function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
@@ -273,8 +293,27 @@ const Header = () => {
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          // let targetParent = txt[h];
+          // let pageNum = null;
+          // while (1) {
+          //   if (targetParent.classList.contains("midSection_container")) {
+          //     targetParent = targetParent;
+          //     break;
+          //   } else {
+          //     targetParent = targetParent.parentElement;
+          //   }
+          // }
+          // pageNum = targetParent.innerText.split("\n")[0];
 
+          // const classListOfParentElement = txt[h]?.parentElement?.classList;
+          // const pageNum = classListOfParentElement[1].split("_")[1];
+          // console.log(
+          //   "classListOfParentElement",
+          //   classListOfParentElement[1].split("_")[1]
+          // );
+          const pageNum = findPaageNum(txt[h]);
+          page[0][pageNum].push(elem);
           // page.push(elem);
         }
       }
@@ -313,7 +352,9 @@ const Header = () => {
             data: dataName,
             id: `i${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(img[h]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -341,7 +382,9 @@ const Header = () => {
             data: date[h].innerHTML,
             id: `d${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(date[h]);
+          page[0][pageNum].push(elem);
         }
       }
     }
@@ -373,7 +416,9 @@ const Header = () => {
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(sign[h]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -431,7 +476,7 @@ const Header = () => {
               tableTR.tr = newTableTR;
               allTableCCells.push(tableTR);
             }
-            console.log("allTableCCells", allTableCCells);
+            // console.log("allTableCCells", allTableCCells);
             return allTableCCells;
           }
           elem = {
@@ -446,7 +491,9 @@ const Header = () => {
             data: getChildData(),
             id: `tab${t + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(tables[t]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -485,7 +532,7 @@ const Header = () => {
               childData.topp = containerElements[h].parentElement.style.top;
               childData.left = tempPosnChild.left;
 
-              console.log("childData", childData);
+              // console.log("childData", childData);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -527,15 +574,13 @@ const Header = () => {
                 element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
-              // console.log(
-              //   "iamge data",
-              //   imageData,
-              //   element.firstElementChild,
-              //   element.firstElementChild?.innerHTML
-              // );
-
-              // if(imageData){
-              childData.data = imageData;
+              if (type != "TEXT_INPUT") {
+                childData.data = imageData;
+              }
+              if (type == "TEXT_INPUT") {
+                childData.data = element.firstElementChild?.innerText;
+                childData.raw_data = element.firstElementChild?.innerHTML;
+              }
               // else{
               // childData.data = element.firstElementChild.innerHTML
               // }
@@ -576,7 +621,7 @@ const Header = () => {
             //   tableTR.tr = newTableTR;
             //   allTableCCells.push(tableTR);
             // }
-            console.log("allTableCCells", allContainerChildren);
+            // console.log("allTableCCells", allContainerChildren);
             return allContainerChildren;
           }
           elem = {
@@ -589,7 +634,9 @@ const Header = () => {
             data: getChildData(),
             id: `c${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(containerElements[h]);
+          page[0][pageNum].push(elem);
         }
       }
     }
@@ -617,7 +664,9 @@ const Header = () => {
               : iframes[i].firstElementChild.src,
             id: `ifr${i + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(iframes[i]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -652,7 +701,9 @@ const Header = () => {
                 : "Template scale",
             // scale_url: `${scaleData}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(scales[s]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -683,7 +734,9 @@ const Header = () => {
             purpose: tempElem.children[2].innerHTML,
             id: `btn${b + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(buttons[b]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -719,7 +772,9 @@ const Header = () => {
             data2: dropDowns[d].lastElementChild.innerHTML,
             id: `dd${d + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(dropDowns[d]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -727,7 +782,7 @@ const Header = () => {
     }
 
     contentFile.push(page);
-    const data = JSON.stringify(contentFile);
+    // const data = JSON.stringify(contentFile);
     // //console.log("ContentFile While saveDoc", data);
 
     return contentFile;

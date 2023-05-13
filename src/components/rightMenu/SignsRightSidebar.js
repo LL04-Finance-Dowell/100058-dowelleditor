@@ -1,16 +1,21 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import SignatureCanvas from "react-signature-canvas";
 
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+// import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+
+// import Dropdown from "react-bootstrap/Dropdown";
+// import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 const SignsRightSidebar = () => {
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
   const { signState, setSignState, setIsFinializeDisabled, handleClicked } =
     useStateContext();
   const [searchParams] = useSearchParams();
@@ -76,6 +81,19 @@ const SignsRightSidebar = () => {
       button.textContent = imageName.value;
     }
   };
+
+  const handleBorderSizeChange = (e) => {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+  };
+
+  const handleBorderColorChange = (e) => {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+  };
   return (
     <div>
       {decoded.details.action === "document" && (
@@ -93,6 +111,49 @@ const SignsRightSidebar = () => {
                 ref={sigPad}
               />
             </div>
+            <hr />
+            <Row className="pt-4">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h6 style={{ marginRight: "10rem" }}>Border</h6>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    onClick={() => setShowSlider(!showSlider)}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+              {showSlider && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#abab",
+                    gap: "10px",
+                    height: "40px",
+                    width: "90%",
+                  }}
+                >
+                  <input
+                    type="color"
+                    value={borderColor}
+                    onChange={handleBorderColorChange}
+                    id="color"
+                    style={{ border: "none", width: "10%", height: "15px" }}
+                  />
+                  <input
+                    type="range"
+                    min="-10"
+                    max="20"
+                    value={borderSize}
+                    onChange={handleBorderSizeChange}
+                    id="range"
+                    className="range-color"
+                  />
+                </div>
+              )}
+            </Row>
+            <hr />
             <div className="mt-5 text-left pt-1">
               <Button
                 className="w-75"
@@ -130,7 +191,7 @@ const SignsRightSidebar = () => {
         <Form.Label>Place Holder Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Choose Image"
+          placeholder="Choose Signature"
           id="image_name"
           onChange={() => {}}
         />
