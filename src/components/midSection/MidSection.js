@@ -1910,7 +1910,6 @@ const MidSection = React.forwardRef((props, ref) => {
               //  inputFieldContainer.setAttribute('draggable', true);
               inputFieldContainer.setAttribute("contenteditable", true);
               inputFieldContainer.className = "textInput";
-              inputFieldContainer.innerHTML = "Enter text here";
               inputFieldContainer.style.width = "100%";
               inputFieldContainer.style.height = "100%";
               inputFieldContainer.style.resize = "none";
@@ -1937,12 +1936,19 @@ const MidSection = React.forwardRef((props, ref) => {
                 // })
               }
 
+
+              const text = `${containerElement.data}`;
+
+              inputFieldContainer.innerHTML = text;
+
               inputFieldContainer.onclick = (e) => {
                 e.stopPropagation();
                 focuseddClassMaintain(e);
                 handleClicked("align2");
                 setSidebar(true);
               };
+
+
               holderDIVContainer.append(inputFieldContainer);
             } else if (typeOfOperationContainer === "SIGN_INPUT") {
               let signFieldContainer = document.createElement("div");
