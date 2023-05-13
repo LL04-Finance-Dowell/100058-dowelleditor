@@ -5,7 +5,7 @@ import { headerData } from "../../data/data";
 import user from "../../assets/headerIcons/user.png";
 import { FaCopy, FaPen, FaSave } from "react-icons/fa";
 import { BiImport, BiExport, BiCut, BiCopyAlt } from "react-icons/bi";
-import { ImRedo, ImUndo } from "react-icons/im";
+import { ImRedo, ImUndo, ImPaste } from "react-icons/im";
 import CryptoJS from "crypto-js";
 import print from "print-js";
 import { useStateContext } from "../../contexts/contextProvider";
@@ -111,7 +111,17 @@ const Header = () => {
     document.querySelector(".focussedd").remove();
   };
   const handleCopy = () => {
-    document.execCommand("copy");
+    // const element = document.querySelector(".focussedd");
+    // // console.log(element);
+    // let counter = 1;
+    // const copyEle = element.cloneNode(true);
+    // // console.log(copyEle)
+    // copyEle.id += counter;
+    // holderDIV.appendChild(copyEle);
+    // console.log("coping", copyEle)
+  };
+  const handlePaste = () => {
+    document.execCommand("paste");
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -695,7 +705,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-   console.log(decoded.details);
+  //  console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -1079,6 +1089,10 @@ const Header = () => {
                   <div className="d-flex cursor_pointer" onClick={handleCopy}>
                     <BiCopyAlt />
                     <p>Copy</p>
+                  </div>
+                  <div className="d-flex cursor_pointer" onClick={handlePaste}>
+                    <ImPaste />
+                    <p>Paste</p>
                   </div>
                   <div
                     className="d-flex cursor_pointer"
