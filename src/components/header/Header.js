@@ -523,23 +523,24 @@ const Header = () => {
           function getChildData() {
             const allContainerChildren = [];
             const containerChildren = containerElements[h].children;
-            // console.log(
-            //   "containerChildren",
-            //   containerChildren.length,
-            //   containerChildren
-            // );
+            console.log(
+              "containerChildren",
+              containerChildren.length,
+              containerChildren
+            );
             for (let i = 0; i < containerChildren.length; i++) {
-              const element = containerChildren[i];
-              // console.log("elements", i, " ", element);
-              // let tempElem = element.parentElement;
-              let tempPosnChild = getPosition(element);
+              const elementChild = containerChildren[i];
+              console.log("elementChilds", i, " ", elementChild);
+              // let tempElem = elementChild.parentElement;
+              let tempPosnChild = getPosition(elementChild);
+              console.log("tempPosnChild", tempPosnChild);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
               const childData = {};
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = containerElements[h].parentElement.style.top;
+              childData.topp = elementChild.style.top;
               childData.left = tempPosnChild.left;
 
               // console.log("childData", childData);
@@ -581,18 +582,18 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
-                  ? element.firstElementChild.style.backgroundImage
-                  : element.firstElementChild?.innerHTML;
+                elementChild?.firstElementChild?.style?.backgroundImage
+                  ? elementChild.firstElementChild.style.backgroundImage
+                  : elementChild.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
                 childData.data = imageData;
               }
               if (type == "TEXT_INPUT") {
-                childData.data = element.firstElementChild?.innerText;
-                childData.raw_data = element.firstElementChild?.innerHTML;
+                childData.data = elementChild.firstElementChild?.innerText;
+                childData.raw_data = elementChild.firstElementChild?.innerHTML;
               }
               // else{
-              // childData.data = element.firstElementChild.innerHTML
+              // childData.data = elementChild.firstElementChild.innerHTML
               // }
               childData.id = `${containerChildClassName[0]}${h + 1}`;
               allContainerChildren.push(childData);
@@ -601,7 +602,7 @@ const Header = () => {
             //   const tableTR = { tr: null };
             //   const newTableTR = [];
             //   for (let j = 0; j < tableChildren[i].children.length; j++) {
-            //     // const element = tableChildren[i];
+            //     // const elementChild = tableChildren[i];
 
             //     const TdDivClassName =
             //       tableChildren[i].children[

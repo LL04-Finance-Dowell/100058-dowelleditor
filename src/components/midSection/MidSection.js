@@ -839,7 +839,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -939,7 +939,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -1017,7 +1017,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -1133,7 +1133,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -1389,7 +1389,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -1440,7 +1440,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -1531,7 +1531,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -1654,7 +1654,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -1714,7 +1714,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -1760,7 +1760,7 @@ const MidSection = React.forwardRef((props, ref) => {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
-              top: containerElement.top - element.top + "px",
+              top: containerElement.topp,
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
@@ -2661,7 +2661,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -2860,34 +2860,29 @@ const MidSection = React.forwardRef((props, ref) => {
           // })
         }
 
-
         const copyInput = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -2897,15 +2892,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -2923,29 +2914,27 @@ const MidSection = React.forwardRef((props, ref) => {
               // copyImage()
               // resizing = true;
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         inputField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyInput()
+            console.log("clicked it");
+            copyInput();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         inputField.onclick = (e) => {
           e.stopPropagation();
@@ -2990,27 +2979,23 @@ const MidSection = React.forwardRef((props, ref) => {
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -3020,15 +3005,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -3046,34 +3027,30 @@ const MidSection = React.forwardRef((props, ref) => {
               // copyImage()
               // resizing = true;
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         imageField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyImage()
+            console.log("clicked it");
+            copyImage();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
         // } else {
         //   console.log("Not Image INPUT")
         // }
-
-
 
         // let copyMenu = document.querySelectorAll("#inputImg");
         // let cloneMenu = copyMenu.cloneNode(true);
@@ -3338,27 +3315,23 @@ const MidSection = React.forwardRef((props, ref) => {
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -3368,15 +3341,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -3392,29 +3361,27 @@ const MidSection = React.forwardRef((props, ref) => {
               // tableField.classList.add("focussed");
               handleClicked("iframe2", "container2");
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         iframeField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyIframes()
+            console.log("clicked it");
+            copyIframes();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         iframeField.onclick = (e) => {
           // focuseddClassMaintain(e);
@@ -3514,27 +3481,23 @@ const MidSection = React.forwardRef((props, ref) => {
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -3544,15 +3507,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -3570,29 +3529,27 @@ const MidSection = React.forwardRef((props, ref) => {
               // copyImage()
               // resizing = true;
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         scaleField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyScales()
+            console.log("clicked it");
+            copyScales();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         scaleField.onclick = (e) => {
           e.stopPropagation();
@@ -3722,8 +3679,6 @@ const MidSection = React.forwardRef((props, ref) => {
         //   // })
         // }
 
-
-
         tableField.onclick = (e) => {
           e.stopPropagation();
           // focuseddClassMaintain(e);
@@ -3779,27 +3734,23 @@ const MidSection = React.forwardRef((props, ref) => {
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -3809,15 +3760,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -3833,29 +3780,27 @@ const MidSection = React.forwardRef((props, ref) => {
               handleClicked("signs2", "container2");
               setSidebar(true);
               console.log("sign field clicked");
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         signField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copySign()
+            console.log("clicked it");
+            copySign();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         signField.onclick = (e) => {
           e.stopPropagation();
@@ -3944,34 +3889,29 @@ const MidSection = React.forwardRef((props, ref) => {
         //   // })
         // }
 
-
         const copyDates = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -3981,15 +3921,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -4021,30 +3957,27 @@ const MidSection = React.forwardRef((props, ref) => {
               }
               setSidebar(true);
               setTimeout(dateClick, 0);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         dateField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyDates()
+            console.log("clicked it");
+            copyDates();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
+        });
 
         function dateClick() {
           document.getElementById("date_picker").click();
@@ -4145,34 +4078,29 @@ const MidSection = React.forwardRef((props, ref) => {
           // })
         }
 
-
         const copyDropdown = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -4182,15 +4110,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -4206,31 +4130,27 @@ const MidSection = React.forwardRef((props, ref) => {
               handleClicked("dropdown2", "container2");
               setRightSideDropDown(false);
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         dropdownField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyDropdown()
+            console.log("clicked it");
+            copyDropdown();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
-
+        });
 
         dropdownField.onclick = (e) => {
           e.stopPropagation();
@@ -4266,35 +4186,29 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.position = "absolute";
         buttonField.textContent = "Button";
 
-
-
         const copyButton = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -4304,15 +4218,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -4327,29 +4237,27 @@ const MidSection = React.forwardRef((props, ref) => {
               focuseddClassMaintain(e);
               handleClicked("button2", "container2");
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         buttonField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyButton()
+            console.log("clicked it");
+            copyButton();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         buttonField.onclick = (e) => {
           e.stopPropagation();
@@ -4385,31 +4293,29 @@ const MidSection = React.forwardRef((props, ref) => {
         containerField.style.overflow = "overlay";
         containerField.style.position = "absolute";
 
-
         const copyContainer = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -4419,15 +4325,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -4437,7 +4339,6 @@ const MidSection = React.forwardRef((props, ref) => {
 
               copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
             });
-
 
             copyEle.ondrop = (event) => {
               const container = event.target;
@@ -4461,7 +4362,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 top: event.clientY - containerRect.top + "px",
                 auth_user: curr_user,
               };
-    
+
               const holderDIVContainer = getHolderDIV(measureContainer);
               if (typeOfOperationContainer === "DATE_INPUT") {
                 let dateFieldContainer = document.createElement("div");
@@ -4473,7 +4374,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 dateFieldContainer.style.outline = "0px";
                 dateFieldContainer.style.overflow = "overlay";
                 dateFieldContainer.style.position = "relative";
-    
+
                 copyEle.onchange = (event) => {
                   event.preventDefault();
                   setPostData({
@@ -4515,7 +4416,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   setTimeout(dateClick, 0);
                 };
                 copyEle.innerText = "mm/dd/yyyy";
-    
+
                 holderDIVContainer.append(copyEle);
               } else if (typeOfOperationContainer === "IMAGE_INPUT") {
                 let imageFieldContainer = document.createElement("div");
@@ -4528,29 +4429,29 @@ const MidSection = React.forwardRef((props, ref) => {
                 imageFieldContainer.style.overflow = "overlay";
                 imageFieldContainer.innerText = "Choose Image";
                 imageFieldContainer.style.position = "relative";
-    
+
                 imageFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   focuseddClassMaintain(e);
                   handleClicked("image2");
                   setSidebar(true);
                 };
-    
+
                 const imageButtonContainer = document.createElement("div");
                 imageButtonContainer.className = "addImageButton";
                 imageButtonContainer.innerText = "Choose File";
                 imageButtonContainer.style.display = "none";
                 // imageButtonContainer.onclick = (e) => chooseFileClick(e);
-    
+
                 const imgBtnContainer = document.createElement("input");
                 imgBtnContainer.className = "addImageButtonInput";
                 imgBtnContainer.type = "file";
                 imgBtnContainer.style.objectFit = "cover";
                 var uploadedImage = "";
-    
+
                 imgBtnContainer.addEventListener("input", () => {
                   const reader = new FileReader();
-    
+
                   reader.addEventListener("load", () => {
                     uploadedImage = reader.result;
                     document.querySelector(
@@ -4559,7 +4460,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   });
                   reader.readAsDataURL(imgBtnContainer.files[0]);
                 });
-    
+
                 // imgBtnContainer.style.width = "100%";
                 imageButtonContainer.append(imgBtnContainer);
                 holderDIVContainer.append(imageFieldContainer);
@@ -4574,7 +4475,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 dropdownFieldContainer.style.outline = "0px";
                 dropdownFieldContainer.style.overflow = "overlay";
                 dropdownFieldContainer.style.position = "absolute";
-    
+
                 const selectElement = document.createElement("select");
                 selectElement.className = "select-element";
                 selectElement.style.width = "500";
@@ -4582,7 +4483,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 selectElement.onclick = () => {
                   selectElement.parentElement.click();
                 };
-    
+
                 dropdownFieldContainer.onchange = (event) => {
                   event.preventDefault();
                   setPostData({
@@ -4594,7 +4495,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     },
                   });
                 };
-    
+
                 // if (dropdownFieldContainer) {
                 //   const dropdownFieldContainer = {
                 //     dropdownFieldContainer: {
@@ -4604,7 +4505,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 //     },
                 //   };
                 // }
-    
+
                 dropdownFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   table_dropdown_focuseddClassMaintain(e);
@@ -4612,7 +4513,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDropDown(false);
                   setSidebar(true);
                 };
-    
+
                 const para = document.createElement("p");
                 para.innerHTML = " Dropdown Name";
                 para.className = "dropdownName";
@@ -4646,14 +4547,14 @@ const MidSection = React.forwardRef((props, ref) => {
                     },
                   };
                 }
-    
+
                 if (inputFieldContainer.value !== "") {
                   // setPostData({
                   //   ...postData,
                   //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
                   // })
                 }
-    
+
                 inputFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   focuseddClassMaintain(e);
@@ -4672,7 +4573,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 signFieldContainer.style.overflow = "overlay";
                 signFieldContainer.innerText = "Signature here";
                 signFieldContainer.style.position = "absolute";
-    
+
                 signFieldContainer.onchange = (event) => {
                   event.preventDefault();
                   setPostData({
@@ -4684,7 +4585,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     },
                   });
                 };
-    
+
                 signFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   focuseddClassMaintain(e);
@@ -4695,16 +4596,16 @@ const MidSection = React.forwardRef((props, ref) => {
                 imageSignButton.className = "addImageSignButton";
                 imageSignButton.innerText = "Choose File";
                 imageSignButton.style.display = "none";
-    
+
                 const signBtn = document.createElement("input");
                 signBtn.className = "addSignButtonInput";
                 signBtn.type = "file";
                 signBtn.style.objectFit = "cover";
                 var uploadedImage = "";
-    
+
                 signBtn.addEventListener("input", () => {
                   const reader = new FileReader();
-    
+
                   reader.addEventListener("load", () => {
                     uploadedImage = reader.result;
                     const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
@@ -4712,7 +4613,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   });
                   reader.readAsDataURL(signBtn.files[0]);
                 });
-    
+
                 imageSignButton.append(signBtn);
                 holderDIVContainer.append(signFieldContainer);
                 holderDIVContainer.append(imageSignButton);
@@ -4727,18 +4628,18 @@ const MidSection = React.forwardRef((props, ref) => {
                 iframeFieldContainer.style.overflow = "overlay";
                 iframeFieldContainer.style.position = "absolute";
                 iframeFieldContainer.innerText = "iFrame here";
-    
+
                 iframeFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   table_dropdown_focuseddClassMaintain(e);
                   handleClicked("iframe2");
                   setSidebar(true);
                 };
-    
+
                 holderDIVContainer.append(iframeFieldContainer);
               } else if (typeOfOperationContainer === "SCALE_INPUT") {
                 setIsLoading(true);
-    
+
                 let scaleFieldContainer = document.createElement("div");
                 scaleFieldContainer.className = "scaleInput";
                 scaleFieldContainer.style.width = "100%";
@@ -4750,7 +4651,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 // scaleFieldContainer.innerHTML = 'iframe';
                 scaleFieldContainer.style.position = "absolute";
                 // scaleFieldContainer.innerText = "scale here";
-    
+
                 let scale = document.createElement("iframe");
                 scaleFieldContainer.append(scale);
                 Axios.post(
@@ -4787,14 +4688,14 @@ const MidSection = React.forwardRef((props, ref) => {
                     setIsLoading(false);
                     console.log(err);
                   });
-    
+
                 scaleFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   focuseddClassMaintain(e);
                   handleClicked("scale2");
                   setSidebar(true);
                 };
-    
+
                 holderDIVContainer.append(scaleFieldContainer);
               } else if (typeOfOperationContainer === "TABLE_INPUT") {
                 let tableFieldContainer = document.createElement("div");
@@ -4806,10 +4707,10 @@ const MidSection = React.forwardRef((props, ref) => {
                 tableFieldContainer.style.outline = "0px";
                 tableFieldContainer.style.overflow = "overlay";
                 tableFieldContainer.style.position = "absolute";
-    
+
                 tableFieldContainer.onchange = (event) => {
                   event.preventDefault();
-    
+
                   setPostData({
                     ...postData,
                     tableFieldContainer: {
@@ -4819,7 +4720,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     },
                   });
                 };
-    
+
                 tableFieldContainer.onclick = (e) => {
                   e.stopPropagation();
                   table_dropdown_focuseddClassMaintain(e);
@@ -4832,39 +4733,33 @@ const MidSection = React.forwardRef((props, ref) => {
                 containerField.append(holderDIVContainer);
             };
 
-
-
             copyEle.addEventListener("click", (e) => {
               e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("container2");
               setSidebar(true);
               console.log("container field clicked");
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         containerField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyContainer()
+            console.log("clicked it");
+            copyContainer();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
-
+        });
 
         containerField.onclick = (e) => {
           e.stopPropagation();
@@ -5305,7 +5200,7 @@ const MidSection = React.forwardRef((props, ref) => {
         decoded.details.action === "template"
       ) {
         let buttonField = document.createElement("div");
-        console.log("button field")
+        console.log("button field");
         buttonField.className = "emailInput";
         buttonField.style.width = "100%";
         buttonField.style.height = "100%";
@@ -5328,34 +5223,29 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.padding = "10%";
         buttonField.style.border = "1px solid #0000";
 
-
         const copyForm = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
+          console.log(copyEleTop);
           copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
+          };
           copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
+          };
           if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
-
 
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
@@ -5365,15 +5255,11 @@ const MidSection = React.forwardRef((props, ref) => {
               false
             );
 
-
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
             const resizerBL = getResizer("bottom", "left");
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
             copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
@@ -5384,38 +5270,32 @@ const MidSection = React.forwardRef((props, ref) => {
               copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
             });
 
-
-
-
-
             copyEle.addEventListener("click", (e) => {
               e.stopPropagation();
               focuseddClassMaintain(e);
               handleClicked("button2", "container2");
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
-
+        };
 
         buttonField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
           if (event.ctrlKey) {
-            console.log("clicked it")
-            copyForm()
+            console.log("clicked it");
+            copyForm();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
         // create form element
         const form = document.createElement("form");
