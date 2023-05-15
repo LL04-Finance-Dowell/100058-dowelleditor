@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+import { Row, Button, Form } from "react-bootstrap";
+
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const DropDownRightSide = () => {
+const DropDownRightSide = () =>
+{
   const {
     dropdownName,
     setDropdownName,
@@ -20,33 +23,43 @@ const DropDownRightSide = () => {
     setRightSideDropDown,
   } = useStateContext();
 
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
+
   const dropdownField = document.querySelector(".focussed");
-  if(dropdownField){
+  if (dropdownField)
+  {
     //console.log(dropdownField.firstElementChild);
     //console.log(dropdownField.lastElementChild);
   }
 
   // Dropdown Name
- 
+
   const dropdownNameField = dropdownField?.firstElementChild
-  if(dropdownNameField !== null && rightSideDropDown){
+  if (dropdownNameField !== null && rightSideDropDown)
+  {
     dropdownNameField.innerHTML = `${dropdownName}`;
   }
-    
 
 
-  function handleNameChange(e) {
+
+  function handleNameChange(e)
+  {
     setDropdownName(e.target.value);
   }
 
   // Dropdown Items
 
-  useEffect(() => {
-   
+  useEffect(() =>
+  {
+
     const selectionn = dropdownField?.lastElementChild
-    if (rightSideDropDown && selectionn !== null) {
+    if (rightSideDropDown && selectionn !== null)
+    {
       var options = document.createElement("option");
-      for (const [index, a] of dropdownOptions.entries()) {
+      for (const [index, a] of dropdownOptions.entries())
+      {
         options.value = index;
         options.innerHTML = a;
       }
@@ -54,19 +67,23 @@ const DropDownRightSide = () => {
     }
   }, [dropdownOptions]);
 
-  function handleItemsChange(e) {
+  function handleItemsChange(e)
+  {
     setDropdownItems(e.target.value);
   }
 
-  const addOptions = () => {
-    if(dropdownItems !==""){
+  const addOptions = () =>
+  {
+    if (dropdownItems !== "")
+    {
       setDropdownOptions([...dropdownOptions, [dropdownItems]]);
     }
     setDropdownItems("");
     setRightSideDropDown(true);
   };
 
-  function removeDropdown() {
+  function removeDropdown()
+  {
     document.querySelector(".focussedd").remove();
     // const focusseddElmnt = document.querySelector(".focussedd");
     // if (focusseddElmnt.classList.contains("holderDIV")) {
@@ -74,6 +91,22 @@ const DropDownRightSide = () => {
     // }
   }
 
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+
+  };
   return (
     <div>
       <h3>Dropdown Settings</h3>
@@ -108,6 +141,40 @@ const DropDownRightSide = () => {
           <option value="Something else">Something else</option>
         </select>
       </div> */}
+
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+
+      <hr />
 
       <div />
       <div>

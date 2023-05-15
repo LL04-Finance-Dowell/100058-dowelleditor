@@ -1,15 +1,23 @@
-import React from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import React, { useState } from 'react';
+// import Form from 'react-bootstrap/Form';
+// import Button from 'react-bootstrap/Button';
+// import Dropdown from 'react-bootstrap/Dropdown';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+
 import { useStateContext } from '../../contexts/contextProvider';
 
-const IframeRightSidebar = () => {
+const IframeRightSidebar = () =>
+{
   const { setSidebar, handleClicked, setIsFinializeDisabled } =
     useStateContext();
 
-  const makeIframe = () => {
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
+
+  const makeIframe = () =>
+  {
     var iframeDiv = document.querySelector('.focussed');
     var iframe = document.createElement('iframe');
     iframe.id = 'iframe';
@@ -19,18 +27,38 @@ const IframeRightSidebar = () => {
 
     iframeDiv.appendChild(iframe);
     //setIsFinializeDisabled(false)
-    if (iframeDiv.parentElement.classList.contains('holderDIV')) {
+    if (iframeDiv.parentElement.classList.contains('holderDIV'))
+    {
       iframeDiv.parentElement.classList.add('element_updated');
       // console.log('iframe.parentElement', iframeDiv.parentElement);
     }
   };
-  function handleChange() {
+  function handleChange()
+  {
     document.querySelector('.focussed').innerHTML = '';
   }
 
-  function removeIframe() {
+  function removeIframe()
+  {
     document.querySelector('.focussedd').remove();
   }
+
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+
+  };
   return (
     <>
       <div>
@@ -65,7 +93,39 @@ const IframeRightSidebar = () => {
           className="shadow bg-white rounded mb-4"
         />
       </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
 
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={makeIframe}>
           Create Iframe

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+import { Row, Button, Form } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 const ButtonRightSide = () =>
 {
@@ -17,6 +18,10 @@ const ButtonRightSide = () =>
 
   const purpose = holderDIV?.children[2]?.innerHTML;
   const link = holderDIV?.children[1]?.innerHTML;
+
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
 
   // useEffect(() => {
   //     if (button) {
@@ -85,6 +90,23 @@ const ButtonRightSide = () =>
   {
     document.querySelector(".focussedd").remove();
   };
+
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+
+  };
   return (
     <>
       <div className="mt-2 mb-3 w-100">
@@ -122,7 +144,39 @@ const ButtonRightSide = () =>
           onChange={() => { }}
         />
       </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
 
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
           Update Changes

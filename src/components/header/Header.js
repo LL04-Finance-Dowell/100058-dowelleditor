@@ -94,6 +94,7 @@ const Header = () => {
     setIsMenuVisible,
     buttonLink,
     buttonPurpose,
+    setCustomId,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -207,9 +208,14 @@ const Header = () => {
 
     const rect = el.getBoundingClientRect();
     const midsectionRect = midSec.getBoundingClientRect();
-
+    // const rect = el.getBoundingClientRect();
+    // console.log("element check ", el);
+    // console.log("heaer react and midesctionRect", rect, midsectionRect);
     return {
-      top: rect.top - midsectionRect.top,
+      top:
+        rect.top > 0
+          ? Math.abs(midsectionRect.top)
+          : rect.top - midsectionRect.top,
       left: rect.left - midsectionRect.left,
       bottom: rect.bottom,
       right: rect.right,
@@ -236,6 +242,21 @@ const Header = () => {
       low += 1122;
       high += 1122;
     }
+  };
+
+  const findPaageNum = (element) => {
+    let targetParent = element;
+    let pageNum = null;
+    while (1) {
+      if (targetParent.classList.contains("midSection_container")) {
+        targetParent = targetParent;
+        break;
+      } else {
+        targetParent = targetParent.parentElement;
+      }
+    }
+    pageNum = targetParent.innerText.split("\n")[0];
+    return pageNum;
   };
   function savingTableData() {
     const tables = document.getElementsByClassName("tableInput");
@@ -282,8 +303,27 @@ const Header = () => {
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          // let targetParent = txt[h];
+          // let pageNum = null;
+          // while (1) {
+          //   if (targetParent.classList.contains("midSection_container")) {
+          //     targetParent = targetParent;
+          //     break;
+          //   } else {
+          //     targetParent = targetParent.parentElement;
+          //   }
+          // }
+          // pageNum = targetParent.innerText.split("\n")[0];
 
+          // const classListOfParentElement = txt[h]?.parentElement?.classList;
+          // const pageNum = classListOfParentElement[1].split("_")[1];
+          // console.log(
+          //   "classListOfParentElement",
+          //   classListOfParentElement[1].split("_")[1]
+          // );
+          const pageNum = findPaageNum(txt[h]);
+          page[0][pageNum].push(elem);
           // page.push(elem);
         }
       }
@@ -322,7 +362,9 @@ const Header = () => {
             data: dataName,
             id: `i${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(img[h]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -350,7 +392,9 @@ const Header = () => {
             data: date[h].innerHTML,
             id: `d${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(date[h]);
+          page[0][pageNum].push(elem);
         }
       }
     }
@@ -382,7 +426,9 @@ const Header = () => {
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(sign[h]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -440,7 +486,7 @@ const Header = () => {
               tableTR.tr = newTableTR;
               allTableCCells.push(tableTR);
             }
-            console.log("allTableCCells", allTableCCells);
+            // console.log("allTableCCells", allTableCCells);
             return allTableCCells;
           }
           elem = {
@@ -455,7 +501,9 @@ const Header = () => {
             data: getChildData(),
             id: `tab${t + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(tables[t]);
+          page[0][pageNum].push(elem);
 
           // page.push(elem);
         }
@@ -484,17 +532,17 @@ const Header = () => {
               const element = containerChildren[i];
               // console.log("elements", i, " ", element);
               // let tempElem = element.parentElement;
-              let tempPosn = getPosition(element);
+              let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
               const childData = {};
-              childData.width = tempPosn.width;
-              childData.height = tempPosn.height;
-              childData.top = tempPosn.top;
+              childData.width = tempPosnChild.width;
+              childData.height = tempPosnChild.height;
+              childData.top = tempPosnChild.top;
               childData.topp = containerElements[h].parentElement.style.top;
-              childData.left = tempPosn.left;
+              childData.left = tempPosnChild.left;
 
-              // const foo = 0;
+              // console.log("childData", childData);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -510,6 +558,18 @@ const Header = () => {
                 case "signInput":
                   type = "SIGN_INPUT";
                   break;
+                case "iframeInput":
+                  type = "IFRAME_INPUT";
+                  break;
+                case "scaleInput":
+                  type = "SCALE_INPUT";
+                  break;
+                case "buttonInput":
+                  type = "BUTTON_INPUT";
+                  break;
+                case "dropdownInput":
+                  type = "DROPDOWN_INPUT";
+                  break;
                 default:
                   type = "";
               }
@@ -520,18 +580,17 @@ const Header = () => {
               //         (containerChildClassName == "signInput" && "SIGN_INPUT"),
               childData.type = type;
               const imageData =
-                "imageInput" && element.firstElementChild.style.backgroundImage
+                "imageInput" &&
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
-              // console.log(
-              //   "iamge data",
-              //   imageData,
-              //   element.firstElementChild,
-              //   element.firstElementChild?.innerHTML
-              // );
-
-              // if(imageData){
-              childData.data = imageData;
+              if (type != "TEXT_INPUT") {
+                childData.data = imageData;
+              }
+              if (type == "TEXT_INPUT") {
+                childData.data = element.firstElementChild?.innerText;
+                childData.raw_data = element.firstElementChild?.innerHTML;
+              }
               // else{
               // childData.data = element.firstElementChild.innerHTML
               // }
@@ -572,7 +631,7 @@ const Header = () => {
             //   tableTR.tr = newTableTR;
             //   allTableCCells.push(tableTR);
             // }
-            console.log("allTableCCells", allContainerChildren);
+            // console.log("allTableCCells", allContainerChildren);
             return allContainerChildren;
           }
           elem = {
@@ -585,83 +644,112 @@ const Header = () => {
             data: getChildData(),
             id: `c${h + 1}`,
           };
-          dataInsertWithPage(tempPosn, elem);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(containerElements[h]);
+          page[0][pageNum].push(elem);
         }
       }
     }
     const iframes = document.getElementsByClassName("iframeInput");
     if (iframes.length) {
       for (let i = 0; i < iframes.length; i++) {
-        // var new_table = document.getElementsByTagName("table")[0];
-        let tempElem = iframes[i].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(iframes[i].innerText);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: iframes[i].parentElement.style.top,
-          left: tempPosn.left,
-          type: "IFRAME_INPUT",
-          data: iframes[i].innerText
-            ? "iFrame here"
-            : iframes[i].firstElementChild.src,
-          id: `ifr${i + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !iframes[i]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = iframes[i].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(iframes[i].innerText);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: iframes[i].parentElement.style.top,
+            left: tempPosn.left,
+            type: "IFRAME_INPUT",
+            data: iframes[i].innerText
+              ? "iFrame here"
+              : iframes[i].firstElementChild.src,
+            id: `ifr${i + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(iframes[i]);
+          page[0][pageNum].push(elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
     const scales = document.getElementsByClassName("scaleInput");
     if (scales.length) {
       for (let s = 0; s < scales.length; s++) {
-        let tempElem = scales[s].parentElement;
-        let tempPosn = getPosition(tempElem);
-        console.log(scales[s].firstElementChild);
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: scales[s].parentElement.style.top,
-          left: tempPosn.left,
-          type: "SCALE_INPUT",
-          data: `${title}_scale_${s + 1}`,
-          scale_url: scales[s].firstElementChild.src,
-          scaleId: tempElem.children[1].innerHTML,
-          id: `scl${s + 1}`,
-          details: decoded.details.action === "document" ? "Document instance" : "Template scale",
-          // scale_url: `${scaleData}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !scales[s]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = scales[s].parentElement;
+          let tempPosn = getPosition(tempElem);
+          console.log(scales[s].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: scales[s].parentElement.style.top,
+            left: tempPosn.left,
+            type: "SCALE_INPUT",
+            data: `${title}_scale_${s + 1}`,
+            scale_url: scales[s].firstElementChild.src,
+            scaleId: tempElem.children[1].innerHTML,
+            id: `scl${s + 1}`,
+            details:
+              decoded.details.action === "document"
+                ? "Document instance"
+                : "Template scale",
+            // scale_url: `${scaleData}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(scales[s]);
+          page[0][pageNum].push(elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
       for (let b = 0; b < buttons.length; b++) {
-        let tempElem = buttons[b].parentElement;
-        let tempPosn = getPosition(tempElem);
-        const link = buttonLink;
+        if (
+          !buttons[b]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = buttons[b].parentElement;
+          let tempPosn = getPosition(tempElem);
+          const link = buttonLink;
 
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: buttons[b].parentElement.style.top,
-          left: tempPosn.left,
-          type: "BUTTON_INPUT",
-          data: buttons[b].textContent,
-          raw_data: tempElem.children[1].innerHTML,
-          purpose: tempElem.children[2].innerHTML,
-          id: `btn${b + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: buttons[b].parentElement.style.top,
+            left: tempPosn.left,
+            type: "BUTTON_INPUT",
+            data: buttons[b].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `btn${b + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(buttons[b]);
+          page[0][pageNum].push(elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
@@ -669,34 +757,42 @@ const Header = () => {
 
     if (dropDowns.length) {
       for (let d = 0; d < dropDowns.length; d++) {
-        // var new_table = document.getElementsByTagName("table")[0];
-        let tempElem = dropDowns[d].parentElement;
-        let tempPosn = getPosition(tempElem);
-        //console.log(dropDowns[d].firstElementChild.innerHTML);
-        const selectElement = dropDowns[d].lastElementChild;
-        const selectedOption =
-          selectElement.options[selectElement.selectedIndex];
-        const selectedText = selectedOption.textContent;
-        elem = {
-          width: tempPosn.width,
-          height: tempPosn.height,
-          top: tempPosn.top,
-          topp: dropDowns[d].parentElement.style.top,
-          left: tempPosn.left,
-          type: "DROPDOWN_INPUT",
-          data: selectedText,
-          data1: dropDowns[d].firstElementChild.innerHTML,
-          data2: dropDowns[d].lastElementChild.innerHTML,
-          id: `dd${d + 1}`,
-        };
-        dataInsertWithPage(tempPosn, elem);
+        if (
+          !dropDowns[d]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          // var new_table = document.getElementsByTagName("table")[0];
+          let tempElem = dropDowns[d].parentElement;
+          let tempPosn = getPosition(tempElem);
+          //console.log(dropDowns[d].firstElementChild.innerHTML);
+          const selectElement = dropDowns[d].lastElementChild;
+          const selectedOption =
+            selectElement.options[selectElement.selectedIndex];
+          const selectedText = selectedOption?.textContent;
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: dropDowns[d].parentElement.style.top,
+            left: tempPosn.left,
+            type: "DROPDOWN_INPUT",
+            data: selectedText,
+            data1: dropDowns[d].firstElementChild.innerHTML,
+            data2: dropDowns[d].lastElementChild.innerHTML,
+            id: `dd${d + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(dropDowns[d]);
+          page[0][pageNum].push(elem);
 
-        // page.push(elem);
+          // page.push(elem);
+        }
       }
     }
 
     contentFile.push(page);
-    const data = JSON.stringify(contentFile);
+    // const data = JSON.stringify(contentFile);
     // //console.log("ContentFile While saveDoc", data);
 
     return contentFile;
@@ -705,7 +801,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  //  console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
@@ -879,9 +975,25 @@ const Header = () => {
         //Handling company_id
         const company_id = res.data.company_id;
         setCompanyId(company_id);
+        npsCustomData();
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log(err);
+      });
+  };
+
+  const npsCustomData = () => {
+    console.log(decoded.details._id);
+    Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data_all", {
+      template_id: decoded.details._id,
+    })
+      .then((res) => {
+        console.log(res.data);
+        const data = res.data.data;
+        setCustomId(data);
+      })
+      .catch((err) => {
         console.log(err);
       });
   };

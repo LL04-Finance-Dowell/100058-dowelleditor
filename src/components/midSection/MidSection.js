@@ -1,3 +1,5 @@
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
@@ -203,7 +205,7 @@ const MidSection = React.forwardRef((props, ref) => {
       }
     )
       .then((res) => {
-        console.log("midSection", res);
+        // console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
         setItem(pageData);
@@ -353,12 +355,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
   const dragElementOverPage = (event) => {
     let holder;
-    console.log("dragElement", event.target);
+    // console.log("dragElement", event.target);
     // event.dataTransfer.setData("text/plain", "DATE_INPUT");
     if (!resizing) {
       let initX = event.screenX;
       let initY = event.screenY;
 
+      // console.log("initX ", initX, "initY ", initY);
       /* Ensure That target has changed */
       var counterCheck = true;
       var tempTarget = event.target;
@@ -378,15 +381,31 @@ const MidSection = React.forwardRef((props, ref) => {
       holder = hitTarget;
       const holderPos = (function () {
         const holderPos = {
-          top:
-            decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
-          left:
-            decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          // top: parseInt(holder.style.top.slice(0, -2)),
-          // left: parseInt(holder.style.left.slice(0, -2))
+          // top:
+          //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+          // left:
+          //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+          top: parseInt(holder?.style?.top.slice(0, -2)),
+          left: parseInt(holder?.style?.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
+      // holder.ondragstart = (e) => {
+      //   console.log("i am dragged", e.target);
+      // };
+      // code for conatainer element move start
+      let holderParentHolder = "";
+      let holderParentHolderRect = "";
+      let hodlerRect = "";
+      if (holder?.parentElement.classList.contains("containerInput")) {
+        holderParentHolder = holder?.parentElement?.parentElement;
+      }
+      if (holderParentHolder) {
+        holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+      }
+      hodlerRect = holder.getBoundingClientRect();
+      // code for container element move end
+      // console.log("finding moveable element", holderPos);
 
       window.addEventListener("mousemove", moveObject);
       function moveObject(ev) {
@@ -401,19 +420,59 @@ const MidSection = React.forwardRef((props, ref) => {
         // );
         //  screenX: 531, screenY: 175, clientX: 531, Top-left
         //  screenX: 1061, screenY: 154, Top right
-        if (
-          ev.screenX > midsectionRect.left &&
-          ev.screenY > midsectionRect.top &&
-          ev.screenX < midsectionRect.right
-        ) {
-          //console.log("checking motion");
-          const diffX = ev.screenX - initX;
-          const diffY = ev.screenY - initY;
-          holder.style.top = holderPos.top + diffY + "px";
-          holder.style.left = holderPos.left + diffX + "px";
+
+        // console.log("midsectionRect", midsectionRect);
+        // const eventClientX = ev.clientX;
+        const elemtnMeasureX =
+          ev.screenX + holderPos.left + hodlerRect.width - initX;
+        const elmentMeasureY =
+          ev.screenY + holderPos.top + hodlerRect.height - initY;
+        // if (
+        //   ev.screenX > holderParentHolderRect.left &&
+        //   ev.screenY > holderParentHolderRect.top &&
+        //   ev.screenX < holderParentHolderRect.right
+        // ) {
+        if (holder?.parentElement.classList.contains("containerInput")) {
+          if (
+            holderParentHolderRect.width > elemtnMeasureX + 5 &&
+            // holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            ev.screenX + holderPos.left - initX > 0 &&
+            holderParentHolderRect.height > elmentMeasureY + 5 &&
+            // holderParentHolderRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         } else {
-          holder.style.top = holderPos.top + "px";
-          holder.style.left = holderPos.left + "px";
+          // if (
+          //   ev.screenX > midsectionRect.left &&
+          //   ev.screenY > midsectionRect.top &&
+          //   ev.screenX < midsectionRect.right
+          // ) {
+
+          if (
+            midsectionRect.width > elemtnMeasureX + 5 &&
+            ev.screenX + holderPos.left - initX > 0 &&
+            midsectionRect.height > elmentMeasureY + 5 &&
+            // midsectionRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
         }
       }
 
@@ -483,7 +542,7 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
-    holderDIV.classList.add(`page${i}`);
+    holderDIV.classList.add(`page_${i}`);
     //console.log(idMatch);
     if (idMatch?.length > 0) {
       holderDIV.classList.add(`enable_pointer_event`);
@@ -498,7 +557,9 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.addEventListener("dragstart", (event) => {
       console.log("dragStart fun called");
     });
-
+    holderDIV.ondragstart = (e) => {
+      console.log("dragStart fun called");
+    };
     //Putting resize button on holder
 
     const resizerTL = getResizer("top", "left");
@@ -576,6 +637,37 @@ const MidSection = React.forwardRef((props, ref) => {
 
     return holderDIV;
   }
+
+  // dragging test
+
+  let dragged = null;
+
+  const source = document.querySelector(".focussedd");
+
+  if (source) {
+    source.addEventListener("dragstart", (event) => {
+      // store a ref. on the dragged elem
+      dragged = event.target;
+      console.log("dragged", dragged);
+    });
+  }
+
+  // const target = document.getElementById("droptarget");
+  // target.addEventListener("dragover", (event) => {
+  //   // prevent default to allow drop
+  //   event.preventDefault();
+  // });
+
+  // target.addEventListener("drop", (event) => {
+  //   // prevent default action (open as link for some elements)
+  //   event.preventDefault();
+  //   // move dragged element to the selected drop target
+  //   if (event.target.className === "dropzone") {
+  //     dragged.parentNode.removeChild(dragged);
+  //     event.target.appendChild(dragged);
+  //   }
+  // });
+
   // table_dropdown_focuseddClassMaintain
   // function table_dropdown_focuseddClassMaintain(e) {
   //   console.log("tabletargettest", e.target);
@@ -760,7 +852,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          console.log(idMatch, "idMatch");
+          // console.log(idMatch, "idMatch");
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
@@ -829,10 +921,10 @@ const MidSection = React.forwardRef((props, ref) => {
             reader.readAsDataURL(imgBtn.files[0]);
           });
 
-          console.log(
-            "image data retrive test",
-            element.data.startsWith("url(")
-          );
+          // console.log(
+          //   "image data retrive test",
+          //   element.data.startsWith("url(")
+          // );
 
           element.data.startsWith("url(")
             ? (imageField.style.backgroundImage = `${element.data}`)
@@ -1173,7 +1265,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   // setSidebar(true);
                   handleClicked("image2", "table2");
                   setSidebar(true);
-                  console.log("imageclick test", e.target);
+                  // console.log("imageclick test", e.target);
                   e.stopPropagation();
                 };
               }
@@ -1654,7 +1746,7 @@ const MidSection = React.forwardRef((props, ref) => {
             handleClicked("container2");
             setSidebar(true);
           };
-          console.log("element.data container input retrieve", element.data);
+          // console.log("element.data container input retrieve", element.data);
           for (let p = 0; p < element.data.length; p++) {
             const containerElement = element.data[p];
             // const measureContainer = {
@@ -1667,8 +1759,8 @@ const MidSection = React.forwardRef((props, ref) => {
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
-              left: containerElement.left + "px",
-              top: containerElement.topp,
+              left: containerElement.left - element.left + "px",
+              top: containerElement.top - element.top + "px",
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
@@ -1838,42 +1930,47 @@ const MidSection = React.forwardRef((props, ref) => {
               holderDIVContainer.append(dropdownFieldContainer);
             } else if (typeOfOperationContainer === "TEXT_INPUT") {
               let inputFieldContainer = document.createElement("div");
-              //  inputFieldContainer.setAttribute('draggable', true);
               inputFieldContainer.setAttribute("contenteditable", true);
+              //  inputFieldContainer.setAttribute('draggable', true);
               inputFieldContainer.className = "textInput";
-              inputFieldContainer.innerHTML = "Enter text here";
+              inputFieldContainer.id = id;
               inputFieldContainer.style.width = "100%";
               inputFieldContainer.style.height = "100%";
               inputFieldContainer.style.resize = "none";
+              inputFieldContainer.style.zIndex = 2;
               inputFieldContainer.style.backgroundColor = "#0000";
               inputFieldContainer.style.borderRadius = "0px";
               inputFieldContainer.style.outline = "0px";
               inputFieldContainer.style.overflow = "overlay";
               inputFieldContainer.style.position = "relative";
               inputFieldContainer.style.cursor = "text";
-              if (inputFieldContainer.innerHTML[0]) {
-                const editTextField = {
-                  editTextField: {
-                    value: inputFieldContainer.innerHTML,
-                    xcoordinate: getOffset(holderDIVContainer).left,
-                    ycoordinate: getOffset(holderDIVContainer).top,
-                  },
-                };
-              }
-
-              if (inputFieldContainer.value !== "") {
-                // setPostData({
-                //   ...postData,
-                //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
-                // })
-              }
-
+              inputFieldContainer.oninput = (e) => {
+                //setIsFinializeDisabled(false);
+                // const doc_map_copy = [...doc_map]
+                if (
+                  inputFieldContainer.parentElement.classList.contains(
+                    "holderDIV"
+                  )
+                ) {
+                  inputFieldContainer.parentElement.classList.add(
+                    "element_updated"
+                  );
+                }
+              };
               inputFieldContainer.onclick = (e) => {
-                e.stopPropagation();
                 focuseddClassMaintain(e);
+
                 handleClicked("align2");
                 setSidebar(true);
+                // inputFieldContainer.parentElement.focus()
               };
+              // inputFieldContainer.ontouchstart = () => {
+              //   handleClicked("align2");
+              //   setSidebar(true);
+              // };
+              const text = `${containerElement.raw_data}`;
+
+              inputFieldContainer.innerHTML = text;
               holderDIVContainer.append(inputFieldContainer);
             } else if (typeOfOperationContainer === "SIGN_INPUT") {
               let signFieldContainer = document.createElement("div");
@@ -2040,6 +2137,99 @@ const MidSection = React.forwardRef((props, ref) => {
                 setSidebar(true);
               };
               holderDIVContainer.append(tableFieldContainer);
+            } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+              const measure = {
+                width: element.width + "px",
+                height: element.height + "px",
+                left: element.left + "px",
+                top: element.topp,
+                auth_user: curr_user,
+              };
+
+              const idMatch = documnetMap?.filter(
+                (elmnt) => elmnt == element?.id
+              );
+              // const holderDIV = getHolderDIV(measure, pageNo);
+              const id = `${element.id}`;
+              const finalizeButton = document.getElementById("finalize-button");
+              const rejectButton = document.getElementById("reject-button");
+
+              let buttonFieldContainer = document.createElement("button");
+              buttonFieldContainer.className = "buttonInput";
+              buttonFieldContainer.id = id;
+              buttonFieldContainer.style.width = "100%";
+              buttonFieldContainer.style.height = "100%";
+              buttonFieldContainer.style.backgroundColor = "#0000";
+              buttonFieldContainer.style.borderRadius = "0px";
+              buttonFieldContainer.style.outline = "0px";
+              buttonFieldContainer.style.overflow = "overlay";
+              buttonFieldContainer.style.position = "absolute";
+              buttonFieldContainer.textContent = containerElement.data;
+
+              if (
+                decoded.details.action === "template" &&
+                containerElement.raw_data == "" &&
+                containerElement.purpose == ""
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  focuseddClassMaintain(e);
+                  handleClicked("button2", "container2");
+                  setSidebar(true);
+                };
+              }
+
+              buttonFieldContainer.onmouseover = (e) => {
+                if (
+                  buttonFieldContainer?.parentElement?.classList.contains(
+                    "holderDIV"
+                  )
+                ) {
+                  buttonFieldContainer?.parentElement?.classList.add(
+                    "element_updated"
+                  );
+                }
+              };
+
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "custom" &&
+                containerElement.raw_data !== ""
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  window.open(containerElement.raw_data, "_blank");
+                };
+              }
+
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "finalize"
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  finalizeButton?.click();
+                };
+              }
+              if (
+                decoded.details.action === "document" &&
+                containerElement.purpose == "reject"
+              ) {
+                buttonFieldContainer.onclick = (e) => {
+                  rejectButton?.click();
+                };
+              }
+
+              const linkHolder = document.createElement("div");
+              linkHolder.className = "link_holder";
+              linkHolder.innerHTML = containerElement.raw_data;
+              linkHolder.style.display = "none";
+
+              const purposeHolder = document.createElement("div");
+              purposeHolder.className = "purpose_holder";
+              purposeHolder.innerHTML = containerElement.purpose;
+              purposeHolder.style.display = "none";
+
+              holderDIVContainer.append(buttonFieldContainer);
+              holderDIVContainer.append(linkHolder);
+              holderDIVContainer.append(purposeHolder);
             }
             if (typeOfOperationContainer !== "CONTAINER_INPUT")
               containerField.append(holderDIVContainer);
@@ -2432,6 +2622,37 @@ const MidSection = React.forwardRef((props, ref) => {
                 setSidebar(true);
               };
               holderDIVContainer.append(tableFieldContainer);
+            } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+              let buttonField = document.createElement("button");
+              buttonField.className = "buttonInput";
+              buttonField.style.width = "100%";
+              buttonField.style.height = "100%";
+              buttonField.style.backgroundColor = "#0000";
+              buttonField.style.borderRadius = "0px";
+              buttonField.style.outline = "0px";
+              buttonField.style.overflow = "overlay";
+              buttonField.style.position = "absolute";
+              buttonField.textContent = "Button";
+
+              buttonField.onclick = (e) => {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                handleClicked("button2", "container2");
+                setSidebar(true);
+              };
+
+              const linkHolder = document.createElement("div");
+              linkHolder.className = "link_holder";
+              linkHolder.style.display = "none";
+
+              const purposeHolder = document.createElement("div");
+              purposeHolder.className = "purpose_holder";
+              purposeHolder.style.display = "none";
+
+              // holderDIVContainer.append(dateFieldContainer);
+              holderDIVContainer.append(buttonField);
+              holderDIVContainer.append(linkHolder);
+              holderDIVContainer.append(purposeHolder);
             }
             if (typeOfOperationContainer !== "CONTAINER_INPUT")
               containerField.append(holderDIVContainer);
@@ -2560,7 +2781,7 @@ const MidSection = React.forwardRef((props, ref) => {
     const has_container_drag_class =
       event.target.classList.contains("containerInput");
     const typeOfOperation = event.dataTransfer.getData("text/plain");
-    // console.log("typeOfOperation in midsection", typeOfOperation);
+    // console.log("typeOfOperation", typeOfOperation);
     const curr_user = document.getElementById("current-user");
 
     const midSec = document.querySelector(".drop_zone");
@@ -2573,8 +2794,14 @@ const MidSection = React.forwardRef((props, ref) => {
       top: event.clientY - midsectionRect.top + "px",
       auth_user: curr_user,
     };
-
-    const holderDIV = getHolderDIV(measure);
+    let pageNum = null;
+    let holderDIV = null;
+    if (event.target.classList.contains("midSection_container")) {
+      pageNum = event.target.innerText.split("\n")[0];
+      holderDIV = getHolderDIV(measure, pageNum);
+    } else {
+      holderDIV = getHolderDIV(measure);
+    }
 
     // inputField.setAttribute('draggable', false);
     // let editButtonField = undefined;
@@ -3685,8 +3912,8 @@ const MidSection = React.forwardRef((props, ref) => {
         dateField.style.overflow = "overlay";
         // dateField.innerText = `${postData.calenderField.value}`
         dateField.style.position = "relative";
-        dateField.setAttribute("draggable", true);
-        dateField?.parentElement?.setAttribute("draggable", true);
+        // dateField.setAttribute("draggable", true);
+        // dateField?.parentElement?.setAttribute("draggable", true);
 
         dateField.onchange = (event) => {
           event.preventDefault();
@@ -3846,18 +4073,25 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
           setTimeout(dateClick, 0);
         };
-        dateField.ondragstart = (e) => {
-          console.log("dragStart fun called");
-        };
-        dateField.ondragend = (e) => {
-          console.log("ondragend fun called");
-        };
+        // dateField.ondragstart = (e) => {
+        //   console.log("dragStart fun called");
+        // };
+        // dateField.ondragend = (e) => {
+        //   // if (dateField) {
+        //   //   dateField.parentElement.ondragstart = (e) => {
+        //   //     console.log("dragStart fun called parentElement");
+        //   //   };
+        //   // }
+        //   dateField.ondragend = (e) => {
+        //     console.log("ondragend fun called");
+        //   };
         dateField.innerText = "mm/dd/yyyy";
 
         // //console.log(startDate);
-        const para = document.createElement("p");
+        // const para = document.createElement("p");
 
         // dateField.append(para)
+        // console.log("my date field", dateField);
         holderDIV.append(dateField);
         //console.log(para);
       } else if (
@@ -4139,7 +4373,7 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CONTAINER_INPUT" &&
         decoded.details.action === "template"
       ) {
-        console.log("typeOfOperation", typeOfOperation);
+        // console.log("typeOfOperation", typeOfOperation);
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
@@ -4640,7 +4874,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log("container field clicked");
         };
         containerField.ondragover = (e) => {
-          console.log("console from container", e.target);
+          console.log("console from container dragover", e.target);
         };
         containerField.ondrop = (event) => {
           const container = event.target;
@@ -5030,6 +5264,37 @@ const MidSection = React.forwardRef((props, ref) => {
               setSidebar(true);
             };
             holderDIVContainer.append(tableFieldContainer);
+          } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+            let buttonField = document.createElement("button");
+            buttonField.className = "buttonInput";
+            buttonField.style.width = "100%";
+            buttonField.style.height = "100%";
+            buttonField.style.backgroundColor = "#0000";
+            buttonField.style.borderRadius = "0px";
+            buttonField.style.outline = "0px";
+            buttonField.style.overflow = "overlay";
+            buttonField.style.position = "absolute";
+            buttonField.textContent = "Button";
+
+            buttonField.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              handleClicked("button2", "container2");
+              setSidebar(true);
+            };
+
+            const linkHolder = document.createElement("div");
+            linkHolder.className = "link_holder";
+            linkHolder.style.display = "none";
+
+            const purposeHolder = document.createElement("div");
+            purposeHolder.className = "purpose_holder";
+            purposeHolder.style.display = "none";
+
+            // holderDIVContainer.append(dateFieldContainer);
+            holderDIVContainer.append(buttonField);
+            holderDIVContainer.append(linkHolder);
+            holderDIVContainer.append(purposeHolder);
           }
           if (typeOfOperationContainer !== "CONTAINER_INPUT")
             containerField.append(holderDIVContainer);
@@ -5231,19 +5496,28 @@ const MidSection = React.forwardRef((props, ref) => {
         submitButton.style.color = "#fff";
         submitButton.style.border = "none";
         submitButton.style.padding = "10px 20px";
+
         // add onClick event listener
         submitButton.addEventListener("click", (e) => {
           // prevent default form submission
           e.preventDefault();
           const formData = {
-            name: nameInput.value,
-            email: emailInput.value,
-            name1: nameInput1.value,
-            email1: emailInput1.value,
+            topic: "EditorMailComponent",
+            toName: nameInput.value,
+            fromName: nameInput1.value,
+            toEmail: emailInput.value,
+            fromeEmail: emailInput1.value,
             subject: subjectInput.value,
-            message: messageInput.value,
+            email_body: messageInput.value,
           };
-          alert("button clicked");
+          // Handle validations
+          Axios.post(
+            "https://100085.pythonanywhere.com/api/editor-component/",
+            formData
+          ).then((response) => {
+            console.log(response);
+          });
+          // alert("Mail sent!");
           console.log(formData); // log form data to console
         });
         form.appendChild(submitButton);

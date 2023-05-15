@@ -1,22 +1,29 @@
 import React from "react";
 
 import { useRef, useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+// import Dropdown from "react-bootstrap/Dropdown";
+// import DropdownButton from "react-bootstrap/DropdownButton";
+import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const ImageRightSidebar = () => {
+const ImageRightSidebar = () =>
+{
   var { setIsFinializeDisabled, handleClicked, setSidebar } = useStateContext();
   const [file, setFile] = useState(null);
+
+  const [borderSize, setBorderSize] = useState(1);
+  const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
 
   const addImageButtonInput = useRef(null);
 
   var uploadedImage = "";
 
   //clicked choose file button
-  const chooseFileClick = (e) => {
+  const chooseFileClick = (e) =>
+  {
     e.stopPropagation();
 
     var imageDiv = document.querySelector(".focussedd");
@@ -38,35 +45,44 @@ const ImageRightSidebar = () => {
     console.log("iamgeDiv", imageDiv);
     const removalbeFocusseddDiv = document.getElementsByClassName("focussedd");
     // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
-    if (removalbeFocusseddDiv) {
-      for (let i = 0; i < removalbeFocusseddDiv?.length; i++) {
+    if (removalbeFocusseddDiv)
+    {
+      for (let i = 0; i < removalbeFocusseddDiv?.length; i++)
+      {
         removalbeFocusseddDiv[i].classList.remove("focussedd");
       }
     }
 
     const removalbeFocussedDiv = document.getElementsByClassName("focussed");
     // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
-    if (removalbeFocussedDiv) {
-      for (let i = 0; i < removalbeFocussedDiv?.length; i++) {
+    if (removalbeFocussedDiv)
+    {
+      for (let i = 0; i < removalbeFocussedDiv?.length; i++)
+      {
         removalbeFocussedDiv[i].classList.remove("focussed");
       }
     }
     // // addImageButton;
-    while (1) {
-      if (imageDiv.classList.contains("holderDIV")) {
+    while (1)
+    {
+      if (imageDiv.classList.contains("holderDIV"))
+      {
         imageDiv.classList.add("focussedd");
         imageDiv.firstElementChild.classList.add("focussed");
         console.log("imageDiv", imageDiv);
         break;
-      } else {
+      } else
+      {
         imageDiv = imageDiv.parentElement;
       }
     }
 
     // if(imageDiv.)
 
-    if (imageDiv) {
-      if (imageDiv.parentElement.classList.contains("holderDIV")) {
+    if (imageDiv)
+    {
+      if (imageDiv.parentElement.classList.contains("holderDIV"))
+      {
         imageDiv.parentElement.classList.add("element_updated");
         console.log("imagediv", imageDiv);
         // if (imageDiv.firstElementChild.classList.contains("imageInput")) {
@@ -75,28 +91,51 @@ const ImageRightSidebar = () => {
       }
     }
   };
-  const handleUpdate = () => {
+  const handleUpdate = () =>
+  {
     const imageName = document.getElementById("image_name");
     const button = document.querySelector(".focussed");
-    if (imageName.value != "") {
+    if (imageName.value != "")
+    {
       button.textContent = imageName.value;
     }
   };
 
-  function removeImage() {
-    if (document.querySelector(".focussedd").classList.contains("dropp")) {
-      if (document.querySelector(".focussedd").hasChildNodes()) {
+  function removeImage()
+  {
+    if (document.querySelector(".focussedd").classList.contains("dropp"))
+    {
+      if (document.querySelector(".focussedd").hasChildNodes())
+      {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++) {
+        for (let i = 0; i < childLength; i++)
+        {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else {
+    } else
+    {
       document.querySelector(".focussedd").remove();
     }
   }
 
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(e.target.value);
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+
+  };
   return (
     <>
       {/* <div className='dropdown pt-4'>
@@ -116,9 +155,42 @@ const ImageRightSidebar = () => {
           type="text"
           placeholder="Choose Image"
           id="image_name"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
           Update Changes
