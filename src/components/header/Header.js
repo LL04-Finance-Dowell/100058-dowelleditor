@@ -302,6 +302,7 @@ const Header = () => {
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
+            // border: txt[h].parentElement.style.border,
           };
           // dataInsertWithPage(tempPosn, elem);
           // let targetParent = txt[h];
