@@ -135,14 +135,14 @@ const ScaleRightSide = () =>
   }
 const myArray = Object.values(data)[0];
   function excludeElementsWithAttributeValue(arr, attribute, valueToExclude) {
-    return arr.filter(function(element) {
+    return arr?.filter(function(element) {
       return element.hasOwnProperty(attribute) && element[attribute] !== valueToExclude;
     });
   }
   
   var newArray = excludeElementsWithAttributeValue(myArray, 'type', 'SCALE_INPUT');
 
-  const filteredArray = newArray.filter(obj => !customId.includes(obj.id));
+  const filteredArray = newArray?.filter(obj => !customId.includes(obj.id));
 
   const elems = document.getElementsByClassName("holderDIV")
   for (let index = 0; index < elems.length; index++)
