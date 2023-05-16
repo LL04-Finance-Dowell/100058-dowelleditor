@@ -437,7 +437,7 @@ export const ContextProvider = ({ children }) => {
       focussedDiv[i].classList.remove("focussed");
     }
     e.target.classList.add("focussed");
-    console.log("focussed class maintain", e);
+    // console.log("focussed class maintain", e);
     // e.target.style.backgroundColor = "lightBlue";
   }
 
