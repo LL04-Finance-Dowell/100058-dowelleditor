@@ -99,12 +99,23 @@ const MidSection = React.forwardRef((props, ref) => {
   // }, []);
 
   const [focusedElement, setFocusedElement] = useState(null);
+  const [allPages , setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
-  const documnetMap = decoded?.details?.document_map;
+  const documnentsMap = decoded?.details?.document_map;
+  const divList = documnentsMap.map?.((item) => item.page);
+  const documnetMap = documnentsMap.map?.(item => item.content);
+
+  console.log('decode',decoded)
+
+  if (documnentsMap.length > 0) {
+    const documentsMap = documnentsMap;
+  } else {
+    documnetMap = [];
+  }
 
   // useEffect(() => {
   //   localStorage.setItem('elementId', scaleId);
@@ -166,6 +177,270 @@ const MidSection = React.forwardRef((props, ref) => {
   }, []);
 
   // document.querySelectorAll('.midSection_container').forEach()
+
+
+  const copyInput = (clickHandler) => {
+    // if (typeOfOperation === "IMAGE_INPUT") {
+    const element = document.querySelector(".focussedd");
+    // console.log(element);
+    let counter = 1;
+    const copyEle = element.cloneNode(true);
+    const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+
+
+
+
+    // parseInt(holder.style.top.slice(0, -2))
+    copyEle.classList.remove("focussedd")
+    copyEle.firstChild.classList.remove("focussed")
+    // copyEle.classList.add("imageInput")
+    // console.log(copyEleTop)
+    copyEle.onfocus = () => {
+      copyEle.style.border = "1px solid rgb(255 191 0)";
+    }
+    copyEle.onblur = () => {
+      copyEle.style.border = "2px dotted gray";
+    }
+    if (copyEle) {
+      copyEle.style.top = copyEleTop;
+      copyEle.style.border = "1px dotted black";
+
+
+      copyEle.onmousedown = copyEle.addEventListener(
+        "mousedown",
+        (event) => {
+          dragElementOverPage(event);
+        },
+        false
+      );
+
+
+      const resizerTL = getResizer("top", "left");
+      const resizerTR = getResizer("top", "right");
+      const resizerBL = getResizer("bottom", "left");
+      const resizerBR = getResizer("bottom", "right");
+      // parseInt(holder.style.top.slice(0, -2))
+
+
+
+
+      copyEle.addEventListener("focus", function (e) {
+        // holderDIV.classList.add("focussedd");
+        copyEle.classList.add("zIndex-two");
+        copyEle.style.border = "2px solid orange";
+        // holderDIV.append(holderMenu);
+
+        copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+      });
+      copyEle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        focuseddClassMaintain(e);
+        // imageField.classList.add("focussed");
+        handleClicked(clickHandler, "container2");
+        // copyImage()
+        // resizing = true;
+        setSidebar(true);
+      })
+    }
+
+    copyEle.onclick = (clickHandler) => {
+
+   
+      if (clickHandler.ctrlKey) {
+        const element = document.querySelector(".focussedd");
+      // console.log(element);
+      let counter = 1;
+      const copyEle = element.cloneNode(true);
+      const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+  
+  
+  
+  
+  
+      // parseInt(holder.style.top.slice(0, -2))
+      copyEle.classList.remove("focussedd")
+      copyEle.firstChild.classList.remove("focussed")
+      // copyEle.classList.add("imageInput")
+      // console.log(copyEleTop)
+      copyEle.onfocus = () => {
+        copyEle.style.border = "1px solid rgb(255 191 0)";
+      }
+      copyEle.onblur = () => {
+        copyEle.style.border = "2px dotted gray";
+      }
+      if (copyEle) {
+        copyEle.style.top = copyEleTop;
+        copyEle.style.border = "1px dotted black";
+  
+  
+        copyEle.onmousedown = copyEle.addEventListener(
+          "mousedown",
+          (event) => {
+            dragElementOverPage(event);
+          },
+          false
+        );
+  
+  
+        const resizerTL = getResizer("top", "left");
+        const resizerTR = getResizer("top", "right");
+        const resizerBL = getResizer("bottom", "left");
+        const resizerBR = getResizer("bottom", "right");
+        // parseInt(holder.style.top.slice(0, -2))
+  
+  
+  
+  
+        copyEle.addEventListener("focus", function (e) {
+          // holderDIV.classList.add("focussedd");
+          copyEle.classList.add("zIndex-two");
+          copyEle.style.border = "2px solid orange";
+          // holderDIV.append(holderMenu);
+  
+          copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+        });
+        copyEle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          // imageField.classList.add("focussed");
+          handleClicked(clickHandler, "container2");
+          // copyImage()
+          // resizing = true;
+          setSidebar(true);
+        })
+      }
+
+      let midSec = document.querySelector(".drop_zone")
+
+      if (!midSec) {
+        let targetParent = element;
+        while (1) {
+          if (targetParent.classList.contains("midSection_container")) {
+            targetParent = targetParent;
+            break;
+          } else {
+            targetParent = targetParent.parentElement;
+            midSec = targetParent;
+          }
+        }
+      }
+      copyEle.id += counter;
+      midSec.appendChild(copyEle);
+      console.log("copy ele", copyEle);
+      }
+
+      // const element = document.querySelector(".focussedd");
+      // // console.log(element);
+      // let counter = 1;
+      // const copyEle = element.cloneNode(true);
+      // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+  
+  
+  
+  
+  
+      // // parseInt(holder.style.top.slice(0, -2))
+      // copyEle.classList.remove("focussedd")
+      // copyEle.firstChild.classList.remove("focussed")
+      // // copyEle.classList.add("imageInput")
+      // // console.log(copyEleTop)
+      // copyEle.onfocus = () => {
+      //   copyEle.style.border = "1px solid rgb(255 191 0)";
+      // }
+      // copyEle.onblur = () => {
+      //   copyEle.style.border = "2px dotted gray";
+      // }
+      // if (copyEle) {
+      //   copyEle.style.top = copyEleTop;
+      //   copyEle.style.border = "1px dotted black";
+  
+  
+      //   copyEle.onmousedown = copyEle.addEventListener(
+      //     "mousedown",
+      //     (event) => {
+      //       dragElementOverPage(event);
+      //     },
+      //     false
+      //   );
+  
+  
+      //   const resizerTL = getResizer("top", "left");
+      //   const resizerTR = getResizer("top", "right");
+      //   const resizerBL = getResizer("bottom", "left");
+      //   const resizerBR = getResizer("bottom", "right");
+      //   // parseInt(holder.style.top.slice(0, -2))
+  
+  
+  
+  
+      //   copyEle.addEventListener("focus", function (e) {
+      //     // holderDIV.classList.add("focussedd");
+      //     copyEle.classList.add("zIndex-two");
+      //     copyEle.style.border = "2px solid orange";
+      //     // holderDIV.append(holderMenu);
+  
+      //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+      //   });
+      //   copyEle.addEventListener("click", (e) => {
+      //     e.stopPropagation();
+      //     focuseddClassMaintain(e);
+      //     // imageField.classList.add("focussed");
+      //     handleClicked(clickHandler, "container2");
+      //     // copyImage()
+      //     // resizing = true;
+      //     setSidebar(true);
+      //   })
+      // }
+
+      // let midSec = document.querySelector(".drop_zone")
+
+      // if (!midSec) {
+      //   let targetParent = element;
+      //   while (1) {
+      //     if (targetParent.classList.contains("midSection_container")) {
+      //       targetParent = targetParent;
+      //       break;
+      //     } else {
+      //       targetParent = targetParent.parentElement;
+      //       midSec = targetParent
+      //     }
+      //   }
+      // }
+      // console.log("mid sec", midSec)
+      // copyEle.id += counter;
+      // midSec.appendChild(copyEle);
+      // console.log("copy ele", copyEle);
+
+
+    }
+    // console.log(copyEle)
+    let midSec = document.querySelector(".drop_zone")
+
+    if (!midSec) {
+      let targetParent = element;
+      while (1) {
+        if (targetParent.classList.contains("midSection_container")) {
+          targetParent = targetParent;
+          break;
+        } else {
+          targetParent = targetParent.parentElement;
+          midSec = targetParent
+        }
+      }
+    }
+    console.log("mid sec", midSec)
+    copyEle.id += counter;
+    midSec.appendChild(copyEle);
+    console.log("copy ele", copyEle);
+    // midSec.forEeach((e) => {
+    //   e.appendChild(copyEle);
+    // });
+
+    // console.log("coping", copyEle)
+    // }
+
+  }
 
   const [postData, setPostData] = useState({});
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
@@ -766,24 +1041,18 @@ const MidSection = React.forwardRef((props, ref) => {
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
-    const midSec = document.getElementsByClassName("midSection_container");
+    const midSec = document.querySelector(".midSection_container");
+    // const midSec2 = document.querySelector(".drop_zone");
+
 
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
+    let isAnyRequiredElementEdited = false;
     for (let p = 1; p <= item?.length; p++) {
-      // const page = midSec[p];
-      // if(item && page?.childNodes.length < 2){
-      //   // midSec[p].parentElement.remove()
-      //   const current = [...item];
-      //   current.splice(p-1, 1);
-      //   setItem(current);
-      // }
-      // arrayData.forEach((element) => {
+     
       pageNo++;
-      //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) => {
-        //console.log("each content", element);
         if (element.type === "TEXT_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -793,6 +1062,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log('element',element)
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -818,10 +1088,16 @@ const MidSection = React.forwardRef((props, ref) => {
             if (inputField.parentElement.classList.contains("holderDIV")) {
               inputField.parentElement.classList.add("element_updated");
             }
+            if (element.required) {
+              isAnyRequiredElementEdited = true;
+            }
           };
+
           inputField.onclick = (e) => {
             focuseddClassMaintain(e);
-
+            if (e.ctrlKey) {
+              copyInput("align2")
+            }
             handleClicked("align2");
             setSidebar(true);
             // inputField.parentElement.focus()
@@ -876,6 +1152,9 @@ const MidSection = React.forwardRef((props, ref) => {
           if (imageField?.parentElement?.classList.contains("holderDIV")) {
             imageField?.parentElement?.classList.add("element_updated");
           }
+          if (element.required) {
+            isAnyRequiredElementEdited = true;
+          }
 
           // const copyImage = (e) => {
           //   console.log("get copy", e)
@@ -894,8 +1173,12 @@ const MidSection = React.forwardRef((props, ref) => {
 
           // })
 
+
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("image2")
+            }
             handleClicked("image2");
             setSidebar(true);
           };
@@ -975,9 +1258,14 @@ const MidSection = React.forwardRef((props, ref) => {
           // dateField.oninput = (e) =>{
           //   setIsFinializeDisabled(false);
           // }
+
+
           dateField.onclick = (e) => {
             // dateFieldInnerText = e?.target?.innerText;
             focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("calendar2")
+            }
             handleClicked("calendar2");
             setRightSideDateMenu(false);
             //console.log("innerText", e.target.innerText);
@@ -1052,10 +1340,12 @@ const MidSection = React.forwardRef((props, ref) => {
           // }
           // let signFieldInnerText = "";
 
+
           signField.onclick = (e) => {
-            // signFieldInnerText=e.target.innerText
             focuseddClassMaintain(e);
-            // if ((actionName = 'template')) {
+            if (e.ctrlKey) {
+              copyInput("sign2")
+            }
             handleClicked("signs2");
             setSidebar(true);
             // } else {
@@ -1434,6 +1724,9 @@ const MidSection = React.forwardRef((props, ref) => {
           iframeField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("iframe2")
+            }
             handleClicked("iframe2");
             setSidebar(true);
           };
@@ -1473,6 +1766,8 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.position = "absolute";
           buttonField.textContent = element.data;
 
+
+
           if (
             decoded.details.action === "template" &&
             element.raw_data == "" &&
@@ -1480,6 +1775,9 @@ const MidSection = React.forwardRef((props, ref) => {
           ) {
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("button2")
+              }
               handleClicked("button2");
               setSidebar(true);
             };
@@ -1488,6 +1786,9 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.onmouseover = (e) => {
             if (buttonField?.parentElement?.classList.contains("holderDIV")) {
               buttonField?.parentElement?.classList.add("element_updated");
+            }
+            if (element.required) {
+              isAnyRequiredElementEdited = true;
             }
           };
 
@@ -1501,14 +1802,22 @@ const MidSection = React.forwardRef((props, ref) => {
             };
           }
 
-          if (
-            decoded.details.action === "document" &&
-            element.purpose == "finalize"
-          ) {
-            buttonField.onclick = (e) => {
+          if (finalizeButton) {
+            if (isAnyRequiredElementEdited) {
               finalizeButton?.click();
-            };
+            } else {
+              finalizeButton.disabled = true;
+            }
           }
+          
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
           if (
             decoded.details.action === "document" &&
             element.purpose == "reject"
@@ -1643,9 +1952,13 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHolder.className = "label_holder";
           labelHolder.style.display = "none";
 
+
           scaleField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("scale2")
+            }
             handleClicked("scale2");
             setSidebar(true);
           };
@@ -1689,9 +2002,13 @@ const MidSection = React.forwardRef((props, ref) => {
           // selectElement.style.width = "auto";
           // selectElement.style.height = "auto";
 
+
           dropdownField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("dropdown2")
+            }
             handleClicked("dropdown2");
             setRightSideDropDown(false);
             setSidebar(true);
@@ -1743,8 +2060,14 @@ const MidSection = React.forwardRef((props, ref) => {
           containerField.style.outline = "0px";
           containerField.style.overflow = "overlay";
           containerField.style.position = "relative";
+
+
+
           containerField.onclick = (e) => {
             focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("container2")
+            }
             handleClicked("container2");
             setSidebar(true);
           };
@@ -1957,6 +2280,9 @@ const MidSection = React.forwardRef((props, ref) => {
                   inputFieldContainer.parentElement.classList.add(
                     "element_updated"
                   );
+                }
+                if (element.required) {
+                  isAnyRequiredElementEdited = true;
                 }
               };
               inputFieldContainer.onclick = (e) => {
@@ -2189,6 +2515,9 @@ const MidSection = React.forwardRef((props, ref) => {
                   buttonFieldContainer?.parentElement?.classList.add(
                     "element_updated"
                   );
+                }
+                if (element.required) {
+                  isAnyRequiredElementEdited = true;
                 }
               };
 
@@ -2668,7 +2997,6 @@ const MidSection = React.forwardRef((props, ref) => {
         }
       });
     }
-    // });
   };
 
   const onParagraphPost = () => {
@@ -2866,95 +3194,13 @@ const MidSection = React.forwardRef((props, ref) => {
           // })
         }
 
-
-        const copyInput = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              // imageField.classList.add("focussed");
-              handleClicked("image2", "container2");
-              // copyImage()
-              // resizing = true;
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        inputField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyInput()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
         inputField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            console.log("clicked it")
+            copyInput("align2")
+            // setSidebar(true)
+          }
           focuseddClassMaintain(e);
           handleClicked("align2", "container2");
           setSidebar(true);
@@ -2988,121 +3234,11 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.id = "i1";
         }
 
-        // if(typeOfOperation === "IMAGE_INPUT") {
-        //   console.log("type of offereaction", typeOfOperation)
-        const copyImage = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              // imageField.classList.add("focussed");
-              handleClicked("image2", "container2");
-              // copyImage()
-              // resizing = true;
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        imageField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyImage()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-        // } else {
-        //   console.log("Not Image INPUT")
-        // }
-
-
-
-        // let copyMenu = document.querySelectorAll("#inputImg");
-        // let cloneMenu = copyMenu.cloneNode(true);
-        // cloneMenu.id = 'mobile-menu';
-        // document.body.appendChild(cloneMenu);
-        // console.log("clone", cloneMenu)
-
-        // const copyImage = () => {
-        //   const element = document.getElementById("inputImg");
-        //   let counter = 1;
-        //   const copyEle = element.cloneNode(true);
-        //   copyEle.id += counter;
-        //   document.body.appendChild(copyEle);
-        //   console.log("coping", copyEle)
-        // }
-
-        // imageField.addEventListener("click", () => {
-        //   copyImage()
-
-        // })
-
         imageField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("image2")
+          }
           focuseddClassMaintain(e);
           // imageField.classList.add("focussed");
           handleClicked("image2", "container2");
@@ -3338,93 +3474,14 @@ const MidSection = React.forwardRef((props, ref) => {
           iframeField.id = "ifr1";
         }
 
-        const copyIframes = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
 
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              table_dropdown_focuseddClassMaintain(e);
-              // tableField.classList.add("focussed");
-              handleClicked("iframe2", "container2");
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        iframeField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyIframes()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
 
         iframeField.onclick = (e) => {
-          // focuseddClassMaintain(e);
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("iframe2")
+          }
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
           handleClicked("iframe2", "container2");
@@ -3514,94 +3571,11 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log(err);
           });
 
-        const copyScales = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              // imageField.classList.add("focussed");
-              handleClicked("image2", "container2");
-              // copyImage()
-              // resizing = true;
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        scaleField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyScales()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
         scaleField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("scale2")
+          }
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("scale2");
           setSidebar(true);
@@ -3732,8 +3706,9 @@ const MidSection = React.forwardRef((props, ref) => {
 
         tableField.onclick = (e) => {
           e.stopPropagation();
-          // focuseddClassMaintain(e);
-          // tableField.removeAttribute("data-bs-toggle", "modal");
+          if (e.ctrlKey) {
+            copyInput("table2")
+          }
           table_dropdown_focuseddClassMaintain(e);
           // tableField.classList.add("focussed");
           handleClicked("table2", "container2");
@@ -3779,92 +3754,12 @@ const MidSection = React.forwardRef((props, ref) => {
           });
         };
 
-        const copySign = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("signs2", "container2");
-              setSidebar(true);
-              console.log("sign field clicked");
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        signField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copySign()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
 
         signField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("signs2")
+          }
           focuseddClassMaintain(e);
           // if (actionName = "template") {
           // signField.classList.add("focussed");
@@ -3951,105 +3846,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // }
 
 
-        const copyDates = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("calendar2", "container2");
-              setRightSideDateMenu(false);
-              if (e.target.innerText != "mm/dd/yyyy") {
-                if (e.target.innerText.includes("/")) {
-                  const setDate = new Date(e.target.innerText);
-                  setMethod("first");
-                  setStartDate(setDate);
-                } else {
-                  if (e.target.innerText.includes("-")) {
-                    setMethod("fourth");
-                  } else {
-                    setMethod("second");
-                  }
-                  const setDate = new Date(e.target.innerText);
-                  setStartDate(setDate);
-                }
-              }
-              setSidebar(true);
-              setTimeout(dateClick, 0);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        dateField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyDates()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
 
 
         function dateClick() {
@@ -4058,6 +3855,9 @@ const MidSection = React.forwardRef((props, ref) => {
         }
         dateField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("calendar2")
+          }
           focuseddClassMaintain(e);
           handleClicked("calendar2", "container2");
           setRightSideDateMenu(false);
@@ -4152,95 +3952,13 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
 
-        const copyDropdown = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              table_dropdown_focuseddClassMaintain(e);
-              handleClicked("dropdown2", "container2");
-              setRightSideDropDown(false);
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        dropdownField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyDropdown()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
 
 
         dropdownField.onclick = (e) => {
           e.stopPropagation();
-          // focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("dropdown2")
+          }
           table_dropdown_focuseddClassMaintain(e);
           // dropdownField.classList.add("focussed");
           handleClicked("dropdown2", "container2");
@@ -4273,92 +3991,11 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.textContent = "Button";
 
 
-
-        const copyButton = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-
-
-
-
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
-
-
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
-
-
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("button2", "container2");
-              setSidebar(true);
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
-
-
-        buttonField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyButton()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
-
         buttonField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("button2")
+          }
           focuseddClassMaintain(e);
           handleClicked("button2", "container2");
           setSidebar(true);
@@ -4392,488 +4029,491 @@ const MidSection = React.forwardRef((props, ref) => {
         containerField.style.position = "absolute";
 
 
-        const copyContainer = () => {
-          // if (typeOfOperation === "IMAGE_INPUT") {
-          const element = document.querySelector(".focussedd");
-          // console.log(element);
-          let counter = 1;
-          const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+        // const copyContainer = () => {
+        //   // if (typeOfOperation === "IMAGE_INPUT") {
+        //   const element = document.querySelector(".focussedd");
+        //   // console.log(element);
+        //   let counter = 1;
+        //   const copyEle = element.cloneNode(true);
+        //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
 
-          // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
-          // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () => {
-            copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () => {
-            copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle) {
-            copyEle.style.top = copyEleTop;
-            copyEle.style.border = "1px dotted black";
+        //   // parseInt(holder.style.top.slice(0, -2))
+        //   copyEle.classList.remove("focussedd")
+        //   copyEle.firstChild.classList.remove("focussed")
+        //   // copyEle.classList.add("imageInput")
+        //   console.log(copyEleTop)
+        //   copyEle.onfocus = () => {
+        //     copyEle.style.border = "1px solid rgb(255 191 0)";
+        //   }
+        //   copyEle.onblur = () => {
+        //     copyEle.style.border = "1px dotted black";
+        //   }
+        //   if (copyEle) {
+        //     copyEle.style.top = copyEleTop;
+        //     copyEle.style.border = "1px dotted black";
 
 
-            copyEle.onmousedown = copyEle.addEventListener(
-              "mousedown",
-              (event) => {
-                dragElementOverPage(event);
-              },
-              false
-            );
+        //     copyEle.onmousedown = copyEle.addEventListener(
+        //       "mousedown",
+        //       (event) => {
+        //         dragElementOverPage(event);
+        //       },
+        //       false
+        //     );
 
 
-            const resizerTL = getResizer("top", "left");
-            const resizerTR = getResizer("top", "right");
-            const resizerBL = getResizer("bottom", "left");
-            const resizerBR = getResizer("bottom", "right");
-            // parseInt(holder.style.top.slice(0, -2))
-
-
-
-
-            copyEle.addEventListener("focus", function (e) {
-              // holderDIV.classList.add("focussedd");
-              copyEle.classList.add("zIndex-two");
-              copyEle.style.border = "2px solid orange";
-              // holderDIV.append(holderMenu);
-
-              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-            });
-
-
-            copyEle.ondrop = (event) => {
-              const container = event.target;
-              const containerRect = container.getBoundingClientRect();
-              const typeOfOperationContainer =
-                event.dataTransfer.getData("text/plain");
-              //             const midSec = document.querySelector(".drop_zone");
-              //     const midsectionRect = midSec.getBoundingClientRect();
-              // const measure = {
-              //       width: "200px",
-              //       height: "80px",
-              //       left: event.clientX - midsectionRect.left + "px",
-              //       top: event.clientY - midsectionRect.top + "px",
-              //       auth_user: curr_user,
-              //     };
-              // console.log("typeOfOperationContainer", typeOfOperationContainer);
-              const measureContainer = {
-                width: "200px",
-                height: "80px",
-                left: event.clientX - containerRect.left + "px",
-                top: event.clientY - containerRect.top + "px",
-                auth_user: curr_user,
-              };
-    
-              const holderDIVContainer = getHolderDIV(measureContainer);
-              if (typeOfOperationContainer === "DATE_INPUT") {
-                let dateFieldContainer = document.createElement("div");
-                dateFieldContainer.className = "dateInput";
-                dateFieldContainer.style.width = "100%";
-                dateFieldContainer.style.height = "100%";
-                dateFieldContainer.style.backgroundColor = "#0000";
-                dateFieldContainer.style.borderRadius = "0px";
-                dateFieldContainer.style.outline = "0px";
-                dateFieldContainer.style.overflow = "overlay";
-                dateFieldContainer.style.position = "relative";
-    
-                copyEle.onchange = (event) => {
-                  event.preventDefault();
-                  setPostData({
-                    ...postData,
-                    calenderField: {
-                      value: event.target.value,
-                      xcoordinate: getOffset(holderDIVContainer).left,
-                      ycoordinate: getOffset(holderDIVContainer).top,
-                    },
-                  });
-                };
-                setStartDate(new Date());
-                setMethod("select");
-                function dateClick() {
-                  document.getElementById("date_picker").click();
-                  setRightSideDateMenu(false);
-                }
-                copyEle.onclick = (e) => {
-                  e.stopPropagation();
-                  focuseddClassMaintain(e);
-                  handleClicked("calendar2", "container2");
-                  setRightSideDateMenu(false);
-                  if (e.target.innerText != "mm/dd/yyyy") {
-                    if (e.target.innerText.includes("/")) {
-                      const setDate = new Date(e.target.innerText);
-                      setMethod("first");
-                      setStartDate(setDate);
-                    } else {
-                      if (e.target.innerText.includes("-")) {
-                        setMethod("fourth");
-                      } else {
-                        setMethod("second");
-                      }
-                      const setDate = new Date(e.target.innerText);
-                      setStartDate(setDate);
-                    }
-                  }
-                  setSidebar(true);
-                  setTimeout(dateClick, 0);
-                };
-                copyEle.innerText = "mm/dd/yyyy";
-    
-                holderDIVContainer.append(copyEle);
-              } else if (typeOfOperationContainer === "IMAGE_INPUT") {
-                let imageFieldContainer = document.createElement("div");
-                imageFieldContainer.className = "imageInput";
-                imageFieldContainer.style.width = "100%";
-                imageFieldContainer.style.height = "100%";
-                imageFieldContainer.style.backgroundColor = "#0000";
-                imageFieldContainer.style.borderRadius = "0px";
-                imageFieldContainer.style.outline = "0px";
-                imageFieldContainer.style.overflow = "overlay";
-                imageFieldContainer.innerText = "Choose Image";
-                imageFieldContainer.style.position = "relative";
-    
-                imageFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  focuseddClassMaintain(e);
-                  handleClicked("image2");
-                  setSidebar(true);
-                };
-    
-                const imageButtonContainer = document.createElement("div");
-                imageButtonContainer.className = "addImageButton";
-                imageButtonContainer.innerText = "Choose File";
-                imageButtonContainer.style.display = "none";
-                // imageButtonContainer.onclick = (e) => chooseFileClick(e);
-    
-                const imgBtnContainer = document.createElement("input");
-                imgBtnContainer.className = "addImageButtonInput";
-                imgBtnContainer.type = "file";
-                imgBtnContainer.style.objectFit = "cover";
-                var uploadedImage = "";
-    
-                imgBtnContainer.addEventListener("input", () => {
-                  const reader = new FileReader();
-    
-                  reader.addEventListener("load", () => {
-                    uploadedImage = reader.result;
-                    document.querySelector(
-                      ".focussed"
-                    ).style.backgroundImage = `url(${uploadedImage})`;
-                  });
-                  reader.readAsDataURL(imgBtnContainer.files[0]);
-                });
-    
-                // imgBtnContainer.style.width = "100%";
-                imageButtonContainer.append(imgBtnContainer);
-                holderDIVContainer.append(imageFieldContainer);
-                holderDIVContainer.append(imageButtonContainer);
-              } else if (typeOfOperationContainer === "DROPDOWN_INPUT") {
-                let dropdownFieldContainer = document.createElement("div");
-                dropdownFieldContainer.className = "dropdownInput";
-                dropdownFieldContainer.style.width = "100%";
-                dropdownFieldContainer.style.height = "100%";
-                dropdownFieldContainer.style.backgroundColor = "#0000";
-                dropdownFieldContainer.style.borderRadius = "0px";
-                dropdownFieldContainer.style.outline = "0px";
-                dropdownFieldContainer.style.overflow = "overlay";
-                dropdownFieldContainer.style.position = "absolute";
-    
-                const selectElement = document.createElement("select");
-                selectElement.className = "select-element";
-                selectElement.style.width = "500";
-                selectElement.style.height = "auto";
-                selectElement.onclick = () => {
-                  selectElement.parentElement.click();
-                };
-    
-                dropdownFieldContainer.onchange = (event) => {
-                  event.preventDefault();
-                  setPostData({
-                    ...postData,
-                    dropdownFieldContainer: {
-                      value: event.target.value,
-                      xcoordinate: getOffset(holderDIVContainer).left,
-                      ycoordinate: getOffset(holderDIVContainer).top,
-                    },
-                  });
-                };
-    
-                // if (dropdownFieldContainer) {
-                //   const dropdownFieldContainer = {
-                //     dropdownFieldContainer: {
-                //       value: event.target.value,
-                //       xcoordinate: getOffset(holderDIVContainer).left,
-                //       ycoordinate: getOffset(holderDIVContainer).top,
-                //     },
-                //   };
-                // }
-    
-                dropdownFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  table_dropdown_focuseddClassMaintain(e);
-                  handleClicked("dropdown2");
-                  setRightSideDropDown(false);
-                  setSidebar(true);
-                };
-    
-                const para = document.createElement("p");
-                para.innerHTML = " Dropdown Name";
-                para.className = "dropdownName";
-                para.onclick = () => {
-                  para.parentElement.click();
-                };
-                dropdownFieldContainer.append(para);
-                dropdownFieldContainer.append(selectElement);
-                holderDIVContainer.append(dropdownFieldContainer);
-              } else if (typeOfOperationContainer === "TEXT_INPUT") {
-                let inputFieldContainer = document.createElement("div");
-                //  inputFieldContainer.setAttribute('draggable', true);
-                inputFieldContainer.setAttribute("contenteditable", true);
-                inputFieldContainer.className = "textInput";
-                inputFieldContainer.innerHTML = "Enter text here";
-                inputFieldContainer.style.width = "100%";
-                inputFieldContainer.style.height = "100%";
-                inputFieldContainer.style.resize = "none";
-                inputFieldContainer.style.backgroundColor = "#0000";
-                inputFieldContainer.style.borderRadius = "0px";
-                inputFieldContainer.style.outline = "0px";
-                inputFieldContainer.style.overflow = "overlay";
-                inputFieldContainer.style.position = "relative";
-                inputFieldContainer.style.cursor = "text";
-                if (inputFieldContainer.innerHTML[0]) {
-                  const editTextField = {
-                    editTextField: {
-                      value: inputFieldContainer.innerHTML,
-                      xcoordinate: getOffset(holderDIVContainer).left,
-                      ycoordinate: getOffset(holderDIVContainer).top,
-                    },
-                  };
-                }
-    
-                if (inputFieldContainer.value !== "") {
-                  // setPostData({
-                  //   ...postData,
-                  //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
-                  // })
-                }
-    
-                inputFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  focuseddClassMaintain(e);
-                  handleClicked("align2");
-                  setSidebar(true);
-                };
-                holderDIVContainer.append(inputFieldContainer);
-              } else if (typeOfOperationContainer === "SIGN_INPUT") {
-                let signFieldContainer = document.createElement("div");
-                signFieldContainer.className = "signInput";
-                signFieldContainer.style.width = "100%";
-                signFieldContainer.style.height = "100%";
-                signFieldContainer.style.backgroundColor = "#0000";
-                signFieldContainer.style.borderRadius = "0px";
-                signFieldContainer.style.outline = "0px";
-                signFieldContainer.style.overflow = "overlay";
-                signFieldContainer.innerText = "Signature here";
-                signFieldContainer.style.position = "absolute";
-    
-                signFieldContainer.onchange = (event) => {
-                  event.preventDefault();
-                  setPostData({
-                    ...postData,
-                    signFieldContainer: {
-                      value: event.target.value,
-                      xcoordinate: getOffset(holderDIVContainer).left,
-                      ycoordinate: getOffset(holderDIVContainer).top,
-                    },
-                  });
-                };
-    
-                signFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  focuseddClassMaintain(e);
-                  handleClicked("signs2");
-                  setSidebar(true);
-                };
-                const imageSignButton = document.createElement("div");
-                imageSignButton.className = "addImageSignButton";
-                imageSignButton.innerText = "Choose File";
-                imageSignButton.style.display = "none";
-    
-                const signBtn = document.createElement("input");
-                signBtn.className = "addSignButtonInput";
-                signBtn.type = "file";
-                signBtn.style.objectFit = "cover";
-                var uploadedImage = "";
-    
-                signBtn.addEventListener("input", () => {
-                  const reader = new FileReader();
-    
-                  reader.addEventListener("load", () => {
-                    uploadedImage = reader.result;
-                    const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-                    document.querySelector(".focussed").innerHTML = signImage;
-                  });
-                  reader.readAsDataURL(signBtn.files[0]);
-                });
-    
-                imageSignButton.append(signBtn);
-                holderDIVContainer.append(signFieldContainer);
-                holderDIVContainer.append(imageSignButton);
-              } else if (typeOfOperationContainer === "IFRAME_INPUT") {
-                let iframeFieldContainer = document.createElement("div");
-                iframeFieldContainer.className = "iframeInput";
-                iframeFieldContainer.style.width = "100%";
-                iframeFieldContainer.style.height = "100%";
-                iframeFieldContainer.style.backgroundColor = "#dedede";
-                iframeFieldContainer.style.borderRadius = "0px";
-                iframeFieldContainer.style.outline = "0px";
-                iframeFieldContainer.style.overflow = "overlay";
-                iframeFieldContainer.style.position = "absolute";
-                iframeFieldContainer.innerText = "iFrame here";
-    
-                iframeFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  table_dropdown_focuseddClassMaintain(e);
-                  handleClicked("iframe2");
-                  setSidebar(true);
-                };
-    
-                holderDIVContainer.append(iframeFieldContainer);
-              } else if (typeOfOperationContainer === "SCALE_INPUT") {
-                setIsLoading(true);
-    
-                let scaleFieldContainer = document.createElement("div");
-                scaleFieldContainer.className = "scaleInput";
-                scaleFieldContainer.style.width = "100%";
-                scaleFieldContainer.style.height = "100%";
-                scaleFieldContainer.style.backgroundColor = "#dedede";
-                scaleFieldContainer.style.borderRadius = "0px";
-                scaleFieldContainer.style.outline = "0px";
-                scaleFieldContainer.style.overflow = "overlay";
-                // scaleFieldContainer.innerHTML = 'iframe';
-                scaleFieldContainer.style.position = "absolute";
-                // scaleFieldContainer.innerText = "scale here";
-    
-                let scale = document.createElement("iframe");
-                scaleFieldContainer.append(scale);
-                Axios.post(
-                  "https://100035.pythonanywhere.com/api/nps_settings_create/",
-                  {
-                    username: "nake",
-                    orientation: "horizontal",
-                    scalecolor: "#8f1e1e",
-                    roundcolor: "#938585",
-                    fontcolor: "#000000",
-                    fomat: "numbers",
-                    time: "00",
-                    name: `${title}_scale`,
-                    left: "good",
-                    right: "best",
-                    center: "neutral",
-                  }
-                )
-                  .then((res) => {
-                    setIsLoading(false);
-                    console.log(res.data, "scaleData");
-                    setScaleData(res.data);
-                    const success = res.data.success;
-                    var successObj = JSON.parse(success);
-                    const id = successObj.inserted_id;
-                    console.log(res.scale_urls, "stateScale");
-                    if (id.length) {
-                      console.log(id, "id");
-                      setScaleId(id);
-                    }
-                    scale.src = res.data.scale_urls;
-                  })
-                  .catch((err) => {
-                    setIsLoading(false);
-                    console.log(err);
-                  });
-    
-                scaleFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  focuseddClassMaintain(e);
-                  handleClicked("scale2");
-                  setSidebar(true);
-                };
-    
-                holderDIVContainer.append(scaleFieldContainer);
-              } else if (typeOfOperationContainer === "TABLE_INPUT") {
-                let tableFieldContainer = document.createElement("div");
-                tableFieldContainer.className = "tableInput";
-                tableFieldContainer.style.width = "100%";
-                tableFieldContainer.style.height = "100%";
-                tableFieldContainer.style.backgroundColor = "#dedede";
-                tableFieldContainer.style.borderRadius = "0px";
-                tableFieldContainer.style.outline = "0px";
-                tableFieldContainer.style.overflow = "overlay";
-                tableFieldContainer.style.position = "absolute";
-    
-                tableFieldContainer.onchange = (event) => {
-                  event.preventDefault();
-    
-                  setPostData({
-                    ...postData,
-                    tableFieldContainer: {
-                      value: event.target.value,
-                      xcoordinate: getOffset(holderDIVContainer).left,
-                      ycoordinate: getOffset(holderDIVContainer).top,
-                    },
-                  });
-                };
-    
-                tableFieldContainer.onclick = (e) => {
-                  e.stopPropagation();
-                  table_dropdown_focuseddClassMaintain(e);
-                  handleClicked("table2");
-                  setSidebar(true);
-                };
-                holderDIVContainer.append(tableFieldContainer);
-              }
-              if (typeOfOperationContainer !== "CONTAINER_INPUT")
-                containerField.append(holderDIVContainer);
-            };
+        //     const resizerTL = getResizer("top", "left");
+        //     const resizerTR = getResizer("top", "right");
+        //     const resizerBL = getResizer("bottom", "left");
+        //     const resizerBR = getResizer("bottom", "right");
+        //     // parseInt(holder.style.top.slice(0, -2))
 
 
 
-            copyEle.addEventListener("click", (e) => {
-              e.stopPropagation();
-              focuseddClassMaintain(e);
-              handleClicked("container2");
-              setSidebar(true);
-              console.log("container field clicked");
-            })
-          }
-          // console.log(copyEle)
-          copyEle.id += counter;
-          midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
-          // }
-        }
+
+        //     copyEle.addEventListener("focus", function (e) {
+        //       // holderDIV.classList.add("focussedd");
+        //       copyEle.classList.add("zIndex-two");
+        //       copyEle.style.border = "2px solid orange";
+        //       // holderDIV.append(holderMenu);
+
+        //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+        //     });
 
 
-        containerField.addEventListener("click", (event) => {
-          // console.log("clicked it")
-          // copyImage()
-          // setSidebar(true)
-          if (event.ctrlKey) {
-            console.log("clicked it")
-            copyContainer()
-            // setSidebar(true)
-          }
-          else {
-            console.log("Faild to copy")
-          }
-        })
+        //     copyEle.ondrop = (event) => {
+        //       const container = event.target;
+        //       const containerRect = container.getBoundingClientRect();
+        //       const typeOfOperationContainer =
+        //         event.dataTransfer.getData("text/plain");
+        //       //             const midSec = document.querySelector(".drop_zone");
+        //       //     const midsectionRect = midSec.getBoundingClientRect();
+        //       // const measure = {
+        //       //       width: "200px",
+        //       //       height: "80px",
+        //       //       left: event.clientX - midsectionRect.left + "px",
+        //       //       top: event.clientY - midsectionRect.top + "px",
+        //       //       auth_user: curr_user,
+        //       //     };
+        //       // console.log("typeOfOperationContainer", typeOfOperationContainer);
+        //       const measureContainer = {
+        //         width: "200px",
+        //         height: "80px",
+        //         left: event.clientX - containerRect.left + "px",
+        //         top: event.clientY - containerRect.top + "px",
+        //         auth_user: curr_user,
+        //       };
+
+        //       const holderDIVContainer = getHolderDIV(measureContainer);
+        //       if (typeOfOperationContainer === "DATE_INPUT") {
+        //         let dateFieldContainer = document.createElement("div");
+        //         dateFieldContainer.className = "dateInput";
+        //         dateFieldContainer.style.width = "100%";
+        //         dateFieldContainer.style.height = "100%";
+        //         dateFieldContainer.style.backgroundColor = "#0000";
+        //         dateFieldContainer.style.borderRadius = "0px";
+        //         dateFieldContainer.style.outline = "0px";
+        //         dateFieldContainer.style.overflow = "overlay";
+        //         dateFieldContainer.style.position = "relative";
+
+        //         copyEle.onchange = (event) => {
+        //           event.preventDefault();
+        //           setPostData({
+        //             ...postData,
+        //             calenderField: {
+        //               value: event.target.value,
+        //               xcoordinate: getOffset(holderDIVContainer).left,
+        //               ycoordinate: getOffset(holderDIVContainer).top,
+        //             },
+        //           });
+        //         };
+        //         setStartDate(new Date());
+        //         setMethod("select");
+        //         function dateClick() {
+        //           document.getElementById("date_picker").click();
+        //           setRightSideDateMenu(false);
+        //         }
+        //         copyEle.onclick = (e) => {
+        //           e.stopPropagation();
+        //           focuseddClassMaintain(e);
+        //           handleClicked("calendar2", "container2");
+        //           setRightSideDateMenu(false);
+        //           if (e.target.innerText != "mm/dd/yyyy") {
+        //             if (e.target.innerText.includes("/")) {
+        //               const setDate = new Date(e.target.innerText);
+        //               setMethod("first");
+        //               setStartDate(setDate);
+        //             } else {
+        //               if (e.target.innerText.includes("-")) {
+        //                 setMethod("fourth");
+        //               } else {
+        //                 setMethod("second");
+        //               }
+        //               const setDate = new Date(e.target.innerText);
+        //               setStartDate(setDate);
+        //             }
+        //           }
+        //           setSidebar(true);
+        //           setTimeout(dateClick, 0);
+        //         };
+        //         copyEle.innerText = "mm/dd/yyyy";
+
+        //         holderDIVContainer.append(copyEle);
+        //       } else if (typeOfOperationContainer === "IMAGE_INPUT") {
+        //         let imageFieldContainer = document.createElement("div");
+        //         imageFieldContainer.className = "imageInput";
+        //         imageFieldContainer.style.width = "100%";
+        //         imageFieldContainer.style.height = "100%";
+        //         imageFieldContainer.style.backgroundColor = "#0000";
+        //         imageFieldContainer.style.borderRadius = "0px";
+        //         imageFieldContainer.style.outline = "0px";
+        //         imageFieldContainer.style.overflow = "overlay";
+        //         imageFieldContainer.innerText = "Choose Image";
+        //         imageFieldContainer.style.position = "relative";
+
+        //         imageFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           focuseddClassMaintain(e);
+        //           handleClicked("image2");
+        //           setSidebar(true);
+        //         };
+
+        //         const imageButtonContainer = document.createElement("div");
+        //         imageButtonContainer.className = "addImageButton";
+        //         imageButtonContainer.innerText = "Choose File";
+        //         imageButtonContainer.style.display = "none";
+        //         // imageButtonContainer.onclick = (e) => chooseFileClick(e);
+
+        //         const imgBtnContainer = document.createElement("input");
+        //         imgBtnContainer.className = "addImageButtonInput";
+        //         imgBtnContainer.type = "file";
+        //         imgBtnContainer.style.objectFit = "cover";
+        //         var uploadedImage = "";
+
+        //         imgBtnContainer.addEventListener("input", () => {
+        //           const reader = new FileReader();
+
+        //           reader.addEventListener("load", () => {
+        //             uploadedImage = reader.result;
+        //             document.querySelector(
+        //               ".focussed"
+        //             ).style.backgroundImage = `url(${uploadedImage})`;
+        //           });
+        //           reader.readAsDataURL(imgBtnContainer.files[0]);
+        //         });
+
+        //         // imgBtnContainer.style.width = "100%";
+        //         imageButtonContainer.append(imgBtnContainer);
+        //         holderDIVContainer.append(imageFieldContainer);
+        //         holderDIVContainer.append(imageButtonContainer);
+        //       } else if (typeOfOperationContainer === "DROPDOWN_INPUT") {
+        //         let dropdownFieldContainer = document.createElement("div");
+        //         dropdownFieldContainer.className = "dropdownInput";
+        //         dropdownFieldContainer.style.width = "100%";
+        //         dropdownFieldContainer.style.height = "100%";
+        //         dropdownFieldContainer.style.backgroundColor = "#0000";
+        //         dropdownFieldContainer.style.borderRadius = "0px";
+        //         dropdownFieldContainer.style.outline = "0px";
+        //         dropdownFieldContainer.style.overflow = "overlay";
+        //         dropdownFieldContainer.style.position = "absolute";
+
+        //         const selectElement = document.createElement("select");
+        //         selectElement.className = "select-element";
+        //         selectElement.style.width = "500";
+        //         selectElement.style.height = "auto";
+        //         selectElement.onclick = () => {
+        //           selectElement.parentElement.click();
+        //         };
+
+        //         dropdownFieldContainer.onchange = (event) => {
+        //           event.preventDefault();
+        //           setPostData({
+        //             ...postData,
+        //             dropdownFieldContainer: {
+        //               value: event.target.value,
+        //               xcoordinate: getOffset(holderDIVContainer).left,
+        //               ycoordinate: getOffset(holderDIVContainer).top,
+        //             },
+        //           });
+        //         };
+
+        //         // if (dropdownFieldContainer) {
+        //         //   const dropdownFieldContainer = {
+        //         //     dropdownFieldContainer: {
+        //         //       value: event.target.value,
+        //         //       xcoordinate: getOffset(holderDIVContainer).left,
+        //         //       ycoordinate: getOffset(holderDIVContainer).top,
+        //         //     },
+        //         //   };
+        //         // }
+
+        //         dropdownFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           table_dropdown_focuseddClassMaintain(e);
+        //           handleClicked("dropdown2");
+        //           setRightSideDropDown(false);
+        //           setSidebar(true);
+        //         };
+
+        //         const para = document.createElement("p");
+        //         para.innerHTML = " Dropdown Name";
+        //         para.className = "dropdownName";
+        //         para.onclick = () => {
+        //           para.parentElement.click();
+        //         };
+        //         dropdownFieldContainer.append(para);
+        //         dropdownFieldContainer.append(selectElement);
+        //         holderDIVContainer.append(dropdownFieldContainer);
+        //       } else if (typeOfOperationContainer === "TEXT_INPUT") {
+        //         let inputFieldContainer = document.createElement("div");
+        //         //  inputFieldContainer.setAttribute('draggable', true);
+        //         inputFieldContainer.setAttribute("contenteditable", true);
+        //         inputFieldContainer.className = "textInput";
+        //         inputFieldContainer.innerHTML = "Enter text here";
+        //         inputFieldContainer.style.width = "100%";
+        //         inputFieldContainer.style.height = "100%";
+        //         inputFieldContainer.style.resize = "none";
+        //         inputFieldContainer.style.backgroundColor = "#0000";
+        //         inputFieldContainer.style.borderRadius = "0px";
+        //         inputFieldContainer.style.outline = "0px";
+        //         inputFieldContainer.style.overflow = "overlay";
+        //         inputFieldContainer.style.position = "relative";
+        //         inputFieldContainer.style.cursor = "text";
+        //         if (inputFieldContainer.innerHTML[0]) {
+        //           const editTextField = {
+        //             editTextField: {
+        //               value: inputFieldContainer.innerHTML,
+        //               xcoordinate: getOffset(holderDIVContainer).left,
+        //               ycoordinate: getOffset(holderDIVContainer).top,
+        //             },
+        //           };
+        //         }
+
+        //         if (inputFieldContainer.value !== "") {
+        //           // setPostData({
+        //           //   ...postData,
+        //           //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
+        //           // })
+        //         }
+
+        //         inputFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           focuseddClassMaintain(e);
+        //           handleClicked("align2");
+        //           setSidebar(true);
+        //         };
+        //         holderDIVContainer.append(inputFieldContainer);
+        //       } else if (typeOfOperationContainer === "SIGN_INPUT") {
+        //         let signFieldContainer = document.createElement("div");
+        //         signFieldContainer.className = "signInput";
+        //         signFieldContainer.style.width = "100%";
+        //         signFieldContainer.style.height = "100%";
+        //         signFieldContainer.style.backgroundColor = "#0000";
+        //         signFieldContainer.style.borderRadius = "0px";
+        //         signFieldContainer.style.outline = "0px";
+        //         signFieldContainer.style.overflow = "overlay";
+        //         signFieldContainer.innerText = "Signature here";
+        //         signFieldContainer.style.position = "absolute";
+
+        //         signFieldContainer.onchange = (event) => {
+        //           event.preventDefault();
+        //           setPostData({
+        //             ...postData,
+        //             signFieldContainer: {
+        //               value: event.target.value,
+        //               xcoordinate: getOffset(holderDIVContainer).left,
+        //               ycoordinate: getOffset(holderDIVContainer).top,
+        //             },
+        //           });
+        //         };
+
+        //         signFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           focuseddClassMaintain(e);
+        //           handleClicked("signs2");
+        //           setSidebar(true);
+        //         };
+        //         const imageSignButton = document.createElement("div");
+        //         imageSignButton.className = "addImageSignButton";
+        //         imageSignButton.innerText = "Choose File";
+        //         imageSignButton.style.display = "none";
+
+        //         const signBtn = document.createElement("input");
+        //         signBtn.className = "addSignButtonInput";
+        //         signBtn.type = "file";
+        //         signBtn.style.objectFit = "cover";
+        //         var uploadedImage = "";
+
+        //         signBtn.addEventListener("input", () => {
+        //           const reader = new FileReader();
+
+        //           reader.addEventListener("load", () => {
+        //             uploadedImage = reader.result;
+        //             const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+        //             document.querySelector(".focussed").innerHTML = signImage;
+        //           });
+        //           reader.readAsDataURL(signBtn.files[0]);
+        //         });
+
+        //         imageSignButton.append(signBtn);
+        //         holderDIVContainer.append(signFieldContainer);
+        //         holderDIVContainer.append(imageSignButton);
+        //       } else if (typeOfOperationContainer === "IFRAME_INPUT") {
+        //         let iframeFieldContainer = document.createElement("div");
+        //         iframeFieldContainer.className = "iframeInput";
+        //         iframeFieldContainer.style.width = "100%";
+        //         iframeFieldContainer.style.height = "100%";
+        //         iframeFieldContainer.style.backgroundColor = "#dedede";
+        //         iframeFieldContainer.style.borderRadius = "0px";
+        //         iframeFieldContainer.style.outline = "0px";
+        //         iframeFieldContainer.style.overflow = "overlay";
+        //         iframeFieldContainer.style.position = "absolute";
+        //         iframeFieldContainer.innerText = "iFrame here";
+
+        //         iframeFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           table_dropdown_focuseddClassMaintain(e);
+        //           handleClicked("iframe2");
+        //           setSidebar(true);
+        //         };
+
+        //         holderDIVContainer.append(iframeFieldContainer);
+        //       } else if (typeOfOperationContainer === "SCALE_INPUT") {
+        //         setIsLoading(true);
+
+        //         let scaleFieldContainer = document.createElement("div");
+        //         scaleFieldContainer.className = "scaleInput";
+        //         scaleFieldContainer.style.width = "100%";
+        //         scaleFieldContainer.style.height = "100%";
+        //         scaleFieldContainer.style.backgroundColor = "#dedede";
+        //         scaleFieldContainer.style.borderRadius = "0px";
+        //         scaleFieldContainer.style.outline = "0px";
+        //         scaleFieldContainer.style.overflow = "overlay";
+        //         // scaleFieldContainer.innerHTML = 'iframe';
+        //         scaleFieldContainer.style.position = "absolute";
+        //         // scaleFieldContainer.innerText = "scale here";
+
+        //         let scale = document.createElement("iframe");
+        //         scaleFieldContainer.append(scale);
+        //         Axios.post(
+        //           "https://100035.pythonanywhere.com/api/nps_settings_create/",
+        //           {
+        //             username: "nake",
+        //             orientation: "horizontal",
+        //             scalecolor: "#8f1e1e",
+        //             roundcolor: "#938585",
+        //             fontcolor: "#000000",
+        //             fomat: "numbers",
+        //             time: "00",
+        //             name: `${title}_scale`,
+        //             left: "good",
+        //             right: "best",
+        //             center: "neutral",
+        //           }
+        //         )
+        //           .then((res) => {
+        //             setIsLoading(false);
+        //             console.log(res.data, "scaleData");
+        //             setScaleData(res.data);
+        //             const success = res.data.success;
+        //             var successObj = JSON.parse(success);
+        //             const id = successObj.inserted_id;
+        //             console.log(res.scale_urls, "stateScale");
+        //             if (id.length) {
+        //               console.log(id, "id");
+        //               setScaleId(id);
+        //             }
+        //             scale.src = res.data.scale_urls;
+        //           })
+        //           .catch((err) => {
+        //             setIsLoading(false);
+        //             console.log(err);
+        //           });
+
+        //         scaleFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           focuseddClassMaintain(e);
+        //           handleClicked("scale2");
+        //           setSidebar(true);
+        //         };
+
+        //         holderDIVContainer.append(scaleFieldContainer);
+        //       } else if (typeOfOperationContainer === "TABLE_INPUT") {
+        //         let tableFieldContainer = document.createElement("div");
+        //         tableFieldContainer.className = "tableInput";
+        //         tableFieldContainer.style.width = "100%";
+        //         tableFieldContainer.style.height = "100%";
+        //         tableFieldContainer.style.backgroundColor = "#dedede";
+        //         tableFieldContainer.style.borderRadius = "0px";
+        //         tableFieldContainer.style.outline = "0px";
+        //         tableFieldContainer.style.overflow = "overlay";
+        //         tableFieldContainer.style.position = "absolute";
+
+        //         tableFieldContainer.onchange = (event) => {
+        //           event.preventDefault();
+
+        //           setPostData({
+        //             ...postData,
+        //             tableFieldContainer: {
+        //               value: event.target.value,
+        //               xcoordinate: getOffset(holderDIVContainer).left,
+        //               ycoordinate: getOffset(holderDIVContainer).top,
+        //             },
+        //           });
+        //         };
+
+        //         tableFieldContainer.onclick = (e) => {
+        //           e.stopPropagation();
+        //           table_dropdown_focuseddClassMaintain(e);
+        //           handleClicked("table2");
+        //           setSidebar(true);
+        //         };
+        //         holderDIVContainer.append(tableFieldContainer);
+        //       }
+        //       if (typeOfOperationContainer !== "CONTAINER_INPUT")
+        //         containerField.append(holderDIVContainer);
+        //     };
+
+
+
+        //     copyEle.addEventListener("click", (e) => {
+        //       e.stopPropagation();
+        //       focuseddClassMaintain(e);
+        //       handleClicked("container2");
+        //       setSidebar(true);
+        //       console.log("container field clicked");
+        //     })
+        //   }
+        //   // console.log(copyEle)
+        //   copyEle.id += counter;
+        //   midSec.appendChild(copyEle);
+        //   console.log("coping", copyEle)
+        //   // }
+        // }
+
+
+        // containerField.addEventListener("click", (event) => {
+        //   // console.log("clicked it")
+        //   // copyImage()
+        //   // setSidebar(true)
+        //   if (event.ctrlKey) {
+        //     console.log("clicked it")
+        //     copyContainer()
+        //     // setSidebar(true)
+        //   }
+        //   else {
+        //     console.log("Faild to copy")
+        //   }
+        // })
 
 
 
         containerField.onclick = (e) => {
           e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("container2")
+          }
           focuseddClassMaintain(e);
           handleClicked("container2");
           setSidebar(true);
@@ -4937,6 +4577,9 @@ const MidSection = React.forwardRef((props, ref) => {
             dateFieldContainer.onclick = (e) => {
               e.stopPropagation();
               focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("calendar2")
+              }
               handleClicked("calendar2", "container2");
               setRightSideDateMenu(false);
               if (e.target.innerText != "mm/dd/yyyy") {
@@ -5284,6 +4927,9 @@ const MidSection = React.forwardRef((props, ref) => {
 
             buttonField.onclick = (e) => {
               e.stopPropagation();
+              if (e.ctrlKey) {
+                copyInput("button2")
+              }
               focuseddClassMaintain(e);
               handleClicked("button2", "container2");
               setSidebar(true);
