@@ -151,6 +151,8 @@ const MidSection = React.forwardRef((props, ref) => {
           dropdown2: false,
           scale2: false,
           container2: false,
+          iframe2: false,
+          button2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -2769,6 +2771,10 @@ const MidSection = React.forwardRef((props, ref) => {
         signs2: false,
         calendar2: false,
         dropdown2: false,
+        button2: false,
+        iframe2: false,
+        scale2: false,
+        container2: false,
       });
     }
   };

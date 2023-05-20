@@ -234,6 +234,7 @@ const RightMenu = () => {
         calendar2: false,
         iframe2: false,
         scale2: false,
+        button2: false,
         container2: false,
       });
     }
