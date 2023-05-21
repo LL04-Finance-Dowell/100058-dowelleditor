@@ -106,15 +106,15 @@ const MidSection = React.forwardRef((props, ref) => {
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
   const documnentsMap = decoded?.details?.document_map;
-  const divList = documnentsMap.map?.((item) => item.page);
-  const documnetMap = documnentsMap.map?.(item => item.content);
+  const divList = documnentsMap?.map?.((item) => item.page);
+  var documnetMap = documnentsMap?.map?.(item => item.content);
 
   console.log('decode',decoded)
 
-  if (documnentsMap.length > 0) {
+  if (documnentsMap?.length > 0) {
     const documentsMap = documnentsMap;
   } else {
-    documnetMap = [];
+    console.log("There's no document map");
   }
 
   // useEffect(() => {
