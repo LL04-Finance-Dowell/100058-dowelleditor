@@ -232,17 +232,17 @@ const Header = () => {
     page[0] = { ...page[0], ...element };
   }
 
-  const dataInsertWithPage = (tempPosn, elem) => {
-    let low = 0;
-    let high = 1122;
-    for (let i = 1; i <= item?.length; i++) {
-      if (tempPosn.top >= low && tempPosn.top < high) {
-        page[0][i].push(elem);
-      }
-      low += 1122;
-      high += 1122;
-    }
-  };
+  // const dataInsertWithPage = (tempPosn, elem) => {
+  //   let low = 0;
+  //   let high = 1122;
+  //   for (let i = 1; i <= item?.length; i++) {
+  //     if (tempPosn.top >= low && tempPosn.top < high) {
+  //       page[0][i].push(elem);
+  //     }
+  //     low += 1122;
+  //     high += 1122;
+  //   }
+  // };
 
   const findPaageNum = (element) => {
     let targetParent = element;
@@ -302,7 +302,7 @@ const Header = () => {
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
-            // border: txt[h].parentElement.style.border,
+            border: txt[h].parentElement.style.border,
           };
           // dataInsertWithPage(tempPosn, elem);
           // let targetParent = txt[h];
@@ -323,6 +323,7 @@ const Header = () => {
           //   "classListOfParentElement",
           //   classListOfParentElement[1].split("_")[1]
           // );
+          console.log("test element", elem);
           const pageNum = findPaageNum(txt[h]);
           page[0][pageNum].push(elem);
           // page.push(elem);
