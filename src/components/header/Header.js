@@ -232,17 +232,17 @@ const Header = () => {
     page[0] = { ...page[0], ...element };
   }
 
-  // const dataInsertWithPage = (tempPosn, elem) => {
-  //   let low = 0;
-  //   let high = 1122;
-  //   for (let i = 1; i <= item?.length; i++) {
-  //     if (tempPosn.top >= low && tempPosn.top < high) {
-  //       page[0][i].push(elem);
-  //     }
-  //     low += 1122;
-  //     high += 1122;
-  //   }
-  // };
+  const dataInsertWithPage = (tempPosn, elem) => {
+    let low = 0;
+    let high = 1122;
+    for (let i = 1; i <= item?.length; i++) {
+      if (tempPosn.top >= low && tempPosn.top < high) {
+        page[0][i].push(elem);
+      }
+      low += 1122;
+      high += 1122;
+    }
+  };
 
   const findPaageNum = (element) => {
     let targetParent = element;
@@ -302,7 +302,9 @@ const Header = () => {
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
-            border: txt[h].parentElement.style.border,
+            // border: txt[h].parentElement.style.border,
+            borderWidth: txt[h].parentElement.style.borderWidth,
+            borderColor: txt[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           // let targetParent = txt[h];
@@ -323,7 +325,6 @@ const Header = () => {
           //   "classListOfParentElement",
           //   classListOfParentElement[1].split("_")[1]
           // );
-          console.log("test element", elem);
           const pageNum = findPaageNum(txt[h]);
           page[0][pageNum].push(elem);
           // page.push(elem);
@@ -363,6 +364,9 @@ const Header = () => {
             type: "IMAGE_INPUT",
             data: dataName,
             id: `i${h + 1}`,
+            // border: img[h].parentElement.style.border,
+            borderWidth: img[h].parentElement.style.borderWidth,
+            borderColor: img[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
@@ -393,6 +397,9 @@ const Header = () => {
             type: "DATE_INPUT",
             data: date[h].innerHTML,
             id: `d${h + 1}`,
+            // border: date[h].parentElement.style.border,
+            borderWidth: date[h].parentElement.style.borderWidth,
+            borderColor: date[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(date[h]);
@@ -427,6 +434,9 @@ const Header = () => {
                   sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
+            // border: sign[h].parentElement.style.border,
+            borderWidth: sign[h].parentElement.style.borderWidth,
+            borderColor: sign[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(sign[h]);
@@ -453,15 +463,15 @@ const Header = () => {
           //console.log(tables[t].firstElementChild.innerHTML);
           function getChildData() {
             const allTableCCells = [];
-            const tableChildren = tables[t].firstElementChild.children;
-            for (let i = 0; i < tableChildren.length; i++) {
+            const tableChildren = tables[t]?.firstElementChild?.children;
+            for (let i = 0; i < tableChildren?.length; i++) {
               const tableTR = { tr: null };
               const newTableTR = [];
-              for (let j = 0; j < tableChildren[i].children.length; j++) {
+              for (let j = 0; j < tableChildren[i]?.children?.length; j++) {
                 // const element = tableChildren[i];
 
                 const TdDivClassName =
-                  tableChildren[i].children[
+                  tableChildren[i]?.children[
                     j
                   ]?.firstElementChild?.className.split(" ")[0];
 
@@ -502,6 +512,9 @@ const Header = () => {
             // data: tables[t].firstElementChild.innerHTML,
             data: getChildData(),
             id: `tab${t + 1}`,
+            // border: tables[t].parentElement.style.border,
+            borderWidth: tables[t].parentElement.style.borderWidth,
+            borderColor: tables[t].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(tables[t]);
@@ -525,24 +538,23 @@ const Header = () => {
           function getChildData() {
             const allContainerChildren = [];
             const containerChildren = containerElements[h].children;
-            console.log(
-              "containerChildren",
-              containerChildren.length,
-              containerChildren
-            );
+            // console.log(
+            //   "containerChildren",
+            //   containerChildren.length,
+            //   containerChildren
+            // );
             for (let i = 0; i < containerChildren.length; i++) {
-              const elementChild = containerChildren[i];
-              console.log("elementChilds", i, " ", elementChild);
-              // let tempElem = elementChild.parentElement;
-              let tempPosnChild = getPosition(elementChild);
-              console.log("tempPosnChild", tempPosnChild);
+              const element = containerChildren[i];
+              // console.log("elements", i, " ", element);
+              // let tempElem = element.parentElement;
+              let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
               const childData = {};
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = elementChild.style.top;
+              childData.topp = containerElements[h].parentElement.style.top;
               childData.left = tempPosnChild.left;
 
               // console.log("childData", childData);
@@ -573,6 +585,9 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
+                case "emailButton":
+                  type = "FORM";
+                  break;
                 default:
                   type = "";
               }
@@ -584,18 +599,18 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                elementChild?.firstElementChild?.style?.backgroundImage
-                  ? elementChild.firstElementChild.style.backgroundImage
-                  : elementChild.firstElementChild?.innerHTML;
+                element?.firstElementChild?.style?.backgroundImage
+                  ? element.firstElementChild.style.backgroundImage
+                  : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
                 childData.data = imageData;
               }
               if (type == "TEXT_INPUT") {
-                childData.data = elementChild.firstElementChild?.innerText;
-                childData.raw_data = elementChild.firstElementChild?.innerHTML;
+                childData.data = element.firstElementChild?.innerText;
+                childData.raw_data = element.firstElementChild?.innerHTML;
               }
               // else{
-              // childData.data = elementChild.firstElementChild.innerHTML
+              // childData.data = element.firstElementChild.innerHTML
               // }
               childData.id = `${containerChildClassName[0]}${h + 1}`;
               allContainerChildren.push(childData);
@@ -604,7 +619,7 @@ const Header = () => {
             //   const tableTR = { tr: null };
             //   const newTableTR = [];
             //   for (let j = 0; j < tableChildren[i].children.length; j++) {
-            //     // const elementChild = tableChildren[i];
+            //     // const element = tableChildren[i];
 
             //     const TdDivClassName =
             //       tableChildren[i].children[
@@ -646,6 +661,8 @@ const Header = () => {
             type: "CONTAINER_INPUT",
             data: getChildData(),
             id: `c${h + 1}`,
+            borderWidth: containerElements[h].parentElement.style.borderWidth,
+            borderColor: containerElements[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(containerElements[h]);
@@ -676,6 +693,8 @@ const Header = () => {
               ? "iFrame here"
               : iframes[i].firstElementChild.src,
             id: `ifr${i + 1}`,
+            borderWidth: iframes[i].parentElement.style.borderWidth,
+            borderColor: iframes[i].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(iframes[i]);
@@ -708,6 +727,8 @@ const Header = () => {
             scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
             id: `scl${s + 1}`,
+            borderWidth: scales[s].parentElement.style.borderWidth,
+            borderColor: scales[s].parentElement.style.borderColor,
             details:
               decoded.details.action === "document"
                 ? "Document instance"
@@ -746,12 +767,48 @@ const Header = () => {
             raw_data: tempElem.children[1].innerHTML,
             purpose: tempElem.children[2].innerHTML,
             id: `btn${b + 1}`,
+            borderWidth: buttons[b].parentElement.style.borderWidth,
+            borderColor: buttons[b].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
+        }
+      }
+    }
+    const email = document.getElementsByClassName("emailButton");
+    if (email.length) {
+      for (let e = 0; e < email.length; e++) {
+        if (
+          !email[e]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          console.log("email from headerjs", email[e]);
+          let tempElem = email[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+          // const link = buttonLink;
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: email[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: email[e].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `eml${e + 1}`,
+            borderWidth: email[e].parentElement.style.borderWidth,
+            borderColor: email[e].parentElement.style.borderColor,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          console.log("email element", elem);
+          const pageNum = findPaageNum(buttons[e]);
+          page[0][pageNum].push(elem);
         }
       }
     }
@@ -784,6 +841,8 @@ const Header = () => {
             data1: dropDowns[d].firstElementChild.innerHTML,
             data2: dropDowns[d].lastElementChild.innerHTML,
             id: `dd${d + 1}`,
+            borderWidth: dropDowns[d].parentElement.style.borderWidth,
+            borderColor: dropDowns[d].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(dropDowns[d]);
