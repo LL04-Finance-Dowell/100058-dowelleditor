@@ -49,9 +49,16 @@ const AlignRightSide = () =>
   } = useStateContext();
 
   const [isWindowHightSmall, setIsWindowHightSmall] = useState(false);
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
+  // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
+
+
 
   // function boldCommand() {
   //   const strongElement = document.createElement("em");
@@ -267,20 +274,32 @@ const AlignRightSide = () =>
 
   const handleBorderSizeChange = (e) =>
   {
-    setBorderSize(e.target.value);
+    setBorderSize(parseInt(e.target.value));
 
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderWidth = `${borderSize}px`;
 
   };
+  // const handleBorderColorBlur = () => {
+  //   document.getElementById("box").style.borderColor = borderColor;
+  // };
 
+  // const handleSliderChange = (event) => {
+  //   setBorderWidth(event.target.value);
+  //   document.getElementById("box").style.borderWidth = event.target.value + 'px';
+  // };
+
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
   const handleBorderColorChange = (e) =>
   {
     setBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${borderColor}`;
-
   };
+
 
   useEffect(() =>
   {
@@ -293,7 +312,9 @@ const AlignRightSide = () =>
         setIsWindowHightSmall(true);
       }
     }
-  }, []);
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [borderSize, borderColor]);
   return (
     <div
       className="align"
@@ -554,6 +575,7 @@ const AlignRightSide = () =>
                 max="20"
                 value={borderSize}
                 onChange={handleBorderSizeChange}
+                onBlur={handleRangeBlur}
                 id="range"
                 className="range-color"
 

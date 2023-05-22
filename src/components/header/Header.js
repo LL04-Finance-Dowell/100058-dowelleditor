@@ -11,7 +11,8 @@ import print from "print-js";
 import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import { CgMenuLeft, CgPlayListRemove } from "react-icons/cg";
-import {
+import
+{
   MdOutlinePostAdd,
   MdSignalCellular0Bar,
   MdOutlineFlipCameraAndroid,
@@ -48,7 +49,8 @@ import MidSection from "../midSection/MidSection";
 // };
 // export default Printer;
 
-const Header = () => {
+const Header = () =>
+{
   const inputRef = useRef(null);
   const componentRef = useRef(null);
 
@@ -99,19 +101,24 @@ const Header = () => {
 
   const [printContent, setPrintContent] = useState(false);
 
-  const handleOptions = () => {
+  const handleOptions = () =>
+  {
     setIsMenuVisible(!isMenuVisible);
   };
-  const handleUndo = () => {
+  const handleUndo = () =>
+  {
     document.execCommand("undo");
   };
-  const handleRedo = () => {
+  const handleRedo = () =>
+  {
     document.execCommand("redo");
   };
-  const handleCut = () => {
+  const handleCut = () =>
+  {
     document.querySelector(".focussedd").remove();
   };
-  const handleCopy = () => {
+  const handleCopy = () =>
+  {
     // const element = document.querySelector(".focussedd");
     // // console.log(element);
     // let counter = 1;
@@ -121,10 +128,12 @@ const Header = () => {
     // holderDIV.appendChild(copyEle);
     // console.log("coping", copyEle)
   };
-  const handlePaste = () => {
+  const handlePaste = () =>
+  {
     document.execCommand("paste");
   };
-  const handleTitle = () => {
+  const handleTitle = () =>
+  {
     const divElement = inputRef.current;
     divElement.focus();
 
@@ -143,12 +152,15 @@ const Header = () => {
   };
 
   let createPageNumber;
-  if (item?.length) {
+  if (item?.length)
+  {
     createPageNumber = item[item?.length - 1].split("_")[1];
-  } else {
+  } else
+  {
     createPageNumber = 0;
   }
-  function createNewPage() {
+  function createNewPage()
+  {
     createPageNumber++;
     const current = [...item];
     current.push(`div_${createPageNumber}`);
@@ -157,11 +169,13 @@ const Header = () => {
     //console.log("create page click after", current);
   }
   // console.log('fetchedData', fetchedData);
-  function removePage() {
+  function removePage()
+  {
     const current = [...item];
 
     var pageNumber = prompt("Enter the number of page to delete");
-    if (pageNumber != null) {
+    if (pageNumber != null)
+    {
       const index = pageNumber - 1;
       const page = document.getElementsByClassName("midSection_container")[
         index
@@ -169,7 +183,8 @@ const Header = () => {
 
       //console.log(page);
       // page.innerHTML = "";
-      if (index > 0 && index < item?.length) {
+      if (index > 0 && index < item?.length)
+      {
         //remove item from the basket
         // //console.log("fetchedData", fetchedData, "nameofpage", pageNumber);
         // delete fetchedData[pageNumber];
@@ -193,7 +208,8 @@ const Header = () => {
         page.parentElement.remove();
         item.pop();
         // setItem(item);
-      } else {
+      } else
+      {
         console.warn(`Cant remove page`);
       }
     }
@@ -201,7 +217,8 @@ const Header = () => {
 
   // Adding a new branch comment
 
-  function getPosition(el) {
+  function getPosition(el)
+  {
     // const rect = el[0].getBoundingClientRect();
     // //console.log(el);
     const midSec = document.getElementById("midSection_container");
@@ -227,16 +244,20 @@ const Header = () => {
   let contentFile = [];
   let page = [{}];
 
-  for (let i = 1; i <= item?.length; i++) {
+  for (let i = 1; i <= item?.length; i++)
+  {
     const element = { [i]: [] };
     page[0] = { ...page[0], ...element };
   }
 
-  const dataInsertWithPage = (tempPosn, elem) => {
+  const dataInsertWithPage = (tempPosn, elem) =>
+  {
     let low = 0;
     let high = 1122;
-    for (let i = 1; i <= item?.length; i++) {
-      if (tempPosn.top >= low && tempPosn.top < high) {
+    for (let i = 1; i <= item?.length; i++)
+    {
+      if (tempPosn.top >= low && tempPosn.top < high)
+      {
         page[0][i].push(elem);
       }
       low += 1122;
@@ -244,26 +265,33 @@ const Header = () => {
     }
   };
 
-  const findPaageNum = (element) => {
+  const findPaageNum = (element) =>
+  {
     let targetParent = element;
     let pageNum = null;
-    while (1) {
-      if (targetParent.classList.contains("midSection_container")) {
+    while (1)
+    {
+      if (targetParent.classList.contains("midSection_container"))
+      {
         targetParent = targetParent;
         break;
-      } else {
+      } else
+      {
         targetParent = targetParent.parentElement;
       }
     }
     pageNum = targetParent.innerText.split("\n")[0];
     return pageNum;
   };
-  function savingTableData() {
+  function savingTableData()
+  {
     const tables = document.getElementsByClassName("tableInput");
     let tables_tags = [];
 
-    if (tables.length) {
-      for (let t = 0; t < tables.length; t++) {
+    if (tables.length)
+    {
+      for (let t = 0; t < tables.length; t++)
+      {
         var new_table = document.getElementsByTagName("table")[0];
         //console.log("New Table");
         //console.log(new_table);
@@ -277,16 +305,20 @@ const Header = () => {
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
-  function saveDocument() {
+  function saveDocument()
+  {
     const txt = document.getElementsByClassName("textInput");
-    if (txt.length) {
-      for (let h = 0; h < txt.length; h++) {
+    if (txt.length)
+    {
+      for (let h = 0; h < txt.length; h++)
+      {
         if (
           txt[h]?.parentElement?.classList?.contains("holderDIV") &&
           !txt[h]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           let tempElem = txt[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(txt[h].parentElement.style.top);
@@ -302,6 +334,9 @@ const Header = () => {
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
+            // border: txt[h].parentElement.style.border,
+            borderWidth: txt[h].parentElement.style.borderWidth,
+            borderColor: txt[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           // let targetParent = txt[h];
@@ -331,16 +366,19 @@ const Header = () => {
 
     const img_input = document.getElementsByTagName("input");
     const img = document.getElementsByClassName("imageInput");
-    if (img) {
+    if (img)
+    {
       //console.log("Image_input", img_input[0]);
       // if (img_input[0].type === "file") {
-      for (let h = 0; h < img.length; h++) {
+      for (let h = 0; h < img.length; h++)
+      {
         if (
           img[h]?.parentElement?.classList?.contains("holderDIV") &&
           !img[h]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           const reader = new FileReader();
           let tempElem = img[h].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -361,6 +399,10 @@ const Header = () => {
             type: "IMAGE_INPUT",
             data: dataName,
             id: `i${h + 1}`,
+            // border: img[h].parentElement.style.border,
+            borderWidth: img[h].parentElement.style.borderWidth,
+            borderColor: img[h].parentElement.style.borderColor,
+
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
@@ -372,14 +414,17 @@ const Header = () => {
     }
 
     const date = document.getElementsByClassName("dateInput");
-    if (date.length) {
-      for (let h = 0; h < date.length; h++) {
+    if (date.length)
+    {
+      for (let h = 0; h < date.length; h++)
+      {
         if (
           date[h]?.parentElement?.classList?.contains("holderDIV") &&
           !date[h]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           let tempElem = date[h].parentElement;
           let tempPosn = getPosition(tempElem);
           elem = {
@@ -391,6 +436,10 @@ const Header = () => {
             type: "DATE_INPUT",
             data: date[h].innerHTML,
             id: `d${h + 1}`,
+            // border: date[h].parentElement.style.border,
+            borderWidth: date[h].parentElement.style.borderWidth,
+            borderColor: date[h].parentElement.style.borderColor,
+
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(date[h]);
@@ -400,14 +449,17 @@ const Header = () => {
     }
 
     const sign = document.getElementsByClassName("signInput");
-    if (sign.length) {
-      for (let h = 0; h < sign.length; h++) {
+    if (sign.length)
+    {
+      for (let h = 0; h < sign.length; h++)
+      {
         if (
           sign[h]?.parentElement?.classList?.contains("holderDIV") &&
           !sign[h]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           let tempElem = sign[h].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(sign[h].innerHTML);
@@ -422,9 +474,13 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
+            // border: sign[h].parentElement.style.border,
+            borderWidth: sign[h].parentElement.style.borderWidth,
+            borderColor: sign[h].parentElement.style.borderColor,
+
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(sign[h]);
@@ -437,25 +493,31 @@ const Header = () => {
 
     const tables = document.getElementsByClassName("tableInput");
 
-    if (tables.length) {
-      for (let t = 0; t < tables.length; t++) {
+    if (tables.length)
+    {
+      for (let t = 0; t < tables.length; t++)
+      {
         if (
           tables[t]?.parentElement?.classList?.contains("holderDIV") &&
           !tables[t]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           // var new_table = document.getElementsByTagName("table")[0];
           let tempElem = tables[t].parentElement;
           let tempPosn = getPosition(tempElem);
           //console.log(tables[t].firstElementChild.innerHTML);
-          function getChildData() {
+          function getChildData()
+          {
             const allTableCCells = [];
             const tableChildren = tables[t].firstElementChild.children;
-            for (let i = 0; i < tableChildren.length; i++) {
+            for (let i = 0; i < tableChildren.length; i++)
+            {
               const tableTR = { tr: null };
               const newTableTR = [];
-              for (let j = 0; j < tableChildren[i].children.length; j++) {
+              for (let j = 0; j < tableChildren[i].children.length; j++)
+              {
                 // const element = tableChildren[i];
 
                 const TdDivClassName =
@@ -474,9 +536,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -500,6 +562,10 @@ const Header = () => {
             // data: tables[t].firstElementChild.innerHTML,
             data: getChildData(),
             id: `tab${t + 1}`,
+            // border: tables[t].parentElement.style.border,
+            borderWidth: tables[t].parentElement.style.borderWidth,
+            borderColor: tables[t].parentElement.style.borderColor,
+
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(tables[t]);
@@ -512,15 +578,19 @@ const Header = () => {
 
     const containerElements = document.getElementsByClassName("containerInput");
     // console.log("containerInput", containerElements[0]);
-    if (containerElements.length) {
-      for (let h = 0; h < containerElements.length; h++) {
+    if (containerElements.length)
+    {
+      for (let h = 0; h < containerElements.length; h++)
+      {
         if (
           containerElements[h]?.parentElement?.classList?.contains("holderDIV")
-        ) {
+        )
+        {
           let tempElem = containerElements[h].parentElement;
           let tempPosn = getPosition(tempElem);
 
-          function getChildData() {
+          function getChildData()
+          {
             const allContainerChildren = [];
             const containerChildren = containerElements[h].children;
             // console.log(
@@ -528,7 +598,8 @@ const Header = () => {
             //   containerChildren.length,
             //   containerChildren
             // );
-            for (let i = 0; i < containerChildren.length; i++) {
+            for (let i = 0; i < containerChildren.length; i++)
+            {
               const element = containerChildren[i];
               // console.log("elements", i, " ", element);
               // let tempElem = element.parentElement;
@@ -545,7 +616,8 @@ const Header = () => {
               // console.log("childData", childData);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
-              switch (containerChildClassName) {
+              switch (containerChildClassName)
+              {
                 case "dateInput":
                   type = "DATE_INPUT";
                   break;
@@ -570,6 +642,9 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
+                case "emailButton":
+                  type = "FORM";
+                  break;
                 default:
                   type = "";
               }
@@ -581,13 +656,15 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
-              if (type != "TEXT_INPUT") {
+              if (type != "TEXT_INPUT")
+              {
                 childData.data = imageData;
               }
-              if (type == "TEXT_INPUT") {
+              if (type == "TEXT_INPUT")
+              {
                 childData.data = element.firstElementChild?.innerText;
                 childData.raw_data = element.firstElementChild?.innerHTML;
               }
@@ -643,6 +720,9 @@ const Header = () => {
             type: "CONTAINER_INPUT",
             data: getChildData(),
             id: `c${h + 1}`,
+            borderWidth: containerElements[h].parentElement.style.borderWidth,
+            borderColor: containerElements[h].parentElement.style.borderColor,
+
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(containerElements[h]);
@@ -651,13 +731,16 @@ const Header = () => {
       }
     }
     const iframes = document.getElementsByClassName("iframeInput");
-    if (iframes.length) {
-      for (let i = 0; i < iframes.length; i++) {
+    if (iframes.length)
+    {
+      for (let i = 0; i < iframes.length; i++)
+      {
         if (
           !iframes[i]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           // var new_table = document.getElementsByTagName("table")[0];
           let tempElem = iframes[i].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -673,6 +756,8 @@ const Header = () => {
               ? "iFrame here"
               : iframes[i].firstElementChild.src,
             id: `ifr${i + 1}`,
+            borderWidth: iframes[i].parentElement.style.borderWidth,
+            borderColor: iframes[i].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(iframes[i]);
@@ -684,13 +769,16 @@ const Header = () => {
     }
 
     const scales = document.getElementsByClassName("scaleInput");
-    if (scales.length) {
-      for (let s = 0; s < scales.length; s++) {
+    if (scales.length)
+    {
+      for (let s = 0; s < scales.length; s++)
+      {
         if (
           !scales[s]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           let tempElem = scales[s].parentElement;
           let tempPosn = getPosition(tempElem);
           console.log(scales[s].firstElementChild);
@@ -705,6 +793,8 @@ const Header = () => {
             scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
             id: `scl${s + 1}`,
+            borderWidth: scales[s].parentElement.style.borderWidth,
+            borderColor: scales[s].parentElement.style.borderColor,
             details:
               decoded.details.action === "document"
                 ? "Document instance"
@@ -721,13 +811,16 @@ const Header = () => {
     }
 
     const buttons = document.getElementsByClassName("buttonInput");
-    if (buttons.length) {
-      for (let b = 0; b < buttons.length; b++) {
+    if (buttons.length)
+    {
+      for (let b = 0; b < buttons.length; b++)
+      {
         if (
           !buttons[b]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           let tempElem = buttons[b].parentElement;
           let tempPosn = getPosition(tempElem);
           const link = buttonLink;
@@ -743,6 +836,8 @@ const Header = () => {
             raw_data: tempElem.children[1].innerHTML,
             purpose: tempElem.children[2].innerHTML,
             id: `btn${b + 1}`,
+            borderWidth: buttons[b].parentElement.style.borderWidth,
+            borderColor: buttons[b].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
@@ -752,16 +847,55 @@ const Header = () => {
         }
       }
     }
+    const email = document.getElementsByClassName("emailButton");
+    if (email.length)
+    {
+      for (let e = 0; e < email.length; e++)
+      {
+        if (
+          !email[e]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        )
+        {
+          let tempElem = email[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+          // const link = buttonLink;
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: email[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: email[e].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `eml${e + 1}`,
+            borderWidth: email[e].parentElement.style.borderWidth,
+            borderColor: email[e].parentElement.style.borderColor,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(buttons[e]);
+          page[0][pageNum].push(elem);
+
+        }
+      }
+    }
 
     const dropDowns = document.getElementsByClassName("dropdownInput");
 
-    if (dropDowns.length) {
-      for (let d = 0; d < dropDowns.length; d++) {
+    if (dropDowns.length)
+    {
+      for (let d = 0; d < dropDowns.length; d++)
+      {
         if (
           !dropDowns[d]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
-        ) {
+        )
+        {
           // var new_table = document.getElementsByTagName("table")[0];
           let tempElem = dropDowns[d].parentElement;
           let tempPosn = getPosition(tempElem);
@@ -781,6 +915,8 @@ const Header = () => {
             data1: dropDowns[d].firstElementChild.innerHTML,
             data2: dropDowns[d].lastElementChild.innerHTML,
             id: `dd${d + 1}`,
+            borderWidth: dropDowns[d].parentElement.style.borderWidth,
+            borderColor: dropDowns[d].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(dropDowns[d]);
@@ -816,9 +952,11 @@ const Header = () => {
   const element_updated_length =
     document.getElementsByClassName("element_updated").length;
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     // set_doc_map(document_map)
-    if (document_map?.length == element_updated_length) {
+    if (document_map?.length == element_updated_length)
+    {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
@@ -829,7 +967,8 @@ const Header = () => {
   //   document_map?.length
   // );
 
-  function submit(e) {
+  function submit(e)
+  {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
@@ -840,13 +979,15 @@ const Header = () => {
       _id: decoded.details._id,
     };
     let updateField = {};
-    if (decoded.details.action === "template") {
+    if (decoded.details.action === "template")
+    {
       updateField = {
         template_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
       };
-    } else if (decoded.details.action === "document") {
+    } else if (decoded.details.action === "document")
+    {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
@@ -859,7 +1000,8 @@ const Header = () => {
 
     <iframe src="http://localhost:5500/"></iframe>;
 
-    function sendMessage() {
+    function sendMessage()
+    {
       const message =
         decoded.details.action === "document"
           ? "Document saved"
@@ -886,8 +1028,10 @@ const Header = () => {
         type: decoded.details.action,
       }
     )
-      .then((res) => {
-        if (res.status == 200) {
+      .then((res) =>
+      {
+        if (res.status == 200)
+        {
           setIsLoading(false);
           // alert("Data saved successfully");
           toast.success("Saved successfully");
@@ -895,7 +1039,8 @@ const Header = () => {
         }
         //console.log(res);
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         //console.log(err);
       });
@@ -906,7 +1051,8 @@ const Header = () => {
   // };
 
   // token creation code
-  function base64url(source) {
+  function base64url(source)
+  {
     // Encode in classical base64
     var encodedSource = CryptoJS.enc.Base64.stringify(source);
 
@@ -940,7 +1086,8 @@ const Header = () => {
   // console.log("test token", exportToken);
   // token creation end
 
-  const getPostData = async () => {
+  const getPostData = async () =>
+  {
     const response = await Axios.post(
       "https://100058.pythonanywhere.com/api/get-data-from-collection/",
       {
@@ -948,14 +1095,17 @@ const Header = () => {
         action: decoded.details.action,
       }
     )
-      .then((res) => {
+      .then((res) =>
+      {
         // Handling title
         const loadedDataT = res.data;
         // console.log(res.data.content, "loaded");
 
-        if (decoded.details.action === "template") {
+        if (decoded.details.action === "template")
+        {
           setTitle(loadedDataT.template_name);
-        } else if (decoded.details.action === "document") {
+        } else if (decoded.details.action === "document")
+        {
           setTitle(loadedDataT.document_name);
         }
 
@@ -977,48 +1127,59 @@ const Header = () => {
         setCompanyId(company_id);
         npsCustomData();
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         console.log(err);
       });
   };
 
-  const npsCustomData = () => {
+  const npsCustomData = () =>
+  {
     console.log(decoded.details._id);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data_all", {
       template_id: decoded.details._id,
     })
-      .then((res) => {
+      .then((res) =>
+      {
         console.log(res.data);
         const data = res.data.data;
         setCustomId(data);
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         console.log(err);
       });
   };
 
-  useEffect(() => {
+
+  useEffect(() =>
+  {
     setIsLoading(true);
     getPostData();
   }, []);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+  useEffect(() =>
+  {
+    function handleClickOutside(event)
+    {
+      if (menuRef.current && !menuRef.current.contains(event.target))
+      {
         isMenuVisible(false);
       }
     }
     window.addEventListener("click", handleClickOutside);
 
-    return () => {
+    return () =>
+    {
       window.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   // copy text function
 
-  function copyText() {
+  function copyText()
+  {
     let div = document.querySelector(".token_text");
     let text = div.innerText;
     let textArea = document.createElement("textarea");
@@ -1043,14 +1204,17 @@ const Header = () => {
   }
   // copy text function end
 
-  function handleToken() {
+  function handleToken()
+  {
     setData([]);
     setIsLoading(true);
     var tokenn = prompt("Paste your token here");
-    if (tokenn != null) {
+    if (tokenn != null)
+    {
       const decodedTok = jwt_decode(tokenn);
       console.log("tokkkkkkennn", tokenn);
-      const getPostData = async () => {
+      const getPostData = async () =>
+      {
         const response = await Axios.post(
           "https://100058.pythonanywhere.com/api/get-data-from-collection/",
           {
@@ -1058,14 +1222,17 @@ const Header = () => {
             action: decodedTok.action,
           }
         )
-          .then((res) => {
+          .then((res) =>
+          {
             // Handling title
             const loadedDataT = res.data;
             console.log(res);
 
-            if (decoded.details.action === "template") {
+            if (decoded.details.action === "template")
+            {
               setTitle("Untitle-File");
-            } else if (decoded.details.action === "document") {
+            } else if (decoded.details.action === "document")
+            {
               setTitle("Untitle-File");
             }
 
@@ -1081,7 +1248,8 @@ const Header = () => {
             setIsLoading(false);
             setFetchedData(loadedData[0][0]);
           })
-          .catch((err) => {
+          .catch((err) =>
+          {
             setIsLoading(false);
             console.log(err);
           });
@@ -1092,7 +1260,8 @@ const Header = () => {
 
   // console.log('page count check', item);
   const saveButton = document.getElementById("saving-buttonn");
-  function handleFinalize() {
+  function handleFinalize()
+  {
     setIsLoading(true);
 
     Axios.post(
@@ -1109,13 +1278,15 @@ const Header = () => {
         role: role,
       }
     )
-      .then((res) => {
+      .then((res) =>
+      {
         console.log(res);
         // alert(res?.data);
         toast.success(res?.data);
         saveButton.click();
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         console.log(err);
         toast.error(err);
@@ -1123,7 +1294,8 @@ const Header = () => {
       });
   }
 
-  function handleReject() {
+  function handleReject()
+  {
     setIsLoading(true);
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
@@ -1139,19 +1311,22 @@ const Header = () => {
         role: role,
       }
     )
-      .then((res) => {
+      .then((res) =>
+      {
         setIsLoading(false);
         console.log(res);
         // alert(res?.data);
         toast.error(res?.data);
       })
-      .catch((err) => {
+      .catch((err) =>
+      {
         setIsLoading(false);
         console.log(err);
         toast.error(err);
       });
   }
-  const hanldePrint = (e) => {
+  const hanldePrint = (e) =>
+  {
     // const bodyEl = document.getElementsByTagName("BODY")[0];
     // bodyEl.style.display = "none";
     // const midsection = document.getElementsByClassName("midSection_container");
@@ -1170,9 +1345,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1182,9 +1356,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

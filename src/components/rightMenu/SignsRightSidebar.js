@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import SignatureCanvas from "react-signature-canvas";
 
@@ -12,9 +12,14 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
-const SignsRightSidebar = () => {
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+const SignsRightSidebar = () =>
+{
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
   const { signState, setSignState, setIsFinializeDisabled, handleClicked } =
     useStateContext();
@@ -25,11 +30,13 @@ const SignsRightSidebar = () => {
   let sigPad = useRef({});
   let data = "";
 
-  const clear = () => {
+  const clear = () =>
+  {
     sigPad.current.clear();
   };
 
-  const save = () => {
+  const save = () =>
+  {
     data = sigPad.current.getTrimmedCanvas().toDataURL("image/png");
 
     setSignState({ trimmedDataURL: data });
@@ -37,11 +44,14 @@ const SignsRightSidebar = () => {
     const signImage = `<img src=${data} />`;
 
     const sign = document.querySelector(".focussed");
-    if (sign.parentElement.classList.contains("focussedd")) {
-      if (document.querySelector(".focussed").innerHTML != signImage) {
+    if (sign.parentElement.classList.contains("focussedd"))
+    {
+      if (document.querySelector(".focussed").innerHTML != signImage)
+      {
         // console.log("signature right menu", document.querySelector('.focussed').innerHTML,"data", data );
         //setIsFinializeDisabled(false)
-        if (sign.parentElement.classList.contains("holderDIV")) {
+        if (sign.parentElement.classList.contains("holderDIV"))
+        {
           sign.parentElement.classList.add("element_updated");
         }
       }
@@ -53,47 +63,66 @@ const SignsRightSidebar = () => {
   };
 
   //clicked choose file button
-  const chooseFileClick = () => {
+  const chooseFileClick = () =>
+  {
     const addImageButtonInput =
       document.getElementsByClassName("addSignButtonInput");
     addImageButtonInput.item(0).click();
     handleClicked("sign2", "table2");
   };
 
-  function removeSign() {
+  function removeSign()
+  {
     // document.querySelector('.focussedd').remove();
-    if (document.querySelector(".focussedd").classList.contains("dropp")) {
-      if (document.querySelector(".focussedd").hasChildNodes()) {
+    if (document.querySelector(".focussedd").classList.contains("dropp"))
+    {
+      if (document.querySelector(".focussedd").hasChildNodes())
+      {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++) {
+        for (let i = 0; i < childLength; i++)
+        {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else {
+    } else
+    {
       document.querySelector(".focussedd").remove();
     }
   }
-  const handleUpdate = () => {
+  const handleUpdate = () =>
+  {
     const imageName = document.getElementById("image_name");
     const button = document.querySelector(".focussed");
-    if (imageName.value != "") {
+    if (imageName.value != "")
+    {
       button.textContent = imageName.value;
     }
   };
 
-  const handleBorderSizeChange = (e) => {
+  const handleBorderSizeChange = (e) =>
+  {
     setBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderWidth = `${borderSize}px`;
   };
 
-  const handleBorderColorChange = (e) => {
+  const handleBorderColorChange = (e) =>
+  {
     setBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${borderColor}`;
   };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
+  useEffect(() =>
+  {
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [borderSize, borderColor]);
   return (
     <div>
       {decoded.details.action === "document" && (
@@ -111,49 +140,6 @@ const SignsRightSidebar = () => {
                 ref={sigPad}
               />
             </div>
-            <hr />
-            <Row className="pt-4">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <h6 style={{ marginRight: "10rem" }}>Border</h6>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    onClick={() => setShowSlider(!showSlider)}
-                  />
-                  <span className="slider round"></span>
-                </label>
-              </div>
-              {showSlider && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    backgroundColor: "#abab",
-                    gap: "10px",
-                    height: "40px",
-                    width: "90%",
-                  }}
-                >
-                  <input
-                    type="color"
-                    value={borderColor}
-                    onChange={handleBorderColorChange}
-                    id="color"
-                    style={{ border: "none", width: "10%", height: "15px" }}
-                  />
-                  <input
-                    type="range"
-                    min="-10"
-                    max="20"
-                    value={borderSize}
-                    onChange={handleBorderSizeChange}
-                    id="range"
-                    className="range-color"
-                  />
-                </div>
-              )}
-            </Row>
-            <hr />
             <div className="mt-5 text-left pt-1">
               <Button
                 className="w-75"
@@ -186,6 +172,40 @@ const SignsRightSidebar = () => {
       </div> */}
         </>
       )}
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
       <div className="mt-2 mb-3 w-100">
         <h3>Signature Settings</h3>
         <Form.Label>Place Holder Name</Form.Label>
@@ -193,7 +213,7 @@ const SignsRightSidebar = () => {
           type="text"
           placeholder="Choose Signature"
           id="image_name"
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <div className="mt-2 text-center pt-5">

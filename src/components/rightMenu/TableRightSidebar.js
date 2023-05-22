@@ -49,6 +49,8 @@ const TableRightSidebar = () =>
     {
       setIsCreateTableBtnDisabled(false);
     }
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
     // if (
     //   focusseddDiv?.firstChild?.hasChildNodes() &&
     //   focusseddDiv?.firstChild?.firstChild?.classList?.contains(
@@ -57,7 +59,7 @@ const TableRightSidebar = () =>
     // ) {
     //   setIsDisableTableRightMenu(true);
     // }
-  }, [isCreateTableBtnDisabled]);
+  }, [isCreateTableBtnDisabled, borderSize, borderColor]);
 
   const createIconMenu = () =>
   {
@@ -824,6 +826,11 @@ const TableRightSidebar = () =>
     box.style.borderColor = `${borderColor}`;
 
   };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
+
   return (
     <>
       <div>
@@ -919,6 +926,7 @@ const TableRightSidebar = () =>
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
 

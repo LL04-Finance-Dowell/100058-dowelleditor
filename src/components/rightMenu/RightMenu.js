@@ -25,7 +25,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContainerRigntSideBar from "./ContainerRightSidebar";
 
-const RightMenu = () => {
+import EmailRightSideBar from "./EmailRightSideBar";
+
+const RightMenu = () =>
+{
   const {
     isClicked,
     setIsClicked,
@@ -101,8 +104,10 @@ const RightMenu = () => {
   //     });
   // }
 
-  useEffect(() => {
-    if (isClicked.align2) {
+  useEffect(() =>
+  {
+    if (isClicked.align2)
+    {
       setIsClicked({
         ...isClicked,
         textfill2: false,
@@ -115,9 +120,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.image2) {
+    if (isClicked.image2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -130,9 +137,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.table2) {
+    if (isClicked.table2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -145,9 +154,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.signs2) {
+    if (isClicked.signs2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -160,9 +171,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.calendar2) {
+    if (isClicked.calendar2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -175,9 +188,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.dropdown2) {
+    if (isClicked.dropdown2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -190,9 +205,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.iframe2) {
+    if (isClicked.iframe2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -205,9 +222,11 @@ const RightMenu = () => {
         scale2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.scale2) {
+    if (isClicked.scale2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -220,9 +239,44 @@ const RightMenu = () => {
         iframe2: false,
         button2: false,
         container2: false,
+        email2: false,
       });
     }
-    if (isClicked.button2) {
+    if (isClicked.button2)
+    {
+      setIsClicked({
+        ...isClicked,
+        align2: false,
+        textfill2: false,
+        image2: false,
+        table2: false,
+        signs2: false,
+        dropdown2: false,
+        calendar2: false,
+        iframe2: false,
+        scale2: false,
+        container2: false,
+        email2: false,
+      });
+    }
+    if (isClicked.container2)
+    {
+      setIsClicked({
+        ...isClicked,
+        align2: false,
+        textfill2: false,
+        image2: false,
+        table2: false,
+        signs2: false,
+        dropdown2: false,
+        calendar2: false,
+        iframe2: false,
+        scale2: false,
+        email2: false,
+      });
+    }
+    if (isClicked.email2)
+    {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -237,32 +291,7 @@ const RightMenu = () => {
         container2: false,
       });
     }
-    if (isClicked.container2) {
-      setIsClicked({
-        ...isClicked,
-        align2: false,
-        textfill2: false,
-        image2: false,
-        table2: false,
-        signs2: false,
-        dropdown2: false,
-        calendar2: false,
-        iframe2: false,
-        scale2: false,
-      });
-    }
-  }, [
-    isClicked.align2,
-    isClicked.image2,
-    isClicked.table2,
-    isClicked.signs2,
-    isClicked.calendar2,
-    isClicked.dropdown2,
-    isClicked.iframe2,
-    isClicked.scale2,
-    isClicked.button2,
-    isClicked.container2,
-  ]);
+  }, [isClicked.align2, isClicked.image2, isClicked.table2, isClicked.signs2, isClicked.calendar2, isClicked.dropdown2, isClicked.iframe2, isClicked.scale2, isClicked.button2, isClicked.container2, isClicked.email2, isClicked, setIsClicked,]);
 
   return (
     <>
@@ -313,6 +342,7 @@ const RightMenu = () => {
         {isClicked.scale2 && <ScaleRightSide />}
         {isClicked.button2 && <ButtonRightSide />}
         {isClicked.container2 && <ContainerRigntSideBar />}
+        {isClicked.email2 && <EmailRightSideBar />}
       </div>
     </>
   );

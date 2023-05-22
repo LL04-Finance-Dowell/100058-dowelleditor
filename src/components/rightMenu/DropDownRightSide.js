@@ -23,8 +23,12 @@ const DropDownRightSide = () =>
     setRightSideDropDown,
   } = useStateContext();
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   const dropdownField = document.querySelector(".focussed");
@@ -65,7 +69,9 @@ const DropDownRightSide = () =>
       }
       selectionn.appendChild(options);
     }
-  }, [dropdownOptions]);
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [dropdownOptions, borderSize, borderColor]);
 
   function handleItemsChange(e)
   {
@@ -106,6 +112,10 @@ const DropDownRightSide = () =>
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${borderColor}`;
 
+  };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
   };
   return (
     <div>
@@ -165,6 +175,7 @@ const DropDownRightSide = () =>
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
 
