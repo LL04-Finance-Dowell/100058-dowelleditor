@@ -211,7 +211,7 @@ const SignsRightSidebar = () =>
         <Form.Label>Place Holder Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Choose Signature"
+          placeholder="Signature Place Holder"
           id="image_name"
           onChange={() => { }}
         />

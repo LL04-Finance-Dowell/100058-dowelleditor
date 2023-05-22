@@ -166,7 +166,7 @@ const ImageRightSidebar = () =>
         <Form.Label>Place Holder Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Choose Image"
+          placeholder="Image Place Holder"
           id="image_name"
           onChange={() => { }}
         />

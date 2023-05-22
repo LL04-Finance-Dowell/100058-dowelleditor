@@ -100,12 +100,25 @@ const MidSection = React.forwardRef((props, ref) =>
   // }, []);
 
   const [focusedElement, setFocusedElement] = useState(null);
+  const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
-  const documnetMap = decoded?.details?.document_map;
+  const documnentsMap = decoded?.details?.document_map;
+  const divList = documnentsMap?.map?.((item) => item.page);
+  var documnetMap = documnentsMap?.map?.(item => item.content);
+
+  console.log('decode', decoded)
+
+  if (documnentsMap?.length > 0)
+  {
+    const documentsMap = documnentsMap;
+  } else
+  {
+    console.log("There's no document map");
+  }
 
   // useEffect(() => {
   //   localStorage.setItem('elementId', scaleId);
@@ -158,6 +171,8 @@ const MidSection = React.forwardRef((props, ref) =>
           dropdown2: false,
           scale2: false,
           container2: false,
+          iframe2: false,
+          button2: false,
           email2: false,
         });
 
@@ -831,21 +846,13 @@ const MidSection = React.forwardRef((props, ref) =>
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
+    let isAnyRequiredElementEdited = false;
     for (let p = 1; p <= item?.length; p++)
     {
-      // const page = midSec[p];
-      // if(item && page?.childNodes.length < 2){
-      //   // midSec[p].parentElement.remove()
-      //   const current = [...item];
-      //   current.splice(p-1, 1);
-      //   setItem(current);
-      // }
-      // arrayData.forEach((element) => {
+
       pageNo++;
-      //console.log("data" + [p], fetchedData[p]);
       fetchedData[p]?.forEach((element) =>
       {
-        //console.log("each content", element);
         if (element.type === "TEXT_INPUT")
         {
           const measure = {
@@ -856,6 +863,7 @@ const MidSection = React.forwardRef((props, ref) =>
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log('element', element)
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -882,6 +890,10 @@ const MidSection = React.forwardRef((props, ref) =>
             if (inputField.parentElement.classList.contains("holderDIV"))
             {
               inputField.parentElement.classList.add("element_updated");
+            }
+            if (element.required)
+            {
+              isAnyRequiredElementEdited = true;
             }
           };
           inputField.onclick = (e) =>
@@ -944,6 +956,10 @@ const MidSection = React.forwardRef((props, ref) =>
           if (imageField?.parentElement?.classList.contains("holderDIV"))
           {
             imageField?.parentElement?.classList.add("element_updated");
+          }
+          if (element.required)
+          {
+            isAnyRequiredElementEdited = true;
           }
 
           // const copyImage = (e) => {
@@ -1613,6 +1629,10 @@ const MidSection = React.forwardRef((props, ref) =>
             {
               buttonField?.parentElement?.classList.add("element_updated");
             }
+            if (element.required)
+            {
+              isAnyRequiredElementEdited = true;
+            }
           };
 
           if (
@@ -1627,16 +1647,25 @@ const MidSection = React.forwardRef((props, ref) =>
             };
           }
 
-          if (
-            decoded.details.action === "document" &&
-            element.purpose == "finalize"
-          )
+          if (finalizeButton)
           {
-            buttonField.onclick = (e) =>
+            if (isAnyRequiredElementEdited)
             {
               finalizeButton?.click();
-            };
+            } else
+            {
+              finalizeButton.disabled = true;
+            }
           }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
           if (
             decoded.details.action === "document" &&
             element.purpose == "reject"
@@ -2125,6 +2154,10 @@ const MidSection = React.forwardRef((props, ref) =>
                     "element_updated"
                   );
                 }
+                if (element.required)
+                {
+                  isAnyRequiredElementEdited = true;
+                }
               };
               inputFieldContainer.onclick = (e) =>
               {
@@ -2377,6 +2410,10 @@ const MidSection = React.forwardRef((props, ref) =>
                   buttonFieldContainer?.parentElement?.classList.add(
                     "element_updated"
                   );
+                }
+                if (element.required)
+                {
+                  isAnyRequiredElementEdited = true;
                 }
               };
 
@@ -2902,7 +2939,6 @@ const MidSection = React.forwardRef((props, ref) =>
         }
       });
     }
-    // });
   };
 
   const onParagraphPost = () =>
@@ -3014,6 +3050,10 @@ const MidSection = React.forwardRef((props, ref) =>
         signs2: false,
         calendar2: false,
         dropdown2: false,
+        button2: false,
+        iframe2: false,
+        scale2: false,
+        container2: false,
       });
     }
   };
