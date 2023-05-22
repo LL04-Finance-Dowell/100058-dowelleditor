@@ -1695,6 +1695,123 @@ const MidSection = React.forwardRef((props, ref) =>
           [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+        if (element.type === "FORM")
+        {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            borderWidth: element.borderWidth + "px",
+            auth_user: curr_user,
+          };
+
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo);
+          const id = `${element.id}`;
+          // const finalizeButton = document.getElementById("finalize-button");
+          // const rejectButton = document.getElementById("reject-button");
+
+          let buttonField = document.createElement("button");
+          buttonField.className = "emailButton";
+          buttonField.id = id;
+          buttonField.style.width = "100%";
+          buttonField.style.height = "100%";
+          buttonField.style.backgroundColor = "#0000";
+          buttonField.style.borderRadius = "0px";
+          buttonField.style.outline = "0px";
+          buttonField.style.overflow = "overlay";
+          buttonField.style.position = "absolute";
+          buttonField.style.borderWidth = element.data;
+          buttonField.textContent = element.data;
+
+          if (
+            decoded.details.action === "template" &&
+            element.raw_data == "" &&
+            element.purpose == ""
+          )
+          {
+            buttonField.onclick = (e) =>
+            {
+              focuseddClassMaintain(e);
+              handleClicked("email2");
+              setSidebar(true);
+            };
+          }
+
+          // buttonField.onmouseover = (e) =>
+          // {
+          //   if (buttonField?.parentElement?.classList.contains("holderDIV"))
+          //   {
+          //     buttonField?.parentElement?.classList.add("element_updated");
+          //   }
+          //   if (element.required)
+          //   {
+          //     isAnyRequiredElementEdited = true;
+          //   }
+          // };
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "custom" &&
+          //   element.raw_data !== ""
+          // )
+          // {
+          //   buttonField.onclick = (e) =>
+          //   {
+          //     window.open(element.raw_data, "_blank");
+          //   };
+          // }
+
+          // if (finalizeButton)
+          // {
+          //   if (isAnyRequiredElementEdited)
+          //   {
+          //     finalizeButton?.click();
+          //   } else
+          //   {
+          //     finalizeButton.disabled = true;
+          //   }
+          // }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "reject"
+          // )
+          // {
+          //   buttonField.onclick = (e) =>
+          //   {
+          //     rejectButton?.click();
+          //   };
+          // }
+
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.innerHTML = element.raw_data;
+          linkHolder.style.display = "none";
+
+          // const purposeHolder = document.createElement("div");
+          // purposeHolder.className = "purpose_holder";
+          // purposeHolder.innerHTML = element.purpose;
+          // purposeHolder.style.display = "none";
+
+          holderDIV.append(buttonField);
+          holderDIV.append(linkHolder);
+          // holderDIV.append(purposeHolder);
+          document
+            .getElementsByClassName("midSection_container")
+          [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
 
         if (element.type === "SCALE_INPUT")
         {
