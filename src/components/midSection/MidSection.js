@@ -166,6 +166,280 @@ const MidSection = React.forwardRef((props, ref) => {
   // document.querySelectorAll('.midSection_container').forEach()
 
 
+  // const copyInput = (clickHandler) => {
+  //   // if (typeOfOperation === "IMAGE_INPUT") {
+  //   const element = document.querySelector(".focussedd");
+  //   // console.log(element);
+  //   let counter = 1;
+  //   const copyEle = element.cloneNode(true);
+  //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+
+
+
+
+  //   // parseInt(holder.style.top.slice(0, -2))
+  //   copyEle.classList.remove("focussedd")
+  //   copyEle.firstChild.classList.remove("focussed")
+  //   // copyEle.classList.add("imageInput")
+  //   // console.log(copyEleTop)
+  //   copyEle.onfocus = () => {
+  //     copyEle.style.border = "1px solid rgb(255 191 0)";
+  //   }
+  //   copyEle.onblur = () => {
+  //     copyEle.style.border = "3px dotted gray";
+  //   }
+  //   if (copyEle) {
+  //     copyEle.style.top = copyEleTop;
+  //     copyEle.style.border = "3px dotted gray";
+
+
+  //     copyEle.onmousedown = copyEle.addEventListener(
+  //       "mousedown",
+  //       (event) => {
+  //         dragElementOverPage(event);
+  //       },
+  //       false
+  //     );
+
+
+  //     const resizerTL = getResizer("top", "left");
+  //     const resizerTR = getResizer("top", "right");
+  //     const resizerBL = getResizer("bottom", "left");
+  //     const resizerBR = getResizer("bottom", "right");
+  //     // parseInt(holder.style.top.slice(0, -2))
+
+
+
+
+  //     copyEle.addEventListener("focus", function (e) {
+  //       // holderDIV.classList.add("focussedd");
+  //       copyEle.classList.add("zIndex-two");
+  //       copyEle.style.border = "2px solid orange";
+  //       // holderDIV.append(holderMenu);
+
+  //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+  //     });
+  //     copyEle.addEventListener("click", (e) => {
+  //       e.stopPropagation();
+  //       focuseddClassMaintain(e);
+  //       // imageField.classList.add("focussed");
+  //       handleClicked(clickHandler, "container2");
+  //       // copyImage()
+  //       // resizing = true;
+  //       setSidebar(true);
+  //     })
+  //   }
+
+  //   copyEle.onclick = (clickHandler) => {
+
+   
+  //     if (clickHandler.ctrlKey) {
+  //       const element = document.querySelector(".focussedd");
+  //     // console.log(element);
+  //     let counter = 1;
+  //     const copyEle = element.cloneNode(true);
+  //     const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+  
+  
+  
+  
+  
+  //     // parseInt(holder.style.top.slice(0, -2))
+  //     copyEle.classList.remove("focussedd")
+  //     copyEle.firstChild.classList.remove("focussed")
+  //     // copyEle.classList.add("imageInput")
+  //     // console.log(copyEleTop)
+  //     copyEle.onfocus = () => {
+  //       copyEle.style.border = "1px solid rgb(255 191 0)";
+  //     }
+  //     copyEle.onblur = () => {
+  //       copyEle.style.border = "3px dotted gray";
+  //     }
+  //     if (copyEle) {
+  //       copyEle.style.top = copyEleTop;
+  //       copyEle.style.border = "3px dotted gray";
+  
+  
+  //       copyEle.onmousedown = copyEle.addEventListener(
+  //         "mousedown",
+  //         (event) => {
+  //           dragElementOverPage(event);
+  //         },
+  //         false
+  //       );
+  
+  
+  //       const resizerTL = getResizer("top", "left");
+  //       const resizerTR = getResizer("top", "right");
+  //       const resizerBL = getResizer("bottom", "left");
+  //       const resizerBR = getResizer("bottom", "right");
+  //       // parseInt(holder.style.top.slice(0, -2))
+  
+  
+  
+  
+  //       copyEle.addEventListener("focus", function (e) {
+  //         // holderDIV.classList.add("focussedd");
+  //         copyEle.classList.add("zIndex-two");
+  //         copyEle.style.border = "2px solid orange";
+  //         // holderDIV.append(holderMenu);
+  
+  //         copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+  //       });
+  //       copyEle.addEventListener("click", (e) => {
+  //         console.log("clicking")
+  //         e.stopPropagation();
+  //         focuseddClassMaintain(e);
+  //         // imageField.classList.add("focussed");
+  //         handleClicked(clickHandler, "container2");
+  //         setSidebar(true);
+
+  //         // copyImage()
+  //         // resizing = true;
+  //       })
+  //     }
+
+  //     let midSec = document.querySelector(".drop_zone")
+
+  //     if (!midSec) {
+  //       let targetParent = element;
+  //       while (1) {
+  //         if (targetParent.classList.contains("midSection_container")) {
+  //           targetParent = targetParent;
+  //           break;
+  //         } else {
+  //           targetParent = targetParent.parentElement;
+  //           midSec = targetParent;
+  //         }
+  //       }
+  //     }
+  //     copyEle.id += counter;
+  //     midSec.appendChild(copyEle);
+  //     console.log("copy ele", copyEle);
+  //     // for (let index = 0; index < counter.length; index++) {
+  //     //   const copyEle = element.cloneNode(true);  
+  //     //   copyEle.id += counter;
+  //     //   const element2 =  midSec.appendChild(copyEle);
+  //     //  return copyEle, element2;
+        
+  //     // }
+  //     }
+
+    
+
+  //     // const element = document.querySelector(".focussedd");
+  //     // // console.log(element);
+  //     // let counter = 1;
+  //     // const copyEle = element.cloneNode(true);
+  //     // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+  
+  
+  
+  
+  
+  //     // // parseInt(holder.style.top.slice(0, -2))
+  //     // copyEle.classList.remove("focussedd")
+  //     // copyEle.firstChild.classList.remove("focussed")
+  //     // // copyEle.classList.add("imageInput")
+  //     // // console.log(copyEleTop)
+  //     // copyEle.onfocus = () => {
+  //     //   copyEle.style.border = "1px solid rgb(255 191 0)";
+  //     // }
+  //     // copyEle.onblur = () => {
+  //     //   copyEle.style.border = "2px dotted gray";
+  //     // }
+  //     // if (copyEle) {
+  //     //   copyEle.style.top = copyEleTop;
+  //     //   copyEle.style.border = "1px dotted black";
+  
+  
+  //     //   copyEle.onmousedown = copyEle.addEventListener(
+  //     //     "mousedown",
+  //     //     (event) => {
+  //     //       dragElementOverPage(event);
+  //     //     },
+  //     //     false
+  //     //   );
+  
+  
+  //     //   const resizerTL = getResizer("top", "left");
+  //     //   const resizerTR = getResizer("top", "right");
+  //     //   const resizerBL = getResizer("bottom", "left");
+  //     //   const resizerBR = getResizer("bottom", "right");
+  //     //   // parseInt(holder.style.top.slice(0, -2))
+  
+  
+  
+  
+  //     //   copyEle.addEventListener("focus", function (e) {
+  //     //     // holderDIV.classList.add("focussedd");
+  //     //     copyEle.classList.add("zIndex-two");
+  //     //     copyEle.style.border = "2px solid orange";
+  //     //     // holderDIV.append(holderMenu);
+  
+  //     //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+  //     //   });
+  //     //   copyEle.addEventListener("click", (e) => {
+  //     //     e.stopPropagation();
+  //     //     focuseddClassMaintain(e);
+  //     //     // imageField.classList.add("focussed");
+  //     //     handleClicked(clickHandler, "container2");
+  //     //     // copyImage()
+  //     //     // resizing = true;
+  //     //     setSidebar(true);
+  //     //   })
+  //     // }
+
+  //     // let midSec = document.querySelector(".drop_zone")
+
+  //     // if (!midSec) {
+  //     //   let targetParent = element;
+  //     //   while (1) {
+  //     //     if (targetParent.classList.contains("midSection_container")) {
+  //     //       targetParent = targetParent;
+  //     //       break;
+  //     //     } else {
+  //     //       targetParent = targetParent.parentElement;
+  //     //       midSec = targetParent
+  //     //     }
+  //     //   }
+  //     // }
+  //     // console.log("mid sec", midSec)
+  //     // copyEle.id += counter;
+  //     // midSec.appendChild(copyEle);
+  //     // console.log("copy ele", copyEle);
+
+
+  //   }
+  //   // console.log(copyEle)
+  //   let midSec = document.querySelector(".drop_zone")
+
+  //   if (!midSec) {
+  //     let targetParent = element;
+  //     while (1) {
+  //       if (targetParent.classList.contains("midSection_container")) {
+  //         targetParent = targetParent;
+  //         break;
+  //       } else {
+  //         targetParent = targetParent.parentElement;
+  //         midSec = targetParent
+  //       }
+  //     }
+  //   }
+  //   // console.log("mid sec", midSec)
+  //   copyEle.id += counter;
+  //   midSec.appendChild(copyEle);
+  //   // console.log("copy ele", copyEle);
+  //   // midSec.forEeach((e) => {
+  //   //   e.appendChild(copyEle);
+  //   // });
+
+  //   // console.log("coping", copyEle)
+  //   // }
+
+  // }
+
   const copyInput = (clickHandler) => {
     // if (typeOfOperation === "IMAGE_INPUT") {
     const element = document.querySelector(".focussedd");
@@ -174,25 +448,20 @@ const MidSection = React.forwardRef((props, ref) => {
     const copyEle = element.cloneNode(true);
     const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
-
-
-
-
     // parseInt(holder.style.top.slice(0, -2))
-    copyEle.classList.remove("focussedd")
-    copyEle.firstChild.classList.remove("focussed")
+    copyEle.classList.remove("focussedd");
+    copyEle.firstChild.classList.remove("focussed");
     // copyEle.classList.add("imageInput")
     // console.log(copyEleTop)
     copyEle.onfocus = () => {
-      copyEle.style.border = "1px solid rgb(255 191 0)";
-    }
+      copyEle.style.border = "3px solid rgb(255 191 0)";
+    };
     copyEle.onblur = () => {
-      copyEle.style.border = "2px dotted gray";
-    }
+      copyEle.style.border = "3px dotted gray";
+    };
     if (copyEle) {
       copyEle.style.top = copyEleTop;
-      copyEle.style.border = "1px dotted black";
-
+      copyEle.style.border = "3px dotted black";
 
       copyEle.onmousedown = copyEle.addEventListener(
         "mousedown",
@@ -202,15 +471,11 @@ const MidSection = React.forwardRef((props, ref) => {
         false
       );
 
-
       const resizerTL = getResizer("top", "left");
       const resizerTR = getResizer("top", "right");
       const resizerBL = getResizer("bottom", "left");
       const resizerBR = getResizer("bottom", "right");
       // parseInt(holder.style.top.slice(0, -2))
-
-
-
 
       copyEle.addEventListener("focus", function (e) {
         // holderDIV.classList.add("focussedd");
@@ -228,181 +493,178 @@ const MidSection = React.forwardRef((props, ref) => {
         // copyImage()
         // resizing = true;
         setSidebar(true);
-      })
-    }
-
-    copyEle.onclick = (clickHandler) => {
-
-   
-      if (clickHandler.ctrlKey) {
-        const element = document.querySelector(".focussedd");
-      // console.log(element);
-      let counter = 1;
-      const copyEle = element.cloneNode(true);
-      const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-  
-  
-  
-  
-  
-      // parseInt(holder.style.top.slice(0, -2))
-      copyEle.classList.remove("focussedd")
-      copyEle.firstChild.classList.remove("focussed")
-      // copyEle.classList.add("imageInput")
-      // console.log(copyEleTop)
-      copyEle.onfocus = () => {
-        copyEle.style.border = "1px solid rgb(255 191 0)";
-      }
-      copyEle.onblur = () => {
-        copyEle.style.border = "2px dotted gray";
-      }
-      if (copyEle) {
-        copyEle.style.top = copyEleTop;
-        copyEle.style.border = "1px dotted black";
-  
-  
-        copyEle.onmousedown = copyEle.addEventListener(
-          "mousedown",
-          (event) => {
-            dragElementOverPage(event);
-          },
-          false
-        );
-  
-  
-        const resizerTL = getResizer("top", "left");
-        const resizerTR = getResizer("top", "right");
-        const resizerBL = getResizer("bottom", "left");
-        const resizerBR = getResizer("bottom", "right");
-        // parseInt(holder.style.top.slice(0, -2))
-  
-  
-  
-  
-        copyEle.addEventListener("focus", function (e) {
-          // holderDIV.classList.add("focussedd");
-          copyEle.classList.add("zIndex-two");
-          copyEle.style.border = "2px solid orange";
-          // holderDIV.append(holderMenu);
-  
-          copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-        });
-        copyEle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          focuseddClassMaintain(e);
-          // imageField.classList.add("focussed");
-          handleClicked(clickHandler, "container2");
-          // copyImage()
-          // resizing = true;
-          setSidebar(true);
-        })
-      }
-
-      let midSec = document.querySelector(".drop_zone")
-
-      if (!midSec) {
-        let targetParent = element;
-        while (1) {
-          if (targetParent.classList.contains("midSection_container")) {
-            targetParent = targetParent;
-            break;
-          } else {
-            targetParent = targetParent.parentElement;
-            midSec = targetParent;
+        if (e.ctrlKey) {
+          copyInput(clickHandler);
+          console.log("did u call me inside");
+        }
+        if (!midSec) {
+          let targetParent = element;
+          while (1) {
+            if (targetParent.classList.contains("midSection_container")) {
+              targetParent = targetParent;
+              break;
+            } else {
+              targetParent = targetParent.parentElement;
+              midSec = targetParent;
+            }
           }
         }
-      }
-      copyEle.id += counter;
-      midSec.appendChild(copyEle);
-      console.log("copy ele", copyEle);
-      }
-
-      // const element = document.querySelector(".focussedd");
-      // // console.log(element);
-      // let counter = 1;
-      // const copyEle = element.cloneNode(true);
-      // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-  
-  
-  
-  
-  
-      // // parseInt(holder.style.top.slice(0, -2))
-      // copyEle.classList.remove("focussedd")
-      // copyEle.firstChild.classList.remove("focussed")
-      // // copyEle.classList.add("imageInput")
-      // // console.log(copyEleTop)
-      // copyEle.onfocus = () => {
-      //   copyEle.style.border = "1px solid rgb(255 191 0)";
-      // }
-      // copyEle.onblur = () => {
-      //   copyEle.style.border = "2px dotted gray";
-      // }
-      // if (copyEle) {
-      //   copyEle.style.top = copyEleTop;
-      //   copyEle.style.border = "1px dotted black";
-  
-  
-      //   copyEle.onmousedown = copyEle.addEventListener(
-      //     "mousedown",
-      //     (event) => {
-      //       dragElementOverPage(event);
-      //     },
-      //     false
-      //   );
-  
-  
-      //   const resizerTL = getResizer("top", "left");
-      //   const resizerTR = getResizer("top", "right");
-      //   const resizerBL = getResizer("bottom", "left");
-      //   const resizerBR = getResizer("bottom", "right");
-      //   // parseInt(holder.style.top.slice(0, -2))
-  
-  
-  
-  
-      //   copyEle.addEventListener("focus", function (e) {
-      //     // holderDIV.classList.add("focussedd");
-      //     copyEle.classList.add("zIndex-two");
-      //     copyEle.style.border = "2px solid orange";
-      //     // holderDIV.append(holderMenu);
-  
-      //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-      //   });
-      //   copyEle.addEventListener("click", (e) => {
-      //     e.stopPropagation();
-      //     focuseddClassMaintain(e);
-      //     // imageField.classList.add("focussed");
-      //     handleClicked(clickHandler, "container2");
-      //     // copyImage()
-      //     // resizing = true;
-      //     setSidebar(true);
-      //   })
-      // }
-
-      // let midSec = document.querySelector(".drop_zone")
-
-      // if (!midSec) {
-      //   let targetParent = element;
-      //   while (1) {
-      //     if (targetParent.classList.contains("midSection_container")) {
-      //       targetParent = targetParent;
-      //       break;
-      //     } else {
-      //       targetParent = targetParent.parentElement;
-      //       midSec = targetParent
-      //     }
-      //   }
-      // }
-      // console.log("mid sec", midSec)
-      // copyEle.id += counter;
-      // midSec.appendChild(copyEle);
-      // console.log("copy ele", copyEle);
-
-
+        copyEle.id += counter;
+        midSec.appendChild(copyEle);
+      });
     }
+
+    // copyEle.onclick = (clickHandler) => {
+    //   if (clickHandler.ctrlKey) {
+    //     const element = document.querySelector(".focussedd");
+    //     // console.log(element);
+    //     let counter = 1;
+    //     const copyEle = element.cloneNode(true);
+    //     const copyEleTop =
+    //       parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+    //     // parseInt(holder.style.top.slice(0, -2))
+    //     copyEle.classList.remove("focussedd");
+    //     copyEle.firstChild.classList.remove("focussed");
+    //     // copyEle.classList.add("imageInput")
+    //     // console.log(copyEleTop)
+    //     copyEle.onfocus = () => {
+    //       copyEle.style.border = "3px solid rgb(255 191 0)";
+    //     };
+    //     copyEle.onblur = () => {
+    //       copyEle.style.border = "3px dotted gray";
+    //     };
+    //     if (copyEle) {
+    //       copyEle.style.top = copyEleTop;
+    //       copyEle.style.border = "3px dotted black";
+
+    //       copyEle.onmousedown = copyEle.addEventListener(
+    //         "mousedown",
+    //         (event) => {
+    //           dragElementOverPage(event);
+    //         },
+    //         false
+    //       );
+
+    //       const resizerTL = getResizer("top", "left");
+    //       const resizerTR = getResizer("top", "right");
+    //       const resizerBL = getResizer("bottom", "left");
+    //       const resizerBR = getResizer("bottom", "right");
+    //       // parseInt(holder.style.top.slice(0, -2))
+
+    //       copyEle.addEventListener("focus", function (e) {
+    //         // holderDIV.classList.add("focussedd");
+    //         copyEle.classList.add("zIndex-two");
+    //         copyEle.style.border = "2px solid orange";
+    //         // holderDIV.append(holderMenu);
+
+    //         copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+    //       });
+    //       copyEle.addEventListener("click", (e) => {
+    //         e.stopPropagation();
+    //         focuseddClassMaintain(e);
+    //         // imageField.classList.add("focussed");
+    //         handleClicked(clickHandler, "container2");
+    //         // copyImage()
+    //         // resizing = true;
+    //         setSidebar(true);
+    //       });
+    //     }
+
+    //     let midSec = document.querySelector(".drop_zone");
+
+    //     if (!midSec) {
+    //       let targetParent = element;
+    //       while (1) {
+    //         if (targetParent.classList.contains("midSection_container")) {
+    //           targetParent = targetParent;
+    //           break;
+    //         } else {
+    //           targetParent = targetParent.parentElement;
+    //           midSec = targetParent;
+    //         }
+    //       }
+    //     }
+    //     copyEle.id += counter;
+    //     midSec.appendChild(copyEle);
+    //     console.log("copy ele", copyEle);
+    //   }
+
+    //   // const element = document.querySelector(".focussedd");
+    //   // // console.log(element);
+    //   // let counter = 1;
+    //   // const copyEle = element.cloneNode(true);
+    //   // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+    //   // // parseInt(holder.style.top.slice(0, -2))
+    //   // copyEle.classList.remove("focussedd")
+    //   // copyEle.firstChild.classList.remove("focussed")
+    //   // // copyEle.classList.add("imageInput")
+    //   // // console.log(copyEleTop)
+    //   // copyEle.onfocus = () => {
+    //   //   copyEle.style.border = "1px solid rgb(255 191 0)";
+    //   // }
+    //   // copyEle.onblur = () => {
+    //   //   copyEle.style.border = "2px dotted gray";
+    //   // }
+    //   // if (copyEle) {
+    //   //   copyEle.style.top = copyEleTop;
+    //   //   copyEle.style.border = "1px dotted black";
+
+    //   //   copyEle.onmousedown = copyEle.addEventListener(
+    //   //     "mousedown",
+    //   //     (event) => {
+    //   //       dragElementOverPage(event);
+    //   //     },
+    //   //     false
+    //   //   );
+
+    //   //   const resizerTL = getResizer("top", "left");
+    //   //   const resizerTR = getResizer("top", "right");
+    //   //   const resizerBL = getResizer("bottom", "left");
+    //   //   const resizerBR = getResizer("bottom", "right");
+    //   //   // parseInt(holder.style.top.slice(0, -2))
+
+    //   //   copyEle.addEventListener("focus", function (e) {
+    //   //     // holderDIV.classList.add("focussedd");
+    //   //     copyEle.classList.add("zIndex-two");
+    //   //     copyEle.style.border = "2px solid orange";
+    //   //     // holderDIV.append(holderMenu);
+
+    //   //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+    //   //   });
+    //   //   copyEle.addEventListener("click", (e) => {
+    //   //     e.stopPropagation();
+    //   //     focuseddClassMaintain(e);
+    //   //     // imageField.classList.add("focussed");
+    //   //     handleClicked(clickHandler, "container2");
+    //   //     // copyImage()
+    //   //     // resizing = true;
+    //   //     setSidebar(true);
+    //   //   })
+    //   // }
+
+    //   // let midSec = document.querySelector(".drop_zone")
+
+    //   // if (!midSec) {
+    //   //   let targetParent = element;
+    //   //   while (1) {
+    //   //     if (targetParent.classList.contains("midSection_container")) {
+    //   //       targetParent = targetParent;
+    //   //       break;
+    //   //     } else {
+    //   //       targetParent = targetParent.parentElement;
+    //   //       midSec = targetParent
+    //   //     }
+    //   //   }
+    //   // }
+    //   // console.log("mid sec", midSec)
+    //   // copyEle.id += counter;
+    //   // midSec.appendChild(copyEle);
+    //   // console.log("copy ele", copyEle);
+    // };
     // console.log(copyEle)
-    let midSec = document.querySelector(".drop_zone")
+    let midSec = document.querySelector(".drop_zone");
 
     if (!midSec) {
       let targetParent = element;
@@ -412,11 +674,11 @@ const MidSection = React.forwardRef((props, ref) => {
           break;
         } else {
           targetParent = targetParent.parentElement;
-          midSec = targetParent
+          midSec = targetParent;
         }
       }
     }
-    console.log("mid sec", midSec)
+    console.log("mid sec", midSec);
     copyEle.id += counter;
     midSec.appendChild(copyEle);
     console.log("copy ele", copyEle);
@@ -426,8 +688,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
     // console.log("coping", copyEle)
     // }
-
-  }
+  };
 
   const [postData, setPostData] = useState({});
   //   editTextField: { value: "", xcoordinate: "", ycoordinate: "" }
@@ -4490,6 +4751,279 @@ const MidSection = React.forwardRef((props, ref) => {
         containerField.ondragover = (e) => {
           console.log("console from container dragover", e.target);
         };
+        // const copyContainerInput = (clickHandler) => {
+        //   // if (typeOfOperation === "IMAGE_INPUT") {
+        //   const element = document.querySelector(".focussedd");
+        //   // console.log(element);
+        //   let counter = 1;
+        //   const copyEle = element.cloneNode(true);
+        //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+      
+      
+      
+      
+      
+        //   // parseInt(holder.style.top.slice(0, -2))
+        //   copyEle.classList.remove("focussedd")
+        //   copyEle.firstChild.classList.remove("focussed")
+        //   // copyEle.classList.add("imageInput")
+        //   // console.log(copyEleTop)
+        //   copyEle.onfocus = () => {
+        //     copyEle.style.border = "1px solid rgb(255 191 0)";
+        //   }
+        //   copyEle.onblur = () => {
+        //     copyEle.style.border = "3px dotted gray";
+        //   }
+        //   if (copyEle) {
+        //     copyEle.style.top = copyEleTop;
+        //     copyEle.style.border = "3px dotted gray";
+      
+      
+        //     copyEle.onmousedown = copyEle.addEventListener(
+        //       "mousedown",
+        //       (event) => {
+        //         dragElementOverPage(event);
+        //       },
+        //       false
+        //     );
+      
+      
+        //     const resizerTL = getResizer("top", "left");
+        //     const resizerTR = getResizer("top", "right");
+        //     const resizerBL = getResizer("bottom", "left");
+        //     const resizerBR = getResizer("bottom", "right");
+        //     // parseInt(holder.style.top.slice(0, -2))
+      
+      
+      
+      
+        //     copyEle.addEventListener("focus", function (e) {
+        //       // holderDIV.classList.add("focussedd");
+        //       copyEle.classList.add("zIndex-two");
+        //       copyEle.style.border = "2px solid orange";
+        //       // holderDIV.append(holderMenu);
+      
+        //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+        //     });
+        //     copyEle.addEventListener("click", (e) => {
+        //       e.stopPropagation();
+        //       focuseddClassMaintain(e);
+        //       // imageField.classList.add("focussed");
+        //       handleClicked(clickHandler, "container2");
+        //       // copyImage()
+        //       // resizing = true;
+        //       setSidebar(true);
+        //     })
+        //   }
+      
+        //   copyEle.onclick = (clickHandler) => {
+      
+         
+        //     if (clickHandler.ctrlKey) {
+        //       const element = document.querySelector(".focussedd");
+        //     // console.log(element);
+        //     let counter = 1;
+        //     const copyEle = element.cloneNode(true);
+        //     const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+        
+        
+        
+        
+        
+        //     // parseInt(holder.style.top.slice(0, -2))
+        //     copyEle.classList.remove("focussedd")
+        //     copyEle.firstChild.classList.remove("focussed")
+        //     // copyEle.classList.add("imageInput")
+        //     // console.log(copyEleTop)
+        //     copyEle.onfocus = () => {
+        //       copyEle.style.border = "1px solid rgb(255 191 0)";
+        //     }
+        //     copyEle.onblur = () => {
+        //       copyEle.style.border = "3px dotted gray";
+        //     }
+        //     if (copyEle) {
+        //       copyEle.style.top = copyEleTop;
+        //       copyEle.style.border = "3px dotted gray";
+        
+        
+        //       copyEle.onmousedown = copyEle.addEventListener(
+        //         "mousedown",
+        //         (event) => {
+        //           dragElementOverPage(event);
+        //         },
+        //         false
+        //       );
+        
+        
+        //       const resizerTL = getResizer("top", "left");
+        //       const resizerTR = getResizer("top", "right");
+        //       const resizerBL = getResizer("bottom", "left");
+        //       const resizerBR = getResizer("bottom", "right");
+        //       // parseInt(holder.style.top.slice(0, -2))
+        
+        
+        
+        
+        //       copyEle.addEventListener("focus", function (e) {
+        //         // holderDIV.classList.add("focussedd");
+        //         copyEle.classList.add("zIndex-two");
+        //         copyEle.style.border = "2px solid orange";
+        //         // holderDIV.append(holderMenu);
+        
+        //         copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+        //       });
+        //       copyEle.addEventListener("click", (e) => {
+        //         console.log("clicking")
+        //         e.stopPropagation();
+        //         focuseddClassMaintain(e);
+        //         // imageField.classList.add("focussed");
+        //         handleClicked(clickHandler, "container2");
+        //         setSidebar(true);
+      
+        //         // copyImage()
+        //         // resizing = true;
+        //       })
+        //     }
+      
+        //     let midSec = document.querySelector(".drop_zone")
+      
+        //     if (!midSec) {
+        //       let targetParent = element;
+        //       while (1) {
+        //         if (targetParent.classList.contains("midSection_container")) {
+        //           targetParent = targetParent;
+        //           break;
+        //         } else {
+        //           targetParent = targetParent.parentElement;
+        //           midSec = targetParent;
+        //         }
+        //       }
+        //     }
+        //     copyEle.id += counter;
+        //     midSec.appendChild(copyEle);
+        //     console.log("copy ele", copyEle);
+        //     // for (let index = 0; index < counter.length; index++) {
+        //     //   const copyEle = element.cloneNode(true);  
+        //     //   copyEle.id += counter;
+        //     //   const element2 =  midSec.appendChild(copyEle);
+        //     //  return copyEle, element2;
+              
+        //     // }
+        //     }
+      
+          
+      
+        //     // const element = document.querySelector(".focussedd");
+        //     // // console.log(element);
+        //     // let counter = 1;
+        //     // const copyEle = element.cloneNode(true);
+        //     // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+        
+        
+        
+        
+        
+        //     // // parseInt(holder.style.top.slice(0, -2))
+        //     // copyEle.classList.remove("focussedd")
+        //     // copyEle.firstChild.classList.remove("focussed")
+        //     // // copyEle.classList.add("imageInput")
+        //     // // console.log(copyEleTop)
+        //     // copyEle.onfocus = () => {
+        //     //   copyEle.style.border = "1px solid rgb(255 191 0)";
+        //     // }
+        //     // copyEle.onblur = () => {
+        //     //   copyEle.style.border = "2px dotted gray";
+        //     // }
+        //     // if (copyEle) {
+        //     //   copyEle.style.top = copyEleTop;
+        //     //   copyEle.style.border = "1px dotted black";
+        
+        
+        //     //   copyEle.onmousedown = copyEle.addEventListener(
+        //     //     "mousedown",
+        //     //     (event) => {
+        //     //       dragElementOverPage(event);
+        //     //     },
+        //     //     false
+        //     //   );
+        
+        
+        //     //   const resizerTL = getResizer("top", "left");
+        //     //   const resizerTR = getResizer("top", "right");
+        //     //   const resizerBL = getResizer("bottom", "left");
+        //     //   const resizerBR = getResizer("bottom", "right");
+        //     //   // parseInt(holder.style.top.slice(0, -2))
+        
+        
+        
+        
+        //     //   copyEle.addEventListener("focus", function (e) {
+        //     //     // holderDIV.classList.add("focussedd");
+        //     //     copyEle.classList.add("zIndex-two");
+        //     //     copyEle.style.border = "2px solid orange";
+        //     //     // holderDIV.append(holderMenu);
+        
+        //     //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+        //     //   });
+        //     //   copyEle.addEventListener("click", (e) => {
+        //     //     e.stopPropagation();
+        //     //     focuseddClassMaintain(e);
+        //     //     // imageField.classList.add("focussed");
+        //     //     handleClicked(clickHandler, "container2");
+        //     //     // copyImage()
+        //     //     // resizing = true;
+        //     //     setSidebar(true);
+        //     //   })
+        //     // }
+      
+        //     // let midSec = document.querySelector(".drop_zone")
+      
+        //     // if (!midSec) {
+        //     //   let targetParent = element;
+        //     //   while (1) {
+        //     //     if (targetParent.classList.contains("midSection_container")) {
+        //     //       targetParent = targetParent;
+        //     //       break;
+        //     //     } else {
+        //     //       targetParent = targetParent.parentElement;
+        //     //       midSec = targetParent
+        //     //     }
+        //     //   }
+        //     // }
+        //     // console.log("mid sec", midSec)
+        //     // copyEle.id += counter;
+        //     // midSec.appendChild(copyEle);
+        //     // console.log("copy ele", copyEle);
+      
+      
+        //   }
+        //   // console.log(copyEle)
+        //   // let midSec = document.querySelector(".drop_zone")
+
+        //   if (!midSec) {
+        //     let targetParent = element;
+        //     while (1) {
+        //       if (targetParent.classList.contains("midSection_container")) {
+        //         targetParent = targetParent;
+        //         break;
+        //       } else {
+        //         targetParent = targetParent.parentElement;
+        //         midSec = targetParent
+        //       }
+        //     }
+        //   }
+        //   // console.log("mid sec", midSec)
+        //   copyEle.id += counter;
+        //   holderDIVContainer.appendChild(copyEle);
+        //   // console.log("copy ele", copyEle);
+        //   // midSec.forEeach((e) => {
+        //   //   e.appendChild(copyEle);
+        //   // });
+      
+        //   // console.log("coping", copyEle)
+        //   // }
+      
+        // }
         containerField.ondrop = (event) => {
           const container = event.target;
           const containerRect = container.getBoundingClientRect();
@@ -4505,6 +5039,292 @@ const MidSection = React.forwardRef((props, ref) => {
           //       auth_user: curr_user,
           //     };
           // console.log("typeOfOperationContainer", typeOfOperationContainer);
+
+
+
+
+
+
+          const copyContainerInput = (clickHandler) => {
+            // if (typeOfOperation === "IMAGE_INPUT") {
+            const element = document.querySelector(".focussedd");
+            // console.log(element);
+            let counter = 1;
+            const copyEle = element.cloneNode(true);
+            const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+        
+        
+        
+        
+        
+            // parseInt(holder.style.top.slice(0, -2))
+            copyEle.classList.remove("focussedd")
+            copyEle.firstChild.classList.remove("focussed")
+            // copyEle.classList.add("imageInput")
+            // console.log(copyEleTop)
+            copyEle.onfocus = () => {
+              copyEle.style.border = "1px solid rgb(255 191 0)";
+            }
+            copyEle.onblur = () => {
+              copyEle.style.border = "3px dotted gray";
+            }
+            if (copyEle) {
+              copyEle.style.top = copyEleTop;
+              copyEle.style.border = "3px dotted gray";
+        
+        
+              copyEle.onmousedown = copyEle.addEventListener(
+                "mousedown",
+                (event) => {
+                  dragElementOverPage(event);
+                },
+                false
+              );
+        
+        
+              const resizerTL = getResizer("top", "left");
+              const resizerTR = getResizer("top", "right");
+              const resizerBL = getResizer("bottom", "left");
+              const resizerBR = getResizer("bottom", "right");
+              // parseInt(holder.style.top.slice(0, -2))
+        
+        
+        
+        
+              copyEle.addEventListener("focus", function (e) {
+                // holderDIV.classList.add("focussedd");
+                copyEle.classList.add("zIndex-two");
+                copyEle.style.border = "2px solid orange";
+                // holderDIV.append(holderMenu);
+        
+                copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+              });
+              copyEle.addEventListener("click", (e) => {
+                e.stopPropagation();
+                focuseddClassMaintain(e);
+                // imageField.classList.add("focussed");
+                handleClicked(clickHandler, "container2");
+                // copyImage()
+                // resizing = true;
+                setSidebar(true);
+              })
+            }
+        
+            // copyEle.onclick = (clickHandler) => {
+        
+           
+            //   if (clickHandler.ctrlKey) {
+            //     const element = document.querySelector(".focussedd");
+            //   // console.log(element);
+            //   let counter = 1;
+            //   const copyEle = element.cloneNode(true);
+            //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+          
+          
+          
+          
+          
+            //   // parseInt(holder.style.top.slice(0, -2))
+            //   copyEle.classList.remove("focussedd")
+            //   copyEle.firstChild.classList.remove("focussed")
+            //   // copyEle.classList.add("imageInput")
+            //   // console.log(copyEleTop)
+            //   copyEle.onfocus = () => {
+            //     copyEle.style.border = "1px solid rgb(255 191 0)";
+            //   }
+            //   copyEle.onblur = () => {
+            //     copyEle.style.border = "3px dotted gray";
+            //   }
+            //   if (copyEle) {
+            //     copyEle.style.top = copyEleTop;
+            //     copyEle.style.border = "3px dotted gray";
+          
+          
+            //     copyEle.onmousedown = copyEle.addEventListener(
+            //       "mousedown",
+            //       (event) => {
+            //         dragElementOverPage(event);
+            //       },
+            //       false
+            //     );
+          
+          
+            //     const resizerTL = getResizer("top", "left");
+            //     const resizerTR = getResizer("top", "right");
+            //     const resizerBL = getResizer("bottom", "left");
+            //     const resizerBR = getResizer("bottom", "right");
+            //     // parseInt(holder.style.top.slice(0, -2))
+          
+          
+          
+          
+            //     copyEle.addEventListener("focus", function (e) {
+            //       // holderDIV.classList.add("focussedd");
+            //       copyEle.classList.add("zIndex-two");
+            //       copyEle.style.border = "2px solid orange";
+            //       // holderDIV.append(holderMenu);
+          
+            //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+            //     });
+            //     copyEle.addEventListener("click", (e) => {
+            //       console.log("clicking")
+            //       e.stopPropagation();
+            //       focuseddClassMaintain(e);
+            //       // imageField.classList.add("focussed");
+            //       handleClicked(clickHandler, "container2");
+            //       setSidebar(true);
+        
+            //       // copyImage()
+            //       // resizing = true;
+            //     })
+            //   }
+        
+            //   let midSec = document.querySelector(".drop_zone")
+        
+            //   if (!midSec) {
+            //     let targetParent = element;
+            //     while (1) {
+            //       if (targetParent.classList.contains("midSection_container")) {
+            //         targetParent = targetParent;
+            //         break;
+            //       } else {
+            //         targetParent = targetParent.parentElement;
+            //         midSec = targetParent;
+            //       }
+            //     }
+            //   }
+            //   copyEle.id += counter;
+            //   midSec.appendChild(copyEle);
+            //   console.log("copy ele", copyEle);
+            //   // for (let index = 0; index < counter.length; index++) {
+            //   //   const copyEle = element.cloneNode(true);  
+            //   //   copyEle.id += counter;
+            //   //   const element2 =  midSec.appendChild(copyEle);
+            //   //  return copyEle, element2;
+                
+            //   // }
+            //   }
+        
+            
+        
+            //   // const element = document.querySelector(".focussedd");
+            //   // // console.log(element);
+            //   // let counter = 1;
+            //   // const copyEle = element.cloneNode(true);
+            //   // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+          
+          
+          
+          
+          
+            //   // // parseInt(holder.style.top.slice(0, -2))
+            //   // copyEle.classList.remove("focussedd")
+            //   // copyEle.firstChild.classList.remove("focussed")
+            //   // // copyEle.classList.add("imageInput")
+            //   // // console.log(copyEleTop)
+            //   // copyEle.onfocus = () => {
+            //   //   copyEle.style.border = "1px solid rgb(255 191 0)";
+            //   // }
+            //   // copyEle.onblur = () => {
+            //   //   copyEle.style.border = "2px dotted gray";
+            //   // }
+            //   // if (copyEle) {
+            //   //   copyEle.style.top = copyEleTop;
+            //   //   copyEle.style.border = "1px dotted black";
+          
+          
+            //   //   copyEle.onmousedown = copyEle.addEventListener(
+            //   //     "mousedown",
+            //   //     (event) => {
+            //   //       dragElementOverPage(event);
+            //   //     },
+            //   //     false
+            //   //   );
+          
+          
+            //   //   const resizerTL = getResizer("top", "left");
+            //   //   const resizerTR = getResizer("top", "right");
+            //   //   const resizerBL = getResizer("bottom", "left");
+            //   //   const resizerBR = getResizer("bottom", "right");
+            //   //   // parseInt(holder.style.top.slice(0, -2))
+          
+          
+          
+          
+            //   //   copyEle.addEventListener("focus", function (e) {
+            //   //     // holderDIV.classList.add("focussedd");
+            //   //     copyEle.classList.add("zIndex-two");
+            //   //     copyEle.style.border = "2px solid orange";
+            //   //     // holderDIV.append(holderMenu);
+          
+            //   //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+            //   //   });
+            //   //   copyEle.addEventListener("click", (e) => {
+            //   //     e.stopPropagation();
+            //   //     focuseddClassMaintain(e);
+            //   //     // imageField.classList.add("focussed");
+            //   //     handleClicked(clickHandler, "container2");
+            //   //     // copyImage()
+            //   //     // resizing = true;
+            //   //     setSidebar(true);
+            //   //   })
+            //   // }
+        
+            //   // let midSec = document.querySelector(".drop_zone")
+        
+            //   // if (!midSec) {
+            //   //   let targetParent = element;
+            //   //   while (1) {
+            //   //     if (targetParent.classList.contains("midSection_container")) {
+            //   //       targetParent = targetParent;
+            //   //       break;
+            //   //     } else {
+            //   //       targetParent = targetParent.parentElement;
+            //   //       midSec = targetParent
+            //   //     }
+            //   //   }
+            //   // }
+            //   // console.log("mid sec", midSec)
+            //   // copyEle.id += counter;
+            //   // midSec.appendChild(copyEle);
+            //   // console.log("copy ele", copyEle);
+        
+        
+            // }
+            // console.log(copyEle)
+            // let midSec = document.querySelector(".drop_zone")
+  
+            if (!holderDIVContainer) {
+              let targetParent = element;
+              while (1) {
+                if (targetParent.classList.contains("midSection_container")) {
+                  targetParent = targetParent;
+                  break;
+                } else {
+                  targetParent = targetParent.parentElement;
+                  holderDIVContainer = targetParent
+                }
+              }
+            }
+            // console.log("mid sec", midSec)
+            copyEle.id += counter;
+            holderDIVContainer.appendChild(copyEle);
+            // console.log("copy ele", copyEle);
+            // midSec.forEeach((e) => {
+            //   e.appendChild(copyEle);
+            // });
+        
+            // console.log("coping", copyEle)
+            // }
+        
+          }
+
+
+
+
+
+
+
           const measureContainer = {
             width: "200px",
             height: "80px",
@@ -4513,7 +5333,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
 
-          const holderDIVContainer = getHolderDIV(measureContainer);
+          let holderDIVContainer = getHolderDIV(measureContainer);
           if (typeOfOperationContainer === "DATE_INPUT") {
             let dateFieldContainer = document.createElement("div");
             dateFieldContainer.className = "dateInput";
@@ -4546,7 +5366,7 @@ const MidSection = React.forwardRef((props, ref) => {
               e.stopPropagation();
               focuseddClassMaintain(e);
               if (e.ctrlKey) {
-                copyInput("calendar2")
+                copyContainerInput("calendar2")
               }
               handleClicked("calendar2", "container2");
               setRightSideDateMenu(false);
