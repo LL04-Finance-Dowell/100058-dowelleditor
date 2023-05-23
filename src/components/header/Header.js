@@ -877,7 +877,7 @@ const Header = () =>
             borderColor: email[e].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(buttons[e]);
+          const pageNum = findPaageNum(email[e]);
           page[0][pageNum].push(elem);
 
         }
@@ -937,7 +937,7 @@ const Header = () =>
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;

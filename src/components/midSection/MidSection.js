@@ -110,7 +110,6 @@ const MidSection = React.forwardRef((props, ref) =>
   const divList = documnentsMap?.map?.((item) => item.page);
   var documnetMap = documnentsMap?.map?.(item => item.content);
 
-  console.log('decode', decoded)
 
   if (documnentsMap?.length > 0)
   {
@@ -458,7 +457,7 @@ const MidSection = React.forwardRef((props, ref) =>
       {
         holderParentHolderRect = holderParentHolder.getBoundingClientRect();
       }
-      hodlerRect = holder.getBoundingClientRect();
+      hodlerRect = holder?.getBoundingClientRect();
       // code for container element move end
       // console.log("finding moveable element", holderPos);
 
@@ -3894,7 +3893,7 @@ const MidSection = React.forwardRef((props, ref) =>
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
         scaleField.style.height = "100%";
-        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.backgroundColor = "blue";
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";

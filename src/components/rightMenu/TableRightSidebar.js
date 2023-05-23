@@ -799,7 +799,7 @@ const TableRightSidebar = () =>
     // }
     if (focusseddElmnt.classList.contains("holderDIV"))
     {
-      //   document.querySelector(".focussedd").remove();
+        document.querySelector(".focussedd").remove();
       focusseddElmnt.children[1].firstChild.remove();
       focusseddElmnt.children[0].remove();
       setIsCreateTableBtnDisabled(false);
