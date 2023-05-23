@@ -332,10 +332,10 @@ const EmailRightSideBar = () =>
                             type="radio"
                             checked={isChecked}
                             onChange={handleRadioChange}
-                            style={{ marginRight: "5rem" }}
+                            style={{ marginRight: "2rem" }}
                         // onChange={() => setIsChecked(!isChecked)}
                         />
-                        Send
+                        Send Email
                     </label>
                 </form>
                 <ToastContainer size={5} />
