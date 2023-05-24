@@ -109,8 +109,6 @@ const MidSection = React.forwardRef((props, ref) => {
   const divList = documnentsMap?.map?.((item) => item.page);
   var documnetMap = documnentsMap?.map?.((item) => item.content);
 
-  console.log("decode", decoded);
-
   if (documnentsMap?.length > 0) {
     const documentsMap = documnentsMap;
   } else {
@@ -1465,7 +1463,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
 
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
           const finalizeButton = document.getElementById("finalize-button");
           const rejectButton = document.getElementById("reject-button");
@@ -1562,40 +1560,41 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
-            borderWidth: element.borderWidth + "px",
+            // borderWidth: element.borderWidth + "px",
             auth_user: curr_user,
           };
 
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          const holderDIV = getHolderDIV(measure, pageNo);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
           // const finalizeButton = document.getElementById("finalize-button");
           // const rejectButton = document.getElementById("reject-button");
 
-          let buttonField = document.createElement("button");
-          buttonField.className = "emailButton";
-          buttonField.id = id;
-          buttonField.style.width = "100%";
-          buttonField.style.height = "100%";
-          buttonField.style.backgroundColor = "#0000";
-          buttonField.style.borderRadius = "0px";
-          buttonField.style.outline = "0px";
-          buttonField.style.overflow = "overlay";
-          buttonField.style.position = "absolute";
-          buttonField.style.borderWidth = element.data;
-          buttonField.textContent = element.data;
+          let mailField = document.createElement("button");
+          mailField.className = "emailButton";
+          mailField.id = id;
+          mailField.style.width = "100%";
+          mailField.style.height = "100%";
+          mailField.style.backgroundColor = "#0000";
+          mailField.style.borderRadius = "0px";
+          mailField.style.outline = "0px";
+          mailField.style.overflow = "overlay";
+          mailField.style.position = "absolute";
+          // mailField.style.borderWidth = element.borderWidth;
+          mailField.textContent = element.data;
 
-          if (
-            decoded.details.action === "template" &&
-            element.raw_data == "" &&
-            element.purpose == ""
-          ) {
-            buttonField.onclick = (e) => {
-              focuseddClassMaintain(e);
-              handleClicked("email2");
-              setSidebar(true);
-            };
-          }
+          // if (
+          //   decoded.details.action === "template" &&
+          //   element.raw_data == "" &&
+          //   element.purpose == ""
+          // )
+          // {
+          mailField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            handleClicked("email2");
+            setSidebar(true);
+          };
+          // }
 
           // buttonField.onmouseover = (e) =>
           // {
@@ -1657,14 +1656,14 @@ const MidSection = React.forwardRef((props, ref) => {
           linkHolder.innerHTML = element.raw_data;
           linkHolder.style.display = "none";
 
-          // const purposeHolder = document.createElement("div");
-          // purposeHolder.className = "purpose_holder";
-          // purposeHolder.innerHTML = element.purpose;
-          // purposeHolder.style.display = "none";
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.innerHTML = element.purpose;
+          purposeHolder.style.display = "none";
 
-          holderDIV.append(buttonField);
+          holderDIV.append(mailField);
           holderDIV.append(linkHolder);
-          // holderDIV.append(purposeHolder);
+          holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
             [p - 1] // ?.item(0)
@@ -3551,7 +3550,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
         scaleField.style.height = "100%";
-        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.backgroundColor = "blue";
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
