@@ -72,10 +72,10 @@ export const ContextProvider = ({ children }) => {
   };
 
   const handleClicked = (clicked, tableRighMenu) => {
-    setIsClicked({ ...isClicked, [clicked]: true, [tableRighMenu]: false });
+    setIsClicked({ ...initialState2, [clicked]: true, [tableRighMenu]: false });
   };
-
-  // console.log("isClicked", isClicked);
+  // console.log("");
+  console.log("isClicked", isClicked, "initialState2", initialState2);
   const [newToken, setNewToken] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFlipClicked, setIsFlipClicked] = useState(true);
@@ -524,7 +524,7 @@ export const ContextProvider = ({ children }) => {
         setButtonLink,
         buttonPurpose,
         setButtonPurpose,
-        customId, 
+        customId,
         setCustomId,
       }}
     >

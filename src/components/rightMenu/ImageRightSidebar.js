@@ -13,8 +13,12 @@ const ImageRightSidebar = () =>
   var { setIsFinializeDisabled, handleClicked, setSidebar } = useStateContext();
   const [file, setFile] = useState(null);
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   const addImageButtonInput = useRef(null);
@@ -136,6 +140,15 @@ const ImageRightSidebar = () =>
     box.style.borderColor = `${borderColor}`;
 
   };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
+  useEffect(() =>
+  {
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [borderSize, borderColor]);
   return (
     <>
       {/* <div className='dropdown pt-4'>
@@ -182,6 +195,7 @@ const ImageRightSidebar = () =>
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
 

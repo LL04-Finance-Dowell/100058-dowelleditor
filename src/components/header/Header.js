@@ -248,14 +248,14 @@ const Header = () => {
     let targetParent = element;
     let pageNum = null;
     while (1) {
-      if (targetParent.classList.contains("midSection_container")) {
+      if (targetParent?.classList?.contains("midSection_container")) {
         targetParent = targetParent;
         break;
       } else {
-        targetParent = targetParent.parentElement;
+        targetParent = targetParent?.parentElement;
       }
     }
-    pageNum = targetParent.innerText.split("\n")[0];
+    pageNum = targetParent?.innerText.split("\n")[0];
     return pageNum;
   };
   function savingTableData() {
@@ -277,6 +277,7 @@ const Header = () => {
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
+
   function saveDocument() {
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
@@ -786,7 +787,6 @@ const Header = () => {
             "containerInput"
           )
         ) {
-          console.log("email from headerjs", email[e]);
           let tempElem = email[e].parentElement;
           let tempPosn = getPosition(tempElem);
           // const link = buttonLink;
@@ -806,8 +806,7 @@ const Header = () => {
             borderColor: email[e].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
-          console.log("email element", elem);
-          const pageNum = findPaageNum(buttons[e]);
+          const pageNum = findPaageNum(email[e]);
           page[0][pageNum].push(elem);
         }
       }
@@ -959,7 +958,7 @@ const Header = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        //console.log(err);
+        console.log(err);
       });
   }
 

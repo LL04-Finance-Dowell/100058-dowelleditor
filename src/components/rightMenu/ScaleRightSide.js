@@ -23,8 +23,12 @@ const ScaleRightSide = () => {
     customId,
   } = useStateContext();
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   const [iframeKey, setIframeKey] = useState(0);
@@ -47,7 +51,9 @@ const ScaleRightSide = () => {
     setCustom1(localStorage.getItem("inputValue1"));
     setCustom2(localStorage.getItem("inputValue2"));
     setCustom3(localStorage.getItem("inputValue3"));
-  }, []);
+    localStorage.setItem("borderSize", borderSize === "0");
+    localStorage.setItem("borderColor", borderColor === "black");
+  }, [borderSize, borderColor]);
 
   // useEffect(() => {
   //   // Access the iframe's window object and add an event listener to it
@@ -134,6 +140,12 @@ const ScaleRightSide = () => {
     "SCALE_INPUT"
   );
 
+  var newArray = excludeElementsWithAttributeValue(
+    myArray,
+    "type",
+    "SCALE_INPUT"
+  );
+
   const filteredArray = newArray?.filter((obj) => !customId.includes(obj.id));
 
   const elems = document.getElementsByClassName("holderDIV");
@@ -200,6 +212,10 @@ const ScaleRightSide = () => {
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${borderColor}`;
   };
+  const handleRangeBlur = (e) => {
+    e.target.focus();
+  };
+
   return (
     <>
       <div className="d-flex justify-content-around">
@@ -268,6 +284,7 @@ const ScaleRightSide = () => {
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
             />

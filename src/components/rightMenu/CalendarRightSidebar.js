@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+// import Dropdown from "react-bootstrap/Dropdown";
+// import DropdownButton from "react-bootstrap/DropdownButton";
+import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+
 
 import "react-datepicker/dist/react-datepicker.css";
 import jwt_decode from "jwt-decode";
@@ -34,6 +36,14 @@ const CalendarRightSidebar = (props) =>
   const [datePickerMargin, setDatePickerMargin] = useState("");
   const date = document.querySelector(".focussed");
 
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
+  // const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
   // enable disable finalize btn
   // let dateInnerText = "";
 
@@ -98,6 +108,24 @@ const CalendarRightSidebar = (props) =>
     setMethod(e.target.value);
     setRightSideDateMenu(true);
   }
+  const handleBorderSizeChange = (e) =>
+  {
+    setBorderSize(parseInt(e.target.value));
+
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${borderSize}px`;
+
+  };
+  const handleBorderColorChange = (e) =>
+  {
+    setBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${borderColor}`;
+  };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
 
   useEffect(() =>
   {
@@ -108,7 +136,9 @@ const CalendarRightSidebar = (props) =>
         document.querySelector(".react-datepicker").offsetHeight + "px"
       );
     }
-  }, [datePickerMargin]);
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [datePickerMargin, borderSize, borderColor]);
 
   // //console.log("datePickerMargin", datePickerMargin);
   //console.log("rightSideDatemenu", rightSideDatemenu);
@@ -180,6 +210,39 @@ const CalendarRightSidebar = (props) =>
           </Button>
         </div>
       )}
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
     </div>
   );
 };
