@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Row } from 'react-bootstrap';
-import { useStateContext } from '../../contexts/contextProvider';
-import Axios from 'axios';
-import jwt_decode from 'jwt-decode';
-import { useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Button, Form, Row } from "react-bootstrap";
+import { useStateContext } from "../../contexts/contextProvider";
+import Axios from "axios";
+import jwt_decode from "jwt-decode";
+import { useSearchParams } from "react-router-dom";
 
-const ScaleRightSide = () =>
-{
+const ScaleRightSide = () => {
   const {
     sidebar,
     setIsLoading,
@@ -27,15 +26,19 @@ const ScaleRightSide = () =>
     setIframeKey
   } = useStateContext();
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   const [selectedOptions, setSelectedOptions] = useState({});
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  console.log(data, 'data');
+  console.log(data, "data");
   console.log(companyId);
 
   const holderDIV = document.querySelector('.focussedd');
@@ -47,18 +50,17 @@ const ScaleRightSide = () =>
   const scaleId = holderDIV?.children[1].innerHTML;
   const label = holderDIV?.children[2];
 
-  const handleChange = (e) =>
-  {
-    label.innerHTML = e.target.value
-
+  const handleChange = (e) => {
+    label.innerHTML = e.target.value;
   };
 
-  useEffect(() =>
-  {
-    setCustom1(localStorage.getItem('inputValue1'));
-    setCustom2(localStorage.getItem('inputValue2'));
-    setCustom3(localStorage.getItem('inputValue3'));
-  }, []);
+  useEffect(() => {
+    setCustom1(localStorage.getItem("inputValue1"));
+    setCustom2(localStorage.getItem("inputValue2"));
+    setCustom3(localStorage.getItem("inputValue3"));
+    localStorage.setItem("borderSize", borderSize === "0");
+    localStorage.setItem("borderColor", borderColor === "black");
+  }, [borderSize, borderColor]);
 
   // useEffect(() => {
   //   // Access the iframe's window object and add an event listener to it
@@ -75,109 +77,107 @@ const ScaleRightSide = () =>
   //   setIframeKey(prevKey => prevKey + 1);
   // }
 
-  function sendMessage()
-  {
+  function sendMessage() {
     const message =
-      decoded.details.action === 'document'
-        ? 'Document saved'
-        : 'Template saved';
-    const iframe = document.querySelector('iframe');
-    iframe?.contentWindow?.postMessage(message, '*');
+      decoded.details.action === "document"
+        ? "Document saved"
+        : "Template saved";
+    const iframe = document.querySelector("iframe");
+    iframe?.contentWindow?.postMessage(message, "*");
   }
-  function scaleSubmit(e)
-  {
+  function scaleSubmit(e) {
     console.log(selectedOptions);
     console.log(selectedOptions[0]);
     e.preventDefault();
     setIsLoading(true);
-    Axios.post('https://100035.pythonanywhere.com/api/nps_custom_data/', {
+    Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
       scale_id: scaleId,
       custom_input_groupings: selectedOptions,
       scale_label: label.innerHTML,
     })
-      .then((res) =>
-      {
-        if (res.status == 200)
-        {
+      .then((res) => {
+        if (res.status == 200) {
           setIsLoading(false);
           sendMessage();
-          console.log(res, 'kk');
+          console.log(res, "kk");
         }
       })
-      .catch((err) =>
-      {
+      .catch((err) => {
         setIsLoading(false);
         console.log(err);
       });
   }
 
-  function showIframe()
-  {
-    const divIframeRight = document.getElementById('iframeRight');
-    const divSettingRight = document.getElementById('settingRight');
-    divIframeRight.style.display = 'block';
-    divSettingRight.style.display = 'none';
+  function showIframe() {
+    const divIframeRight = document.getElementById("iframeRight");
+    const divSettingRight = document.getElementById("settingRight");
+    divIframeRight.style.display = "block";
+    divSettingRight.style.display = "none";
   }
-  function showSetting()
-  {
-    const divIframeRight = document.getElementById('iframeRight');
-    const divSettingRight = document.getElementById('settingRight');
-    divIframeRight.style.display = 'none';
-    divSettingRight.style.display = 'block';
+  function showSetting() {
+    const divIframeRight = document.getElementById("iframeRight");
+    const divSettingRight = document.getElementById("settingRight");
+    divIframeRight.style.display = "none";
+    divSettingRight.style.display = "block";
   }
-
-
 
   const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
-  console.log(iframeSrc, 'iframeSrc');
+  console.log(iframeSrc, "iframeSrc");
 
-  function removeScale()
-  {
-    const focusseddElmnt = document.querySelector('.focussedd');
-    if (focusseddElmnt.classList.contains('holderDIV'))
-    {
-      document.querySelector('.focussedd').remove();
+  function removeScale() {
+    const focusseddElmnt = document.querySelector(".focussedd");
+    if (focusseddElmnt.classList.contains("holderDIV")) {
+      document.querySelector(".focussedd").remove();
     }
   }
-const myArray = Object.values(data)[0];
+  const myArray = Object.values(data)[0];
   function excludeElementsWithAttributeValue(arr, attribute, valueToExclude) {
-    return arr?.filter(function(element) {
-      return element.hasOwnProperty(attribute) && element[attribute] !== valueToExclude;
+    return arr?.filter(function (element) {
+      return (
+        element.hasOwnProperty(attribute) &&
+        element[attribute] !== valueToExclude
+      );
     });
   }
-  
-  var newArray = excludeElementsWithAttributeValue(myArray, 'type', 'SCALE_INPUT');
 
-  const filteredArray = newArray?.filter(obj => !customId.includes(obj.id));
+  var newArray = excludeElementsWithAttributeValue(
+    myArray,
+    "type",
+    "SCALE_INPUT"
+  );
 
-  const elems = document.getElementsByClassName("holderDIV")
-  for (let index = 0; index < elems.length; index++)
-  {
+  var newArray = excludeElementsWithAttributeValue(
+    myArray,
+    "type",
+    "SCALE_INPUT"
+  );
+
+  const filteredArray = newArray?.filter((obj) => !customId.includes(obj.id));
+
+  const elems = document.getElementsByClassName("holderDIV");
+  for (let index = 0; index < elems.length; index++) {
     const element = elems[index];
     console.log(element.children[0]);
   }
 
-  const handleSelect = (event) =>
-  {
-    let selectField = document.getElementById('select');
+  const handleSelect = (event) => {
+    let selectField = document.getElementById("select");
     var selectedValues = {};
     const options = selectField.options;
 
-    for (let i = 0; i < options.length; i++)
-    {
+    for (let i = 0; i < options.length; i++) {
       const option = options[i];
-      if (option.selected)
-      {
+      if (option.selected) {
         selectedValues[option.value] = option.id;
       }
     }
     console.log(selectedValues);
-    setSelectedOptions(selectedValues)
+    setSelectedOptions(selectedValues);
 
     let selectedOption = selectField.options[selectField.selectedIndex];
     let selectedElementId = selectedOption.id;
-    console.log(selectedElementId, 'selectedElementId');
+    console.log(selectedElementId, "selectedElementId");
     // const selectedElement = myArray.find(
     //   (element) => element.type === selectedTitle
     // );
@@ -185,13 +185,13 @@ const myArray = Object.values(data)[0];
     const selectedElements = myArray.find(
       (element) => element.id === selectedElementId
     );
-    console.log(selectedElements, 'selectedElement');
+    console.log(selectedElements, "selectedElement");
 
     let divElement = document.getElementById(selectedElements.id);
-    console.log(divElement.id, 'divElement');
+    console.log(divElement.id, "divElement");
 
     // divElement.style.border = '4px solid #f00 !important';
-    divElement.parentElement.style.border = '2px solid green';
+    divElement.parentElement.style.border = "2px solid green";
     divElement.focus();
 
     // if (selectedElementId === divElement.id) {
@@ -207,21 +207,21 @@ const myArray = Object.values(data)[0];
     </option>
   ));
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderWidth = `${borderSize}px`;
-
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${borderColor}`;
+  };
 
+  const handleRangeBlur = (e) => {
+    e.target.focus();
   };
 
   const refreshIframe = () =>{
@@ -230,19 +230,26 @@ const myArray = Object.values(data)[0];
   }
   return (
     <>
-      <div>
+      <div className="d-flex justify-content-around">
         <button id="updateScale" onClick={showIframe}>
           Update
         </button>
         <button id="setScale" onClick={showSetting}>
           Settings
         </button>
+        <Button
+          variant="secondary"
+          className="remove_button"
+          onClick={removeScale}
+        >
+          Remove Scale
+        </Button>
       </div>
       <div id="iframeRight">
         <h3>Update scale</h3>
         <div className="mb-4">
           <Form.Label>Scale Type</Form.Label>
-          <select className='rounded w-100 h-75 p-2 '>
+          <select className="rounded w-100 h-75 p-2 ">
             <option>select</option>
             <option>nps scale</option>
           </select>
@@ -250,7 +257,7 @@ const myArray = Object.values(data)[0];
         <div>
           <iframe
             key={iframeKey}
-            style={{ border: 'solid 2px black', height: '400px' }}
+            style={{ border: "solid 2px black", height: "400px" }}
             id="update_ifr"
             src={iframeSrc}
           ></iframe>
@@ -266,7 +273,16 @@ const myArray = Object.values(data)[0];
           </label>
         </div>
         {showSlider && (
-          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "#abab",
+              gap: "10px",
+              height: "40px",
+              width: "90%",
+            }}
+          >
             <input
               type="color"
               value={borderColor}
@@ -280,21 +296,18 @@ const myArray = Object.values(data)[0];
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
-
             />
-
           </div>
         )}
       </Row>
       <hr />
-      <div id="settingRight" style={{ display: 'none' }}>
+      <div id="settingRight" style={{ display: "none" }}>
         <h3>Configurations</h3>
         {/* iframe */}
         <div>
-
-
           {/* <Form.Control
             type="text"
             placeholder={`${decoded.details._id}_scl1`}
@@ -325,20 +338,12 @@ const myArray = Object.values(data)[0];
             // id="iframe_src"
             onChange={handleChange}
           />
-
         </div>
 
         <div className="mt-2 text-center pt-5">
           <Button variant="primary" className="px-5" onClick={scaleSubmit} 
           style={{marginBottom:'10px'}}>
             Save
-          </Button>
-          <Button
-            variant="secondary"
-            className="px-5 remove_button"
-            onClick={removeScale}
-          >
-            Remove Scale
           </Button>
         </div>
         {/* iframe */}

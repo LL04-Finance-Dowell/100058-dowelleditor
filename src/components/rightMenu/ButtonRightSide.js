@@ -19,8 +19,14 @@ const ButtonRightSide = () =>
   const purpose = holderDIV?.children[2]?.innerHTML;
   const link = holderDIV?.children[1]?.innerHTML;
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  // const [borderSize, setBorderSize] = useState(1);
+  // const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   // useEffect(() => {
@@ -107,6 +113,17 @@ const ButtonRightSide = () =>
     box.style.borderColor = `${borderColor}`;
 
   };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
+
+  useEffect(() =>
+  {
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [borderSize, borderColor]);
+
   return (
     <>
       <div className="mt-2 mb-3 w-100">
@@ -168,6 +185,7 @@ const ButtonRightSide = () =>
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
 
