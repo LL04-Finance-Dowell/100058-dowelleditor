@@ -801,12 +801,12 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  // console.log(decoded.details);
+  //console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
-
+  
   // console.log(authorized);
   // console.log(process_id);
   // console.log(_id);

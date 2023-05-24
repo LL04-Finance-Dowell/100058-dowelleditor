@@ -66,6 +66,7 @@ export const ContextProvider = ({ children }) => {
   const [italic, setItalic] = useState(false);
   const [underline, setUnderline] = useState(false);
   const [strikethrough, setStrikethrough] = useState(false);
+  const [iframek, setIframek] = useState(0);
 
   const handleDrop = (dropped) => {
     setIsDropped({ ...isDropped, [dropped]: true });
@@ -100,6 +101,8 @@ export const ContextProvider = ({ children }) => {
   const [custom1, setCustom1] = useState("");
   const [custom2, setCustom2] = useState("");
   const [custom3, setCustom3] = useState("");
+  //Handling the refreshing for scale
+  const [iframeKey, setIframeKey] = useState(0);
 
   //Company id
   const [companyId, setCompanyId] = useState("");
@@ -526,6 +529,10 @@ export const ContextProvider = ({ children }) => {
         setButtonPurpose,
         customId, 
         setCustomId,
+        iframek,
+        setIframek,
+        iframeKey, 
+        setIframeKey
       }}
     >
       {children}

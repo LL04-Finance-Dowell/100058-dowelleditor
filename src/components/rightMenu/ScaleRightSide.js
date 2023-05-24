@@ -21,14 +21,16 @@ const ScaleRightSide = () =>
     setCustom2,
     custom3,
     setCustom3,
-    customId, 
+    customId,
+    setIframek,
+    iframeKey, 
+    setIframeKey
   } = useStateContext();
 
   const [borderSize, setBorderSize] = useState(1);
   const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
-  const [iframeKey, setIframeKey] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
@@ -37,6 +39,11 @@ const ScaleRightSide = () =>
   console.log(companyId);
 
   const holderDIV = document.querySelector('.focussedd');
+  const scaleField = document.querySelector('.focussed');
+  const iframe = scaleField.firstElementChild
+  iframe.setAttribute("key", iframeKey);
+  iframe.setAttribute("id", "iframeId");
+  //console.log(iframe)
   const scaleId = holderDIV?.children[1].innerHTML;
   const label = holderDIV?.children[2];
 
@@ -216,6 +223,11 @@ const myArray = Object.values(data)[0];
     box.style.borderColor = `${borderColor}`;
 
   };
+
+  const refreshIframe = () =>{
+    //Assigning the src of iframe to itself to refresh it
+    document.getElementById('iframeId').src = document.getElementById('iframeId').src
+  }
   return (
     <>
       <div>
@@ -317,7 +329,8 @@ const myArray = Object.values(data)[0];
         </div>
 
         <div className="mt-2 text-center pt-5">
-          <Button variant="primary" className="px-5" onClick={scaleSubmit}>
+          <Button variant="primary" className="px-5" onClick={scaleSubmit} 
+          style={{marginBottom:'10px'}}>
             Save
           </Button>
           <Button
@@ -328,9 +341,11 @@ const myArray = Object.values(data)[0];
             Remove Scale
           </Button>
         </div>
-
         {/* iframe */}
       </div>
+      <Button variant="primary" style={{marginLeft:'80px', marginTop:'10px'}} className="px-5"     onClick={refreshIframe}>
+            refresh
+      </Button>
     </>
   );
 };
