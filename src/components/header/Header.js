@@ -210,7 +210,7 @@ const Header = () => {
     const midsectionRect = midSec.getBoundingClientRect();
     // const rect = el.getBoundingClientRect();
     // console.log("element check ", el);
-    // console.log("heaer react and midesctionRect", rect, midsectionRect);
+    console.log("heaer react and midesctionRect", rect, midsectionRect);
     return {
       top:
         rect.top > 0
@@ -546,8 +546,8 @@ const Header = () => {
             // );
             for (let i = 0; i < containerChildren.length; i++) {
               const element = containerChildren[i];
-              // console.log("elements", i, " ", element);
-              // let tempElem = element.parentElement;
+              let tempElem = element.parentElement;
+              console.log("elements", i, " ", element, tempElem);
               let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
@@ -555,7 +555,8 @@ const Header = () => {
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = containerElements[h].parentElement.style.top;
+              // childData.topp = containerElements[h].parentElement.style.top;
+              childData.topp = element.style.top;
               childData.left = tempPosnChild.left;
 
               // console.log("childData", childData);
@@ -592,11 +593,6 @@ const Header = () => {
                 default:
                   type = "";
               }
-
-              // (containerChildClassName == "dateInput" && "DATE_INPUT") ||
-              //         (containerChildClassName == "textInput" && "TEXT_INPUT") ||
-              //         (containerChildClassName == "imageInput" && "IMAGE_INPUT") ||
-              //         (containerChildClassName == "signInput" && "SIGN_INPUT"),
               childData.type = type;
               const imageData =
                 "imageInput" &&
@@ -616,41 +612,7 @@ const Header = () => {
               childData.id = `${containerChildClassName[0]}${h + 1}`;
               allContainerChildren.push(childData);
             }
-            // for (let i = 0; i < tableChildren.length; i++) {
-            //   const tableTR = { tr: null };
-            //   const newTableTR = [];
-            //   for (let j = 0; j < tableChildren[i].children.length; j++) {
-            //     // const element = tableChildren[i];
 
-            //     const TdDivClassName =
-            //       tableChildren[i].children[
-            //         j
-            //       ]?.firstElementChild?.className.split(" ")[0];
-
-            //     const trChild = {
-            //       td: {
-            //         type:
-            //           (TdDivClassName == "dateInput" && "DATE_INPUT") ||
-            //           (TdDivClassName == "textInput" && "TEXT_INPUT") ||
-            //           (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
-            //           (TdDivClassName == "signInput" && "SIGN_INPUT"),
-            //         // if(){
-            //         data:
-            //           TdDivClassName == "imageInput"
-            //             ? tableChildren[i].children[j]?.firstElementChild.style
-            //                 .backgroundImage
-            //             : tableChildren[i].children[j]?.firstElementChild
-            //                 ?.innerHTML,
-            //         id: `tableTd${j + 1}`,
-            //       },
-            //     };
-
-            //     newTableTR.push(trChild);
-            //   }
-            //   tableTR.tr = newTableTR;
-            //   allTableCCells.push(tableTR);
-            // }
-            // console.log("allTableCCells", allContainerChildren);
             return allContainerChildren;
           }
           elem = {
@@ -799,8 +761,8 @@ const Header = () => {
             left: tempPosn.left,
             type: "FORM",
             data: email[e].textContent,
-            raw_data: tempElem.children[1].innerHTML,
-            purpose: tempElem.children[2].innerHTML,
+            raw_data: tempElem?.children[1]?.innerHTML,
+            purpose: tempElem?.children[2]?.innerHTML,
             id: `eml${e + 1}`,
             borderWidth: email[e].parentElement.style.borderWidth,
             borderColor: email[e].parentElement.style.borderColor,
@@ -867,7 +829,7 @@ const Header = () => {
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
-  
+
   // console.log(authorized);
   // console.log(process_id);
   // console.log(_id);

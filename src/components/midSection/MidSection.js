@@ -1994,6 +1994,7 @@ const MidSection = React.forwardRef((props, ref) => {
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
+              // top: containerElement.top - element.top + "px",
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
