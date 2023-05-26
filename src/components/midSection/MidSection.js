@@ -370,7 +370,7 @@ const MidSection = React.forwardRef((props, ref) => {
   const copyInput = (clickHandler) => {
     // if (typeOfOperation === "IMAGE_INPUT") {
     const element = document.querySelector(".focussedd");
-    // console.log(element);
+    console.log("copy_element", element);
     let counter = 1;
     const copyEle = element.cloneNode(true);
     const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
@@ -399,6 +399,14 @@ const MidSection = React.forwardRef((props, ref) => {
         false
       );
 
+      // trying to remove resize btn
+
+      const resizeTags = copyEle.getElementsByClassName("resizeBtn");
+      while (resizeTags.length > 0) {
+        console.log("resizeTags", resizeTags[0]);
+        resizeTags[0].remove();
+      }
+
       const resizerTL = getResizer("top", "left");
       const resizerTR = getResizer("top", "right");
       const resizerBL = getResizer("bottom", "left");
@@ -411,6 +419,16 @@ const MidSection = React.forwardRef((props, ref) => {
 
         copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
       });
+      copyEle.addEventListener("focusout", function (e) {
+        copyEle.classList.remove("zIndex-two");
+        copyEle.style.border = "3px dotted gray";
+
+        // holderMenu.remove();
+        resizerTL.remove();
+        resizerTR.remove();
+        resizerBL.remove();
+        resizerBR.remove();
+      });
       copyEle.addEventListener("click", (e) => {
         e.stopPropagation();
         focuseddClassMaintain(e);
@@ -422,12 +440,16 @@ const MidSection = React.forwardRef((props, ref) => {
     }
 
     console.log(copyEle);
-    let midSec = document.querySelector(".drop_zone");
+    // let midSec = document.querySelector(".drop_zone");
+    let midSec = null;
 
     if (!midSec) {
       let targetParent = element;
       while (1) {
-        if (targetParent.classList.contains("midSection_container")) {
+        if (
+          targetParent.classList.contains("containerInput") ||
+          targetParent.classList.contains("midSection_container")
+        ) {
           targetParent = targetParent;
           break;
         } else {
@@ -2205,6 +2227,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 }
               };
               inputFieldContainer.onclick = (e) => {
+                e.stopPropagation();
                 focuseddClassMaintain(e);
                 if (e.ctrlKey) {
                   copyInput("align2");
@@ -2217,6 +2240,7 @@ const MidSection = React.forwardRef((props, ref) => {
               //   handleClicked("align2");
               //   setSidebar(true);
               // };
+
               const text = `${containerElement.raw_data}`;
 
               inputFieldContainer.innerHTML = text;
