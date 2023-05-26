@@ -481,8 +481,8 @@ const MidSection = React.forwardRef((props, ref) => {
           //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
           // left:
           //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          top: parseInt(holder?.style?.top.slice(0, -2)),
-          left: parseInt(holder?.style?.left.slice(0, -2)),
+          top: parseInt(holder.style.top.slice(0, -2)),
+          left: parseInt(holder.style.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
@@ -1994,6 +1994,7 @@ const MidSection = React.forwardRef((props, ref) => {
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
+              // top: containerElement.top - element.top + "px",
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
