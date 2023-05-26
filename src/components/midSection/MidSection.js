@@ -3485,7 +3485,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
         scaleField.style.height = "100%";
-        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.backgroundColor = "transparent";
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
@@ -3502,8 +3502,10 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
         let scale = document.createElement("iframe");
-        scale.style.width = "90%";
-        scale.style.height = "90%";
+        scale.style.width = "100%";
+        scale.style.height = "100%";
+        scale.style.position = "relative"
+        scale.style.zIndex = "-1"
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
