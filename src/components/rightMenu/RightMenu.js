@@ -28,8 +28,7 @@ import ContainerRigntSideBar from "./ContainerRightSidebar";
 
 import EmailRightSideBar from "./EmailRightSideBar";
 
-const RightMenu = () =>
-{
+const RightMenu = () => {
   const {
     isClicked,
     setIsClicked,
@@ -105,10 +104,8 @@ const RightMenu = () =>
   //     });
   // }
 
-  useEffect(() =>
-  {
-    if (isClicked.align2)
-    {
+  useEffect(() => {
+    if (isClicked.align2) {
       setIsClicked({
         ...isClicked,
         textfill2: false,
@@ -125,8 +122,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.image2)
-    {
+    if (isClicked.image2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -143,8 +139,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.table2)
-    {
+    if (isClicked.table2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -161,8 +156,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.signs2)
-    {
+    if (isClicked.signs2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -179,8 +173,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.calendar2)
-    {
+    if (isClicked.calendar2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -197,8 +190,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.dropdown2)
-    {
+    if (isClicked.dropdown2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -215,8 +207,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.iframe2)
-    {
+    if (isClicked.iframe2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -233,8 +224,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.scale2)
-    {
+    if (isClicked.scale2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -269,8 +259,7 @@ const RightMenu = () =>
         scale2: false,
       });
     }
-    if (isClicked.button2)
-    {
+    if (isClicked.button2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -287,8 +276,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.container2)
-    {
+    if (isClicked.container2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -304,8 +292,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-    if (isClicked.email2)
-    {
+    if (isClicked.email2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -322,7 +309,7 @@ const RightMenu = () =>
         newScale2: false,
       });
     }
-  }, [isClicked.align2, isClicked.image2, isClicked.table2, isClicked.signs2, isClicked.calendar2, isClicked.dropdown2, isClicked.iframe2, isClicked.scale2, isClicked.newScale2, isClicked.button2, isClicked.container2, isClicked.email2, isClicked, setIsClicked,]);
+  }, [isClicked.align2, isClicked.image2, isClicked.table2, isClicked.signs2, isClicked.calendar2, isClicked.dropdown2, isClicked.iframe2, isClicked.scale2, isClicked.button2, isClicked.container2, isClicked.email2, isClicked, setIsClicked,]);
 
   return (
     <>

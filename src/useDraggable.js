@@ -42,5 +42,5 @@ export default function useDraggable(el) {
             el.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
         }
     }, [isResizing, el, dx, dy]);
-
+    
 }

@@ -40,6 +40,7 @@
 }
 .leftMenu > img {
   width: fit-content;
+  width: -moz-fit-content;
   width: 30px;
   height: 30px;
   cursor: pointer;
