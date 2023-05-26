@@ -230,20 +230,13 @@ const ScaleRightSide = () => {
   }
   return (
     <>
-      <div className="d-flex justify-content-around">
+      <div className="">
         <button id="updateScale" onClick={showIframe}>
           Update
         </button>
-        <button id="setScale" onClick={showSetting}>
+        <button id="setScale" style={{marginLeft:"10px"}} onClick={showSetting}>
           Settings
         </button>
-        <Button
-          variant="secondary"
-          className="remove_button"
-          onClick={removeScale}
-        >
-          Remove Scale
-        </Button>
       </div>
       <div id="iframeRight">
         <h3>Update scale</h3>
@@ -321,11 +314,17 @@ const ScaleRightSide = () => {
             onChange={handleSelect}
             id="select"
             // onChange={handleDateMethod}
-            className="select border-0 bg-white rounded w-100 h-75 p-2 "
-            multiple
+            className="select border-0 bg-white rounded w-100 h-75 p-2"
+            //multiple
+            style={{marginBottom:'120px'}}
           >
-            <option value="select">Select Element</option>
-            {options}
+            {
+              filteredArray?.map((element, index) => (
+                <option key={index} value={element.type} id={element.id}>
+                 {`${element.type} ${element.id}`}
+                </option>
+                 ))
+            }
           </select>
         </div>
         <div>
@@ -339,18 +338,25 @@ const ScaleRightSide = () => {
             onChange={handleChange}
           />
         </div>
-
-        <div className="mt-2 text-center pt-5">
-          <Button variant="primary" className="px-5" onClick={scaleSubmit} 
-          style={{marginBottom:'10px'}}>
+        <Button variant="primary" style={{marginLeft:'80px', marginTop:'30px'}} className="px-5"     onClick={refreshIframe}>
+            refresh
+      </Button>
+        <div className="mt-2 text-center pt-3">
+          <Button variant="primary" className="px-5" onClick={scaleSubmit}
+          style={{marginRight:"10px"}} >
             Save
           </Button>
+
+          <Button
+          variant="secondary"
+          className="remove_button"
+          onClick={removeScale}
+        >
+          Remove Scale
+        </Button>
         </div>
         {/* iframe */}
       </div>
-      <Button variant="primary" style={{marginLeft:'80px', marginTop:'10px'}} className="px-5"     onClick={refreshIframe}>
-            refresh
-      </Button>
     </>
   );
 };
