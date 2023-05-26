@@ -122,11 +122,33 @@ const ScaleRightSide = () =>
   {
     const divIframeRight = document.getElementById('iframeRight');
     const divSettingRight = document.getElementById('settingRight');
+    const divInVisible = document.getElementById('invisible');
     divIframeRight.style.display = 'none';
     divSettingRight.style.display = 'block';
+    divInVisible.style.display = 'none';
   }
 
+  const showSingle = () =>
+  {
+    const divSingleRight = document.getElementById('singleScale');
+    const divMultiRight = document.getElementById('multiScale');
+    const divInVisible = document.getElementById('invisible');
+    divSingleRight.style.display = 'block';
+    divMultiRight.style.display = 'none';
+    divInVisible.style.display = 'block';
+    divSingleRight.style.marginTop = '10px'
+  }
 
+  const showMulti = () =>
+  {
+    const divSingleRight = document.getElementById('singleScale');
+    const divMultiRight = document.getElementById('multiScale');
+    const divInVisible = document.getElementById('invisible');
+    divSingleRight.style.display = 'none';
+    divMultiRight.style.display = 'block';
+    divInVisible.style.display = 'block';
+    divMultiRight.style.marginTop = '10px'
+  }
 
   const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
   console.log(iframeSrc, 'iframeSrc');
@@ -148,7 +170,7 @@ const ScaleRightSide = () =>
     });
   }
 
-  var newArray = excludeElementsWithAttributeValue(myArray, 'type', 'SCALE_INPUT');
+  var newArray = excludeElementsWithAttributeValue(myArray, 'type', 'NEW_SCALE_INPUT');
 
   const filteredArray = newArray?.filter(obj => !customId.includes(obj.id));
 
@@ -286,37 +308,24 @@ const ScaleRightSide = () =>
               className="range-color"
 
             />
-
           </div>
         )}
       </Row>
       <hr />
       <div id="settingRight" style={{ display: 'none' }}>
         <h3>Configurations</h3>
-        {/* iframe */}
-        <div>
-
-
-          {/* <Form.Control
-            type="text"
-            placeholder={`${decoded.details._id}_scl1`}
-            disabled
-            className="mb-4"
-          // id="iframe_src"
-          // onChange={handleChange}
-          /> */}
-
-          <select
-            onChange={handleSelect}
-            id="select"
-            // onChange={handleDateMethod}
-            className="select border-0 bg-white rounded w-100 h-75 p-2 "
-            multiple
-          >
-            <option value="select">Select Element</option>
-            {options}
-          </select>
-        </div>
+          <div id="settingSelect">
+            <select
+              onChange={handleSelect}
+              id="select"
+              // onChange={handleDateMethod}
+              className="select border-0 bg-white rounded w-100 h-75 p-2 "
+              multiple
+            >
+              <option value="select">Select Element</option>
+                {options}
+            </select>
+          </div>
         <div>
           <Form.Label>Scale Label</Form.Label>
           <Form.Control
@@ -329,9 +338,47 @@ const ScaleRightSide = () =>
           />
 
         </div>
+          <h4>Grouped Elements</h4>
+        <div style={{display: 'flex', gap: "10px", padding:'5px'}}>
+            <Button id="updateSingleScale" type='button' variant="secondary" onClick={showSingle}>Single Select</Button>
+            <Button type='button' variant="secondary" onClick={showMulti} >Multi Select</Button>
+        </div>
+        {/* iframe */}
+        <div>
 
+
+          {/* <Form.Control
+            type="text"
+            placeholder={`${decoded.details._id}_scl1`}
+            disabled
+            className="mb-4"
+          // id="iframe_src"
+          // onChange={handleChange}
+          /> */}
+        </div>
+        <div id="invisible">
+          <div id="singleScale" style={{padding: '10px', gap: "10px"}} className="select border-0 bg-white rounded w-100 h-75 p-2">
+              <p>group 1</p>
+              <p>group 2</p>
+              <p>group 3</p>
+              <p>group 4</p>
+          </div>
+
+          <div id="multiScale">
+            <select
+              onChange={handleSelect}
+              id="select"
+              // onChange={handleDateMethod}
+              className="select border-0 bg-white rounded w-100 h-75 p-2 "
+              multiple
+            >
+              <option value="select">Select Element</option>
+              {options}
+            </select>
+          </div>
+        </div>
         <div className="mt-2 text-center pt-5">
-          <Button variant="primary" className="px-5" onClick={scaleSubmit}>
+          <Button type='button' variant="primary" className="px-5" onClick={scaleSubmit}>
             Save
           </Button>
           <Button
