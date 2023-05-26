@@ -143,6 +143,17 @@ const dragStartScale = (e) => {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
   }
 };
+
+const dragStartNewScale = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "NEW_SCALE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+    //console.log("drag start fumb");
+  }
+};
+
 const dragStartButton = (e) => {
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "BUTTON_INPUT");
@@ -293,6 +304,7 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<IoScale />}
               title="Scale"
             />
+
             <NavButton
               dragStartFunc={dragStartButton}
               customFunc={() => handleDrop("button")}
@@ -304,6 +316,13 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop("email")}
               icon={<AiOutlineMail />}
               title="Email"
+            />
+
+            <NavButton
+              dragStartFunc={dragStartNewScale}
+              customFunc={() => handleDrop("newScale")}
+              icon={<IoScale />}
+              title="NewScale"
             />
 
             {/* test div */}

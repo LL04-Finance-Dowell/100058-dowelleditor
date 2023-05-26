@@ -15,6 +15,7 @@ const initialState = {
   scale: false,
   button: false,
   email: false,
+  newScale: false,
 };
 const initialState2 = {
   align2: false,
@@ -29,6 +30,7 @@ const initialState2 = {
   container2: false,
   button2: false,
   email2: false,
+  newScale2: false,
 };
 
 export const ContextProvider = ({ children }) => {

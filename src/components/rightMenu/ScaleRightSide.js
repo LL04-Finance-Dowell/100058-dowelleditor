@@ -161,8 +161,9 @@ const ScaleRightSide = () => {
     console.log(element.children[0]);
   }
 
-  const handleSelect = (event) => {
-    let selectField = document.getElementById("select");
+  const handleSelect = (event) =>
+  {
+    let selectField = document.getElementById('select');
     var selectedValues = {};
     const options = selectField.options;
 
@@ -230,11 +231,11 @@ const ScaleRightSide = () => {
   }
   return (
     <>
-      <div className="">
+      <div>
         <button id="updateScale" onClick={showIframe}>
           Update
         </button>
-        <button id="setScale" style={{marginLeft:"10px"}} onClick={showSetting}>
+        <button id="setScale" onClick={showSetting}>
           Settings
         </button>
       </div>

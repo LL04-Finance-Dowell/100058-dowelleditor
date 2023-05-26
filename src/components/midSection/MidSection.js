@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
@@ -165,6 +166,7 @@ const MidSection = React.forwardRef((props, ref) => {
           iframe2: false,
           button2: false,
           email2: false,
+          newScale2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -1906,6 +1908,140 @@ const MidSection = React.forwardRef((props, ref) => {
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+
+        if (element.type === "NEW_SCALE_INPUT")
+        {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          // const holderDIV = getHolderDIV(measure, pageNo);
+
+          let scaleField = document.createElement("div");
+          scaleField.className = "scaleInput";
+          scaleField.id = id;
+          scaleField.style.width = "100%";
+          scaleField.style.height = "100%";
+          scaleField.style.backgroundColor = "#dedede";
+          scaleField.style.borderRadius = "0px";
+          scaleField.style.outline = "0px";
+          scaleField.style.overflow = "overlay";
+          // iframeField.innerHTML = "iframe";
+          scaleField.style.position = "absolute";
+
+          if (element.data == "scale here")
+          {
+            scaleField.innerHTML = element.data;
+          }
+          if (
+            element.data != "scale here" &&
+            decoded.details.action === "template"
+          )
+          {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () =>
+            {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          if (
+            element.details === "Template scale" &&
+            decoded.details.action === "document"
+          )
+          {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+
+            Axios.post(
+              "https://100035.pythonanywhere.com/api/nps_create_instance",
+              {
+                scale_id: element.scaleId,
+              }
+            )
+              .then((res) =>
+              {
+                setIsLoading(false);
+                console.log(res, "scaleData");
+                const lastInstance = res.data.response.instances.slice(-1)[0];
+                const lastValue = Object.values(lastInstance)[0];
+                iframe.src = lastValue;
+                console.log(lastValue);
+              })
+              .catch((err) =>
+              {
+                setIsLoading(false);
+                console.log(err);
+              });
+            scaleField.addEventListener("resize", () =>
+            {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          if (
+            element.details === "Document instance" &&
+            decoded.details.action === "document"
+          )
+          {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () =>
+            {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          const scaleIdHolder = document.createElement("div");
+
+          scaleIdHolder.className = "scaleId_holder";
+          scaleIdHolder.innerHTML = element.scaleId;
+          scaleIdHolder.style.display = "none";
+
+          const labelHolder = document.createElement("div");
+          labelHolder.className = "label_holder";
+          labelHolder.style.display = "none";
+
+          scaleField.onclick = (e) =>
+          {
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
+            handleClicked("newScale2");
+            setSidebar(true);
+          };
+
+          holderDIV.append(scaleField);
+          holderDIV.append(scaleIdHolder);
+          holderDIV.append(labelHolder);
+
+          document
+            .getElementsByClassName("midSection_container")
+          [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         // Limon
         if (element.type === "DROPDOWN_INPUT") {
           const measure = {
@@ -3563,6 +3699,197 @@ const MidSection = React.forwardRef((props, ref) => {
             copyInput("scale2");
           }
           handleClicked("scale2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(scaleField);
+        holderDIV.append(scaleIdHolder);
+        holderDIV.append(labelHolder);
+      }
+
+      else if (
+        typeOfOperation === "NEW_SCALE_INPUT" &&
+        decoded.details.action === "template"
+      )
+      {
+        setIsLoading(true);
+
+        let scaleField = document.createElement("div");
+        scaleField.className = "scaleInput";
+        scaleField.style.width = "100%";
+        scaleField.style.height = "100%";
+        scaleField.style.backgroundColor = "#fff";
+        scaleField.style.borderRadius = "0px";
+        scaleField.style.outline = "0px";
+        scaleField.style.overflow = "overlay";
+        // scaleField.innerHTML = 'iframe';
+        scaleField.style.position = "absolute";
+        // scaleField.innerText = "scale here";
+
+        const scales = document.getElementsByClassName("scaleInput");
+        if (scales.length)
+        {
+          const s = scales.length;
+          scaleField.id = `scl${s + 1}`;
+        } else
+        {
+          scaleField.id = "scl1";
+        }
+
+        let scale = document.createElement("iframe");
+        scale.style.width = "90%";
+        scale.style.height = "90%";
+        const scaleIdHolder = document.createElement("div");
+        scaleIdHolder.className = "scaleId_holder";
+        scaleIdHolder.style.display = "none";
+
+        const labelHolder = document.createElement("div");
+        labelHolder.className = "label_holder";
+        labelHolder.style.display = "none";
+
+        scaleField.addEventListener("resize", () =>
+        {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
+
+        scaleField.append(scale);
+        // Axios.post(
+        //   "https://100035.pythonanywhere.com/api/nps_settings_create/",
+        //   {
+        //     username: "nake",
+        //     orientation: "",
+        //     scalecolor: "",
+        //     roundcolor: "",
+        //     fontcolor: "",
+        //     fomat: "",
+        //     time: "00",
+        //     name: ``,
+        //     left: "",
+        //     right: "",
+        //     center: "",
+        //   }
+        // )
+        //   .then((res) =>
+        //   {
+        //     setIsLoading(false);
+        //     console.log(res.data, "scaleData");
+        //     setScaleData(res.data);
+        //     const success = res.data.success;
+        //     var successObj = JSON.parse(success);
+        //     const id = successObj.inserted_id;
+        //     console.log(res.scale_urls, "stateScale");
+        //     if (id.length)
+        //     {
+        //       console.log(id, "id");
+        //       // setScaleId(id);
+        //       scaleIdHolder.innerHTML = id;
+        //     }
+        //     scale.src = res.data.scale_urls;
+        //   })
+        //   .catch((err) =>
+        //   {
+            setIsLoading(false);
+        //     console.log(err);
+        //   });
+
+        const copyScales = () =>
+        {
+          // if (typeOfOperation === "IMAGE_INPUT") {
+          const element = document.querySelector(".focussedd");
+          // console.log(element);
+          let counter = 1;
+          const copyEle = element.cloneNode(true);
+          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+          // parseInt(holder.style.top.slice(0, -2))
+          copyEle.classList.remove("focussedd")
+          copyEle.firstChild.classList.remove("focussed")
+          // copyEle.classList.add("imageInput")
+          console.log(copyEleTop)
+          copyEle.onfocus = () =>
+          {
+            copyEle.style.border = "1px solid rgb(255 191 0)";
+          }
+          copyEle.onblur = () =>
+          {
+            copyEle.style.border = "1px dotted black";
+          }
+          if (copyEle)
+          {
+            copyEle.style.top = copyEleTop;
+            copyEle.style.border = "1px dotted black";
+
+
+            copyEle.onmousedown = copyEle.addEventListener(
+              "mousedown",
+              (event) =>
+              {
+                dragElementOverPage(event);
+              },
+              false
+            );
+
+
+            const resizerTL = getResizer("top", "left");
+            const resizerTR = getResizer("top", "right");
+            const resizerBL = getResizer("bottom", "left");
+            const resizerBR = getResizer("bottom", "right");
+            // parseInt(holder.style.top.slice(0, -2))
+
+
+
+
+            copyEle.addEventListener("focus", function (e)
+            {
+              // holderDIV.classList.add("focussedd");
+              copyEle.classList.add("zIndex-two");
+              copyEle.style.border = "2px solid orange";
+              // holderDIV.append(holderMenu);
+
+              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+            });
+            copyEle.addEventListener("click", (e) =>
+            {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              // imageField.classList.add("focussed");
+              handleClicked("image2", "container2");
+              // copyImage()
+              // resizing = true;
+              setSidebar(true);
+            })
+          }
+          // console.log(copyEle)
+          copyEle.id += counter;
+          midSec.appendChild(copyEle);
+          console.log("coping", copyEle)
+          // }
+        }
+
+
+        scaleField.addEventListener("click", (event) =>
+        {
+          // console.log("clicked it")
+          // copyImage()
+          // setSidebar(true)
+          if (event.ctrlKey)
+          {
+            console.log("clicked it")
+            copyScales()
+            // setSidebar(true)
+          }
+          else
+          {
+            console.log("Faild to copy")
+          }
+        })
+
+        scaleField.onclick = (e) =>
+        {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          handleClicked("newScale2");
           setSidebar(true);
         };
 
