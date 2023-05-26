@@ -237,7 +237,7 @@ const ScaleRightSide = () => {
         </button>
         <button id="setScale" onClick={showSetting}>
           Settings
-        </Button>
+        </button>
       </div>
       <div id="iframeRight">
         <h3>Update scale</h3>

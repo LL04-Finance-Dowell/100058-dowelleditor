@@ -250,6 +250,10 @@ const ScaleRightSide = () =>
   {
     e.target.focus();
   };
+  const refreshIframe = () =>{
+    //Assigning the src of iframe to itself to refresh it
+    document.getElementById('iframeId').src = document.getElementById('iframeId').src
+  }
 
   return (
     <>
@@ -319,11 +323,17 @@ const ScaleRightSide = () =>
               onChange={handleSelect}
               id="select"
               // onChange={handleDateMethod}
-              className="select border-0 bg-white rounded w-100 h-75 p-2 "
-              multiple
+              className="select border-0 bg-white rounded w-100 h-75 p-2"
+              //multiple
+              style={{marginBottom:'120px'}}
             >
-              <option value="select">Select Element</option>
-                {options}
+              {
+                filteredArray?.map((element, index) => (
+                  <option key={index} value={element.type} id={element.id}>
+                  {`${element.type} ${element.id}`}
+                  </option>
+                  ))
+              }
             </select>
           </div>
         <div>
@@ -369,27 +379,37 @@ const ScaleRightSide = () =>
               onChange={handleSelect}
               id="select"
               // onChange={handleDateMethod}
-              className="select border-0 bg-white rounded w-100 h-75 p-2 "
-              multiple
+              className="select border-0 bg-white rounded w-100 h-75 p-2"
+              //multiple
+              style={{marginBottom:'120px'}}
             >
-              <option value="select">Select Element</option>
-              {options}
+              {
+                filteredArray?.map((element, index) => (
+                  <option key={index} value={element.type} id={element.id}>
+                  {`${element.type} ${element.id}`}
+                  </option>
+                  ))
+              }
             </select>
           </div>
         </div>
-        <div className="mt-2 text-center pt-5">
-          <Button type='button' variant="primary" className="px-5" onClick={scaleSubmit}>
+        <Button variant="primary" style={{marginLeft:'80px', marginTop:'30px'}} className="px-5"     onClick={refreshIframe}>
+            refresh
+        </Button>
+        <div className="mt-2 text-center pt-3">
+          <Button variant="primary" className="px-5" onClick={scaleSubmit}
+          style={{marginRight:"10px"}} >
             Save
           </Button>
-          <Button
-            variant="secondary"
-            className="px-5 remove_button"
-            onClick={removeScale}
-          >
-            Remove Scale
-          </Button>
-        </div>
 
+          <Button
+          variant="secondary"
+          className="remove_button"
+          onClick={removeScale}
+        >
+          Remove Scale
+        </Button>
+        </div>
         {/* iframe */}
       </div>
     </>
