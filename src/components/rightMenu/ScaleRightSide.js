@@ -338,9 +338,11 @@ const ScaleRightSide = () => {
             onChange={handleChange}
           />
         </div>
-        <Button variant="primary" style={{marginLeft:'80px', marginTop:'30px'}} className="px-5"     onClick={refreshIframe}>
+        <div className="mt-2 text-center pt-3">
+        <Button variant="primary" className="px-5"     onClick={refreshIframe}>
             refresh
       </Button>
+      </div>
         <div className="mt-2 text-center pt-3">
           <Button variant="primary" className="px-5" onClick={scaleSubmit}
           style={{marginRight:"10px"}} >
