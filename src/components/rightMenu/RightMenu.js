@@ -241,8 +241,7 @@ const RightMenu = () => {
         newScale2: false,
       });
     }
-    if (isClicked.newScale2)
-    {
+    if (isClicked.newScale2) {
       setIsClicked({
         ...isClicked,
         align2: false,
@@ -309,7 +308,19 @@ const RightMenu = () => {
         newScale2: false,
       });
     }
-  }, [isClicked.align2, isClicked.image2, isClicked.table2, isClicked.signs2, isClicked.calendar2, isClicked.dropdown2, isClicked.iframe2, isClicked.scale2, isClicked.button2, isClicked.container2, isClicked.email2, isClicked, setIsClicked,]);
+  }, [
+    isClicked.align2,
+    isClicked.image2,
+    isClicked.table2,
+    isClicked.signs2,
+    isClicked.calendar2,
+    isClicked.dropdown2,
+    isClicked.iframe2,
+    isClicked.scale2,
+    isClicked.button2,
+    isClicked.container2,
+    isClicked.email2,
+  ]);
 
   return (
     <>
