@@ -3618,6 +3618,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scale.style.height = "100%";
         scale.style.position = "relative"
         scale.style.zIndex = "-1"
+        
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
