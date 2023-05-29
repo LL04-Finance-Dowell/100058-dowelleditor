@@ -375,8 +375,14 @@ const MidSection = React.forwardRef((props, ref) => {
     console.log("copy_element", element);
     let counter = 1;
     const copyEle = element.cloneNode(true);
-    const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
+    const rect = element.getBoundingClientRect();
+    console.log("rect from midsection", rect);
+    const copyEleTop =
+      parseInt(copyEle.style.top.slice(0, -2)) +
+      parseInt(rect.height) +
+      20 +
+      "px";
+    console.log("clickHandler", clickHandler);
     // parseInt(holder.style.top.slice(0, -2))
     copyEle.classList.remove("focussedd");
     copyEle.firstChild.classList.remove("focussed");
@@ -434,8 +440,52 @@ const MidSection = React.forwardRef((props, ref) => {
       copyEle.addEventListener("click", (e) => {
         e.stopPropagation();
         focuseddClassMaintain(e);
-        // imageField.classList.add("focussed");
-        handleClicked(clickHandler, "container2");
+        console.log("find classlist", e.target.classList[0]);
+        if (
+          e.target?.parentElement?.parentElement.classList.contains(
+            "containerInput"
+          )
+        ) {
+          //
+          let type = "";
+          const containerClassName = e.target.classList[0];
+          switch (containerClassName) {
+            case "dateInput":
+              type = "calendar2";
+              break;
+            case "textInput":
+              type = "align2";
+              break;
+            case "imageInput":
+              type = "image2";
+              break;
+            case "signInput":
+              type = "signs2";
+              break;
+            case "iframeInput":
+              type = "iframe2";
+              break;
+            case "scaleInput":
+              type = "scale2";
+              break;
+            case "buttonInput":
+              type = "button2";
+              break;
+            case "dropdownInput":
+              type = "dropdown2";
+              break;
+            case "emailButton":
+              type = "email2";
+              break;
+            default:
+              type = "";
+          }
+          //
+          handleClicked(type, "container2");
+          console.log("inside if", type);
+        } else {
+          handleClicked(clickHandler);
+        }
 
         setSidebar(true);
       });
@@ -462,11 +512,19 @@ const MidSection = React.forwardRef((props, ref) => {
     }
     // console.log("mid sec", midSec)
     copyEle.id += counter;
-    midSec.appendChild(copyEle);
+    if (
+      parseInt(copyEle.style.top.slice(0, -2)) +
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
+      1122
+    ) {
+      midSec.appendChild(copyEle);
+    }
 
     copyEle.onclick = (clickHandler2) => {
       if (clickHandler2.ctrlKey) {
-        copyInput(clickHandler, "container2");
+        copyInput(clickHandler);
       }
     };
   };
@@ -787,99 +845,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //     event.target.appendChild(dragged);
   //   }
   // });
-
-  // table_dropdown_focuseddClassMaintain
-  // function table_dropdown_focuseddClassMaintain(e) {
-  //   console.log("tabletargettest", e.target);
-
-  //   if (
-  //     !e.target?.classList?.contains("addImageButtonInput") &&
-  //     !e.target?.classList?.contains("addSignButtonInput")
-  //   ) {
-  //     let allDiv = document.getElementsByClassName("focussedd");
-  //     for (let i = 0; i < allDiv.length; i++) {
-  //       allDiv[i].classList.remove("focussedd");
-  //     }
-
-  //     let findFocusElement = e.target.parentElement;
-
-  //     while (1) {
-  //       if (findFocusElement.classList.contains("holderDIV")) {
-  //         findFocusElement.classList.add("focussedd");
-  //         break;
-  //       } else {
-  //         findFocusElement = findFocusElement.parentElement;
-  //       }
-  //     }
-
-  //     // if (e.target.parentElement.classList.contains("holderDIV")) {
-  //     //   e.target.parentElement.classList.add("focussedd");
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.classList.contains("holderDIV")
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.classList.add("focussedd");
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // }
-  //     let focussedDiv = document.getElementsByClassName("focussed");
-  //     for (let i = 0; i < focussedDiv.length; i++) {
-  //       focussedDiv[i].classList.remove("focussed");
-  //     }
-  //     if (e.target.classList.contains("dropdownInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("dropdownInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("tableInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("tableInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("iframeInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("iframeInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("scaleInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("scaleInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     // e.target.classList.add("focussed");
-  //   }
-  // }
-
-  // table ondrop handle after retrieve
 
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
@@ -1909,8 +1874,7 @@ const MidSection = React.forwardRef((props, ref) => {
             ?.append(holderDIV);
         }
 
-        if (element.type === "NEW_SCALE_INPUT")
-        {
+        if (element.type === "NEW_SCALE_INPUT") {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -1935,22 +1899,19 @@ const MidSection = React.forwardRef((props, ref) => {
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
-          if (element.data == "scale here")
-          {
+          if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
           }
           if (
             element.data != "scale here" &&
             decoded.details.action === "template"
-          )
-          {
+          ) {
             const iframe = document.createElement("iframe");
             iframe.style.width = "90%";
             iframe.style.height = "90%";
             iframe.src = element.scale_url;
 
-            scaleField.addEventListener("resize", () =>
-            {
+            scaleField.addEventListener("resize", () => {
               iframe.style.width = scaleField.clientWidth + "px";
               iframe.style.height = scaleField.clientHeight + "px";
             });
@@ -1961,8 +1922,7 @@ const MidSection = React.forwardRef((props, ref) => {
           if (
             element.details === "Template scale" &&
             decoded.details.action === "document"
-          )
-          {
+          ) {
             const iframe = document.createElement("iframe");
             iframe.style.width = "90%";
             iframe.style.height = "90%";
@@ -1973,8 +1933,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 scale_id: element.scaleId,
               }
             )
-              .then((res) =>
-              {
+              .then((res) => {
                 setIsLoading(false);
                 console.log(res, "scaleData");
                 const lastInstance = res.data.response.instances.slice(-1)[0];
@@ -1982,13 +1941,11 @@ const MidSection = React.forwardRef((props, ref) => {
                 iframe.src = lastValue;
                 console.log(lastValue);
               })
-              .catch((err) =>
-              {
+              .catch((err) => {
                 setIsLoading(false);
                 console.log(err);
               });
-            scaleField.addEventListener("resize", () =>
-            {
+            scaleField.addEventListener("resize", () => {
               iframe.style.width = scaleField.clientWidth + "px";
               iframe.style.height = scaleField.clientHeight + "px";
             });
@@ -1999,15 +1956,13 @@ const MidSection = React.forwardRef((props, ref) => {
           if (
             element.details === "Document instance" &&
             decoded.details.action === "document"
-          )
-          {
+          ) {
             const iframe = document.createElement("iframe");
             iframe.style.width = "90%";
             iframe.style.height = "90%";
             iframe.src = element.scale_url;
 
-            scaleField.addEventListener("resize", () =>
-            {
+            scaleField.addEventListener("resize", () => {
               iframe.style.width = scaleField.clientWidth + "px";
               iframe.style.height = scaleField.clientHeight + "px";
             });
@@ -2025,8 +1980,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHolder.className = "label_holder";
           labelHolder.style.display = "none";
 
-          scaleField.onclick = (e) =>
-          {
+          scaleField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
@@ -2039,7 +1993,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -3640,8 +3594,8 @@ const MidSection = React.forwardRef((props, ref) => {
         let scale = document.createElement("iframe");
         scale.style.width = "100%";
         scale.style.height = "100%";
-        scale.style.position = "relative"
-        scale.style.zIndex = "-1"
+        scale.style.position = "relative";
+        scale.style.zIndex = "-1";
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
@@ -3705,13 +3659,10 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(scaleField);
         holderDIV.append(scaleIdHolder);
         holderDIV.append(labelHolder);
-      }
-
-      else if (
+      } else if (
         typeOfOperation === "NEW_SCALE_INPUT" &&
         decoded.details.action === "template"
-      )
-      {
+      ) {
         setIsLoading(true);
 
         let scaleField = document.createElement("div");
@@ -3727,12 +3678,10 @@ const MidSection = React.forwardRef((props, ref) => {
         // scaleField.innerText = "scale here";
 
         const scales = document.getElementsByClassName("scaleInput");
-        if (scales.length)
-        {
+        if (scales.length) {
           const s = scales.length;
           scaleField.id = `scl${s + 1}`;
-        } else
-        {
+        } else {
           scaleField.id = "scl1";
         }
 
@@ -3747,8 +3696,7 @@ const MidSection = React.forwardRef((props, ref) => {
         labelHolder.className = "label_holder";
         labelHolder.style.display = "none";
 
-        scaleField.addEventListener("resize", () =>
-        {
+        scaleField.addEventListener("resize", () => {
           scale.style.width = scaleField.clientWidth + "px";
           scale.style.height = scaleField.clientHeight + "px";
         });
@@ -3789,47 +3737,41 @@ const MidSection = React.forwardRef((props, ref) => {
         //   })
         //   .catch((err) =>
         //   {
-            setIsLoading(false);
+        setIsLoading(false);
         //     console.log(err);
         //   });
 
-        const copyScales = () =>
-        {
+        const copyScales = () => {
           // if (typeOfOperation === "IMAGE_INPUT") {
           const element = document.querySelector(".focussedd");
           // console.log(element);
           let counter = 1;
           const copyEle = element.cloneNode(true);
-          const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
 
           // parseInt(holder.style.top.slice(0, -2))
-          copyEle.classList.remove("focussedd")
-          copyEle.firstChild.classList.remove("focussed")
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
           // copyEle.classList.add("imageInput")
-          console.log(copyEleTop)
-          copyEle.onfocus = () =>
-          {
+          console.log(copyEleTop);
+          copyEle.onfocus = () => {
             copyEle.style.border = "1px solid rgb(255 191 0)";
-          }
-          copyEle.onblur = () =>
-          {
+          };
+          copyEle.onblur = () => {
             copyEle.style.border = "1px dotted black";
-          }
-          if (copyEle)
-          {
+          };
+          if (copyEle) {
             copyEle.style.top = copyEleTop;
             copyEle.style.border = "1px dotted black";
 
-
             copyEle.onmousedown = copyEle.addEventListener(
               "mousedown",
-              (event) =>
-              {
+              (event) => {
                 dragElementOverPage(event);
               },
               false
             );
-
 
             const resizerTL = getResizer("top", "left");
             const resizerTR = getResizer("top", "right");
@@ -3837,11 +3779,7 @@ const MidSection = React.forwardRef((props, ref) => {
             const resizerBR = getResizer("bottom", "right");
             // parseInt(holder.style.top.slice(0, -2))
 
-
-
-
-            copyEle.addEventListener("focus", function (e)
-            {
+            copyEle.addEventListener("focus", function (e) {
               // holderDIV.classList.add("focussedd");
               copyEle.classList.add("zIndex-two");
               copyEle.style.border = "2px solid orange";
@@ -3849,8 +3787,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
               copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
             });
-            copyEle.addEventListener("click", (e) =>
-            {
+            copyEle.addEventListener("click", (e) => {
               e.stopPropagation();
               focuseddClassMaintain(e);
               // imageField.classList.add("focussed");
@@ -3858,35 +3795,29 @@ const MidSection = React.forwardRef((props, ref) => {
               // copyImage()
               // resizing = true;
               setSidebar(true);
-            })
+            });
           }
           // console.log(copyEle)
           copyEle.id += counter;
           midSec.appendChild(copyEle);
-          console.log("coping", copyEle)
+          console.log("coping", copyEle);
           // }
-        }
+        };
 
-
-        scaleField.addEventListener("click", (event) =>
-        {
+        scaleField.addEventListener("click", (event) => {
           // console.log("clicked it")
           // copyImage()
           // setSidebar(true)
-          if (event.ctrlKey)
-          {
-            console.log("clicked it")
-            copyScales()
+          if (event.ctrlKey) {
+            console.log("clicked it");
+            copyScales();
             // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
           }
-          else
-          {
-            console.log("Faild to copy")
-          }
-        })
+        });
 
-        scaleField.onclick = (e) =>
-        {
+        scaleField.onclick = (e) => {
           e.stopPropagation();
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
