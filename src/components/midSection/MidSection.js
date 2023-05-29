@@ -372,17 +372,17 @@ const MidSection = React.forwardRef((props, ref) => {
   const copyInput = (clickHandler) => {
     // if (typeOfOperation === "IMAGE_INPUT") {
     const element = document.querySelector(".focussedd");
-    console.log("copy_element", element);
+    // console.log("copy_element", element);
     let counter = 1;
     const copyEle = element.cloneNode(true);
     const rect = element.getBoundingClientRect();
-    console.log("rect from midsection", rect);
+    // console.log("rect from midsection", rect);
     const copyEleTop =
       parseInt(copyEle.style.top.slice(0, -2)) +
       parseInt(rect.height) +
       20 +
       "px";
-    console.log("clickHandler", clickHandler);
+    // console.log("clickHandler", clickHandler);
     // parseInt(holder.style.top.slice(0, -2))
     copyEle.classList.remove("focussedd");
     copyEle.firstChild.classList.remove("focussed");
@@ -491,7 +491,7 @@ const MidSection = React.forwardRef((props, ref) => {
       });
     }
 
-    console.log(copyEle);
+    // console.log(copyEle);
     // let midSec = document.querySelector(".drop_zone");
     let midSec = null;
 
