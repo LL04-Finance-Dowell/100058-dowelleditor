@@ -210,12 +210,14 @@ const myArray = Object.values(data)[0];
   };
 
   const refreshIframe = () =>{
-    const scaleField = document.querySelector('.focussed');
-    const iframe = scaleField.firstElementChild
-    iframe.setAttribute("key", iframeKey);
-    iframe.setAttribute("id", "iframeId");
-    //console.log(iframe)
-    document.getElementById('iframeId').src = document.getElementById('iframeId').src
+    
+    const focusseddElmnt = document.querySelector('.focussedd');
+    if (focusseddElmnt.classList.contains('holderDIV'))
+    {
+      var container = document.querySelector('.focussedd')
+      var content = container.innerHTML
+      container.innerHTML = content
+    }
   }
 
   const handleBorderColorChange = (e) =>
