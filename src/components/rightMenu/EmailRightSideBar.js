@@ -4,10 +4,21 @@ import React, { useEffect, useState } from "react";
 import { Row, Button } from "react-bootstrap";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 // import 'react-toastify/dist/ReactToastify.css';
 
-const EmailRightSideBar = () =>
-{
+
+
+
+const EmailRightSideBar = () => {
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    var decoded = jwt_decode(token);
+    const actionName = decoded?.details?.action;
+
+
     const [borderSize, setBorderSize] = useState(
         Number(localStorage.getItem("borderSize")) || 0
     );
@@ -32,27 +43,21 @@ const EmailRightSideBar = () =>
     // });
     const [isChecked, setIsChecked] = useState(false);
 
-    function removeContainer()
-    {
+    function removeContainer() {
         // document.querySelector('.focussedd').remove();
-        if (document.querySelector(".focussedd").classList.contains("dropp"))
-        {
-            if (document.querySelector(".focussedd").hasChildNodes())
-            {
+        if (document.querySelector(".focussedd").classList.contains("dropp")) {
+            if (document.querySelector(".focussedd").hasChildNodes()) {
                 const childLength =
                     document.querySelector(".focussedd").children.length;
-                for (let i = 0; i < childLength; i++)
-                {
+                for (let i = 0; i < childLength; i++) {
                     document.querySelector(".focussedd").firstElementChild.remove();
                 }
             }
-        } else
-        {
+        } else {
             document.querySelector(".focussedd").remove();
         }
     }
-    const handleBorderSizeChange = (e) =>
-    {
+    const handleBorderSizeChange = (e) => {
         setBorderSize(e.target.value);
 
         const box = document.getElementsByClassName("focussedd")[0];
@@ -60,57 +65,55 @@ const EmailRightSideBar = () =>
 
     };
 
-    const handleBorderColorChange = (e) =>
-    {
+    const handleBorderColorChange = (e) => {
         setBorderColor(e.target.value);
         const box = document.getElementsByClassName("focussedd")[0];
         box.style.borderColor = `${borderColor}`;
 
     };
-    const handleRangeBlur = (e) =>
-    {
+    const handleRangeBlur = (e) => {
         e.target.focus();
     };
 
-    // const handleSubmit = (e) =>
-    // {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    //     const formData = {
-    //         topic: "EditorMailComponent",
-    //         toName: toName,
-    //         fromName: fromName,
-    //         toEmail: toEmail,
-    //         fromEmail: fromEmail,
-    //         subject: subject,
-    //         email_body: message,
-    //     };
-    //     // Handle validations
-    //     Axios.post(
-    //         "https://100085.pythonanywhere.com/api/editor-component/",
-    //         formData
-    //     ).then((response) =>
-    //     {
-    //         console.log(response);
-    //     });
-    //     //alert("Mail sent!");
-    //     console.log(formData);
-    //     // setEmailInfo({
-    //     //     name: "",
-    //     //     name1: "",
-    //     //     email: "",
-    //     //     email1: "",
-    //     //     subject: "",
-    //     //     message: "",
-    //     // });
-    //     setMessage("");
-    //     setSubject("");
-    //     setToEmail("");
-    //     setToName("");
-    //     setFromName("");
-    //     setFromEmail("");
+        const formData = {
+            topic: "EditorMailComponent",
+            toName: toName,
+            fromName: fromName,
+            toEmail: toEmail,
+            fromEmail: fromEmail,
+            subject: subject,
+            email_body: message,
+        };
+        // Handle validations
+        axios.post(
+            "https://100085.pythonanywhere.com/api/editor-component/",
+            formData
+        ).then((response) => {
+            console.log(response);
+            toast.success("Email has been sent");
 
-    // };
+        });
+        //alert("Mail sent!");
+        console.log(formData);
+        // setEmailInfo({
+        //     name: "",
+        //     name1: "",
+        //     email: "",
+        //     email1: "",
+        //     subject: "",
+        //     message: "",
+        // });
+        setMessage("");
+        setSubject("");
+        setToEmail("");
+        setToName("");
+        setFromName("");
+        setFromEmail("");
+
+    };
     // const handleChange = (event) =>
     // {
     //     const { name, value } = event.target;
@@ -187,69 +190,68 @@ const EmailRightSideBar = () =>
     //     }
     // }, [isChecked]);
 
-    const handleRadioChange = (event) =>
-    {
-        setIsChecked(event.target.checked);
+    // const handleRadioChange = (event) =>
+    // {
+    //     setIsChecked(event.target.checked);
 
-        if (event.target.checked)
-        {
-            const formData = {
-                topic: "EditorMailComponent",
-                toName: toName,
-                fromName: fromName,
-                toEmail: toEmail,
-                fromEmail: fromEmail,
-                subject: subject,
-                email_body: message,
-            };
+    //     if (event.target.checked)
+    //     {
+    //         const formData = {
+    //             topic: "EditorMailComponent",
+    //             toName: toName,
+    //             fromName: fromName,
+    //             toEmail: toEmail,
+    //             fromEmail: fromEmail,
+    //             subject: subject,
+    //             email_body: message,
+    //         };
 
-            // Check if the form is valid
-            const form = document.getElementById("myForm");
-            if (form.checkValidity())
-            {
-                // Make the POST request using Axios
-                axios
-                    .post("https://100085.pythonanywhere.com/api/editor-component/", formData)
-                    .then((response) =>
-                    {
-                        // Handle the response data
-                        console.log("POST request successful:", response.data);
-                        toast.success("Post request successful!");
+    //         // Check if the form is valid
+    //         const form = document.getElementById("myForm");
+    //         if (form.checkValidity())
+    //         {
+    //             // Make the POST request using Axios
+    //             axios
+    //                 .post("https://100085.pythonanywhere.com/api/editor-component/", formData)
+    //                 .then((response) =>
+    //                 {
+    //                     // Handle the response data
+    //                     console.log("POST request successful:", response.data);
+    //                     toast.success("Post request successful!");
 
-                        // Reset isChecked after 2 seconds
-                        setTimeout(() =>
-                        {
-                            setIsChecked(false);
-                        }, 2000);
-                    })
-                    .catch((error) =>
-                    {
-                        // Handle the error
-                        console.error("Error making POST request:", error);
-                        toast.error("Error making the post request!", error);
+    //                     // Reset isChecked after 2 seconds
+    //                     setTimeout(() =>
+    //                     {
+    //                         setIsChecked(false);
+    //                     }, 2000);
+    //                 })
+    //                 .catch((error) =>
+    //                 {
+    //                     // Handle the error
+    //                     console.error("Error making POST request:", error);
+    //                     toast.error("Error making the post request!", error);
 
-                        // Reset isChecked after 2 seconds
-                        setTimeout(() =>
-                        {
-                            setIsChecked(false);
-                        }, 2000);
-                    });
-            } else
-            {
-                // Display an alert if the form is invalid
-                alert("Please fill in all the required fields.");
-            }
-        }
-        setMessage("");
-        setSubject("");
-        setToEmail("");
-        setToName("");
-        setFromName("");
-        setFromEmail("");
-    };
+    //                     // Reset isChecked after 2 seconds
+    //                     setTimeout(() =>
+    //                     {
+    //                         setIsChecked(false);
+    //                     }, 2000);
+    //                 });
+    //         } else
+    //         {
+    //             // Display an alert if the form is invalid
+    //             alert("Please fill in all the required fields.");
+    //         }
+    //     }
+    //     setMessage("");
+    //     setSubject("");
+    //     setToEmail("");
+    //     setToName("");
+    //     setFromName("");
+    //     setFromEmail("");
+    // };
 
-    useEffect(() =>
-    {
+    useEffect(() => {
 
         localStorage.setItem("borderSize", borderSize === "0")
         localStorage.setItem("borderColor", borderColor === "black")
@@ -324,10 +326,20 @@ const EmailRightSideBar = () =>
                         required
                     />
 
-                    {/* <button type="submit" style={{ marginBottom: "10px", backgroundColor: "#007bff", color: "#fff", border: "none", padding: "10px 20px", width: "100%", }}>
-                        Send
-                    </button> */}
-                    <label>
+                    <button
+                        type="submit"
+                        style={{
+                            marginBottom: "10px",
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+                            border: "none", padding: "10px 20px", width: "100%",
+                            visibility: actionName == "document" ? "visible" : "hidden"
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Send Email
+                    </button>
+                    {/* <label>
                         <input
                             type="radio"
                             checked={isChecked}
@@ -336,7 +348,7 @@ const EmailRightSideBar = () =>
                         // onChange={() => setIsChecked(!isChecked)}
                         />
                         Send Email
-                    </label>
+                    </label> */}
                 </form>
                 <ToastContainer size={5} />
 
