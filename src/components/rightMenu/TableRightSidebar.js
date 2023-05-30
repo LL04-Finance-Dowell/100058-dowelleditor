@@ -538,26 +538,26 @@ const TableRightSidebar = () => {
       var cells = tablee.getElementsByTagName("td");
 
       for (var i = 0; i < cells.length; i++) {
-        cells[i].onmouseover = function (e) {
+        cells[i].onmousedown = function (e) {
           e.preventDefault();
           if (e.target.classList.contains("dropp"))
             e.target.classList.add("cells_menu");
         };
-        cells[i].onmouseleave = function (e) {
-          e.preventDefault();
-          var notes = null;
-          for (var i = 0; i < e.target.childNodes.length; i++) {
-            if (e.target.childNodes[i].className == "table_menu_update") {
-              notes = e.target.childNodes[i];
-              break;
-            }
-          }
-          if (notes) e.target.removeChild(notes);
-          e.target.classList.remove("cells_menu");
-          const editableTable = findEditableTable();
-          editableTable.parentElement.classList.remove("over_flow_maintainer");
-          focussedDiv.style.border = "2px solid orange";
-        };
+        // cells[i].onmouseleave = function (e) {
+        //   e.preventDefault();
+        //   var notes = null;
+        //   for (var i = 0; i < e.target.childNodes.length; i++) {
+        //     if (e.target.childNodes[i].className == "table_menu_update") {
+        //       notes = e.target.childNodes[i];
+        //       break;
+        //     }
+        //   }
+        //   if (notes) e.target.removeChild(notes);
+        //   e.target.classList.remove("cells_menu");
+        //   const editableTable = findEditableTable();
+        //   editableTable.parentElement.classList.remove("over_flow_maintainer");
+        //   focussedDiv.style.border = "2px solid orange";
+        // };
         cells[i].ondragover = function (e) {
           e.preventDefault();
           // if (e.target.hasChildNodes()) {
@@ -588,7 +588,7 @@ const TableRightSidebar = () => {
 
         // console.log("cells[i]", cells[i].classList.contains("dropp"));
 
-        // cells[i].ondrop = handleDropp;
+        cells[i].ondrop = handleDropp;
         document.getElementById("rows").value = "";
         document.getElementById("cols").value = "";
       }
@@ -1113,7 +1113,7 @@ const TableRightSidebar = () => {
         <Button
           variant="secondary"
           className="px-5 me-3"
-          // onClick={makeTable}
+          onClick={makeTable}
           disabled={isCreateTableBtnDisabled}
         >
           Create Table

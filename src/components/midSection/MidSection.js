@@ -553,7 +553,7 @@ const MidSection = React.forwardRef((props, ref) => {
           hitTarget = null;
           counterCheck = false;
         }
-        tempTarget = tempTarget.parentNode;
+        tempTarget = tempTarget?.parentNode;
       }
 
       holder = hitTarget;
@@ -563,8 +563,8 @@ const MidSection = React.forwardRef((props, ref) => {
           //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
           // left:
           //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          top: parseInt(holder.style.top.slice(0, -2)),
-          left: parseInt(holder.style.left.slice(0, -2)),
+          top: parseInt(holder?.style.top.slice(0, -2)),
+          left: parseInt(holder?.style.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
