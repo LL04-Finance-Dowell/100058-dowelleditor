@@ -1589,9 +1589,7 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.textContent = element.data;
 
           if (
-            decoded.details.action === "template" &&
-            element.raw_data == "" &&
-            element.purpose == ""
+            decoded.details.action === "template"
           ) {
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
@@ -4807,7 +4805,7 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.overflow = "overlay";
         buttonField.style.position = "absolute";
         buttonField.type = "submit";
-        buttonField.textContent = "Send";
+        buttonField.textContent = "Mail";
         buttonField.style.backgroundColor = "#007bff";
         buttonField.style.color = "#fff";
         // buttonField.style.border = "none";
