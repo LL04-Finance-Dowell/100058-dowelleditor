@@ -806,6 +806,7 @@ const Header = () => {
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  const documentFlag = decoded?.details?.document_flag;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -1300,14 +1301,17 @@ const Header = () => {
                 >
                   Share <BiExport />
                 </Button> */}
-                <Button
-                  size="md"
-                  className="rounded"
-                  id="saving-buttonn"
-                  onClick={submit}
-                >
-                  Save <FaSave color="white" />
-                </Button>
+                {documentFlag !== "processing" &&
+                  documentFlag !== "finalized" && (
+                    <Button
+                      size="md"
+                      className="rounded"
+                      id="saving-buttonn"
+                      onClick={submit}
+                    >
+                      Save <FaSave color="white" />
+                    </Button>
+                  )}
               </div>
               <div className="mt-1 text-center p-2">
                 <div

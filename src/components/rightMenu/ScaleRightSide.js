@@ -209,6 +209,15 @@ const myArray = Object.values(data)[0];
 
   };
 
+  const refreshIframe = () =>{
+    const scaleField = document.querySelector('.focussed');
+    const iframe = scaleField.firstElementChild
+    iframe.setAttribute("key", iframeKey);
+    iframe.setAttribute("id", "iframeId");
+    //console.log(iframe)
+    document.getElementById('iframeId').src = document.getElementById('iframeId').src
+  }
+
   const handleBorderColorChange = (e) =>
   {
     setBorderColor(e.target.value);
@@ -297,7 +306,7 @@ const myArray = Object.values(data)[0];
             id="select"
             // onChange={handleDateMethod}
             className="select border-0 bg-white rounded w-100 h-75 p-2 "
-            multiple
+            //multiple
           >
             <option value="select">Select Element</option>
             {options}
@@ -315,14 +324,20 @@ const myArray = Object.values(data)[0];
           />
 
         </div>
-
-        <div className="mt-2 text-center pt-5">
-          <Button variant="primary" className="px-5" onClick={scaleSubmit}>
+        <div className="mt-2 text-center pt-3">
+        <Button variant="primary" className="px-5"     onClick={refreshIframe}
+        style={{marginTop:"90px"}}>
+            refresh
+      </Button>
+      </div>
+        <div className="mt-2 text-center pt-3">
+          <Button variant="primary" className="px-5" onClick={scaleSubmit}
+          style={{marginRight:"10px"}}>
             Save
           </Button>
           <Button
             variant="secondary"
-            className="px-5 remove_button"
+            className="remove_button"
             onClick={removeScale}
           >
             Remove Scale
