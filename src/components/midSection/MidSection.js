@@ -1553,9 +1553,7 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.position = "absolute";
           buttonField.textContent = element.data;
 
-          if (
-            decoded.details.action === "template"
-          ) {
+          if (decoded.details.action === "template") {
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
               if (e.ctrlKey) {
@@ -1781,8 +1779,8 @@ const MidSection = React.forwardRef((props, ref) => {
             const iframe = document.createElement("iframe");
             iframe.style.width = "100%";
             iframe.style.height = "100%";
-            iframe.style.position = "relative"
-            iframe.style.zIndex = "-1"
+            iframe.style.position = "relative";
+            iframe.style.zIndex = "-1";
             iframe.src = element.scale_url;
 
             scaleField.addEventListener("resize", () => {
@@ -3674,7 +3672,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
-        // scaleField.innerHTML = 'iframe';
+        scaleField.innerHTML = "New Scale";
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
 
