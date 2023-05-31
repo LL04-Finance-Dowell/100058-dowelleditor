@@ -1750,7 +1750,7 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.id = id;
           scaleField.style.width = "100%";
           scaleField.style.height = "100%";
-          scaleField.style.backgroundColor = "#dedede";
+          scaleField.style.backgroundColor = "transparent";
           scaleField.style.borderRadius = "0px";
           scaleField.style.outline = "0px";
           scaleField.style.overflow = "overlay";
@@ -1765,8 +1765,10 @@ const MidSection = React.forwardRef((props, ref) => {
             decoded.details.action === "template"
           ) {
             const iframe = document.createElement("iframe");
-            iframe.style.width = "90%";
-            iframe.style.height = "90%";
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.position = "relative";
+            iframe.style.zIndex = "-1";
             iframe.src = element.scale_url;
 
             scaleField.addEventListener("resize", () => {
@@ -3659,7 +3661,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
-        // scaleField.innerHTML = 'iframe';
+        scaleField.innerHTML = "New Scale";
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
 
