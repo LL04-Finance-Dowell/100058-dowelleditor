@@ -1224,3 +1224,5 @@ const ScaleRightSide = () => {
 
 export default ScaleRightSide;
 // https://100035.pythonanywhere.com/api/nps_settings_create
+
+//not working
