@@ -1154,7 +1154,7 @@ const MidSection = React.forwardRef((props, ref) => {
           // if (
           //     decoded.details.action === "document"
           //   ) {
-          element.data.startsWith("url(")
+          element.data.startsWith("url(" && "data")
             ? (signField.innerHTML = `<img src=${element.data} />`)
             : (signField.innerHTML = `${element.data}`);
 

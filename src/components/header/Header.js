@@ -1301,17 +1301,20 @@ const Header = () => {
                 >
                   Share <BiExport />
                 </Button> */}
-                {documentFlag !== "processing" &&
-                  documentFlag !== "finalized" && (
+                {/* {documentFlag !== "processing" &&
+                  documentFlag !== "finalized" && ( */}
                     <Button
                       size="md"
                       className="rounded"
                       id="saving-buttonn"
                       onClick={submit}
+                      style={{
+                        visibility: documentFlag && "hidden"
+                      }}
                     >
                       Save <FaSave color="white" />
                     </Button>
-                  )}
+                  {/*  )} */}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -1369,6 +1372,9 @@ const Header = () => {
                       id="finalize-button"
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Finalize
                     </Button>
@@ -1381,6 +1387,9 @@ const Header = () => {
                       className="rounded px-4"
                       id="reject-button"
                       onClick={handleReject}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Reject
                     </Button>
