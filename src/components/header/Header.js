@@ -210,7 +210,7 @@ const Header = () => {
     const midsectionRect = midSec.getBoundingClientRect();
     // const rect = el.getBoundingClientRect();
     // console.log("element check ", el);
-    console.log("heaer react and midesctionRect", rect, midsectionRect);
+    // console.log("heaer react and midesctionRect", rect, midsectionRect);
     return {
       top:
         rect.top > 0
@@ -248,14 +248,14 @@ const Header = () => {
     let targetParent = element;
     let pageNum = null;
     while (1) {
-      if (targetParent?.classList?.contains("midSection_container")) {
+      if (targetParent.classList.contains("midSection_container")) {
         targetParent = targetParent;
         break;
       } else {
-        targetParent = targetParent?.parentElement;
+        targetParent = targetParent.parentElement;
       }
     }
-    pageNum = targetParent?.innerText.split("\n")[0];
+    pageNum = targetParent.innerText.split("\n")[0];
     return pageNum;
   };
   function savingTableData() {
@@ -277,7 +277,6 @@ const Header = () => {
   // let url = "https://100058.pythonanywhere.com/api/save-data-into-collection/";
   // https://100058.pythonanywhere.com/api/post-data-into-collection/
   let elem = {};
-
   function saveDocument() {
     const txt = document.getElementsByClassName("textInput");
     if (txt.length) {
@@ -303,9 +302,6 @@ const Header = () => {
             data: txt[h].innerText,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
-            // border: txt[h].parentElement.style.border,
-            borderWidth: txt[h].parentElement.style.borderWidth,
-            borderColor: txt[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           // let targetParent = txt[h];
@@ -365,9 +361,6 @@ const Header = () => {
             type: "IMAGE_INPUT",
             data: dataName,
             id: `i${h + 1}`,
-            // border: img[h].parentElement.style.border,
-            borderWidth: img[h].parentElement.style.borderWidth,
-            borderColor: img[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
@@ -398,9 +391,6 @@ const Header = () => {
             type: "DATE_INPUT",
             data: date[h].innerHTML,
             id: `d${h + 1}`,
-            // border: date[h].parentElement.style.border,
-            borderWidth: date[h].parentElement.style.borderWidth,
-            borderColor: date[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(date[h]);
@@ -435,9 +425,6 @@ const Header = () => {
                   sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
-            // border: sign[h].parentElement.style.border,
-            borderWidth: sign[h].parentElement.style.borderWidth,
-            borderColor: sign[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(sign[h]);
@@ -464,15 +451,15 @@ const Header = () => {
           //console.log(tables[t].firstElementChild.innerHTML);
           function getChildData() {
             const allTableCCells = [];
-            const tableChildren = tables[t]?.firstElementChild?.children;
-            for (let i = 0; i < tableChildren?.length; i++) {
+            const tableChildren = tables[t].firstElementChild.children;
+            for (let i = 0; i < tableChildren.length; i++) {
               const tableTR = { tr: null };
               const newTableTR = [];
-              for (let j = 0; j < tableChildren[i]?.children?.length; j++) {
+              for (let j = 0; j < tableChildren[i].children.length; j++) {
                 // const element = tableChildren[i];
 
                 const TdDivClassName =
-                  tableChildren[i]?.children[
+                  tableChildren[i].children[
                     j
                   ]?.firstElementChild?.className.split(" ")[0];
 
@@ -513,9 +500,6 @@ const Header = () => {
             // data: tables[t].firstElementChild.innerHTML,
             data: getChildData(),
             id: `tab${t + 1}`,
-            // border: tables[t].parentElement.style.border,
-            borderWidth: tables[t].parentElement.style.borderWidth,
-            borderColor: tables[t].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(tables[t]);
@@ -546,8 +530,8 @@ const Header = () => {
             // );
             for (let i = 0; i < containerChildren.length; i++) {
               const element = containerChildren[i];
-              let tempElem = element.parentElement;
-              console.log("elements", i, " ", element, tempElem);
+              // console.log("elements", i, " ", element);
+              // let tempElem = element.parentElement;
               let tempPosnChild = getPosition(element);
               const containerChildClassName =
                 containerChildren[i].firstElementChild?.className.split(" ")[0];
@@ -555,8 +539,7 @@ const Header = () => {
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              // childData.topp = containerElements[h].parentElement.style.top;
-              childData.topp = element.style.top;
+              childData.topp = containerElements[h].parentElement.style.top;
               childData.left = tempPosnChild.left;
 
               // console.log("childData", childData);
@@ -587,12 +570,14 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
-                case "emailButton":
-                  type = "FORM";
-                  break;
                 default:
                   type = "";
               }
+
+              // (containerChildClassName == "dateInput" && "DATE_INPUT") ||
+              //         (containerChildClassName == "textInput" && "TEXT_INPUT") ||
+              //         (containerChildClassName == "imageInput" && "IMAGE_INPUT") ||
+              //         (containerChildClassName == "signInput" && "SIGN_INPUT"),
               childData.type = type;
               const imageData =
                 "imageInput" &&
@@ -612,7 +597,41 @@ const Header = () => {
               childData.id = `${containerChildClassName[0]}${h + 1}`;
               allContainerChildren.push(childData);
             }
+            // for (let i = 0; i < tableChildren.length; i++) {
+            //   const tableTR = { tr: null };
+            //   const newTableTR = [];
+            //   for (let j = 0; j < tableChildren[i].children.length; j++) {
+            //     // const element = tableChildren[i];
 
+            //     const TdDivClassName =
+            //       tableChildren[i].children[
+            //         j
+            //       ]?.firstElementChild?.className.split(" ")[0];
+
+            //     const trChild = {
+            //       td: {
+            //         type:
+            //           (TdDivClassName == "dateInput" && "DATE_INPUT") ||
+            //           (TdDivClassName == "textInput" && "TEXT_INPUT") ||
+            //           (TdDivClassName == "imageInput" && "IMAGE_INPUT") ||
+            //           (TdDivClassName == "signInput" && "SIGN_INPUT"),
+            //         // if(){
+            //         data:
+            //           TdDivClassName == "imageInput"
+            //             ? tableChildren[i].children[j]?.firstElementChild.style
+            //                 .backgroundImage
+            //             : tableChildren[i].children[j]?.firstElementChild
+            //                 ?.innerHTML,
+            //         id: `tableTd${j + 1}`,
+            //       },
+            //     };
+
+            //     newTableTR.push(trChild);
+            //   }
+            //   tableTR.tr = newTableTR;
+            //   allTableCCells.push(tableTR);
+            // }
+            // console.log("allTableCCells", allContainerChildren);
             return allContainerChildren;
           }
           elem = {
@@ -624,8 +643,6 @@ const Header = () => {
             type: "CONTAINER_INPUT",
             data: getChildData(),
             id: `c${h + 1}`,
-            borderWidth: containerElements[h].parentElement.style.borderWidth,
-            borderColor: containerElements[h].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(containerElements[h]);
@@ -656,8 +673,6 @@ const Header = () => {
               ? "iFrame here"
               : iframes[i].firstElementChild.src,
             id: `ifr${i + 1}`,
-            borderWidth: iframes[i].parentElement.style.borderWidth,
-            borderColor: iframes[i].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(iframes[i]);
@@ -690,8 +705,6 @@ const Header = () => {
             scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
             id: `scl${s + 1}`,
-            borderWidth: scales[s].parentElement.style.borderWidth,
-            borderColor: scales[s].parentElement.style.borderColor,
             details:
               decoded.details.action === "document"
                 ? "Document instance"
@@ -730,46 +743,12 @@ const Header = () => {
             raw_data: tempElem.children[1].innerHTML,
             purpose: tempElem.children[2].innerHTML,
             id: `btn${b + 1}`,
-            borderWidth: buttons[b].parentElement.style.borderWidth,
-            borderColor: buttons[b].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
-        }
-      }
-    }
-    const email = document.getElementsByClassName("emailButton");
-    if (email.length) {
-      for (let e = 0; e < email.length; e++) {
-        if (
-          !email[e]?.parentElement?.parentElement?.classList?.contains(
-            "containerInput"
-          )
-        ) {
-          let tempElem = email[e].parentElement;
-          let tempPosn = getPosition(tempElem);
-          // const link = buttonLink;
-
-          elem = {
-            width: tempPosn.width,
-            height: tempPosn.height,
-            top: tempPosn.top,
-            topp: email[e].parentElement.style.top,
-            left: tempPosn.left,
-            type: "FORM",
-            data: email[e].textContent,
-            raw_data: tempElem?.children[1]?.innerHTML,
-            purpose: tempElem?.children[2]?.innerHTML,
-            id: `eml${e + 1}`,
-            borderWidth: email[e].parentElement.style.borderWidth,
-            borderColor: email[e].parentElement.style.borderColor,
-          };
-          // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(email[e]);
-          page[0][pageNum].push(elem);
         }
       }
     }
@@ -802,8 +781,6 @@ const Header = () => {
             data1: dropDowns[d].firstElementChild.innerHTML,
             data2: dropDowns[d].lastElementChild.innerHTML,
             id: `dd${d + 1}`,
-            borderWidth: dropDowns[d].parentElement.style.borderWidth,
-            borderColor: dropDowns[d].parentElement.style.borderColor,
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(dropDowns[d]);
@@ -824,11 +801,12 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
-  //console.log(decoded.details);
+  // console.log(decoded.details);
   const { action, authorized, process_id, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  const documentFlag = decoded?.details?.document_flag;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -920,7 +898,7 @@ const Header = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        console.log(err);
+        //console.log(err);
       });
   }
 
@@ -1323,14 +1301,17 @@ const Header = () => {
                 >
                   Share <BiExport />
                 </Button> */}
-                <Button
-                  size="md"
-                  className="rounded"
-                  id="saving-buttonn"
-                  onClick={submit}
-                >
-                  Save <FaSave color="white" />
-                </Button>
+                {documentFlag !== "processing" &&
+                  documentFlag !== "finalized" && (
+                    <Button
+                      size="md"
+                      className="rounded"
+                      id="saving-buttonn"
+                      onClick={submit}
+                    >
+                      Save <FaSave color="white" />
+                    </Button>
+                  )}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
