@@ -108,6 +108,7 @@ const MidSection = React.forwardRef((props, ref) => {
   const documnetMap = decoded?.details?.document_map;
   const documentFlag = decoded?.details?.document_flag;
 
+  console.log(documnetMap);
   // useEffect(() => {
   //   localStorage.setItem('elementId', scaleId);
   //   console.log(scaleId, 'scaleId on localSt');

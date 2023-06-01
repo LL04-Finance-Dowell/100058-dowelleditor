@@ -1100,7 +1100,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "finalize",
+        action: "finalized",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
@@ -1130,7 +1130,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "reject",
+        action: "rejected",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
