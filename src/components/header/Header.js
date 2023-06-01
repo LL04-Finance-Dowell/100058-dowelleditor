@@ -539,10 +539,10 @@ const Header = () => {
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = containerElements[h].parentElement.style.top;
+              childData.topp = element.style.top;
               childData.left = tempPosnChild.left;
 
-              // console.log("childData", childData);
+              // console.log("childData", childData, element);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {

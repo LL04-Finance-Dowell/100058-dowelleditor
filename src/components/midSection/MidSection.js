@@ -100,13 +100,23 @@ const MidSection = React.forwardRef((props, ref) => {
   // }, []);
 
   const [focusedElement, setFocusedElement] = useState(null);
+  const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
-  const documnetMap = decoded?.details?.document_map;
-  const documentFlag = decoded?.details?.document_flag;
+  const documnentsMap = decoded?.details?.document_map;
+  const divList = documnentsMap?.map?.((item) => item.page);
+  var documnetMap = documnentsMap?.map?.((item) => item.content);
+
+  console.log("decode", decoded);
+
+  if (documnentsMap?.length > 0) {
+    const documentsMap = documnentsMap;
+  } else {
+    console.log("There's no document map");
+  }
 
   console.log(documnetMap);
   // useEffect(() => {
@@ -847,14 +857,6 @@ const MidSection = React.forwardRef((props, ref) => {
     let pageNo = 0;
     let isAnyRequiredElementEdited = false;
     for (let p = 1; p <= item?.length; p++) {
-      // const page = midSec[p];
-      // if(item && page?.childNodes.length < 2){
-      //   // midSec[p].parentElement.remove()
-      //   const current = [...item];
-      //   current.splice(p-1, 1);
-      //   setItem(current);
-      // }
-      // arrayData.forEach((element) => {
       pageNo++;
       fetchedData[p]?.forEach((element) => {
         if (element.type === "TEXT_INPUT") {
@@ -866,6 +868,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log("element", element);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -1536,6 +1539,8 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo);
           const id = `${element.id}`;
+          const finalizeButton = document.getElementById("finalize-button");
+          const rejectButton = document.getElementById("reject-button");
 
           let buttonField = document.createElement("button");
           buttonField.className = "buttonInput";
@@ -1579,22 +1584,29 @@ const MidSection = React.forwardRef((props, ref) => {
             };
           }
 
-          if (documentFlag !== "finalized") {
-            const finalizeButton = document.getElementById("finalize-button");
-            const rejectButton = document.getElementById("reject-button");
-            if (finalizeButton) {
-              if (isAnyRequiredElementEdited) {
-                finalizeButton?.click();
-              }
+          if (finalizeButton) {
+            if (isAnyRequiredElementEdited) {
+              finalizeButton?.click();
+            } else {
+              finalizeButton.disabled = true;
             }
-            if (
-              decoded.details.action === "document" &&
-              element.purpose == "reject"
-            ) {
-              buttonField.onclick = (e) => {
-                rejectButton?.click();
-              };
-            }
+          }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "reject"
+          ) {
+            buttonField.onclick = (e) => {
+              rejectButton?.click();
+            };
           }
 
           const linkHolder = document.createElement("div");
@@ -2513,6 +2525,8 @@ const MidSection = React.forwardRef((props, ref) => {
               );
               // const holderDIV = getHolderDIV(measure, pageNo);
               const id = `${element.id}`;
+              const finalizeButton = document.getElementById("finalize-button");
+              const rejectButton = document.getElementById("reject-button");
 
               let buttonFieldContainer = document.createElement("button");
               buttonFieldContainer.className = "buttonInput";
@@ -2540,9 +2554,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   setSidebar(true);
                 };
               }
-
-              const finalizeButton = document.getElementById("finalize-button");
-              const rejectButton = document.getElementById("reject-button");
 
               buttonFieldContainer.onmouseover = (e) => {
                 if (
