@@ -230,7 +230,7 @@ const myArray = Object.values(data)[0];
   return (
     <>
       <div>
-        <button id="updateScale" onClick={showIframe}>
+      <button id="updateScale" onClick={showIframe}>
           Update
         </button>
         <button id="setScale" onClick={showSetting}>
@@ -238,10 +238,9 @@ const myArray = Object.values(data)[0];
         </button>
       </div>
       <div id="iframeRight">
-        <h3>Update scale</h3>
         <div className="mb-4">
           <Form.Label>Scale Type</Form.Label>
-          <select className='rounded w-100 h-75 p-2 '>
+          <select className='select rounded border-0 bg-white w-100 h-75 p-2 '>
             <option>select</option>
             <option>nps scale</option>
           </select>
@@ -249,7 +248,7 @@ const myArray = Object.values(data)[0];
         <div>
           <iframe
             key={iframeKey}
-            style={{ border: 'solid 2px black', height: '400px' }}
+            style={{ border: '1px solid lightgray', height: '400px'}}
             id="update_ifr"
             src={iframeSrc}
           ></iframe>
