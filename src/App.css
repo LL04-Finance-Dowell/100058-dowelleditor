@@ -154,6 +154,8 @@ th {
 .modal-body {
   overflow: auto;
 }
+
+
 @media print{
   body * {
     margin: 0;

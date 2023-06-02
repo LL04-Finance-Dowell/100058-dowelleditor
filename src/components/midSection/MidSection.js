@@ -108,7 +108,7 @@ const MidSection = React.forwardRef((props, ref) => {
   const flag_editing = decoded?.details?.flag;
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
-  var documnetMap = documnentsMap?.map?.((item) => item.content);
+  var documnetMap = documnentsMap?.filter?.(item => item.required === true).map?.(item => item.content);
 
   console.log("decode", decoded);
 
@@ -3225,7 +3225,7 @@ const MidSection = React.forwardRef((props, ref) => {
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
         inputField.className = "textInput";
-        inputField.innerHTML = "Enter text here";
+        inputField.placeholder = "Enter text here";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
         inputField.style.resize = "none";
