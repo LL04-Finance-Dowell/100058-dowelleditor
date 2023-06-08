@@ -229,6 +229,79 @@ const myArray = Object.values(data)[0];
   };
   return (
     <>
+    {
+      decoded.details.action === "document" ?
+     <>
+      <div>
+      <button id="updateScale" onClick={showIframe}>
+          Update
+        </button>
+        <button id="setScale" onClick={showSetting}>
+          Settings
+        </button>
+      </div>
+      <div id="iframeRight">
+        <div className="mb-4">
+        </div>
+      </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
+      <div id="settingRight" style={{ display: 'none' }}>
+        {/* iframe */}
+        <div>
+
+
+          {/* <Form.Control
+            type="text"
+            placeholder={`${decoded.details._id}_scl1`}
+            disabled
+            className="mb-4"
+          // id="iframe_src"
+          // onChange={handleChange}
+          /> */}
+        </div>
+        <div className="mt-2 text-center pt-3">
+        <Button variant="primary" className="px-5"     onClick={refreshIframe}
+        style={{marginTop:"30px"}}>
+            refresh
+      </Button>
+      </div>
+
+        {/* iframe */}
+      </div>
+      </>:
+      <>
       <div>
       <button id="updateScale" onClick={showIframe}>
           Update
@@ -347,6 +420,8 @@ const myArray = Object.values(data)[0];
 
         {/* iframe */}
       </div>
+      </>
+      }
     </>
   );
 };

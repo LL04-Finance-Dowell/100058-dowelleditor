@@ -2422,7 +2422,7 @@ const MidSection = React.forwardRef((props, ref) => {
               scaleFieldContainer.className = "scaleInput";
               scaleFieldContainer.style.width = "100%";
               scaleFieldContainer.style.height = "100%";
-              scaleFieldContainer.style.backgroundColor = "#dedede";
+              scaleFieldContainer.style.backgroundColor = "transparent";
               scaleFieldContainer.style.borderRadius = "0px";
               scaleFieldContainer.style.outline = "0px";
               scaleFieldContainer.style.overflow = "overlay";
