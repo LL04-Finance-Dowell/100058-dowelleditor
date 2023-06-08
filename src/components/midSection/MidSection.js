@@ -3661,10 +3661,87 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
-        scaleField.innerHTML = "New Scale";
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
+        
+        const scaleHold = document.createElement("div");
+        scaleHold.className = "scool_input";
+        scaleHold.style.color = "black";
+        scaleHold.style.width = "100%";
+        scaleHold.style.height = "90%";
+        scaleHold.style.padding = "10px";
+        scaleHold.style.display = "none";
+    
+        scaleField.append(scaleHold);
 
+        const scaleText = document.createElement("div");
+        scaleText.className = "scale_text";
+        scaleText.textContent = "New Scale";
+        scaleText.style.marginBottom = "15px";
+        scaleText.style.width = "100%";
+        scaleText.style.height = "10%";
+        scaleText.style.backgroundColor = "transparent";
+        scaleText.style.borderRadius = "0px";
+        scaleHold.append(scaleText);
+
+        const labelHold = document.createElement("div");
+        labelHold.className = "label_hold";
+        labelHold.style.width = "100%";
+        labelHold.style.height = "60%";
+        labelHold.style.border = "1px solid black";
+        labelHold.style.backgroundColor = "blue";
+        // labelHold.style.display = "none";
+        scaleHold.appendChild(labelHold);
+        labelHold.style.display = "flex";
+        // labelHold.style.flexWrap = "wrap";
+        labelHold.style.justifyContent = "space-between";
+        labelHold.style.alignItems = "center";
+        // labelHold.style.margin = "0px";
+
+        for ( let i =0; i < 11 ;i++ ) {
+          const circle = document.createElement("div");
+          // Set the styles for the circle
+          circle.className = "circle_label"
+          circle.style.width = "35%";
+          circle.style.height = "35%";
+          circle.style.borderRadius = "50%";
+          circle.style.backgroundColor = "red";
+          circle.style.top = "30%";
+          circle.style.left = "30%";
+          circle.style.display = "flex";
+          circle.style.justifyContent = "center";
+          circle.style.alignItems = "center";
+          circle.style.marginLeft ="2px";
+
+          circle.textContent = i;
+          labelHold.append(circle);
+        }
+        // const parentDiv = document.createElement("div");
+        // parentDiv.id = "parent";
+        // parentDiv.style.margin = "0px";
+
+        const childDiv = document.createElement("div");
+        childDiv.id = "child";
+        childDiv.style.display = "flex";
+        childDiv.style.justifyContent = "space-between";
+        // childDiv.style.margin = "0px";
+
+        const element1 = document.createElement("h6");
+        element1.className = "left_child";
+        element1.style.marginLeft = "0px";
+        element1.textContent = "Good";
+        childDiv.appendChild(element1);
+
+        const element2 = document.createElement("h6");
+        element2.className = "neutral_child";
+        element2.textContent = "Neutral";
+        childDiv.appendChild(element2);
+
+        const element3 = document.createElement("h6");
+        element3.className = "right_child";
+        element3.textContent = "Best";
+        childDiv.appendChild(element3);
+        scaleHold.append(childDiv);
         const scales = document.getElementsByClassName("scaleInput");
         if (scales.length) {
           const s = scales.length;
@@ -3673,16 +3750,26 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.id = "scl1";
         }
 
-        let scale = document.createElement("iframe");
+        let scale = document.createElement("div");
         scale.style.width = "90%";
-        scale.style.height = "90%";
-        const scaleIdHolder = document.createElement("div");
-        scaleIdHolder.className = "scaleId_holder";
-        scaleIdHolder.style.display = "none";
+        scale.style.height = "0%";
+        // const scaleIdHolder = document.createElement("div");
+        // scaleIdHolder.className = "scaleId_holder";
+        // scaleIdHolder.backgroundColor = "black";
+        // scaleIdHolder.borderRadius = "5px";
+        // scaleIdHolder.style.width = "90%";
+        // scaleIdHolder.style.height = "90%";
+        // scaleIdHolder.style.display = "block";
+        // scaleIdHolder.innerHTML = "Hello test"
 
-        const labelHolder = document.createElement("div");
-        labelHolder.className = "label_holder";
-        labelHolder.style.display = "none";
+        // const labelHolder = document.createElement("div");
+        // labelHolder.className = "label_holder";
+        // labelHolder.style.display = "block";
+        // labelHolder.style.width = "80%";
+        // labelHolder.style.height = "50%";
+        // labelHolder.innerText = "labels";
+        // labelHolder.backgroundColor = "red";
+
 
         scaleField.addEventListener("resize", () => {
           scale.style.width = scaleField.clientWidth + "px";
@@ -3813,8 +3900,8 @@ const MidSection = React.forwardRef((props, ref) => {
         };
 
         holderDIV.append(scaleField);
-        holderDIV.append(scaleIdHolder);
-        holderDIV.append(labelHolder);
+        // holderDIV.append(scaleIdHolder);
+        // holderDIV.append(labelHolder);
       }
       // Limon
       // else if (

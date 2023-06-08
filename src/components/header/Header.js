@@ -564,6 +564,9 @@ const Header = () => {
                 case "scaleInput":
                   type = "SCALE_INPUT";
                   break;
+                case "newScaleInput":
+                  type = "NEW_SCALE_INPUT";
+                  break;
                 case "buttonInput":
                   type = "BUTTON_INPUT";
                   break;
@@ -701,6 +704,43 @@ const Header = () => {
             topp: scales[s].parentElement.style.top,
             left: tempPosn.left,
             type: "SCALE_INPUT",
+            data: `${title}_scale_${s + 1}`,
+            scale_url: scales[s].firstElementChild.src,
+            scaleId: tempElem.children[1].innerHTML,
+            id: `scl${s + 1}`,
+            details:
+              decoded.details.action === "document"
+                ? "Document instance"
+                : "Template scale",
+            // scale_url: `${scaleData}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(scales[s]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const newScales = document.getElementsByClassName("newScaleInput");
+    if (scales.length) {
+      for (let s = 0; s < scales.length; s++) {
+        if (
+          !newScales[s]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = scales[s].parentElement;
+          let tempPosn = getPosition(tempElem);
+          console.log(scales[s].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: scales[s].parentElement.style.top,
+            left: tempPosn.left,
+            type: "NEW_SCALE_INPUT",
             data: `${title}_scale_${s + 1}`,
             scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,

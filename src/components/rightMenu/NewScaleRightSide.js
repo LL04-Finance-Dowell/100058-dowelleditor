@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 import React, { useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
@@ -79,7 +80,7 @@ const ScaleRightSide = () => {
   console.log(companyId);
 
   const holderDIV = document.querySelector(".focussedd");
-  const scaleId = holderDIV?.children[1].innerHTML;
+  // const scaleId = holderDIV?.children[1].innerHTML;
   const label = holderDIV?.children[2];
 
   const handleChange = (e) => {
@@ -124,7 +125,7 @@ const ScaleRightSide = () => {
     setIsLoading(true);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
-      scale_id: scaleId,
+      // scale_id: scaleId,
       custom_input_groupings: selectedOptions,
       scale_label: label.innerHTML,
     })
@@ -141,6 +142,121 @@ const ScaleRightSide = () => {
       });
   }
 
+  const handleUpdates = () => {
+    const btnUpdateButton = document.getElementById("button_color");
+    const btnUpdateScale = document.getElementById("scale_color");
+    const btnUpdateFontColor = document.getElementById("font_color");
+    const btnUpdateScaleFont = document.getElementById("font_style");
+    const btnUpdateScaleName = document.getElementById("scales_name");
+    // const btnUpdateOrientation = document.getElementById("orientation");
+    const btnUpdateLeft = document.getElementById("left");
+    const btnUpdateRight = document.getElementById("right");
+    const btnUpdateCenter = document.getElementById("centre");
+    // const btnUpdateScales = document.getElementById("scales");
+    // const btnUpdateScore = document.getElementById("score");
+    // const btnUpdateScaleLabel = document.getElementById("scale_label");
+    // const btnUpdateTime = document.getElementById("time");
+    // const btnUpdateFormat = document.getElementById("select");
+    // const button1 = document.querySelector(".focussed");
+    const button = document.querySelector(".label_hold");
+    // const btnParent = document.getElementById("parent");
+    const button3 = document.querySelector(".scale_text");
+    // const buttonScaleField = document.querySelector(".scaleInput");
+    const button4 = document.querySelector(".scool_input");
+    const buttonCircle = document.querySelectorAll(".circle_label");
+    const buttonChild = document.getElementById("child");
+    const buttonChildLeft = document.querySelector(".left_child");
+    const buttonChildRight = document.querySelector(".right_child");
+    const buttonChildNeutral = document.querySelector(".neutral_child");
+    const option = document.querySelector('select').options[document.querySelector('select').selectedIndex];
+      button4.style.display = "block";
+
+      if (btnUpdateScaleName.value !=="") {
+        button3.textContent = btnUpdateScaleName.value;
+      }
+
+      if (btnUpdateScale.value !=="") {
+        button.style.backgroundColor = btnUpdateScale.value;
+      }
+
+      for ( let i=0; i < buttonCircle.length; i++) {
+        if (btnUpdateButton.value !=="") {
+          buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
+        }
+      }
+
+      if (btnUpdateFontColor.value !=="") {
+        button4.style.color = btnUpdateFontColor.value;
+      }
+
+      if (btnUpdateScaleFont.value !=="") {
+        button4.style.fontFamily = btnUpdateScaleFont.value;
+      }
+
+      if (option.value ==="Horizontal") {
+        button4.style.border = "block";
+        button4.style.textAlign = "center";
+        button.style.display = "flex";
+        button.style.flexDirection = "row";
+        // button.style.marginTop = "5%";
+        button.style.alignItems = "center";
+        // buttonCircle.style.flexDirection = "row";
+        button.style.height = "50%";
+        button.style.width = "100%";
+        button.style.flexDirection = "row";
+        buttonChildRight.style.marginTop = "0px";
+        buttonChildNeutral.style.marginTop = "0px";
+        buttonChild.style.flexDirection = "row";
+        buttonChild.style.justifyContent = "space-between";
+        buttonChild.style.alignItems = "center";
+        button.style.position = "relative";
+        buttonChild.style.marginLeft = "0px";
+        button.style.marginLeft = "0px";
+      }
+
+      if (option.value ==="Vertical") {
+        button4.style.border = "none";
+        button4.style.textAlign = "center";
+        button.style.height = "100%";
+        button.style.width = "30%";
+        button.style.position = "absolute";
+        button.style.flexDirection = "column";
+        button.style.alignItems = "center";
+        button.style.marginTop = "0px";
+        // button.style.marginLeft = "26%";
+        buttonChild.style.flexDirection = "column";
+        buttonChild.style.justifyContent = "space-between";
+        // buttonChild.style.marginLeft = "38%";
+        buttonChildLeft.style.marginTop = "0px";
+        buttonChildRight.style.marginTop = "40%";
+        buttonChildNeutral.style.marginTop = "50%";
+        buttonCircle.style.flexDirection = "column";
+        buttonCircle.style.marginTop="2px";
+      }
+        
+      if (btnUpdateLeft.value !=="") {
+        buttonChildLeft.textContent = btnUpdateLeft.value;
+      }
+
+      if (btnUpdateRight.value !=="") {
+        buttonChildRight.textContent = btnUpdateRight.value;
+      }
+
+      if (btnUpdateCenter.value !=="") {
+        buttonChildNeutral.textContent = btnUpdateCenter.value;
+      }
+      // if (btnUpdateScales.value !=="") {
+      //   button4.style.textContent = btnUpdateScales.value;
+      // }
+      // if (btnUpdateScore.value !=="") {
+      //   buttonChild.style.color = btnUpdateScore.value;
+      // }
+      // if (btnUpdateScaleLabel.value !=="") {
+      //   button4.innerHTML = btnUpdateScaleLabel.value;
+      // }
+
+  };
+
   function showIframe() {
     const divIframeRight = document.getElementById("iframeRight");
     const divSettingRight = document.getElementById("settingRight");
@@ -153,6 +269,7 @@ const ScaleRightSide = () => {
     const border = document.getElementById("border");
     border.style.display = "none";
   }
+  
   function showSetting() {
     const divIframeRight = document.getElementById("iframeRight");
     const divSettingRight = document.getElementById("settingRight");
@@ -187,8 +304,8 @@ const ScaleRightSide = () => {
     divMultiRight.style.marginTop = "10px";
   };
 
-  const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
-  console.log(iframeSrc, "iframeSrc");
+  // const iframeSrc = `https://100035.pythonanywhere.com/nps-editor/settings/${scaleId}`;
+  // console.log(iframeSrc, "iframeSrc");
 
   function removeScale() {
     const focusseddElmnt = document.querySelector(".focussedd");
@@ -209,7 +326,7 @@ const ScaleRightSide = () => {
   var newArray = excludeElementsWithAttributeValue(
     myArray,
     "type",
-    "NEW_SCALE_INPUT"
+    "SCALE_INPUT"
   );
 
   const filteredArray = newArray?.filter((obj) => !customId.includes(obj.id));
@@ -373,6 +490,39 @@ const ScaleRightSide = () => {
               alignItems: "start",
             }}
           >
+          <div
+          style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+        >
+          <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+            Scale Name
+          </h6>
+          <div
+            style={{
+              backgroundColor: "#e8e8e8",
+              padding: "3px 7px",
+              borderRadius: "7px",
+              // height: "30px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <input
+              type="text"
+              style={{
+                width: "100%",
+                height: "15px",
+                display: "flex",
+                backgroundColor: "transparent",
+                border: "none",
+                outline: "none",
+                alignItems: "center",
+              }}
+              id="scales_name"
+            />
+          </div>
+        </div>
             <h6 style={{ fontSize: "12px" }}>Orientation</h6>
             <div
               style={{
@@ -402,9 +552,10 @@ const ScaleRightSide = () => {
                   margin: "0 auto",
                 }}
                 className="bg-gray-800"
+                id="orientationId"
               >
-                <option style={{ color: "black" }}>Horizontal</option>
-                <option style={{ color: "black" }}>Vertical</option>
+                <option value = "Horizontal"  style={{ color: "black" }}>Horizontal</option>
+                <option value = "Vertical" style={{ color: "black" }}>Vertical</option>
               </select>
             </div>
           </div>
@@ -453,6 +604,8 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+
+                    id = "scale_color"
                   />
                 </div>
               </div>
@@ -483,6 +636,7 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+                    id = "button_color"
                   />
                   {/* <BiChevronDown
                     size={20}
@@ -518,6 +672,8 @@ const ScaleRightSide = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
+
+                  
                 >
                   <input
                     type="color"
@@ -527,6 +683,7 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+                    id = "font_color"
                   />
                 </div>
               </div>
@@ -558,6 +715,7 @@ const ScaleRightSide = () => {
                       border: "none",
                       alignItems: "center",
                     }}
+                    id = "font_style"
                   >
                     <option style={{ fontSize: "11px" }}>Select</option>
                     {fontStyles.map((fontStyle, index) => (
@@ -753,6 +911,7 @@ const ScaleRightSide = () => {
                       outline: "none",
                       alignItems: "center",
                     }}
+                    id="left"
                   />
                 </div>
               </div>
@@ -783,6 +942,7 @@ const ScaleRightSide = () => {
                       outline: "none",
                       alignItems: "center",
                     }}
+                    id="centre"
                   />
                 </div>
               </div>
@@ -814,6 +974,7 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
+                  id="right"
                 />
               </div>
             </div>
@@ -847,6 +1008,7 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
+                  id="scales"
                 />
               </div>
             </div>
@@ -907,6 +1069,7 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
+                  id="time"
                 />
               </div>
             </div>
@@ -970,6 +1133,7 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
+                  id="score"
                 />
               </div>
             </div>
@@ -1064,7 +1228,7 @@ const ScaleRightSide = () => {
           </div>
         </form>
       </div>
-
+      <Button id ="button_id" onClick= {handleUpdates}>Update</Button>
       <div style={{ display: "none" }} id="border">
         <Row className="pt-4">
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -1121,11 +1285,8 @@ const ScaleRightSide = () => {
             //multiple
             style={{ marginBottom: "120px" }}
           >
-            {filteredArray?.map((element, index) => (
-              <option key={index} value={element.type} id={element.id}>
-                {`${element.type} ${element.id}`}
-              </option>
-            ))}
+            <option value="select">Select Element</option>
+              {options}
           </select>
         </div>
         <div>
@@ -1137,6 +1298,7 @@ const ScaleRightSide = () => {
             name="label"
             // id="iframe_src"
             onChange={handleChange}
+            id="scaleLabel"
           />
         </div>
         <h4>Grouped Elements</h4>
