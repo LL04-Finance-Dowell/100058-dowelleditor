@@ -108,9 +108,10 @@ const MidSection = React.forwardRef((props, ref) => {
   const flag_editing = decoded?.details?.flag;
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
-  var documnetMap = documnentsMap?.filter?.(item => item.required === true).map?.(item => item.content);
+  var documnetMap = documnentsMap?.map?.(item => item.content);
 
   console.log("decode", decoded);
+  console.log("data", data);
 
   if (documnentsMap?.length > 0) {
     const documentsMap = documnentsMap;
