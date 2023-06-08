@@ -100,14 +100,25 @@ const MidSection = React.forwardRef((props, ref) => {
   // }, []);
 
   const [focusedElement, setFocusedElement] = useState(null);
+  const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
-  const documnetMap = decoded?.details?.document_map;
-  const documentFlag = decoded?.details?.document_flag;
+  const documnentsMap = decoded?.details?.document_map;
+  const divList = documnentsMap?.map?.((item) => item.page);
+  var documnetMap = documnentsMap?.filter?.(item => item.required === true).map?.(item => item.content);
 
+  console.log("decode", decoded);
+
+  if (documnentsMap?.length > 0) {
+    const documentsMap = documnentsMap;
+  } else {
+    console.log("There's no document map");
+  }
+
+  console.log(documnetMap);
   // useEffect(() => {
   //   localStorage.setItem('elementId', scaleId);
   //   console.log(scaleId, 'scaleId on localSt');
@@ -846,14 +857,6 @@ const MidSection = React.forwardRef((props, ref) => {
     let pageNo = 0;
     let isAnyRequiredElementEdited = false;
     for (let p = 1; p <= item?.length; p++) {
-      // const page = midSec[p];
-      // if(item && page?.childNodes.length < 2){
-      //   // midSec[p].parentElement.remove()
-      //   const current = [...item];
-      //   current.splice(p-1, 1);
-      //   setItem(current);
-      // }
-      // arrayData.forEach((element) => {
       pageNo++;
       fetchedData[p]?.forEach((element) => {
         if (element.type === "TEXT_INPUT") {
@@ -865,6 +868,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          console.log("element", element);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -1150,7 +1154,7 @@ const MidSection = React.forwardRef((props, ref) => {
           // if (
           //     decoded.details.action === "document"
           //   ) {
-          element.data.startsWith("url(")
+          element.data.startsWith("url(" && "data")
             ? (signField.innerHTML = `<img src=${element.data} />`)
             : (signField.innerHTML = `${element.data}`);
 
@@ -1535,6 +1539,8 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo);
           const id = `${element.id}`;
+          const finalizeButton = document.getElementById("finalize-button");
+          const rejectButton = document.getElementById("reject-button");
 
           let buttonField = document.createElement("button");
           buttonField.className = "buttonInput";
@@ -1578,22 +1584,29 @@ const MidSection = React.forwardRef((props, ref) => {
             };
           }
 
-          if (documentFlag !== "finalized") {
-            const finalizeButton = document.getElementById("finalize-button");
-            const rejectButton = document.getElementById("reject-button");
-            if (finalizeButton) {
-              if (isAnyRequiredElementEdited) {
-                finalizeButton?.click();
-              }
+          if (finalizeButton) {
+            if (isAnyRequiredElementEdited) {
+              finalizeButton?.click();
+            } else {
+              finalizeButton.disabled = true;
             }
-            if (
-              decoded.details.action === "document" &&
-              element.purpose == "reject"
-            ) {
-              buttonField.onclick = (e) => {
-                rejectButton?.click();
-              };
-            }
+          }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "reject"
+          ) {
+            buttonField.onclick = (e) => {
+              rejectButton?.click();
+            };
           }
 
           const linkHolder = document.createElement("div");
@@ -2409,7 +2422,7 @@ const MidSection = React.forwardRef((props, ref) => {
               scaleFieldContainer.className = "scaleInput";
               scaleFieldContainer.style.width = "100%";
               scaleFieldContainer.style.height = "100%";
-              scaleFieldContainer.style.backgroundColor = "#dedede";
+              scaleFieldContainer.style.backgroundColor = "transparent";
               scaleFieldContainer.style.borderRadius = "0px";
               scaleFieldContainer.style.outline = "0px";
               scaleFieldContainer.style.overflow = "overlay";
@@ -2512,6 +2525,8 @@ const MidSection = React.forwardRef((props, ref) => {
               );
               // const holderDIV = getHolderDIV(measure, pageNo);
               const id = `${element.id}`;
+              const finalizeButton = document.getElementById("finalize-button");
+              const rejectButton = document.getElementById("reject-button");
 
               let buttonFieldContainer = document.createElement("button");
               buttonFieldContainer.className = "buttonInput";
@@ -2539,9 +2554,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   setSidebar(true);
                 };
               }
-
-              const finalizeButton = document.getElementById("finalize-button");
-              const rejectButton = document.getElementById("reject-button");
 
               buttonFieldContainer.onmouseover = (e) => {
                 if (
@@ -3213,7 +3225,7 @@ const MidSection = React.forwardRef((props, ref) => {
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
         inputField.className = "textInput";
-        inputField.innerHTML = "Enter text here";
+        inputField.placeholder = "Enter text here";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
         inputField.style.resize = "none";

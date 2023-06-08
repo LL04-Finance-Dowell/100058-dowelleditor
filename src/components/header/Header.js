@@ -539,10 +539,10 @@ const Header = () => {
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = containerElements[h].parentElement.style.top;
+              childData.topp = element.style.top;
               childData.left = tempPosnChild.left;
 
-              // console.log("childData", childData);
+              // console.log("childData", childData, element);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -1140,7 +1140,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "finalize",
+        action: "finalized",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
@@ -1170,7 +1170,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "reject",
+        action: "rejected",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
@@ -1341,17 +1341,20 @@ const Header = () => {
                 >
                   Share <BiExport />
                 </Button> */}
-                {documentFlag !== "processing" &&
-                  documentFlag !== "finalized" && (
+                {/* {documentFlag !== "processing" &&
+                  documentFlag !== "finalized" && ( */}
                     <Button
                       size="md"
                       className="rounded"
                       id="saving-buttonn"
                       onClick={submit}
+                      style={{
+                        visibility: documentFlag && "hidden"
+                      }}
                     >
                       Save <FaSave color="white" />
                     </Button>
-                  )}
+                  {/*  )} */}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -1409,6 +1412,9 @@ const Header = () => {
                       id="finalize-button"
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Finalize
                     </Button>
@@ -1421,6 +1427,9 @@ const Header = () => {
                       className="rounded px-4"
                       id="reject-button"
                       onClick={handleReject}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Reject
                     </Button>
