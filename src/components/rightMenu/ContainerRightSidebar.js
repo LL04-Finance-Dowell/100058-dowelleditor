@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 // import Button from "react-bootstrap/Button";
 import { Row, Button } from "react-bootstrap";
 
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
 
 const ContainerRigntSideBar = () =>
 {
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+
   const [borderSize, setBorderSize] = useState(
     Number(localStorage.getItem("borderSize")) || 0
   );
@@ -64,7 +72,7 @@ const ContainerRigntSideBar = () =>
         <Button
           variant="primary"
           onClick={removeContainer}
-          className="remove_container text-center mt-5"
+          className={decoded.details.action === "template" ? "remove_container text-center mt-5" : "remove_container text-center mt-5 disable_button"}
         >
           Remove Container
         </Button>

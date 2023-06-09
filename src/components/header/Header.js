@@ -109,7 +109,19 @@ const Header = () => {
     document.execCommand("redo");
   };
   const handleCut = () => {
-    document.querySelector(".focussedd").remove();
+    // document.querySelector(".focussedd").remove();
+    // if (handleCut == true) {
+      const cutEle = document.querySelector(".focussedd")
+      console.log("cutEle", cutEle)
+
+      // cutEle.select()
+      document.execCommand("cut")
+      cutEle.style.display = "none";
+      console.log("cutEle after", cutEle)
+    // }
+    // if(onclick = () => handlePaste) {
+    //   cutEle.style.display = "inline"
+    // }
   };
   const handleCopy = () => {
     // const element = document.querySelector(".focussedd");
@@ -122,7 +134,16 @@ const Header = () => {
     // console.log("coping", copyEle)
   };
   const handlePaste = () => {
-    document.execCommand("paste");
+    // document.execCommand("paste");
+    const cutEle = document.querySelector(".focussedd")
+//  cutEle.style.display = "inline"
+   navigator.clipboard.readText()
+   .then(clipEle => {
+    const add =  `${cutEle + " " + clipEle}`.toString()
+    console.log("add", add)
+    return add;
+   })
+    
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -422,7 +443,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -474,9 +495,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -584,7 +605,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -824,6 +845,36 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(dropDowns[d]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const emails = document.getElementsByClassName("emailButton");
+    if (emails.length) {
+      for (let e = 0; e < emails.length; e++) {
+        if (
+          !emails[e]?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = emails[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: emails[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: emails[e].textContent,
+            id: `eml${e + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(emails[e]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
@@ -1086,6 +1137,8 @@ const Header = () => {
 
   function handleToken() {
     setData([]);
+    setIsDataRetrieved(false);
+    setFetchedData([]);
     setIsLoading(true);
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -1117,6 +1170,7 @@ const Header = () => {
             console.log(loadedData);
             console.log(loadedData[0][0]);
             setData(loadedData[0][0]);
+            setFetchedData(loadedData[0][0]);
             setIsDataRetrieved(true);
             // setSort(loadedData[0][0]);
             setIsLoading(false);
@@ -1211,9 +1265,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1223,9 +1276,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

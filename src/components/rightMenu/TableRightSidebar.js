@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 // import Form from "react-bootstrap/Form";
 // import Button from "react-bootstrap/Button";
@@ -29,6 +31,10 @@ const TableRightSidebar = () => {
     focuseddClassMaintain,
     // handleDropp,
   } = useStateContext();
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
 
   const [borderSize, setBorderSize] = useState(1);
   const [borderColor, setBorderColor] = useState("#000000");
@@ -1142,7 +1148,7 @@ const TableRightSidebar = () => {
       <div className="mt-2 text-center pt-5">
         <Button
           variant="primary"
-          className="px-5 remove_button"
+          className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
           onClick={removeTable}
         >
           Remove Table

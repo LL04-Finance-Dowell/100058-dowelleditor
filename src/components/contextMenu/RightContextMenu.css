@@ -1,0 +1,21 @@
+.positioning {
+    position: absolute;
+    z-index: 99;
+}
+
+.menuStyle {
+    list-style: none;
+    padding: 10px;
+    background-color: aliceblue;
+    border: 1px solid rgb(216, 213, 213)
+}
+
+.menuStyle>li {
+    padding: 5px 30px;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+}
+
+.menuStyle>li:hover {
+    background-color: antiquewhite;
+}
