@@ -201,7 +201,7 @@ const ScaleRightSide = () => {
         // button.style.marginTop = "5%";
         button.style.alignItems = "center";
         // buttonCircle.style.flexDirection = "row";
-        button.style.height = "50%";
+        button.style.height = "85%";
         button.style.width = "100%";
         button.style.flexDirection = "row";
         buttonChildRight.style.marginTop = "0px";
@@ -222,15 +222,16 @@ const ScaleRightSide = () => {
         button.style.position = "absolute";
         button.style.flexDirection = "column";
         button.style.alignItems = "center";
-        button.style.marginTop = "0px";
+        button.style.marginTop = "0";
         // button.style.marginLeft = "26%";
+        buttonChild.style.display = "flex"
         buttonChild.style.flexDirection = "column";
         buttonChild.style.justifyContent = "space-between";
         // buttonChild.style.marginLeft = "38%";
         buttonChildLeft.style.marginTop = "0px";
         buttonChildRight.style.marginTop = "40%";
         buttonChildNeutral.style.marginTop = "50%";
-        buttonCircle.style.flexDirection = "column";
+        //buttonCircle.style.flexDirection = "column";
         buttonCircle.style.marginTop="2px";
       }
         
@@ -491,37 +492,11 @@ const ScaleRightSide = () => {
             }}
           >
           <div
-          style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+          style={{ display: "flex", flexDirection: "column", gap: "2px", marginLeft:"auto", marginRight:"auto"}}
         >
-          <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-            Scale Name
-          </h6>
-          <div
-            style={{
-              backgroundColor: "#e8e8e8",
-              padding: "3px 7px",
-              borderRadius: "7px",
-              // height: "30px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type="text"
-              style={{
-                width: "100%",
-                height: "15px",
-                display: "flex",
-                backgroundColor: "transparent",
-                border: "none",
-                outline: "none",
-                alignItems: "center",
-              }}
-              id="scales_name"
-            />
-          </div>
+          <h1 style={{ margin: "auto 0", fontSize: "15px"}}>
+          Edit Untitled-file_scale
+          </h1>
         </div>
             <h6 style={{ fontSize: "12px" }}>Orientation</h6>
             <div

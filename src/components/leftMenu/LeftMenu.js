@@ -22,6 +22,7 @@ import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
 import TextBox from "./comp/TextBox";
 import { EditorContent } from "@tiptap/react";
+import { useSearchParams } from "react-router-dom";
 
 const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc, title }) => (
   <button
@@ -228,6 +229,9 @@ const LeftMenu = ({ showSidebar }) => {
   // //console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
   // const handleContainerDrop = (event) => {
   //   const typeOfOperation = event.dataTransfer.getData("text/plain");
   //   console.log("typeOfOperation in left menu", typeOfOperation);
@@ -317,14 +321,14 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<AiOutlineMail />}
               title="Email"
             />
-
-           { // <NavButton
-              //dragStartFunc={dragStartNewScale}
-              //customFunc={() => handleDrop("newScale")}
-              //icon={<IoScale />}
-              //title="NewScale"
-            //>
-            }
+           { token !== null ?
+           <NavButton
+              dragStartFunc={dragStartNewScale}
+              customFunc={() => handleDrop("newScale")}
+              icon={<IoScale />}
+              title="NewScale"
+            />: ""
+           }
 
             {/* test div */}
             {/* <NavButton

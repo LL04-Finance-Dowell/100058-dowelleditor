@@ -3666,7 +3666,7 @@ const MidSection = React.forwardRef((props, ref) => {
         setIsLoading(true);
 
         let scaleField = document.createElement("div");
-        scaleField.className = "scaleInput";
+        scaleField.className = "newScaleInput";
         scaleField.style.width = "100%";
         scaleField.style.height = "100%";
         scaleField.style.backgroundColor = "#fff";
@@ -3688,9 +3688,12 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleText = document.createElement("div");
         scaleText.className = "scale_text";
-        scaleText.textContent = "New Scale";
-        scaleText.style.marginBottom = "15px";
+        scaleText.textContent = "Untitled-file_scale";
+        scaleText.style.marginBottom = "10px";
         scaleText.style.width = "100%";
+        scaleText.style.display = "flex";
+        scaleText.style.alignItems = "center";
+        scaleText.style.justifyContent = "center";
         scaleText.style.height = "10%";
         scaleText.style.backgroundColor = "transparent";
         scaleText.style.borderRadius = "0px";
@@ -3699,7 +3702,7 @@ const MidSection = React.forwardRef((props, ref) => {
         const labelHold = document.createElement("div");
         labelHold.className = "label_hold";
         labelHold.style.width = "100%";
-        labelHold.style.height = "60%";
+        labelHold.style.height = "85%";
         labelHold.style.border = "1px solid black";
         labelHold.style.backgroundColor = "blue";
         // labelHold.style.display = "none";

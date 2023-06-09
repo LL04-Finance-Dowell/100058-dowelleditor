@@ -27,6 +27,7 @@ const ScaleRightSide = () =>
   const [borderSize, setBorderSize] = useState(1);
   const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
+  const [showBorder, setShowBorder] = useState(true)
 
   const [iframeKey, setIframeKey] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
@@ -111,6 +112,7 @@ const ScaleRightSide = () =>
     const divSettingRight = document.getElementById('settingRight');
     divIframeRight.style.display = 'block';
     divSettingRight.style.display = 'none';
+    setShowBorder(true)
   }
   function showSetting()
   {
@@ -118,6 +120,7 @@ const ScaleRightSide = () =>
     const divSettingRight = document.getElementById('settingRight');
     divIframeRight.style.display = 'none';
     divSettingRight.style.display = 'block';
+    setShowBorder(false)
   }
 
 
@@ -232,7 +235,7 @@ const myArray = Object.values(data)[0];
     {
       decoded.details.action === "document" ?
      <>
-      <div>
+      <div className="mt-2 text-center pt-3">
       <button id="updateScale" onClick={showIframe}>
           Update
         </button>
@@ -244,6 +247,8 @@ const myArray = Object.values(data)[0];
         <div className="mb-4">
         </div>
       </div>
+      { showBorder === true ?
+      <>
       <hr />
       <Row className="pt-4">
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -277,6 +282,8 @@ const myArray = Object.values(data)[0];
         )}
       </Row>
       <hr />
+      </>: ""
+       }
       <div id="settingRight" style={{ display: 'none' }}>
         {/* iframe */}
         <div>
@@ -293,7 +300,7 @@ const myArray = Object.values(data)[0];
         </div>
         <div className="mt-2 text-center pt-3">
         <Button variant="primary" className="px-5"     onClick={refreshIframe}
-        style={{marginTop:"30px"}}>
+        style={{marginTop:"10px"}}>
             refresh
       </Button>
       </div>
