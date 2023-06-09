@@ -560,10 +560,10 @@ const Header = () => {
               childData.width = tempPosnChild.width;
               childData.height = tempPosnChild.height;
               childData.top = tempPosnChild.top;
-              childData.topp = containerElements[h].parentElement.style.top;
+              childData.topp = element.style.top;
               childData.left = tempPosnChild.left;
 
-              // console.log("childData", childData);
+              // console.log("childData", childData, element);
               let type = "";
               // console.log("containerChildClassName", containerChildClassName);
               switch (containerChildClassName) {
@@ -584,6 +584,9 @@ const Header = () => {
                   break;
                 case "scaleInput":
                   type = "SCALE_INPUT";
+                  break;
+                case "newScaleInput":
+                  type = "NEW_SCALE_INPUT";
                   break;
                 case "buttonInput":
                   type = "BUTTON_INPUT";
@@ -741,6 +744,43 @@ const Header = () => {
       }
     }
 
+    const newScales = document.getElementsByClassName("newScaleInput");
+    if (scales.length) {
+      for (let s = 0; s < scales.length; s++) {
+        if (
+          !newScales[s]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = scales[s].parentElement;
+          let tempPosn = getPosition(tempElem);
+          console.log(scales[s].firstElementChild);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: scales[s].parentElement.style.top,
+            left: tempPosn.left,
+            type: "NEW_SCALE_INPUT",
+            data: `${title}_scale_${s + 1}`,
+            scale_url: scales[s].firstElementChild.src,
+            scaleId: tempElem.children[1].innerHTML,
+            id: `scl${s + 1}`,
+            details:
+              decoded.details.action === "document"
+                ? "Document instance"
+                : "Template scale",
+            // scale_url: `${scaleData}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(scales[s]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
       for (let b = 0; b < buttons.length; b++) {
@@ -827,6 +867,7 @@ const Header = () => {
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
+  const documentFlag = decoded?.details?.document_flag;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -1120,7 +1161,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "finalize",
+        action: "finalized",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
@@ -1150,7 +1191,7 @@ const Header = () => {
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/reject/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
-        action: "reject",
+        action: "rejected",
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
@@ -1319,14 +1360,20 @@ const Header = () => {
                 >
                   Share <BiExport />
                 </Button> */}
-                <Button
-                  size="md"
-                  className="rounded"
-                  id="saving-buttonn"
-                  onClick={submit}
-                >
-                  Save <FaSave color="white" />
-                </Button>
+                {/* {documentFlag !== "processing" &&
+                  documentFlag !== "finalized" && ( */}
+                    <Button
+                      size="md"
+                      className="rounded"
+                      id="saving-buttonn"
+                      onClick={submit}
+                      style={{
+                        visibility: documentFlag && "hidden"
+                      }}
+                    >
+                      Save <FaSave color="white" />
+                    </Button>
+                  {/*  )} */}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -1384,6 +1431,9 @@ const Header = () => {
                       id="finalize-button"
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Finalize
                     </Button>
@@ -1396,6 +1446,9 @@ const Header = () => {
                       className="rounded px-4"
                       id="reject-button"
                       onClick={handleReject}
+                      style={{
+                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                      }}
                     >
                       Reject
                     </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-redeclare */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
@@ -21,8 +22,8 @@ import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
-import useDateElement from "../../customHooks/useDateElement";
 import RightContextMenu from "../contextMenu/RightContextMenu";
+import useDateElement from "../../customHooks/useDateElement";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -48,6 +49,7 @@ const dummyData = {
     sampling_status_text: "Not expected",
   },
 };
+
 
 const initialContextMenu = {
   show: false,
@@ -107,17 +109,18 @@ const MidSection = React.forwardRef((props, ref) => {
 
   const [focusedElement, setFocusedElement] = useState(null);
   const [allPages, setAllPages] = useState([]);
-  const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [searchParams] = useSearchParams();
+  const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
   const flag_editing = decoded?.details?.flag;
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
-  var documnetMap = documnentsMap?.map?.((item) => item.content);
+  var documnetMap = documnentsMap?.map?.(item => item.content);
 
-  // console.log("decode", decoded);
+  console.log("decode", decoded);
+  console.log("data", data);
 
   if (documnentsMap?.length > 0) {
     const documentsMap = documnentsMap;
@@ -125,6 +128,7 @@ const MidSection = React.forwardRef((props, ref) => {
     console.log("There's no document map");
   }
 
+  console.log(documnetMap);
   // useEffect(() => {
   //   localStorage.setItem('elementId', scaleId);
   //   console.log(scaleId, 'scaleId on localSt');
@@ -173,6 +177,7 @@ const MidSection = React.forwardRef((props, ref) => {
           iframe2: false,
           button2: false,
           email2: false,
+          newScale2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -373,59 +378,10 @@ const MidSection = React.forwardRef((props, ref) => {
     return resizer;
   }
 
-  // Right click menu
 
-  // const onContextMenu = (event) => {
-  //   // event.preventDefault();
-  //   const midSec = document.querySelector(".midSection_container")
-  //   // const midSec = null
-  //   midSec.addEventListener('contextmenu', (e) => {
 
-  //     e.preventDefault();
-  //     // console.log("event right",e)
-  //     // alert('mouse right-click is prevented');
 
-  //     let listItem = document.createElement("LI")
-  //     listItem.textContent = "Paste";
-  //     // listItem.textContent = "paste";
-  //     listItem.id = 'menuItem';
-  //     listItem.className = 'menuItem';
-  //     listItem.style.backgroundColor = '#333';
-  //     listItem.style.color = '#fff';
-  //     listItem.style.padding = '10px';
-  //     listItem.style.display = 'inline-block';
-  //     listItem.style.marginRight = '10px';
-  //     listItem.style.left = e.pageX + "px";
-  //     listItem.style.top = e.pageY + "px";
 
-  //     // document.onclick = hideMenu;
-  //     // // document.oncontextmenu = rightClick;
-
-  //     // const hideMenu = () => {
-  //     //   document.getElementById("menuItem").style.display="none";
-  //     // }
-
-  //     // if(document.getElementById("menuItem").style.display == "block"){
-  //     //   hideMenu()
-  //     // } else {
-  //     //   var menuItem = document.getElementById("menuItem")
-  //     //   menuItem.style.display="block";
-  //     //   menuItem.style.left = e.pageX + "px";
-  //     //   menuItem.style.top = e.pageY + "px";
-  //     // }
-
-  //     document.addEventListener("click", () => {
-  //       listItem.style.display = "none"
-  //     })
-
-  //     // if (document.getElementById("menuItem").style.display=="block") {
-
-  //     // }
-  //     // let textNode = document.createTextNode("copy")
-  //     // contextMenu.appendChild(textNode)
-  //     midSec.appendChild(listItem)
-  //   });
-  // }\
   const [cutItem_value, setCutItem_value] = useState(null);
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -966,11 +922,13 @@ const MidSection = React.forwardRef((props, ref) => {
           para.parentElement.click();
         };
 
+        dropdownField.innerHTML =  `${element.data}`
+
         // dropdownField.innerText = `${element.data}`
         dropdownField.append(para);
         dropdownField.append(selectElement);
         holderDIV.append(dropdownField);
-        cutItem_value.append(dropdownField);
+        cutItem_value.append(holderDIV);
         sessionStorage.clear();
       }
       else if (element.type === "CONTAINER_INPUT") {
@@ -1550,6 +1508,40 @@ const MidSection = React.forwardRef((props, ref) => {
         cutItem_value.append(containerField);
         sessionStorage.clear()
       }
+      else if (element.type === "BUTTON_INPUT"){
+        let buttonField = document.createElement("button");
+        buttonField.className = "buttonInput";
+        buttonField.style.width = "100%";
+        buttonField.style.height = "100%";
+        buttonField.style.backgroundColor = "#0000";
+        buttonField.style.borderRadius = "0px";
+        buttonField.style.outline = "0px";
+        buttonField.style.overflow = "overlay";
+        buttonField.style.position = "absolute";
+        buttonField.textContent = "Button";
+
+        buttonField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("button2");
+          }
+          handleClicked("button2", "container2");
+          setSidebar(true);
+        };
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none";
+
+        holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
+      }
 
 
       console.log("data", element, "cutItem_value", cutItem_value);
@@ -1796,14 +1788,24 @@ const MidSection = React.forwardRef((props, ref) => {
 
 
 
+
+
+  //Copy paste element
+
   const copyInput = (clickHandler) => {
     // if (typeOfOperation === "IMAGE_INPUT") {
     const element = document.querySelector(".focussedd");
-    console.log("copy_element", element);
+    // console.log("copy_element", element);
     let counter = 1;
     const copyEle = element.cloneNode(true);
-    const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
+    const rect = element.getBoundingClientRect();
+    // console.log("rect from midsection", rect);
+    const copyEleTop =
+      parseInt(copyEle.style.top.slice(0, -2)) +
+      parseInt(rect.height) +
+      20 +
+      "px";
+    // console.log("clickHandler", clickHandler);
     // parseInt(holder.style.top.slice(0, -2))
     copyEle.classList.remove("focussedd");
     copyEle.firstChild.classList.remove("focussed");
@@ -1832,7 +1834,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
       const resizeTags = copyEle.getElementsByClassName("resizeBtn");
       while (resizeTags.length > 0) {
-        // console.log("resizeTags", resizeTags[0]);
+        console.log("resizeTags", resizeTags[0]);
         resizeTags[0].remove();
       }
 
@@ -1861,14 +1863,58 @@ const MidSection = React.forwardRef((props, ref) => {
       copyEle.addEventListener("click", (e) => {
         e.stopPropagation();
         focuseddClassMaintain(e);
-        // imageField.classList.add("focussed");
-        handleClicked(clickHandler, "container2");
+        console.log("find classlist", e.target.classList[0]);
+        if (
+          e.target?.parentElement?.parentElement.classList.contains(
+            "containerInput"
+          )
+        ) {
+          //
+          let type = "";
+          const containerClassName = e.target.classList[0];
+          switch (containerClassName) {
+            case "dateInput":
+              type = "calendar2";
+              break;
+            case "textInput":
+              type = "align2";
+              break;
+            case "imageInput":
+              type = "image2";
+              break;
+            case "signInput":
+              type = "signs2";
+              break;
+            case "iframeInput":
+              type = "iframe2";
+              break;
+            case "scaleInput":
+              type = "scale2";
+              break;
+            case "buttonInput":
+              type = "button2";
+              break;
+            case "dropdownInput":
+              type = "dropdown2";
+              break;
+            case "emailButton":
+              type = "email2";
+              break;
+            default:
+              type = "";
+          }
+          //
+          handleClicked(type, "container2");
+          console.log("inside if", type);
+        } else {
+          handleClicked(clickHandler);
+        }
 
         setSidebar(true);
       });
     }
 
-    console.log(copyEle);
+    // console.log(copyEle);
     // let midSec = document.querySelector(".drop_zone");
     let midSec = null;
 
@@ -1889,11 +1935,19 @@ const MidSection = React.forwardRef((props, ref) => {
     }
     // console.log("mid sec", midSec)
     copyEle.id += counter;
-    midSec.appendChild(copyEle);
+    if (
+      parseInt(copyEle.style.top.slice(0, -2)) +
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
+      1122
+    ) {
+      midSec.appendChild(copyEle);
+    }
 
     copyEle.onclick = (clickHandler2) => {
       if (clickHandler2.ctrlKey) {
-        copyInput(clickHandler, "container2");
+        copyInput(clickHandler);
       }
     };
   };
@@ -1922,7 +1976,7 @@ const MidSection = React.forwardRef((props, ref) => {
           hitTarget = null;
           counterCheck = false;
         }
-        tempTarget = tempTarget.parentNode;
+        tempTarget = tempTarget?.parentNode;
       }
 
       holder = hitTarget;
@@ -1932,8 +1986,8 @@ const MidSection = React.forwardRef((props, ref) => {
           //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
           // left:
           //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-          top: parseInt(holder?.style?.top.slice(0, -2)),
-          left: parseInt(holder?.style?.left.slice(0, -2)),
+          top: parseInt(holder?.style.top.slice(0, -2)),
+          left: parseInt(holder?.style.left.slice(0, -2)),
         };
         return Object.seal(holderPos);
       })();
@@ -2215,99 +2269,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   }
   // });
 
-  // table_dropdown_focuseddClassMaintain
-  // function table_dropdown_focuseddClassMaintain(e) {
-  //   console.log("tabletargettest", e.target);
-
-  //   if (
-  //     !e.target?.classList?.contains("addImageButtonInput") &&
-  //     !e.target?.classList?.contains("addSignButtonInput")
-  //   ) {
-  //     let allDiv = document.getElementsByClassName("focussedd");
-  //     for (let i = 0; i < allDiv.length; i++) {
-  //       allDiv[i].classList.remove("focussedd");
-  //     }
-
-  //     let findFocusElement = e.target.parentElement;
-
-  //     while (1) {
-  //       if (findFocusElement.classList.contains("holderDIV")) {
-  //         findFocusElement.classList.add("focussedd");
-  //         break;
-  //       } else {
-  //         findFocusElement = findFocusElement.parentElement;
-  //       }
-  //     }
-
-  //     // if (e.target.parentElement.classList.contains("holderDIV")) {
-  //     //   e.target.parentElement.classList.add("focussedd");
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.classList.contains("holderDIV")
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.classList.add("focussedd");
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // } else if (
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains(
-  //     //     "holderDIV"
-  //     //   )
-  //     // ) {
-  //     //   e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add(
-  //     //     "focussedd"
-  //     //   );
-  //     // }
-  //     let focussedDiv = document.getElementsByClassName("focussed");
-  //     for (let i = 0; i < focussedDiv.length; i++) {
-  //       focussedDiv[i].classList.remove("focussed");
-  //     }
-  //     if (e.target.classList.contains("dropdownInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("dropdownInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("tableInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("tableInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("iframeInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("iframeInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     if (e.target.classList.contains("scaleInput")) {
-  //       e.target.classList.add("focussed");
-  //     } else if (e.target.parentElement.classList.contains("scaleInput")) {
-  //       e.target.parentElement.classList.add("focussed");
-  //     }
-  //     // e.target.classList.add("focussed");
-  //   }
-  // }
-
-  // table ondrop handle after retrieve
-
   const onPost = () => {
     const curr_user = document.getElementById("curr_user");
 
@@ -2383,7 +2344,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2472,7 +2433,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2553,7 +2514,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2615,7 +2576,7 @@ const MidSection = React.forwardRef((props, ref) => {
           // if (
           //     decoded.details.action === "document"
           //   ) {
-          element.data.startsWith("url(")
+          element.data.startsWith("url(" && "data")
             ? (signField.innerHTML = `<img src=${element.data} />`)
             : (signField.innerHTML = `${element.data}`);
 
@@ -2672,7 +2633,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -2930,7 +2891,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -2984,7 +2945,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3015,11 +2976,7 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.position = "absolute";
           buttonField.textContent = element.data;
 
-          if (
-            decoded.details.action === "template" &&
-            element.raw_data == "" &&
-            element.purpose == ""
-          ) {
+          if (decoded.details.action === "template") {
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
               if (e.ctrlKey) {
@@ -3089,7 +3046,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3206,11 +3163,139 @@ const MidSection = React.forwardRef((props, ref) => {
           // holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
         if (element.type === "SCALE_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          // const holderDIV = getHolderDIV(measure, pageNo);
+
+          let scaleField = document.createElement("div");
+          scaleField.className = "scaleInput";
+          scaleField.id = id;
+          scaleField.style.width = "100%";
+          scaleField.style.height = "100%";
+          scaleField.style.backgroundColor = "transparent";
+          scaleField.style.borderRadius = "0px";
+          scaleField.style.outline = "0px";
+          scaleField.style.overflow = "overlay";
+          // iframeField.innerHTML = "iframe";
+          scaleField.style.position = "absolute";
+
+          if (element.data == "scale here") {
+            scaleField.innerHTML = element.data;
+          }
+          if (
+            element.data != "scale here" &&
+            decoded.details.action === "template"
+          ) {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.position = "relative";
+            iframe.style.zIndex = "-1";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          if (
+            element.details === "Template scale" &&
+            decoded.details.action === "document"
+          ) {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+
+            Axios.post(
+              "https://100035.pythonanywhere.com/api/nps_create_instance",
+              {
+                scale_id: element.scaleId,
+              }
+            )
+              .then((res) => {
+                setIsLoading(false);
+                console.log(res, "scaleData");
+                const lastInstance = res.data.response.instances.slice(-1)[0];
+                const lastValue = Object.values(lastInstance)[0];
+                iframe.src = lastValue;
+                console.log(lastValue);
+              })
+              .catch((err) => {
+                setIsLoading(false);
+                console.log(err);
+              });
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          if (
+            element.details === "Document instance" &&
+            decoded.details.action === "document"
+          ) {
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "90%";
+            iframe.style.height = "90%";
+            iframe.src = element.scale_url;
+
+            scaleField.addEventListener("resize", () => {
+              iframe.style.width = scaleField.clientWidth + "px";
+              iframe.style.height = scaleField.clientHeight + "px";
+            });
+
+            scaleField.append(iframe);
+          }
+
+          const scaleIdHolder = document.createElement("div");
+
+          scaleIdHolder.className = "scaleId_holder";
+          scaleIdHolder.innerHTML = element.scaleId;
+          scaleIdHolder.style.display = "none";
+
+          const labelHolder = document.createElement("div");
+          labelHolder.className = "label_holder";
+          labelHolder.style.display = "none";
+
+          scaleField.onclick = (e) => {
+            // focuseddClassMaintain(e);
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("scale2");
+            }
+            handleClicked("scale2");
+            setSidebar(true);
+          };
+
+          holderDIV.append(scaleField);
+          holderDIV.append(scaleIdHolder);
+          holderDIV.append(labelHolder);
+
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
+
+        if (element.type === "NEW_SCALE_INPUT") {
           const measure = {
             width: element.width + "px",
             height: element.height + "px",
@@ -3319,10 +3404,7 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("scale2");
-            }
-            handleClicked("scale2");
+            handleClicked("newScale2");
             setSidebar(true);
           };
 
@@ -3332,7 +3414,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -3395,7 +3477,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -3445,6 +3527,7 @@ const MidSection = React.forwardRef((props, ref) => {
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
+              // top: containerElement.top - element.top + "px",
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
@@ -3655,6 +3738,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 }
               };
               inputFieldContainer.onclick = (e) => {
+                e.stopPropagation();
                 focuseddClassMaintain(e);
                 if (e.ctrlKey) {
                   copyInput("align2");
@@ -3667,6 +3751,7 @@ const MidSection = React.forwardRef((props, ref) => {
               //   handleClicked("align2");
               //   setSidebar(true);
               // };
+
               const text = `${containerElement.raw_data}`;
 
               inputFieldContainer.innerHTML = text;
@@ -3759,7 +3844,7 @@ const MidSection = React.forwardRef((props, ref) => {
               scaleFieldContainer.className = "scaleInput";
               scaleFieldContainer.style.width = "100%";
               scaleFieldContainer.style.height = "100%";
-              scaleFieldContainer.style.backgroundColor = "#dedede";
+              scaleFieldContainer.style.backgroundColor = "transparent";
               scaleFieldContainer.style.borderRadius = "0px";
               scaleFieldContainer.style.outline = "0px";
               scaleFieldContainer.style.overflow = "overlay";
@@ -4405,7 +4490,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -4488,13 +4573,8 @@ const MidSection = React.forwardRef((props, ref) => {
     addImageButtonInput.item(0).click();
   };
 
-
-  // const [draggedElement, setDraggedElement] = useState(null);
-  // const [droppedElement, setDroppedElement] = useState(null);
-  // const [history, setHistory] = useState([]);
-
   const dragOver = (event) => {
-    // console.log("log from on drag", event);
+    //console.log("log from on drag", event);
     const isLink = event.dataTransfer.types.includes("text/plain");
     // console.log("isLink", isLink);
     if (isLink) {
@@ -4567,7 +4647,7 @@ const MidSection = React.forwardRef((props, ref) => {
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
         inputField.className = "textInput";
-        inputField.innerHTML = "Enter text here";
+        inputField.placeholder = "Enter text here";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
         inputField.style.resize = "none";
@@ -4653,7 +4733,6 @@ const MidSection = React.forwardRef((props, ref) => {
         imageField.onclick = (e) => {
           e.stopPropagation();
           focuseddClassMaintain(e);
-          // cutInput()
           if (e.ctrlKey) {
             copyInput("image2");
           }
@@ -4917,7 +4996,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.className = "scaleInput";
         scaleField.style.width = "100%";
         scaleField.style.height = "100%";
-        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.backgroundColor = "transparent";
         scaleField.style.borderRadius = "0px";
         scaleField.style.outline = "0px";
         scaleField.style.overflow = "overlay";
@@ -4934,8 +5013,11 @@ const MidSection = React.forwardRef((props, ref) => {
         }
 
         let scale = document.createElement("iframe");
-        scale.style.width = "90%";
-        scale.style.height = "90%";
+        scale.style.width = "100%";
+        scale.style.height = "100%";
+        scale.style.position = "relative";
+        scale.style.zIndex = "-1";
+
         const scaleIdHolder = document.createElement("div");
         scaleIdHolder.className = "scaleId_holder";
         scaleIdHolder.style.display = "none";
@@ -4999,6 +5081,261 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(scaleField);
         holderDIV.append(scaleIdHolder);
         holderDIV.append(labelHolder);
+      } else if (
+        typeOfOperation === "NEW_SCALE_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        setIsLoading(true);
+
+        let scaleField = document.createElement("div");
+        scaleField.className = "scaleInput";
+        scaleField.style.width = "100%";
+        scaleField.style.height = "100%";
+        scaleField.style.backgroundColor = "#fff";
+        scaleField.style.borderRadius = "0px";
+        scaleField.style.outline = "0px";
+        scaleField.style.overflow = "overlay";
+        scaleField.style.position = "absolute";
+        // scaleField.innerText = "scale here";
+        
+        const scaleHold = document.createElement("div");
+        scaleHold.className = "scool_input";
+        scaleHold.style.color = "black";
+        scaleHold.style.width = "100%";
+        scaleHold.style.height = "90%";
+        scaleHold.style.padding = "10px";
+        scaleHold.style.display = "none";
+    
+        scaleField.append(scaleHold);
+
+        const scaleText = document.createElement("div");
+        scaleText.className = "scale_text";
+        scaleText.textContent = "New Scale";
+        scaleText.style.marginBottom = "15px";
+        scaleText.style.width = "100%";
+        scaleText.style.height = "10%";
+        scaleText.style.backgroundColor = "transparent";
+        scaleText.style.borderRadius = "0px";
+        scaleHold.append(scaleText);
+
+        const labelHold = document.createElement("div");
+        labelHold.className = "label_hold";
+        labelHold.style.width = "100%";
+        labelHold.style.height = "60%";
+        labelHold.style.border = "1px solid black";
+        labelHold.style.backgroundColor = "blue";
+        // labelHold.style.display = "none";
+        scaleHold.appendChild(labelHold);
+        labelHold.style.display = "flex";
+        // labelHold.style.flexWrap = "wrap";
+        labelHold.style.justifyContent = "space-between";
+        labelHold.style.alignItems = "center";
+        // labelHold.style.margin = "0px";
+
+        for ( let i =0; i < 11 ;i++ ) {
+          const circle = document.createElement("div");
+          // Set the styles for the circle
+          circle.className = "circle_label"
+          circle.style.width = "35%";
+          circle.style.height = "35%";
+          circle.style.borderRadius = "50%";
+          circle.style.backgroundColor = "red";
+          circle.style.top = "30%";
+          circle.style.left = "30%";
+          circle.style.display = "flex";
+          circle.style.justifyContent = "center";
+          circle.style.alignItems = "center";
+          circle.style.marginLeft ="2px";
+
+          circle.textContent = i;
+          labelHold.append(circle);
+        }
+        // const parentDiv = document.createElement("div");
+        // parentDiv.id = "parent";
+        // parentDiv.style.margin = "0px";
+
+        const childDiv = document.createElement("div");
+        childDiv.id = "child";
+        childDiv.style.display = "flex";
+        childDiv.style.justifyContent = "space-between";
+        // childDiv.style.margin = "0px";
+
+        const element1 = document.createElement("h6");
+        element1.className = "left_child";
+        element1.style.marginLeft = "0px";
+        element1.textContent = "Good";
+        childDiv.appendChild(element1);
+
+        const element2 = document.createElement("h6");
+        element2.className = "neutral_child";
+        element2.textContent = "Neutral";
+        childDiv.appendChild(element2);
+
+        const element3 = document.createElement("h6");
+        element3.className = "right_child";
+        element3.textContent = "Best";
+        childDiv.appendChild(element3);
+        scaleHold.append(childDiv);
+        const scales = document.getElementsByClassName("scaleInput");
+        if (scales.length) {
+          const s = scales.length;
+          scaleField.id = `scl${s + 1}`;
+        } else {
+          scaleField.id = "scl1";
+        }
+
+        let scale = document.createElement("div");
+        scale.style.width = "90%";
+        scale.style.height = "0%";
+        // const scaleIdHolder = document.createElement("div");
+        // scaleIdHolder.className = "scaleId_holder";
+        // scaleIdHolder.backgroundColor = "black";
+        // scaleIdHolder.borderRadius = "5px";
+        // scaleIdHolder.style.width = "90%";
+        // scaleIdHolder.style.height = "90%";
+        // scaleIdHolder.style.display = "block";
+        // scaleIdHolder.innerHTML = "Hello test"
+
+        // const labelHolder = document.createElement("div");
+        // labelHolder.className = "label_holder";
+        // labelHolder.style.display = "block";
+        // labelHolder.style.width = "80%";
+        // labelHolder.style.height = "50%";
+        // labelHolder.innerText = "labels";
+        // labelHolder.backgroundColor = "red";
+
+
+        scaleField.addEventListener("resize", () => {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
+
+        scaleField.append(scale);
+        // Axios.post(
+        //   "https://100035.pythonanywhere.com/api/nps_settings_create/",
+        //   {
+        //     username: "nake",
+        //     orientation: "",
+        //     scalecolor: "",
+        //     roundcolor: "",
+        //     fontcolor: "",
+        //     fomat: "",
+        //     time: "00",
+        //     name: ``,
+        //     left: "",
+        //     right: "",
+        //     center: "",
+        //   }
+        // )
+        //   .then((res) =>
+        //   {
+        //     setIsLoading(false);
+        //     console.log(res.data, "scaleData");
+        //     setScaleData(res.data);
+        //     const success = res.data.success;
+        //     var successObj = JSON.parse(success);
+        //     const id = successObj.inserted_id;
+        //     console.log(res.scale_urls, "stateScale");
+        //     if (id.length)
+        //     {
+        //       console.log(id, "id");
+        //       // setScaleId(id);
+        //       scaleIdHolder.innerHTML = id;
+        //     }
+        //     scale.src = res.data.scale_urls;
+        //   })
+        //   .catch((err) =>
+        //   {
+        setIsLoading(false);
+        //     console.log(err);
+        //   });
+
+        const copyScales = () => {
+          // if (typeOfOperation === "IMAGE_INPUT") {
+          const element = document.querySelector(".focussedd");
+          // console.log(element);
+          let counter = 1;
+          const copyEle = element.cloneNode(true);
+          const copyEleTop =
+            parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+          // parseInt(holder.style.top.slice(0, -2))
+          copyEle.classList.remove("focussedd");
+          copyEle.firstChild.classList.remove("focussed");
+          // copyEle.classList.add("imageInput")
+          console.log(copyEleTop);
+          copyEle.onfocus = () => {
+            copyEle.style.border = "1px solid rgb(255 191 0)";
+          };
+          copyEle.onblur = () => {
+            copyEle.style.border = "1px dotted black";
+          };
+          if (copyEle) {
+            copyEle.style.top = copyEleTop;
+            copyEle.style.border = "1px dotted black";
+
+            copyEle.onmousedown = copyEle.addEventListener(
+              "mousedown",
+              (event) => {
+                dragElementOverPage(event);
+              },
+              false
+            );
+
+            const resizerTL = getResizer("top", "left");
+            const resizerTR = getResizer("top", "right");
+            const resizerBL = getResizer("bottom", "left");
+            const resizerBR = getResizer("bottom", "right");
+            // parseInt(holder.style.top.slice(0, -2))
+
+            copyEle.addEventListener("focus", function (e) {
+              // holderDIV.classList.add("focussedd");
+              copyEle.classList.add("zIndex-two");
+              copyEle.style.border = "2px solid orange";
+              // holderDIV.append(holderMenu);
+
+              copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+            });
+            copyEle.addEventListener("click", (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              // imageField.classList.add("focussed");
+              handleClicked("image2", "container2");
+              // copyImage()
+              // resizing = true;
+              setSidebar(true);
+            });
+          }
+          // console.log(copyEle)
+          copyEle.id += counter;
+          midSec.appendChild(copyEle);
+          console.log("coping", copyEle);
+          // }
+        };
+
+        scaleField.addEventListener("click", (event) => {
+          // console.log("clicked it")
+          // copyImage()
+          // setSidebar(true)
+          if (event.ctrlKey) {
+            console.log("clicked it");
+            copyScales();
+            // setSidebar(true)
+          } else {
+            console.log("Faild to copy");
+          }
+        });
+
+        scaleField.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          handleClicked("newScale2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(scaleField);
+        // holderDIV.append(scaleIdHolder);
+        // holderDIV.append(labelHolder);
       }
       // Limon
       // else if (
@@ -5467,98 +5804,6 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
 
-          // const copyContainerInput = (clickHandler) => {
-          //   // if (typeOfOperation === "IMAGE_INPUT") {
-          //   const element = document.querySelector(".focussedd");
-          //   // const cornerBtn = document.getElementsByClassName("resizeBtn");
-
-          //   // console.log("cornerBtn", cornerBtn);
-          //   // cornerBtn.style.backgroundColor = "red"
-          //   // console.log(element);
-          //   let counter = 1;
-          //   const copyEle = element.cloneNode(true);
-          //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
-
-          //   // parseInt(holder.style.top.slice(0, -2))
-          //   copyEle.classList.remove("focussedd")
-          //   copyEle.firstChild.classList.remove("focussed")
-          //   // cornerBtn.classList.remove("resizeBtn")
-          //   // copyEle.classList.add("imageInput")
-          //   // console.log(copyEleTop)
-          //   copyEle.onfocus = () => {
-          //     copyEle.style.border = "1px solid rgb(255 191 0)";
-          //   }
-          //   copyEle.onblur = () => {
-          //     copyEle.style.border = "3px dotted gray";
-          //     // cornerBtn.style.backgroundColor = "red";
-          //   }
-          //   if (copyEle) {
-          //     copyEle.style.top = copyEleTop;
-          //     copyEle.style.border = "3px dotted gray";
-          //     // copyEle.classList.remove("resizeBtn")
-
-          //     copyEle.onmousedown = copyEle.addEventListener(
-          //       "mousedown",
-          //       (event) => {
-          //         dragElementOverPage(event);
-          //       },
-          //       false
-          //     );
-
-          //     const resizerTL = getResizer("top", "left");
-          //     const resizerTR = getResizer("top", "right");
-          //     const resizerBL = getResizer("bottom", "left");
-          //     const resizerBR = getResizer("bottom", "right");
-          //     // parseInt(holder.style.top.slice(0, -2))
-
-          //     copyEle.addEventListener("focus", function (e) {
-          //       copyEle.style.border = "2px solid orange";
-          //       // holderDIV.append(holderMenu);
-
-          //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-          //     });
-          //     copyEle.addEventListener("click", (e) => {
-          //       e.stopPropagation();
-          //       focuseddClassMaintain(e);
-          //       // cornerBtn.style.backgroundColor = "green"
-
-          //       // imageField.classList.add("focussed");
-          //       handleClicked(clickHandler, "container2");
-
-          //       setSidebar(true);
-          //     })
-
-          //   }
-
-          //   // console.log(copyEle)
-          //   let midSec = document.querySelector(".drop_zone")
-
-          //   if (!midSec) {
-          //     let targetParent = element;
-          //     while (1) {
-          //       if (targetParent.classList.contains("midSection_container")) {
-          //         targetParent = targetParent;
-          //         break;
-          //       } else {
-          //         targetParent = targetParent.parentElement;
-          //         midSec = targetParent
-          //       }
-          //     }
-          //   }
-          //   // console.log("mid sec", midSec)
-          //   copyEle.id += counter;
-          //   midSec.appendChild(copyEle);
-
-          //   copyEle.onclick = (clickHandler2) => {
-
-          //     if(clickHandler2.ctrlKey) {
-          //       copyInput( clickHandler, "container2")
-          //     }
-
-          //   }
-
-          // }
-
           const holderDIVContainer = getHolderDIV(measureContainer);
           if (typeOfOperationContainer === "DATE_INPUT") {
             let dateFieldContainer = document.createElement("div");
@@ -6002,7 +6247,7 @@ const MidSection = React.forwardRef((props, ref) => {
         buttonField.style.overflow = "overlay";
         buttonField.style.position = "absolute";
         buttonField.type = "submit";
-        buttonField.textContent = "Send";
+        buttonField.textContent = "Mail";
         buttonField.style.backgroundColor = "#007bff";
         buttonField.style.color = "#fff";
         // buttonField.style.border = "none";
@@ -6105,16 +6350,6 @@ const MidSection = React.forwardRef((props, ref) => {
   let page = [];
 
   let elem = {};
-
-
-
-
-
-
-
-
-
-
   // function saveDocument() {
   //   const txt = document.getElementsByClassName("textInput");
   //   if (txt.length) {
@@ -6208,9 +6443,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   return contentFile;
   // }
 
-
-
-
   return (
     <>
       {item?.map((currentItem, index) => {
@@ -6226,7 +6458,6 @@ const MidSection = React.forwardRef((props, ref) => {
               <Container
                 as="div"
                 ref={midSectionRef}
-                
                 className={
                   // !sidebar
                   //   ? "midSection_without_RightMenu_container"
@@ -6236,11 +6467,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 id="midSection_container"
                 onDragOver={dragOver}
                 onDrop={onDrop}
-                // contextMenu={onContextMenu}
-                // onContextMenu={onContextMenu}
                 onContextMenu={handleContextMenu}
               >
-                {contextMenu.show && (
+                 {contextMenu.show && (
                   <RightContextMenu
                     x={contextMenu.x}
                     y={contextMenu.y}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import Form from 'react-bootstrap/Form';
 // import Button from 'react-bootstrap/Button';
 // import Dropdown from 'react-bootstrap/Dropdown';
@@ -12,8 +12,12 @@ const IframeRightSidebar = () =>
   const { setSidebar, handleClicked, setIsFinializeDisabled } =
     useStateContext();
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  const [borderSize, setBorderSize] = useState(
+    Number(localStorage.getItem("borderSize")) || 0
+  );
+  const [borderColor, setBorderColor] = useState(
+    localStorage.getItem("borderColor") || "#000000"
+  );
   const [showSlider, setShowSlider] = useState(false);
 
   const makeIframe = () =>
@@ -59,6 +63,15 @@ const IframeRightSidebar = () =>
     box.style.borderColor = `${borderColor}`;
 
   };
+  const handleRangeBlur = (e) =>
+  {
+    e.target.focus();
+  };
+  useEffect(() =>
+  {
+    localStorage.setItem("borderSize", borderSize === "0")
+    localStorage.setItem("borderColor", borderColor === "black")
+  }, [borderSize, borderColor]);
   return (
     <>
       <div>
@@ -117,6 +130,7 @@ const IframeRightSidebar = () =>
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
               id="range"
               className="range-color"
 

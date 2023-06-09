@@ -11,7 +11,6 @@ const RightContextMenu = ({ x, y, closeContextMenu, cutInput, pasteInput, handle
         <div onClick={() => closeContextMenu()} className='positioning' style={{ top: `${y}px`, left: `${x}px` }}>
             <ul className='menuStyle'>
                 <li onClick={cutInput}><BiCut /> Cut</li>
-                <li onClick={handleCopy}><BiCopyAlt/> Copy</li>
                 <li onClick={pasteInput}><ImPaste />Paste</li>
                 <li onClick={removeInput}><CgPlayListRemove />Remove</li>
                 {/* <li onClick={handlePrint}>Print</li> */}

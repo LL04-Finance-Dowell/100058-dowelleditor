@@ -209,6 +209,17 @@ const myArray = Object.values(data)[0];
 
   };
 
+  const refreshIframe = () =>{
+    
+    const focusseddElmnt = document.querySelector('.focussedd');
+    if (focusseddElmnt.classList.contains('holderDIV'))
+    {
+      var container = document.querySelector('.focussedd')
+      var content = container.innerHTML
+      container.innerHTML = content
+    }
+  }
+
   const handleBorderColorChange = (e) =>
   {
     setBorderColor(e.target.value);
@@ -218,8 +229,11 @@ const myArray = Object.values(data)[0];
   };
   return (
     <>
+    {
+      decoded.details.action === "document" ?
+     <>
       <div>
-        <button id="updateScale" onClick={showIframe}>
+      <button id="updateScale" onClick={showIframe}>
           Update
         </button>
         <button id="setScale" onClick={showSetting}>
@@ -227,10 +241,79 @@ const myArray = Object.values(data)[0];
         </button>
       </div>
       <div id="iframeRight">
-        <h3>Update scale</h3>
+        <div className="mb-4">
+        </div>
+      </div>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
+      <div id="settingRight" style={{ display: 'none' }}>
+        {/* iframe */}
+        <div>
+
+
+          {/* <Form.Control
+            type="text"
+            placeholder={`${decoded.details._id}_scl1`}
+            disabled
+            className="mb-4"
+          // id="iframe_src"
+          // onChange={handleChange}
+          /> */}
+        </div>
+        <div className="mt-2 text-center pt-3">
+        <Button variant="primary" className="px-5"     onClick={refreshIframe}
+        style={{marginTop:"30px"}}>
+            refresh
+      </Button>
+      </div>
+
+        {/* iframe */}
+      </div>
+      </>:
+      <>
+      <div>
+      <button id="updateScale" onClick={showIframe}>
+          Update
+        </button>
+        <button id="setScale" onClick={showSetting}>
+          Settings
+        </button>
+      </div>
+      <div id="iframeRight">
         <div className="mb-4">
           <Form.Label>Scale Type</Form.Label>
-          <select className='rounded w-100 h-75 p-2 '>
+          <select className='select rounded border-0 bg-white w-100 h-75 p-2 '>
             <option>select</option>
             <option>nps scale</option>
           </select>
@@ -238,7 +321,7 @@ const myArray = Object.values(data)[0];
         <div>
           <iframe
             key={iframeKey}
-            style={{ border: 'solid 2px black', height: '400px' }}
+            style={{ border: '1px solid lightgray', height: '400px'}}
             id="update_ifr"
             src={iframeSrc}
           ></iframe>
@@ -297,7 +380,7 @@ const myArray = Object.values(data)[0];
             id="select"
             // onChange={handleDateMethod}
             className="select border-0 bg-white rounded w-100 h-75 p-2 "
-            multiple
+            //multiple
           >
             <option value="select">Select Element</option>
             {options}
@@ -315,14 +398,20 @@ const myArray = Object.values(data)[0];
           />
 
         </div>
-
-        <div className="mt-2 text-center pt-5">
-          <Button variant="primary" className="px-5" onClick={scaleSubmit}>
+        <div className="mt-2 text-center pt-3">
+        <Button variant="primary" className="px-5"     onClick={refreshIframe}
+        style={{marginTop:"90px"}}>
+            refresh
+      </Button>
+      </div>
+        <div className="mt-2 text-center pt-3">
+          <Button variant="primary" className="px-5" onClick={scaleSubmit}
+          style={{marginRight:"10px"}}>
             Save
           </Button>
           <Button
             variant="secondary"
-            className="px-5 remove_button"
+            className="remove_button"
             onClick={removeScale}
           >
             Remove Scale
@@ -331,6 +420,8 @@ const myArray = Object.values(data)[0];
 
         {/* iframe */}
       </div>
+      </>
+      }
     </>
   );
 };

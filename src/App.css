@@ -154,6 +154,8 @@ th {
 .modal-body {
   overflow: auto;
 }
+
+
 @media print{
   body * {
     margin: 0;
@@ -243,13 +245,24 @@ th {
   padding-bottom: 40px;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 5px;
 }
-
+ */
 ::-webkit-scrollbar-thumb {
   background-color: rgb(184, 177, 177);
   border-radius: 5px;
-}
+} 
 
+::-webkit-scrollbar{
+  height: 5px;
+  width: 5px;
+  /* background: gray; */
+}
+::-webkit-scrollbar-thumb:horizontal{
+  /* background: #000; */
+  border-radius: 5px; 
+  background-color: rgb(184, 177, 177);
+
+}
 .document_left_col{ background: #e3eeff }
