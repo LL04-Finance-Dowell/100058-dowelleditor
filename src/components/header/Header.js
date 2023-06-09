@@ -109,7 +109,19 @@ const Header = () => {
     document.execCommand("redo");
   };
   const handleCut = () => {
-    document.querySelector(".focussedd").remove();
+    // document.querySelector(".focussedd").remove();
+    // if (handleCut == true) {
+      const cutEle = document.querySelector(".focussedd")
+      console.log("cutEle", cutEle)
+
+      // cutEle.select()
+      document.execCommand("cut")
+      cutEle.style.display = "none";
+      console.log("cutEle after", cutEle)
+    // }
+    // if(onclick = () => handlePaste) {
+    //   cutEle.style.display = "inline"
+    // }
   };
   const handleCopy = () => {
     // const element = document.querySelector(".focussedd");
@@ -122,7 +134,16 @@ const Header = () => {
     // console.log("coping", copyEle)
   };
   const handlePaste = () => {
-    document.execCommand("paste");
+    // document.execCommand("paste");
+    const cutEle = document.querySelector(".focussedd")
+//  cutEle.style.display = "inline"
+   navigator.clipboard.readText()
+   .then(clipEle => {
+    const add =  `${cutEle + " " + clipEle}`.toString()
+    console.log("add", add)
+    return add;
+   })
+    
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -422,7 +443,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -474,9 +495,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -581,7 +602,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1170,9 +1191,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1182,9 +1202,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

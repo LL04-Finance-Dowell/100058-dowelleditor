@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
+import jwt_decode from "jwt-decode";
+import { useSearchParams } from "react-router-dom";
+
+
 
 const StateContext = createContext();
 
@@ -441,6 +445,517 @@ export const ContextProvider = ({ children }) => {
     // e.target.style.backgroundColor = "lightBlue";
   }
 
+
+// hanlde copypaste 
+
+// const [searchParams] = useSearchParams();
+// const token = searchParams.get("token");
+// var decoded = jwt_decode(token);
+
+// let resizing = false;
+
+// const dragElementOverPage = (event) => {
+//   let holder;
+//   // console.log("dragElement", event.target);
+//   // event.dataTransfer.setData("text/plain", "DATE_INPUT");
+//   if (!resizing) {
+//     let initX = event.screenX;
+//     let initY = event.screenY;
+
+//     // console.log("initX ", initX, "initY ", initY);
+//     /* Ensure That target has changed */
+//     var counterCheck = true;
+//     var tempTarget = event.target;
+//     var hitTarget = "";
+//     while (counterCheck) {
+//       // if(tempTarget.className === 'holderDIV'){
+//       if (tempTarget.classList.contains("holderDIV")) {
+//         hitTarget = tempTarget;
+//         counterCheck = false;
+//       } else if (tempTarget.classList.contains("textInput")) {
+//         hitTarget = null;
+//         counterCheck = false;
+//       }
+//       tempTarget = tempTarget.parentNode;
+//     }
+
+//     holder = hitTarget;
+//     const holderPos = (function () {
+//       const holderPos = {
+//         // top:
+//         //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+//         // left:
+//         //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+//         top: parseInt(holder?.style?.top.slice(0, -2)),
+//         left: parseInt(holder?.style?.left.slice(0, -2)),
+//       };
+//       return Object.seal(holderPos);
+//     })();
+//     // holder.ondragstart = (e) => {
+//     //   console.log("i am dragged", e.target);
+//     // };
+//     // code for conatainer element move start
+//     let holderParentHolder = "";
+//     let holderParentHolderRect = "";
+//     let hodlerRect = "";
+//     if (holder?.parentElement.classList.contains("containerInput")) {
+//       holderParentHolder = holder?.parentElement?.parentElement;
+//     }
+//     if (holderParentHolder) {
+//       holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+//     }
+//     hodlerRect = holder.getBoundingClientRect();
+//     // code for container element move end
+//     // console.log("finding moveable element", holderPos);
+
+//     window.addEventListener("mousemove", moveObject);
+//     function moveObject(ev) {
+//       //console.log(ev);
+//       ev.preventDefault();
+//       const el = document.getElementById("midSection_container");
+//       const midsectionRect = el.getBoundingClientRect();
+//       //console.log(
+//       //   midsectionRect.left,
+//       //   midsectionRect.top,
+//       //   midsectionRect.right
+//       // );
+//       //  screenX: 531, screenY: 175, clientX: 531, Top-left
+//       //  screenX: 1061, screenY: 154, Top right
+
+//       // console.log("midsectionRect", midsectionRect);
+//       // const eventClientX = ev.clientX;
+//       const elemtnMeasureX =
+//         ev.screenX + holderPos.left + hodlerRect.width - initX;
+//       const elmentMeasureY =
+//         ev.screenY + holderPos.top + hodlerRect.height - initY;
+//       // if (
+//       //   ev.screenX > holderParentHolderRect.left &&
+//       //   ev.screenY > holderParentHolderRect.top &&
+//       //   ev.screenX < holderParentHolderRect.right
+//       // ) {
+//       if (holder?.parentElement.classList.contains("containerInput")) {
+//         if (
+//           holderParentHolderRect.width > elemtnMeasureX + 5 &&
+//           // holderParentHolderRect.left + 20 < elemtnMeasureX &&
+//           ev.screenX + holderPos.left - initX > 0 &&
+//           holderParentHolderRect.height > elmentMeasureY + 5 &&
+//           // holderParentHolderRect.top - 50 < elmentMeasureY
+//           ev.screenY + holderPos.top - initY > 0
+//         ) {
+//           //console.log("checking motion");
+//           const diffX = ev.screenX - initX;
+//           const diffY = ev.screenY - initY;
+//           holder.style.top = holderPos.top + diffY + "px";
+//           holder.style.left = holderPos.left + diffX + "px";
+//         } else {
+//           holder.style.top = holderPos.top + "px";
+//           holder.style.left = holderPos.left + "px";
+//         }
+//       } else {
+//         // if (
+//         //   ev.screenX > midsectionRect.left &&
+//         //   ev.screenY > midsectionRect.top &&
+//         //   ev.screenX < midsectionRect.right
+//         // ) {
+
+//         if (
+//           midsectionRect.width > elemtnMeasureX + 5 &&
+//           ev.screenX + holderPos.left - initX > 0 &&
+//           midsectionRect.height > elmentMeasureY + 5 &&
+//           // midsectionRect.top - 50 < elmentMeasureY
+//           ev.screenY + holderPos.top - initY > 0
+//         ) {
+//           //console.log("checking motion");
+//           const diffX = ev.screenX - initX;
+//           const diffY = ev.screenY - initY;
+//           holder.style.top = holderPos.top + diffY + "px";
+//           holder.style.left = holderPos.left + diffX + "px";
+//         } else {
+//           holder.style.top = holderPos.top + "px";
+//           holder.style.left = holderPos.left + "px";
+//         }
+//       }
+//     }
+
+//     window.addEventListener("mouseup", stopMove);
+//     function stopMove(ev) {
+//       window.removeEventListener("mousemove", moveObject);
+//       window.removeEventListener("mouseup", stopMove);
+//     }
+//   }
+// };
+
+
+
+
+
+// function getResizer(attr1, attr2) {
+//   const resizer = document.createElement("span");
+//   resizer.style.width = "5px";
+//   resizer.style.height = "5px";
+//   resizer.style.display = "block";
+//   resizer.className = "resizeBtn";
+//   resizer.style.position = "absolute";
+//   resizer.style.backgroundColor = "#00aaff";
+
+//   if (attr1 === "top") {
+//     resizer.style.top = "-5px";
+//   } else {
+//     resizer.style.bottom = "-5px";
+//   }
+
+//   if (attr2 === "left") {
+//     resizer.style.left = "-5px";
+//   } else {
+//     resizer.style.right = "-5px";
+//   }
+
+//   if (
+//     (attr1 == "top" && attr2 === "right") ||
+//     (attr1 == "bottom" && attr2 === "left")
+//   ) {
+//     resizer.onmouseover = (event) => {
+//       event.target.style.cursor = "nesw-resize";
+//     };
+//   } else {
+//     resizer.onmouseover = (event) => {
+//       event.target.style.cursor = "nwse-resize";
+//     };
+//   }
+
+//   resizer.onmousedown = (event) => {
+//     let initX = event.screenX;
+//     let initY = event.screenY;
+//     resizing = true;
+//     event.preventDefault();
+
+//     const holder = event.target.parentNode;
+
+//     const holderSize = (function () {
+//       const holderSize = {
+//         width:
+//           decoded.details.flag === "editing" ? holder.offsetWidth : undefined,
+//         height:
+//           decoded.details.flag === "editing"
+//             ? holder.offsetHeight
+//             : undefined,
+//         top:
+//           decoded.details.flag === "editing" ? holder.offsetTop : undefined,
+//         left:
+//           decoded.details.flag === "editing" ? holder.offsetLeft : undefined,
+
+//         // width: parseInt(holder.style.width.slice(0, -2)),
+//         // height: parseInt(holder.style.height.slice(0, -2)),
+//         // top: parseInt(holder.style.top.slice(0, -2)),
+//         // left: parseInt(holder.style.left.slice(0, -2))//elemLeft : 0
+//       };
+//       return Object.seal(holderSize);
+//     })();
+
+//     window.addEventListener("mousemove", resizeElement);
+//     function resizeElement(ev) {
+//       const el = document.getElementById("midSection_container");
+//       const midsectionRect = el.getBoundingClientRect();
+//       if (
+//         ev.screenX > midsectionRect.left &&
+//         ev.screenY > midsectionRect.top &&
+//         ev.screenX < midsectionRect.right
+//       ) {
+//         if (attr1 == "bottom" && attr2 == "right") {
+//           holder.style.width = ev.screenX - initX + holderSize.width + "px";
+//           holder.style.height = ev.screenY - initY + holderSize.height + "px";
+//         } else if (attr1 == "bottom" && attr2 == "left") {
+//           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+//           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+//           holder.style.height = ev.screenY - initY + holderSize.height + "px";
+//         } else if (attr1 == "top" && attr2 == "left") {
+//           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+//           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+//           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+//           holder.style.height =
+//             holderSize.height - (ev.screenY - initY) + "px";
+//         } else if (attr1 == "top" && attr2 == "right") {
+//           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+//           holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
+//           holder.style.height =
+//             holderSize.height - (ev.screenY - initY) + "px";
+//         }
+//       }
+//     }
+
+//     window.addEventListener("mouseup", stopResizing);
+//     function stopResizing(ev) {
+//       window.removeEventListener("mousemove", resizeElement);
+//       window.removeEventListener("mouseup", stopResizing);
+//       resizing = false;
+//     }
+//   };
+
+//   return resizer;
+// }
+
+
+
+
+
+// const copyInput = (clickHandler) => {
+//   // if (typeOfOperation === "IMAGE_INPUT") {
+//   const element = document.querySelector(".focussedd");
+//   // console.log(element);
+//   let counter = 1;
+//   const copyEle = element.cloneNode(true);
+//   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+//   // parseInt(holder.style.top.slice(0, -2))
+//   copyEle.classList.remove("focussedd");
+//   copyEle.firstChild.classList.remove("focussed");
+//   // copyEle.classList.add("imageInput")
+//   // console.log(copyEleTop)
+//   copyEle.onfocus = () => {
+//     copyEle.style.border = "3px solid rgb(255 191 0)";
+//   };
+//   copyEle.onblur = () => {
+//     copyEle.style.border = "3px dotted gray";
+//   };
+//   if (copyEle) {
+//     copyEle.style.top = copyEleTop;
+//     copyEle.style.border = "3px dotted black";
+
+//     copyEle.onmousedown = copyEle.addEventListener(
+//       "mousedown",
+//       (event) => {
+//         dragElementOverPage(event);
+//       },
+//       false
+//     );
+
+//     const resizerTL = getResizer("top", "left");
+//     const resizerTR = getResizer("top", "right");
+//     const resizerBL = getResizer("bottom", "left");
+//     const resizerBR = getResizer("bottom", "right");
+//     // parseInt(holder.style.top.slice(0, -2))
+
+//     copyEle.addEventListener("focus", function (e) {
+//       // holderDIV.classList.add("focussedd");
+//       copyEle.classList.add("zIndex-two");
+//       copyEle.style.border = "2px solid orange";
+//       // holderDIV.append(holderMenu);
+
+//       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+//     });
+//     copyEle.addEventListener("click", (e) => {
+//       e.stopPropagation();
+//       focuseddClassMaintain(e);
+//       // imageField.classList.add("focussed");
+//       // const targetEle = document.getElementById("focussed")
+//       // const list = copyEle.classList;
+//       // list.add("focussedd")
+//       handleClicked(clickHandler, "container2");
+//       // copyImage()
+//       // resizing = true;
+//       setSidebar(true);
+//       if (e.ctrlKey) {
+//         copyInput(clickHandler);
+//         console.log("did u call me inside");
+//       }
+//       if (!midSec) {
+//         let targetParent = element;
+//         while (1) {
+//           if (targetParent.classList.contains("midSection_container")) {
+//             targetParent = targetParent;
+//             break;
+//           } else {
+//             targetParent = targetParent.parentElement;
+//             midSec = targetParent;
+//           }
+//         }
+//       }
+//       copyEle.id += counter;
+//       midSec.appendChild(copyEle);
+//     });
+//   }
+
+//   // copyEle.onclick = (clickHandler) => {
+//   //   if (clickHandler.ctrlKey) {
+//   //     const element = document.querySelector(".focussedd");
+//   //     // console.log(element);
+//   //     let counter = 1;
+//   //     const copyEle = element.cloneNode(true);
+//   //     const copyEleTop =
+//   //       parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+//   //     // parseInt(holder.style.top.slice(0, -2))
+//   //     copyEle.classList.remove("focussedd");
+//   //     copyEle.firstChild.classList.remove("focussed");
+//   //     // copyEle.classList.add("imageInput")
+//   //     // console.log(copyEleTop)
+//   //     copyEle.onfocus = () => {
+//   //       copyEle.style.border = "3px solid rgb(255 191 0)";
+//   //     };
+//   //     copyEle.onblur = () => {
+//   //       copyEle.style.border = "3px dotted gray";
+//   //     };
+//   //     if (copyEle) {
+//   //       copyEle.style.top = copyEleTop;
+//   //       copyEle.style.border = "3px dotted black";
+
+//   //       copyEle.onmousedown = copyEle.addEventListener(
+//   //         "mousedown",
+//   //         (event) => {
+//   //           dragElementOverPage(event);
+//   //         },
+//   //         false
+//   //       );
+
+//   //       const resizerTL = getResizer("top", "left");
+//   //       const resizerTR = getResizer("top", "right");
+//   //       const resizerBL = getResizer("bottom", "left");
+//   //       const resizerBR = getResizer("bottom", "right");
+//   //       // parseInt(holder.style.top.slice(0, -2))
+
+//   //       copyEle.addEventListener("focus", function (e) {
+//   //         // holderDIV.classList.add("focussedd");
+//   //         copyEle.classList.add("zIndex-two");
+//   //         copyEle.style.border = "2px solid orange";
+//   //         // holderDIV.append(holderMenu);
+
+//   //         copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+//   //       });
+//   //       copyEle.addEventListener("click", (e) => {
+//   //         e.stopPropagation();
+//   //         focuseddClassMaintain(e);
+//   //         // imageField.classList.add("focussed");
+//   //         handleClicked(clickHandler, "container2");
+//   //         // copyImage()
+//   //         // resizing = true;
+//   //         setSidebar(true);
+//   //       });
+//   //     }
+
+//   //     let midSec = document.querySelector(".drop_zone");
+
+//   //     if (!midSec) {
+//   //       let targetParent = element;
+//   //       while (1) {
+//   //         if (targetParent.classList.contains("midSection_container")) {
+//   //           targetParent = targetParent;
+//   //           break;
+//   //         } else {
+//   //           targetParent = targetParent.parentElement;
+//   //           midSec = targetParent;
+//   //         }
+//   //       }
+//   //     }
+//   //     copyEle.id += counter;
+//   //     midSec.appendChild(copyEle);
+//   //     console.log("copy ele", copyEle);
+//   //   }
+
+//   //   // const element = document.querySelector(".focussedd");
+//   //   // // console.log(element);
+//   //   // let counter = 1;
+//   //   // const copyEle = element.cloneNode(true);
+//   //   // const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+//   //   // // parseInt(holder.style.top.slice(0, -2))
+//   //   // copyEle.classList.remove("focussedd")
+//   //   // copyEle.firstChild.classList.remove("focussed")
+//   //   // // copyEle.classList.add("imageInput")
+//   //   // // console.log(copyEleTop)
+//   //   // copyEle.onfocus = () => {
+//   //   //   copyEle.style.border = "1px solid rgb(255 191 0)";
+//   //   // }
+//   //   // copyEle.onblur = () => {
+//   //   //   copyEle.style.border = "2px dotted gray";
+//   //   // }
+//   //   // if (copyEle) {
+//   //   //   copyEle.style.top = copyEleTop;
+//   //   //   copyEle.style.border = "1px dotted black";
+
+//   //   //   copyEle.onmousedown = copyEle.addEventListener(
+//   //   //     "mousedown",
+//   //   //     (event) => {
+//   //   //       dragElementOverPage(event);
+//   //   //     },
+//   //   //     false
+//   //   //   );
+
+//   //   //   const resizerTL = getResizer("top", "left");
+//   //   //   const resizerTR = getResizer("top", "right");
+//   //   //   const resizerBL = getResizer("bottom", "left");
+//   //   //   const resizerBR = getResizer("bottom", "right");
+//   //   //   // parseInt(holder.style.top.slice(0, -2))
+
+//   //   //   copyEle.addEventListener("focus", function (e) {
+//   //   //     // holderDIV.classList.add("focussedd");
+//   //   //     copyEle.classList.add("zIndex-two");
+//   //   //     copyEle.style.border = "2px solid orange";
+//   //   //     // holderDIV.append(holderMenu);
+
+//   //   //     copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+//   //   //   });
+//   //   //   copyEle.addEventListener("click", (e) => {
+//   //   //     e.stopPropagation();
+//   //   //     focuseddClassMaintain(e);
+//   //   //     // imageField.classList.add("focussed");
+//   //   //     handleClicked(clickHandler, "container2");
+//   //   //     // copyImage()
+//   //   //     // resizing = true;
+//   //   //     setSidebar(true);
+//   //   //   })
+//   //   // }
+
+//   //   // let midSec = document.querySelector(".drop_zone")
+
+//   //   // if (!midSec) {
+//   //   //   let targetParent = element;
+//   //   //   while (1) {
+//   //   //     if (targetParent.classList.contains("midSection_container")) {
+//   //   //       targetParent = targetParent;
+//   //   //       break;
+//   //   //     } else {
+//   //   //       targetParent = targetParent.parentElement;
+//   //   //       midSec = targetParent
+//   //   //     }
+//   //   //   }
+//   //   // }
+//   //   // console.log("mid sec", midSec)
+//   //   // copyEle.id += counter;
+//   //   // midSec.appendChild(copyEle);
+//   //   // console.log("copy ele", copyEle);
+//   // };
+//   // console.log(copyEle)
+//   let midSec = document.querySelector(".drop_zone");
+
+//   if (!midSec) {
+//     let targetParent = element;
+//     const list = copyEle.classList;
+//     list.add("focussedd")
+//     while (1) {
+//       if (targetParent.classList.contains("midSection_container")) {
+//         targetParent = targetParent;
+//         break;
+//       } else {
+//         targetParent = targetParent.parentElement;
+//         midSec = targetParent;
+//       }
+//     }
+//   }
+//   console.log("mid sec", midSec);
+//   copyEle.id += counter;
+//   midSec.appendChild(copyEle);
+//   console.log("copy ele", copyEle);
+//   // midSec.forEeach((e) => {
+//   //   e.appendChild(copyEle);
+//   // });
+
+//   // console.log("coping", copyEle)
+//   // }
+// };
+
+
+
+
   return (
     <StateContext.Provider
       value={{
@@ -526,6 +1041,7 @@ export const ContextProvider = ({ children }) => {
         setButtonPurpose,
         customId, 
         setCustomId,
+        // copyInput
       }}
     >
       {children}
