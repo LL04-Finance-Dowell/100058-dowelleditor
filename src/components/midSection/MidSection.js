@@ -3078,11 +3078,7 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.borderWidth = element.data;
           buttonField.textContent = element.data;
 
-          if (
-            decoded.details.action === "template" &&
-            element.raw_data == "" &&
-            element.purpose == ""
-          ) {
+         
             buttonField.onclick = (e) => {
               focuseddClassMaintain(e);
               if (e.ctrlKey) {
@@ -3091,76 +3087,8 @@ const MidSection = React.forwardRef((props, ref) => {
               handleClicked("email2");
               setSidebar(true);
             };
-          }
-
-          // buttonField.onmouseover = (e) =>
-          // {
-          //   if (buttonField?.parentElement?.classList.contains("holderDIV"))
-          //   {
-          //     buttonField?.parentElement?.classList.add("element_updated");
-          //   }
-          //   if (element.required)
-          //   {
-          //     isAnyRequiredElementEdited = true;
-          //   }
-          // };
-
-          // if (
-          //   decoded.details.action === "document" &&
-          //   element.purpose == "custom" &&
-          //   element.raw_data !== ""
-          // )
-          // {
-          //   buttonField.onclick = (e) =>
-          //   {
-          //     window.open(element.raw_data, "_blank");
-          //   };
-          // }
-
-          // if (finalizeButton)
-          // {
-          //   if (isAnyRequiredElementEdited)
-          //   {
-          //     finalizeButton?.click();
-          //   } else
-          //   {
-          //     finalizeButton.disabled = true;
-          //   }
-          // }
-
-          // if (
-          //   decoded.details.action === "document" &&
-          //   element.purpose == "finalize"
-          // ) {
-          //   buttonField.onclick = (e) => {
-          //     finalizeButton?.click();
-          //   };
-          // }
-
-          // if (
-          //   decoded.details.action === "document" &&
-          //   element.purpose == "reject"
-          // )
-          // {
-          //   buttonField.onclick = (e) =>
-          //   {
-          //     rejectButton?.click();
-          //   };
-          // }
-
-          const linkHolder = document.createElement("div");
-          linkHolder.className = "link_holder";
-          linkHolder.innerHTML = element.raw_data;
-          linkHolder.style.display = "none";
-
-          // const purposeHolder = document.createElement("div");
-          // purposeHolder.className = "purpose_holder";
-          // purposeHolder.innerHTML = element.purpose;
-          // purposeHolder.style.display = "none";
-
+            
           holderDIV.append(buttonField);
-          holderDIV.append(linkHolder);
-          // holderDIV.append(purposeHolder);
           document
             .getElementsByClassName("midSection_container")
             [p - 1] // ?.item(0)

@@ -24,6 +24,7 @@ const ScaleRightSide = () =>
     customId, 
   } = useStateContext();
 
+
   const [borderSize, setBorderSize] = useState(1);
   const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
@@ -411,7 +412,7 @@ const myArray = Object.values(data)[0];
           </Button>
           <Button
             variant="secondary"
-            className="remove_button"
+            className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
             onClick={removeScale}
           >
             Remove Scale

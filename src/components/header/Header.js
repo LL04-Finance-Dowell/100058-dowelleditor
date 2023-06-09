@@ -852,6 +852,36 @@ const Header = () => {
       }
     }
 
+    const emails = document.getElementsByClassName("emailButton");
+    if (emails.length) {
+      for (let e = 0; e < emails.length; e++) {
+        if (
+          !emails[e]?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = emails[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: emails[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: emails[e].textContent,
+            id: `eml${e + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(emails[e]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
     contentFile.push(page);
     // const data = JSON.stringify(contentFile);
     // //console.log("ContentFile While saveDoc", data);
@@ -1107,6 +1137,8 @@ const Header = () => {
 
   function handleToken() {
     setData([]);
+    setIsDataRetrieved(false);
+    setFetchedData([]);
     setIsLoading(true);
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -1138,6 +1170,7 @@ const Header = () => {
             console.log(loadedData);
             console.log(loadedData[0][0]);
             setData(loadedData[0][0]);
+            setFetchedData(loadedData[0][0]);
             setIsDataRetrieved(true);
             // setSort(loadedData[0][0]);
             setIsLoading(false);
