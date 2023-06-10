@@ -327,7 +327,7 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop("newScale")}
               icon={<IoScale />}
               title="NewScale"
-            />: ""
+            />:""
            }
 
             {/* test div */}

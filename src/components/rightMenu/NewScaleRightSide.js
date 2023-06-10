@@ -142,7 +142,7 @@ const ScaleRightSide = () => {
       });
   }
 
-  const handleUpdates = () => {
+  const handleUpdates = () => {  
     const btnUpdateButton = document.getElementById("button_color");
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
