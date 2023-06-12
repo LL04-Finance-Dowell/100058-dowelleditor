@@ -147,7 +147,7 @@ const ScaleRightSide = () => {
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
     const btnUpdateScaleFont = document.getElementById("font_style");
-    const btnUpdateScaleName = document.getElementById("scales_name");
+    //const btnUpdateScaleName = document.getElementById("scales_name");
     // const btnUpdateOrientation = document.getElementById("orientation");
     const btnUpdateLeft = document.getElementById("left");
     const btnUpdateRight = document.getElementById("right");
@@ -171,9 +171,9 @@ const ScaleRightSide = () => {
     const option = document.querySelector('select').options[document.querySelector('select').selectedIndex];
       button4.style.display = "block";
 
-      if (btnUpdateScaleName.value !=="") {
-        button3.textContent = btnUpdateScaleName.value;
-      }
+      //if (btnUpdateScaleName.value !=="") {
+      //  button3.textContent = btnUpdateScaleName.value;
+      //}
 
       if (btnUpdateScale.value !=="") {
         button.style.backgroundColor = btnUpdateScale.value;
@@ -462,7 +462,6 @@ const ScaleRightSide = () => {
       <div
         style={{
           width: "100%",
-          height: "470px",
           overflowY: "auto",
           paddingTop: "5px",
           paddingBottom: "5px",
