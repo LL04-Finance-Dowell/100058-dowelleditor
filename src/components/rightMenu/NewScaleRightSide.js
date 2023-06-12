@@ -24,13 +24,14 @@ const ScaleRightSide = () => {
     custom3,
     setCustom3,
     customId,
+    setScaleData,
   } = useStateContext();
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [isSwitchEnabled, setIsSwitchEnabled] = useState(false);
   const [score, setScore] = useState(false);
-
+  const [holdText, setHoldText] = useState("");
   const fontStyles = [
     "Arial",
     "Helvetica",
@@ -142,12 +143,17 @@ const ScaleRightSide = () => {
       });
   }
 
+  const buttonChildLeft = document.querySelector(".left_child");
+  console.log(buttonChildLeft);
   const handleUpdates = () => {
     const btnUpdateButton = document.getElementById("button_color");
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
     const btnUpdateScaleFont = document.getElementById("font_style");
     const btnUpdateScaleName = document.getElementById("scales_name");
+    const headerText = document.getElementById("headerText");
+    console.log(headerText);
+    console.log(btnUpdateScale);
     // const btnUpdateOrientation = document.getElementById("orientation");
     const btnUpdateLeft = document.getElementById("left");
     const btnUpdateRight = document.getElementById("right");
@@ -168,94 +174,131 @@ const ScaleRightSide = () => {
     const buttonChildLeft = document.querySelector(".left_child");
     const buttonChildRight = document.querySelector(".right_child");
     const buttonChildNeutral = document.querySelector(".neutral_child");
-    const option = document.querySelector('select').options[document.querySelector('select').selectedIndex];
-      button4.style.display = "block";
+    const option =
+      document.querySelector("select").options[
+        document.querySelector("select").selectedIndex
+      ];
+    button4.style.display = "block";
+    // if (btnUpdateScaleName.value !== "") {
+    //   button3.textContent = btnUpdateScaleName.value;
+    // }
 
-      if (btnUpdateScaleName.value !=="") {
-        button3.textContent = btnUpdateScaleName.value;
+    if (btnUpdateScale.value !== "") {
+      button.style.backgroundColor = btnUpdateScale.value;
+    }
+
+    for (let i = 0; i < buttonCircle.length; i++) {
+      if (btnUpdateButton.value !== "") {
+        buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
       }
+    }
 
-      if (btnUpdateScale.value !=="") {
-        button.style.backgroundColor = btnUpdateScale.value;
-      }
+    if (btnUpdateFontColor.value !== "") {
+      button4.style.color = btnUpdateFontColor.value;
+    }
 
-      for ( let i=0; i < buttonCircle.length; i++) {
-        if (btnUpdateButton.value !=="") {
-          buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
+    if (btnUpdateScaleFont.value !== "") {
+      button4.style.fontFamily = btnUpdateScaleFont.value;
+    }
+
+    if (option.value === "Horizontal") {
+      button4.style.border = "block";
+      button4.style.textAlign = "center";
+      button.style.display = "flex";
+      button.style.flexDirection = "row";
+      // button.style.marginTop = "5%";
+      button.style.alignItems = "center";
+      // buttonCircle.style.flexDirection = "row";
+      button.style.height = "85%";
+      button.style.width = "100%";
+      button.style.flexDirection = "row";
+      buttonChildRight.style.marginTop = "0px";
+      buttonChildNeutral.style.marginTop = "0px";
+      buttonChild.style.flexDirection = "row";
+      buttonChild.style.justifyContent = "space-between";
+      buttonChild.style.alignItems = "center";
+      button.style.position = "relative";
+      buttonChild.style.marginLeft = "0px";
+      button.style.marginLeft = "0px";
+    }
+
+    if (option.value === "Vertical") {
+      button4.style.border = "none";
+      button4.style.textAlign = "center";
+      button.style.height = "100%";
+      button.style.width = "30%";
+      button.style.position = "absolute";
+      button.style.flexDirection = "column";
+      button.style.alignItems = "center";
+      button.style.marginTop = "0";
+      // button.style.marginLeft = "26%";
+      buttonChild.style.display = "flex";
+      buttonChild.style.flexDirection = "column";
+      buttonChild.style.justifyContent = "space-between";
+      // buttonChild.style.marginLeft = "38%";
+      buttonChildLeft.style.marginTop = "0px";
+      buttonChildRight.style.marginTop = "40%";
+      buttonChildNeutral.style.marginTop = "50%";
+      //buttonCircle.style.flexDirection = "column";
+      buttonCircle.style.marginTop = "2px";
+    }
+
+    if (btnUpdateLeft.value !== "") {
+      buttonChildLeft.textContent = btnUpdateLeft.value;
+    }
+
+    if (btnUpdateRight.value !== "") {
+      buttonChildRight.textContent = btnUpdateRight.value;
+    }
+
+    if (btnUpdateCenter.value !== "") {
+      buttonChildNeutral.textContent = btnUpdateCenter.value;
+    }
+    // if (btnUpdateScales.value !=="") {
+    //   button4.style.textContent = btnUpdateScales.value;
+    // }
+    // if (btnUpdateScore.value !=="") {
+    //   buttonChild.style.color = btnUpdateScore.value;
+    // }
+    // if (btnUpdateScaleLabel.value !=="") {
+    //   button4.innerHTML = btnUpdateScaleLabel.value;
+    // }
+    console.log(btnUpdateButton.value);
+    console.log(btnUpdateScale.value);
+    console.log(btnUpdateFontColor.value);
+    setIsLoading(true);
+    Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
+      user: "boolean",
+      username: "NdoneAmbrose",
+      orientation: "horizontal",
+      scalecolor: btnUpdateScale.value,
+      roundcolor: btnUpdateButton.value,
+      fontcolor: btnUpdateFontColor.value,
+      fomat: "number",
+      allow_resp: false,
+      show_total_score: true,
+      no_of_scales: 6,
+      time: "60",
+      name: "testAPI",
+      left: btnUpdateLeft.value,
+      right: btnUpdateRight.value,
+      center: btnUpdateCenter.value,
+      label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+      fontstyle: btnUpdateScaleFont.value,
+      emoji_format: { 0: "😀", 1: "😃", 2: "😄" },
+    })
+      .then((res) => {
+        if (res.status == 200) {
+          setIsLoading(false);
+          sendMessage();
+          setScaleData(res.data);
+          console.log(res);
         }
-      }
-
-      if (btnUpdateFontColor.value !=="") {
-        button4.style.color = btnUpdateFontColor.value;
-      }
-
-      if (btnUpdateScaleFont.value !=="") {
-        button4.style.fontFamily = btnUpdateScaleFont.value;
-      }
-
-      if (option.value ==="Horizontal") {
-        button4.style.border = "block";
-        button4.style.textAlign = "center";
-        button.style.display = "flex";
-        button.style.flexDirection = "row";
-        // button.style.marginTop = "5%";
-        button.style.alignItems = "center";
-        // buttonCircle.style.flexDirection = "row";
-        button.style.height = "85%";
-        button.style.width = "100%";
-        button.style.flexDirection = "row";
-        buttonChildRight.style.marginTop = "0px";
-        buttonChildNeutral.style.marginTop = "0px";
-        buttonChild.style.flexDirection = "row";
-        buttonChild.style.justifyContent = "space-between";
-        buttonChild.style.alignItems = "center";
-        button.style.position = "relative";
-        buttonChild.style.marginLeft = "0px";
-        button.style.marginLeft = "0px";
-      }
-
-      if (option.value ==="Vertical") {
-        button4.style.border = "none";
-        button4.style.textAlign = "center";
-        button.style.height = "100%";
-        button.style.width = "30%";
-        button.style.position = "absolute";
-        button.style.flexDirection = "column";
-        button.style.alignItems = "center";
-        button.style.marginTop = "0";
-        // button.style.marginLeft = "26%";
-        buttonChild.style.display = "flex"
-        buttonChild.style.flexDirection = "column";
-        buttonChild.style.justifyContent = "space-between";
-        // buttonChild.style.marginLeft = "38%";
-        buttonChildLeft.style.marginTop = "0px";
-        buttonChildRight.style.marginTop = "40%";
-        buttonChildNeutral.style.marginTop = "50%";
-        //buttonCircle.style.flexDirection = "column";
-        buttonCircle.style.marginTop="2px";
-      }
-        
-      if (btnUpdateLeft.value !=="") {
-        buttonChildLeft.textContent = btnUpdateLeft.value;
-      }
-
-      if (btnUpdateRight.value !=="") {
-        buttonChildRight.textContent = btnUpdateRight.value;
-      }
-
-      if (btnUpdateCenter.value !=="") {
-        buttonChildNeutral.textContent = btnUpdateCenter.value;
-      }
-      // if (btnUpdateScales.value !=="") {
-      //   button4.style.textContent = btnUpdateScales.value;
-      // }
-      // if (btnUpdateScore.value !=="") {
-      //   buttonChild.style.color = btnUpdateScore.value;
-      // }
-      // if (btnUpdateScaleLabel.value !=="") {
-      //   button4.innerHTML = btnUpdateScaleLabel.value;
-      // }
-
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+      });
   };
 
   function showIframe() {
@@ -270,7 +313,7 @@ const ScaleRightSide = () => {
     const border = document.getElementById("border");
     border.style.display = "none";
   }
-  
+
   function showSetting() {
     const divIframeRight = document.getElementById("iframeRight");
     const divSettingRight = document.getElementById("settingRight");
@@ -491,13 +534,22 @@ const ScaleRightSide = () => {
               alignItems: "start",
             }}
           >
-          <div
-          style={{ display: "flex", flexDirection: "column", gap: "2px", marginLeft:"auto", marginRight:"auto"}}
-        >
-          <h1 style={{ margin: "auto 0", fontSize: "15px"}}>
-          Edit Untitled-file_scale
-          </h1>
-        </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "2px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <h1
+                id="headerText"
+                style={{ margin: "auto 0", fontSize: "15px" }}
+              >
+                Edit Untitled-file_scale
+              </h1>
+            </div>
             <h6 style={{ fontSize: "12px" }}>Orientation</h6>
             <div
               style={{
@@ -529,8 +581,12 @@ const ScaleRightSide = () => {
                 className="bg-gray-800"
                 id="orientationId"
               >
-                <option value = "Horizontal"  style={{ color: "black" }}>Horizontal</option>
-                <option value = "Vertical" style={{ color: "black" }}>Vertical</option>
+                <option value="Horizontal" style={{ color: "black" }}>
+                  Horizontal
+                </option>
+                <option value="Vertical" style={{ color: "black" }}>
+                  Vertical
+                </option>
               </select>
             </div>
           </div>
@@ -579,8 +635,7 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
-
-                    id = "scale_color"
+                    id="scale_color"
                   />
                 </div>
               </div>
@@ -611,7 +666,7 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
-                    id = "button_color"
+                    id="button_color"
                   />
                   {/* <BiChevronDown
                     size={20}
@@ -647,8 +702,6 @@ const ScaleRightSide = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-
-                  
                 >
                   <input
                     type="color"
@@ -658,7 +711,7 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
-                    id = "font_color"
+                    id="font_color"
                   />
                 </div>
               </div>
@@ -690,7 +743,7 @@ const ScaleRightSide = () => {
                       border: "none",
                       alignItems: "center",
                     }}
-                    id = "font_style"
+                    id="font_style"
                   >
                     <option style={{ fontSize: "11px" }}>Select</option>
                     {fontStyles.map((fontStyle, index) => (
@@ -1203,7 +1256,9 @@ const ScaleRightSide = () => {
           </div>
         </form>
       </div>
-      <Button id ="button_id" onClick= {handleUpdates}>Update</Button>
+      <Button id="button_id" onClick={handleUpdates}>
+        Update
+      </Button>
       <div style={{ display: "none" }} id="border">
         <Row className="pt-4">
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -1261,7 +1316,7 @@ const ScaleRightSide = () => {
             style={{ marginBottom: "120px" }}
           >
             <option value="select">Select Element</option>
-              {options}
+            {options}
           </select>
         </div>
         <div>

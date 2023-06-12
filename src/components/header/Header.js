@@ -111,13 +111,13 @@ const Header = () => {
   const handleCut = () => {
     // document.querySelector(".focussedd").remove();
     // if (handleCut == true) {
-      const cutEle = document.querySelector(".focussedd")
-      console.log("cutEle", cutEle)
+    const cutEle = document.querySelector(".focussedd");
+    console.log("cutEle", cutEle);
 
-      // cutEle.select()
-      document.execCommand("cut")
-      cutEle.style.display = "none";
-      console.log("cutEle after", cutEle)
+    // cutEle.select()
+    document.execCommand("cut");
+    cutEle.style.display = "none";
+    console.log("cutEle after", cutEle);
     // }
     // if(onclick = () => handlePaste) {
     //   cutEle.style.display = "inline"
@@ -135,15 +135,13 @@ const Header = () => {
   };
   const handlePaste = () => {
     // document.execCommand("paste");
-    const cutEle = document.querySelector(".focussedd")
-//  cutEle.style.display = "inline"
-   navigator.clipboard.readText()
-   .then(clipEle => {
-    const add =  `${cutEle + " " + clipEle}`.toString()
-    console.log("add", add)
-    return add;
-   })
-    
+    const cutEle = document.querySelector(".focussedd");
+    //  cutEle.style.display = "inline"
+    navigator.clipboard.readText().then((clipEle) => {
+      const add = `${cutEle + " " + clipEle}`.toString();
+      console.log("add", add);
+      return add;
+    });
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -443,7 +441,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -495,9 +493,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -605,7 +603,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -745,38 +743,52 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    if (scales.length) {
-      for (let s = 0; s < scales.length; s++) {
+    let circles = document.querySelector(".circle_label");
+    let scaleBg = document.querySelector(".label_hold");
+    let leftChild = document.querySelector(".left_child");
+    let neutralChild = document.querySelector(".neutral_child");
+    let rightChild = document.querySelector(".right_child");
+    console.log(circles.style.backgroundColor);
+    let font = document.querySelector(".newScaleInput");
+    if (newScales.length) {
+      for (let b = 0; b < newScales.length; b++) {
         if (
-          !newScales[s]?.parentElement?.parentElement?.classList?.contains(
+          !newScales[b]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
         ) {
-          let tempElem = scales[s].parentElement;
+          let tempElem = newScales[b].parentElement;
+
           let tempPosn = getPosition(tempElem);
-          console.log(scales[s].firstElementChild);
+          console.log(newScales[b]);
+
+          // console.log(buttonColors);
+          let properties = {
+            scaleBgColor: scaleBg.style.backgroundColor,
+            fontColor: newScales[b].firstChild.style.color,
+            fontFamily: newScales[b].firstChild.style.fontFamily,
+            left: leftChild.textContent,
+            center: neutralChild.textContent,
+            right: rightChild.textContent,
+            buttonColor: circles.style.backgroundColor,
+          };
+          console.log(properties);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: scales[s].parentElement.style.top,
+            topp: newScales[b].parentElement.style.top,
             left: tempPosn.left,
             type: "NEW_SCALE_INPUT",
-            data: `${title}_scale_${s + 1}`,
-            scale_url: scales[s].firstElementChild.src,
-            scaleId: tempElem.children[1].innerHTML,
-            id: `scl${s + 1}`,
-            details:
-              decoded.details.action === "document"
-                ? "Document instance"
-                : "Template scale",
-            // scale_url: `${scaleData}`,
+            data: `${title}_scale_${b + 1}`,
+            // raw_data: tempElem.children[1].innerHTML,
+            raw_data: properties,
+            // purpose: tempElem.children[2].innerHTML,
+            id: `scl${b + 1}`,
           };
-          // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(scales[s]);
+          console.log(elem);
+          const pageNum = findPaageNum(newScales[b].parentElement);
           page[0][pageNum].push(elem);
-
-          // page.push(elem);
         }
       }
     }
@@ -855,11 +867,7 @@ const Header = () => {
     const emails = document.getElementsByClassName("emailButton");
     if (emails.length) {
       for (let e = 0; e < emails.length; e++) {
-        if (
-          !emails[e]?.parentElement?.classList?.contains(
-            "containerInput"
-          )
-        ) {
+        if (!emails[e]?.parentElement?.classList?.contains("containerInput")) {
           let tempElem = emails[e].parentElement;
           let tempPosn = getPosition(tempElem);
 
@@ -1265,8 +1273,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -1276,8 +1285,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -1395,18 +1405,18 @@ const Header = () => {
                 </Button> */}
                 {/* {documentFlag !== "processing" &&
                   documentFlag !== "finalized" && ( */}
-                    <Button
-                      size="md"
-                      className="rounded"
-                      id="saving-buttonn"
-                      onClick={submit}
-                      style={{
-                        visibility: documentFlag && "hidden"
-                      }}
-                    >
-                      Save <FaSave color="white" />
-                    </Button>
-                  {/*  )} */}
+                <Button
+                  size="md"
+                  className="rounded"
+                  id="saving-buttonn"
+                  onClick={submit}
+                  style={{
+                    visibility: documentFlag && "hidden",
+                  }}
+                >
+                  Save <FaSave color="white" />
+                </Button>
+                {/*  )} */}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -1465,7 +1475,8 @@ const Header = () => {
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                       style={{
-                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Finalize
@@ -1480,7 +1491,8 @@ const Header = () => {
                       id="reject-button"
                       onClick={handleReject}
                       style={{
-                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Reject
