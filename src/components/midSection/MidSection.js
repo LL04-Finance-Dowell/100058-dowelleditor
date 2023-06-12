@@ -50,7 +50,6 @@ const dummyData = {
   },
 };
 
-
 const initialContextMenu = {
   show: false,
   x: 0,
@@ -117,7 +116,7 @@ const MidSection = React.forwardRef((props, ref) => {
   const flag_editing = decoded?.details?.flag;
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
-  var documnetMap = documnentsMap?.map?.(item => item.content);
+  var documnetMap = documnentsMap?.map?.((item) => item.content);
 
   console.log("decode", decoded);
   console.log("data", data);
@@ -378,10 +377,6 @@ const MidSection = React.forwardRef((props, ref) => {
     return resizer;
   }
 
-
-
-
-
   const [cutItem_value, setCutItem_value] = useState(null);
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -507,11 +502,8 @@ const MidSection = React.forwardRef((props, ref) => {
         //   [p - 1] // ?.item(0)
         //   ?.append(holderDIV);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (
-        element.type === "TEXT_INPUT"
-      ) {
+        sessionStorage.clear();
+      } else if (element.type === "TEXT_INPUT") {
         let inputField = document.createElement("div");
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
@@ -573,17 +565,12 @@ const MidSection = React.forwardRef((props, ref) => {
           // inputField.classList.add("focussed");
           // inputField.parentElement.focus()
         };
-        inputField.innerText = `${element.data}`
-
-
-
+        inputField.innerText = `${element.data}`;
 
         holderDIV.append(inputField);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-
-      }
-      else if (element.type === "IMAGE_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "IMAGE_INPUT") {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
         imageField.id = "inputImg";
@@ -641,17 +628,16 @@ const MidSection = React.forwardRef((props, ref) => {
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
-        imageField.innerHTML = `${element.data2}`
-        console.log("element data getting", `${element.data}`)
+        imageField.innerHTML = `${element.data2}`;
+        console.log("element data getting", `${element.data}`);
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
         holderDIV.append(imageField);
         holderDIV.append(imageButton);
-        cutItem_value.append(holderDIV)
-        sessionStorage.clear()
-      }
-      else if (element.type === "IFRAME_INPUT") {
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "IFRAME_INPUT") {
         let iframeField = document.createElement("div");
         iframeField.className = "iframeInput";
         iframeField.style.width = "100%";
@@ -683,13 +669,12 @@ const MidSection = React.forwardRef((props, ref) => {
           handleClicked("iframe2", "container2");
           setSidebar(true);
         };
-        iframeField.innerHTML = `${element.data}`
+        iframeField.innerHTML = `${element.data}`;
 
         holderDIV.append(iframeField);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "SCALE_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "SCALE_INPUT") {
         setIsLoading(true);
 
         let scaleField = document.createElement("div");
@@ -775,15 +760,14 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
 
-        scaleField.innerHTML = `${element.data}`
+        scaleField.innerHTML = `${element.data}`;
 
         holderDIV.append(scaleField);
         holderDIV.append(scaleIdHolder);
         holderDIV.append(labelHolder);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "SIGN_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "SIGN_INPUT") {
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100%";
@@ -843,7 +827,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         imageSignButton.append(signBtn);
 
-        signField.innerText = `${element.data}`
+        signField.innerText = `${element.data}`;
 
         // const para = document.createElement("p");
         // para.innerHTML = "Place your signature here";
@@ -851,9 +835,8 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(signField);
         holderDIV.append(imageSignButton);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "DROPDOWN_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "DROPDOWN_INPUT") {
         let dropdownField = document.createElement("div");
         dropdownField.className = "dropdownInput";
         dropdownField.style.width = "100%";
@@ -861,7 +844,7 @@ const MidSection = React.forwardRef((props, ref) => {
         dropdownField.style.backgroundColor = "#0000";
         dropdownField.style.borderRadius = "0px";
         dropdownField.style.outline = "0px";
-        dropdownField.style.border = "1px solid gray"
+        dropdownField.style.border = "1px solid gray";
         dropdownField.style.overflow = "overlay";
         // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
         dropdownField.style.position = "absolute";
@@ -922,7 +905,7 @@ const MidSection = React.forwardRef((props, ref) => {
           para.parentElement.click();
         };
 
-        dropdownField.innerHTML =  `${element.data}`
+        dropdownField.innerHTML = `${element.data}`;
 
         // dropdownField.innerText = `${element.data}`
         dropdownField.append(para);
@@ -930,8 +913,7 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(dropdownField);
         cutItem_value.append(holderDIV);
         sessionStorage.clear();
-      }
-      else if (element.type === "CONTAINER_INPUT") {
+      } else if (element.type === "CONTAINER_INPUT") {
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
@@ -1501,14 +1483,12 @@ const MidSection = React.forwardRef((props, ref) => {
           if (typeOfOperationContainer !== "CONTAINER_INPUT")
             containerField.append(holderDIVContainer);
         };
-        containerField.innerHTML = `${element.data}`
-
+        containerField.innerHTML = `${element.data}`;
 
         holderDIV.append(containerField);
         cutItem_value.append(containerField);
-        sessionStorage.clear()
-      }
-      else if (element.type === "BUTTON_INPUT"){
+        sessionStorage.clear();
+      } else if (element.type === "BUTTON_INPUT") {
         let buttonField = document.createElement("button");
         buttonField.className = "buttonInput";
         buttonField.style.width = "100%";
@@ -1542,7 +1522,6 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(linkHolder);
         holderDIV.append(purposeHolder);
       }
-
 
       console.log("data", element, "cutItem_value", cutItem_value);
       // cutItem_value.append(data);
@@ -1701,8 +1680,6 @@ const MidSection = React.forwardRef((props, ref) => {
     setContextMenu(initialContextMenu);
   });
 
-
-
   // handle copy input from context menu
 
   const handleCopyInput = () => {
@@ -1775,20 +1752,13 @@ const MidSection = React.forwardRef((props, ref) => {
     };
     sessionStorage.setItem("copyItem", JSON.stringify(elem));
     // cutItem.remove();
-  }
+  };
 
-
-  // Remove Input 
+  // Remove Input
   const handleRemoveInput = () => {
     const selectInput = document.querySelector(".focussedd");
-    selectInput.remove()
-
-  }
-
-
-
-
-
+    selectInput.remove();
+  };
 
   //Copy paste element
 
@@ -3044,6 +3014,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           holderDIV.append(linkHolder);
           holderDIV.append(purposeHolder);
+          console.log(element);
           document
             .getElementsByClassName("midSection_container")
             [p - 1] // ?.item(0)
@@ -3078,16 +3049,15 @@ const MidSection = React.forwardRef((props, ref) => {
           buttonField.style.borderWidth = element.data;
           buttonField.textContent = element.data;
 
-         
-            buttonField.onclick = (e) => {
-              focuseddClassMaintain(e);
-              if (e.ctrlKey) {
-                copyInput("email2");
-              }
-              handleClicked("email2");
-              setSidebar(true);
-            };
-            
+          buttonField.onclick = (e) => {
+            focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("email2");
+            }
+            handleClicked("email2");
+            setSidebar(true);
+          };
+
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
@@ -3237,16 +3207,101 @@ const MidSection = React.forwardRef((props, ref) => {
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let scaleField = document.createElement("div");
-          scaleField.className = "scaleInput";
+          scaleField.className = "newScaleInput";
           scaleField.id = id;
           scaleField.style.width = "100%";
           scaleField.style.height = "100%";
-          scaleField.style.backgroundColor = "#dedede";
+          scaleField.style.backgroundColor = "#ffffff";
           scaleField.style.borderRadius = "0px";
           scaleField.style.outline = "0px";
           scaleField.style.overflow = "overlay";
+          scaleField.style.color = element.raw_data.fontColor;
+          scaleField.style.fontFamily = element.raw_data.fontFamily;
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
+
+          const scaleHold = document.createElement("div");
+          scaleHold.className = "scool_input";
+          // scaleHold.style.color = "black";
+          scaleHold.style.width = "100%";
+          scaleHold.style.height = "90%";
+          scaleHold.style.padding = "10px";
+          // scaleHold.style.display = "none";
+
+          // scaleField.append(scaleHold);
+
+          const scaleText = document.createElement("div");
+          scaleText.className = "scale_text";
+          scaleText.textContent = element.data;
+          scaleText.style.marginBottom = "10px";
+          scaleText.style.width = "100%";
+          scaleText.style.display = "flex";
+          scaleText.style.alignItems = "center";
+          scaleText.style.justifyContent = "center";
+          scaleText.style.height = "10%";
+          scaleText.style.backgroundColor = "transparent";
+          scaleText.style.borderRadius = "0px";
+          scaleHold.append(scaleText);
+
+          const labelHold = document.createElement("div");
+          labelHold.className = "label_hold";
+          labelHold.style.width = "100%";
+          labelHold.style.height = "85%";
+          labelHold.style.border = "1px solid black";
+          labelHold.style.backgroundColor = element.raw_data.scaleBgColor;
+          // labelHold.style.display = "none";
+          scaleHold.appendChild(labelHold);
+          labelHold.style.display = "flex";
+          // labelHold.style.flexWrap = "wrap";
+          labelHold.style.justifyContent = "space-between";
+          labelHold.style.alignItems = "center";
+          // labelHold.style.margin = "0px";
+
+          for (let i = 0; i < 11; i++) {
+            const circle = document.createElement("div");
+            // Set the styles for the circle
+            circle.className = "circle_label";
+            circle.style.width = "35%";
+            circle.style.height = "35%";
+            circle.style.borderRadius = "50%";
+            circle.style.backgroundColor = element.raw_data.buttonColor;
+            circle.style.top = "30%";
+            circle.style.left = "30%";
+            circle.style.display = "flex";
+            circle.style.justifyContent = "center";
+            circle.style.alignItems = "center";
+            circle.style.marginLeft = "2px";
+
+            circle.textContent = i;
+            labelHold.append(circle);
+          }
+          // const parentDiv = document.createElement("div");
+          // parentDiv.id = "parent";
+          // parentDiv.style.margin = "0px";
+
+          const childDiv = document.createElement("div");
+          childDiv.id = "child";
+          childDiv.style.display = "flex";
+          childDiv.style.justifyContent = "space-between";
+          // childDiv.style.margin = "0px";
+
+          const element1 = document.createElement("h6");
+          element1.className = "left_child";
+          element1.style.marginLeft = "0px";
+          element1.textContent = element.raw_data.left;
+          childDiv.appendChild(element1);
+
+          const element2 = document.createElement("h6");
+          element2.className = "neutral_child";
+          element2.textContent = element.raw_data.center;
+          childDiv.appendChild(element2);
+
+          const element3 = document.createElement("h6");
+          element3.className = "right_child";
+          element3.textContent = element.raw_data.right;
+          childDiv.appendChild(element3);
+          scaleHold.append(childDiv);
+          scaleField.append(scaleHold);
 
           if (element.data == "scale here") {
             scaleField.innerHTML = element.data;
@@ -3255,51 +3310,217 @@ const MidSection = React.forwardRef((props, ref) => {
             element.data != "scale here" &&
             decoded.details.action === "template"
           ) {
-            const iframe = document.createElement("iframe");
-            iframe.style.width = "90%";
-            iframe.style.height = "90%";
-            iframe.src = element.scale_url;
+            const scaleHold = document.createElement("div");
+            scaleHold.className = "scool_input";
+            scaleHold.style.color = "black";
+            scaleHold.style.width = "100%";
+            scaleHold.style.height = "90%";
+            scaleHold.style.padding = "10px";
+            scaleHold.style.display = "none";
 
-            scaleField.addEventListener("resize", () => {
-              iframe.style.width = scaleField.clientWidth + "px";
-              iframe.style.height = scaleField.clientHeight + "px";
-            });
+            // scaleField.append(scaleHold);
 
-            scaleField.append(iframe);
+            const scaleText = document.createElement("div");
+            scaleText.className = "scale_text";
+            scaleText.textContent = "Untitled-file_scale";
+            scaleText.style.marginBottom = "10px";
+            scaleText.style.width = "100%";
+            scaleText.style.display = "flex";
+            scaleText.style.alignItems = "center";
+            scaleText.style.justifyContent = "center";
+            scaleText.style.height = "10%";
+            scaleText.style.backgroundColor = "transparent";
+            scaleText.style.borderRadius = "0px";
+            scaleHold.append(scaleText);
+
+            const labelHold = document.createElement("div");
+            labelHold.className = "label_hold";
+            labelHold.style.width = "100%";
+            labelHold.style.height = "85%";
+            labelHold.style.border = "1px solid black";
+            labelHold.style.backgroundColor = "blue";
+            // labelHold.style.display = "none";
+            scaleHold.appendChild(labelHold);
+            labelHold.style.display = "flex";
+            // labelHold.style.flexWrap = "wrap";
+            labelHold.style.justifyContent = "space-between";
+            labelHold.style.alignItems = "center";
+            // labelHold.style.margin = "0px";
+
+            for (let i = 0; i < 11; i++) {
+              const circle = document.createElement("div");
+              // Set the styles for the circle
+              circle.className = "circle_label";
+              circle.style.width = "35%";
+              circle.style.height = "35%";
+              circle.style.borderRadius = "50%";
+              circle.style.backgroundColor = "red";
+              circle.style.top = "30%";
+              circle.style.left = "30%";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.marginLeft = "2px";
+
+              circle.textContent = i;
+              labelHold.append(circle);
+            }
+            // const parentDiv = document.createElement("div");
+            // parentDiv.id = "parent";
+            // parentDiv.style.margin = "0px";
+
+            const childDiv = document.createElement("div");
+            childDiv.id = "child";
+            childDiv.style.display = "flex";
+            childDiv.style.justifyContent = "space-between";
+            // childDiv.style.margin = "0px";
+
+            const element1 = document.createElement("h6");
+            element1.className = "left_child";
+            element1.style.marginLeft = "0px";
+            element1.textContent = "Good";
+            childDiv.appendChild(element1);
+
+            const element2 = document.createElement("h6");
+            element2.className = "neutral_child";
+            element2.textContent = "Neutral";
+            childDiv.appendChild(element2);
+
+            const element3 = document.createElement("h6");
+            element3.className = "right_child";
+            element3.textContent = "Best";
+            childDiv.appendChild(element3);
+            scaleHold.append(childDiv);
+            scaleField.append(scaleHold);
+
+            // const iframe = document.createElement("iframe");
+            // iframe.style.width = "90%";
+            // iframe.style.height = "90%";
+            // iframe.src = element.scale_url;
+
+            // scaleField.addEventListener("resize", () => {
+            //   iframe.style.width = scaleField.clientWidth + "px";
+            //   iframe.style.height = scaleField.clientHeight + "px";
+            // });
+
+            // scaleField.append(iframe);
           }
 
           if (
             element.details === "Template scale" &&
             decoded.details.action === "document"
           ) {
-            const iframe = document.createElement("iframe");
-            iframe.style.width = "90%";
-            iframe.style.height = "90%";
+            // const iframe = document.createElement("iframe");
+            // iframe.style.width = "90%";
+            // iframe.style.height = "90%";
 
-            Axios.post(
-              "https://100035.pythonanywhere.com/api/nps_create_instance",
-              {
-                scale_id: element.scaleId,
-              }
-            )
-              .then((res) => {
-                setIsLoading(false);
-                console.log(res, "scaleData");
-                const lastInstance = res.data.response.instances.slice(-1)[0];
-                const lastValue = Object.values(lastInstance)[0];
-                iframe.src = lastValue;
-                console.log(lastValue);
-              })
-              .catch((err) => {
-                setIsLoading(false);
-                console.log(err);
-              });
+            // Axios.post(
+            //   "https://100035.pythonanywhere.com/api/nps_create_instance",
+            //   {
+            //     scale_id: element.scaleId,
+            //   }
+            // )
+            //   .then((res) => {
+            //     setIsLoading(false);
+            //     console.log(res, "scaleData");
+            //     const lastInstance = res.data.response.instances.slice(-1)[0];
+            //     const lastValue = Object.values(lastInstance)[0];
+            //     iframe.src = lastValue;
+            //     console.log(lastValue);
+            //   })
+            //   .catch((err) => {
+            //     setIsLoading(false);
+            //     console.log(err);
+            //   });
+
+            const scaleHold = document.createElement("div");
+            scaleHold.className = "scool_input";
+            scaleHold.style.color = "black";
+            scaleHold.style.width = "100%";
+            scaleHold.style.height = "90%";
+            scaleHold.style.padding = "10px";
+            scaleHold.style.display = "none";
+
+            // scaleField.append(scaleHold);
+
+            const scaleText = document.createElement("div");
+            scaleText.className = "scale_text";
+            scaleText.textContent = "Untitled-file_scale";
+            scaleText.style.marginBottom = "10px";
+            scaleText.style.width = "100%";
+            scaleText.style.display = "flex";
+            scaleText.style.alignItems = "center";
+            scaleText.style.justifyContent = "center";
+            scaleText.style.height = "10%";
+            scaleText.style.backgroundColor = "transparent";
+            scaleText.style.borderRadius = "0px";
+            scaleHold.append(scaleText);
+
+            const labelHold = document.createElement("div");
+            labelHold.className = "label_hold";
+            labelHold.style.width = "100%";
+            labelHold.style.height = "85%";
+            labelHold.style.border = "1px solid black";
+            labelHold.style.backgroundColor = "blue";
+            // labelHold.style.display = "none";
+            scaleHold.appendChild(labelHold);
+            labelHold.style.display = "flex";
+            // labelHold.style.flexWrap = "wrap";
+            labelHold.style.justifyContent = "space-between";
+            labelHold.style.alignItems = "center";
+            // labelHold.style.margin = "0px";
+
+            for (let i = 0; i < 11; i++) {
+              const circle = document.createElement("div");
+              // Set the styles for the circle
+              circle.className = "circle_label";
+              circle.style.width = "35%";
+              circle.style.height = "35%";
+              circle.style.borderRadius = "50%";
+              circle.style.backgroundColor = "red";
+              circle.style.top = "30%";
+              circle.style.left = "30%";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.marginLeft = "2px";
+
+              circle.textContent = i;
+              labelHold.append(circle);
+            }
+            // const parentDiv = document.createElement("div");
+            // parentDiv.id = "parent";
+            // parentDiv.style.margin = "0px";
+
+            const childDiv = document.createElement("div");
+            childDiv.id = "child";
+            childDiv.style.display = "flex";
+            childDiv.style.justifyContent = "space-between";
+            // childDiv.style.margin = "0px";
+
+            const element1 = document.createElement("h6");
+            element1.className = "left_child";
+            element1.style.marginLeft = "0px";
+            element1.textContent = "Good";
+            childDiv.appendChild(element1);
+
+            const element2 = document.createElement("h6");
+            element2.className = "neutral_child";
+            element2.textContent = "Neutral";
+            childDiv.appendChild(element2);
+
+            const element3 = document.createElement("h6");
+            element3.className = "right_child";
+            element3.textContent = "Best";
+            childDiv.appendChild(element3);
+            scaleHold.append(childDiv);
+
             scaleField.addEventListener("resize", () => {
-              iframe.style.width = scaleField.clientWidth + "px";
-              iframe.style.height = scaleField.clientHeight + "px";
+              scaleHold.style.width = scaleField.clientWidth + "px";
+              scaleHold.style.height = scaleField.clientHeight + "px";
             });
 
-            scaleField.append(iframe);
+            scaleField.append(scaleHold);
           }
 
           if (
@@ -3335,7 +3556,7 @@ const MidSection = React.forwardRef((props, ref) => {
             handleClicked("newScale2");
             setSidebar(true);
           };
-
+          console.log(element);
           holderDIV.append(scaleField);
           holderDIV.append(scaleIdHolder);
           holderDIV.append(labelHolder);
@@ -5025,7 +5246,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.overflow = "overlay";
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
-        
+
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
         scaleHold.style.color = "black";
@@ -5033,7 +5254,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
         scaleHold.style.display = "none";
-    
+
         scaleField.append(scaleHold);
 
         const scaleText = document.createElement("div");
@@ -5063,10 +5284,10 @@ const MidSection = React.forwardRef((props, ref) => {
         labelHold.style.alignItems = "center";
         // labelHold.style.margin = "0px";
 
-        for ( let i =0; i < 11 ;i++ ) {
+        for (let i = 0; i < 11; i++) {
           const circle = document.createElement("div");
           // Set the styles for the circle
-          circle.className = "circle_label"
+          circle.className = "circle_label";
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
@@ -5076,7 +5297,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.display = "flex";
           circle.style.justifyContent = "center";
           circle.style.alignItems = "center";
-          circle.style.marginLeft ="2px";
+          circle.style.marginLeft = "2px";
 
           circle.textContent = i;
           labelHold.append(circle);
@@ -5135,13 +5356,13 @@ const MidSection = React.forwardRef((props, ref) => {
         // labelHolder.innerText = "labels";
         // labelHolder.backgroundColor = "red";
 
-
+        console.log(Element);
         scaleField.addEventListener("resize", () => {
           scale.style.width = scaleField.clientWidth + "px";
           scale.style.height = scaleField.clientHeight + "px";
         });
 
-        scaleField.append(scale);
+        // scaleField.append(scale);
         // Axios.post(
         //   "https://100035.pythonanywhere.com/api/nps_settings_create/",
         //   {
@@ -6400,7 +6621,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 onDrop={onDrop}
                 onContextMenu={handleContextMenu}
               >
-                 {contextMenu.show && (
+                {contextMenu.show && (
                   <RightContextMenu
                     x={contextMenu.x}
                     y={contextMenu.y}
