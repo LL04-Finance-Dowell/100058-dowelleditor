@@ -109,7 +109,19 @@ const Header = () => {
     document.execCommand("redo");
   };
   const handleCut = () => {
-    document.querySelector(".focussedd").remove();
+    // document.querySelector(".focussedd").remove();
+    // if (handleCut == true) {
+    const cutEle = document.querySelector(".focussedd");
+    console.log("cutEle", cutEle);
+
+    // cutEle.select()
+    document.execCommand("cut");
+    cutEle.style.display = "none";
+    console.log("cutEle after", cutEle);
+    // }
+    // if(onclick = () => handlePaste) {
+    //   cutEle.style.display = "inline"
+    // }
   };
   const handleCopy = () => {
     // const element = document.querySelector(".focussedd");
@@ -122,7 +134,14 @@ const Header = () => {
     // console.log("coping", copyEle)
   };
   const handlePaste = () => {
-    document.execCommand("paste");
+    // document.execCommand("paste");
+    const cutEle = document.querySelector(".focussedd");
+    //  cutEle.style.display = "inline"
+    navigator.clipboard.readText().then((clipEle) => {
+      const add = `${cutEle + " " + clipEle}`.toString();
+      console.log("add", add);
+      return add;
+    });
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -724,25 +743,25 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    if (newScales.length) {
-      for (let s = 0; s < newScales.length; s++) {
+    if (scales.length) {
+      for (let s = 0; s < scales.length; s++) {
         if (
-          !newScales[s]?.parentElement?.parentElement?.classList?.contains(
+          !newScales[b]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
         ) {
-          let tempElem = newScales[s].parentElement;
+          let tempElem = scales[s].parentElement;
           let tempPosn = getPosition(tempElem);
-          console.log(newScales[s].firstElementChild);
+          console.log(scales[s].firstElementChild);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: newScales[s].parentElement.style.top,
+            topp: scales[s].parentElement.style.top,
             left: tempPosn.left,
             type: "NEW_SCALE_INPUT",
             data: `${title}_scale_${s + 1}`,
-            scale_url: newScales[s].firstElementChild.src,
+            scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
             id: `scl${s + 1}`,
             details:
@@ -751,11 +770,9 @@ const Header = () => {
                 : "Template scale",
             // scale_url: `${scaleData}`,
           };
-          // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(scales[s]);
+          console.log(elem);
+          const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);
-
-          // page.push(elem);
         }
       }
     }
@@ -824,6 +841,32 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(dropDowns[d]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const emails = document.getElementsByClassName("emailButton");
+    if (emails.length) {
+      for (let e = 0; e < emails.length; e++) {
+        if (!emails[e]?.parentElement?.classList?.contains("containerInput")) {
+          let tempElem = emails[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: emails[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: emails[e].textContent,
+            id: `eml${e + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(emails[e]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
@@ -1086,6 +1129,8 @@ const Header = () => {
 
   function handleToken() {
     setData([]);
+    setIsDataRetrieved(false);
+    setFetchedData([]);
     setIsLoading(true);
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -1117,6 +1162,7 @@ const Header = () => {
             console.log(loadedData);
             console.log(loadedData[0][0]);
             setData(loadedData[0][0]);
+            setFetchedData(loadedData[0][0]);
             setIsDataRetrieved(true);
             // setSort(loadedData[0][0]);
             setIsLoading(false);
@@ -1343,18 +1389,18 @@ const Header = () => {
                 </Button> */}
                 {/* {documentFlag !== "processing" &&
                   documentFlag !== "finalized" && ( */}
-                    <Button
-                      size="md"
-                      className="rounded"
-                      id="saving-buttonn"
-                      onClick={submit}
-                      style={{
-                        visibility: documentFlag && "hidden"
-                      }}
-                    >
-                      Save <FaSave color="white" />
-                    </Button>
-                  {/*  )} */}
+                <Button
+                  size="md"
+                  className="rounded"
+                  id="saving-buttonn"
+                  onClick={submit}
+                  style={{
+                    visibility: documentFlag && "hidden",
+                  }}
+                >
+                  Save <FaSave color="white" />
+                </Button>
+                {/*  )} */}
               </div>
               <div className="mt-1 text-center p-2">
                 <div
@@ -1413,7 +1459,8 @@ const Header = () => {
                       disabled={isFinializeDisabled}
                       onClick={handleFinalize}
                       style={{
-                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Finalize
@@ -1428,7 +1475,8 @@ const Header = () => {
                       id="reject-button"
                       onClick={handleReject}
                       style={{
-                        visibility: documentFlag == "processing"? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Reject

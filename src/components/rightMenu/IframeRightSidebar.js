@@ -7,10 +7,17 @@ import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 
 import { useStateContext } from '../../contexts/contextProvider';
 
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
 const IframeRightSidebar = () =>
 {
   const { setSidebar, handleClicked, setIsFinializeDisabled } =
     useStateContext();
+
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    var decoded = jwt_decode(token);
 
   const [borderSize, setBorderSize] = useState(
     Number(localStorage.getItem("borderSize")) || 0
@@ -149,7 +156,8 @@ const IframeRightSidebar = () =>
       <div className="mt-2 text-center pt-5">
         <Button
           variant="primary"
-          className="px-5 remove_button"
+
+          className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
           onClick={removeIframe}
         >
           Remove Iframe
