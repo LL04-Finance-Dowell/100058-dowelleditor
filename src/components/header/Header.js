@@ -748,7 +748,7 @@ const Header = () => {
     let leftChild = document.querySelector(".left_child");
     let neutralChild = document.querySelector(".neutral_child");
     let rightChild = document.querySelector(".right_child");
-    console.log(circles.style.backgroundColor);
+    // console.log(circles.style.backgroundColor);
     let font = document.querySelector(".newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
@@ -785,9 +785,13 @@ const Header = () => {
             raw_data: properties,
             // purpose: tempElem.children[2].innerHTML,
             id: `scl${b + 1}`,
+            // details:
+            //   decoded.details.action === "document"
+            //     ? "Document instance"
+            //     : "Template scale",
           };
           console.log(elem);
-          const pageNum = findPaageNum(newScales[b].parentElement);
+          const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);
         }
       }

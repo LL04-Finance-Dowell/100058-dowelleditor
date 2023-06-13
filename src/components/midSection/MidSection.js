@@ -3537,13 +3537,13 @@ const MidSection = React.forwardRef((props, ref) => {
               iframe.style.height = scaleField.clientHeight + "px";
             });
 
-            scaleField.append(iframe);
+            // scaleField.append(iframe);
           }
 
           const scaleIdHolder = document.createElement("div");
 
           scaleIdHolder.className = "scaleId_holder";
-          scaleIdHolder.innerHTML = element.scaleId;
+          scaleIdHolder.innerHTML = element.id;
           scaleIdHolder.style.display = "none";
 
           const labelHolder = document.createElement("div");
@@ -5234,8 +5234,6 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "NEW_SCALE_INPUT" &&
         decoded.details.action === "template"
       ) {
-        setIsLoading(true);
-
         let scaleField = document.createElement("div");
         scaleField.className = "newScaleInput";
         scaleField.style.width = "100%";
