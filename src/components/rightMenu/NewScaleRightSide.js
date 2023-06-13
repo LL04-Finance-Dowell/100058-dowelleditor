@@ -150,7 +150,7 @@ const ScaleRightSide = () => {
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
     const btnUpdateScaleFont = document.getElementById("font_style");
-    const btnUpdateScaleName = document.getElementById("scales_name");
+    //const btnUpdateScaleName = document.getElementById("scales_name");
     // const btnUpdateOrientation = document.getElementById("orientation");
     const btnUpdateLeft = document.getElementById("left");
     const btnUpdateRight = document.getElementById("right");
@@ -180,9 +180,9 @@ const ScaleRightSide = () => {
     //   button3.textContent = btnUpdateScaleName.value;
     // }
 
-      if (btnUpdateScaleName.value !=="") {
-        button3.textContent = btnUpdateScaleName.value;
-      }
+      //if (btnUpdateScaleName.value !=="") {
+        //button3.textContent = btnUpdateScaleName.value;
+      //}
 
       if (btnUpdateScale.value !=="") {
         button.style.backgroundColor = btnUpdateScale.value;
