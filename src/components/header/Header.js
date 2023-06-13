@@ -724,25 +724,25 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    if (scales.length) {
-      for (let s = 0; s < scales.length; s++) {
+    if (newScales.length) {
+      for (let s = 0; s < newScales.length; s++) {
         if (
           !newScales[s]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
         ) {
-          let tempElem = scales[s].parentElement;
+          let tempElem = newScales[s].parentElement;
           let tempPosn = getPosition(tempElem);
-          console.log(scales[s].firstElementChild);
+          console.log(newScales[s].firstElementChild);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: scales[s].parentElement.style.top,
+            topp: newScales[s].parentElement.style.top,
             left: tempPosn.left,
             type: "NEW_SCALE_INPUT",
             data: `${title}_scale_${s + 1}`,
-            scale_url: scales[s].firstElementChild.src,
+            scale_url: newScales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
             id: `scl${s + 1}`,
             details:

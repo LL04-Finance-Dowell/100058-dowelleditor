@@ -1887,7 +1887,7 @@ const MidSection = React.forwardRef((props, ref) => {
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let scaleField = document.createElement("div");
-          scaleField.className = "scaleInput";
+          scaleField.className = "newScaleInput";
           scaleField.id = id;
           scaleField.style.width = "100%";
           scaleField.style.height = "100%";
@@ -1909,7 +1909,7 @@ const MidSection = React.forwardRef((props, ref) => {
             iframe.style.width = "90%";
             iframe.style.height = "90%";
             iframe.src = element.scale_url;
-
+            
             scaleField.addEventListener("resize", () => {
               iframe.style.width = scaleField.clientWidth + "px";
               iframe.style.height = scaleField.clientHeight + "px";
@@ -1925,7 +1925,79 @@ const MidSection = React.forwardRef((props, ref) => {
             const iframe = document.createElement("iframe");
             iframe.style.width = "90%";
             iframe.style.height = "90%";
-
+            let scaleField = document.createElement("div");
+            scaleField.className = "scaleInput";
+            scaleField.style.width = "100%";
+            scaleField.style.height = "100%";
+            scaleField.style.backgroundColor = "#fff";
+            scaleField.style.borderRadius = "0px";
+            scaleField.style.outline = "0px";
+            scaleField.style.overflow = "overlay";
+            scaleField.style.position = "absolute";
+            // scaleField.innerText = "scale here";
+            
+            const scaleHold = document.createElement("div");
+            scaleHold.className = "scool_input";
+            scaleHold.style.color = "black";
+            scaleHold.style.width = "100%";
+            scaleHold.style.height = "90%";
+            scaleHold.style.padding = "10px";
+            scaleHold.style.display = "none";
+        
+            scaleField.append(scaleHold);
+            const labelHold = document.createElement("div");
+            labelHold.className = "label_hold";
+            labelHold.style.width = "100%";
+            labelHold.style.height = "80%";
+            labelHold.style.border = "1px solid black";
+            labelHold.style.backgroundColor = "blue";
+            // labelHold.style.display = "none";
+            scaleHold.appendChild(labelHold);
+            labelHold.style.display = "flex";
+            // labelHold.style.flexWrap = "wrap";
+            labelHold.style.justifyContent = "space-between";
+            labelHold.style.alignItems = "center";
+            for ( let i =0; i < 11 ;i++ ) {
+              const circle = document.createElement("div");
+              // Set the styles for the circle
+              circle.className = "circle_label";
+              circle.style.width = "35%";
+              circle.style.height = "35%";
+              circle.style.borderRadius = "50%";
+              circle.style.backgroundColor = "red";
+              circle.style.top = "30%";
+              circle.style.left = "30%";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.marginLeft ="2px";
+    
+              circle.textContent = i;
+              labelHold.append(circle);
+              if (
+                  decoded.details.action ==="document") {
+                    circle.addEventListener('click', function() {
+                      Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', {
+                        // scale_id : "63e8b4c87f4aa8f650162b7a",
+                        scale_id : element.scaleId,
+                        instantance_id: 5,
+                        brand_name : "XYZ620",
+                        product_name:"XYZ623",
+                        username: "daved",
+                        score: i,
+                      })
+                      .then(function (response) {
+                        setIsLoading(false);
+                        console.log(response);
+                        var responseData = response.data;
+                        setScaleData(responseData);
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
+                    });
+              }
+            }
             Axios.post(
               "https://100035.pythonanywhere.com/api/nps_create_instance",
               {
@@ -1950,6 +2022,7 @@ const MidSection = React.forwardRef((props, ref) => {
             });
 
             scaleField.append(iframe);
+            
           }
 
           if (
@@ -3661,7 +3734,8 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(labelHolder);
       } else if (
         typeOfOperation === "NEW_SCALE_INPUT" &&
-        decoded.details.action === "template"
+        decoded.details.action === "template" ||
+        decoded.details.action === "document"
       ) {
         setIsLoading(true);
 
@@ -3699,7 +3773,7 @@ const MidSection = React.forwardRef((props, ref) => {
         const labelHold = document.createElement("div");
         labelHold.className = "label_hold";
         labelHold.style.width = "100%";
-        labelHold.style.height = "60%";
+        labelHold.style.height = "80%";
         labelHold.style.border = "1px solid black";
         labelHold.style.backgroundColor = "blue";
         // labelHold.style.display = "none";
@@ -3709,11 +3783,11 @@ const MidSection = React.forwardRef((props, ref) => {
         labelHold.style.justifyContent = "space-between";
         labelHold.style.alignItems = "center";
         // labelHold.style.margin = "0px";
-
+        const circles = [];
         for ( let i =0; i < 11 ;i++ ) {
           const circle = document.createElement("div");
           // Set the styles for the circle
-          circle.className = "circle_label"
+          circle.className = "circle_label";
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
@@ -3727,6 +3801,58 @@ const MidSection = React.forwardRef((props, ref) => {
 
           circle.textContent = i;
           labelHold.append(circle);
+          // if (
+          //   typeOfOperation === "NEW_SCALE_INPUT" && decoded.details.action ==="document") {
+          //       circle.addEventListener('click', function() {
+          //         Axios.post('https://100035.pythonanywhere.com/api/nps_create/', {
+          //           scale_id : "63e8b4c87f4aa8f650162b7a",
+          //           // scale_id : element.scaleId,
+          //           instantance_id: 5,
+          //           brand_name : "XYZ620",
+          //           product_name:"XYZ623",
+          //           username: "daved",
+          //           score: i,
+          //         })
+          //         .then(function (response) {
+          //           console.log(response);
+          //           var responseData = response.data;
+          //           setScaleData(responseData);
+          //         })
+          //         .catch(function (error) {
+          //           console.log(error);
+          //         });
+          //       });
+          // }
+          // else if 
+          if (
+            typeOfOperation === "NEW_SCALE_INPUT" && decoded.details.action ==="template") {
+              circle.addEventListener("click", function() {
+                // Get the current background color
+                const currentBackgroundColor = this.style.backgroundColor;
+            
+               // Set the background color to the clicked circle's background color
+                for (const circle of circles) {
+                  if (circle === this) {
+                    continue;
+                  }
+                  circle.style.backgroundColor = currentBackgroundColor;
+                }
+
+                // If the clicked circle has a background color
+                if (this.style.backgroundColor) {
+                  // Remove the background color
+                  this.style.backgroundColor = "blue";
+                } else {
+                  // Set the background color to red
+                  this.style.backgroundColor = "red";
+                }
+              });
+            
+              circles.push(circle);
+          }
+          else {
+            console.log("Unknown action");
+          }
         }
         // const parentDiv = document.createElement("div");
         // parentDiv.id = "parent";
