@@ -743,32 +743,52 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    if (scales.length) {
-      for (let s = 0; s < scales.length; s++) {
+    let circles = document.querySelector(".circle_label");
+    let scaleBg = document.querySelector(".label_hold");
+    let leftChild = document.querySelector(".left_child");
+    let neutralChild = document.querySelector(".neutral_child");
+    let rightChild = document.querySelector(".right_child");
+    // console.log(circles.style.backgroundColor);
+    let font = document.querySelector(".newScaleInput");
+    if (newScales.length) {
+      for (let b = 0; b < newScales.length; b++) {
         if (
           !newScales[b]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
         ) {
-          let tempElem = scales[s].parentElement;
+          let tempElem = newScales[b].parentElement;
+
           let tempPosn = getPosition(tempElem);
-          console.log(scales[s].firstElementChild);
+          console.log(newScales[b]);
+
+          // console.log(buttonColors);
+          let properties = {
+            scaleBgColor: scaleBg.style.backgroundColor,
+            fontColor: newScales[b].firstChild.style.color,
+            fontFamily: newScales[b].firstChild.style.fontFamily,
+            left: leftChild.textContent,
+            center: neutralChild.textContent,
+            right: rightChild.textContent,
+            buttonColor: circles.style.backgroundColor,
+          };
+          console.log(properties);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: scales[s].parentElement.style.top,
+            topp: newScales[b].parentElement.style.top,
             left: tempPosn.left,
             type: "NEW_SCALE_INPUT",
-            data: `${title}_scale_${s + 1}`,
-            scale_url: scales[s].firstElementChild.src,
-            scaleId: tempElem.children[1].innerHTML,
-            id: `scl${s + 1}`,
-            details:
-              decoded.details.action === "document"
-                ? "Document instance"
-                : "Template scale",
-            // scale_url: `${scaleData}`,
+            data: `${title}_scale_${b + 1}`,
+            // raw_data: tempElem.children[1].innerHTML,
+            raw_data: properties,
+            // purpose: tempElem.children[2].innerHTML,
+            id: `scl${b + 1}`,
+            // details:
+            //   decoded.details.action === "document"
+            //     ? "Document instance"
+            //     : "Template scale",
           };
           console.log(elem);
           const pageNum = findPaageNum(newScales[b]);

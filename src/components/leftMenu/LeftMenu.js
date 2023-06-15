@@ -322,13 +322,13 @@ const LeftMenu = ({ showSidebar }) => {
               title="Email"
             />
 
-           { // <NavButton
-              //dragStartFunc={dragStartNewScale}
-              //customFunc={() => handleDrop("newScale")}
-              //icon={<IoScale />}
-              //title="NewScale"
-            //>
-            }
+            <NavButton
+              dragStartFunc={dragStartNewScale}
+              customFunc={() => handleDrop("newScale")}
+              icon={<IoScale />}
+              title="NewScale"
+            />
+       
 
             {/* test div */}
             {/* <NavButton
