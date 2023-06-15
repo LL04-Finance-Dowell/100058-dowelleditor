@@ -5481,6 +5481,7 @@ const MidSection = React.forwardRef((props, ref) => {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
           setSidebar(true);
+          console.log("This is mid data", scaleField.id)
         };
 
         holderDIV.append(scaleField);
