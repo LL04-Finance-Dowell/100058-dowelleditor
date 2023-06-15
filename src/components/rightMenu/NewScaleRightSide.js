@@ -358,7 +358,7 @@ const ScaleRightSide = () => {
     let timeId = document.getElementById("timeId");
     let time = document.getElementById("time");
 
-    if (idHolder.textContent === "scale Id") {
+    if (idHolder.textContent === "scale Id" || idHolder.textContent === "id") {
       setIsLoading(true);
       console.log("post req");
       Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
@@ -391,10 +391,10 @@ const ScaleRightSide = () => {
             const id = successObj.inserted_id;
             if (id.length) {
               setScaleId(id);
+              const idHolder = scale?.querySelector(".scaleId");
+              idHolder.textContent = scaleId && scaleId;
             }
             console.log(res);
-            const idHolder = scale?.querySelector(".scaleId");
-            idHolder.textContent = scaleId;
           }
         })
         .catch((err) => {
@@ -404,9 +404,10 @@ const ScaleRightSide = () => {
     } else {
       setIsLoading(true);
       console.log("PUT req");
+      console.log(idHolder.textContent);
       Axios.put("https://100035.pythonanywhere.com/api/nps_create/", {
         user: "true",
-        scale_id: scaleId,
+        scale_id: idHolder.textContent,
         username: "NdoneAmbrose",
         orientation: option?.value,
         scalecolor: btnUpdateScale.value,
@@ -430,7 +431,7 @@ const ScaleRightSide = () => {
             setIsLoading(false);
             sendMessage();
             setScaleData(res.data);
-
+            setScaleId(scaleId);
             console.log(res);
           }
         })
