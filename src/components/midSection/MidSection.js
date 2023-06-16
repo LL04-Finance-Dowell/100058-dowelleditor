@@ -117,7 +117,8 @@ const MidSection = React.forwardRef((props, ref) => {
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
   var documnetMap = documnentsMap?.map?.((item) => item.content);
-
+  const document_map_required = documnentsMap?.filter((item) => item.required);
+  console.log("document_map_required", document_map_required);
   console.log("decode", decoded);
   console.log("data", data);
 
@@ -2104,6 +2105,7 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.setAttribute("id", "holderId");
     holderDIV.setAttribute("draggable", true);
     holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
+    // holderDIV.setAttribute("data-map_id", idMatch);
     holderDIV.style.display = "flex";
     holderDIV.style.flexDirection = "column";
     // holderDIV.style.border = "2px dotted gray";
@@ -2260,7 +2262,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          console.log("element", element);
+          // console.log("element", element);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -2280,10 +2282,28 @@ const MidSection = React.forwardRef((props, ref) => {
           inputField.style.overflow = "overlay";
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
+          // console.log("element", element);
+
           inputField.oninput = (e) => {
+            // console.log("element", element);
+
             //setIsFinializeDisabled(false);
             // const doc_map_copy = [...doc_map]
-            if (inputField.parentElement.classList.contains("holderDIV")) {
+            // const find_content_id =
+            //   e.target?.parentElement?.getAttribute("data-map_id");
+            // const required_map_document = document_map_required?.filter(
+            //   (item) => find_content_id == item.content
+            // );
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+
+            // ('[[{"1":[{"width":200,"height":80,"top":115.8125,"topp":"103.188px","left":104.96875,"type":"TEXT_INPUT","data":"Enter text here","raw_data":"Enter text here","id":"t1","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"114.188px","left":421.96875,"type":"TEXT_INPUT","data":"Enter text here","raw_data":"Enter text here","id":"t2","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"306.188px","left":131.96875,"type":"SIGN_INPUT","data":"Signature here","id":"s1","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"283.188px","left":429.96875,"type":"SIGN_INPUT","data":"Signature here","id":"s2","borderWidth":"","borderColor":""}]}]]');
+
+            if (
+              inputField.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
               inputField.parentElement.classList.add("element_updated");
             }
             if (element.required) {
@@ -2346,8 +2366,17 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.oninput = (e) => {
             //setIsFinializeDisabled(false);
           };
-          if (imageField?.parentElement?.classList.contains("holderDIV")) {
-            imageField?.parentElement?.classList.add("element_updated");
+          // if (imageField?.parentElement?.classList.contains("holderDIV")) {
+          //   imageField?.parentElement?.classList.add("element_updated");
+          // }
+          const required_map_document = document_map_required?.filter(
+            (item) => element.id == item.content
+          );
+          if (
+            imageField.parentElement.classList.contains("holderDIV") &&
+            required_map_document.length > 0
+          ) {
+            imageField.parentElement.classList.add("element_updated");
           }
           if (element.required) {
             isAnyRequiredElementEdited = true;
@@ -2958,8 +2987,18 @@ const MidSection = React.forwardRef((props, ref) => {
           }
 
           buttonField.onmouseover = (e) => {
-            if (buttonField?.parentElement?.classList.contains("holderDIV")) {
-              buttonField?.parentElement?.classList.add("element_updated");
+            // if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+            //   buttonField?.parentElement?.classList.add("element_updated");
+            // }
+
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+            if (
+              buttonField.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
+              buttonField.parentElement.classList.add("element_updated");
             }
             if (element.required) {
               isAnyRequiredElementEdited = true;
@@ -3873,10 +3912,23 @@ const MidSection = React.forwardRef((props, ref) => {
               inputFieldContainer.oninput = (e) => {
                 //setIsFinializeDisabled(false);
                 // const doc_map_copy = [...doc_map]
+                // if (
+                //   inputFieldContainer.parentElement.classList.contains(
+                //     "holderDIV"
+                //   )
+                // ) {
+                //   inputFieldContainer.parentElement.classList.add(
+                //     "element_updated"
+                //   );
+                // }
+                const required_map_document = document_map_required?.filter(
+                  (item) => element.id == item.content
+                );
                 if (
                   inputFieldContainer.parentElement.classList.contains(
                     "holderDIV"
-                  )
+                  ) &&
+                  required_map_document.length > 0
                 ) {
                   inputFieldContainer.parentElement.classList.add(
                     "element_updated"
@@ -4127,12 +4179,25 @@ const MidSection = React.forwardRef((props, ref) => {
               }
 
               buttonFieldContainer.onmouseover = (e) => {
+                // if (
+                //   buttonFieldContainer?.parentElement?.classList.contains(
+                //     "holderDIV"
+                //   )
+                // ) {
+                //   buttonFieldContainer?.parentElement?.classList.add(
+                //     "element_updated"
+                //   );
+                // }
+                const required_map_document = document_map_required?.filter(
+                  (item) => element.id == item.content
+                );
                 if (
-                  buttonFieldContainer?.parentElement?.classList.contains(
+                  buttonFieldContainer.parentElement.classList.contains(
                     "holderDIV"
-                  )
+                  ) &&
+                  required_map_document.length > 0
                 ) {
-                  buttonFieldContainer?.parentElement?.classList.add(
+                  buttonFieldContainer.parentElement.classList.add(
                     "element_updated"
                   );
                 }

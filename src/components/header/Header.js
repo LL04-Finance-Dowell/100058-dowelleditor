@@ -383,7 +383,7 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
-          page[0][pageNum].push(elem);
+          page[0][pageNum]?.push(elem);
 
           // page.push(elem);
         }
@@ -748,7 +748,7 @@ const Header = () => {
     let leftChild = document.querySelector(".left_child");
     let neutralChild = document.querySelector(".neutral_child");
     let rightChild = document.querySelector(".right_child");
-    console.log(circles.style.backgroundColor);
+    console.log(circles?.style.backgroundColor);
     let font = document.querySelector(".newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
@@ -915,10 +915,15 @@ const Header = () => {
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
     document.getElementsByClassName("element_updated").length;
+  const document_map_required = docMap?.filter((item) => item.required);
 
   useEffect(() => {
     // set_doc_map(document_map)
-    if (document_map?.length == element_updated_length) {
+    if (document_map_required.length > 0) {
+      if (document_map_required?.length == element_updated_length) {
+        setIsFinializeDisabled(false);
+      }
+    } else {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
