@@ -3335,7 +3335,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const scaleText = document.createElement("div");
           scaleText.className = "scale_text";
-          scaleText.textContent = element?.data;
+          scaleText.textContent = element?.raw_data?.scaleText;
           scaleText.style.marginBottom = "10px";
           scaleText.style.width = "100%";
           scaleText.style.display = "flex";
@@ -5731,6 +5731,7 @@ const MidSection = React.forwardRef((props, ref) => {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
           setSidebar(true);
+          console.log("This is mid data", scaleField.id)
         };
 
         holderDIV.append(scaleField);

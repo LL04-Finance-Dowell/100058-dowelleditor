@@ -35,6 +35,7 @@ const ScaleRightSide = () => {
   const [score, setScore] = useState(false);
   const [showBorder, setShowBorder] = useState(true);
   const [holdText, setHoldText] = useState("");
+  
   const fontStyles = [
     "Arial",
     "Helvetica",
@@ -51,6 +52,7 @@ const ScaleRightSide = () => {
   let circles = scale?.querySelector(".circle_label");
   let scaleBg = scale?.querySelector(".label_hold");
   let fontColor = scale?.firstChild;
+  const element = JSON.parse(sessionStorage.getItem("cutItem"));
   // console.log(scale);
   // console.log(fontColor.style.color);
   let fontFamlity = scale?.firstChild;
@@ -110,6 +112,9 @@ const ScaleRightSide = () => {
   const leftChild = scale?.querySelector(".left_child");
   const neutralChild = scale?.querySelector(".neutral_child");
   const rightChild = scale?.querySelector(".right_child");
+  const scaleT = scale?.querySelector(".scale_text")
+
+  const [scaleTitle, setScaleTitle] = useState(scaleT ? scaleT.innerHTML:"")
 
   // console.log(leftChild.innerHTML);
   const handleFormat = () => {
@@ -190,13 +195,14 @@ const ScaleRightSide = () => {
   function scaleSubmit(e) {
     console.log(selectedOptions);
     console.log(selectedOptions[0]);
+    console.log("This is the scale", scaleId)
     e.preventDefault();
     setIsLoading(true);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
-      // scale_id: scaleId,
+      scale_id: element?.raw_data?.scaleID,
       custom_input_groupings: selectedOptions,
-      scale_label: label.innerHTML,
+      scale_label: scaleTitle,
     })
       .then((res) => {
         if (res.status == 200) {
@@ -223,7 +229,7 @@ const ScaleRightSide = () => {
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
     const btnUpdateScaleFont = document.getElementById("font_style");
-    const btnUpdateScaleName = document.getElementById("scales_name");
+    const beNametnUpdateScal = document.getElementById("scaleLabel");
 
     const headerText = document.getElementById("headerText");
     console.log(headerText);
@@ -234,7 +240,7 @@ const ScaleRightSide = () => {
     const btnUpdateCenter = document.getElementById("centre");
     // const btnUpdateScales = document.getElementById("scales");
     // const btnUpdateScore = document.getElementById("score");
-    // const btnUpdateScaleLabel = document.getElementById("scale_label");
+     const btnUpdateScaleLabel = document.getElementById("scaleLabel");
     // const btnUpdateTime = document.getElementById("time");
     // const btnUpdateFormat = document.getElementById("select");
     // const button1 = document.querySelector(".focussed");
@@ -242,7 +248,7 @@ const ScaleRightSide = () => {
     const button = scale?.querySelector(".label_hold");
     console.log(button);
     // const btnParent = document.getElementById("parent");
-    const scaleText = document.querySelector(".scale_text");
+    const scaleText = scale?.querySelector(".scale_text");
     // const buttonScaleField = document.querySelector(".scaleInput");
     const button4 = scale?.querySelector(".scool_input");
     const font = scale?.querySelector(".newScaleInput");
@@ -346,9 +352,9 @@ const ScaleRightSide = () => {
     // if (btnUpdateScore.value !=="") {
     //   buttonChild.style.color = btnUpdateScore.value;
     // }
-    // if (btnUpdateScaleLabel.value !=="") {
-    //   button4.innerHTML = btnUpdateScaleLabel.value;
-    // }
+    if (beNametnUpdateScal.value !=="") {
+       scaleText.textContent = beNametnUpdateScal.value;
+     }
     console.log(btnUpdateButton.value);
     console.log(btnUpdateScale.value);
     console.log(btnUpdateFontColor.value);
@@ -374,7 +380,7 @@ const ScaleRightSide = () => {
         show_total_score: true,
         no_of_scales: 6,
         time: timeId.style.display === "none" ? "00" : time?.value,
-        name: scaleText?.textContent,
+        name: beNametnUpdateScal.value,
         left: btnUpdateLeft.value,
         right: btnUpdateRight.value,
         center: btnUpdateCenter.value,
@@ -419,7 +425,7 @@ const ScaleRightSide = () => {
         show_total_score: true,
         no_of_scales: 6,
         time: timeId?.style?.display === "none" ? "00" : time?.value,
-        name: scaleText?.textContent,
+        name: beNametnUpdateScal.value,
         left: btnUpdateLeft.value,
         right: btnUpdateRight.value,
         center: btnUpdateCenter.value,
@@ -745,7 +751,6 @@ const ScaleRightSide = () => {
       <div
         style={{
           width: "100%",
-          height: "470px",
           overflowY: "auto",
           paddingTop: "5px",
           paddingBottom: "5px",
@@ -787,7 +792,7 @@ const ScaleRightSide = () => {
                 id="headerText"
                 style={{ margin: "auto 0", fontSize: "15px" }}
               >
-                Edit Untitled-file_scale
+                Edit {scaleTitle}
               </h1>
             </div>
             <h6 style={{ fontSize: "12px" }}>Orientation</h6>
@@ -1098,6 +1103,48 @@ const ScaleRightSide = () => {
                     ref={ref}
                     style={{ fontSize: "12px", width: "4px" }}
                   /> */}
+                </div>
+              </div>
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+              >
+                <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Scale label</h6>
+                <div
+                  style={{
+                    backgroundColor: "#e8e8e8",
+                    padding: "5px 7px",
+                    borderRadius: "7px",
+                    // height: "30px",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <input
+                    type="text"
+                    onChange={(e)=>setScaleTitle(e.target.value)}
+                    // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                    // defaultValue={
+                    //   scaleDisplay.style.display === "none"
+                    //     ? ""
+                    //     : leftChild.innerHTML
+                    // }
+                    defaultValue={
+                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                      scaleT ? scaleT.innerHTML : ""
+                    }
+                    style={{
+                      width: "100px",
+                      height: "12px",
+                      display: "flex",
+                      backgroundColor: "transparent",
+                      border: "none",
+                      outline: "none",
+                      alignItems: "center",
+                    }}
+                    id="scaleLabel"
+                  />
                 </div>
               </div>
               <div
@@ -1622,23 +1669,11 @@ const ScaleRightSide = () => {
             // onChange={handleDateMethod}
             className="select border-0 bg-white rounded w-100 h-75 p-2"
             //multiple
-            style={{ marginBottom: "120px" }}
+            style={{ marginBottom: "40px" }}
           >
             <option value="select">Select Element</option>
             {options}
           </select>
-        </div>
-        <div>
-          <Form.Label>Scale Label</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Scale Label"
-            value={custom1}
-            name="label"
-            // id="iframe_src"
-            onChange={handleChange}
-            id="scaleLabel"
-          />
         </div>
         <h4>Grouped Elements</h4>
         <div style={{ display: "flex", gap: "10px", padding: "5px" }}>
@@ -1684,7 +1719,7 @@ const ScaleRightSide = () => {
               // onChange={handleDateMethod}
               className="select border-0 bg-white rounded w-100 h-75 p-2"
               //multiple
-              style={{ marginBottom: "120px" }}
+              style={{ marginBottom: "30px" }}
             >
               {filteredArray?.map((element, index) => (
                 <option key={index} value={element.type} id={element.id}>
