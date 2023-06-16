@@ -2373,10 +2373,10 @@ const MidSection = React.forwardRef((props, ref) => {
             (item) => element.id == item.content
           );
           if (
-            imageField.parentElement.classList.contains("holderDIV") &&
+            imageField?.parentElement?.classList.contains("holderDIV") &&
             required_map_document.length > 0
           ) {
-            imageField.parentElement.classList.add("element_updated");
+            imageField?.parentElement?.classList.add("element_updated");
           }
           if (element.required) {
             isAnyRequiredElementEdited = true;
@@ -3243,6 +3243,7 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
+
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let scaleField = document.createElement("div");
@@ -3254,13 +3255,15 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.style.borderRadius = "0px";
           scaleField.style.outline = "0px";
           scaleField.style.overflow = "overlay";
-          scaleField.style.color = element.raw_data.fontColor;
-          scaleField.style.fontFamily = element.raw_data.fontFamily;
+
+          // scaleField.style.fontFamily = element.raw_data.fontFamily;
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
           const scaleHold = document.createElement("div");
           scaleHold.className = "scool_input";
+          scaleHold.style.fontFamily = element?.raw_data?.fontFamily;
+          scaleHold.style.color = element?.raw_data?.fontColor;
           // scaleHold.style.color = "black";
           scaleHold.style.width = "100%";
           scaleHold.style.height = "90%";
@@ -3271,7 +3274,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const scaleText = document.createElement("div");
           scaleText.className = "scale_text";
-          scaleText.textContent = element.data;
+          scaleText.textContent = element?.data;
           scaleText.style.marginBottom = "10px";
           scaleText.style.width = "100%";
           scaleText.style.display = "flex";
@@ -3287,7 +3290,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.width = "100%";
           labelHold.style.height = "85%";
           labelHold.style.border = "1px solid black";
-          labelHold.style.backgroundColor = element.raw_data.scaleBgColor;
+          labelHold.style.backgroundColor = element?.raw_data?.scaleBgColor;
           // labelHold.style.display = "none";
           scaleHold.appendChild(labelHold);
           labelHold.style.display = "flex";
@@ -3303,7 +3306,7 @@ const MidSection = React.forwardRef((props, ref) => {
             circle.style.width = "35%";
             circle.style.height = "35%";
             circle.style.borderRadius = "50%";
-            circle.style.backgroundColor = element.raw_data.buttonColor;
+            circle.style.backgroundColor = element?.raw_data?.buttonColor;
             circle.style.top = "30%";
             circle.style.left = "30%";
             circle.style.display = "flex";
@@ -3327,18 +3330,25 @@ const MidSection = React.forwardRef((props, ref) => {
           const element1 = document.createElement("h6");
           element1.className = "left_child";
           element1.style.marginLeft = "0px";
-          element1.textContent = element.raw_data.left;
+          element1.textContent = element?.raw_data?.left;
           childDiv.appendChild(element1);
 
           const element2 = document.createElement("h6");
           element2.className = "neutral_child";
-          element2.textContent = element.raw_data.center;
+          element2.textContent = element?.raw_data?.center;
           childDiv.appendChild(element2);
 
           const element3 = document.createElement("h6");
           element3.className = "right_child";
-          element3.textContent = element.raw_data.right;
+          element3.textContent = element?.raw_data?.right;
           childDiv.appendChild(element3);
+
+          const idHolder = document.createElement("h6");
+          idHolder.className = "scaleId";
+          idHolder.textContent = element?.raw_data?.scaleID;
+          idHolder.style.display = "none";
+          childDiv.appendChild(idHolder);
+
           scaleHold.append(childDiv);
           scaleField.append(scaleHold);
 
@@ -3576,13 +3586,13 @@ const MidSection = React.forwardRef((props, ref) => {
               iframe.style.height = scaleField.clientHeight + "px";
             });
 
-            scaleField.append(iframe);
+            // scaleField.append(iframe);
           }
 
           const scaleIdHolder = document.createElement("div");
 
           scaleIdHolder.className = "scaleId_holder";
-          scaleIdHolder.innerHTML = element.scaleId;
+          scaleIdHolder.innerHTML = element.id;
           scaleIdHolder.style.display = "none";
 
           const labelHolder = document.createElement("div");
@@ -5299,8 +5309,6 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "NEW_SCALE_INPUT" &&
         decoded.details.action === "template"
       ) {
-        setIsLoading(true);
-
         let scaleField = document.createElement("div");
         scaleField.className = "newScaleInput";
         scaleField.style.width = "100%";
@@ -5392,8 +5400,17 @@ const MidSection = React.forwardRef((props, ref) => {
         element3.className = "right_child";
         element3.textContent = "Best";
         childDiv.appendChild(element3);
+
+        const idHolder = document.createElement("h6");
+        idHolder.className = "scaleId";
+        idHolder.textContent = "scale Id";
+        idHolder.style.display = "none";
+        childDiv.appendChild(idHolder);
+        // childDiv.appendChild( idHolder);
+
+        // childDiv.appendChild(element3);
         scaleHold.append(childDiv);
-        const scales = document.getElementsByClassName("scaleInput");
+        const scales = document.getElementsByClassName("newScaleInput");
         if (scales.length) {
           const s = scales.length;
           scaleField.id = `scl${s + 1}`;
