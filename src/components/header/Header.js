@@ -385,7 +385,7 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
-          page[0][pageNum].push(elem);
+          page[0][pageNum]?.push(elem);
 
           // page.push(elem);
         }
@@ -745,13 +745,6 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    let circles = document.querySelector(".circle_label");
-    let scaleBg = document.querySelector(".label_hold");
-    let leftChild = document.querySelector(".left_child");
-    let neutralChild = document.querySelector(".neutral_child");
-    let rightChild = document.querySelector(".right_child");
-    // console.log(circles.style.backgroundColor);
-    let font = document.querySelector(".newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
         if (
@@ -763,16 +756,28 @@ const Header = () => {
 
           let tempPosn = getPosition(tempElem);
           console.log(newScales[b]);
+          let circles = newScales[b].querySelector(".circle_label");
+          let scaleBg = newScales[b].querySelector(".label_hold");
+          let leftChild = newScales[b].querySelector(".left_child");
+          let neutralChild = newScales[b].querySelector(".neutral_child");
+          let rightChild = newScales[b].querySelector(".right_child");
+          let scaleText = newScales[b].querySelector(".scale_text")
+          // console.log(circles.style.backgroundColor);
+          let font = newScales[b].querySelector(".scool_input");
+          let scaleID = newScales[b].querySelector(".scaleId");
+          console.log(font);
 
           // console.log(buttonColors);
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
-            fontColor: newScales[b].firstChild.style.color,
-            fontFamily: newScales[b].firstChild.style.fontFamily,
+            fontColor: font.style.color,
+            fontFamily: font.style.fontFamily,
             left: leftChild.textContent,
             center: neutralChild.textContent,
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
+            scaleID: scaleID.textContent,
+            scaleText: scaleText.textContent
           };
           console.log(properties);
           elem = {
@@ -787,6 +792,7 @@ const Header = () => {
             raw_data: properties,
             // purpose: tempElem.children[2].innerHTML,
             id: `scl${b + 1}`,
+            // newScaleId = scale
             // details:
             //   decoded.details.action === "document"
             //     ? "Document instance"
@@ -920,11 +926,16 @@ const Header = () => {
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
-    document.getElementsByClassName("element_updated").length;
+    document.getElementsByClassName("element_updated")?.length;
+  const document_map_required = docMap?.filter((item) => item.required);
 
   useEffect(() => {
     // set_doc_map(document_map)
-    if (document_map?.length == element_updated_length) {
+    if (document_map_required?.length > 0) {
+      if (document_map_required?.length == element_updated_length) {
+        setIsFinializeDisabled(false);
+      }
+    } else {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
