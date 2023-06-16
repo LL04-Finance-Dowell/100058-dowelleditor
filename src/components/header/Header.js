@@ -759,6 +759,7 @@ const Header = () => {
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
+          let scaleText = newScales[b].querySelector(".scale_text")
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleID = newScales[b].querySelector(".scaleId");
@@ -774,6 +775,7 @@ const Header = () => {
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
             scaleID: scaleID.textContent,
+            scaleText: scaleText.textContent
           };
           console.log(properties);
           elem = {
