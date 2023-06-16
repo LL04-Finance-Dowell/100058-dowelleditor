@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 import React, { useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
@@ -24,14 +25,16 @@ const ScaleRightSide = () => {
     setCustom3,
     customId,
     setScaleData,
+    setScaleId,
+    scaleId,
   } = useStateContext();
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [isSwitchEnabled, setIsSwitchEnabled] = useState(false);
   const [score, setScore] = useState(false);
-  const [holdText, setHoldText] = useState("");
   const [showBorder, setShowBorder] = useState(true);
+  const [holdText, setHoldText] = useState("");
   const fontStyles = [
     "Arial",
     "Helvetica",
@@ -43,7 +46,72 @@ const ScaleRightSide = () => {
     "Impact",
     "Arial Black",
   ];
+  let scale = document.querySelector(".focussedd");
+  const scaleDisplay = scale?.querySelector(".scool_input").style.display;
+  let circles = scale?.querySelector(".circle_label");
+  let scaleBg = scale?.querySelector(".label_hold");
+  let fontColor = scale?.firstChild;
+  // console.log(scale);
+  // console.log(fontColor.style.color);
+  let fontFamlity = scale?.firstChild;
+  // console.log(fontFamlity);
 
+  // if(!scale)
+  if (fontColor) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(fontColor).color;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    fontColor =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+
+    // console.log(fontColor);
+  }
+  // console.log(circles);
+  if (circles) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(circles).backgroundColor;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    circles =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+
+    // console.log(circles);
+  }
+
+  if (scaleBg) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(scaleBg).backgroundColor;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    scaleBg =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+  }
+  // console.log(scaleDisplay);
+
+  const leftChild = scale?.querySelector(".left_child");
+  const neutralChild = scale?.querySelector(".neutral_child");
+  const rightChild = scale?.querySelector(".right_child");
+
+  // console.log(leftChild.innerHTML);
   const handleFormat = () => {
     const format = document.getElementById("select");
     const selectedValue = format.value;
@@ -144,13 +212,19 @@ const ScaleRightSide = () => {
   }
 
   const buttonChildLeft = document.querySelector(".left_child");
-  console.log(buttonChildLeft);
+
+  console.log(scale);
   const handleUpdates = () => {
+    const scale = document.querySelector(".focussedd");
+    console.log(scale);
+    const circles = scale?.querySelector(".circle_label");
+    console.log(circles);
     const btnUpdateButton = document.getElementById("button_color");
     const btnUpdateScale = document.getElementById("scale_color");
     const btnUpdateFontColor = document.getElementById("font_color");
     const btnUpdateScaleFont = document.getElementById("font_style");
     const btnUpdateScaleName = document.getElementById("scales_name");
+
     const headerText = document.getElementById("headerText");
     console.log(headerText);
     console.log(btnUpdateScale);
@@ -164,21 +238,33 @@ const ScaleRightSide = () => {
     // const btnUpdateTime = document.getElementById("time");
     // const btnUpdateFormat = document.getElementById("select");
     // const button1 = document.querySelector(".focussed");
-    const button = document.querySelector(".label_hold");
+
+    const button = scale?.querySelector(".label_hold");
+    console.log(button);
     // const btnParent = document.getElementById("parent");
-    const button3 = document.querySelector(".scale_text");
+    const scaleText = document.querySelector(".scale_text");
     // const buttonScaleField = document.querySelector(".scaleInput");
-    const button4 = document.querySelector(".scool_input");
-    const buttonCircle = document.querySelectorAll(".circle_label");
+    const button4 = scale?.querySelector(".scool_input");
+    const font = scale?.querySelector(".newScaleInput");
+    console.log(font);
+    console.log(button4);
+    const buttonCircle = scale?.querySelectorAll(".circle_label");
+    const buttonCircleM = scale?.querySelector(".circle_label");
     const buttonChild = document.getElementById("child");
-    const buttonChildLeft = document.querySelector(".left_child");
-    const buttonChildRight = document.querySelector(".right_child");
-    const buttonChildNeutral = document.querySelector(".neutral_child");
+    const buttonChildLeft = scale?.querySelector(".left_child");
+    const buttonChildRight = scale?.querySelector(".right_child");
+    const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const option =
       document.querySelector("select").options[
         document.querySelector("select").selectedIndex
       ];
+    console.log(option.value);
+    console.log(option);
+    console.log(button4.style.display);
+    console.log(buttonCircleM);
     button4.style.display = "block";
+    console.log(button4.style.display);
+
     // if (btnUpdateScaleName.value !== "") {
     //   button3.textContent = btnUpdateScaleName.value;
     // }
@@ -240,7 +326,7 @@ const ScaleRightSide = () => {
       buttonChildRight.style.marginTop = "40%";
       buttonChildNeutral.style.marginTop = "50%";
       //buttonCircle.style.flexDirection = "column";
-      buttonCircle.style.marginTop = "2px";
+      buttonCircleM.style.marginTop = "2px";
     }
 
     if (btnUpdateLeft.value !== "") {
@@ -266,41 +352,99 @@ const ScaleRightSide = () => {
     console.log(btnUpdateButton.value);
     console.log(btnUpdateScale.value);
     console.log(btnUpdateFontColor.value);
-    setIsLoading(true);
-    Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
-      user: "boolean",
-      username: "NdoneAmbrose",
-      orientation: option.value,
-      scalecolor: btnUpdateScale.value,
-      roundcolor: btnUpdateButton.value,
-      fontcolor: btnUpdateFontColor.value,
-      fomat: "number",
-      allow_resp: false,
-      show_total_score: true,
-      no_of_scales: 6,
-      time: "60",
-      name: "testAPI",
-      left: btnUpdateLeft.value,
-      right: btnUpdateRight.value,
-      center: btnUpdateCenter.value,
-      label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-      fontstyle: btnUpdateScaleFont.value,
-      emoji_format: { 0: "😀", 1: "😃", 2: "😄" },
-    })
-      .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          sendMessage();
-          // setScaleData(res.data);
-          console.log(res);
-        }
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
-  };
+    // setScaleId("");
+    const idHolder = scale?.querySelector(".scaleId");
+    console.log(idHolder);
+    console.log(scaleId);
+    let timeId = document.getElementById("timeId");
+    let time = document.getElementById("time");
 
+    if (idHolder.textContent === "scale Id" || idHolder.textContent === "id") {
+      setIsLoading(true);
+      console.log("post req");
+      Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
+        user: "true",
+        username: "NdoneAmbrose",
+        orientation: option?.value,
+        scalecolor: btnUpdateScale.value,
+        roundcolor: btnUpdateButton.value,
+        fontcolor: btnUpdateFontColor.value,
+        fomat: "number",
+        allow_resp: false,
+        show_total_score: true,
+        no_of_scales: 6,
+        time: timeId.style.display === "none" ? "00" : time?.value,
+        name: scaleText?.textContent,
+        left: btnUpdateLeft.value,
+        right: btnUpdateRight.value,
+        center: btnUpdateCenter.value,
+        label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+        fontstyle: btnUpdateScaleFont.value,
+        emoji_format: { 0: "😀", 1: "😃", 2: "😄" },
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            setIsLoading(false);
+            sendMessage();
+            setScaleData(res.data);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+            if (id.length) {
+              setScaleId(id);
+              const idHolder = scale?.querySelector(".scaleId");
+              idHolder.textContent = scaleId && scaleId;
+            }
+            console.log(res);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
+    } else {
+      setIsLoading(true);
+      console.log("PUT req");
+      console.log(idHolder.textContent);
+      Axios.put("https://100035.pythonanywhere.com/api/nps_create/", {
+        user: "true",
+        scale_id: idHolder.textContent,
+        username: "NdoneAmbrose",
+        orientation: option?.value,
+        scalecolor: btnUpdateScale.value,
+        roundcolor: btnUpdateButton.value,
+        fontcolor: btnUpdateFontColor.value,
+        fomat: "number",
+        allow_resp: false,
+        show_total_score: true,
+        no_of_scales: 6,
+        time: timeId?.style?.display === "none" ? "00" : time?.value,
+        name: scaleText?.textContent,
+        left: btnUpdateLeft.value,
+        right: btnUpdateRight.value,
+        center: btnUpdateCenter.value,
+        label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+        fontstyle: btnUpdateScaleFont.value,
+        emoji_format: { 0: "😀", 1: "😃", 2: "😄" },
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            setIsLoading(false);
+            sendMessage();
+            setScaleData(res.data);
+            setScaleId(scaleId);
+            console.log(res);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err.message);
+        });
+    }
+  };
+  const idHolder = scale?.querySelector(".scaleId");
+  console.log(idHolder);
+  console.log(scaleId);
   function showIframe() {
     const divIframeRight = document.getElementById("iframeRight");
     const divSettingRight = document.getElementById("settingRight");
@@ -370,7 +514,7 @@ const ScaleRightSide = () => {
   var newArray = excludeElementsWithAttributeValue(
     myArray,
     "type",
-    "NEW_SCALE_INPUT"
+    "SCALE_INPUT"
   );
 
   const filteredArray = newArray?.filter((obj) => !customId.includes(obj.id));
@@ -486,7 +630,7 @@ const ScaleRightSide = () => {
         id="updateScale"
         className="py-2 bg-white border-none"
         // style={{"}}
-        onClick={showIframe}
+        // onClick={showIframe}
       >
         Appearance
       </button>
@@ -499,7 +643,7 @@ const ScaleRightSide = () => {
         id="setScale"
         className="py-2 bg-white border-none"
         // style={{ bordern: "none", outline: "none" }}
-        onClick={showSetting}
+        // onClick={showSetting}
       >
         Configurations
       </button>
@@ -731,6 +875,18 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+                    // defaultValue={
+                    //   scaleDisplay.style.display !== "none" ? scaleBg : ""
+                    // }
+                    // defaultValue={
+                    //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    //   !scaleDisplay
+                    //     ? undefined
+                    //     : scaleDisplay === "none"
+                    //     ? undefined
+                    //     : scaleBg
+                    // }
+                    defaultValue={scaleBg ? scaleBg : ""}
                     id="scale_color"
                   />
                 </div>
@@ -762,6 +918,24 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+                    // defaultValue={
+                    //   // scaleDisplay.style?.display !== "none" ? circles : ""
+                    //   // scaleDisplay?.style?.display ? scaleDisplay.style.display ==="block" ? circles : ""
+                    // }
+                    // defaultValue={
+                    //   scaleDisplay.style.display === "none"
+                    //     ? undefined
+                    //     : circles
+                    // }
+                    // defaultValue={
+                    //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    //   !scaleDisplay
+                    //     ? undefined
+                    //     : scaleDisplay === "none"
+                    //     ? undefined
+                    //     : circles
+                    // }
+                    defaultValue={circles ? circles : ""}
                     id="button_color"
                   />
                   {/* <BiChevronDown
@@ -807,6 +981,23 @@ const ScaleRightSide = () => {
                       display: "flex",
                       alignItems: "center",
                     }}
+                    // defaultValue={
+                    //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    //   !scaleDisplay
+                    //     ? undefined
+                    //     : scaleDisplay === "none"
+                    //     ? undefined
+                    //     : fontColor
+                    // }
+                    // defaultValue={
+                    //   scaleDisplay.style.display === "none"
+                    //     ? undefined
+                    //     : fontColor
+                    // }
+                    // defaultValue={
+                    //   scaleDisplay.style.display !== "none" ? fontColor : ""
+                    // }
+                    defaultValue={fontColor ? fontColor : ""}
                     id="font_color"
                   />
                 </div>
@@ -840,6 +1031,10 @@ const ScaleRightSide = () => {
                       alignItems: "center",
                     }}
                     id="font_style"
+                    defaultValue={
+                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                      fontFamlity ? fontFamlity.style.fontFamily : "Select"
+                    }
                   >
                     <option style={{ fontSize: "11px" }}>Select</option>
                     {fontStyles.map((fontStyle, index) => (
@@ -1026,6 +1221,16 @@ const ScaleRightSide = () => {
                 >
                   <input
                     type="text"
+                    // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                    // defaultValue={
+                    //   scaleDisplay.style.display === "none"
+                    //     ? ""
+                    //     : leftChild.innerHTML
+                    // }
+                    defaultValue={
+                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                      leftChild ? leftChild.innerHTML : ""
+                    }
                     style={{
                       width: "100px",
                       height: "12px",
@@ -1066,6 +1271,10 @@ const ScaleRightSide = () => {
                       outline: "none",
                       alignItems: "center",
                     }}
+                    defaultValue={
+                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                      neutralChild ? neutralChild.innerHTML : ""
+                    }
                     id="centre"
                   />
                 </div>
@@ -1098,6 +1307,10 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
+                  defaultValue={
+                    // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    rightChild ? rightChild.innerHTML : ""
+                  }
                   id="right"
                 />
               </div>

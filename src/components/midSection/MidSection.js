@@ -3304,6 +3304,7 @@ const MidSection = React.forwardRef((props, ref) => {
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
+
           // const holderDIV = getHolderDIV(measure, pageNo);
 
           let scaleField = document.createElement("div");
@@ -3315,13 +3316,15 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.style.borderRadius = "0px";
           scaleField.style.outline = "0px";
           scaleField.style.overflow = "overlay";
-          scaleField.style.color = element.raw_data.fontColor;
-          scaleField.style.fontFamily = element.raw_data.fontFamily;
+
+          // scaleField.style.fontFamily = element.raw_data.fontFamily;
           // iframeField.innerHTML = "iframe";
           scaleField.style.position = "absolute";
 
           const scaleHold = document.createElement("div");
           scaleHold.className = "scool_input";
+          scaleHold.style.fontFamily = element?.raw_data?.fontFamily;
+          scaleHold.style.color = element?.raw_data?.fontColor;
           // scaleHold.style.color = "black";
           scaleHold.style.width = "100%";
           scaleHold.style.height = "90%";
@@ -3332,7 +3335,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const scaleText = document.createElement("div");
           scaleText.className = "scale_text";
-          scaleText.textContent = element.data;
+          scaleText.textContent = element?.data;
           scaleText.style.marginBottom = "10px";
           scaleText.style.width = "100%";
           scaleText.style.display = "flex";
@@ -3348,7 +3351,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.width = "100%";
           labelHold.style.height = "85%";
           labelHold.style.border = "1px solid black";
-          labelHold.style.backgroundColor = element.raw_data.scaleBgColor;
+          labelHold.style.backgroundColor = element?.raw_data?.scaleBgColor;
           // labelHold.style.display = "none";
           scaleHold.appendChild(labelHold);
           labelHold.style.display = "flex";
@@ -3358,6 +3361,8 @@ const MidSection = React.forwardRef((props, ref) => {
           // labelHold.style.margin = "0px";
           // const scale_id = element.scaleId;
           // console.log(scale_id);
+          // scale_id: scaleId,
+          console.log(scaleId, "scale button");
           for (let i = 0; i < 11; i++) {
             const circle = document.createElement("div");
             // Set the styles for the circle
@@ -3365,7 +3370,7 @@ const MidSection = React.forwardRef((props, ref) => {
             circle.style.width = "35%";
             circle.style.height = "35%";
             circle.style.borderRadius = "50%";
-            circle.style.backgroundColor = element.raw_data.buttonColor;
+            circle.style.backgroundColor = element?.raw_data?.buttonColor;
             circle.style.top = "30%";
             circle.style.left = "30%";
             circle.style.display = "flex";
@@ -3381,19 +3386,47 @@ const MidSection = React.forwardRef((props, ref) => {
               // return token;
             }
 
-            function generateRandomNumber(min, max) {
-              return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
+            // function generateRandomNumber(min, max) {
+            //   return Math.floor(Math.random() * (max - min + 1)) + min;
+            // }
+
+            //Get the current scale of the clicked rectangle
+            
+            // function getScale(id) {
+            //   const scale = scales.find((scale) => scale.id === id);
+            //   return scale.scaleNew;
+            // }
+            
             
             if (
               decoded.details.action ==="document") {
                 circle.addEventListener('click', function() {
+                   let scale = document.querySelector(".focussedd");
+                  // const id = `${element.id}`;
+                  // let scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  const scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  // const scaleNwHolder = id.scaleNewId;
+                  // console.log(scaleNwHolder);
+                  // const id = event.target.id;
+                  // const scaleNew = getScale(id);
+                  // console.log(`The scale of rectangle ${id} is ${scaleNew}`);
+                  console.log(scaleNewId);
                   circle.style.backgroundColor = "blue";
-                  Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', {
-                    // scale_id : element.scaleId,
+                  
+                  Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
+                  {
+                    // scale_id : `${element.id}`,
+                    // scale_id :element?.raw_data?.scaleID,
+                    // scale_id: scale?.id,
+                    // scale_id: element?.id,
+                    // scale_id: scale,
+                    // scale_id: scaleNwHolder,
+                    // scale_id: scale,
+                    
                   //  scale_id: generateScaleId(),
-                    scale_id : "63e8b4c87f4aa8f650162b7a",
-                    instance_id: generateRandomNumber(1, 20),
+                    // scale_id : "63e8b4c87f4aa8f650162b7a",
+                    scale_id:scaleNewId,
+                    instance_id: pageNo,
                     brand_name : "XYZ545",
                     product_name:"XYZ511",
                     username: generateLoginUser(),
@@ -3412,7 +3445,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   });
                 });
             }
-        
           }
           // const parentDiv = document.createElement("div");
           // parentDiv.id = "parent";
@@ -3427,18 +3459,25 @@ const MidSection = React.forwardRef((props, ref) => {
           const element1 = document.createElement("h6");
           element1.className = "left_child";
           element1.style.marginLeft = "0px";
-          element1.textContent = element.raw_data.left;
+          element1.textContent = element?.raw_data?.left;
           childDiv.appendChild(element1);
 
           const element2 = document.createElement("h6");
           element2.className = "neutral_child";
-          element2.textContent = element.raw_data.center;
+          element2.textContent = element?.raw_data?.center;
           childDiv.appendChild(element2);
 
           const element3 = document.createElement("h6");
           element3.className = "right_child";
-          element3.textContent = element.raw_data.right;
+          element3.textContent = element?.raw_data?.right;
           childDiv.appendChild(element3);
+
+          const idHolder = document.createElement("h6");
+          idHolder.className = "scaleId";
+          idHolder.textContent = element?.raw_data?.scaleID;
+          idHolder.style.display = "none";
+          childDiv.appendChild(idHolder);
+
           scaleHold.append(childDiv);
           scaleField.append(scaleHold);
 
@@ -5527,6 +5566,15 @@ const MidSection = React.forwardRef((props, ref) => {
         element3.className = "right_child";
         element3.textContent = "Best";
         childDiv.appendChild(element3);
+
+        const idHolder = document.createElement("h6");
+        idHolder.className = "scaleId";
+        idHolder.textContent = "scale Id";
+        idHolder.style.display = "none";
+        childDiv.appendChild(idHolder);
+        // childDiv.appendChild( idHolder);
+
+        // childDiv.appendChild(element3);
         scaleHold.append(childDiv);
         const scales = document.getElementsByClassName("newScaleInput");
         if (scales.length) {
