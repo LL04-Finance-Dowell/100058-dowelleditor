@@ -18,6 +18,8 @@ const EmailRightSideBar = () => {
     var decoded = jwt_decode(token);
     const actionName = decoded?.details?.action;
 
+    const mailBtn = document.querySelector(".focussed");
+
 
     const [borderSize, setBorderSize] = useState(
         Number(localStorage.getItem("borderSize")) || 0
@@ -93,6 +95,8 @@ const EmailRightSideBar = () => {
             formData
         ).then((response) => {
             console.log(response);
+            mailBtn.textContent = "Sent";
+            mailBtn.style.backgroundColor = "green"
             toast.success("Email has been sent");
 
         });

@@ -44,6 +44,18 @@ const ScaleRightSide = () => {
     "Arial Black",
   ];
 
+
+  const scale = document.querySelector(".focussedd")
+
+  const circles = scale.querySelector(".circle_label");
+  const scaleBg = scale.querySelector(".label_hold");
+  const leftChild = scale.querySelector(".left_child");
+  const neutralChild = scale.querySelector(".neutral_child");
+  const rightChild = scale.querySelector(".right_child");
+
+  const left = leftChild.innerHTML
+
+console.log(leftChild.innerHTML);
   const handleFormat = () => {
     const format = document.getElementById("select");
     const selectedValue = format.value;
@@ -176,7 +188,7 @@ const ScaleRightSide = () => {
     const buttonChildNeutral = document.querySelector(".neutral_child");
     const option =
       document.querySelector("select").options[
-        document.querySelector("select").selectedIndex
+      document.querySelector("select").selectedIndex
       ];
     button4.style.display = "block";
     // if (btnUpdateScaleName.value !== "") {
@@ -930,6 +942,7 @@ const ScaleRightSide = () => {
                 >
                   <input
                     type="text"
+                    defaultValue={leftChild.innerHTML}
                     style={{
                       width: "100px",
                       height: "12px",
