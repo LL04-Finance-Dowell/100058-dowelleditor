@@ -58,6 +58,65 @@ const ScaleRightSide = () => {
   let fontFamlity = scale?.firstChild;
   // console.log(fontFamlity);
 
+  // if(!scale)
+  if (fontColor) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(fontColor).color;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    fontColor =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+
+    // console.log(fontColor);
+  }
+  // console.log(circles);
+  if (circles) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(circles).backgroundColor;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    circles =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+
+    // console.log(circles);
+  }
+
+  if (scaleBg) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(scaleBg).backgroundColor;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    scaleBg =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+  }
+  // console.log(scaleDisplay);
+
+  const leftChild = scale?.querySelector(".left_child");
+  const neutralChild = scale?.querySelector(".neutral_child");
+  const rightChild = scale?.querySelector(".right_child");
+  const scaleT = scale?.querySelector(".scale_text")
+
+  const [scaleTitle, setScaleTitle] = useState(scaleT ? scaleT.innerHTML:"")
+
+  // console.log(leftChild.innerHTML);
   const handleFormat = () => {
     const format = document.getElementById("select");
     const selectedValue = format.value;
@@ -203,7 +262,7 @@ const ScaleRightSide = () => {
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const option =
       document.querySelector("select").options[
-      document.querySelector("select").selectedIndex
+        document.querySelector("select").selectedIndex
       ];
     console.log(option.value);
     console.log(option);
@@ -1209,6 +1268,16 @@ const ScaleRightSide = () => {
                 >
                   <input
                     type="text"
+                    // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                    // defaultValue={
+                    //   scaleDisplay.style.display === "none"
+                    //     ? ""
+                    //     : leftChild.innerHTML
+                    // }
+                    defaultValue={
+                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                      leftChild ? leftChild.innerHTML : ""
+                    }
                     style={{
                       width: "100px",
                       height: "12px",
