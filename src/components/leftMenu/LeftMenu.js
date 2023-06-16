@@ -328,7 +328,7 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<IoScale />}
               title="NewScale"
             />: ""
-           }
+           {"}"}
 
             {/* test div */}
             {/* <NavButton
