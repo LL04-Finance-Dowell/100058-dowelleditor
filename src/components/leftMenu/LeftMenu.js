@@ -321,14 +321,14 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<AiOutlineMail />}
               title="Email"
             />
-           { token !== null ?
-           <NavButton
+
+            <NavButton
               dragStartFunc={dragStartNewScale}
               customFunc={() => handleDrop("newScale")}
               icon={<IoScale />}
               title="NewScale"
-            />:""
-           }
+            />: ""
+           {"}"}
 
             {/* test div */}
             {/* <NavButton

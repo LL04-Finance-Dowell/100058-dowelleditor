@@ -33,6 +33,7 @@ const ScaleRightSide = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [isSwitchEnabled, setIsSwitchEnabled] = useState(false);
   const [score, setScore] = useState(false);
+  const [showBorder, setShowBorder] = useState(true);
   const [holdText, setHoldText] = useState("");
   
   const fontStyles = [
@@ -615,6 +616,102 @@ const ScaleRightSide = () => {
   };
   return (
     <>
+    {
+      decoded.details.action === "document" ?
+     <>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        // borderRadius: "20px",
+        // backgroundColor: "red",
+     }}
+    >
+      <button
+        style={{
+          width: "100%",
+          border: "none",
+          fontWeight: "600",
+        }}
+        id="updateScale"
+        className="py-2 bg-white border-none"
+        // style={{"}}
+        // onClick={showIframe}
+      >
+        Appearance
+      </button>
+      <button
+        style={{
+          width: "100%",
+          border: "none",
+          fontWeight: "600",
+        }}
+        id="setScale"
+        className="py-2 bg-white border-none"
+        // style={{ bordern: "none", outline: "none" }}
+        // onClick={showSetting}
+      >
+        Configurations
+      </button>
+    </div>
+      <div id="iframeRight">
+        <div className="mb-4">
+        </div>
+      </div>
+      { showBorder === true ?
+      <>
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={borderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={borderSize}
+              onChange={handleBorderSizeChange}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+      <hr />
+      </>: ""
+       }
+      <div id="settingRight" style={{ display: 'none' }}>
+        {/* iframe */}
+        <div>
+
+
+          {/* <Form.Control
+            type="text"
+            placeholder={`${decoded.details._id}_scl1`}
+            disabled
+            className="mb-4"
+          // id="iframe_src"
+          // onChange={handleChange}
+          /> */}
+        </div>
+      </div>
+      </>:
+      <>
       <div
         style={{
           width: "100%",
@@ -1637,7 +1734,7 @@ const ScaleRightSide = () => {
             refresh
           </Button>
         </div>
-        <div className="mt-2 text-center pt-3">
+        <div className="text-center pt-3" style={{ display: "flex", gap: "10px" }} >
           <Button
             variant="primary"
             className="px-5"
@@ -1649,6 +1746,7 @@ const ScaleRightSide = () => {
 
           <Button
             variant="secondary"
+            // className="remove_button"
             className="remove_button"
             onClick={removeScale}
           >
@@ -1657,6 +1755,8 @@ const ScaleRightSide = () => {
         </div>
         {/* iframe */}
       </div>
+    </>
+      }
     </>
   );
 };
