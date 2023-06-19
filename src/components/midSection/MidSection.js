@@ -3403,8 +3403,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 circle.addEventListener('click', function() {
                    let scale = document.querySelector(".focussedd");
                   // const id = `${element.id}`;
-                  // let scaleNewId = scale?.querySelector('.scaleId').textContent;
-                  const scaleNewId = document.querySelector('.scaleId').textContent;
+                  // let scaleNewId = document.querySelector('.scaleId').textContent;
+                  const scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  console.log(scaleNewId);
                   // const scaleNwHolder = id.scaleNewId;
                   // console.log(scaleNwHolder);
                   // const id = event.target.id;
