@@ -39,6 +39,8 @@ export const ContextProvider = ({ children }) => {
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
 
+  const [isDataSaved, setIsDataSaved] = useState(false)
+
   const [isDropped, setIsDropped] = useState(initialState);
 
   const [isResizing, setIsResizing] = useState(false);
@@ -1034,8 +1036,10 @@ export const ContextProvider = ({ children }) => {
         setCustomId,
         iframek,
         setIframek,
-        iframeKey,
+        iframeKey, 
         setIframeKey,
+        isDataSaved, 
+        setIsDataSaved
       }}
     >
       {children}
