@@ -95,6 +95,8 @@ const Header = () => {
     buttonLink,
     buttonPurpose,
     setCustomId,
+    isDataSaved, 
+    setIsDataSaved,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -383,7 +385,7 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
-          page[0][pageNum].push(elem);
+          page[0][pageNum]?.push(elem);
 
           // page.push(elem);
         }
@@ -924,11 +926,16 @@ const Header = () => {
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
-    document.getElementsByClassName("element_updated").length;
+    document.getElementsByClassName("element_updated")?.length;
+  const document_map_required = docMap?.filter((item) => item.required);
 
   useEffect(() => {
     // set_doc_map(document_map)
-    if (document_map?.length == element_updated_length) {
+    if (document_map_required?.length > 0) {
+      if (document_map_required?.length == element_updated_length) {
+        setIsFinializeDisabled(false);
+      }
+    } else {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
@@ -943,6 +950,8 @@ const Header = () => {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
+
+    const finalize = document.getElementById("finalize-button");
 
     const titleName = document.querySelector(".title-name").innerHTML;
 
@@ -999,9 +1008,13 @@ const Header = () => {
       .then((res) => {
         if (res.status == 200) {
           setIsLoading(false);
+          setIsDataSaved(true);
           // alert("Data saved successfully");
           toast.success("Saved successfully");
           sendMessage();
+          if(finalize){
+            handleFinalize();
+          }
         }
         //console.log(res);
       })
@@ -1204,10 +1217,9 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const saveButton = document.getElementById("saving-buttonn");
+  
   function handleFinalize() {
     setIsLoading(true);
-
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
@@ -1224,9 +1236,8 @@ const Header = () => {
     )
       .then((res) => {
         console.log(res);
-        // alert(res?.data);
+        setIsLoading(false);
         toast.success(res?.data);
-        saveButton.click();
       })
       .catch((err) => {
         setIsLoading(false);
@@ -1234,6 +1245,7 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
+      
   }
 
   function handleReject() {
@@ -1483,7 +1495,7 @@ const Header = () => {
                       className="rounded px-4"
                       id="finalize-button"
                       disabled={isFinializeDisabled}
-                      onClick={handleFinalize}
+                      onClick={submit}
                       style={{
                         visibility:
                           documentFlag == "processing" ? "visible" : "hidden",
