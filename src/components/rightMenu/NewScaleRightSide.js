@@ -200,7 +200,7 @@ const ScaleRightSide = () => {
     setIsLoading(true);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
-      scale_id: element?.raw_data?.scaleID,
+      scale_id: scaleId,
       custom_input_groupings: selectedOptions,
       scale_label: scaleTitle,
     })
@@ -222,7 +222,7 @@ const ScaleRightSide = () => {
   console.log(scale);
   const handleUpdates = () => {
     const scale = document.querySelector(".focussedd");
-    console.log(scale);
+    console.log("This is the scale", scale);
     const circles = scale?.querySelector(".circle_label");
     console.log(circles);
     const btnUpdateButton = document.getElementById("button_color");
@@ -396,8 +396,11 @@ const ScaleRightSide = () => {
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
+            console.log(id)
             if (id.length) {
               setScaleId(id);
+              scale.id = id
+              console.log("This is the current scale",scaleId)
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = scaleId && scaleId;
             }
@@ -440,6 +443,7 @@ const ScaleRightSide = () => {
             setScaleData(res.data);
             setScaleId(scaleId);
             console.log(res);
+            console.log("This is the still scale",scale)
           }
         })
         .catch((err) => {

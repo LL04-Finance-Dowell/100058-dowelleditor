@@ -3437,11 +3437,11 @@ const MidSection = React.forwardRef((props, ref) => {
                       setIsLoading(false);
                       var responseData = response.data;
                       setScaleData(responseData);
-                      console.log(response);
+                      console.log("This is the response",response);
                     }
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    console.log("This is the response",error);
                   });
                 });
             }
