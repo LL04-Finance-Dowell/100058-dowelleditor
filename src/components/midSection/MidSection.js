@@ -3434,24 +3434,25 @@ const MidSection = React.forwardRef((props, ref) => {
             //   const scale = scales.find((scale) => scale.id === id);
             //   return scale.scaleNew;
             // }
-
-            if (decoded.details.action === "document") {
-              circle.addEventListener("click", function () {
-                let scale = document.querySelector(".focussedd");
-                // const id = `${element.id}`;
-                // let scaleNewId = scale?.querySelector('.scaleId').textContent;
-                const scaleNewId =
-                  document.querySelector(".scaleId").textContent;
-                // const scaleNwHolder = id.scaleNewId;
-                // console.log(scaleNwHolder);
-                // const id = event.target.id;
-                // const scaleNew = getScale(id);
-                // console.log(`The scale of rectangle ${id} is ${scaleNew}`);
-                console.log(scaleNewId);
-                circle.style.backgroundColor = "blue";
-
-                Axios.post(
-                  "https://100035.pythonanywhere.com/api/nps_responses_create",
+            
+            
+            if (
+              decoded.details.action ==="document") {
+                circle.addEventListener('click', function() {
+                   let scale = document.querySelector(".focussedd");
+                  // const id = `${element.id}`;
+                  // let scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  const scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  console.log(scaleNewId);
+                  // const scaleNwHolder = id.scaleNewId;
+                  // console.log(scaleNwHolder);
+                  // const id = event.target.id;
+                  // const scaleNew = getScale(id);
+                  // console.log(`The scale of rectangle ${id} is ${scaleNew}`);
+                  console.log(scaleNewId);
+                  circle.style.backgroundColor = "blue";
+                  
+                  Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
                   {
                     // scale_id : `${element.id}`,
                     // scale_id :element?.raw_data?.scaleID,
