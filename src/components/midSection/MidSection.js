@@ -3474,9 +3474,9 @@ const MidSection = React.forwardRef((props, ref) => {
                                   button.style.borderRadius = "5px";
                                   // button.style.padding = "10px 20px";
                                   button.style.cursor = "pointer";
-                                  button.addEventListener("click", function() {
-                                      alert.remove();
-                                  });
+                                  // button.addEventListener("click", function() {
+                                  //     alert.remove();
+                                  // });
                                   button.classList.add("alert-button");
                                   button.classList.add("close");
                                   // setTimeout(() => {
