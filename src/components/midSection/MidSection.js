@@ -117,7 +117,8 @@ const MidSection = React.forwardRef((props, ref) => {
   const documnentsMap = decoded?.details?.document_map;
   const divList = documnentsMap?.map?.((item) => item.page);
   var documnetMap = documnentsMap?.map?.((item) => item.content);
-
+  const document_map_required = documnentsMap?.filter((item) => item.required);
+  console.log("document_map_required", document_map_required);
   console.log("decode", decoded);
   console.log("data", data);
 
@@ -757,6 +758,99 @@ const MidSection = React.forwardRef((props, ref) => {
             copyInput("scale2");
           }
           handleClicked("scale2");
+          setSidebar(true);
+        };
+
+        scaleField.innerHTML = `${element.data}`;
+
+        holderDIV.append(scaleField);
+        holderDIV.append(scaleIdHolder);
+        holderDIV.append(labelHolder);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "NEW_SCALE_INPUT") {
+        setIsLoading(true);
+
+        let scaleField = document.createElement("div");
+        scaleField.className = "scaleInput";
+        scaleField.style.width = "100%";
+        scaleField.style.height = "100%";
+        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.borderRadius = "0px";
+        scaleField.style.outline = "0px";
+        scaleField.style.overflow = "overlay";
+        // scaleField.innerHTML = 'iframe';
+        scaleField.style.position = "absolute";
+        // scaleField.innerText = "scale here";
+
+        const scales = document.getElementsByClassName("newScaleInput");
+        if (scales.length) {
+          const s = scales.length;
+          scaleField.id = `scl${s + 1}`;
+        } else {
+          scaleField.id = "scl1";
+        }
+
+        let scale = document.createElement("iframe");
+        scale.style.width = "90%";
+        scale.style.height = "90%";
+        const scaleIdHolder = document.createElement("div");
+        scaleIdHolder.className = "scaleId_holder";
+        scaleIdHolder.style.display = "none";
+
+        const labelHolder = document.createElement("div");
+        labelHolder.className = "label_holder";
+        labelHolder.style.display = "none";
+
+        scaleField.addEventListener("resize", () => {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
+
+        scaleField.append(scale);
+        // Axios.post(
+        //   "https://100035.pythonanywhere.com/api/nps_settings_create/",
+        //   {
+        //     username: "nake",
+        //     orientation: "horizontal",
+        //     scalecolor: "#8f1e1e",
+        //     roundcolor: "#938585",
+        //     fontcolor: "#000000",
+        //     fomat: "numbers",
+        //     time: "00",
+        //     name: `${title}_scale`,
+        //     left: "good",
+        //     right: "best",
+        //     center: "neutral",
+        //   }
+        // )
+        //   .then((res) => {
+        //     setIsLoading(false);
+        //     console.log(res.data, "scaleData");
+        //     setScaleData(res.data);
+        //     const success = res.data.success;
+        //     var successObj = JSON.parse(success);
+        //     const id = successObj.inserted_id;
+        //     console.log(res.scale_urls, "stateScale");
+        //     if (id.length) {
+        //       console.log(id, "id");
+        //       // setScaleId(id);
+        //       scaleIdHolder.innerHTML = id;
+        //     }
+        //     scale.src = res.data.scale_urls;
+        //   })
+        //   .catch((err) => {
+        //     setIsLoading(false);
+        //     console.log(err);
+        //   });
+
+        scaleField.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("newScale2");
+          }
+          handleClicked("newScale2");
           setSidebar(true);
         };
 
@@ -1645,6 +1739,9 @@ const MidSection = React.forwardRef((props, ref) => {
       case "scaleInput":
         type = "SCALE_INPUT";
         break;
+      case "newScaleInput":
+        type = "NEW_SCALE_INPUT";
+        break;
       case "buttonInput":
         type = "BUTTON_INPUT";
         break;
@@ -1729,6 +1826,9 @@ const MidSection = React.forwardRef((props, ref) => {
         break;
       case "scaleInput":
         type = "SCALE_INPUT";
+        break;
+      case "newScaleInput":
+        type = "NEW_SCALE_INPUT";
         break;
       case "buttonInput":
         type = "BUTTON_INPUT";
@@ -2110,6 +2210,7 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.setAttribute("id", "holderId");
     holderDIV.setAttribute("draggable", true);
     holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
+    // holderDIV.setAttribute("data-map_id", idMatch);
     holderDIV.style.display = "flex";
     holderDIV.style.flexDirection = "column";
     // holderDIV.style.border = "2px dotted gray";
@@ -2266,7 +2367,7 @@ const MidSection = React.forwardRef((props, ref) => {
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
-          console.log("element", element);
+          // console.log("element", element);
 
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -2286,11 +2387,29 @@ const MidSection = React.forwardRef((props, ref) => {
           inputField.style.overflow = "overlay";
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
+          // console.log("element", element);
+
           inputField.oninput = (e) => {
+            // console.log("element", element);
+
             //setIsFinializeDisabled(false);
             // const doc_map_copy = [...doc_map]
-            if (inputField.parentElement.classList.contains("holderDIV")) {
-              inputField.parentElement.classList.add("element_updated");
+            // const find_content_id =
+            //   e.target?.parentElement?.getAttribute("data-map_id");
+            // const required_map_document = document_map_required?.filter(
+            //   (item) => find_content_id == item.content
+            // );
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+
+            // ('[[{"1":[{"width":200,"height":80,"top":115.8125,"topp":"103.188px","left":104.96875,"type":"TEXT_INPUT","data":"Enter text here","raw_data":"Enter text here","id":"t1","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"114.188px","left":421.96875,"type":"TEXT_INPUT","data":"Enter text here","raw_data":"Enter text here","id":"t2","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"306.188px","left":131.96875,"type":"SIGN_INPUT","data":"Signature here","id":"s1","borderWidth":"","borderColor":""},{"width":200,"height":80,"top":115.8125,"topp":"283.188px","left":429.96875,"type":"SIGN_INPUT","data":"Signature here","id":"s2","borderWidth":"","borderColor":""}]}]]');
+
+            if (
+              inputField?.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
+              inputField?.parentElement.classList.add("element_updated");
             }
             if (element.required) {
               isAnyRequiredElementEdited = true;
@@ -2352,7 +2471,16 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.oninput = (e) => {
             //setIsFinializeDisabled(false);
           };
-          if (imageField?.parentElement?.classList.contains("holderDIV")) {
+          // if (imageField?.parentElement?.classList.contains("holderDIV")) {
+          //   imageField?.parentElement?.classList.add("element_updated");
+          // }
+          const required_map_document = document_map_required?.filter(
+            (item) => element.id == item.content
+          );
+          if (
+            imageField?.parentElement?.classList.contains("holderDIV") &&
+            required_map_document.length > 0
+          ) {
             imageField?.parentElement?.classList.add("element_updated");
           }
           if (element.required) {
@@ -2964,8 +3092,18 @@ const MidSection = React.forwardRef((props, ref) => {
           }
 
           buttonField.onmouseover = (e) => {
-            if (buttonField?.parentElement?.classList.contains("holderDIV")) {
-              buttonField?.parentElement?.classList.add("element_updated");
+            // if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+            //   buttonField?.parentElement?.classList.add("element_updated");
+            // }
+
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+            if (
+              buttonField.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
+              buttonField.parentElement.classList.add("element_updated");
             }
             if (element.required) {
               isAnyRequiredElementEdited = true;
@@ -3241,7 +3379,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const scaleText = document.createElement("div");
           scaleText.className = "scale_text";
-          scaleText.textContent = element?.data;
+          scaleText.textContent = element?.raw_data?.scaleText;
           scaleText.style.marginBottom = "10px";
           scaleText.style.width = "100%";
           scaleText.style.display = "flex";
@@ -3265,7 +3403,10 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.justifyContent = "space-between";
           labelHold.style.alignItems = "center";
           // labelHold.style.margin = "0px";
-
+          // const scale_id = element.scaleId;
+          // console.log(scale_id);
+          // scale_id: scaleId,
+          console.log(scaleId, "scale button");
           for (let i = 0; i < 11; i++) {
             const circle = document.createElement("div");
             // Set the styles for the circle
@@ -3283,6 +3424,73 @@ const MidSection = React.forwardRef((props, ref) => {
 
             circle.textContent = i;
             labelHold.append(circle);
+
+            function generateLoginUser() {
+              return "user_" + Math.random().toString(36).substring(7);
+              // return token;
+            }
+
+            // function generateRandomNumber(min, max) {
+            //   return Math.floor(Math.random() * (max - min + 1)) + min;
+            // }
+
+            //Get the current scale of the clicked rectangle
+
+            // function getScale(id) {
+            //   const scale = scales.find((scale) => scale.id === id);
+            //   return scale.scaleNew;
+            // }
+            
+            
+            if (
+              decoded.details.action ==="document") {
+                circle.addEventListener('click', function() {
+                   let scale = document.querySelector(".focussedd");
+                  // const id = `${element.id}`;
+                  // let scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  const scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  console.log(scaleNewId);
+                  // const scaleNwHolder = id.scaleNewId;
+                  // console.log(scaleNwHolder);
+                  // const id = event.target.id;
+                  // const scaleNew = getScale(id);
+                  // console.log(`The scale of rectangle ${id} is ${scaleNew}`);
+                  console.log(scaleNewId);
+                  circle.style.backgroundColor = "blue";
+                  
+                  Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
+                  {
+                    // scale_id : `${element.id}`,
+                    // scale_id :element?.raw_data?.scaleID,
+                    // scale_id: scale?.id,
+                    // scale_id: element?.id,
+                    // scale_id: scale,
+                    // scale_id: scaleNwHolder,
+                    // scale_id: scale,
+
+                    //  scale_id: generateScaleId(),
+                    // scale_id : "63e8b4c87f4aa8f650162b7a",
+                    scale_id: scaleNewId,
+                    instance_id: pageNo,
+                    brand_name: "XYZ545",
+                    product_name: "XYZ511",
+                    username: generateLoginUser(),
+                    score: i,
+                  }
+                )
+                  .then((response) => {
+                    if (response.status === 200) {
+                      setIsLoading(false);
+                      var responseData = response.data;
+                      setScaleData(responseData);
+                      console.log(response);
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              });
+            }
           }
           // const parentDiv = document.createElement("div");
           // parentDiv.id = "parent";
@@ -3347,6 +3555,7 @@ const MidSection = React.forwardRef((props, ref) => {
             scaleText.style.height = "10%";
             scaleText.style.backgroundColor = "transparent";
             scaleText.style.borderRadius = "0px";
+            scaleText.style.display = "none";
             scaleHold.append(scaleText);
 
             const labelHold = document.createElement("div");
@@ -3362,6 +3571,7 @@ const MidSection = React.forwardRef((props, ref) => {
             labelHold.style.justifyContent = "space-between";
             labelHold.style.alignItems = "center";
             // labelHold.style.margin = "0px";
+            labelHold.style.display = "none";
 
             for (let i = 0; i < 11; i++) {
               const circle = document.createElement("div");
@@ -3377,6 +3587,7 @@ const MidSection = React.forwardRef((props, ref) => {
               circle.style.justifyContent = "center";
               circle.style.alignItems = "center";
               circle.style.marginLeft = "2px";
+              circle.style.display = "none";
 
               circle.textContent = i;
               labelHold.append(circle);
@@ -3420,6 +3631,12 @@ const MidSection = React.forwardRef((props, ref) => {
             // });
 
             // scaleField.append(iframe);
+            scaleField.onclick = (e) => {
+              // focuseddClassMaintain(e);
+              table_dropdown_focuseddClassMaintain(e);
+              handleClicked("newScale2");
+              setSidebar(true);
+            };
           }
 
           if (
@@ -3567,7 +3784,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHolder.style.display = "none";
 
           scaleField.onclick = (e) => {
-            // focuseddClassMaintain(e);
+            focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
             setSidebar(true);
@@ -3889,10 +4106,23 @@ const MidSection = React.forwardRef((props, ref) => {
               inputFieldContainer.oninput = (e) => {
                 //setIsFinializeDisabled(false);
                 // const doc_map_copy = [...doc_map]
+                // if (
+                //   inputFieldContainer.parentElement.classList.contains(
+                //     "holderDIV"
+                //   )
+                // ) {
+                //   inputFieldContainer.parentElement.classList.add(
+                //     "element_updated"
+                //   );
+                // }
+                const required_map_document = document_map_required?.filter(
+                  (item) => element.id == item.content
+                );
                 if (
                   inputFieldContainer.parentElement.classList.contains(
                     "holderDIV"
-                  )
+                  ) &&
+                  required_map_document.length > 0
                 ) {
                   inputFieldContainer.parentElement.classList.add(
                     "element_updated"
@@ -4143,12 +4373,25 @@ const MidSection = React.forwardRef((props, ref) => {
               }
 
               buttonFieldContainer.onmouseover = (e) => {
+                // if (
+                //   buttonFieldContainer?.parentElement?.classList.contains(
+                //     "holderDIV"
+                //   )
+                // ) {
+                //   buttonFieldContainer?.parentElement?.classList.add(
+                //     "element_updated"
+                //   );
+                // }
+                const required_map_document = document_map_required?.filter(
+                  (item) => element.id == item.content
+                );
                 if (
-                  buttonFieldContainer?.parentElement?.classList.contains(
+                  buttonFieldContainer.parentElement.classList.contains(
                     "holderDIV"
-                  )
+                  ) &&
+                  required_map_document.length > 0
                 ) {
-                  buttonFieldContainer?.parentElement?.classList.add(
+                  buttonFieldContainer.parentElement.classList.add(
                     "element_updated"
                   );
                 }
@@ -4766,6 +5009,7 @@ const MidSection = React.forwardRef((props, ref) => {
         iframe2: false,
         scale2: false,
         container2: false,
+        newScale2: false,
       });
     }
   };
@@ -5249,6 +5493,8 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "NEW_SCALE_INPUT" &&
         decoded.details.action === "template"
+        // ||
+        // decoded.details.action === "document"
       ) {
         let scaleField = document.createElement("div");
         scaleField.className = "newScaleInput";
@@ -5315,6 +5561,58 @@ const MidSection = React.forwardRef((props, ref) => {
 
           circle.textContent = i;
           labelHold.append(circle);
+          // if (
+          //     typeOfOperation === "NEW_SCALE_INPUT" && decoded.details.action ==="document") {
+          //         circle.addEventListener('click', function() {
+          //           Axios.post('https://100035.pythonanywhere.com/api/nps_create/', {
+          //             scale_id : "63e8b4c87f4aa8f650162b7a",
+          //             // scale_id : element.scaleId,
+          //             instantance_id: 5,
+          //             brand_name : "XYZ620",
+          //             product_name:"XYZ623",
+          //             username: "daved",
+          //             score: i,
+          //           })
+          //           .then(function (response) {
+          //             console.log(response);
+          //             var responseData = response.data;
+          //             setScaleData(responseData);
+          //           })
+          //           .catch(function (error) {
+          //             console.log(error);
+          //           });
+          //         });
+          //   }
+          const circles = [];
+          if (
+            typeOfOperation === "NEW_SCALE_INPUT" &&
+            decoded.details.action === "template"
+          ) {
+            circle.addEventListener("click", function () {
+              // Get the current background color
+              const currentBackgroundColor = this.style.backgroundColor;
+
+              // Set the background color to the clicked circle's background color
+              for (const circle of circles) {
+                if (circle === this) {
+                  continue;
+                }
+                this.style.backgroundColor = currentBackgroundColor;
+              }
+
+              // If the clicked circle has a background color
+              if (this.style.backgroundColor) {
+                // Remove the background color
+                this.style.backgroundColor = "blue";
+              } else {
+                this.style.backgroundColor = "red";
+              }
+            });
+
+            circles.push(circle);
+          } else {
+            console.log("Unknown action");
+          }
         }
         // const parentDiv = document.createElement("div");
         // parentDiv.id = "parent";
@@ -5506,6 +5804,7 @@ const MidSection = React.forwardRef((props, ref) => {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
           setSidebar(true);
+          console.log("This is mid data", scaleField.id);
         };
 
         holderDIV.append(scaleField);
