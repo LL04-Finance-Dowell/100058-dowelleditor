@@ -222,7 +222,7 @@ const ScaleRightSide = () => {
   console.log(scale);
   const handleUpdates = () => {
     const scale = document.querySelector(".focussedd");
-    console.log("This is the scale", scale);
+    console.log(scale);
     const circles = scale?.querySelector(".circle_label");
     console.log(circles);
     const btnUpdateButton = document.getElementById("button_color");
@@ -400,7 +400,7 @@ const ScaleRightSide = () => {
             if (id.length) {
               setScaleId(id);
               scale.id = id
-              console.log("This is the current scale",scaleId)
+              console.log(scaleId)
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = scaleId && scaleId;
             }
