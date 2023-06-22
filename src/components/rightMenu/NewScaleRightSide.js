@@ -288,20 +288,23 @@ const ScaleRightSide = () => {
     const buttonChildRight = scale?.querySelector(".right_child");
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const option =
-      document.querySelector("select").options[
-        document.querySelector("select").selectedIndex
+      document.querySelector("#orientationId").options[
+        document.querySelector("#orientationId").selectedIndex
       ];
-    console.log(option.value);
+    const test = document.querySelector("select");
+    console.log(test);
     console.log(option);
-    console.log(button4.style.display);
-    console.log(buttonCircleM);
-    button4.style.display = "block";
-    console.log(button4.style.display);
+    // console.log(option.value);
+    // console.log(option);
+    // console.log(button4.style.display);
+    // console.log(buttonCircleM);
+    // button4.style.display = "block";
+    // console.log(button4.style.display);
 
     // if (btnUpdateScaleName.value !== "") {
     //   button3.textContent = btnUpdateScaleName.value;
     // }
-
+    button4.style.display = "block";
     if (btnUpdateScale.value !== "") {
       button.style.backgroundColor = btnUpdateScale.value;
     }
