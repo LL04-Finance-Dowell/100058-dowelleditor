@@ -1654,6 +1654,9 @@ const MidSection = React.forwardRef((props, ref) => {
       case "containerInput":
         type = "CONTAINER_INPUT";
         break;
+      case "newScaleInput":
+        type = "NEW_SCALE_INPUT";
+        break;
       default:
         type = "";
     }
@@ -1735,6 +1738,9 @@ const MidSection = React.forwardRef((props, ref) => {
         break;
       case "containerInput":
         type = "CONTAINER_INPUT";
+        break;
+      case "newScaleInput":
+        type = "NEW_SCALE_INPUT";
         break;
       default:
         type = "";

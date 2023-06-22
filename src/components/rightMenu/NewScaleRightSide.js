@@ -46,14 +46,10 @@ const ScaleRightSide = () => {
     "Arial Black",
   ];
   let scale = document.querySelector(".focussedd");
-  const scaleDisplay = scale?.querySelector(".scool_input").style.display;
   let circles = scale?.querySelector(".circle_label");
   let scaleBg = scale?.querySelector(".label_hold");
-  let fontColor = scale?.firstChild;
-  // console.log(scale);
-  // console.log(fontColor.style.color);
+  let fontColor = scale?.querySelector(".scool_input");
   let fontFamlity = scale?.firstChild;
-  // console.log(fontFamlity);
 
   // if(!scale)
   if (fontColor) {
@@ -109,6 +105,31 @@ const ScaleRightSide = () => {
   const leftChild = scale?.querySelector(".left_child");
   const neutralChild = scale?.querySelector(".neutral_child");
   const rightChild = scale?.querySelector(".right_child");
+
+  var scaleColorInput = document.getElementById("scale_color");
+  if (scaleColorInput) {
+    scaleColorInput.defaultValue = scaleBg;
+  }
+  var font_color = document.getElementById("font_color");
+  if (font_color) {
+    font_color.defaultValue = fontColor;
+  }
+  var left = document.getElementById("left");
+  if (left) {
+    left.defaultValue = leftChild?.textContent;
+  }
+  var centre = document.getElementById("centre");
+  if (centre) {
+    centre.defaultValue = neutralChild?.textContent;
+  }
+  var right = document.getElementById("right");
+  if (right) {
+    right.defaultValue = rightChild?.textContent;
+  }
+  var button_color = document.getElementById("button_color");
+  if (button_color) {
+    button_color.defaultValue = circles;
+  }
 
   // console.log(leftChild.innerHTML);
   const handleFormat = () => {
@@ -501,8 +522,13 @@ const ScaleRightSide = () => {
     }
   }
   const myArray = Object.values(data)[0];
+  console.log(myArray);
   function excludeElementsWithAttributeValue(arr, attribute, valueToExclude) {
     return arr?.filter(function (element) {
+      console.log(element);
+      console.log(attribute);
+      console.log(valueToExclude);
+      console.log(arr);
       return (
         element.hasOwnProperty(attribute) &&
         element[attribute] !== valueToExclude
@@ -513,19 +539,21 @@ const ScaleRightSide = () => {
   var newArray = excludeElementsWithAttributeValue(
     myArray,
     "type",
-    "SCALE_INPUT"
+    "NEW_SCALE_INPUT"
   );
+  console.log(newArray);
 
   const filteredArray = newArray?.filter((obj) => !customId.includes(obj.id));
+  console.log(filteredArray);
 
-  // const elems = document.getElementsByClassName("holderDIV");
-  // for (let index = 0; index < elems.length; index++) {
-  //   const element = elems[index];
-  //   console.log(element.children[0]);
-  // }
+  const elems = document.getElementsByClassName("holderDIV");
+  for (let index = 0; index < elems.length; index++) {
+    const element = elems[index];
+    // console.log(element.children[0]);
+  }
 
   const handleSelect = (event) => {
-    let selectField = document.querySelectorAll("#select");
+    let selectField = document.getElementById("select1");
     var selectedValues = {};
     const options = selectField.options;
 
@@ -533,17 +561,16 @@ const ScaleRightSide = () => {
       const option = options[i];
       if (option.selected) {
         selectedValues[option.value] = option.id;
+        console.log(option);
       }
     }
+
     console.log(selectedValues);
     setSelectedOptions(selectedValues);
 
     let selectedOption = selectField.options[selectField.selectedIndex];
     let selectedElementId = selectedOption.id;
     console.log(selectedElementId, "selectedElementId");
-    // const selectedElement = myArray.find(
-    //   (element) => element.type === selectedTitle
-    // );
 
     const selectedElements = myArray.find(
       (element) => element.id === selectedElementId
@@ -553,18 +580,23 @@ const ScaleRightSide = () => {
     let divElement = document.getElementById(selectedElements.id);
     console.log(divElement.id, "divElement");
 
-    // divElement.style.border = '4px solid #f00 !important';
+    // Remove the green border from the previously selected option
+    let previousOptionId = selectField.getAttribute("data-prev-option");
+    if (previousOptionId) {
+      let previousOptionDiv = document.getElementById(previousOptionId);
+      previousOptionDiv.parentElement.style.border = "none";
+    }
+
+    // Add the green border to the currently selected option
     divElement.parentElement.style.border = "2px solid green";
+
     divElement.focus();
 
-    // if (selectedElementId === divElement.id) {
-    //   divElement.style.border = '10px solid #f00 !important';
-    //   divElement.style.backgroundColor = '#f00 !important';
-    //   divElement.focus();
-    // }
+    // Store the ID of the currently selected option as the previous option
+    selectField.setAttribute("data-prev-option", selectedElements.id);
   };
 
-  const options = filteredArray?.map((element, index) => (
+  const options = newArray?.map((element, index) => (
     <option key={index} value={element.type} id={element.id}>
       {`${element.type} ${element.id}`}
     </option>
@@ -789,7 +821,12 @@ const ScaleRightSide = () => {
                     //     ? undefined
                     //     : scaleBg
                     // }
-                    defaultValue={scaleBg ? scaleBg : ""}
+                    // defaultValue={scale && scaleBg}
+                    // defaultValue={
+                    //   document
+                    //     ?.querySelector(".focussedd")
+                    //     ?.querySelector(".label_hold")?.style?.backgroundColor
+                    // }
                     id="scale_color"
                   />
                 </div>
@@ -838,7 +875,7 @@ const ScaleRightSide = () => {
                     //     ? undefined
                     //     : circles
                     // }
-                    defaultValue={circles ? circles : ""}
+                    // defaultValue={circles ? circles : ""}
                     id="button_color"
                   />
                   {/* <BiChevronDown
@@ -900,7 +937,7 @@ const ScaleRightSide = () => {
                     // defaultValue={
                     //   scaleDisplay.style.display !== "none" ? fontColor : ""
                     // }
-                    defaultValue={fontColor ? fontColor : ""}
+                    // defaultValue={fontColor ? fontColor : ""}
                     id="font_color"
                   />
                 </div>
@@ -1130,10 +1167,10 @@ const ScaleRightSide = () => {
                     //     ? ""
                     //     : leftChild.innerHTML
                     // }
-                    defaultValue={
-                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                      leftChild ? leftChild.innerHTML : ""
-                    }
+                    // defaultValue={
+                    //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    //   leftChild ? leftChild.innerHTML : ""
+                    // }
                     style={{
                       width: "100px",
                       height: "12px",
@@ -1174,10 +1211,10 @@ const ScaleRightSide = () => {
                       outline: "none",
                       alignItems: "center",
                     }}
-                    defaultValue={
-                      // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                      neutralChild ? neutralChild.innerHTML : ""
-                    }
+                    // defaultValue={
+                    //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                    //   neutralChild ? neutralChild.innerHTML : ""
+                    // }
                     id="centre"
                   />
                 </div>
@@ -1210,10 +1247,10 @@ const ScaleRightSide = () => {
                     outline: "none",
                     alignItems: "center",
                   }}
-                  defaultValue={
-                    // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                    rightChild ? rightChild.innerHTML : ""
-                  }
+                  // defaultValue={
+                  //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                  //   rightChild ? rightChild.innerHTML : ""
+                  // }
                   id="right"
                 />
               </div>
@@ -1521,7 +1558,7 @@ const ScaleRightSide = () => {
         <div id="settingSelect">
           <select
             onChange={handleSelect}
-            id="select"
+            id="select1"
             // onChange={handleDateMethod}
             className="select border-0 bg-white rounded w-100 h-75 p-2"
             //multiple
@@ -1580,7 +1617,7 @@ const ScaleRightSide = () => {
             <p>group 4</p>
           </div>
 
-          <div id="multiScale">
+          {/* <div id="multiScale">
             <select
               onChange={handleSelect}
               id="select"
@@ -1595,7 +1632,7 @@ const ScaleRightSide = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
         <div className="mt-2 text-center pt-3">
           <Button variant="primary" className="px-5" onClick={refreshIframe}>
