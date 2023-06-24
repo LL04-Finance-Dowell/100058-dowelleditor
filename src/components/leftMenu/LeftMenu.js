@@ -17,6 +17,7 @@ import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
+import { FaCamera } from "react-icons/fa"
 
 import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
@@ -148,6 +149,16 @@ const dragStartScale = (e) => {
 const dragStartNewScale = (e) => {
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "NEW_SCALE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+    //console.log("drag start fumb");
+  }
+};
+
+const dragStartCamera = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "CAMERA_INPUT");
   element.classList.add("dragging");
   if (document.querySelector(".drop_zone")) {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
@@ -327,9 +338,14 @@ const LeftMenu = ({ showSidebar }) => {
               customFunc={() => handleDrop("newScale")}
               icon={<IoScale />}
               title="NewScale"
+            />
+            <NavButton
+              dragStartFunc={dragStartCamera}
+              customFunc={() => handleDrop("camera")}
+              icon={<FaCamera />}
+              title="camera"
             />: ""
            {"}"}
-
             {/* test div */}
             {/* <NavButton
               dragStartFunc={dragStartButton}

@@ -179,6 +179,7 @@ const MidSection = React.forwardRef((props, ref) => {
           button2: false,
           email2: false,
           newScale2: false,
+          camera2: false
         });
 
         const divsArray = document.getElementsByClassName(
@@ -1754,6 +1755,9 @@ const MidSection = React.forwardRef((props, ref) => {
         break;
       case "newScaleInput":
         type = "NEW_SCALE_INPUT";
+        break;
+      case "cameraInput":
+        type = "CAMERA_INPUT";
         break;
       default:
         type = "";
@@ -5901,7 +5905,7 @@ const MidSection = React.forwardRef((props, ref) => {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
           setSidebar(true);
-          console.log("This is mid data", scaleField.id);
+          console.log(scaleField.id);
         };
 
         holderDIV.append(scaleField);
@@ -5949,6 +5953,93 @@ const MidSection = React.forwardRef((props, ref) => {
       //     holderDIV.append(signField);
       //   };
       // }
+      else if (
+        typeOfOperation === "CAMERA_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+
+        let cameraField = document.createElement("div");
+        cameraField.className = "cameraInput";
+        cameraField.style.width = "100%";
+        cameraField.style.height = "100%";
+        cameraField.style.backgroundColor = "transparent";
+        cameraField.style.borderRadius = "0px";
+        cameraField.style.outline = "0px";
+        cameraField.style.overflow = "overlay";
+        // cameraField.innerHTML = 'iframe';
+        cameraField.style.position = "absolute";
+        // cameraField.innerText = "camera here";
+
+        const camera = document.getElementsByClassName("cameraInput");
+        if (camera.length) {
+          const s = camera.length;
+          cameraField.id = `scl${s + 1}`;
+        } else {
+          cameraField.id = "scl1";
+        }
+
+        let cameraFrame = document.createElement("video");
+        cameraFrame.className = "videoInput"
+        cameraFrame.style.width = "100%";
+        cameraFrame.style.height = "100%";
+        cameraField.append(cameraFrame);
+        
+        const cameraIdHolder = document.createElement("div");
+        cameraIdHolder.className = "cameraId_holder";
+        cameraIdHolder.style.display = "none";
+
+        const labelHolder = document.createElement("div");
+        labelHolder.className = "label_holder";
+        labelHolder.style.display = "none";
+
+        cameraField.addEventListener("resize", () => {
+          cameraFrame.style.width = cameraField.clientWidth + "px";
+          cameraFrame.style.height = cameraField.clientHeight + "px";
+        });
+
+        function openCam(){
+          let All_mediaDevices=navigator.mediaDevices
+          if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+             alert("Media not supported.");
+             return;
+          }
+          All_mediaDevices.getUserMedia({
+             audio: false,
+             video: true
+          })
+          .then(function(vidStream) {
+             var video = cameraFrame;
+             if ("srcObject" in video) {
+                video.srcObject = vidStream;
+             } else {
+                video.src = window.URL.createObjectURL(vidStream);
+             }
+             video.onloadedmetadata = function(e) {
+                video.play();
+             };
+          })
+          .catch(function(e) {
+             alert(e.name + ": " + e.message);
+          });
+       }
+
+       openCam()
+
+        cameraField.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("camera2");
+          }
+          handleClicked("camera2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(cameraField);
+        holderDIV.append(cameraIdHolder);
+        holderDIV.append(labelHolder);
+      }
+
       else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
