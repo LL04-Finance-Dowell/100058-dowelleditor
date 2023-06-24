@@ -266,12 +266,12 @@ const LeftMenu = ({ showSidebar }) => {
               // onDrop={handleContainerDrop}
               // onDragOver = {e=>{console.log(alert("I am contianer"));}}
             />
-            <NavButton
+            {/* <NavButton
               dragStartFunc={dragStartTable}
               customFunc={() => handleDrop("table")}
               icon={<BsTable />}
               title="Table"
-            />
+            /> */}
             <NavButton
               dragStartFunc={dragStartSigns}
               customFunc={() => handleDrop("signs")}
