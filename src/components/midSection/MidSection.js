@@ -5958,43 +5958,51 @@ const MidSection = React.forwardRef((props, ref) => {
         decoded.details.action === "template"
       ) {
 
-        let cameraField = document.createElement("div");
-        cameraField.className = "cameraInput";
+        let cameraField = document.createElement("video");
+        cameraField.className = "videoInput";
         cameraField.style.width = "100%";
         cameraField.style.height = "100%";
+        cameraField.autoplay = true;
+        cameraField.loop = true;
         cameraField.style.backgroundColor = "transparent";
         cameraField.style.borderRadius = "0px";
         cameraField.style.outline = "0px";
         cameraField.style.overflow = "overlay";
         // cameraField.innerHTML = 'iframe';
-        cameraField.style.position = "absolute";
         // cameraField.innerText = "camera here";
 
-        const camera = document.getElementsByClassName("cameraInput");
+        const camera = document.getElementsByClassName("videoInput");
         if (camera.length) {
           const s = camera.length;
-          cameraField.id = `scl${s + 1}`;
+          cameraField.id = `vid1${s + 1}`;
         } else {
-          cameraField.id = "scl1";
+          cameraField.id = "vid1";
         }
 
-        let cameraFrame = document.createElement("video");
-        cameraFrame.className = "videoInput"
-        cameraFrame.style.width = "100%";
-        cameraFrame.style.height = "100%";
-        cameraField.append(cameraFrame);
+        let imageInput = document.createElement("canvas");
+        imageInput.className = "imageInput"
+        imageInput.style.display = "none"
+        const imageCanva = document.getElementsByClassName("imageInput");
+        if (imageCanva.length) {
+          const s = imageCanva.length;
+          cameraField.id = `img1${s + 1}`;
+        } else {
+          cameraField.id = "img1";
+        }
         
         const cameraIdHolder = document.createElement("div");
         cameraIdHolder.className = "cameraId_holder";
         cameraIdHolder.style.display = "none";
 
-        const labelHolder = document.createElement("div");
-        labelHolder.className = "label_holder";
-        labelHolder.style.display = "none";
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
 
         cameraField.addEventListener("resize", () => {
-          cameraFrame.style.width = cameraField.clientWidth + "px";
-          cameraFrame.style.height = cameraField.clientHeight + "px";
+          imageInput.style.width = holderDIV.clientWidth + "px";
+          imageInput.style.height = holderDIV.clientHeight + "px";
+          imageInput.style.width = holderDIV.clientWidth + "px";
+          imageInput.style.height = holderDIV.clientHeight + "px";
         });
 
         function openCam(){
@@ -6004,11 +6012,10 @@ const MidSection = React.forwardRef((props, ref) => {
              return;
           }
           All_mediaDevices.getUserMedia({
-             audio: false,
              video: true
           })
           .then(function(vidStream) {
-             var video = cameraFrame;
+             var video = cameraField;
              if ("srcObject" in video) {
                 video.srcObject = vidStream;
              } else {
@@ -6035,9 +6042,20 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
 
+        imageInput.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("camera2");
+          }
+          handleClicked("camera2");
+          setSidebar(true);
+        };
+
         holderDIV.append(cameraField);
+        holderDIV.append(imageInput);
         holderDIV.append(cameraIdHolder);
-        holderDIV.append(labelHolder);
+        holderDIV.append(linkHolder);
       }
 
       else if (typeOfOperation === "TEXT_FILL") {

@@ -345,7 +345,9 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<FaCamera />}
               title="camera"
             />: ""
-           {"}"}
+           {
+           //"}"
+          }
             {/* test div */}
             {/* <NavButton
               dragStartFunc={dragStartButton}
