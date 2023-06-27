@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-redeclare */
@@ -3409,14 +3410,40 @@ const MidSection = React.forwardRef((props, ref) => {
 
             circle.textContent = i;
             labelHold.append(circle);
+            // Get the token from the request header.
+            // const token = request.headers.get("Authorization");
 
-            function generateLoginUser() {
-              return "user_" + Math.random().toString(36).substring(7);
-              // return token;
-            }   
+            // If the token is not present, return an error.
+            if (!token) {
+              return res.status(401).json({ error: "Unauthorized" });
+            }
+
+            // Decode the token.
+            // const decodedToken = jwt.decode(token, secret);
+
+            // Get the username from the decoded token.
+            const username = decoded?.details?.authorized;
+            console.log(username); 
+
+            // Return the username.
+            // return res.json({ username });
+            // function generateLoginUser() {
+            //   return "user_" + Math.random().toString(36).substring(7);
+            //   // return token;
+            // }   
+            // const details = decoded?.details;
+            // console.log(details);
+            // const Authorized = detaillUser['Authorized'] ? detaillUser['Authorized'] : generateLoginUser();
+            // const { _id, authorized } = decoded?.details;
+            // console.log(authorized);
+            // console.log(_id);
+
+            // function authorizedLogin() {
+            //   return ( username === undefined ? generateLoginUser(): username )
+            // }
             
             if (
-              decoded.details.action ==="document") {
+              decoded.details.action ==="document" && username!==undefined) {
 
                 let circles = document.querySelectorAll(".circle_label");
                 let isClicked = false;
@@ -3435,7 +3462,7 @@ const MidSection = React.forwardRef((props, ref) => {
                           instance_id: pageNo,
                           brand_name: "XYZ545",
                           product_name: "XYZ511",
-                          username: generateLoginUser(),
+                          username: username,
                           score: i,
                       })
                           .then((response) => {
@@ -5680,36 +5707,36 @@ const MidSection = React.forwardRef((props, ref) => {
           //           });
           //         });
           //   }
-          const circles = [];
-          if (
-            typeOfOperation === "NEW_SCALE_INPUT" &&
-            decoded.details.action === "template"
-          ) {
-            circle.addEventListener("click", function () {
-              // Get the current background color
-              const currentBackgroundColor = this.style.backgroundColor;
+          // const circles = [];
+          // if (
+          //   typeOfOperation === "NEW_SCALE_INPUT" &&
+          //   decoded.details.action === "template"
+          // ) {
+          //   circle.addEventListener("click", function () {
+          //     // Get the current background color
+          //     const currentBackgroundColor = this.style.backgroundColor;
 
-              // Set the background color to the clicked circle's background color
-              for (const circle of circles) {
-                if (circle === this) {
-                  continue;
-                }
-                this.style.backgroundColor = currentBackgroundColor;
-              }
+          //     // Set the background color to the clicked circle's background color
+          //     for (const circle of circles) {
+          //       if (circle === this) {
+          //         continue;
+          //       }
+          //       this.style.backgroundColor = currentBackgroundColor;
+          //     }
 
-              // If the clicked circle has a background color
-              if (this.style.backgroundColor) {
-                // Remove the background color
-                this.style.backgroundColor = "blue";
-              } else {
-                this.style.backgroundColor = "red";
-              }
-            });
+          //     // If the clicked circle has a background color
+          //     if (this.style.backgroundColor) {
+          //       // Remove the background color
+          //       this.style.backgroundColor = "blue";
+          //     } else {
+          //       this.style.backgroundColor = "red";
+          //     }
+          //   });
 
-            circles.push(circle);
-          } else {
-            console.log("Unknown action");
-          }
+          //   circles.push(circle);
+          // } else {
+          //   console.log("Unknown action");
+          // }
         }
         // const parentDiv = document.createElement("div");
         // parentDiv.id = "parent";
