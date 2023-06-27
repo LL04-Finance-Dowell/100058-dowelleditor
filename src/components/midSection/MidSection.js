@@ -180,6 +180,7 @@ const MidSection = React.forwardRef((props, ref) => {
           button2: false,
           email2: false,
           newScale2: false,
+          camera2: false
         });
 
         const divsArray = document.getElementsByClassName(
@@ -1755,6 +1756,9 @@ const MidSection = React.forwardRef((props, ref) => {
         break;
       case "newScaleInput":
         type = "NEW_SCALE_INPUT";
+        break;
+      case "cameraInput":
+        type = "CAMERA_INPUT";
         break;
       default:
         type = "";
@@ -3349,7 +3353,7 @@ const MidSection = React.forwardRef((props, ref) => {
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
-          const id = `${element.id}`;
+          const id = `${element?.raw_data?.scaleID}`;
 
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -5928,7 +5932,7 @@ const MidSection = React.forwardRef((props, ref) => {
           table_dropdown_focuseddClassMaintain(e);
           handleClicked("newScale2");
           setSidebar(true);
-          console.log("This is mid data", scaleField.id);
+          console.log(scaleField.id);
         };
 
         holderDIV.append(scaleField);
@@ -5976,6 +5980,111 @@ const MidSection = React.forwardRef((props, ref) => {
       //     holderDIV.append(signField);
       //   };
       // }
+      else if (
+        typeOfOperation === "CAMERA_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+
+        let cameraField = document.createElement("video");
+        cameraField.className = "videoInput";
+        cameraField.style.width = "100%";
+        cameraField.style.height = "100%";
+        cameraField.autoplay = true;
+        cameraField.loop = true;
+        cameraField.style.backgroundColor = "transparent";
+        cameraField.style.borderRadius = "0px";
+        cameraField.style.outline = "0px";
+        cameraField.style.overflow = "overlay";
+        // cameraField.innerHTML = 'iframe';
+        // cameraField.innerText = "camera here";
+
+        const camera = document.getElementsByClassName("videoInput");
+        if (camera.length) {
+          const s = camera.length;
+          cameraField.id = `vid1${s + 1}`;
+        } else {
+          cameraField.id = "vid1";
+        }
+
+        let imageInput = document.createElement("canvas");
+        imageInput.className = "imageInput"
+        imageInput.style.display = "none"
+        const imageCanva = document.getElementsByClassName("imageInput");
+        if (imageCanva.length) {
+          const s = imageCanva.length;
+          cameraField.id = `img1${s + 1}`;
+        } else {
+          cameraField.id = "img1";
+        }
+        
+        const cameraIdHolder = document.createElement("div");
+        cameraIdHolder.className = "cameraId_holder";
+        cameraIdHolder.style.display = "none";
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
+
+        cameraField.addEventListener("resize", () => {
+          imageInput.style.width = holderDIV.clientWidth + "px";
+          imageInput.style.height = holderDIV.clientHeight + "px";
+          imageInput.style.width = holderDIV.clientWidth + "px";
+          imageInput.style.height = holderDIV.clientHeight + "px";
+        });
+
+        function openCam(){
+          let All_mediaDevices=navigator.mediaDevices
+          if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+             alert("Media not supported.");
+             return;
+          }
+          All_mediaDevices.getUserMedia({
+             video: true
+          })
+          .then(function(vidStream) {
+             var video = cameraField;
+             if ("srcObject" in video) {
+                video.srcObject = vidStream;
+             } else {
+                video.src = window.URL.createObjectURL(vidStream);
+             }
+             video.onloadedmetadata = function(e) {
+                video.play();
+             };
+          })
+          .catch(function(e) {
+             alert(e.name + ": " + e.message);
+          });
+       }
+
+       openCam()
+
+        cameraField.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("camera2");
+          }
+          handleClicked("camera2");
+          setSidebar(true);
+        };
+
+        imageInput.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("camera2");
+          }
+          handleClicked("camera2");
+          setSidebar(true);
+        };
+
+        holderDIV.append(cameraField);
+        holderDIV.append(imageInput);
+        holderDIV.append(cameraIdHolder);
+        holderDIV.append(linkHolder);
+      }
+
       else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";

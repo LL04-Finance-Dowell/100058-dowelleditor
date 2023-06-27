@@ -227,7 +227,7 @@ const ScaleRightSide = () => {
     setIsLoading(true);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
-      scale_id: element?.raw_data?.scaleID,
+      scale_id: scaleId,
       custom_input_groupings: selectedOptions,
       scale_label: scaleTitle,
     })
@@ -288,20 +288,23 @@ const ScaleRightSide = () => {
     const buttonChildRight = scale?.querySelector(".right_child");
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const option =
-      document.querySelector("select").options[
-        document.querySelector("select").selectedIndex
+      document.querySelector("#orientationId").options[
+        document.querySelector("#orientationId").selectedIndex
       ];
-    console.log(option.value);
+    const test = document.querySelector("select");
+    console.log(test);
     console.log(option);
-    console.log(button4.style.display);
-    console.log(buttonCircleM);
-    button4.style.display = "block";
-    console.log(button4.style.display);
+    // console.log(option.value);
+    // console.log(option);
+    // console.log(button4.style.display);
+    // console.log(buttonCircleM);
+    // button4.style.display = "block";
+    // console.log(button4.style.display);
 
     // if (btnUpdateScaleName.value !== "") {
     //   button3.textContent = btnUpdateScaleName.value;
     // }
-
+    button4.style.display = "block";
     if (btnUpdateScale.value !== "") {
       button.style.backgroundColor = btnUpdateScale.value;
     }
@@ -423,6 +426,7 @@ const ScaleRightSide = () => {
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
+            console.log(id)
             if (id.length) {
               setScaleId(id && id);
               const idHolder = scale?.querySelector(".scaleId");
@@ -467,6 +471,7 @@ const ScaleRightSide = () => {
             setScaleData(res.data);
             setScaleId(scaleId);
             console.log(res);
+            console.log("This is the still scale",scale)
           }
         })
         .catch((err) => {
