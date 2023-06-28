@@ -10,6 +10,7 @@ function CameraRightSide() {
     let canvas = camera?.querySelector(".imageInput")
     let video = camera?.querySelector(".videoInput")
     let linkHolder = camera?.querySelector(".link_holder")
+    let imageHolder = camera?.querySelector(".imageHolder")
     canvas.style.display = "block"
     canvas.style.width = "100%"
     canvas.style.height = "100%"
@@ -21,25 +22,52 @@ function CameraRightSide() {
     const tracks = mediaStream.getTracks()
     tracks[0].stop()
     video.remove()
-    let dataURI = canvas.toDataURL("image/jpeg", 98)
-    let urlToFile = (url) =>{
-      let arr = url.split(",")
-      let mime = arr[0].match(/:(.*?);/)[1]
-      let data = arr[1]
-      let dataStr = atob(data)
-      let n = dataStr.length
-      let dataArr = new Uint8Array(n)
-      while(n--){
-        dataArr[n] = dataStr.charCodeAt(n)
+    let dataURI = canvas.toDataURL("image/jpeg")
+    // let urlToFile = (url) =>{
+    //   let arr = url.split(",")
+    //   let mime = arr[0].match(/:(.*?);/)[1]
+    //   let data = arr[1]
+    //   let dataStr = atob(data)
+    //   let n = dataStr.length
+    //   let dataArr = new Uint8Array(n)
+    //   while(n--){
+    //     dataArr[n] = dataStr.charCodeAt(n)
+    //   }
+    //   let file = new File([dataArr], 'pic.jpg', {type: mime})
+    //   console.log(file)
+    //   console.log("This is mime",mime)
+    //   return file
+    //   //console.log(data)
+    // }
+
+    function base64ImageToBlob(str) {
+      // extract content type and base64 payload from original string
+      var pos = str.indexOf(';base64,');
+      var type = str.substring(5, pos);
+      var b64 = str.substr(pos + 8);
+
+      // decode base64
+      var imageContent = atob(b64);
+      
+      // create an ArrayBuffer and a view (as unsigned 8-bit)
+      var buffer = new ArrayBuffer(imageContent.length);
+      var view = new Uint8Array(buffer);
+    
+      // fill the view, using the decoded base64
+      for(var n = 0; n < imageContent.length; n++) {
+        view[n] = imageContent.charCodeAt(n);
       }
-      let file = new File([dataArr], 'image.jpg', {type: mime})
-      console.log(file)
-      return file
-      //console.log(mime)
-      //console.log(data)
+    
+      // convert ArrayBuffer to Blob
+      var blob = new Blob([buffer], { type });
+      return new File([blob], "MyImage", { lastModified: new Date().getTime(), type });
     }
-    let imageFile = urlToFile(dataURI)
-    console.log(imageFile.name)
+
+    console.log(base64ImageToBlob(dataURI))
+    
+
+    let imageFile = base64ImageToBlob(dataURI)
+    console.log("This is the image file",imageFile)
     const formData = new FormData()
     formData.append('image', imageFile)
     console.log(linkHolder)
@@ -47,6 +75,7 @@ function CameraRightSide() {
     formData).then((res)=>{
       console.log(res)
       console.log(res.data.file_url)
+      imageHolder.src = res.data.file_url
     })
     .catch((err) => {
       console.log(err);
@@ -64,6 +93,8 @@ function CameraRightSide() {
         recordBtn.textContent = 'Record';
         stopRecording();
         break;
+      default:
+        return ""
     }
   }
 
@@ -81,6 +112,7 @@ function CameraRightSide() {
   const recordVideo = (event) => {
     let camera = document.querySelector(".focussedd");
     let video = camera?.querySelector(".videoInput")
+    let linkHolder = camera?.querySelector(".link_holder")
     if(event.data && event.data.size > 0) {
       video.srcObject = null
       let vidUrl = event.data
@@ -98,11 +130,14 @@ function CameraRightSide() {
        ).then((res)=>{
       console.log(res)
       console.log(res.data.file_url)
+      linkHolder.textContent = res.data.file_url
+      video.src = ""
+      video.src = res.data.file_url
     })
     .catch((err) => {
       console.log(err);
     });
-      }
+    }
     }
   }
 

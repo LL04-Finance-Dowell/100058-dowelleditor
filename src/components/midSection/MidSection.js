@@ -5994,6 +5994,10 @@ const MidSection = React.forwardRef((props, ref) => {
         cameraIdHolder.className = "cameraId_holder";
         cameraIdHolder.style.display = "none";
 
+        const imgHolder = document.createElement("img");
+        imgHolder.className = "imageHolder";
+        imgHolder.alt = "";
+
         const linkHolder = document.createElement("div");
         linkHolder.className = "link_holder";
         linkHolder.style.display = "none";
@@ -6056,6 +6060,7 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(imageInput);
         holderDIV.append(cameraIdHolder);
         holderDIV.append(linkHolder);
+        holderDIV.append(imgHolder)
       }
 
       else if (typeOfOperation === "TEXT_FILL") {
