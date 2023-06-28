@@ -1646,6 +1646,25 @@ const ScaleRightSide = () => {
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <h6 style={{ fontSize: "13px" }}>Grouped Elements</h6>
+                  <div style={{ display: "flex", gap: "10px", padding: "5px" }}>
+                    <Button
+                      id="updateSingleScale"
+                      type="button"
+                      variant="secondary"
+                      onClick={showSingle}
+                      style={{ fontSize: "13px" }}
+                    >
+                      Single Select
+                    </Button>
+                    <Button type="button" 
+                      variant="secondary" 
+                      onClick={showMulti}
+                      style={{ fontSize: "13px" }}
+                    >
+                      Multi Select
+                    </Button>
+                  </div>
+                  <hr />
                   <div
                     style={{
                       backgroundColor: "#ffffff",
@@ -1723,13 +1742,21 @@ const ScaleRightSide = () => {
                       </option>
                     </select>
                   </div>
+                  <div>
+                    <Button 
+                      id="button_id" 
+                      type="button"
+                      width="50%"
+                      marginTop="60px"
+                      onClick={handleUpdates}
+                    >
+                      Update
+                    </Button>
+                  </div>
                 </div>
               </div>
             </form>
           </div>
-          <Button id="button_id" onClick={handleUpdates}>
-            Update
-          </Button>
           <div style={{ display: "none" }} id="border">
             <Row className="pt-4">
               <div style={{ display: "flex", alignItems: "center" }}>
@@ -1790,20 +1817,7 @@ const ScaleRightSide = () => {
                 {options}
               </select>
             </div>
-            <h4>Grouped Elements</h4>
-            <div style={{ display: "flex", gap: "10px", padding: "5px" }}>
-              <Button
-                id="updateSingleScale"
-                type="button"
-                variant="secondary"
-                onClick={showSingle}
-              >
-                Single Select
-              </Button>
-              <Button type="button" variant="secondary" onClick={showMulti}>
-                Multi Select
-              </Button>
-            </div>
+            
             {/* iframe */}
             <div>
               {/* <Form.Control
@@ -1821,27 +1835,23 @@ const ScaleRightSide = () => {
                 style={{ padding: "10px", gap: "10px" }}
                 className="select border-0 bg-white rounded w-100 h-75 p-2"
               >
-                <p>group 1</p>
-                <p>group 2</p>
-                <p>group 3</p>
-                <p>group 4</p>
               </div>
 
               {/* <div id="multiScale">
-            <select
-              onChange={handleSelect}
-              id="select"
-              // onChange={handleDateMethod}
-              className="select border-0 bg-white rounded w-100 h-75 p-2"
-              //multiple
-              style={{ marginBottom: "30px" }}
-            >
-              {filteredArray?.map((element, index) => (
-                <option key={index} value={element.type} id={element.id}>
-                  {`${element.type} ${element.id}`}
-                </option>
-              ))}
-            </select>
+            // <select
+            //   onChange={handleSelect}
+            //   id="select"
+            //   // onChange={handleDateMethod}
+            //   className="select border-0 bg-white rounded w-100 h-75 p-2"
+            //   //multiple
+            //   style={{ marginBottom: "30px" }}
+            // >
+            //   {filteredArray?.map((element, index) => (
+            //     <option key={index} value={element.type} id={element.id}>
+            //       {`${element.type} ${element.id}`}
+            //     </option>
+            //   ))}
+            // </select>
           </div> */}
             </div>
             <div className="mt-2 text-center pt-3">
