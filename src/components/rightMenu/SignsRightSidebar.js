@@ -14,14 +14,10 @@ import jwt_decode from "jwt-decode";
 
 const SignsRightSidebar = () =>
 {
-  const [borderSize, setBorderSize] = useState(
-    Number(localStorage.getItem("borderSize")) || 0
-  );
-  const [borderColor, setBorderColor] = useState(
-    localStorage.getItem("borderColor") || "#000000"
-  );
+ 
   const [showSlider, setShowSlider] = useState(false);
-  const { signState, setSignState, setIsFinializeDisabled, handleClicked } =
+  const { signState, setSignState, setIsFinializeDisabled, handleClicked,  signBorderSize, 
+    setSignBorderSize, signBorderColor, setSignBorderColor } =
     useStateContext();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -102,27 +98,23 @@ const SignsRightSidebar = () =>
 
   const handleBorderSizeChange = (e) =>
   {
-    setBorderSize(e.target.value);
+    setSignBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
+    box.style.borderWidth = `${signBorderSize}px`;
   };
 
   const handleBorderColorChange = (e) =>
   {
-    setBorderColor(e.target.value);
+    setSignBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
+    box.style.borderColor = `${signBorderColor}`;
   };
   const handleRangeBlur = (e) =>
   {
     e.target.focus();
   };
-  useEffect(() =>
-  {
-    localStorage.setItem("borderSize", borderSize === "0")
-    localStorage.setItem("borderColor", borderColor === "black")
-  }, [borderSize, borderColor]);
+
   return (
     <div>
       {decoded.details.action === "document" && (
@@ -185,7 +177,7 @@ const SignsRightSidebar = () =>
           <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
             <input
               type="color"
-              value={borderColor}
+              value={signBorderColor}
               onChange={handleBorderColorChange}
               id="color"
               style={{ border: "none", width: "10%", height: "15px" }}
@@ -194,7 +186,7 @@ const SignsRightSidebar = () =>
               type="range"
               min="-10"
               max="20"
-              value={borderSize}
+              value={signBorderSize}
               onChange={handleBorderSizeChange}
               onBlur={handleRangeBlur}
               id="range"

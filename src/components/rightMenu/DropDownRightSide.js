@@ -21,14 +21,18 @@ const DropDownRightSide = () =>
     setDropdownOptions,
     rightSideDropDown,
     setRightSideDropDown,
+    dropdownBorderSize, 
+    setDropdownBorderSize,
+    dropdownBorderColor,
+    setDropdownBorderColor
   } = useStateContext();
 
-  const [borderSize, setBorderSize] = useState(
-    Number(localStorage.getItem("borderSize")) || 0
-  );
-  const [borderColor, setBorderColor] = useState(
-    localStorage.getItem("borderColor") || "#000000"
-  );
+  // const [borderSize, setBorderSize] = useState(
+  //   Number(localStorage.getItem("borderSize")) || 0
+  // );
+  // const [borderColor, setBorderColor] = useState(
+  //   localStorage.getItem("borderColor") || "#000000"
+  // );
   const [showSlider, setShowSlider] = useState(false);
 
   const dropdownField = document.querySelector(".focussed");
@@ -69,9 +73,9 @@ const DropDownRightSide = () =>
       }
       selectionn.appendChild(options);
     }
-    localStorage.setItem("borderSize", borderSize === "0")
-    localStorage.setItem("borderColor", borderColor === "black")
-  }, [dropdownOptions, borderSize, borderColor]);
+    // localStorage.setItem("borderSize", borderSize === "0")
+    // localStorage.setItem("borderColor", borderColor === "black")
+  }, [dropdownOptions]);
 
   function handleItemsChange(e)
   {
@@ -99,18 +103,18 @@ const DropDownRightSide = () =>
 
   const handleBorderSizeChange = (e) =>
   {
-    setBorderSize(e.target.value);
+    setDropdownBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
+    box.style.borderWidth = `${dropdownBorderSize}px`;
 
   };
 
   const handleBorderColorChange = (e) =>
   {
-    setBorderColor(e.target.value);
+    setDropdownBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
+    box.style.borderColor = `${dropdownBorderColor}`;
 
   };
   const handleRangeBlur = (e) =>
@@ -164,7 +168,7 @@ const DropDownRightSide = () =>
           <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
             <input
               type="color"
-              value={borderColor}
+              value={dropdownBorderColor}
               onChange={handleBorderColorChange}
               id="color"
               style={{ border: "none", width: "10%", height: "15px" }}
@@ -173,7 +177,7 @@ const DropDownRightSide = () =>
               type="range"
               min="-10"
               max="20"
-              value={borderSize}
+              value={dropdownBorderSize}
               onChange={handleBorderSizeChange}
               onBlur={handleRangeBlur}
               id="range"

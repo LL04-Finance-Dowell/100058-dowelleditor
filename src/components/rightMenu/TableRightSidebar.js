@@ -27,11 +27,15 @@ const TableRightSidebar = () => {
     setMethod,
     setRightSideDateMenu,
     focuseddClassMaintain,
+    tableBorderSize,
+    setTableBorderSize,
+    tableBorderColor,
+    setTableBorderColor
     // handleDropp,
   } = useStateContext();
 
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderColor, setBorderColor] = useState("#000000");
+  // const [borderSize, setBorderSize] = useState(1);
+  // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
   const [isDisableTableRightMenu, setIsDisableTableRightMenu] = useState(false);
@@ -45,8 +49,6 @@ const TableRightSidebar = () => {
     } else {
       setIsCreateTableBtnDisabled(false);
     }
-    localStorage.setItem("borderSize", borderSize === "0");
-    localStorage.setItem("borderColor", borderColor === "black");
     // if (
     //   focusseddDiv?.firstChild?.hasChildNodes() &&
     //   focusseddDiv?.firstChild?.firstChild?.classList?.contains(
@@ -55,7 +57,7 @@ const TableRightSidebar = () => {
     // ) {
     //   setIsDisableTableRightMenu(true);
     // }
-  }, [isCreateTableBtnDisabled, borderSize, borderColor]);
+  }, [isCreateTableBtnDisabled]);
 
   const handleDropp = (e) => {
     // e.preventDefault();
@@ -1063,16 +1065,16 @@ const TableRightSidebar = () => {
   // console.log("isCreateTableBtnDisabled", isCreateTableBtnDisabled);
 
   const handleBorderSizeChange = (e) => {
-    setBorderSize(e.target.value);
+    setTableBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
+    box.style.borderWidth = `${tableBorderColor}px`;
   };
 
   const handleBorderColorChange = (e) => {
-    setBorderColor(e.target.value);
+    setTableBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
+    box.style.borderColor = `${tableBorderColor}`;
   };
   const handleRangeBlur = (e) => {
     e.target.focus();
@@ -1171,7 +1173,7 @@ const TableRightSidebar = () => {
           >
             <input
               type="color"
-              value={borderColor}
+              value={tableBorderColor}
               onChange={handleBorderColorChange}
               id="color"
               style={{ border: "none", width: "10%", height: "15px" }}
@@ -1180,7 +1182,7 @@ const TableRightSidebar = () => {
               type="range"
               min="-10"
               max="20"
-              value={borderSize}
+              value={tableBorderSize}
               onChange={handleBorderSizeChange}
               onBlur={handleRangeBlur}
               id="range"
