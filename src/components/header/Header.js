@@ -64,6 +64,8 @@ const Header = () => {
     setItem,
     isLoading,
     setIsLoading,
+    isDataSaved,
+    setIsDataSaved,
     isFlipClicked,
     setIsFlipClicked,
     fetchedData,
@@ -1153,7 +1155,7 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(img[h]);
-          page[0][pageNum].push(elem);
+          page[0][pageNum]?.push(elem);
 
           // page.push(elem);
         }
@@ -1215,7 +1217,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -1267,9 +1269,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -1379,7 +1381,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1525,41 +1527,111 @@ const Header = () => {
     }
 
     const newScales = document.getElementsByClassName("newScaleInput");
-    if (scales.length) {
-      for (let s = 0; s < scales.length; s++) {
+    if (newScales.length) {
+      for (let b = 0; b < newScales.length; b++) {
         if (
-          !newScales[s]?.parentElement?.parentElement?.classList?.contains(
+          !newScales[b]?.parentElement?.parentElement?.classList?.contains(
             "containerInput"
           )
         ) {
-          let tempElem = scales[s].parentElement;
+          let tempElem = newScales[b].parentElement;
+
           let tempPosn = getPosition(tempElem);
-          console.log(scales[s].firstElementChild);
+          console.log(newScales[b]);
+          let circles = newScales[b].querySelector(".circle_label");
+          let scaleBg = newScales[b].querySelector(".label_hold");
+          let leftChild = newScales[b].querySelector(".left_child");
+          let neutralChild = newScales[b].querySelector(".neutral_child");
+          let rightChild = newScales[b].querySelector(".right_child");
+          let scaleText = newScales[b].querySelector(".scale_text")
+          // console.log(circles.style.backgroundColor);
+          let font = newScales[b].querySelector(".scool_input");
+          let scaleID = newScales[b].querySelector(".scaleId");
+          console.log(font);
+
+          // console.log(buttonColors);
+          let properties = {
+            scaleBgColor: scaleBg.style.backgroundColor,
+            fontColor: font.style.color,
+            fontFamily: font.style.fontFamily,
+            left: leftChild.textContent,
+            center: neutralChild.textContent,
+            right: rightChild.textContent,
+            buttonColor: circles.style.backgroundColor,
+            scaleID: scaleID.textContent,
+            scaleText: scaleText.textContent
+          };
+          console.log(properties);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: scales[s].parentElement.style.top,
+            topp: newScales[b].parentElement.style.top,
             left: tempPosn.left,
             type: "NEW_SCALE_INPUT",
-            data: `${title}_scale_${s + 1}`,
-            scale_url: scales[s].firstElementChild.src,
-            scaleId: tempElem.children[1].innerHTML,
-            id: `scl${s + 1}`,
-            details:
-              decoded.details.action === "document"
-                ? "Document instance"
-                : "Template scale",
-            // scale_url: `${scaleData}`,
+            data: `${title}_scale_${b + 1}`,
+            // raw_data: tempElem.children[1].innerHTML,
+            raw_data: properties,
+            // purpose: tempElem.children[2].innerHTML,
+            id: `scl${b + 1}`,
+            // newScaleId = scale
+            // details:
+            //   decoded.details.action === "document"
+            //     ? "Document instance"
+            //     : "Template scale",
           };
-          // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(scales[s]);
+          console.log(elem);
+          const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);
-
-          // page.push(elem);
         }
       }
     }
+
+    // const imageCanva = document.getElementsByClassName("imageInput");
+    // if (imageCanva.length) {
+    //   for (let b = 0; b < imageCanva.length; b++) {
+    //     if (
+    //       !imageCanva[b]?.parentElement?.parentElement?.classList?.contains(
+    //         "containerInput"
+    //       )
+    //     ) {
+    //       let tempElem = imageCanva[b].parentElement;
+
+    //       let tempPosn = getPosition(tempElem);
+    //       console.log(imageCanva[b]);
+    //       let linkHolder = imageCanva[b].querySelector(".link_holder");
+          
+
+    //       // console.log(buttonColors);
+    //       let properties = {
+    //         link: linkHolder.textContent,
+    //       };
+    //       console.log(properties);
+    //       elem = {
+    //         width: tempPosn.width,
+    //         height: tempPosn.height,
+    //         top: tempPosn.top,
+    //         topp: newScales[b].parentElement.style.top,
+    //         left: tempPosn.left,
+    //         type: "CAMERA_INPUT",
+    //         data: `${title}_scale_${b + 1}`,
+    //         // raw_data: tempElem.children[1].innerHTML,
+    //         raw_data: properties,
+    //         // purpose: tempElem.children[2].innerHTML,
+    //         id: `scl${b + 1}`,
+    //         // newScaleId = scale
+    //         // details:
+    //         //   decoded.details.action === "document"
+    //         //     ? "Document instance"
+    //         //     : "Template scale",
+    //       };
+    //       console.log(elem);
+    //       const pageNum = findPaageNum(newScales[b]);
+    //       page[0][pageNum].push(elem);
+    //     }
+    //   }
+    // }
+
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
@@ -1635,6 +1707,32 @@ const Header = () => {
       }
     }
 
+    const emails = document.getElementsByClassName("emailButton");
+    if (emails.length) {
+      for (let e = 0; e < emails.length; e++) {
+        if (!emails[e]?.parentElement?.classList?.contains("containerInput")) {
+          let tempElem = emails[e].parentElement;
+          let tempPosn = getPosition(tempElem);
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: emails[e].parentElement.style.top,
+            left: tempPosn.left,
+            type: "FORM",
+            data: emails[e].textContent,
+            id: `eml${e + 1}`,
+          };
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(emails[e]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
     contentFile.push(page);
     // const data = JSON.stringify(contentFile);
     // //console.log("ContentFile While saveDoc", data);
@@ -1659,11 +1757,16 @@ const Header = () => {
 
   // console.log("In header.js", decoded, document_map);
   const element_updated_length =
-    document.getElementsByClassName("element_updated").length;
+    document.getElementsByClassName("element_updated")?.length;
+  const document_map_required = docMap?.filter((item) => item.required);
 
   useEffect(() => {
     // set_doc_map(document_map)
-    if (document_map?.length == element_updated_length) {
+    if (document_map_required?.length > 0) {
+      if (document_map_required?.length == element_updated_length) {
+        setIsFinializeDisabled(false);
+      }
+    } else {
       setIsFinializeDisabled(false);
     }
   }, [element_updated_length]);
@@ -1678,6 +1781,8 @@ const Header = () => {
     e.preventDefault();
     setIsLoading(true);
     const dataa = saveDocument();
+
+    const finalize = document.getElementById("finalize-button");
 
     const titleName = document.querySelector(".title-name").innerHTML;
 
@@ -1734,9 +1839,13 @@ const Header = () => {
       .then((res) => {
         if (res.status == 200) {
           setIsLoading(false);
+          setIsDataSaved(true);
           // alert("Data saved successfully");
           toast.success("Saved successfully");
           sendMessage();
+          if(finalize){
+            handleFinalize();
+          }
         }
         //console.log(res);
       })
@@ -1890,6 +1999,8 @@ const Header = () => {
 
   function handleToken() {
     setData([]);
+    setIsDataRetrieved(false);
+    setFetchedData([]);
     setIsLoading(true);
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
@@ -1921,6 +2032,7 @@ const Header = () => {
             console.log(loadedData);
             console.log(loadedData[0][0]);
             setData(loadedData[0][0]);
+            setFetchedData(loadedData[0][0]);
             setIsDataRetrieved(true);
             // setSort(loadedData[0][0]);
             setIsLoading(false);
@@ -1936,10 +2048,9 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const saveButton = document.getElementById("saving-buttonn");
+  
   function handleFinalize() {
     setIsLoading(true);
-
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
@@ -1956,9 +2067,8 @@ const Header = () => {
     )
       .then((res) => {
         console.log(res);
-        // alert(res?.data);
+        setIsLoading(false);
         toast.success(res?.data);
-        saveButton.click();
       })
       .catch((err) => {
         setIsLoading(false);
@@ -1966,6 +2076,7 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
+      
   }
 
   function handleReject() {
@@ -2015,8 +2126,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -2026,8 +2138,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -2153,7 +2266,7 @@ const Header = () => {
                   id="saving-buttonn"
                   onClick={submit}
                   style={{
-                    visibility: documentFlag && "hidden"
+                    visibility: documentFlag && "hidden",
                   }}
                 >
                   Save <FaSave color="white" />
@@ -2215,9 +2328,10 @@ const Header = () => {
                       className="rounded px-4"
                       id="finalize-button"
                       disabled={isFinializeDisabled}
-                      onClick={handleFinalize}
+                      onClick={submit}
                       style={{
-                        visibility: documentFlag == "processing" ? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Finalize
@@ -2232,7 +2346,8 @@ const Header = () => {
                       id="reject-button"
                       onClick={handleReject}
                       style={{
-                        visibility: documentFlag == "processing" ? "visible" : "hidden"
+                        visibility:
+                          documentFlag == "processing" ? "visible" : "hidden",
                       }}
                     >
                       Reject

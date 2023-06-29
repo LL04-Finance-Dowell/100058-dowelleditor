@@ -8,8 +8,10 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const DropDownRightSide = () =>
-{
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+const DropDownRightSide = () => {
   const {
     dropdownName,
     setDropdownName,
@@ -27,6 +29,10 @@ const DropDownRightSide = () =>
     setDropdownBorderColor
   } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+
   // const [borderSize, setBorderSize] = useState(
   //   Number(localStorage.getItem("borderSize")) || 0
   // );
@@ -36,8 +42,7 @@ const DropDownRightSide = () =>
   const [showSlider, setShowSlider] = useState(false);
 
   const dropdownField = document.querySelector(".focussed");
-  if (dropdownField)
-  {
+  if (dropdownField) {
     //console.log(dropdownField.firstElementChild);
     //console.log(dropdownField.lastElementChild);
   }
@@ -45,29 +50,24 @@ const DropDownRightSide = () =>
   // Dropdown Name
 
   const dropdownNameField = dropdownField?.firstElementChild
-  if (dropdownNameField !== null && rightSideDropDown)
-  {
+  if (dropdownNameField !== null && rightSideDropDown) {
     dropdownNameField.innerHTML = `${dropdownName}`;
   }
 
 
 
-  function handleNameChange(e)
-  {
+  function handleNameChange(e) {
     setDropdownName(e.target.value);
   }
 
   // Dropdown Items
 
-  useEffect(() =>
-  {
+  useEffect(() => {
 
     const selectionn = dropdownField?.lastElementChild
-    if (rightSideDropDown && selectionn !== null)
-    {
+    if (rightSideDropDown && selectionn !== null) {
       var options = document.createElement("option");
-      for (const [index, a] of dropdownOptions.entries())
-      {
+      for (const [index, a] of dropdownOptions.entries()) {
         options.value = index;
         options.innerHTML = a;
       }
@@ -77,23 +77,19 @@ const DropDownRightSide = () =>
     // localStorage.setItem("borderColor", borderColor === "black")
   }, [dropdownOptions]);
 
-  function handleItemsChange(e)
-  {
+  function handleItemsChange(e) {
     setDropdownItems(e.target.value);
   }
 
-  const addOptions = () =>
-  {
-    if (dropdownItems !== "")
-    {
+  const addOptions = () => {
+    if (dropdownItems !== "") {
       setDropdownOptions([...dropdownOptions, [dropdownItems]]);
     }
     setDropdownItems("");
     setRightSideDropDown(true);
   };
 
-  function removeDropdown()
-  {
+  function removeDropdown() {
     document.querySelector(".focussedd").remove();
     // const focusseddElmnt = document.querySelector(".focussedd");
     // if (focusseddElmnt.classList.contains("holderDIV")) {
@@ -117,8 +113,7 @@ const DropDownRightSide = () =>
     box.style.borderColor = `${dropdownBorderColor}`;
 
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
   return (
@@ -193,7 +188,11 @@ const DropDownRightSide = () =>
 
       <div />
       <div>
-        <Button onClick={removeDropdown} variant="primary" className="mt-5 remove_button">
+        <Button
+          onClick={removeDropdown}
+          variant="primary"
+          className={decoded.details.action === "template" ? "mt-5 remove_button" : "mt-5 remove_button disable_button"}
+        >
           Remove Dropdown
         </Button>
       </div>

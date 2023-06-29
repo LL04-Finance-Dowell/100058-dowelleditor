@@ -2,8 +2,6 @@ import React, { createContext, useContext, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
 
-
-
 const StateContext = createContext();
 
 const initialState = {
@@ -20,6 +18,7 @@ const initialState = {
   button: false,
   email: false,
   newScale: false,
+  camera: false
 };
 const initialState2 = {
   align2: false,
@@ -35,11 +34,14 @@ const initialState2 = {
   button2: false,
   email2: false,
   newScale2: false,
+  camera2: false
 };
 
 export const ContextProvider = ({ children }) => {
   const [fetchedData, setFetchedData] = useState({});
   const [isClicked, setIsClicked] = useState(initialState2);
+
+  const [isDataSaved, setIsDataSaved] = useState(false)
 
   const [isDropped, setIsDropped] = useState(initialState);
 
@@ -474,8 +476,7 @@ export const ContextProvider = ({ children }) => {
     // e.target.style.backgroundColor = "lightBlue";
   }
 
-
-  // hanlde copypaste 
+  // hanlde copypaste
 
   // const [searchParams] = useSearchParams();
   // const token = searchParams.get("token");
@@ -614,10 +615,6 @@ export const ContextProvider = ({ children }) => {
   //   }
   // };
 
-
-
-
-
   // function getResizer(attr1, attr2) {
   //   const resizer = document.createElement("span");
   //   resizer.style.width = "5px";
@@ -722,10 +719,6 @@ export const ContextProvider = ({ children }) => {
 
   //   return resizer;
   // }
-
-
-
-
 
   // const copyInput = (clickHandler) => {
   //   // if (typeOfOperation === "IMAGE_INPUT") {
@@ -981,9 +974,6 @@ export const ContextProvider = ({ children }) => {
   //   // console.log("coping", copyEle)
   //   // }
   // };
-
-
-
 
   return (
     <StateContext.Provider

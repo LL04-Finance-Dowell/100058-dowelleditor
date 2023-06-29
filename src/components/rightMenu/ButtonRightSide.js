@@ -4,10 +4,17 @@ import React, { useEffect, useState } from "react";
 // import Button from "react-bootstrap/Button";
 import { Row, Button, Form } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
-const ButtonRightSide = () =>
-{
+
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+const ButtonRightSide = () => {
   const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor } =
     useStateContext();
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
 
   const button = document.querySelector(".focussed");
   const holderDIV = document.querySelector(".focussedd");
@@ -51,26 +58,22 @@ const ButtonRightSide = () =>
   //     }
   // }, [purpose])
 
-  const handleUpdate = () =>
-  {
+  const handleUpdate = () => {
     const btnName = document.getElementById("button_name");
     const button = document.querySelector(".focussed");
 
-    if (btnName.value != "")
-    {
+    if (btnName.value != "") {
       button.textContent = btnName.value;
     }
 
     const link = document.getElementById("link").value;
-    if (link.value != "")
-    {
+    if (link.value != "") {
       setButtonLink(link);
       holderDIV.children[1].innerHTML = link;
     }
   };
 
-  const handleSelect = (event) =>
-  {
+  const handleSelect = (event) => {
     let selectField = document.getElementById("selectt");
     const linkDiv = document.getElementById("website_link");
     const holderDIV = document.querySelector(".focussedd");
@@ -80,20 +83,16 @@ const ButtonRightSide = () =>
     setButtonPurpose(selectedOption.value);
     holderDIV.children[2].innerHTML = selectedOption.value;
 
-    if (selectedOption.value == "custom")
-    {
+    if (selectedOption.value == "custom") {
       linkDiv.style.display = "block";
-    } else if (selectedOption.value !== "custom")
-    {
+    } else if (selectedOption.value !== "custom") {
       setButtonLink("");
-    } else
-    {
+    } else {
       console.log("No option selected");
     }
   };
 
-  const removeButton = () =>
-  {
+  const removeButton = () => {
     document.querySelector(".focussedd").remove();
   };
 
@@ -112,8 +111,7 @@ const ButtonRightSide = () =>
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${buttonBorderColor}`;
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
 
@@ -203,7 +201,7 @@ const ButtonRightSide = () =>
       <div className="mt-2 text-center pt-5">
         <Button
           variant="primary"
-          className="px-5 remove_button"
+          className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
           onClick={removeButton}
         >
           Remove Button

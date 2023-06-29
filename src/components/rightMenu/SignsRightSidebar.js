@@ -216,23 +216,16 @@ const SignsRightSidebar = () =>
       <hr />
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
       <div className="mt-5 text-center">
-        {decoded.details.action === "template" ? (
+ 
           <Button
             variant="primary"
             onClick={removeSign}
-            className="remove_button"
+            // className="remove_button"
+            className = {decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
           >
             Remove Signature
           </Button>
-        ) : (
-          <Button
-            variant="disabled bg-primary text-white"
-            onClick={removeSign}
-            className="remove_button disable_button"
-          >
-            Remove Signature
-          </Button>
-        )}
+       
       </div>
     </div>
   );

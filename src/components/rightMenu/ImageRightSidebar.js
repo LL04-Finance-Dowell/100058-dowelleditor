@@ -8,14 +8,18 @@ import { useRef, useState, useEffect } from "react";
 import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const borderInitialSize = {
-
-}
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const ImageRightSidebar = () =>
 {
   var { setIsFinializeDisabled, handleClicked, setSidebar, borderSize,
     setBorderSize, borderColor, setBorderColor } = useStateContext();
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+
   const [file, setFile] = useState(null);
 
   // const [borderSize, setBorderSize] = useState(
@@ -250,7 +254,7 @@ const ImageRightSidebar = () =>
       </div>
       <div className="mt-5 text-center pt-1">
         <Button
-          className="w-75 remove_button"
+          className={decoded.details.action === "template" ? "w-7 remove_button" : "w-7 remove_button disable_button"}
           variant="primary"
           onClick={removeImage}
         >

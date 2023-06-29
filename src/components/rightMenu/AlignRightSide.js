@@ -32,7 +32,11 @@ FaListOl,
 } from "react-icons/fa";
 import { useStateContext } from "../../contexts/contextProvider";
 
-const AlignRightSide = () => {
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+const AlignRightSide = () =>
+{
   const {
     bold,
     setBold,
@@ -49,6 +53,10 @@ const AlignRightSide = () => {
     inputBorderSize,
     setInputBorderSize
   } = useStateContext();
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
 
   const [isWindowHightSmall, setIsWindowHightSmall] = useState(false);
   // const [borderSize, setBorderSize] = useState(
@@ -695,7 +703,7 @@ const AlignRightSide = () => {
             <Button
               variant="primary"
               onClick={removeTextBox}
-              className="remove_button"
+              className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
             >
               Remove TextBox
             </Button>

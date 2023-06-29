@@ -17,11 +17,13 @@ import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
+import { FaCamera } from "react-icons/fa"
 
 import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
 import TextBox from "./comp/TextBox";
 import { EditorContent } from "@tiptap/react";
+import { useSearchParams } from "react-router-dom";
 
 const NavButton = ({ customFunc, icon, dragStartFunc, clickFunc, title }) => (
   <button
@@ -154,6 +156,16 @@ const dragStartNewScale = (e) => {
   }
 };
 
+const dragStartCamera = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "CAMERA_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+    //console.log("drag start fumb");
+  }
+};
+
 const dragStartButton = (e) => {
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "BUTTON_INPUT");
@@ -228,6 +240,9 @@ const LeftMenu = ({ showSidebar }) => {
   // //console.log(window.screen.width);
   const { handleDrop, isFlipClicked } = useStateContext();
 
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
   // const handleContainerDrop = (event) => {
   //   const typeOfOperation = event.dataTransfer.getData("text/plain");
   //   console.log("typeOfOperation in left menu", typeOfOperation);
@@ -262,12 +277,12 @@ const LeftMenu = ({ showSidebar }) => {
               // onDrop={handleContainerDrop}
               // onDragOver = {e=>{console.log(alert("I am contianer"));}}
             />
-            <NavButton
+            {/* <NavButton
               dragStartFunc={dragStartTable}
               customFunc={() => handleDrop("table")}
               icon={<BsTable />}
               title="Table"
-            />
+            /> */}
             <NavButton
               dragStartFunc={dragStartSigns}
               customFunc={() => handleDrop("signs")}
@@ -318,14 +333,23 @@ const LeftMenu = ({ showSidebar }) => {
               title="Email"
             />
 
-           { // <NavButton
-              //dragStartFunc={dragStartNewScale}
-              //customFunc={() => handleDrop("newScale")}
-              //icon={<IoScale />}
-              //title="NewScale"
-            //>
-            }
-
+            <NavButton
+              dragStartFunc={dragStartNewScale}
+              customFunc={() => handleDrop("newScale")}
+              icon={<IoScale />}
+              title="NewScale"
+            />
+            {
+            //   <NavButton
+            //   dragStartFunc={dragStartCamera}
+            //   customFunc={() => handleDrop("camera")}
+            //   icon={<FaCamera />}
+            //   title="camera"
+            // />
+            }: ""
+           {
+           //"}"
+          }
             {/* test div */}
             {/* <NavButton
               dragStartFunc={dragStartButton}
