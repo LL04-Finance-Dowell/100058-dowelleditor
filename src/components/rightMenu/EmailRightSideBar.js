@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import { useStateContext } from "../../contexts/contextProvider";
 // import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -21,12 +22,20 @@ const EmailRightSideBar = () => {
     const mailBtn = document.querySelector(".focussed");
 
 
-    const [borderSize, setBorderSize] = useState(
-        Number(localStorage.getItem("borderSize")) || 0
-    );
-    const [borderColor, setBorderColor] = useState(
-        localStorage.getItem("borderColor") || "#000000"
-    );
+
+    const {
+        formBorderSize, 
+        setFormBorderSize,
+        formBorderColor,
+        setFormBorderColor
+    } = useStateContext()
+
+    // const [borderSize, setBorderSize] = useState(
+    //     Number(localStorage.getItem("borderSize")) || 0
+    // );
+    // const [borderColor, setBorderColor] = useState(
+    //     localStorage.getItem("borderColor") || "#000000"
+    // );
     const [showSlider, setShowSlider] = useState(false);
     const [fromEmail, setFromEmail] = useState("");
     const [fromName, setFromName] = useState("");
@@ -60,17 +69,17 @@ const EmailRightSideBar = () => {
         }
     }
     const handleBorderSizeChange = (e) => {
-        setBorderSize(e.target.value);
+        setFormBorderSize(e.target.value);
 
         const box = document.getElementsByClassName("focussedd")[0];
-        box.style.borderWidth = `${borderSize}px`;
+        box.style.borderWidth = `${formBorderSize}px`;
 
     };
 
     const handleBorderColorChange = (e) => {
-        setBorderColor(e.target.value);
+        setFormBorderColor(e.target.value);
         const box = document.getElementsByClassName("focussedd")[0];
-        box.style.borderColor = `${borderColor}`;
+        box.style.borderColor = `${formBorderColor}`;
 
     };
     const handleRangeBlur = (e) => {
@@ -255,11 +264,11 @@ const EmailRightSideBar = () => {
     //     setFromEmail("");
     // };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        localStorage.setItem("borderSize", borderSize === "0")
-        localStorage.setItem("borderColor", borderColor === "black")
-    }, [borderSize, borderColor,]);
+    //     localStorage.setItem("borderSize", borderSize === "0")
+    //     localStorage.setItem("borderColor", borderColor === "black")
+    // }, [borderSize, borderColor,]);
     return (
         <>
             <div style={{ display: "flex", flexDirection: "column", maxWidth: "500px", padding: "5%", border: "1px solid #000", margin: "20px", }}>
@@ -370,7 +379,7 @@ const EmailRightSideBar = () => {
                     <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
                         <input
                             type="color"
-                            value={borderColor}
+                            value={formBorderColor}
                             onChange={handleBorderColorChange}
                             id="color"
                             style={{ border: "none", width: "10%", height: "15px" }}
@@ -379,7 +388,7 @@ const EmailRightSideBar = () => {
                             type="range"
                             min="-10"
                             max="20"
-                            value={borderSize}
+                            value={formBorderSize}
                             onChange={handleBorderSizeChange}
                             onBlur={handleRangeBlur}
                             id="range"

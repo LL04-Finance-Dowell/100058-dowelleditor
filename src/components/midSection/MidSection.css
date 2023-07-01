@@ -19,7 +19,7 @@
   border: 2px solid green !important;
 }
 .dotted_border {
-  border: 2px solid gray;
+  border: 2px dotted gray;
 }
 
 /*

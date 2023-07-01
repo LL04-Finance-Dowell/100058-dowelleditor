@@ -8,30 +8,27 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import "./AlignRightSide.css";
 
-import
-{
-  BiFont,
-  BiAlignLeft,
-  BiAlignMiddle,
-  BiAlignRight,
+import {
+BiFont,
+BiAlignLeft,
+BiAlignMiddle,
+BiAlignRight,
 } from "react-icons/bi";
 import { MdBorderColor, MdFormatColorFill } from "react-icons/md";
-import
-{
-  AiOutlineArrowUp,
-  AiOutlineArrowDown,
-  AiOutlineFontColors,
+import {
+AiOutlineArrowUp,
+AiOutlineArrowDown,
+AiOutlineFontColors,
 } from "react-icons/ai";
-import
-{
-  FaBold,
-  FaItalic,
-  FaStrikethrough,
-  FaUnderline,
-  FaOutdent,
-  FaIndent,
-  FaListUl,
-  FaListOl,
+import {
+FaBold,
+FaItalic,
+FaStrikethrough,
+FaUnderline,
+FaOutdent,
+FaIndent,
+FaListUl,
+FaListOl,
 } from "react-icons/fa";
 import { useStateContext } from "../../contexts/contextProvider";
 
@@ -49,6 +46,12 @@ const AlignRightSide = () =>
     setUnderline,
     strikethrough,
     setStrikethrough,
+    borderSize,
+    setBorderSize,
+    inputBorderColor,
+    setInputBorderColor,
+    inputBorderSize,
+    setInputBorderSize
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -56,12 +59,13 @@ const AlignRightSide = () =>
   var decoded = jwt_decode(token);
 
   const [isWindowHightSmall, setIsWindowHightSmall] = useState(false);
-  const [borderSize, setBorderSize] = useState(
-    Number(localStorage.getItem("borderSize")) || 0
-  );
-  const [borderColor, setBorderColor] = useState(
-    localStorage.getItem("borderColor") || "#000000"
-  );
+  // const [borderSize, setBorderSize] = useState(
+  //   // Number(localStorage.getItem("alignSize")) ||
+  //    0
+  // );
+  // const [borderColor, setBorderColor] = useState(
+  //   "gray"
+  // );
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
@@ -74,8 +78,7 @@ const AlignRightSide = () =>
   //   selectedTextRange.surroundContents(strongElement);
   // }
 
-  var changeFontFamily = (ev) =>
-  {
+  var changeFontFamily = (ev) => {
     const userSelection = window.getSelection();
     const selectedTextRange = userSelection.getRangeAt(0);
 
@@ -83,73 +86,57 @@ const AlignRightSide = () =>
     selectedTextRange.style.fontFamily = `${ev.target.value}`;
   };
 
-  const handleBold = () =>
-  {
+  const handleBold = () => {
     setBold(!bold);
     document.execCommand("bold");
   };
-  const handleItalic = () =>
-  {
+  const handleItalic = () => {
     setItalic(!italic);
     document.execCommand("italic");
   };
-  const handleUnderline = () =>
-  {
+  const handleUnderline = () => {
     setUnderline(!underline);
     document.execCommand("underline");
   };
-  const handleStrikethrough = () =>
-  {
+  const handleStrikethrough = () => {
     setStrikethrough(!strikethrough);
     document.execCommand("strikeThrough");
   };
-  const handleFontColor = () =>
-  {
+  const handleFontColor = () => {
     document.execCommand("forecolor", false);
   };
-  const handleRightAlign = () =>
-  {
+  const handleRightAlign = () => {
     document.execCommand("justifyRight");
   };
-  const handleLeftAlign = () =>
-  {
+  const handleLeftAlign = () => {
     document.execCommand("justifyLeft");
   };
-  const handleMiddleAlign = () =>
-  {
+  const handleMiddleAlign = () => {
     document.execCommand("justifyCenter");
   };
-  const handleOrderedList = () =>
-  {
+  const handleOrderedList = () => {
     document.execCommand("insertOrderedList");
   };
-  const handleUnorderedList = () =>
-  {
+  const handleUnorderedList = () => {
     document.execCommand("insertUnorderedList");
   };
-  const handleOutdent = () =>
-  {
+  const handleOutdent = () => {
     document.execCommand("outdent");
   };
-  const handleIndent = () =>
-  {
+  const handleIndent = () => {
     document.execCommand("indent");
   };
 
-  const handleIncreaseSize = () =>
-  {
+  const handleIncreaseSize = () => {
     document.execCommand("increaseFontSize");
   };
-  const handleDecreaseSize = () =>
-  {
+  const handleDecreaseSize = () => {
     document.execCommand("decreaseFontSize");
   };
 
-  function handleSizing(event)
-  {
+  function handleSizing(event) {
     var sel = document.getSelection(); // Gets selection
-    if (sel.rangeCount)
-    {
+    if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
       var e = document.createElement("span");
       e.style = "font-size:" + event.target.value + "pt" + ";";
@@ -161,11 +148,9 @@ const AlignRightSide = () =>
     }
   }
 
-  function changeFont(font)
-  {
+  function changeFont(font) {
     var sel = document.getSelection(); // Gets selection
-    if (sel.rangeCount)
-    {
+    if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
       var e = document.createElement("span");
       e.style = "font-family:" + font.target.value + ";";
@@ -177,11 +162,9 @@ const AlignRightSide = () =>
     }
   }
 
-  function changeFontColor(font)
-  {
+  function changeFontColor(font) {
     var sel = document.getSelection(); // Gets selection
-    if (sel.rangeCount)
-    {
+    if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
       var e = document.createElement("span");
       e.style = "color:" + font.target.value + ";";
@@ -193,18 +176,15 @@ const AlignRightSide = () =>
     }
   }
 
-  function changeBgColor(font)
-  {
+  function changeBgColor(font) {
     const textDiv = document.getElementsByClassName("textInput").item(0);
 
     textDiv.style = "background-color:" + font.target.value + ";";
   }
 
-  function changeFontTBgColor(font)
-  {
+  function changeFontTBgColor(font) {
     var sel = document.getSelection(); // Gets selection
-    if (sel.rangeCount)
-    {
+    if (sel.rangeCount) {
       // Creates a new element, and insert the selected text with the chosen font inside
       var e = document.createElement("span");
       e.style = "background-color:" + font.target.value + ";";
@@ -224,67 +204,52 @@ const AlignRightSide = () =>
   //   selectedTextRange.style.size = `${event.target.value} pt`;
   // });
 
-  function showColorInput()
-  {
+  function showColorInput() {
     const fontColor = document.getElementById("colorInputColor");
     //console.log(fontColor);
-    if (fontColor.style.diplay === "none")
-    {
+    if (fontColor.style.diplay === "none") {
       fontColor.style.display = "block";
-    } else
-    {
+    } else {
       fontColor.style.display = "block";
     }
   }
-  function showBgColorInput()
-  {
+  function showBgColorInput() {
     const BgColor = document.getElementById("colorBgInputColor");
-    if (BgColor.style.diplay === "none")
-    {
+    if (BgColor.style.diplay === "none") {
       BgColor.style.display = "block";
-    } else
-    {
+    } else {
       BgColor.style.display = "block";
     }
   }
-  function showTBgColorInput()
-  {
+  function showTBgColorInput() {
     const tBgColor = document.getElementById("colorTBgInputColor");
-    if (tBgColor.style.diplay === "none")
-    {
+    if (tBgColor.style.diplay === "none") {
       tBgColor.style.display = "block";
-    } else
-    {
+    } else {
       tBgColor.style.display = "block";
     }
   }
 
-  function removeTextBox()
-  {
+  function removeTextBox() {
     // document.querySelector('.focussedd').remove();
-    if (document.querySelector(".focussedd").classList.contains("dropp"))
-    {
-      if (document.querySelector(".focussedd").hasChildNodes())
-      {
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++)
-        {
+        for (let i = 0; i < childLength; i++) {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else
-    {
+    } else {
       document.querySelector(".focussedd").remove();
     }
   }
 
-  const handleBorderSizeChange = (e) =>
-  {
-    setBorderSize(parseInt(e.target.value));
+  const handleBorderSizeChange = (e) => {
+    setInputBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
+    box.style.borderWidth = `${inputBorderSize}px`;
 
   };
   // const handleBorderColorBlur = () => {
@@ -296,32 +261,25 @@ const AlignRightSide = () =>
   //   document.getElementById("box").style.borderWidth = event.target.value + 'px';
   // };
 
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
-  const handleBorderColorChange = (e) =>
-  {
-    setBorderColor(e.target.value);
+  const handleBorderColorChange = (e) => {
+    setInputBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
+    box.style.borderColor = `${inputBorderColor}`;
   };
 
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     const windowHeight = window.innerHeight;
     const elementHight = document.querySelector(".align");
-    if (elementHight)
-    {
-      if (elementHight.offsetHeight > windowHeight)
-      {
+    if (elementHight) {
+      if (elementHight.offsetHeight > windowHeight) {
         setIsWindowHightSmall(true);
       }
     }
-    localStorage.setItem("borderSize", borderSize === "0")
-    localStorage.setItem("borderColor", borderColor === "black")
-  }, [borderSize, borderColor]);
+  }, []);
   return (
     <div
       className="align"
@@ -571,7 +529,7 @@ const AlignRightSide = () =>
             <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
               <input
                 type="color"
-                value={borderColor}
+                value={inputBorderColor}
                 onChange={handleBorderColorChange}
                 id="color"
                 style={{ border: "none", width: "10%", height: "15px" }}
@@ -580,7 +538,7 @@ const AlignRightSide = () =>
                 type="range"
                 min="-10"
                 max="20"
-                value={borderSize}
+                value={inputBorderSize}
                 onChange={handleBorderSizeChange}
                 onBlur={handleRangeBlur}
                 id="range"
