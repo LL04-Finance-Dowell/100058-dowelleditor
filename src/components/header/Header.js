@@ -594,6 +594,9 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
+                case "cameraInput":
+                  type = "CAMERA_INPUT";
+                  break;
                 default:
                   type = "";
               }
@@ -805,50 +808,42 @@ const Header = () => {
       }
     }
 
-    // const imageCanva = document.getElementsByClassName("imageInput");
-    // if (imageCanva.length) {
-    //   for (let b = 0; b < imageCanva.length; b++) {
-    //     if (
-    //       !imageCanva[b]?.parentElement?.parentElement?.classList?.contains(
-    //         "containerInput"
-    //       )
-    //     ) {
-    //       let tempElem = imageCanva[b].parentElement;
+    const imageCanva = document.getElementsByClassName("cameraInput");
+    if (imageCanva.length) {
+      for (let b = 0; b < imageCanva.length; b++) {
+        if (
+          !imageCanva[b]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = imageCanva[b].parentElement;
 
-    //       let tempPosn = getPosition(tempElem);
-    //       console.log(imageCanva[b]);
-    //       let linkHolder = imageCanva[b].querySelector(".link_holder");
-          
+          let tempPosn = getPosition(tempElem);
+          console.log(imageCanva[b]);
+          let imageLinkHolder = imageCanva[b].querySelector(".imageLinkHolder");
+          let videoLinkHolder = imageCanva[b].querySelector(".videoLinkHolder");
 
-    //       // console.log(buttonColors);
-    //       let properties = {
-    //         link: linkHolder.textContent,
-    //       };
-    //       console.log(properties);
-    //       elem = {
-    //         width: tempPosn.width,
-    //         height: tempPosn.height,
-    //         top: tempPosn.top,
-    //         topp: newScales[b].parentElement.style.top,
-    //         left: tempPosn.left,
-    //         type: "CAMERA_INPUT",
-    //         data: `${title}_scale_${b + 1}`,
-    //         // raw_data: tempElem.children[1].innerHTML,
-    //         raw_data: properties,
-    //         // purpose: tempElem.children[2].innerHTML,
-    //         id: `scl${b + 1}`,
-    //         // newScaleId = scale
-    //         // details:
-    //         //   decoded.details.action === "document"
-    //         //     ? "Document instance"
-    //         //     : "Template scale",
-    //       };
-    //       console.log(elem);
-    //       const pageNum = findPaageNum(newScales[b]);
-    //       page[0][pageNum].push(elem);
-    //     }
-    //   }
-    // }
+          let properties = {
+            imageLinkHolder: imageLinkHolder.textContent,
+            videoLinkHolder: videoLinkHolder.textContent
+          };
+          console.log(properties);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: imageCanva[b].parentElement.style.top,
+            left: tempPosn.left,
+            type: "CAMERA_INPUT",
+            raw_data: properties,
+            id: `cam1${b + 1}`,
+          };
+          console.log(elem);
+          const pageNum = findPaageNum(imageCanva[b]);
+          page[0][pageNum].push(elem);
+        }
+      }
+    }
 
 
     const buttons = document.getElementsByClassName("buttonInput");

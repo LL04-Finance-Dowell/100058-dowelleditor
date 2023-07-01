@@ -1848,6 +1848,9 @@ const MidSection = React.forwardRef((props, ref) => {
       case "newScaleInput":
         type = "NEW_SCALE_INPUT";
         break;
+      case "cameraInput":
+        type = "CAMERA_INPUT";
+        break;
       default:
         type = "";
     }
@@ -3130,7 +3133,7 @@ const MidSection = React.forwardRef((props, ref) => {
             if (isAnyRequiredElementEdited) {
               finalizeButton?.click();
             } else {
-              finalizeButton.disabled = true;
+              finalizeButton.disabled = true; 
             }
           }
 
@@ -3343,6 +3346,175 @@ const MidSection = React.forwardRef((props, ref) => {
             ?.append(holderDIV);
         }
 
+        if (element.type === "CAMERA_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          const videoLinkHolder = `${element?.raw_data?.videoLinkHolder}`;
+          const imageLinkHolder = `${element?.raw_data?.imageLinkHolder}`;
+          // const holderDIV = getHolderDIV(measure, pageNo);
+          if (
+            decoded.details.action === "template"
+          ){
+          let cameraField = document.createElement("div");
+          cameraField.className = "cameraInput";
+          cameraField.id = id;
+          cameraField.style.width = "100%";
+          cameraField.style.height = "100%";
+          cameraField.style.borderRadius = "0px";
+          cameraField.style.outline = "0px";
+          cameraField.style.overflow = "overlay";
+          
+          let videoField = document.createElement("video");
+          if(videoLinkHolder === "video_link"){
+          videoField.className = "videoInput";
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.loop = true;
+          videoField.style.display = "none"
+          cameraField.append(videoField)
+        }else {
+          videoField.className = "videoInput";
+          videoField.src = videoLinkHolder
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.loop = true;
+          cameraField.append(videoField)
+        }
+
+          let imgHolder = document.createElement("img");
+          if(imageLinkHolder === "image_link"){
+          imgHolder.className = "imageHolder";
+          imgHolder.style.height = "100%"
+          imgHolder.style.width = "100%"
+          imgHolder.alt = "";
+          imgHolder.style.display = "none"
+          cameraField.append(imgHolder)
+          }else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%"
+            imgHolder.style.width = "100%"
+            imgHolder.alt = "";
+            imgHolder.src = imageLinkHolder
+            cameraField.append(imgHolder)
+          }
+
+          cameraField.addEventListener("resize", () => {
+            videoField.style.width = cameraField.clientWidth + "px";
+            videoField.style.height = cameraField.clientHeight + "px";
+          });
+
+          cameraField.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+  
+          imgHolder.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+          holderDIV.append(cameraField);
+          }
+          if (
+            element.details === "Document instance" &&
+            decoded.details.action === "document"
+          ){
+            let cameraField = document.createElement("div");
+          cameraField.className = "cameraInput";
+          cameraField.id = id;
+          cameraField.style.width = "100%";
+          cameraField.style.height = "100%";
+          cameraField.style.borderRadius = "0px";
+          cameraField.style.outline = "0px";
+          cameraField.style.overflow = "overlay";
+          
+          let videoField = document.createElement("video");
+          if(videoLinkHolder === "video_link"){
+          videoField.className = "videoInput";
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.loop = true;
+          videoField.style.display = "none"
+          cameraField.append(videoField)
+        }else {
+          videoField.className = "videoInput";
+          videoField.src = videoLinkHolder
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.loop = true;
+          cameraField.append(videoField)
+        }
+
+          let imgHolder = document.createElement("img");
+          if(imageLinkHolder === "image_link"){
+          imgHolder.className = "imageHolder";
+          imgHolder.style.height = "100%"
+          imgHolder.style.width = "100%"
+          imgHolder.alt = "";
+          imgHolder.style.display = "none"
+          cameraField.append(imgHolder)
+          }else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%"
+            imgHolder.style.width = "100%"
+            imgHolder.alt = "";
+            imgHolder.src = imageLinkHolder
+            cameraField.append(imgHolder)
+          }
+
+          cameraField.addEventListener("resize", () => {
+            videoField.style.width = cameraField.clientWidth + "px";
+            videoField.style.height = cameraField.clientHeight + "px";
+          });
+
+          cameraField.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+  
+          imgHolder.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+          holderDIV.append(cameraField);
+          }
+
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         if (element.type === "NEW_SCALE_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -5985,55 +6157,58 @@ const MidSection = React.forwardRef((props, ref) => {
         decoded.details.action === "template"
       ) {
 
-        let cameraField = document.createElement("video");
-        cameraField.className = "videoInput";
+        let cameraField = document.createElement("div");
+        cameraField.className = "cameraInput";
         cameraField.style.width = "100%";
         cameraField.style.height = "100%";
-        cameraField.autoplay = true;
-        cameraField.loop = true;
-        cameraField.style.backgroundColor = "transparent";
         cameraField.style.borderRadius = "0px";
         cameraField.style.outline = "0px";
         cameraField.style.overflow = "overlay";
         // cameraField.innerHTML = 'iframe';
         // cameraField.innerText = "camera here";
 
-        const camera = document.getElementsByClassName("videoInput");
+        const camera = document.getElementsByClassName("cameraInput");
         if (camera.length) {
-          const s = camera.length;
-          cameraField.id = `vid1${s + 1}`;
+          const h = camera.length;
+          cameraField.id = `cam1${h + 1}`;
         } else {
-          cameraField.id = "vid1";
+          cameraField.id = "cam1";
         }
 
-        let imageInput = document.createElement("canvas");
-        imageInput.className = "imageInput"
-        imageInput.style.display = "none"
-        const imageCanva = document.getElementsByClassName("imageInput");
-        if (imageCanva.length) {
-          const s = imageCanva.length;
-          cameraField.id = `img1${s + 1}`;
-        } else {
-          cameraField.id = "img1";
-        }
-        
-        const cameraIdHolder = document.createElement("div");
-        cameraIdHolder.className = "cameraId_holder";
-        cameraIdHolder.style.display = "none";
+        let videoField = document.createElement("video");
+        videoField.className = "videoInput";
+        videoField.style.width = "100%";
+        videoField.style.height = "100%";
+        videoField.autoplay = true;
+        videoField.loop = true;
+        cameraField.append(videoField)
+
+        let cameraImageInput = document.createElement("canvas");
+        cameraImageInput.className = "cameraImageInput"
+        cameraImageInput.style.display = "none"
+        cameraField.append(cameraImageInput)
 
         const imgHolder = document.createElement("img");
         imgHolder.className = "imageHolder";
         imgHolder.alt = "";
+        imgHolder.style.display = "none"
+        cameraField.append(imgHolder)
 
-        const linkHolder = document.createElement("div");
-        linkHolder.className = "link_holder";
-        linkHolder.style.display = "none";
+        const imageLinkHolder = document.createElement("h1");
+        imageLinkHolder.className = "imageLinkHolder";
+        imageLinkHolder.textContent = "image_link";
+        imageLinkHolder.style.display = "none";
+        cameraField.append(imageLinkHolder)
+
+        const videoLinkHolder = document.createElement("h1");
+        videoLinkHolder.className = "videoLinkHolder";
+        videoLinkHolder.textContent = "video_link";
+        videoLinkHolder.style.display = "none";
+        cameraField.append(videoLinkHolder)
 
         cameraField.addEventListener("resize", () => {
-          imageInput.style.width = holderDIV.clientWidth + "px";
-          imageInput.style.height = holderDIV.clientHeight + "px";
-          imageInput.style.width = holderDIV.clientWidth + "px";
-          imageInput.style.height = holderDIV.clientHeight + "px";
+          videoField.style.width = cameraField.clientWidth + "px";
+          videoField.style.height = cameraField.clientHeight + "px";
         });
 
         function openCam(){
@@ -6046,7 +6221,7 @@ const MidSection = React.forwardRef((props, ref) => {
              video: true
           })
           .then(function(vidStream) {
-             var video = cameraField;
+             var video = videoField;
              if ("srcObject" in video) {
                 video.srcObject = vidStream;
              } else {
@@ -6073,7 +6248,7 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
 
-        imageInput.onclick = (e) => {
+        cameraImageInput.onclick = (e) => {
           e.stopPropagation();
           table_dropdown_focuseddClassMaintain(e);
           if (e.ctrlKey) {
@@ -6084,10 +6259,6 @@ const MidSection = React.forwardRef((props, ref) => {
         };
 
         holderDIV.append(cameraField);
-        holderDIV.append(imageInput);
-        holderDIV.append(cameraIdHolder);
-        holderDIV.append(linkHolder);
-        holderDIV.append(imgHolder)
       }
 
       else if (typeOfOperation === "TEXT_FILL") {
