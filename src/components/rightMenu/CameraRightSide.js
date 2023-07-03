@@ -32,7 +32,7 @@ function CameraRightSide() {
       while(n--){
         dataArr[n] = dataStr.charCodeAt(n)
       }
-      let file = new File([dataArr], 'myPic7.jpg', {type: mime})
+      let file = new File([dataArr], 'myPic8.jpg', {type: mime})
       console.log(file)
       return file
       //console.log(data)

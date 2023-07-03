@@ -3463,6 +3463,7 @@ const MidSection = React.forwardRef((props, ref) => {
           videoField.style.width = "100%";
           videoField.style.height = "100%";
           videoField.autoplay = true;
+          videoField.muted = true;
           videoField.loop = true;
           cameraField.append(videoField)
         }
@@ -3497,7 +3498,6 @@ const MidSection = React.forwardRef((props, ref) => {
             }
             handleClicked("camera2");
             setSidebar(true);
-            console.log(cameraField)
           };
   
           imgHolder.onclick = (e) => {
@@ -3508,6 +3508,7 @@ const MidSection = React.forwardRef((props, ref) => {
             }
             handleClicked("camera2");
             setSidebar(true);
+            console.log("The camera",cameraField)
           };
           holderDIV.append(cameraField);
           }
