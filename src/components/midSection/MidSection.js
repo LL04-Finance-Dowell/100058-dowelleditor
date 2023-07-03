@@ -3497,6 +3497,7 @@ const MidSection = React.forwardRef((props, ref) => {
             }
             handleClicked("camera2");
             setSidebar(true);
+            console.log(cameraField)
           };
   
           imgHolder.onclick = (e) => {
