@@ -1841,6 +1841,7 @@ const Header = () => {
           if(finalize){
             handleFinalize();
           }
+          console.log("This is fialize", finalize)
         }
         //console.log(res);
       })
@@ -2043,25 +2044,29 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
+  const userType = decoded.details.user_type
+  const linkId = decoded.details.link_id
   
   function handleFinalize() {
     setIsLoading(true);
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
-      {
-        action: "finalized",
+       {
+          user_type: userType,
+          link_id: linkId,
+          action: "finalized",
         // item_id: process_id,
-        authorized: authorized,
+          authorized: authorized,
         // document_id: _id,
-        item_type: action,
-        item_id: _id,
-        company_id: companyId,
-        role: role,
-      }
+          item_type: action,
+          item_id: _id,
+          company_id: companyId,
+          role: role,
+       }
     )
       .then((res) => {
-        console.log(res);
+        console.log("This is my response",res);
         setIsLoading(false);
         toast.success(res?.data);
       })
@@ -2088,6 +2093,8 @@ const Header = () => {
         item_id: _id,
         company_id: companyId,
         role: role,
+        user_type: userType,
+        link_id: linkId,
       }
     )
       .then((res) => {

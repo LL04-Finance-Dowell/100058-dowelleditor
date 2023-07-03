@@ -96,18 +96,12 @@ function CameraRightSide() {
     if(event.data && event.data.size > 0) {
       video.srcObject = null
       let vidUrl = event.data
-      var reader = new FileReader();
-      reader.readAsDataURL(vidUrl); 
-      reader.onloadend = function() {
-      var base64data = reader.result;                
-      video.src = base64data
-      console.log(vidUrl);
-      console.log("This is blob fie",vidUrl)
-      let name = "myVid"
-      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/", {
-        'video': base64data,
-        'name': name
-      }
+      let file = new File([vidUrl], 'video.mp4', {type: 'video/webm;codecs=vp9,opus'})
+      console.log(file)
+      const formData = new FormData()
+      formData.append('video', file)
+      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/", 
+      formData
        ).then((res)=>{
       console.log(res)
       console.log(res.data.file_url)
@@ -122,7 +116,6 @@ function CameraRightSide() {
     .catch((err) => {
       console.log(err);
     });
-    }
   }
   }
 
