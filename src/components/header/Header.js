@@ -136,7 +136,7 @@ const Header = () => {
     setScaleBorderSize,
     scaleBorderColor,
     setScaleBorderColor,
-    containerBorderSize, 
+    containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
     setContainerBorderColor
@@ -1217,7 +1217,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -1269,9 +1269,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -1384,7 +1384,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1737,9 +1737,11 @@ const Header = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const link_idd = searchParams.get("link_id");
+
   var decoded = jwt_decode(token);
   // console.log(decoded.details);
-  const { action, authorized, process_id, document_map, _id, role } =
+  const { action, authorized, process_id, user_type, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -1832,16 +1834,13 @@ const Header = () => {
       }
     )
       .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          setIsDataSaved(true);
-          // alert("Data saved successfully");
+        if (res) {
           toast.success("Saved successfully");
-          sendMessage();
-          if(finalize){
+          setIsLoading(false);
+          if (finalize) {
             handleFinalize();
           }
-          console.log("This is fialize", finalize)
+          setIsDataSaved(true);
         }
         //console.log(res);
       })
@@ -2044,29 +2043,28 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const userType = decoded.details.user_type
   const linkId = decoded.details.link_id
-  
+
   function handleFinalize() {
     setIsLoading(true);
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
-       {
-          user_type: userType,
-          link_id: linkId,
-          action: "finalized",
+      {
+        user_type: user_type,
+        link_id: link_idd,
+        action: "finalized",
         // item_id: process_id,
-          authorized: authorized,
+        authorized: authorized,
         // document_id: _id,
-          item_type: action,
-          item_id: _id,
-          company_id: companyId,
-          role: role,
-       }
+        item_type: action,
+        item_id: _id,
+        company_id: companyId,
+        role: role,
+      }
     )
       .then((res) => {
-        console.log("This is my response",res);
+        console.log("This is my response", res);
         setIsLoading(false);
         toast.success(res?.data);
       })
@@ -2076,7 +2074,7 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
-      
+
   }
 
   function handleReject() {
@@ -2093,8 +2091,8 @@ const Header = () => {
         item_id: _id,
         company_id: companyId,
         role: role,
-        user_type: userType,
-        link_id: linkId,
+        user_type: user_type,
+        link_id: link_idd,
       }
     )
       .then((res) => {
@@ -2128,9 +2126,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -2140,9 +2137,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
