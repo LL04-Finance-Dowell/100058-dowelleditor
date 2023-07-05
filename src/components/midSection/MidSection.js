@@ -3436,9 +3436,7 @@ const MidSection = React.forwardRef((props, ref) => {
           const videoLinkHolder = `${element?.raw_data?.videoLinkHolder}`;
           const imageLinkHolder = `${element?.raw_data?.imageLinkHolder}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
-          if (
-            decoded.details.action === "template"
-          ){
+          
           let cameraField = document.createElement("div");
           cameraField.className = "cameraInput";
           cameraField.id = id;
@@ -3449,6 +3447,8 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.overflow = "overlay";
           
           let videoField = document.createElement("video");
+          const imageLinkHolder1 = document.createElement("h1");
+          const videoLinkHolder1 = document.createElement("h1");
           if(videoLinkHolder === "video_link"){
           videoField.className = "videoInput";
           videoField.style.width = "100%";
@@ -3457,6 +3457,11 @@ const MidSection = React.forwardRef((props, ref) => {
           videoField.loop = true;
           videoField.style.display = "none"
           cameraField.append(videoField)
+
+          videoLinkHolder1.className = "videoLinkHolder";
+          videoLinkHolder1.textContent = videoLinkHolder;
+          videoLinkHolder1.style.display = "none";
+          cameraField.append(videoLinkHolder1)
         }else {
           videoField.className = "videoInput";
           videoField.src = videoLinkHolder
@@ -3466,6 +3471,11 @@ const MidSection = React.forwardRef((props, ref) => {
           videoField.muted = true;
           videoField.loop = true;
           cameraField.append(videoField)
+
+          videoLinkHolder1.className = "videoLinkHolder";
+          videoLinkHolder1.textContent = videoLinkHolder;
+          videoLinkHolder1.style.display = "none";
+          cameraField.append(videoLinkHolder1)
         }
 
           let imgHolder = document.createElement("img");
@@ -3476,6 +3486,11 @@ const MidSection = React.forwardRef((props, ref) => {
           imgHolder.alt = "";
           imgHolder.style.display = "none"
           cameraField.append(imgHolder)
+
+          imageLinkHolder1.className = "imageLinkHolder";
+          imageLinkHolder1.textContent = imageLinkHolder;
+          imageLinkHolder1.style.display = "none";
+          cameraField.append(imageLinkHolder1)
           }else {
             imgHolder.className = "imageHolder";
             imgHolder.style.height = "100%"
@@ -3483,6 +3498,11 @@ const MidSection = React.forwardRef((props, ref) => {
             imgHolder.alt = "";
             imgHolder.src = imageLinkHolder
             cameraField.append(imgHolder)
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1)
           }
 
           cameraField.addEventListener("resize", () => {
@@ -3511,82 +3531,6 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log("The camera",cameraField)
           };
           holderDIV.append(cameraField);
-          }
-          if (
-            element.details === "Document instance" &&
-            decoded.details.action === "document"
-          ){
-            let cameraField = document.createElement("div");
-          cameraField.className = "cameraInput";
-          cameraField.id = id;
-          cameraField.style.width = "100%";
-          cameraField.style.height = "100%";
-          cameraField.style.borderRadius = "0px";
-          cameraField.style.outline = "0px";
-          cameraField.style.overflow = "overlay";
-          
-          let videoField = document.createElement("video");
-          if(videoLinkHolder === "video_link"){
-          videoField.className = "videoInput";
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          videoField.style.display = "none"
-          cameraField.append(videoField)
-        }else {
-          videoField.className = "videoInput";
-          videoField.src = videoLinkHolder
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          cameraField.append(videoField)
-        }
-
-          let imgHolder = document.createElement("img");
-          if(imageLinkHolder === "image_link"){
-          imgHolder.className = "imageHolder";
-          imgHolder.style.height = "100%"
-          imgHolder.style.width = "100%"
-          imgHolder.alt = "";
-          imgHolder.style.display = "none"
-          cameraField.append(imgHolder)
-          }else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%"
-            imgHolder.style.width = "100%"
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder
-            cameraField.append(imgHolder)
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
-
-          cameraField.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-  
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-          holderDIV.append(cameraField);
-          }
 
           document
             .getElementsByClassName("midSection_container")
