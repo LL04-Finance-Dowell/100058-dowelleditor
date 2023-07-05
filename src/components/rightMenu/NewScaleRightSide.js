@@ -269,12 +269,14 @@ const ScaleRightSide = () => {
   function scaleSubmit(e) {
     console.log(selectedOptions);
     console.log(selectedOptions[0]);
-    console.log("This is the scale", scaleId);
+    const scale = document.querySelector(".focussedd");
+    const idHolder = scale?.querySelector(".scaleId");
+    console.log("This is the scale Id", idHolder.textContent);
     e.preventDefault();
     setIsLoading(true);
     Axios.post("https://100035.pythonanywhere.com/api/nps_custom_data/", {
       template_id: decoded.details._id,
-      scale_id: scaleId,
+      scale_id: idHolder.textContent,
       custom_input_groupings: selectedOptions,
       scale_label: scaleTitle,
     })
@@ -282,7 +284,7 @@ const ScaleRightSide = () => {
         if (res.status == 200) {
           setIsLoading(false);
           sendMessage();
-          console.log(res, "kk");
+          console.log(res.data);
         }
       })
       .catch((err) => {
@@ -740,9 +742,12 @@ const ScaleRightSide = () => {
     e.target.focus();
   };
   const refreshIframe = () => {
-    //Assigning the src of iframe to itself to refresh it
-    document.getElementById("iframeId").src =
-      document.getElementById("iframeId").src;
+    const focusseddElmnt = document.querySelector(".focussedd");
+    if (focusseddElmnt.classList.contains("holderDIV")) {
+      var container = document.querySelector(".focussedd");
+      var content = container.innerHTML;
+      container.innerHTML = content;
+    }
   };
 
   const onScoreChange = (e) => {

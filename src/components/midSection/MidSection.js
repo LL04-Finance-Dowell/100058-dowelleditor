@@ -632,8 +632,8 @@ const MidSection = React.forwardRef((props, ref) => {
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
-        imageField.innerHTML = `${element.data2}`;
-        console.log("element data getting", `${element.data}`);
+        imageField.outerHTML = `${element.data2}`
+        console.log("element data getting", `${element.data}`)
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
@@ -1002,7 +1002,7 @@ const MidSection = React.forwardRef((props, ref) => {
           para.parentElement.click();
         };
 
-        dropdownField.innerHTML = `${element.data}`;
+        dropdownField.innerHTML = `${element.data2}`
 
         // dropdownField.innerText = `${element.data}`
         dropdownField.append(para);
@@ -1848,6 +1848,9 @@ const MidSection = React.forwardRef((props, ref) => {
       case "newScaleInput":
         type = "NEW_SCALE_INPUT";
         break;
+      case "cameraInput":
+        type = "CAMERA_INPUT";
+        break;
       default:
         type = "";
     }
@@ -2019,9 +2022,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-        parseInt(rect.height) +
-        parseInt(rect.height) +
-        20 <
+      parseInt(rect.height) +
+      parseInt(rect.height) +
+      20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2202,7 +2205,7 @@ const MidSection = React.forwardRef((props, ref) => {
     return holderMenu;
   }
 
-  function getHolderDIV(measure, i, idMatch) {
+  function getHolderDIV(measure, i, idMatch, borderWidth, calBorder) {
     //console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
@@ -2219,16 +2222,35 @@ const MidSection = React.forwardRef((props, ref) => {
     // holderDIV.setAttribute("data-map_id", idMatch);
     holderDIV.style.display = "flex";
     holderDIV.style.flexDirection = "column";
-    // holderDIV.style.border = "2px dotted gray";
+    // holderDIV.style.border = "2px dotted red";
     holderDIV.tabIndex = "1";
     // //console.log("measure", measure);
     holderDIV.style.width = measure.width;
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
+    holderDIV.style.border= measure.border
+
     holderDIV.classList.add(`page_${i}`);
     //console.log(idMatch);
-    if (idMatch?.length > 0) {
+    if(borderWidth && !idMatch?.length) {
+      holderDIV.style.border =  borderWidth ;
+      // console.log("calendar date", borderWidth)
+
+      // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
+    }
+
+    // else if(calBorder) {
+    //   holderDIV.style.border = calBorder;
+    //   console.log("calendar date", calBorder)
+    // }
+
+
+    // else if(borderWidths && !idMatch?.length) {
+    //   holderDIV.style.border =  borderWidths ;
+    //   // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
+    // }
+    else if (!borderWidth && idMatch?.length > 0) {
       holderDIV.classList.add(`enable_pointer_event`);
       holderDIV.style.border = "1px solid green !important";
     } else if (idMatch?.length < 1 && actionName == "document") {
@@ -2236,6 +2258,10 @@ const MidSection = React.forwardRef((props, ref) => {
       holderDIV.classList.add(`disable_pointer_event`);
     } else {
       holderDIV.classList.add(`dotted_border`);
+      // const storeData = localStorage.getItem("borderSize")
+      // const dataas = `${storeData}` + "px"
+      // holderDIV.style.border = `${dataas} dotted gray`;
+      
     }
 
     holderDIV.addEventListener("dragstart", (event) => {
@@ -2299,8 +2325,19 @@ const MidSection = React.forwardRef((props, ref) => {
       //   holderDIV.style.border = "3px dotted gray";
 
       // }
+      // const storeData = localStorage.getItem("borderSize")
+      // const dataas = `${storeData}` + "px"
+      // holderDIV.style.border = `${dataas} dotted gray`;
       holderDIV.classList.remove("zIndex-two");
+    
+      // const borderData = document.querySelector(".foucussedd");
+      
+      // holderDIV.style.border = measure.border;
+      // holderDIV.style.border = borderWidth;
       holderDIV.style.border = "3px dotted gray";
+      
+      // holderDIV.classList.remove("focussedd")
+      // localStorage.removeItem("borderSize")
 
       holderMenu.remove();
       resizerTL.remove();
@@ -2308,6 +2345,25 @@ const MidSection = React.forwardRef((props, ref) => {
       resizerBL.remove();
       resizerBR.remove();
     });
+
+    // holderDIV.onblur = () => {
+    //   holderDIV.classList.remove("zIndex-two");
+    
+    //   // const borderData = document.querySelector(".foucussedd");
+      
+    //   holderDIV.style.border = measure.border;
+    //   // holderDIV.style.border = borderWidth;
+    //   // holderDIV.style.border = "3px dotted gray";
+      
+    //   // holderDIV.classList.remove("focussedd")
+    //   // localStorage.removeItem("borderSize")
+
+    //   holderMenu.remove();
+    //   resizerTL.remove();
+    //   resizerTR.remove();
+    //   resizerBL.remove();
+    //   resizerBR.remove();
+    // }
 
     // if (!isTemplate) {
     //   if (currUser == measure.auth_user) {
@@ -2360,6 +2416,7 @@ const MidSection = React.forwardRef((props, ref) => {
     // const midsectionRect = midSec.getBoundingClientRect();
     // data?.forEach((arrayData) => {
     let pageNo = 0;
+    // console.log("getting any element")
     let isAnyRequiredElementEdited = false;
     for (let p = 1; p <= item?.length; p++) {
       pageNo++;
@@ -2370,8 +2427,10 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.borderWidths,
             auth_user: curr_user,
           };
+          console.log("getting text input value", measure.border)
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           // console.log("element", element);
 
@@ -2445,7 +2504,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2456,10 +2515,11 @@ const MidSection = React.forwardRef((props, ref) => {
             top: element.topp,
             auth_user: curr_user,
           };
+          console.log("element", element);
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           // console.log(idMatch, "idMatch");
-          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch, element.borderWidth);
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -2474,6 +2534,12 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.style.overflow = "overlay";
           // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
           imageField.style.position = "relative";
+
+          // const ImgBorder = localStorage.getItem("borderSize");
+          // // imageField.style.border = ImgBorder + "px"
+
+          // const dataas = `${ImgBorder}` + "px"
+          // imageField.style.border = `${dataas} dotted gray`;
           imageField.oninput = (e) => {
             //setIsFinializeDisabled(false);
           };
@@ -2493,8 +2559,12 @@ const MidSection = React.forwardRef((props, ref) => {
             isAnyRequiredElementEdited = true;
           }
 
+
+
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
+            // const dataas = `${ImgBorder}` + "px"
+            // imageField.style.border = `${dataas} dotted gray`;
             if (e.ctrlKey) {
               copyInput("image2");
             }
@@ -2543,7 +2613,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2552,10 +2622,13 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.calBorder,
             auth_user: curr_user,
           };
+          console.log("date data and value", measure.border)
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          console.log("getting cal element", element.calBorder)
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -2624,7 +2697,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2633,6 +2706,7 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.signBorder,
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -2743,7 +2817,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -2752,6 +2826,7 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.tableBorder,
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -3001,7 +3076,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3010,6 +3085,7 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.iframeBorder,
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -3055,7 +3131,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3065,8 +3141,10 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.buttonBorder,
             auth_user: curr_user,
           };
+          // console.log("button input border value", measure.border)
 
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo);
@@ -3130,7 +3208,7 @@ const MidSection = React.forwardRef((props, ref) => {
             if (isAnyRequiredElementEdited) {
               finalizeButton?.click();
             } else {
-              finalizeButton.disabled = true;
+              finalizeButton.disabled = true; 
             }
           }
 
@@ -3167,7 +3245,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3211,7 +3289,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3221,6 +3299,7 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.scaleBorder,
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -3339,10 +3418,125 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
+        if (element.type === "CAMERA_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            auth_user: curr_user,
+          };
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
+          const id = `${element.id}`;
+          const videoLinkHolder = `${element?.raw_data?.videoLinkHolder}`;
+          const imageLinkHolder = `${element?.raw_data?.imageLinkHolder}`;
+          // const holderDIV = getHolderDIV(measure, pageNo);
+          
+          let cameraField = document.createElement("div");
+          cameraField.className = "cameraInput";
+          cameraField.id = id;
+          cameraField.style.width = "100%";
+          cameraField.style.height = "100%";
+          cameraField.style.borderRadius = "0px";
+          cameraField.style.outline = "0px";
+          cameraField.style.overflow = "overlay";
+          
+          let videoField = document.createElement("video");
+          const imageLinkHolder1 = document.createElement("h1");
+          const videoLinkHolder1 = document.createElement("h1");
+          if(videoLinkHolder === "video_link"){
+          videoField.className = "videoInput";
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.loop = true;
+          videoField.style.display = "none"
+          cameraField.append(videoField)
+
+          videoLinkHolder1.className = "videoLinkHolder";
+          videoLinkHolder1.textContent = videoLinkHolder;
+          videoLinkHolder1.style.display = "none";
+          cameraField.append(videoLinkHolder1)
+        }else {
+          videoField.className = "videoInput";
+          videoField.src = videoLinkHolder
+          videoField.style.width = "100%";
+          videoField.style.height = "100%";
+          videoField.autoplay = true;
+          videoField.muted = true;
+          videoField.loop = true;
+          cameraField.append(videoField)
+
+          videoLinkHolder1.className = "videoLinkHolder";
+          videoLinkHolder1.textContent = videoLinkHolder;
+          videoLinkHolder1.style.display = "none";
+          cameraField.append(videoLinkHolder1)
+        }
+
+          let imgHolder = document.createElement("img");
+          if(imageLinkHolder === "image_link"){
+          imgHolder.className = "imageHolder";
+          imgHolder.style.height = "100%"
+          imgHolder.style.width = "100%"
+          imgHolder.alt = "";
+          imgHolder.style.display = "none"
+          cameraField.append(imgHolder)
+
+          imageLinkHolder1.className = "imageLinkHolder";
+          imageLinkHolder1.textContent = imageLinkHolder;
+          imageLinkHolder1.style.display = "none";
+          cameraField.append(imageLinkHolder1)
+          }else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%"
+            imgHolder.style.width = "100%"
+            imgHolder.alt = "";
+            imgHolder.src = imageLinkHolder
+            cameraField.append(imgHolder)
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1)
+          }
+
+          cameraField.addEventListener("resize", () => {
+            videoField.style.width = cameraField.clientWidth + "px";
+            videoField.style.height = cameraField.clientHeight + "px";
+          });
+
+          cameraField.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+  
+          imgHolder.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+            console.log("The camera",cameraField)
+          };
+          holderDIV.append(cameraField);
+
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         if (element.type === "NEW_SCALE_INPUT") {
           const measure = {
             width: element.width + "px",
@@ -3924,7 +4118,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -3934,8 +4128,10 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.dropdownBorder,
             auth_user: curr_user,
           };
+          console.log("dropdown border value", measure.border)
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -3968,7 +4164,7 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
           };
 
-          selectElement.innerHTML = element.data2;
+          // selectElement.innerHTML = element.data2;
 
           const para = document.createElement("p");
           para.innerHTML = " Dropdown Name";
@@ -3987,7 +4183,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -3997,6 +4193,7 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.containerBorder,
             auth_user: curr_user,
           };
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
@@ -5026,7 +5223,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -5161,13 +5358,15 @@ const MidSection = React.forwardRef((props, ref) => {
       height: "80px",
       left: event.clientX - midsectionRect.left + "px",
       top: event.clientY - midsectionRect.top + "px",
+      // border: "2px dotted gray",
       auth_user: curr_user,
     };
+    // console.log("getting measure border",measure.border)
     let pageNum = null;
     let holderDIV = null;
     if (event.target.classList.contains("midSection_container")) {
       pageNum = event.target.innerText.split("\n")[0];
-      holderDIV = getHolderDIV(measure, pageNum);
+      holderDIV = getHolderDIV(measure, pageNum, );
     } else {
       holderDIV = getHolderDIV(measure);
     }
@@ -5194,6 +5393,15 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.overflow = "overlay";
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
+
+
+        const textBorder = localStorage.getItem("alignSize");
+        const textBorderColor = localStorage.getItem("alignColor");
+        
+        // imageField.style.border = ImgBorder + "px"
+
+        const dataas = `${textBorder}` + "px"
+        inputField.style.border = `${dataas} dotted ${textBorderColor}`;
 
         const txt = document.getElementsByClassName("textInput");
         if (txt.length) {
@@ -5253,11 +5461,34 @@ const MidSection = React.forwardRef((props, ref) => {
         imageField.style.height = "100%";
         imageField.style.backgroundColor = "#0000";
         imageField.style.borderRadius = "0px";
-        imageField.style.outline = "0px";
+        imageField.style.outline = "none";
+        // imageField.style.border = "none";
         imageField.style.overflow = "overlay";
         imageField.innerText = "Choose Image";
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
+
+
+        // const ImgBorder = localStorage.getItem("borderSize");
+        // const ImgBorderColor = localStorage.getItem("borderColor");
+        // console.log(ImgBorderColor)
+        
+        // // imageField.style.border = ImgBorder + "px"
+
+        // const dataas = `${ImgBorder}` + "px"
+        // imageField.style.border = `${dataas} dotted ${ImgBorderColor}`;
+
+        // console.log("imgBorder", ImgBorder)
+
+
+        // const ImgDatass= document.querySelector(".focussedd")
+        // ImgDatass.style.border = `${dataas} dotted gray`;
+
+
+
+
+
+
 
         const img = document.getElementsByClassName("imageInput");
         if (img.length) {
@@ -5267,9 +5498,24 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.id = "i1";
         }
 
+
+        imageField.addEventListener("onclick", () => {
+          console.log("imgData clicked")
+        })
+
+        // imageField.addEventListener("onblur", () => {
+        //   imageField.style.border = ImgBorder + "px"
+        // })
+
+        // console.log(ImgBorder + "px")
+
         imageField.onclick = (e) => {
           e.stopPropagation();
           focuseddClassMaintain(e);
+          // const dataas = `${ImgBorder}` + "px"
+          // imageField.style.border = `${dataas} dotted gray`;
+          // localStorage.removeItem("borderSize")
+          // console.log("clickinnggggg.....", dataas)
           if (e.ctrlKey) {
             copyInput("image2");
           }
@@ -5938,51 +6184,58 @@ const MidSection = React.forwardRef((props, ref) => {
         decoded.details.action === "template"
       ) {
 
-        let cameraField = document.createElement("video");
-        cameraField.className = "videoInput";
+        let cameraField = document.createElement("div");
+        cameraField.className = "cameraInput";
         cameraField.style.width = "100%";
         cameraField.style.height = "100%";
-        cameraField.autoplay = true;
-        cameraField.loop = true;
-        cameraField.style.backgroundColor = "transparent";
         cameraField.style.borderRadius = "0px";
         cameraField.style.outline = "0px";
         cameraField.style.overflow = "overlay";
         // cameraField.innerHTML = 'iframe';
         // cameraField.innerText = "camera here";
 
-        const camera = document.getElementsByClassName("videoInput");
+        const camera = document.getElementsByClassName("cameraInput");
         if (camera.length) {
-          const s = camera.length;
-          cameraField.id = `vid1${s + 1}`;
+          const h = camera.length;
+          cameraField.id = `cam1${h + 1}`;
         } else {
-          cameraField.id = "vid1";
+          cameraField.id = "cam1";
         }
 
-        let imageInput = document.createElement("canvas");
-        imageInput.className = "imageInput"
-        imageInput.style.display = "none"
-        const imageCanva = document.getElementsByClassName("imageInput");
-        if (imageCanva.length) {
-          const s = imageCanva.length;
-          cameraField.id = `img1${s + 1}`;
-        } else {
-          cameraField.id = "img1";
-        }
-        
-        const cameraIdHolder = document.createElement("div");
-        cameraIdHolder.className = "cameraId_holder";
-        cameraIdHolder.style.display = "none";
+        let videoField = document.createElement("video");
+        videoField.className = "videoInput";
+        videoField.style.width = "100%";
+        videoField.style.height = "100%";
+        videoField.autoplay = true;
+        videoField.loop = true;
+        cameraField.append(videoField)
 
-        const linkHolder = document.createElement("div");
-        linkHolder.className = "link_holder";
-        linkHolder.style.display = "none";
+        let cameraImageInput = document.createElement("canvas");
+        cameraImageInput.className = "cameraImageInput"
+        cameraImageInput.style.display = "none"
+        cameraField.append(cameraImageInput)
+
+        const imgHolder = document.createElement("img");
+        imgHolder.className = "imageHolder";
+        imgHolder.alt = "";
+        imgHolder.style.display = "none"
+        cameraField.append(imgHolder)
+
+        const imageLinkHolder = document.createElement("h1");
+        imageLinkHolder.className = "imageLinkHolder";
+        imageLinkHolder.textContent = "image_link";
+        imageLinkHolder.style.display = "none";
+        cameraField.append(imageLinkHolder)
+
+        const videoLinkHolder = document.createElement("h1");
+        videoLinkHolder.className = "videoLinkHolder";
+        videoLinkHolder.textContent = "video_link";
+        videoLinkHolder.style.display = "none";
+        cameraField.append(videoLinkHolder)
 
         cameraField.addEventListener("resize", () => {
-          imageInput.style.width = holderDIV.clientWidth + "px";
-          imageInput.style.height = holderDIV.clientHeight + "px";
-          imageInput.style.width = holderDIV.clientWidth + "px";
-          imageInput.style.height = holderDIV.clientHeight + "px";
+          videoField.style.width = cameraField.clientWidth + "px";
+          videoField.style.height = cameraField.clientHeight + "px";
         });
 
         function openCam(){
@@ -5995,7 +6248,7 @@ const MidSection = React.forwardRef((props, ref) => {
              video: true
           })
           .then(function(vidStream) {
-             var video = cameraField;
+             var video = videoField;
              if ("srcObject" in video) {
                 video.srcObject = vidStream;
              } else {
@@ -6022,7 +6275,7 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
 
-        imageInput.onclick = (e) => {
+        cameraImageInput.onclick = (e) => {
           e.stopPropagation();
           table_dropdown_focuseddClassMaintain(e);
           if (e.ctrlKey) {
@@ -6033,9 +6286,6 @@ const MidSection = React.forwardRef((props, ref) => {
         };
 
         holderDIV.append(cameraField);
-        holderDIV.append(imageInput);
-        holderDIV.append(cameraIdHolder);
-        holderDIV.append(linkHolder);
       }
 
       else if (typeOfOperation === "TEXT_FILL") {

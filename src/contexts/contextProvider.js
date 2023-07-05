@@ -112,6 +112,30 @@ export const ContextProvider = ({ children }) => {
   //Handling the refreshing for scale
   const [iframeKey, setIframeKey] = useState(0);
 
+  // borderColors and sizes
+  const [borderSize, setBorderSize] = useState(2);
+  const [borderColor, setBorderColor] = useState("gray");
+  const [inputBorderSize, setInputBorderSize] = useState(2);
+  const [inputBorderColor, setInputBorderColor] = useState("gray");
+  const [calendarBorderSize, setCalendarBorderSize] = useState(2);
+  const [calendarBorderColor, setCalendarBorderColor] = useState("gray");
+  const [dropdownBorderSize, setDropdownBorderSize] = useState(2);
+  const [dropdownBorderColor, setDropdownBorderColor] = useState("gray");
+  const [buttonBorderSize, setButtonBorderSize] = useState(2);
+  const [buttonBorderColor, setButtonBorderColor] = useState("gray");
+  const [signBorderSize, setSignBorderSize] = useState(2);
+  const [signBorderColor, setSignBorderColor] = useState("gray");
+  const [tableBorderSize, setTableBorderSize] = useState(2);
+  const [tableBorderColor, setTableBorderColor] = useState("gray");
+  const [iframeBorderSize, setIframeBorderSize] = useState(2);
+  const [iframeBorderColor, setIframeBorderColor] = useState("gray");
+  const [scaleBorderSize, setScaleBorderSize] = useState(2);
+  const [scaleBorderColor, setScaleBorderColor] = useState("gray");
+  const [containerBorderSize, setContainerBorderSize] = useState(2);
+  const [containerBorderColor, setContainerBorderColor] = useState("gray");
+  const [formBorderSize, setFormBorderSize] = useState(2);
+  const [formBorderColor, setFormBorderColor] = useState("gray");
+
   //Company id
   const [companyId, setCompanyId] = useState("");
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -1038,10 +1062,52 @@ export const ContextProvider = ({ children }) => {
         setCustomId,
         iframek,
         setIframek,
-        iframeKey, 
+        iframeKey,
         setIframeKey,
-        isDataSaved, 
-        setIsDataSaved
+        borderSize,
+        setBorderSize,
+        borderColor,
+        setBorderColor,
+        inputBorderColor,
+        setInputBorderColor,
+        inputBorderSize,
+        setInputBorderSize,
+        calendarBorderSize,
+        setCalendarBorderSize,
+        calendarBorderColor,
+        setCalendarBorderColor,
+        buttonBorderSize,
+        setButtonBorderSize,
+        dropdownBorderColor,
+        setDropdownBorderColor,
+        dropdownBorderSize,
+        setDropdownBorderSize,
+        buttonBorderColor,
+        setButtonBorderColor,
+        signBorderSize,
+        setSignBorderSize,
+        signBorderColor,
+        setSignBorderColor,
+        tableBorderSize,
+        setTableBorderSize,
+        tableBorderColor,
+        setTableBorderColor,
+        iframeBorderSize,
+        setIframeBorderSize,
+        iframeBorderColor,
+        setIframeBorderColor,
+        scaleBorderSize,
+        setScaleBorderSize,
+        scaleBorderColor,
+        setScaleBorderColor,
+        containerBorderSize, 
+        setContainerBorderSize,
+        containerBorderColor,
+        setContainerBorderColor,
+        formBorderSize, 
+        setFormBorderSize,
+        formBorderColor,
+        setFormBorderColor
       }}
     >
       {children}

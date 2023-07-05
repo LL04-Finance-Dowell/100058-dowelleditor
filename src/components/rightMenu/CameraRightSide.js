@@ -7,9 +7,9 @@ function CameraRightSide() {
   let mediaRecorder
   const snap = () =>{
     let camera = document.querySelector(".focussedd");
-    let canvas = camera?.querySelector(".imageInput")
+    let canvas = camera?.querySelector(".cameraImageInput")
     let video = camera?.querySelector(".videoInput")
-    let linkHolder = camera?.querySelector(".link_holder")
+    let imageHolder = camera?.querySelector(".imageHolder")
     canvas.style.display = "block"
     canvas.style.width = "100%"
     canvas.style.height = "100%"
@@ -21,7 +21,7 @@ function CameraRightSide() {
     const tracks = mediaStream.getTracks()
     tracks[0].stop()
     video.remove()
-    let dataURI = canvas.toDataURL("image/jpeg", 98)
+    let dataURI = canvas.toDataURL("image/jpeg")
     let urlToFile = (url) =>{
       let arr = url.split(",")
       let mime = arr[0].match(/:(.*?);/)[1]
@@ -32,21 +32,30 @@ function CameraRightSide() {
       while(n--){
         dataArr[n] = dataStr.charCodeAt(n)
       }
-      let file = new File([dataArr], 'image.jpg', {type: mime})
+      let file = new File([dataArr], 'myPic9.jpg', {type: mime})
       console.log(file)
       return file
-      //console.log(mime)
       //console.log(data)
     }
+
     let imageFile = urlToFile(dataURI)
-    console.log(imageFile.name)
     const formData = new FormData()
     formData.append('image', imageFile)
-    console.log(linkHolder)
     Axios.post("http://67.217.61.253/uploadfiles/upload-image-to-drive/",
     formData).then((res)=>{
       console.log(res)
       console.log(res.data.file_url)
+      canvas.remove()
+      imageHolder.src = `${res.data.file_url}`
+      imageHolder.style.display = "block"
+      imageHolder.style.width = "100%"
+      imageHolder.style.height = "100%"
+      const imageLink = res.data.file_url
+      if (imageLink.length) {
+        let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
+        imageLinkHolder.textContent = res.data.file_url
+        console.log(imageLinkHolder)
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -64,6 +73,8 @@ function CameraRightSide() {
         recordBtn.textContent = 'Record';
         stopRecording();
         break;
+      default:
+        return ""
     }
   }
 
@@ -81,29 +92,31 @@ function CameraRightSide() {
   const recordVideo = (event) => {
     let camera = document.querySelector(".focussedd");
     let video = camera?.querySelector(".videoInput")
+    let videoLinkHolder = camera?.querySelector(".videoLinkHolder")
     if(event.data && event.data.size > 0) {
       video.srcObject = null
       let vidUrl = event.data
-      var reader = new FileReader();
-      reader.readAsDataURL(vidUrl); 
-      reader.onloadend = function() {
-      var base64data = reader.result;                
-      video.src = base64data
-      console.log(video.src)
-      let name = "myVid"
-      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/", {
-        'video_data': base64data,
-        'name': name
-      }
+      let file = new File([vidUrl], 'video.mp4', {type: 'video/webm;codecs=vp9,opus'})
+      console.log(file)
+      const formData = new FormData()
+      formData.append('video', file)
+      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/", 
+      formData
        ).then((res)=>{
       console.log(res)
       console.log(res.data.file_url)
+      videoLinkHolder.textContent = res.data.file_url
+      video.src = ""
+      video.src = res.data.file_url
+      if (videoLinkHolder) {
+        videoLinkHolder.textContent = res.data.file_url
+      }
+      console.log(videoLinkHolder)
     })
     .catch((err) => {
       console.log(err);
     });
-      }
-    }
+  }
   }
 
   const stopRecording = () => {
@@ -113,6 +126,13 @@ function CameraRightSide() {
     const mediaStream = video.srcObject
     const tracks = mediaStream.getTracks()
     tracks[0].stop()
+  }
+
+  function removeCamera() {
+    const focusseddElmnt = document.querySelector(".focussedd");
+    if (focusseddElmnt.classList.contains("holderDIV")) {
+      document.querySelector(".focussedd").remove();
+    }
   }
 
   return (
@@ -130,10 +150,18 @@ function CameraRightSide() {
                 id="recordBtn"
                 variant="primary"
                 className="px-5"
-                style={{ marginRight: "" }}
+                style={{ marginBottom: "30px"  }}
                 onClick={handleRecord}
               >
                 Record
+              </Button>
+              <Button
+                variant="secondary"
+                // className="remove_button"
+                className="remove_button"
+                onClick={removeCamera}
+              >
+                Remove Camera
               </Button>
               </div>
     </div>

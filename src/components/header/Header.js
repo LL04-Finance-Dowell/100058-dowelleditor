@@ -64,6 +64,8 @@ const Header = () => {
     setItem,
     isLoading,
     setIsLoading,
+    isDataSaved,
+    setIsDataSaved,
     isFlipClicked,
     setIsFlipClicked,
     fetchedData,
@@ -95,11 +97,630 @@ const Header = () => {
     buttonLink,
     buttonPurpose,
     setCustomId,
-    isDataSaved, 
-    setIsDataSaved,
+    focuseddClassMaintain,
+    handleClicked,
+    setSidebar,
+    borderSize,
+    setBorderSize,
+    borderColor,
+    setBorderColor,
+    inputBorderSize,
+    setInputBorderSize,
+    inputBorderColor,
+    setInputBorderColor,
+    calendarBorderSize,
+    setCalendarBorderSize,
+    calendarBorderColor,
+    setCalendarBorderColor,
+    dropdownBorderSize,
+    setDropdownBorderSize,
+    dropdownBorderColor,
+    setDropdownBorderColor,
+    buttonBorderSize,
+    setButtonBorderSize,
+    buttonBorderColor,
+    setButtonBorderColor,
+    signBorderSize,
+    setSignBorderSize,
+    signBorderColor,
+    setSignBorderColor,
+    tableBorderSize,
+    setTableBorderSize,
+    tableBorderColor,
+    setTableBorderColor,
+    iframeBorderSize,
+    setIframeBorderSize,
+    iframeBorderColor,
+    setIframeBorderColor,
+    scaleBorderSize,
+    setScaleBorderSize,
+    scaleBorderColor,
+    setScaleBorderColor,
+    containerBorderSize,
+    setContainerBorderSize,
+    containerBorderColor,
+    setContainerBorderColor
+
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
+  // const [cutItem_value, setCutItem_value] = useState(null);
+
+
+  // function getHolderDIV(measure, i, idMatch) {
+  //   //console.log("from holder div", i);
+  //   //creating holder for every input field over the page
+  //   const holderDIV = document.createElement("div");
+  //   // holderDIV.style.border = '1px dotted rgb(255 191 0)';
+  //   holderDIV.style.position = "absolute";
+  //   holderDIV.style.overflow = "visible";
+  //   holderDIV.style.display = "flex";
+  //   holderDIV.style.cursor = "move";
+  //   holderDIV.style.zIndex = 1;
+  //   holderDIV.className = "holderDIV";
+  //   holderDIV.setAttribute("id", "holderId");
+  //   holderDIV.setAttribute("draggable", true);
+  //   holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
+  //   holderDIV.style.display = "flex";
+  //   holderDIV.style.flexDirection = "column";
+  //   // holderDIV.style.border = "2px dotted gray";
+  //   holderDIV.tabIndex = "1";
+  //   // //console.log("measure", measure);
+  //   holderDIV.style.width = measure.width;
+  //   holderDIV.style.height = measure.height;
+  //   holderDIV.style.left = measure.left;
+  //   holderDIV.style.top = measure.top;
+  //   holderDIV.classList.add(`page_${i}`);
+  //   //console.log(idMatch);
+  //   if (idMatch?.length > 0) {
+  //     holderDIV.classList.add(`enable_pointer_event`);
+  //     holderDIV.style.border = "1px solid green !important";
+  //   } else if (idMatch?.length < 1 && actionName == "document") {
+  //     holderDIV.classList.add(`dotted_border`);
+  //     holderDIV.classList.add(`disable_pointer_event`);
+  //   } else {
+  //     holderDIV.classList.add(`dotted_border`);
+  //   }
+
+  //   holderDIV.addEventListener("dragstart", (event) => {
+  //     console.log("dragStart fun called");
+  //   });
+  //   holderDIV.ondragstart = (e) => {
+  //     console.log("dragStart fun called");
+  //   };
+  //   //Putting resize button on holder
+
+  //   const resizerTL = getResizer("top", "left");
+  //   const resizerTR = getResizer("top", "right");
+  //   const resizerBL = getResizer("bottom", "left");
+  //   const resizerBR = getResizer("bottom", "right");
+  //   const holderMenu = getHolderMenu(measure.auth_user);
+
+  //   // const isTemplate = JSON.parse(document.getElementById('template'));
+  //   // const currUser = JSON.parse(document.getElementById('curr_user'));
+
+  //   // if (isTemplate) {
+  //   //   holderDIV.style.border = '1px dotted rgb(255 191 0)';
+  //   //              const resizerTL = getResizer('top', 'left');
+  //   // const resizerTR = getResizer('top', 'right');
+  //   // const resizerBL = getResizer('bottom', 'left');
+  //   // const resizerBR = getResizer('bottom', 'right');
+
+  //   holderDIV.onmousedown = holderDIV.addEventListener(
+  //     "mousedown",
+  //     (event) => {
+  //       dragElementOverPage(event);
+  //     },
+  //     false
+  //   );
+
+  //   holderDIV.onresize = (evntt) => {
+  //     //console.log("Holder resized");
+  //   };
+  //   // }
+
+  //   // holderDIV.style.border = "2px dotted gray";
+
+  //   holderDIV.addEventListener("focus", function (e) {
+  //     // holderDIV.classList.add("focussedd");
+  //     holderDIV.classList.add("zIndex-two");
+  //     holderDIV.style.border = "2px solid orange";
+  //     // holderDIV.append(holderMenu);
+
+  //     holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
+  //   });
+
+  //   // holderDIV.addEventListener("click", function (e) {
+  //   //   let allDiv = document.getElementsByClassName("focussedd");
+  //   //   for (let i = 0; i < allDiv.length; i++) {
+  //   //     allDiv[i].classList.remove("focussedd");
+  //   //   }
+  //   //   e.target.parentElement.classList.add("focussedd");
+  //   // });
+  //   holderDIV.addEventListener("focusout", function (e) {
+  //     // holderDIV.classList.remove("focussedd");
+  //     // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
+  //     //   holderDIV.style.border = "3px dotted gray";
+
+  //     // }
+  //     holderDIV.classList.remove("zIndex-two");
+  //     holderDIV.style.border = "3px dotted gray";
+
+  //     holderMenu.remove();
+  //     resizerTL.remove();
+  //     resizerTR.remove();
+  //     resizerBL.remove();
+  //     resizerBR.remove();
+  //   });
+
+  //   // if (!isTemplate) {
+  //   //   if (currUser == measure.auth_user) {
+  //   //     //console.log("They are equal");
+  //   //     //console.log(measure.auth_user);
+  //   //     //console.log(currUser);
+
+  //   //   }
+
+  //   // }
+
+  //   return holderDIV;
+  // }
+
+  // let resizing = false;
+
+  // function getResizer(attr1, attr2) {
+  //   const resizer = document.createElement("span");
+  //   resizer.style.width = "5px";
+  //   resizer.style.height = "5px";
+  //   resizer.style.display = "block";
+  //   resizer.className = "resizeBtn";
+  //   resizer.style.position = "absolute";
+  //   resizer.style.backgroundColor = "#00aaff";
+
+  //   if (attr1 === "top") {
+  //     resizer.style.top = "-5px";
+  //   } else {
+  //     resizer.style.bottom = "-5px";
+  //   }
+
+  //   if (attr2 === "left") {
+  //     resizer.style.left = "-5px";
+  //   } else {
+  //     resizer.style.right = "-5px";
+  //   }
+
+  //   if (
+  //     (attr1 == "top" && attr2 === "right") ||
+  //     (attr1 == "bottom" && attr2 === "left")
+  //   ) {
+  //     resizer.onmouseover = (event) => {
+  //       event.target.style.cursor = "nesw-resize";
+  //     };
+  //   } else {
+  //     resizer.onmouseover = (event) => {
+  //       event.target.style.cursor = "nwse-resize";
+  //     };
+  //   }
+
+  //   resizer.onmousedown = (event) => {
+  //     let initX = event.screenX;
+  //     let initY = event.screenY;
+  //     resizing = true;
+  //     event.preventDefault();
+
+  //     const holder = event.target.parentNode;
+
+  //     const holderSize = (function () {
+  //       const holderSize = {
+  //         width:
+  //           decoded.details.flag === "editing" ? holder.offsetWidth : undefined,
+  //         height:
+  //           decoded.details.flag === "editing"
+  //             ? holder.offsetHeight
+  //             : undefined,
+  //         top:
+  //           decoded.details.flag === "editing" ? holder.offsetTop : undefined,
+  //         left:
+  //           decoded.details.flag === "editing" ? holder.offsetLeft : undefined,
+
+  //         // width: parseInt(holder.style.width.slice(0, -2)),
+  //         // height: parseInt(holder.style.height.slice(0, -2)),
+  //         // top: parseInt(holder.style.top.slice(0, -2)),
+  //         // left: parseInt(holder.style.left.slice(0, -2))//elemLeft : 0
+  //       };
+  //       return Object.seal(holderSize);
+  //     })();
+
+  //     window.addEventListener("mousemove", resizeElement);
+  //     function resizeElement(ev) {
+  //       const el = document.getElementById("midSection_container");
+  //       const midsectionRect = el.getBoundingClientRect();
+  //       if (
+  //         ev.screenX > midsectionRect.left &&
+  //         ev.screenY > midsectionRect.top &&
+  //         ev.screenX < midsectionRect.right
+  //       ) {
+  //         if (attr1 == "bottom" && attr2 == "right") {
+  //           holder.style.width = ev.screenX - initX + holderSize.width + "px";
+  //           holder.style.height = ev.screenY - initY + holderSize.height + "px";
+  //         } else if (attr1 == "bottom" && attr2 == "left") {
+  //           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+  //           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+  //           holder.style.height = ev.screenY - initY + holderSize.height + "px";
+  //         } else if (attr1 == "top" && attr2 == "left") {
+  //           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+  //           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+  //           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+  //           holder.style.height =
+  //             holderSize.height - (ev.screenY - initY) + "px";
+  //         } else if (attr1 == "top" && attr2 == "right") {
+  //           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+  //           holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
+  //           holder.style.height =
+  //             holderSize.height - (ev.screenY - initY) + "px";
+  //         }
+  //       }
+  //     }
+
+  //     window.addEventListener("mouseup", stopResizing);
+  //     function stopResizing(ev) {
+  //       window.removeEventListener("mousemove", resizeElement);
+  //       window.removeEventListener("mouseup", stopResizing);
+  //       resizing = false;
+  //     }
+  //   };
+
+  //   return resizer;
+  // }
+
+
+  // const dragElementOverPage = (event) => {
+  //   let holder;
+  //   // console.log("dragElement", event.target);
+  //   // event.dataTransfer.setData("text/plain", "DATE_INPUT");
+  //   if (!resizing) {
+  //     let initX = event.screenX;
+  //     let initY = event.screenY;
+
+  //     // console.log("initX ", initX, "initY ", initY);
+  //     /* Ensure That target has changed */
+  //     var counterCheck = true;
+  //     var tempTarget = event.target;
+  //     var hitTarget = "";
+  //     while (counterCheck) {
+  //       // if(tempTarget.className === 'holderDIV'){
+  //       if (tempTarget.classList.contains("holderDIV")) {
+  //         hitTarget = tempTarget;
+  //         counterCheck = false;
+  //       } else if (tempTarget.classList.contains("textInput")) {
+  //         hitTarget = null;
+  //         counterCheck = false;
+  //       }
+  //       tempTarget = tempTarget?.parentNode;
+  //     }
+
+  //     holder = hitTarget;
+  //     const holderPos = (function () {
+  //       const holderPos = {
+  //         // top:
+  //         //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+  //         // left:
+  //         //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+  //         top: parseInt(holder?.style.top.slice(0, -2)),
+  //         left: parseInt(holder?.style.left.slice(0, -2)),
+  //       };
+  //       return Object.seal(holderPos);
+  //     })();
+  //     // holder.ondragstart = (e) => {
+  //     //   console.log("i am dragged", e.target);
+  //     // };
+  //     // code for conatainer element move start
+  //     let holderParentHolder = "";
+  //     let holderParentHolderRect = "";
+  //     let hodlerRect = "";
+  //     if (holder?.parentElement.classList.contains("containerInput")) {
+  //       holderParentHolder = holder?.parentElement?.parentElement;
+  //     }
+  //     if (holderParentHolder) {
+  //       holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+  //     }
+  //     hodlerRect = holder?.getBoundingClientRect();
+  //     // code for container element move end
+  //     // console.log("finding moveable element", holderPos);
+
+  //     window.addEventListener("mousemove", moveObject);
+  //     function moveObject(ev) {
+  //       //console.log(ev);
+  //       ev.preventDefault();
+  //       const el = document.getElementById("midSection_container");
+  //       const midsectionRect = el.getBoundingClientRect();
+  //       //console.log(
+  //       //   midsectionRect.left,
+  //       //   midsectionRect.top,
+  //       //   midsectionRect.right
+  //       // );
+  //       //  screenX: 531, screenY: 175, clientX: 531, Top-left
+  //       //  screenX: 1061, screenY: 154, Top right
+
+  //       // console.log("midsectionRect", midsectionRect);
+  //       // const eventClientX = ev.clientX;
+  //       const elemtnMeasureX =
+  //         ev.screenX + holderPos.left + hodlerRect.width - initX;
+  //       const elmentMeasureY =
+  //         ev.screenY + holderPos.top + hodlerRect.height - initY;
+  //       // if (
+  //       //   ev.screenX > holderParentHolderRect.left &&
+  //       //   ev.screenY > holderParentHolderRect.top &&
+  //       //   ev.screenX < holderParentHolderRect.right
+  //       // ) {
+  //       if (holder?.parentElement.classList.contains("containerInput")) {
+  //         if (
+  //           holderParentHolderRect.width > elemtnMeasureX + 5 &&
+  //           // holderParentHolderRect.left + 20 < elemtnMeasureX &&
+  //           ev.screenX + holderPos.left - initX > 0 &&
+  //           holderParentHolderRect.height > elmentMeasureY + 5 &&
+  //           // holderParentHolderRect.top - 50 < elmentMeasureY
+  //           ev.screenY + holderPos.top - initY > 0
+  //         ) {
+  //           //console.log("checking motion");
+  //           const diffX = ev.screenX - initX;
+  //           const diffY = ev.screenY - initY;
+  //           holder.style.top = holderPos.top + diffY + "px";
+  //           holder.style.left = holderPos.left + diffX + "px";
+  //         } else {
+  //           holder.style.top = holderPos.top + "px";
+  //           holder.style.left = holderPos.left + "px";
+  //         }
+  //       } else {
+  //         // if (
+  //         //   ev.screenX > midsectionRect.left &&
+  //         //   ev.screenY > midsectionRect.top &&
+  //         //   ev.screenX < midsectionRect.right
+  //         // ) {
+
+  //         if (
+  //           midsectionRect.width > elemtnMeasureX + 5 &&
+  //           ev.screenX + holderPos.left - initX > 0 &&
+  //           midsectionRect.height > elmentMeasureY + 5 &&
+  //           // midsectionRect.top - 50 < elmentMeasureY
+  //           ev.screenY + holderPos.top - initY > 0
+  //         ) {
+  //           //console.log("checking motion");
+  //           const diffX = ev.screenX - initX;
+  //           const diffY = ev.screenY - initY;
+  //           holder.style.top = holderPos.top + diffY + "px";
+  //           holder.style.left = holderPos.left + diffX + "px";
+  //         } else {
+  //           holder.style.top = holderPos.top + "px";
+  //           holder.style.left = holderPos.left + "px";
+  //         }
+  //       }
+  //     }
+
+  //     window.addEventListener("mouseup", stopMove);
+  //     function stopMove(ev) {
+  //       window.removeEventListener("mousemove", moveObject);
+  //       window.removeEventListener("mouseup", stopMove);
+  //     }
+  //   }
+  // };
+
+
+  // function getHolderMenu(auth_user) {
+  //   //putting functional menu on holder
+
+  //   const HMContainer = document.createElement("div");
+
+  //   HMContainer.style.height = "100%";
+  //   HMContainer.style.padding = "5px";
+  //   HMContainer.style.display = "flex";
+  //   HMContainer.style.alignItems = "center";
+  //   HMContainer.style.justifyContent = "center";
+  //   HMContainer.style.backgroundColor = "rgb(129 129 129 / 50%)";
+
+  //   // HMContainer.append(getSelectOptionsField(auth_user));
+
+  //   // if (isTemplate) {
+  //   //     HMContainer.append(getDeleteBtn());
+  //   // }
+
+  //   const holderMenu = document.createElement("div");
+  //   holderMenu.className = "holder-menu";
+  //   holderMenu.style.height = "35px";
+  //   holderMenu.style.display = "flex";
+  //   holderMenu.style.justifyContent = "center";
+  //   holderMenu.style.width = "100%";
+  //   holderMenu.style.borderRadius = "0%";
+  //   holderMenu.style.position = "absolute";
+  //   holderMenu.style.right = "0px";
+  //   holderMenu.style.top = "-40px";
+
+  //   holderMenu.append(HMContainer);
+  //   //holderMenu.style.transform = 'translateX(-50%)';
+
+  //   return holderMenu;
+  // }
+
+
+
+
+
+  // const copyInput = (clickHandler) => {
+  //   // if (typeOfOperation === "IMAGE_INPUT") {
+  //   const element = document.querySelector(".focussedd");
+  //   // console.log("copy_element", element);
+  //   let counter = 1;
+  //   const copyEle = element.cloneNode(true);
+  //   const rect = element.getBoundingClientRect();
+  //   // console.log("rect from midsection", rect);
+  //   const copyEleTop =
+  //     parseInt(copyEle.style.top.slice(0, -2)) +
+  //     parseInt(rect.height) +
+  //     20 +
+  //     "px";
+  //   // console.log("clickHandler", clickHandler);
+  //   // parseInt(holder.style.top.slice(0, -2))
+  //   copyEle.classList.remove("focussedd");
+  //   copyEle.firstChild.classList.remove("focussed");
+  //   // copyEle.classList.add("imageInput")
+  //   // console.log(copyEleTop)
+  //   copyEle.onfocus = () => {
+  //     copyEle.style.border = "1px solid rgb(255 191 0)";
+  //   };
+  //   copyEle.onblur = () => {
+  //     copyEle.style.border = "3px dotted gray";
+  //   };
+  //   if (copyEle) {
+  //     copyEle.style.top = copyEleTop;
+  //     copyEle.style.border = "3px dotted gray";
+  //     copyEle.classList.remove("resizeBtn");
+
+  //     copyEle.onmousedown = copyEle.addEventListener(
+  //       "mousedown",
+  //       (event) => {
+  //         dragElementOverPage(event);
+  //       },
+  //       false
+  //     );
+
+  //     // trying to remove resize btn
+
+  //     const resizeTags = copyEle.getElementsByClassName("resizeBtn");
+  //     while (resizeTags.length > 0) {
+  //       console.log("resizeTags", resizeTags[0]);
+  //       resizeTags[0].remove();
+  //     }
+
+  //     const resizerTL = getResizer("top", "left");
+  //     const resizerTR = getResizer("top", "right");
+  //     const resizerBL = getResizer("bottom", "left");
+  //     const resizerBR = getResizer("bottom", "right");
+  //     // parseInt(holder.style.top.slice(0, -2))
+
+  //     copyEle.addEventListener("focus", function (e) {
+  //       copyEle.style.border = "2px solid orange";
+  //       // holderDIV.append(holderMenu);
+
+  //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+  //     });
+  //     copyEle.addEventListener("focusout", function (e) {
+  //       copyEle.classList.remove("zIndex-two");
+  //       copyEle.style.border = "3px dotted gray";
+
+  //       // holderMenu.remove();
+  //       resizerTL.remove();
+  //       resizerTR.remove();
+  //       resizerBL.remove();
+  //       resizerBR.remove();
+  //     });
+  //     copyEle.addEventListener("click", (e) => {
+  //       e.stopPropagation();
+  //       focuseddClassMaintain(e);
+  //       console.log("find classlist", e.target.classList[0]);
+  //       if (
+  //         e.target?.parentElement?.parentElement.classList.contains(
+  //           "containerInput"
+  //         )
+  //       ) {
+  //         //
+  //         let type = "";
+  //         const containerClassName = e.target.classList[0];
+  //         switch (containerClassName) {
+  //           case "dateInput":
+  //             type = "calendar2";
+  //             break;
+  //           case "textInput":
+  //             type = "align2";
+  //             break;
+  //           case "imageInput":
+  //             type = "image2";
+  //             break;
+  //           case "signInput":
+  //             type = "signs2";
+  //             break;
+  //           case "iframeInput":
+  //             type = "iframe2";
+  //             break;
+  //           case "scaleInput":
+  //             type = "scale2";
+  //             break;
+  //           case "buttonInput":
+  //             type = "button2";
+  //             break;
+  //           case "dropdownInput":
+  //             type = "dropdown2";
+  //             break;
+  //           case "emailButton":
+  //             type = "email2";
+  //             break;
+  //           default:
+  //             type = "";
+  //         }
+  //         //
+  //         handleClicked(type, "container2");
+  //         console.log("inside if", type);
+  //       } else {
+  //         handleClicked(clickHandler);
+  //       }
+
+  //       setSidebar(true);
+  //     });
+  //   }
+
+  //   // console.log(copyEle);
+  //   // let midSec = document.querySelector(".drop_zone");
+  //   let midSec = null;
+
+  //   if (!midSec) {
+  //     let targetParent = element;
+  //     while (1) {
+  //       if (
+  //         targetParent.classList.contains("containerInput") ||
+  //         targetParent.classList.contains("midSection_container")
+  //       ) {
+  //         targetParent = targetParent;
+  //         break;
+  //       } else {
+  //         targetParent = targetParent.parentElement;
+  //         midSec = targetParent;
+  //       }
+  //     }
+  //   }
+  //   // console.log("mid sec", midSec)
+  //   copyEle.id += counter;
+  //   if (
+  //     parseInt(copyEle.style.top.slice(0, -2)) +
+  //       parseInt(rect.height) +
+  //       parseInt(rect.height) +
+  //       20 <
+  //     1122
+  //   ) {
+  //     midSec.appendChild(copyEle);
+  //   }
+
+  //   copyEle.onclick = (clickHandler2) => {
+  //     if (clickHandler2.ctrlKey) {
+  //       copyInput(clickHandler);
+  //     }
+  //   };
+  // };
+
+
+  // function getOffset(el) {
+  //   const parent = document.getElementById("midSection_container");
+  //   const parentPos = parent.getBoundingClientRect();
+  //   const rect = el.getBoundingClientRect();
+
+  //   return {
+  //     top: rect.top - parentPos.top,
+  //     left: rect.left - parentPos.left,
+  //     bottom: rect.bottom - parentPos.top,
+  //     right: rect.right - parentPos.left,
+  //     // left: rect.left + window.scrollX,
+  //     // top: rect.top + window.scrollY
+  //   };
+  // }
+
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -110,21 +731,79 @@ const Header = () => {
   const handleRedo = () => {
     document.execCommand("redo");
   };
-  const handleCut = () => {
-    // document.querySelector(".focussedd").remove();
-    // if (handleCut == true) {
-    const cutEle = document.querySelector(".focussedd");
-    console.log("cutEle", cutEle);
+  // const handleCut = (e) => {
+  //   const cutItem = document.querySelector(".focussedd");
+  //   const cutEle = cutItem.cloneNode(true);
 
-    // cutEle.select()
-    document.execCommand("cut");
-    cutEle.style.display = "none";
-    console.log("cutEle after", cutEle);
-    // }
-    // if(onclick = () => handlePaste) {
-    //   cutEle.style.display = "inline"
-    // }
-  };
+  //   function getPosition(el) {
+  //     console.log("element check", el);
+  //     const midSec = document.getElementById("midSection_container");
+  //     const rect = el.getBoundingClientRect();
+  //     const midsectionRect = midSec.getBoundingClientRect();
+  //     return {
+  //       top:
+  //         rect.top > 0
+  //           ? Math.abs(midsectionRect.top)
+  //           : rect.top - midsectionRect.top,
+  //       left: rect.left - midsectionRect.left,
+  //       bottom: rect.bottom,
+  //       right: rect.right,
+  //       width: rect.width,
+  //       height: rect.height,
+  //     };
+  //   }
+
+  //   let tempPosn = getPosition(cutEle);
+  //   const find_class_name = cutEle.firstElementChild?.className.split(" ")[0];
+  //   let type = "";
+  //   // console.log("containerChildClassName", containerChildClassName);
+  //   switch (find_class_name) {
+  //     case "dateInput":
+  //       type = "DATE_INPUT";
+  //       break;
+  //     case "textInput":
+  //       type = "TEXT_INPUT";
+  //       break;
+  //     case "imageInput":
+  //       type = "IMAGE_INPUT";
+  //       break;
+  //     case "signInput":
+  //       type = "SIGN_INPUT";
+  //       break;
+  //     case "iframeInput":
+  //       type = "IFRAME_INPUT";
+  //       break;
+  //     case "scaleInput":
+  //       type = "SCALE_INPUT";
+  //       break;
+  //     case "buttonInput":
+  //       type = "BUTTON_INPUT";
+  //       break;
+  //     case "dropdownInput":
+  //       type = "DROPDOWN_INPUT";
+  //       break;
+  //     case "containerInput":
+  //       type = "CONTAINER_INPUT";
+  //       break;
+  //     default:
+  //       type = "";
+  //   }
+
+  //   elem = {
+  //     width: cutEle.style.width,
+  //     height: cutEle.style.height,
+  //     top: cutEle.style.top,
+  //     topp: cutEle.style.top,
+  //     left: cutEle.style.left,
+  //     type: type,
+  //     data: cutEle.firstChild.innerHTML,
+  //     data2: cutEle.firstChild.outerHTML,
+  //     // id: `d${h + 1}`,
+  //   };
+  //   setCutItem_value(e.target)
+  //   sessionStorage.setItem("cutItem", JSON.stringify(elem));
+  //   cutItem.remove();
+  // };
   const handleCopy = () => {
     // const element = document.querySelector(".focussedd");
     // // console.log(element);
@@ -135,16 +814,102 @@ const Header = () => {
     // holderDIV.appendChild(copyEle);
     // console.log("coping", copyEle)
   };
-  const handlePaste = () => {
-    // document.execCommand("paste");
-    const cutEle = document.querySelector(".focussedd");
-    //  cutEle.style.display = "inline"
-    navigator.clipboard.readText().then((clipEle) => {
-      const add = `${cutEle + " " + clipEle}`.toString();
-      console.log("add", add);
-      return add;
-    });
-  };
+  // const handlePaste = () => {
+
+
+
+  //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
+  //   const curr_user = document.getElementById("current-user");
+
+  //   const measure = {
+  //     // top: `${contextMenu.y}px`,
+  //     // left: `${contextMenu.x}px`,
+  //     width: element.width,
+  //     height: element.height,
+  //     left: element.left,
+  //     top: element.topp,
+  //     // auth_user: curr_user,
+  //   };
+
+  //   const holderDIV = getHolderDIV(measure);
+
+  //   // if (sessionStorage.getItem("cutItem")) {
+  //   //   // console.log("getting item now....j")
+  //   //   if(element.type === "TEXT_INPUT") {
+  //   //     let inputField = document.createElement("div");
+  //   //     //  inputField.setAttribute('draggable', true);
+  //   //     inputField.setAttribute("contenteditable", true);
+  //   //     inputField.className = "textInput";
+  //   //     inputField.innerHTML = "Enter text here";
+  //   //     inputField.style.width = "100%";
+  //   //     inputField.style.height = "100%";
+  //   //     inputField.style.resize = "none";
+  //   //     inputField.style.backgroundColor = "#0000";
+  //   //     inputField.style.borderRadius = "0px";
+  //   //     inputField.style.outline = "0px";
+  //   //     inputField.style.overflow = "overlay";
+  //   //     inputField.style.position = "relative";
+  //   //     inputField.style.cursor = "text";
+
+  //   //     const txt = document.getElementsByClassName("textInput");
+  //   //     if (txt.length) {
+  //   //       const h = txt.length;
+  //   //       inputField.id = `t${h + 1}`;
+  //   //     } else {
+  //   //       inputField.id = "t1";
+  //   //     }
+  //   //     // inputField.innerText = `${postData.editTextField.value}`
+
+  //   //     // inputField.oninput = (event) => {
+  //   //     //   event.preventDefault();
+  //   //     if (inputField.innerHTML[0]) {
+  //   //       const editTextField = {
+  //   //         editTextField: {
+  //   //           value: inputField.innerHTML,
+  //   //           xcoordinate: getOffset(holderDIV).left,
+  //   //           ycoordinate: getOffset(holderDIV).top,
+  //   //         },
+  //   //       };
+
+  //   //       // postData.push(editTextField);
+  //   //       // setPostData({
+  //   //       //   ...postData,
+  //   //       //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+  //   //       // })
+  //   //     }
+
+  //   //     if (inputField.value !== "") {
+  //   //       // setPostData({
+  //   //       //   ...postData,
+  //   //       //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+  //   //       // })
+  //   //     }
+
+  //   //     inputField.onclick = (e) => {
+  //   //       e.stopPropagation();
+  //   //       focuseddClassMaintain(e);
+  //   //       if (e.ctrlKey) {
+  //   //         copyInput("align2");
+  //   //       }
+  //   //       handleClicked("align2", "container2");
+  //   //       setSidebar(true);
+  //   //       // holderDIV.classList.add('focussedd')
+  //   //       // inputField.classList.add("focussed");
+  //   //       // inputField.parentElement.focus()
+  //   //     };
+  //   //     inputField.innerText = `${element.data}`
+
+
+
+
+  //   //     holderDIV.append(inputField);
+  //   //     cutItem_value.append(holderDIV);
+  //   //     sessionStorage.clear()
+  //   //   }
+  //   // }
+
+
+  // };
   const handleTitle = () => {
     const divElement = inputRef.current;
     divElement.focus();
@@ -321,6 +1086,8 @@ const Header = () => {
             left: tempPosn.left,
             type: "TEXT_INPUT",
             data: txt[h].innerText,
+            border: `${inputBorderSize} dotted ${inputBorderColor}`,
+            borderWidths: txt[h].parentElement.style.border,
             raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
@@ -373,6 +1140,8 @@ const Header = () => {
             ? img[h].style.backgroundImage
             : img[h].innerText;
           console.log("dataName", dataName);
+          // const box = document.getElementsByClassName("focussedd")[0];
+          // box.style.borderWidth = `${borderSize}px`;
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -381,6 +1150,7 @@ const Header = () => {
             left: tempPosn.left,
             type: "IMAGE_INPUT",
             data: dataName,
+            borderWidth: `${borderSize}px dotted ${borderColor}`,
             id: `i${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -410,6 +1180,8 @@ const Header = () => {
             topp: date[h].parentElement.style.top,
             left: tempPosn.left,
             type: "DATE_INPUT",
+            border: `${calendarBorderSize} dotted ${calendarBorderColor}`,
+            calBorder: date[h].parentElement.style.border,
             data: date[h].innerHTML,
             id: `d${h + 1}`,
           };
@@ -440,10 +1212,12 @@ const Header = () => {
             topp: sign[h].parentElement.style.top,
             left: tempPosn.left,
             type: "SIGN_INPUT",
+            border: `${signBorderSize} dotted ${signBorderColor}`,
+            signBorder: sign[h].parentElement.style.border,
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -495,9 +1269,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -520,6 +1294,8 @@ const Header = () => {
             // start work here
             // data: tables[t].firstElementChild.innerHTML,
             data: getChildData(),
+            border: `${tableBorderSize} dotted ${tableBorderColor}`,
+            tableBorder: tables[t].parentElement.style.border,
             id: `tab${t + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -594,6 +1370,9 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
+                case "cameraInput":
+                  type = "CAMERA_INPUT";
+                  break;
                 default:
                   type = "";
               }
@@ -605,7 +1384,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -665,6 +1444,8 @@ const Header = () => {
             topp: containerElements[h].parentElement.style.top,
             left: tempPosn.left,
             type: "CONTAINER_INPUT",
+            border: `${containerBorderSize} dotted ${containerBorderColor}`,
+            containerBorder: containerElements[h].parentElement.style.border,
             data: getChildData(),
             id: `c${h + 1}`,
           };
@@ -693,6 +1474,8 @@ const Header = () => {
             topp: iframes[i].parentElement.style.top,
             left: tempPosn.left,
             type: "IFRAME_INPUT",
+            border: `${iframeBorderSize} dotted ${iframeBorderColor}`,
+            iframeBorder: iframes[i].parentElement.style.border,
             data: iframes[i].innerText
               ? "iFrame here"
               : iframes[i].firstElementChild.src,
@@ -725,6 +1508,8 @@ const Header = () => {
             topp: scales[s].parentElement.style.top,
             left: tempPosn.left,
             type: "SCALE_INPUT",
+            border: `${scaleBorderSize} dotted ${scaleBorderColor}`,
+            scaleBorder: scales[s].parentElement.style.border,
             data: `${title}_scale_${s + 1}`,
             scale_url: scales[s].firstElementChild.src,
             scaleId: tempElem.children[1].innerHTML,
@@ -817,7 +1602,7 @@ const Header = () => {
       }
     }
 
-    const imageCanva = document.getElementsByClassName("imageInput");
+    const imageCanva = document.getElementsByClassName("cameraInput");
     if (imageCanva.length) {
       for (let b = 0; b < imageCanva.length; b++) {
         if (
@@ -829,34 +1614,26 @@ const Header = () => {
 
           let tempPosn = getPosition(tempElem);
           console.log(imageCanva[b]);
-          let linkHolder = imageCanva[b].querySelector(".link_holder");
-          
+          let imageLinkHolder = imageCanva[b].querySelector(".imageLinkHolder");
+          let videoLinkHolder = imageCanva[b].querySelector(".videoLinkHolder");
 
-          // console.log(buttonColors);
           let properties = {
-            link: linkHolder.textContent,
+            imageLinkHolder: imageLinkHolder.textContent,
+            videoLinkHolder: videoLinkHolder.textContent
           };
           console.log(properties);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
             top: tempPosn.top,
-            topp: newScales[b].parentElement.style.top,
+            topp: imageCanva[b].parentElement.style.top,
             left: tempPosn.left,
             type: "CAMERA_INPUT",
-            data: `${title}_scale_${b + 1}`,
-            // raw_data: tempElem.children[1].innerHTML,
             raw_data: properties,
-            // purpose: tempElem.children[2].innerHTML,
-            id: `scl${b + 1}`,
-            // newScaleId = scale
-            // details:
-            //   decoded.details.action === "document"
-            //     ? "Document instance"
-            //     : "Template scale",
+            id: `cam1${b + 1}`,
           };
           console.log(elem);
-          const pageNum = findPaageNum(newScales[b]);
+          const pageNum = findPaageNum(imageCanva[b]);
           page[0][pageNum].push(elem);
         }
       }
@@ -882,6 +1659,7 @@ const Header = () => {
             topp: buttons[b].parentElement.style.top,
             left: tempPosn.left,
             type: "BUTTON_INPUT",
+            buttonBorder: `${buttonBorderSize}px dotted ${buttonBorderColor}`,
             data: buttons[b].textContent,
             raw_data: tempElem.children[1].innerHTML,
             purpose: tempElem.children[2].innerHTML,
@@ -920,6 +1698,8 @@ const Header = () => {
             topp: dropDowns[d].parentElement.style.top,
             left: tempPosn.left,
             type: "DROPDOWN_INPUT",
+            border: `${dropdownBorderSize} dotted ${dropdownBorderColor}`,
+            dropdownBorder: dropDowns[d].parentElement.style.border,
             data: selectedText,
             data1: dropDowns[d].firstElementChild.innerHTML,
             data2: dropDowns[d].lastElementChild.innerHTML,
@@ -969,9 +1749,11 @@ const Header = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const link_idd = searchParams.get("link_id");
+
   var decoded = jwt_decode(token);
   // console.log(decoded.details);
-  const { action, authorized, process_id, document_map, _id, role } =
+  const { action, authorized, process_id, user_type, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -1064,15 +1846,13 @@ const Header = () => {
       }
     )
       .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          setIsDataSaved(true);
-          // alert("Data saved successfully");
+        if (res) {
           toast.success("Saved successfully");
-          sendMessage();
-          if(finalize){
+          setIsLoading(false);
+          if (finalize) {
             handleFinalize();
           }
+          setIsDataSaved(true);
         }
         //console.log(res);
       })
@@ -1275,13 +2055,16 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  
+  const linkId = decoded.details.link_id
+
   function handleFinalize() {
     setIsLoading(true);
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
+        user_type: user_type,
+        link_id: link_idd,
         action: "finalized",
         // item_id: process_id,
         authorized: authorized,
@@ -1293,7 +2076,7 @@ const Header = () => {
       }
     )
       .then((res) => {
-        console.log(res);
+        console.log("This is my response", res);
         setIsLoading(false);
         toast.success(res?.data);
       })
@@ -1303,7 +2086,7 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
-      
+
   }
 
   function handleReject() {
@@ -1320,6 +2103,8 @@ const Header = () => {
         item_id: _id,
         company_id: companyId,
         role: role,
+        user_type: user_type,
+        link_id: link_idd,
       }
     )
       .then((res) => {
@@ -1353,9 +2138,8 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -1365,9 +2149,8 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -1377,7 +2160,8 @@ const Header = () => {
                     <ImRedo />
                     <p>Redo</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handleCut}>
+                  <div className="d-flex cursor_pointer" onClick={handleUndo}>
+                    {/* handleCut */}
                     <BiCut />
                     <p>Cut</p>
                   </div>
@@ -1385,7 +2169,8 @@ const Header = () => {
                     <BiCopyAlt />
                     <p>Copy</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handlePaste}>
+                  <div className="d-flex cursor_pointer" onClick={handleRedo}>
+                    {/* handlePaste */}
                     <ImPaste />
                     <p>Paste</p>
                   </div>

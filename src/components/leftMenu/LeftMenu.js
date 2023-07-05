@@ -339,12 +339,14 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<IoScale />}
               title="NewScale"
             />
-            <NavButton
+            {
+              <NavButton
               dragStartFunc={dragStartCamera}
               customFunc={() => handleDrop("camera")}
               icon={<FaCamera />}
               title="camera"
-            />: ""
+            />
+            }: ""
            {
            //"}"
           }
