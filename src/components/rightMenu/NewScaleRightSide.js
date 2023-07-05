@@ -147,7 +147,7 @@ const ScaleRightSide = () => {
   const handleFormat = () => {
     const format = document.getElementById("select");
     const selectedValue = format.value;
-    if (selectedValue === "select") {
+    if (selectedValue === "number") {
       document.getElementById("emoji").style.display = "none";
       document.getElementById("image").style.display = "none";
     } else if (selectedValue === "emoji") {
@@ -157,6 +157,53 @@ const ScaleRightSide = () => {
       document.getElementById("image").style.display = "flex";
       document.getElementById("emoji").style.display = "none";
     }
+  };
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const handleImage = (event) => {
+    const files = Array.from(event.target.files);
+
+    const imagePromises = files.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxDimension = 13; // Maximum dimension for the resized image
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            } else if (height > width && height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            } else if (width === height && width > maxDimension) {
+              width = height = maxDimension;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            resolve(canvas.toDataURL());
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(imagePromises)
+    .then((imageData) => {
+      setSelectedImages((prevImages) => [...prevImages, ...imageData]);
+    })
+    .catch((error) => {
+      console.error('Error uploading images:', error);
+    });
   };
 
   const onEmojiClick = (emojiObject) => {
@@ -281,12 +328,16 @@ const ScaleRightSide = () => {
     const font = scale?.querySelector(".newScaleInput");
     console.log(font);
     console.log(button4);
-    const buttonCircle = scale?.querySelectorAll(".circle_label");
+    const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
+    const buttonImage = scale?.querySelectorAll(".image_label");
+    console.log(buttonImage);
     const buttonCircleM = scale?.querySelector(".circle_label");
     const buttonChild = document.getElementById("child");
     const buttonChildLeft = scale?.querySelector(".left_child");
     const buttonChildRight = scale?.querySelector(".right_child");
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
+    const buttonImageRight = document.getElementById("ImageUpload");
+    const optionSelect =  document.getElementById("select");
     const option =
       document.querySelector("#orientationId").options[
         document.querySelector("#orientationId").selectedIndex
@@ -294,16 +345,7 @@ const ScaleRightSide = () => {
     const test = document.querySelector("select");
     console.log(test);
     console.log(option);
-    // console.log(option.value);
-    // console.log(option);
-    // console.log(button4.style.display);
-    // console.log(buttonCircleM);
-    // button4.style.display = "block";
-    // console.log(button4.style.display);
 
-    // if (btnUpdateScaleName.value !== "") {
-    //   button3.textContent = btnUpdateScaleName.value;
-    // }
     button4.style.display = "block";
     if (btnUpdateScale.value !== "") {
       button.style.backgroundColor = btnUpdateScale.value;
@@ -321,7 +363,48 @@ const ScaleRightSide = () => {
 
     if (btnUpdateScaleFont.value !== "") {
       button4.style.fontFamily = btnUpdateScaleFont.value;
+    } 
+
+      const selectedOption = optionSelect.value;
+    
+    if (selectedOption === "image") {
+      renderImage();
+    } else if (selectedOption === "emoji") {
+      // renderEmoji();
+    } else if (selectedOption === "number") {
+      renderNumber();
     }
+  
+    function renderImage() {
+      const uploadedImages = document.getElementById("ImageUpload").querySelectorAll("img");
+      const numUploadedImages = uploadedImages.length;
+    
+      for (let i = 0; i < buttonCircle.length; i++) {
+        if (numUploadedImages > 0) {
+          const imageIndex = i % numUploadedImages; // Calculate the index of the uploaded image to display
+    
+          buttonCircle[i].textContent = ""; // Clear existing content of the button
+    
+          const image = document.createElement("img");
+          image.className = "images_lebel";
+          image.src = uploadedImages[imageIndex].src;
+          image.alt = "Uploaded";
+          buttonCircle[i].appendChild(image);
+        } 
+        else {
+          buttonCircle[i].textContent = i;
+        }
+      }
+    }
+
+    function renderNumber() {
+      for (let i = 0; i < buttonCircle.length; i++) {
+        buttonCircle[i].textContent = i;
+      }
+      document.getElementById("image").style.display = "none";
+    }
+
+    
 
     if (option.value === "Horizontal") {
       button4.style.border = "block";
@@ -394,6 +477,27 @@ const ScaleRightSide = () => {
     console.log(scaleId);
     let timeId = document.getElementById("timeId");
     let time = document.getElementById("time");
+    
+    const prepareImageLabels = () => {
+      const imageLabels = {};
+
+      const repeatedImages = [];
+      const selectedCount = Math.min(selectedImages.length, 11); // Replace 11 with the actual label count
+
+      for (let i = 0; i < 11; i++) { // Replace 11 with the actual label count
+        const imageIndex = i % selectedCount;
+        repeatedImages.push(selectedImages[imageIndex]);
+      }
+
+      for (let i = 0; i < 11; i++) { // Replace 11 with the actual label count
+        imageLabels[i] = repeatedImages[i];
+      }
+
+      return imageLabels;
+    };
+
+    const imageLabels = prepareImageLabels();
+    console.log(imageLabels);
 
     if (idHolder.textContent === "scale Id" || idHolder.textContent === "id") {
       setIsLoading(true);
@@ -405,7 +509,7 @@ const ScaleRightSide = () => {
         scalecolor: btnUpdateScale.value,
         roundcolor: btnUpdateButton.value,
         fontcolor: btnUpdateFontColor.value,
-        fomat: "number",
+        fomat: selectedOption,
         allow_resp: false,
         show_total_score: true,
         no_of_scales: 6,
@@ -414,7 +518,7 @@ const ScaleRightSide = () => {
         left: btnUpdateLeft.value,
         right: btnUpdateRight.value,
         center: btnUpdateCenter.value,
-        label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+        image_label_format: imageLabels,
         fontstyle: btnUpdateScaleFont.value,
         emoji_format: { 0: "😀", 1: "😃", 2: "😄" },
       })
@@ -1162,7 +1266,7 @@ const ScaleRightSide = () => {
                     >
                       <select
                         style={{
-                          width: "100px",
+                          width: "70px",
                           height: "15px",
                           display: "flex",
                           backgroundColor: "transparent",
@@ -1173,7 +1277,7 @@ const ScaleRightSide = () => {
                         id="select"
                         onChange={handleFormat}
                       >
-                        <option value="select">Select</option>
+                        <option value="number">Number</option>
                         <option value="image">Image</option>
                         <option value="emoji">Emoji</option>
                       </select>
@@ -1220,7 +1324,7 @@ const ScaleRightSide = () => {
                           scaleT ? scaleT.innerHTML : ""
                         }
                         style={{
-                          width: "100px",
+                          width: "82px",
                           height: "12px",
                           display: "flex",
                           backgroundColor: "transparent",
@@ -1300,11 +1404,11 @@ const ScaleRightSide = () => {
                     style={{
                       display: "none",
                       flexDirection: "column",
-                      gap: "2px",
+                      gap: "1px",
                     }}
                     id="image"
                   >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                    <h6 style={{ margin: "auto 0", fontSize: "10px" }}>
                       Upload Image
                     </h6>
                     <div
@@ -1331,7 +1435,22 @@ const ScaleRightSide = () => {
                           alignItems: "center",
                         }}
                         type="file"
+                        onChange={ handleImage }
                       />
+                      {selectedImages.length > 0 && (
+                        <div style={{
+                          // display: "flex",
+                          // flexDirection: "row",
+                          width: "100%",
+                          gap: "2px",
+                          padding: "5px",
+                          }} 
+                          id="ImageUpload">
+                          {selectedImages.map((imageData, index) => (
+                            <img key={index} src={imageData} alt={`Uploaded ${index}`} />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

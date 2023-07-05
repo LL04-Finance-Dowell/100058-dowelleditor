@@ -5621,8 +5621,6 @@ const MidSection = React.forwardRef((props, ref) => {
       } else if (
         typeOfOperation === "NEW_SCALE_INPUT" &&
         decoded.details.action === "template"
-        // ||
-        // decoded.details.action === "document"
       ) {
         let scaleField = document.createElement("div");
         scaleField.className = "newScaleInput";
@@ -5673,13 +5671,13 @@ const MidSection = React.forwardRef((props, ref) => {
         // labelHold.style.margin = "0px";
 
         for (let i = 0; i < 11; i++) {
+          const element = JSON.parse(sessionStorage.getItem("cutItem"));
           const circle = document.createElement("div");
-          // Set the styles for the circle
           circle.className = "circle_label";
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
-          circle.style.backgroundColor = "red";
+          circle.style.backgroundColor = element?.raw_data?.buttonColor;
           circle.style.top = "30%";
           circle.style.left = "30%";
           circle.style.display = "flex";
@@ -5687,64 +5685,19 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.alignItems = "center";
           circle.style.marginLeft = "2px";
 
-          circle.textContent = i;
+          if (element?.raw_data?.buttonImages) {
+            const buttonImageText = element.raw_data.buttonImages;
+            console.log(buttonImageText);
+            circle.style.backgroundImage = `url(${buttonImageText[i % buttonImageText.length]})`;
+            circle.style.display = "none";
+          } 
+          else {
+            circle.textContent = i;
+          }
+
           labelHold.append(circle);
-          // if (
-          //     typeOfOperation === "NEW_SCALE_INPUT" && decoded.details.action ==="document") {
-          //         circle.addEventListener('click', function() {
-          //           Axios.post('https://100035.pythonanywhere.com/api/nps_create/', {
-          //             scale_id : "63e8b4c87f4aa8f650162b7a",
-          //             // scale_id : element.scaleId,
-          //             instantance_id: 5,
-          //             brand_name : "XYZ620",
-          //             product_name:"XYZ623",
-          //             username: "daved",
-          //             score: i,
-          //           })
-          //           .then(function (response) {
-          //             console.log(response);
-          //             var responseData = response.data;
-          //             setScaleData(responseData);
-          //           })
-          //           .catch(function (error) {
-          //             console.log(error);
-          //           });
-          //         });
-          //   }
-          // const circles = [];
-          // if (
-          //   typeOfOperation === "NEW_SCALE_INPUT" &&
-          //   decoded.details.action === "template"
-          // ) {
-          //   circle.addEventListener("click", function () {
-          //     // Get the current background color
-          //     const currentBackgroundColor = this.style.backgroundColor;
-
-          //     // Set the background color to the clicked circle's background color
-          //     for (const circle of circles) {
-          //       if (circle === this) {
-          //         continue;
-          //       }
-          //       this.style.backgroundColor = currentBackgroundColor;
-          //     }
-
-          //     // If the clicked circle has a background color
-          //     if (this.style.backgroundColor) {
-          //       // Remove the background color
-          //       this.style.backgroundColor = "blue";
-          //     } else {
-          //       this.style.backgroundColor = "red";
-          //     }
-          //   });
-
-          //   circles.push(circle);
-          // } else {
-          //   console.log("Unknown action");
-          // }
+          
         }
-        // const parentDiv = document.createElement("div");
-        // parentDiv.id = "parent";
-        // parentDiv.style.margin = "0px";
 
         const childDiv = document.createElement("div");
         childDiv.id = "child";

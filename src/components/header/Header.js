@@ -743,7 +743,6 @@ const Header = () => {
         }
       }
     }
-
     const newScales = document.getElementsByClassName("newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
@@ -761,13 +760,22 @@ const Header = () => {
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
-          let scaleText = newScales[b].querySelector(".scale_text")
+          let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleID = newScales[b].querySelector(".scaleId");
-          console.log(font);
-
-          // console.log(buttonColors);
+          // let buttonImages = newScales[b].querySelectorAll(".circle_label");
+          // const uploadedImageUrl = localStorage.getItem("uploadedImageUrl");
+          let buttonImages = newScales[b].querySelectorAll(".images_lebel");
+          console.log(buttonImages);
+          // let buttonText = newScales[b].querySelectorAll(".circle_label");
+          let arr = [];
+          for (let i = 0; i < buttonImages.length; i++) {
+            arr.push(buttonImages[i].src);
+          }
+          // Save the arr array to LocalStorage
+          // localStorage.setItem('buttonImages', JSON.stringify(arr));
+          console.log(arr);
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -777,9 +785,13 @@ const Header = () => {
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
             scaleID: scaleID.textContent,
-            scaleText: scaleText.textContent
+            scaleText: scaleText.textContent,
+            buttonImages: arr,
           };
           console.log(properties);
+          // Create a new custom event to pass the properties to midSection.js
+          const customEvent = new CustomEvent("buttonImagesEvent", { detail: properties });
+          document.dispatchEvent(customEvent);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
