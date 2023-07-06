@@ -139,13 +139,11 @@ const Header = () => {
     containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor
-
+    setContainerBorderColor,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
   // const [cutItem_value, setCutItem_value] = useState(null);
-
 
   // function getHolderDIV(measure, i, idMatch) {
   //   //console.log("from holder div", i);
@@ -373,7 +371,6 @@ const Header = () => {
   //   return resizer;
   // }
 
-
   // const dragElementOverPage = (event) => {
   //   let holder;
   //   // console.log("dragElement", event.target);
@@ -505,7 +502,6 @@ const Header = () => {
   //   }
   // };
 
-
   // function getHolderMenu(auth_user) {
   //   //putting functional menu on holder
 
@@ -540,10 +536,6 @@ const Header = () => {
 
   //   return holderMenu;
   // }
-
-
-
-
 
   // const copyInput = (clickHandler) => {
   //   // if (typeOfOperation === "IMAGE_INPUT") {
@@ -705,7 +697,6 @@ const Header = () => {
   //   };
   // };
 
-
   // function getOffset(el) {
   //   const parent = document.getElementById("midSection_container");
   //   const parentPos = parent.getBoundingClientRect();
@@ -720,7 +711,6 @@ const Header = () => {
   //     // top: rect.top + window.scrollY
   //   };
   // }
-
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -816,8 +806,6 @@ const Header = () => {
   };
   // const handlePaste = () => {
 
-
-
   //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
   //   const curr_user = document.getElementById("current-user");
 
@@ -899,15 +887,11 @@ const Header = () => {
   //   //     };
   //   //     inputField.innerText = `${element.data}`
 
-
-
-
   //   //     holderDIV.append(inputField);
   //   //     cutItem_value.append(holderDIV);
   //   //     sessionStorage.clear()
   //   //   }
   //   // }
-
 
   // };
   const handleTitle = () => {
@@ -1217,7 +1201,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -1269,9 +1253,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -1384,7 +1368,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1551,13 +1535,24 @@ const Header = () => {
           let scaleID = newScales[b].querySelector(".scaleId");
           // let buttonImages = newScales[b].querySelectorAll(".circle_label");
           // const uploadedImageUrl = localStorage.getItem("uploadedImageUrl");
+          let buttonText = newScales[b].querySelectorAll(".circle_label");
+          console.log(buttonText);
           let buttonImages = newScales[b].querySelectorAll(".images_lebel");
-          console.log(buttonImages);
-          // let buttonText = newScales[b].querySelectorAll(".circle_label");
           let arr = [];
+          let emojiArr = [];
+          console.log(emojiArr);
+          if (buttonText.length !== 0) {
+            for (let i = 0; i < buttonText.length; i++) {
+              emojiArr.push(buttonText[i].textContent);
+            }
+          }
+
           for (let i = 0; i < buttonImages.length; i++) {
+            emojiArr = [];
             arr.push(buttonImages[i].src);
           }
+          console.log(emojiArr);
+
           // Save the arr array to LocalStorage
           // localStorage.setItem('buttonImages', JSON.stringify(arr));
           console.log(arr);
@@ -1572,10 +1567,13 @@ const Header = () => {
             scaleID: scaleID.textContent,
             scaleText: scaleText.textContent,
             buttonImages: arr,
+            buttonText: emojiArr,
           };
           console.log(properties);
           // Create a new custom event to pass the properties to midSection.js
-          const customEvent = new CustomEvent("buttonImagesEvent", { detail: properties });
+          const customEvent = new CustomEvent("buttonImagesEvent", {
+            detail: properties,
+          });
           document.dispatchEvent(customEvent);
           elem = {
             width: tempPosn.width,
@@ -1619,7 +1617,7 @@ const Header = () => {
 
           let properties = {
             imageLinkHolder: imageLinkHolder.textContent,
-            videoLinkHolder: videoLinkHolder.textContent
+            videoLinkHolder: videoLinkHolder.textContent,
           };
           console.log(properties);
           elem = {
@@ -1638,7 +1636,6 @@ const Header = () => {
         }
       }
     }
-
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
@@ -2055,7 +2052,7 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const linkId = decoded.details.link_id
+  const linkId = decoded.details.link_id;
 
   function handleFinalize() {
     setIsLoading(true);
@@ -2086,7 +2083,6 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
-
   }
 
   function handleReject() {
@@ -2138,8 +2134,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -2149,8 +2146,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />

@@ -180,7 +180,7 @@ const MidSection = React.forwardRef((props, ref) => {
           button2: false,
           email2: false,
           newScale2: false,
-          camera2: false
+          camera2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -632,8 +632,8 @@ const MidSection = React.forwardRef((props, ref) => {
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
-        imageField.outerHTML = `${element.data2}`
-        console.log("element data getting", `${element.data}`)
+        imageField.outerHTML = `${element.data2}`;
+        console.log("element data getting", `${element.data}`);
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
@@ -1002,7 +1002,7 @@ const MidSection = React.forwardRef((props, ref) => {
           para.parentElement.click();
         };
 
-        dropdownField.innerHTML = `${element.data2}`
+        dropdownField.innerHTML = `${element.data2}`;
 
         // dropdownField.innerText = `${element.data}`
         dropdownField.append(para);
@@ -2022,9 +2022,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2229,12 +2229,12 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
-    holderDIV.style.border= measure.border
+    holderDIV.style.border = measure.border;
 
     holderDIV.classList.add(`page_${i}`);
     //console.log(idMatch);
-    if(borderWidth && !idMatch?.length) {
-      holderDIV.style.border =  borderWidth ;
+    if (borderWidth && !idMatch?.length) {
+      holderDIV.style.border = borderWidth;
       // console.log("calendar date", borderWidth)
 
       // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
@@ -2244,7 +2244,6 @@ const MidSection = React.forwardRef((props, ref) => {
     //   holderDIV.style.border = calBorder;
     //   console.log("calendar date", calBorder)
     // }
-
 
     // else if(borderWidths && !idMatch?.length) {
     //   holderDIV.style.border =  borderWidths ;
@@ -2261,7 +2260,6 @@ const MidSection = React.forwardRef((props, ref) => {
       // const storeData = localStorage.getItem("borderSize")
       // const dataas = `${storeData}` + "px"
       // holderDIV.style.border = `${dataas} dotted gray`;
-      
     }
 
     holderDIV.addEventListener("dragstart", (event) => {
@@ -2329,13 +2327,13 @@ const MidSection = React.forwardRef((props, ref) => {
       // const dataas = `${storeData}` + "px"
       // holderDIV.style.border = `${dataas} dotted gray`;
       holderDIV.classList.remove("zIndex-two");
-    
+
       // const borderData = document.querySelector(".foucussedd");
-      
+
       // holderDIV.style.border = measure.border;
       // holderDIV.style.border = borderWidth;
       holderDIV.style.border = "3px dotted gray";
-      
+
       // holderDIV.classList.remove("focussedd")
       // localStorage.removeItem("borderSize")
 
@@ -2348,13 +2346,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
     // holderDIV.onblur = () => {
     //   holderDIV.classList.remove("zIndex-two");
-    
+
     //   // const borderData = document.querySelector(".foucussedd");
-      
+
     //   holderDIV.style.border = measure.border;
     //   // holderDIV.style.border = borderWidth;
     //   // holderDIV.style.border = "3px dotted gray";
-      
+
     //   // holderDIV.classList.remove("focussedd")
     //   // localStorage.removeItem("borderSize")
 
@@ -2430,7 +2428,7 @@ const MidSection = React.forwardRef((props, ref) => {
             border: element.borderWidths,
             auth_user: curr_user,
           };
-          console.log("getting text input value", measure.border)
+          console.log("getting text input value", measure.border);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           // console.log("element", element);
 
@@ -2504,7 +2502,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2519,7 +2517,12 @@ const MidSection = React.forwardRef((props, ref) => {
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           // console.log(idMatch, "idMatch");
-          const holderDIV = getHolderDIV(measure, pageNo, idMatch, element.borderWidth);
+          const holderDIV = getHolderDIV(
+            measure,
+            pageNo,
+            idMatch,
+            element.borderWidth
+          );
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -2558,8 +2561,6 @@ const MidSection = React.forwardRef((props, ref) => {
           if (element.required) {
             isAnyRequiredElementEdited = true;
           }
-
-
 
           imageField.onclick = (e) => {
             focuseddClassMaintain(e);
@@ -2613,7 +2614,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2625,10 +2626,10 @@ const MidSection = React.forwardRef((props, ref) => {
             border: element.calBorder,
             auth_user: curr_user,
           };
-          console.log("date data and value", measure.border)
+          console.log("date data and value", measure.border);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
-          console.log("getting cal element", element.calBorder)
+          console.log("getting cal element", element.calBorder);
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -2697,7 +2698,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2817,7 +2818,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -3076,7 +3077,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3131,7 +3132,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3208,7 +3209,7 @@ const MidSection = React.forwardRef((props, ref) => {
             if (isAnyRequiredElementEdited) {
               finalizeButton?.click();
             } else {
-              finalizeButton.disabled = true; 
+              finalizeButton.disabled = true;
             }
           }
 
@@ -3245,7 +3246,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3289,7 +3290,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3418,7 +3419,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3436,7 +3437,7 @@ const MidSection = React.forwardRef((props, ref) => {
           const videoLinkHolder = `${element?.raw_data?.videoLinkHolder}`;
           const imageLinkHolder = `${element?.raw_data?.imageLinkHolder}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
-          
+
           let cameraField = document.createElement("div");
           cameraField.className = "cameraInput";
           cameraField.id = id;
@@ -3445,64 +3446,64 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
-          
+
           let videoField = document.createElement("video");
           const imageLinkHolder1 = document.createElement("h1");
           const videoLinkHolder1 = document.createElement("h1");
-          if(videoLinkHolder === "video_link"){
-          videoField.className = "videoInput";
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          videoField.style.display = "none"
-          cameraField.append(videoField)
+          if (videoLinkHolder === "video_link") {
+            videoField.className = "videoInput";
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.autoplay = true;
+            videoField.loop = true;
+            videoField.style.display = "none";
+            cameraField.append(videoField);
 
-          videoLinkHolder1.className = "videoLinkHolder";
-          videoLinkHolder1.textContent = videoLinkHolder;
-          videoLinkHolder1.style.display = "none";
-          cameraField.append(videoLinkHolder1)
-        }else {
-          videoField.className = "videoInput";
-          videoField.src = videoLinkHolder
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.muted = true;
-          videoField.loop = true;
-          cameraField.append(videoField)
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = videoLinkHolder;
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+          } else {
+            videoField.className = "videoInput";
+            videoField.src = videoLinkHolder;
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.autoplay = true;
+            videoField.muted = true;
+            videoField.loop = true;
+            cameraField.append(videoField);
 
-          videoLinkHolder1.className = "videoLinkHolder";
-          videoLinkHolder1.textContent = videoLinkHolder;
-          videoLinkHolder1.style.display = "none";
-          cameraField.append(videoLinkHolder1)
-        }
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = videoLinkHolder;
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+          }
 
           let imgHolder = document.createElement("img");
-          if(imageLinkHolder === "image_link"){
-          imgHolder.className = "imageHolder";
-          imgHolder.style.height = "100%"
-          imgHolder.style.width = "100%"
-          imgHolder.alt = "";
-          imgHolder.style.display = "none"
-          cameraField.append(imgHolder)
-
-          imageLinkHolder1.className = "imageLinkHolder";
-          imageLinkHolder1.textContent = imageLinkHolder;
-          imageLinkHolder1.style.display = "none";
-          cameraField.append(imageLinkHolder1)
-          }else {
+          if (imageLinkHolder === "image_link") {
             imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%"
-            imgHolder.style.width = "100%"
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
             imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder
-            cameraField.append(imgHolder)
+            imgHolder.style.display = "none";
+            cameraField.append(imgHolder);
 
             imageLinkHolder1.className = "imageLinkHolder";
             imageLinkHolder1.textContent = imageLinkHolder;
             imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1)
+            cameraField.append(imageLinkHolder1);
+          } else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
+            imgHolder.alt = "";
+            imgHolder.src = imageLinkHolder;
+            cameraField.append(imgHolder);
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1);
           }
 
           cameraField.addEventListener("resize", () => {
@@ -3519,7 +3520,7 @@ const MidSection = React.forwardRef((props, ref) => {
             handleClicked("camera2");
             setSidebar(true);
           };
-  
+
           imgHolder.onclick = (e) => {
             e.stopPropagation();
             table_dropdown_focuseddClassMaintain(e);
@@ -3528,7 +3529,7 @@ const MidSection = React.forwardRef((props, ref) => {
             }
             handleClicked("camera2");
             setSidebar(true);
-            console.log("The camera",cameraField)
+            console.log("The camera", cameraField);
           };
           holderDIV.append(cameraField);
 
@@ -3559,7 +3560,7 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleField.style.backgroundColor = "#ffffff";
           scaleField.style.borderRadius = "0px";
           scaleField.style.outline = "0px";
-          scaleField.style.overflow = "overlay"
+          scaleField.style.overflow = "overlay";
           scaleField.style.position = "absolute";
           const scaleHold = document.createElement("div");
           scaleHold.className = "scool_input";
@@ -3606,7 +3607,27 @@ const MidSection = React.forwardRef((props, ref) => {
             circle.style.alignItems = "center";
             circle.style.marginLeft = "2px";
 
-            circle.textContent = i;
+            const buttonImage = element?.raw_data?.buttonImages;
+            if (buttonImage && Array.isArray(buttonImage) && buttonImage[i]) {
+              let newImg = document.createElement("img");
+              newImg.className = "images_label";
+              newImg.src = buttonImage[i];
+              console.log(buttonImage[i]);
+              circle.appendChild(newImg);
+            }
+
+            if (element?.raw_data?.buttonText) {
+              const buttonText = element.raw_data.buttonText;
+              if (Array.isArray(buttonText) && buttonText.length > 0) {
+                circle.textContent = buttonText[i % buttonText.length];
+                console.log("EMOJIIIIIIIIIII");
+              } else {
+                console.log("Empty buttonText array");
+              }
+            } else {
+              console.log("NUMBERRRRRRRRRRRRRR");
+              circle.textContent = i;
+            }
             labelHold.append(circle);
             // Get the token from the request header.
             // const token = request.headers.get("Authorization");
@@ -3621,14 +3642,14 @@ const MidSection = React.forwardRef((props, ref) => {
 
             // Get the username from the decoded token.
             const username = decoded?.details?.authorized;
-            console.log(username); 
+            console.log(username);
 
             // Return the username.
             // return res.json({ username });
             // function generateLoginUser() {
             //   return "user_" + Math.random().toString(36).substring(7);
             //   // return token;
-            // }   
+            // }
             // const details = decoded?.details;
             // console.log(details);
             // const Authorized = detaillUser['Authorized'] ? detaillUser['Authorized'] : generateLoginUser();
@@ -3639,181 +3660,191 @@ const MidSection = React.forwardRef((props, ref) => {
             // function authorizedLogin() {
             //   return ( username === undefined ? generateLoginUser(): username )
             // }
-            
+
             if (
-              decoded.details.action ==="document" && username!==undefined) {
+              decoded.details.action === "document" &&
+              username !== undefined
+            ) {
+              let circles = document.querySelectorAll(".circle_label");
+              let isClicked = false;
+              let selectedScore = -1;
+              // const submitButtonScale = document.getElementById('finalize-button');
 
-                let circles = document.querySelectorAll(".circle_label");
-                let isClicked = false;
-                let selectedScore = -1;
-                // const submitButtonScale = document.getElementById('finalize-button');
-
-                circle.addEventListener('click', function() {
-                  if (!isClicked) {
-                      let scale = document.querySelector(".focussedd");
-                      const scaleNewId = scale?.querySelector('.scaleId').textContent;
-                      console.log(scaleNewId);
-                      console.log(scaleNewId);
-                      circle.style.backgroundColor = "blue";
-                      Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', {
-                          scale_id: scaleNewId,
-                          instance_id: pageNo,
-                          brand_name: "XYZ545",
-                          product_name: "XYZ511",
-                          username: username,
-                          score: i,
-                      })
-                          .then((response) => {
-                              if (response.status === 200) {
-                                  setIsLoading(false);
-                                  var responseData = response.data;
-                                  setScaleData(responseData);
-                                  console.log(response);
-                                  //disable all circles and change background color
-                                  // const circles = document.querySelectorAll(".circle_label");
-                                 
-                                  // Remove the event listener on the button after the API request is successful.
-                                  // circles.removeEventListener("click", this);
-                              
-                                  const alert = document.createElement("div");
-                                  alert.className = "scale_alert"
-                                  const img = document.createElement("img");
-                                  const button = document.createElement("button");
-                                  img.src = "https://img.freepik.com/premium-vector/pin-with-check-mark-icon-vector-isolated-map-location-pointer-locator-position-point_578506-202.jpg?w=740";
-                                  img.width = 100;
-                                  img.height = 100;
-                                  button.appendChild(img);
-                                  const paragraph = document.createElement("h4");
-                                  paragraph.textContent = "Response recorded successfully for your selected button " + i;
-                                  button.appendChild(paragraph);
-                                  button.style.width = "100%";
-                                  alert.appendChild(button);
-                                  paragraph.style.color = "green";
-                                  alert.style.position = "absolute";
-                                  alert.style.marginRight = "3%";
-                                  button.style.background = "#fff";
-                                  // labelHold.style.display ="none";
-                                 
-                                  childDiv.style.display ="none";
-                                  button.style.color = "blue";
-                                  button.style.borderRadius = "5px";
-                                  // button.style.padding = "10px 20px";
-                                  button.style.cursor = "pointer";
-                                  // button.addEventListener("click", function() {
-                                  //     alert.remove();
-                                  // });
-                                  button.classList.add("alert-button");
-                                  button.classList.add("close");
-                                  // setTimeout(() => {
-                                  //   alert.remove();
-                                  // }, 5000);
-                                  alert.appendChild(button);
-                                  scaleHold.appendChild(alert);
-                                  isClicked = true;
-                                  labelHold.style.display = "none";
-                                  window.onbeforeunload = (event) => {
-                                  //Prevent the page from reloading
-                                    event.preventDefault();
-                                    event.returnValue = selectedScore;
-                                  };
-                              }
-                          })
-                          .catch(function (error) {
-                              console.log(error);
-                });
-                  } else {
-                    if (selectedScore = i) {
-                      const alert = document.createElement("div");
-                      const img = document.createElement("img");
-                      const button = document.createElement("button");
-                      img.src = "https://img.freepik.com/free-photo/yellow-triangle-warning-sign-symbol-danger-caution-risk-traffic-icon-background-3d-rendering_56104-1156.jpg?w=1060&t=st=1687272853~exp=1687273453~hmac=2a25ac004fa8fa44791de0ec6f23d6f27e6dcae15ed65cde391a01685579ddf1";
-                      img.width = 100;
-                      img.height = 100;
-                      img.style.background = "#808080";
-                      button.appendChild(img);
-                      const paragraph = document.createElement("h4");
-                      paragraph.textContent = "You have already selected button " + i;
-                      button.appendChild(paragraph);
-                      button.style.width = "100%";
-                      alert.appendChild(button);
-                      paragraph.style.color = "yellow";
-                      alert.style.position = "absolute";
-                      alert.style.marginRight = "3%";
-                      button.style.background = "#808080";
-                      // labelHold.style.display ="none";
-                      // childDiv.style.display ="none";
-                      button.style.color = "blue";
-                      button.style.borderRadius = "5px";
-                      // button.style.padding = "10px 20px";
-                      button.style.cursor = "pointer";
-                      button.addEventListener("click", function() {
-                          alert.remove();
-                      });
-                      button.classList.add("alert-button");
-                      button.classList.add("close");
-                      setTimeout(() => {
-                        alert.remove();
-                      }, 5000);
-                      alert.appendChild(button);
-                      labelHold.appendChild(alert);
-                      isClicked = true;
-                      return;
+              circle.addEventListener("click", function () {
+                if (!isClicked) {
+                  let scale = document.querySelector(".focussedd");
+                  const scaleNewId =
+                    scale?.querySelector(".scaleId").textContent;
+                  console.log(scaleNewId);
+                  console.log(scaleNewId);
+                  circle.style.backgroundColor = "blue";
+                  Axios.post(
+                    "https://100035.pythonanywhere.com/api/nps_responses_create",
+                    {
+                      scale_id: scaleNewId,
+                      instance_id: pageNo,
+                      brand_name: "XYZ545",
+                      product_name: "XYZ511",
+                      username: username,
+                      score: i,
                     }
-                    // selectedScore === i;
-                    // alert("You have selected score " + i);
+                  )
+                    .then((response) => {
+                      if (response.status === 200) {
+                        setIsLoading(false);
+                        var responseData = response.data;
+                        setScaleData(responseData);
+                        console.log(response);
+                        //disable all circles and change background color
+                        // const circles = document.querySelectorAll(".circle_label");
+
+                        // Remove the event listener on the button after the API request is successful.
+                        // circles.removeEventListener("click", this);
+
+                        const alert = document.createElement("div");
+                        alert.className = "scale_alert";
+                        const img = document.createElement("img");
+                        const button = document.createElement("button");
+                        img.src =
+                          "https://img.freepik.com/premium-vector/pin-with-check-mark-icon-vector-isolated-map-location-pointer-locator-position-point_578506-202.jpg?w=740";
+                        img.width = 100;
+                        img.height = 100;
+                        button.appendChild(img);
+                        const paragraph = document.createElement("h4");
+                        paragraph.textContent =
+                          "Response recorded successfully for your selected button " +
+                          i;
+                        button.appendChild(paragraph);
+                        button.style.width = "100%";
+                        alert.appendChild(button);
+                        paragraph.style.color = "green";
+                        alert.style.position = "absolute";
+                        alert.style.marginRight = "3%";
+                        button.style.background = "#fff";
+                        // labelHold.style.display ="none";
+
+                        childDiv.style.display = "none";
+                        button.style.color = "blue";
+                        button.style.borderRadius = "5px";
+                        // button.style.padding = "10px 20px";
+                        button.style.cursor = "pointer";
+                        // button.addEventListener("click", function() {
+                        //     alert.remove();
+                        // });
+                        button.classList.add("alert-button");
+                        button.classList.add("close");
+                        // setTimeout(() => {
+                        //   alert.remove();
+                        // }, 5000);
+                        alert.appendChild(button);
+                        scaleHold.appendChild(alert);
+                        isClicked = true;
+                        labelHold.style.display = "none";
+                        window.onbeforeunload = (event) => {
+                          //Prevent the page from reloading
+                          event.preventDefault();
+                          event.returnValue = selectedScore;
+                        };
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                } else {
+                  if ((selectedScore = i)) {
+                    const alert = document.createElement("div");
+                    const img = document.createElement("img");
+                    const button = document.createElement("button");
+                    img.src =
+                      "https://img.freepik.com/free-photo/yellow-triangle-warning-sign-symbol-danger-caution-risk-traffic-icon-background-3d-rendering_56104-1156.jpg?w=1060&t=st=1687272853~exp=1687273453~hmac=2a25ac004fa8fa44791de0ec6f23d6f27e6dcae15ed65cde391a01685579ddf1";
+                    img.width = 100;
+                    img.height = 100;
+                    img.style.background = "#808080";
+                    button.appendChild(img);
+                    const paragraph = document.createElement("h4");
+                    paragraph.textContent =
+                      "You have already selected button " + i;
+                    button.appendChild(paragraph);
+                    button.style.width = "100%";
+                    alert.appendChild(button);
+                    paragraph.style.color = "yellow";
+                    alert.style.position = "absolute";
+                    alert.style.marginRight = "3%";
+                    button.style.background = "#808080";
+                    // labelHold.style.display ="none";
+                    // childDiv.style.display ="none";
+                    button.style.color = "blue";
+                    button.style.borderRadius = "5px";
+                    // button.style.padding = "10px 20px";
+                    button.style.cursor = "pointer";
+                    button.addEventListener("click", function () {
+                      alert.remove();
+                    });
+                    button.classList.add("alert-button");
+                    button.classList.add("close");
+                    setTimeout(() => {
+                      alert.remove();
+                    }, 5000);
+                    alert.appendChild(button);
+                    labelHold.appendChild(alert);
+                    isClicked = true;
+                    return;
+                  }
+                  // selectedScore === i;
+                  // alert("You have selected score " + i);
                 }
-              //   let isRequestSuccessful = false;
-              //   if (!isRequestSuccessful) {
-              //     for (let i = 0; i < 11; i++) {
-              //       const circle = document.createElement("div");
-              //       circle.className = "circle_label";
-              //       circle.style.width = "35%";
-              //       circle.style.height = "35%";
-              //       circle.style.borderRadius = "50%";
-              //       circle.style.backgroundColor = element?.raw_data?.buttonColor;
-              //       circle.style.top = "30%";
-              //       circle.style.left = "30%";
-              //       circle.style.display = "flex";
-              //       circle.style.justifyContent = "center";
-              //       circle.style.alignItems = "center";
-              //       circle.style.marginLeft = "2px";
-        
-              //       circle.textContent = i;
-              //       labelHold.append(circle);
-              //   circle.addEventListener("click", function() {
-              //         let scale = document.querySelector(".focussedd");
-              //     const scaleNewId = scale?.querySelector('.scaleId').textContent;
-                  
-              //     console.log(scaleNewId);
-              //     console.log(scaleNewId);
-              //     circle.style.backgroundColor = "blue";
-                  
-              //     Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
-              //     {
-              //       scale_id: scaleNewId,
-              //       instance_id: pageNo,
-              //       brand_name: "XYZ545",
-              //       product_name: "XYZ511",
-              //       username: generateLoginUser(),
-              //       score: i,
-              //     }
-              //   )
-              //     .then((response) => {
-              //       if (response.status === 200) {
-              //         setIsLoading(false);
-              //         var responseData = response.data;
-              //         setScaleData(responseData);
-              //         console.log(response);
-              //         isRequestSuccessful = true;
-              //       }
-              //     })
-              //     .catch(function (error) {
-              //       console.log(error);
-              //     });
-              //       });
-              //     }
-                  
-              //   }
+                //   let isRequestSuccessful = false;
+                //   if (!isRequestSuccessful) {
+                //     for (let i = 0; i < 11; i++) {
+                //       const circle = document.createElement("div");
+                //       circle.className = "circle_label";
+                //       circle.style.width = "35%";
+                //       circle.style.height = "35%";
+                //       circle.style.borderRadius = "50%";
+                //       circle.style.backgroundColor = element?.raw_data?.buttonColor;
+                //       circle.style.top = "30%";
+                //       circle.style.left = "30%";
+                //       circle.style.display = "flex";
+                //       circle.style.justifyContent = "center";
+                //       circle.style.alignItems = "center";
+                //       circle.style.marginLeft = "2px";
+
+                //       circle.textContent = i;
+                //       labelHold.append(circle);
+                //   circle.addEventListener("click", function() {
+                //         let scale = document.querySelector(".focussedd");
+                //     const scaleNewId = scale?.querySelector('.scaleId').textContent;
+
+                //     console.log(scaleNewId);
+                //     console.log(scaleNewId);
+                //     circle.style.backgroundColor = "blue";
+
+                //     Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create',
+                //     {
+                //       scale_id: scaleNewId,
+                //       instance_id: pageNo,
+                //       brand_name: "XYZ545",
+                //       product_name: "XYZ511",
+                //       username: generateLoginUser(),
+                //       score: i,
+                //     }
+                //   )
+                //     .then((response) => {
+                //       if (response.status === 200) {
+                //         setIsLoading(false);
+                //         var responseData = response.data;
+                //         setScaleData(responseData);
+                //         console.log(response);
+                //         isRequestSuccessful = true;
+                //       }
+                //     })
+                //     .catch(function (error) {
+                //       console.log(error);
+                //     });
+                //       });
+                //     }
+
+                //   }
               });
             }
           }
@@ -4118,7 +4149,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -4131,7 +4162,7 @@ const MidSection = React.forwardRef((props, ref) => {
             border: element.dropdownBorder,
             auth_user: curr_user,
           };
-          console.log("dropdown border value", measure.border)
+          // console.log("dropdown border value", measure.border);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -4183,7 +4214,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -5223,7 +5254,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -5366,7 +5397,7 @@ const MidSection = React.forwardRef((props, ref) => {
     let holderDIV = null;
     if (event.target.classList.contains("midSection_container")) {
       pageNum = event.target.innerText.split("\n")[0];
-      holderDIV = getHolderDIV(measure, pageNum, );
+      holderDIV = getHolderDIV(measure, pageNum);
     } else {
       holderDIV = getHolderDIV(measure);
     }
@@ -5394,13 +5425,12 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
 
-
         const textBorder = localStorage.getItem("alignSize");
         const textBorderColor = localStorage.getItem("alignColor");
-        
+
         // imageField.style.border = ImgBorder + "px"
 
-        const dataas = `${textBorder}` + "px"
+        const dataas = `${textBorder}` + "px";
         inputField.style.border = `${dataas} dotted ${textBorderColor}`;
 
         const txt = document.getElementsByClassName("textInput");
@@ -5468,11 +5498,10 @@ const MidSection = React.forwardRef((props, ref) => {
         // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
         imageField.style.position = "relative";
 
-
         // const ImgBorder = localStorage.getItem("borderSize");
         // const ImgBorderColor = localStorage.getItem("borderColor");
         // console.log(ImgBorderColor)
-        
+
         // // imageField.style.border = ImgBorder + "px"
 
         // const dataas = `${ImgBorder}` + "px"
@@ -5480,15 +5509,8 @@ const MidSection = React.forwardRef((props, ref) => {
 
         // console.log("imgBorder", ImgBorder)
 
-
         // const ImgDatass= document.querySelector(".focussedd")
         // ImgDatass.style.border = `${dataas} dotted gray`;
-
-
-
-
-
-
 
         const img = document.getElementsByClassName("imageInput");
         if (img.length) {
@@ -5498,10 +5520,9 @@ const MidSection = React.forwardRef((props, ref) => {
           imageField.id = "i1";
         }
 
-
         imageField.addEventListener("onclick", () => {
-          console.log("imgData clicked")
-        })
+          console.log("imgData clicked");
+        });
 
         // imageField.addEventListener("onblur", () => {
         //   imageField.style.border = ImgBorder + "px"
@@ -5879,6 +5900,14 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
 
+        const tempText = document.createElement("div");
+        tempText.className = "tempText";
+        tempText.textContent = "New scale";
+        tempText.style.fontWeight = "700";
+        tempText.style.width = "100%";
+        tempText.style.textAlign = "center";
+        scaleField.appendChild(tempText);
+
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
         scaleHold.style.color = "black";
@@ -5917,13 +5946,12 @@ const MidSection = React.forwardRef((props, ref) => {
         // labelHold.style.margin = "0px";
 
         for (let i = 0; i < 11; i++) {
-          const element = JSON.parse(sessionStorage.getItem("cutItem"));
           const circle = document.createElement("div");
           circle.className = "circle_label";
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
-          circle.style.backgroundColor = element?.raw_data?.buttonColor;
+          circle.style.backgroundColor = "red";
           circle.style.top = "30%";
           circle.style.left = "30%";
           circle.style.display = "flex";
@@ -5931,18 +5959,9 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.alignItems = "center";
           circle.style.marginLeft = "2px";
 
-          if (element?.raw_data?.buttonImages) {
-            const buttonImageText = element.raw_data.buttonImages;
-            console.log(buttonImageText);
-            circle.style.backgroundImage = `url(${buttonImageText[i % buttonImageText.length]})`;
-            circle.style.display = "none";
-          } 
-          else {
-            circle.textContent = i;
-          }
+          circle.textContent = i;
 
           labelHold.append(circle);
-          
         }
 
         const childDiv = document.createElement("div");
@@ -6183,7 +6202,6 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CAMERA_INPUT" &&
         decoded.details.action === "template"
       ) {
-
         let cameraField = document.createElement("div");
         cameraField.className = "cameraInput";
         cameraField.style.width = "100%";
@@ -6208,62 +6226,62 @@ const MidSection = React.forwardRef((props, ref) => {
         videoField.style.height = "100%";
         videoField.autoplay = true;
         videoField.loop = true;
-        cameraField.append(videoField)
+        cameraField.append(videoField);
 
         let cameraImageInput = document.createElement("canvas");
-        cameraImageInput.className = "cameraImageInput"
-        cameraImageInput.style.display = "none"
-        cameraField.append(cameraImageInput)
+        cameraImageInput.className = "cameraImageInput";
+        cameraImageInput.style.display = "none";
+        cameraField.append(cameraImageInput);
 
         const imgHolder = document.createElement("img");
         imgHolder.className = "imageHolder";
         imgHolder.alt = "";
-        imgHolder.style.display = "none"
-        cameraField.append(imgHolder)
+        imgHolder.style.display = "none";
+        cameraField.append(imgHolder);
 
         const imageLinkHolder = document.createElement("h1");
         imageLinkHolder.className = "imageLinkHolder";
         imageLinkHolder.textContent = "image_link";
         imageLinkHolder.style.display = "none";
-        cameraField.append(imageLinkHolder)
+        cameraField.append(imageLinkHolder);
 
         const videoLinkHolder = document.createElement("h1");
         videoLinkHolder.className = "videoLinkHolder";
         videoLinkHolder.textContent = "video_link";
         videoLinkHolder.style.display = "none";
-        cameraField.append(videoLinkHolder)
+        cameraField.append(videoLinkHolder);
 
         cameraField.addEventListener("resize", () => {
           videoField.style.width = cameraField.clientWidth + "px";
           videoField.style.height = cameraField.clientHeight + "px";
         });
 
-        function openCam(){
-          let All_mediaDevices=navigator.mediaDevices
+        function openCam() {
+          let All_mediaDevices = navigator.mediaDevices;
           if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
-             alert("Media not supported.");
-             return;
+            alert("Media not supported.");
+            return;
           }
           All_mediaDevices.getUserMedia({
-             video: true
+            video: true,
           })
-          .then(function(vidStream) {
-             var video = videoField;
-             if ("srcObject" in video) {
+            .then(function (vidStream) {
+              var video = videoField;
+              if ("srcObject" in video) {
                 video.srcObject = vidStream;
-             } else {
+              } else {
                 video.src = window.URL.createObjectURL(vidStream);
-             }
-             video.onloadedmetadata = function(e) {
+              }
+              video.onloadedmetadata = function (e) {
                 video.play();
-             };
-          })
-          .catch(function(e) {
-             alert(e.name + ": " + e.message);
-          });
-       }
+              };
+            })
+            .catch(function (e) {
+              alert(e.name + ": " + e.message);
+            });
+        }
 
-       openCam()
+        openCam();
 
         cameraField.onclick = (e) => {
           e.stopPropagation();
@@ -6286,9 +6304,7 @@ const MidSection = React.forwardRef((props, ref) => {
         };
 
         holderDIV.append(cameraField);
-      }
-
-      else if (typeOfOperation === "TEXT_FILL") {
+      } else if (typeOfOperation === "TEXT_FILL") {
         let texttField = document.createElement("textarea");
         texttField.className = "texttInput";
         texttField.placeholder = "input text here";
