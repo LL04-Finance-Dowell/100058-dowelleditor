@@ -31,6 +31,10 @@ import { AiFillPrinter } from "react-icons/ai";
 // import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
+
+import {downloadPDF} from '../../utils/genratePDF.js'
+
+import generateImage from '../../utils/generateImage.js'
 // import MidSection from "../../components/midSection/MidSection";
 
 // const Printer = () => {
@@ -2130,6 +2134,22 @@ const Header = () => {
     // bodyEl.style.display = "block";
   };
 
+
+
+  //Event handler for pdf print
+const handlePDFPrint = async () => {
+  const allScales = document.querySelectorAll(".newScaleInput");
+  for (let i = 0; i <= Array.from(allScales).length; i++) {
+      if(Array.from(allScales)[i]){
+       let res = await generateImage(Array.from(allScales)[i]);
+       Array.from(allScales)[i].setAttribute('snapshot',res)
+      }
+  }
+  const containerAll = document.querySelectorAll(".midSection_container");
+  const fileName = document.querySelector(".title-name").innerText;
+  downloadPDF(Array.from(containerAll), fileName);
+};
+
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
   return (
@@ -2174,12 +2194,12 @@ const Header = () => {
                   </div>
                   <div
                     className="d-flex cursor_pointer"
-                    onClick={() => setPrintContent(true)}
+                    onClick={() => handlePDFPrint()}
                   >
                     {/* <ReactToPrint
                       trigger={
                         (e) => ( */}
-                    <p onClick={hanldePrint}>
+                    <p >
                       {/* <p onClick={printJS('docs/printjs.pdf')}> */}
                       <AiFillPrinter /> Print
                     </p>
