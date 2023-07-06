@@ -348,7 +348,7 @@ const ScaleRightSide = () => {
     const buttonChildRight = scale?.querySelector(".right_child");
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const buttonImageRight = document.getElementById("ImageUpload");
-    const optionSelect = document.getElementById("select");
+    const optionSelect = document.getElementById("format");
     const option =
       document.querySelector("#orientationId").options[
         document.querySelector("#orientationId").selectedIndex
