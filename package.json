@@ -42,7 +42,8 @@
     "react-toastify": "^9.1.1",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@babel/runtime": "^7.15.4"
   },
   "scripts": {
     "predeploy": "npm run build",
