@@ -1623,7 +1623,7 @@ const MidSection = React.forwardRef((props, ref) => {
       console.log("data", element, "cutItem_value", cutItem_value);
       // cutItem_value.append(data);
     }
-    //  if (sessionStorage.getItem("copyItem")) {
+    //if (sessionStorage.getItem("copyItem")) {
     //   console.log("getting copy Item")
     //   if (element.type === "DATE_INPUT") {
     //     const measure = {
@@ -2202,7 +2202,7 @@ const MidSection = React.forwardRef((props, ref) => {
     return holderMenu;
   }
 
-  function getHolderDIV(measure, i, idMatch, borderWidth, calBorder) {
+  function getHolderDIV(measure, i, idMatch) {
     //console.log("from holder div", i);
     //creating holder for every input field over the page
     const holderDIV = document.createElement("div");
@@ -2230,12 +2230,12 @@ const MidSection = React.forwardRef((props, ref) => {
 
     holderDIV.classList.add(`page_${i}`);
     //console.log(idMatch);
-    if(borderWidth && !idMatch?.length) {
-      holderDIV.style.border =  borderWidth ;
-      // console.log("calendar date", borderWidth)
+    // if(borderWidth && !idMatch?.length) {
+    //   holderDIV.style.border =  borderWidth ;
+    //   // console.log("calendar date", borderWidth)
 
-      // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
-    }
+    //   // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
+    // }
 
     // else if(calBorder) {
     //   holderDIV.style.border = calBorder;
@@ -2247,7 +2247,7 @@ const MidSection = React.forwardRef((props, ref) => {
     //   holderDIV.style.border =  borderWidths ;
     //   // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
     // }
-    else if (!borderWidth && idMatch?.length > 0) {
+     if ( idMatch?.length > 0) {
       holderDIV.classList.add(`enable_pointer_event`);
       holderDIV.style.border = "1px solid green !important";
     } else if (idMatch?.length < 1 && actionName == "document") {
@@ -2510,13 +2510,14 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
+            border: element.borderWidth,
             auth_user: curr_user,
           };
           console.log("element", element);
           //console.log("measure from image input", measure);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           // console.log(idMatch, "idMatch");
-          const holderDIV = getHolderDIV(measure, pageNo, idMatch, element.borderWidth);
+          const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
           // const holderDIV = getHolderDIV(measure, pageNo);
 
@@ -5276,14 +5277,6 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
 
-
-        const textBorder = localStorage.getItem("alignSize");
-        const textBorderColor = localStorage.getItem("alignColor");
-        
-        // imageField.style.border = ImgBorder + "px"
-
-        const dataas = `${textBorder}` + "px"
-        inputField.style.border = `${dataas} dotted ${textBorderColor}`;
 
         const txt = document.getElementsByClassName("textInput");
         if (txt.length) {

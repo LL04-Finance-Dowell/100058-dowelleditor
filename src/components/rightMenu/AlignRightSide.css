@@ -29,3 +29,13 @@
   background: rgb(84, 236, 247);
   cursor: pointer;
 }
+
+.font-sizing {
+width: 60px;
+padding: 3px;
+}
+
+.size-btn {
+  padding: 3px
+}
+

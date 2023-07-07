@@ -1150,7 +1150,8 @@ const Header = () => {
             left: tempPosn.left,
             type: "IMAGE_INPUT",
             data: dataName,
-            borderWidth: `${borderSize}px dotted ${borderColor}`,
+            border: `${borderSize}px dotted ${borderColor}`,
+            borderWidth: img[h].parentElement.style.border,
             id: `i${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -1777,11 +1778,21 @@ const Header = () => {
   //   document_map?.length
   // );
 
+  // if(setIsLoading(true)) {
+  //   const findSaveBtn = document.getElementById("saving-buttonn");
+  //   findSaveBtn.style.display = "none";
+  // }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
+    // if (isLoading(true)) {
+      const findSaveBtn = document.getElementById("saving-buttonn");
+      findSaveBtn.style.display = "none";
+    // }
+    
+   
     const dataa = saveDocument();
-
     const finalize = document.getElementById("finalize-button");
 
     const titleName = document.querySelector(".title-name").innerHTML;
@@ -1954,7 +1965,19 @@ const Header = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    // const loadBtn = document.getElementById("saving-buttonn")
+    // loadBtn.style.display = "none"
+    // if(setIsLoading(true)) {
+    //   const loadBtn = document.getElementById("saving-buttonn")
+    //   loadBtn.style.display = "none"
+    // } else {
+    //   const loadBtn = document.getElementById("saving-buttonn")
+    //   loadBtn.style.display = "block"
+    // }
+
     getPostData();
+    
+    // loadBtn.style.display = "block"
   }, []);
 
   useEffect(() => {
@@ -2201,8 +2224,8 @@ const Header = () => {
                     </button>
                   )}
                   {actionName == "template" && (
-                    <button className="page_btn p-0 d-flex">
-                      <CgPlayListRemove onClick={() => removePage()} />
+                    <button className="page_btn p-0 d-flex" onClick={() => removePage()}>
+                      <CgPlayListRemove />
                       <p>Remove Page</p>
                     </button>
                   )}
