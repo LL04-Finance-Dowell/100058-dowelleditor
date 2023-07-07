@@ -31,6 +31,10 @@ import { AiFillPrinter } from "react-icons/ai";
 // import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
+
+import {downloadPDF} from '../../utils/genratePDF.js'
+
+import generateImage from '../../utils/generateImage.js'
 // import MidSection from "../../components/midSection/MidSection";
 
 // const Printer = () => {
@@ -136,16 +140,14 @@ const Header = () => {
     setScaleBorderSize,
     scaleBorderColor,
     setScaleBorderColor,
-    containerBorderSize, 
+    containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor
-
+    setContainerBorderColor,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
   // const [cutItem_value, setCutItem_value] = useState(null);
-
 
   // function getHolderDIV(measure, i, idMatch) {
   //   //console.log("from holder div", i);
@@ -373,7 +375,6 @@ const Header = () => {
   //   return resizer;
   // }
 
-
   // const dragElementOverPage = (event) => {
   //   let holder;
   //   // console.log("dragElement", event.target);
@@ -505,7 +506,6 @@ const Header = () => {
   //   }
   // };
 
-
   // function getHolderMenu(auth_user) {
   //   //putting functional menu on holder
 
@@ -540,10 +540,6 @@ const Header = () => {
 
   //   return holderMenu;
   // }
-
-
-
-
 
   // const copyInput = (clickHandler) => {
   //   // if (typeOfOperation === "IMAGE_INPUT") {
@@ -705,7 +701,6 @@ const Header = () => {
   //   };
   // };
 
-
   // function getOffset(el) {
   //   const parent = document.getElementById("midSection_container");
   //   const parentPos = parent.getBoundingClientRect();
@@ -720,7 +715,6 @@ const Header = () => {
   //     // top: rect.top + window.scrollY
   //   };
   // }
-
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -816,8 +810,6 @@ const Header = () => {
   };
   // const handlePaste = () => {
 
-
-
   //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
   //   const curr_user = document.getElementById("current-user");
 
@@ -899,15 +891,11 @@ const Header = () => {
   //   //     };
   //   //     inputField.innerText = `${element.data}`
 
-
-
-
   //   //     holderDIV.append(inputField);
   //   //     cutItem_value.append(holderDIV);
   //   //     sessionStorage.clear()
   //   //   }
   //   // }
-
 
   // };
   const handleTitle = () => {
@@ -1371,6 +1359,9 @@ const Header = () => {
                 case "dropdownInput":
                   type = "DROPDOWN_INPUT";
                   break;
+                case "cameraInput":
+                  type = "CAMERA_INPUT";
+                  break;
                 default:
                   type = "";
               }
@@ -1526,7 +1517,6 @@ const Header = () => {
         }
       }
     }
-
     const newScales = document.getElementsByClassName("newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
@@ -1544,13 +1534,33 @@ const Header = () => {
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
-          let scaleText = newScales[b].querySelector(".scale_text")
+          let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleID = newScales[b].querySelector(".scaleId");
-          console.log(font);
+          // let buttonImages = newScales[b].querySelectorAll(".circle_label");
+          // const uploadedImageUrl = localStorage.getItem("uploadedImageUrl");
+          let buttonText = newScales[b].querySelectorAll(".circle_label");
+          console.log(buttonText);
+          let buttonImages = newScales[b].querySelectorAll(".images_lebel");
+          let arr = [];
+          let emojiArr = [];
+          console.log(emojiArr);
+          if (buttonText.length !== 0) {
+            for (let i = 0; i < buttonText.length; i++) {
+              emojiArr.push(buttonText[i].textContent);
+            }
+          }
 
-          // console.log(buttonColors);
+          for (let i = 0; i < buttonImages.length; i++) {
+            emojiArr = [];
+            arr.push(buttonImages[i].src);
+          }
+          console.log(emojiArr);
+
+          // Save the arr array to LocalStorage
+          // localStorage.setItem('buttonImages', JSON.stringify(arr));
+          console.log(arr);
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -1560,9 +1570,16 @@ const Header = () => {
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
             scaleID: scaleID.textContent,
-            scaleText: scaleText.textContent
+            scaleText: scaleText.textContent,
+            buttonImages: arr,
+            buttonText: emojiArr,
           };
           console.log(properties);
+          // Create a new custom event to pass the properties to midSection.js
+          const customEvent = new CustomEvent("buttonImagesEvent", {
+            detail: properties,
+          });
+          document.dispatchEvent(customEvent);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -1588,51 +1605,42 @@ const Header = () => {
       }
     }
 
-    // const imageCanva = document.getElementsByClassName("imageInput");
-    // if (imageCanva.length) {
-    //   for (let b = 0; b < imageCanva.length; b++) {
-    //     if (
-    //       !imageCanva[b]?.parentElement?.parentElement?.classList?.contains(
-    //         "containerInput"
-    //       )
-    //     ) {
-    //       let tempElem = imageCanva[b].parentElement;
+    const imageCanva = document.getElementsByClassName("cameraInput");
+    if (imageCanva.length) {
+      for (let b = 0; b < imageCanva.length; b++) {
+        if (
+          !imageCanva[b]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = imageCanva[b].parentElement;
 
-    //       let tempPosn = getPosition(tempElem);
-    //       console.log(imageCanva[b]);
-    //       let linkHolder = imageCanva[b].querySelector(".link_holder");
-          
+          let tempPosn = getPosition(tempElem);
+          console.log(imageCanva[b]);
+          let imageLinkHolder = imageCanva[b].querySelector(".imageLinkHolder");
+          let videoLinkHolder = imageCanva[b].querySelector(".videoLinkHolder");
 
-    //       // console.log(buttonColors);
-    //       let properties = {
-    //         link: linkHolder.textContent,
-    //       };
-    //       console.log(properties);
-    //       elem = {
-    //         width: tempPosn.width,
-    //         height: tempPosn.height,
-    //         top: tempPosn.top,
-    //         topp: newScales[b].parentElement.style.top,
-    //         left: tempPosn.left,
-    //         type: "CAMERA_INPUT",
-    //         data: `${title}_scale_${b + 1}`,
-    //         // raw_data: tempElem.children[1].innerHTML,
-    //         raw_data: properties,
-    //         // purpose: tempElem.children[2].innerHTML,
-    //         id: `scl${b + 1}`,
-    //         // newScaleId = scale
-    //         // details:
-    //         //   decoded.details.action === "document"
-    //         //     ? "Document instance"
-    //         //     : "Template scale",
-    //       };
-    //       console.log(elem);
-    //       const pageNum = findPaageNum(newScales[b]);
-    //       page[0][pageNum].push(elem);
-    //     }
-    //   }
-    // }
-
+          let properties = {
+            imageLinkHolder: imageLinkHolder.textContent,
+            videoLinkHolder: videoLinkHolder.textContent,
+          };
+          console.log(properties);
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: imageCanva[b].parentElement.style.top,
+            left: tempPosn.left,
+            type: "CAMERA_INPUT",
+            raw_data: properties,
+            id: `cam1${b + 1}`,
+          };
+          console.log(elem);
+          const pageNum = findPaageNum(imageCanva[b]);
+          page[0][pageNum].push(elem);
+        }
+      }
+    }
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
@@ -1743,9 +1751,11 @@ const Header = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const link_idd = searchParams.get("link_id");
+
   var decoded = jwt_decode(token);
   // console.log(decoded.details);
-  const { action, authorized, process_id, document_map, _id, role } =
+  const { action, authorized, process_id, user_type, document_map, _id, role } =
     decoded?.details;
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
@@ -1848,15 +1858,13 @@ const Header = () => {
       }
     )
       .then((res) => {
-        if (res.status == 200) {
-          setIsLoading(false);
-          setIsDataSaved(true);
-          // alert("Data saved successfully");
+        if (res) {
           toast.success("Saved successfully");
-          sendMessage();
-          if(finalize){
+          setIsLoading(false);
+          if (finalize) {
             handleFinalize();
           }
+          setIsDataSaved(true);
         }
         //console.log(res);
       })
@@ -2071,13 +2079,16 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  
+  const linkId = decoded.details.link_id;
+
   function handleFinalize() {
     setIsLoading(true);
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
       {
+        user_type: user_type,
+        link_id: link_idd,
         action: "finalized",
         // item_id: process_id,
         authorized: authorized,
@@ -2089,7 +2100,7 @@ const Header = () => {
       }
     )
       .then((res) => {
-        console.log(res);
+        console.log("This is my response", res);
         setIsLoading(false);
         toast.success(res?.data);
       })
@@ -2099,7 +2110,6 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
-      
   }
 
   function handleReject() {
@@ -2116,6 +2126,8 @@ const Header = () => {
         item_id: _id,
         company_id: companyId,
         role: role,
+        user_type: user_type,
+        link_id: link_idd,
       }
     )
       .then((res) => {
@@ -2144,6 +2156,22 @@ const Header = () => {
     window.print();
     // bodyEl.style.display = "block";
   };
+
+
+
+  //Event handler for pdf print
+const handlePDFPrint = async () => {
+  const allScales = document.querySelectorAll(".newScaleInput");
+  for (let i = 0; i <= Array.from(allScales).length; i++) {
+      if(Array.from(allScales)[i]){
+       let res = await generateImage(Array.from(allScales)[i]);
+       Array.from(allScales)[i].setAttribute('snapshot',res)
+      }
+  }
+  const containerAll = document.querySelectorAll(".midSection_container");
+  const fileName = document.querySelector(".title-name").innerText;
+  downloadPDF(Array.from(containerAll), fileName);
+};
 
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
@@ -2189,12 +2217,12 @@ const Header = () => {
                   </div>
                   <div
                     className="d-flex cursor_pointer"
-                    onClick={() => setPrintContent(true)}
+                    onClick={() => handlePDFPrint()}
                   >
                     {/* <ReactToPrint
                       trigger={
                         (e) => ( */}
-                    <p onClick={hanldePrint}>
+                    <p >
                       {/* <p onClick={printJS('docs/printjs.pdf')}> */}
                       <AiFillPrinter /> Print
                     </p>

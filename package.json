@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.8.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -16,8 +17,10 @@
     "bootstrap": "4.3.1",
     "crypto-js": "^4.1.1",
     "emoji-picker-react": "^4.4.9",
+    "file-saver": "^2.0.5",
     "framer-motion": "^7.6.7",
     "html-react-parser": "^2.0.0",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.6.1",
     "js-base64": "^3.7.5",
     "jwt-decode": "^3.1.2",
