@@ -1734,6 +1734,7 @@ const Header = () => {
 
     return contentFile;
   }
+  // end of save document function
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -1774,9 +1775,95 @@ const Header = () => {
   //   document_map?.length
   // );
 
+  // const questionAndAnswerGrouping = () => {
+  //   // const elements = document.querySelectorAll(".holderDIV")
+  //   const result = []
+  //   const elements = document.querySelectorAll(".holderDIV div")
+  //   console.log(elements);
+
+
+  //   if (elements.length % 2 === 1) {
+  //     console.log("first for looop")
+  //     for (let i = 0; i < elements.length -1; i++) {
+  //       console.log("value of i-->", i)
+  //       const question = elements[i].id;
+  //       const answer = elements[i + 1].id;
+  //       const item = {
+  //         question,
+  //         answer,
+  //       };
+  //       console.log("item2", item)
+  //       result.push(item);
+  //     }
+  //   } else {
+  //     console.log("second for looop")
+  //     for (let i = 0; i < elements.length; i += 2) {
+  //       const question = elements[i].id;
+  //       const answer = elements[i + 1].id;
+  //       const item = {
+  //         question,
+  //         answer,
+  //       };
+  //       result.push(item);
+  //     }
+  //   }
+
+
+
+  //   console.log("questionAndAnswerGroupedData-->", result)
+  //   // return result
+  // }
+
+  const questionAndAnswerGrouping = () => {
+    // const elements = document.querySelectorAll(".holderDIV")
+    const result = []
+    const elements = document.querySelectorAll(".holderDIV div")
+    console.log(elements);
+
+
+    if (elements.length % 2 === 1) {
+      const elementsCopy = [...elements]
+      const lastItem = elementsCopy.pop()
+      for (let i = 0; i < elementsCopy.length; i += 2) {
+        const question = elementsCopy[i].id;
+        const answer = elementsCopy[i + 1].id;
+        const item = {
+          question,
+          answer,
+        };
+        result.push(item);
+      }
+      result.push({ question: result[result.length - 1].answer, answer: lastItem.id })
+    } else {
+      for (let i = 0; i < elements.length; i += 2) {
+        const question = elements[i].id;
+        const answer = elements[i + 1].id;
+        const item = {
+          question,
+          answer,
+        };
+        result.push(item);
+      }
+    }
+
+    console.log("questionAndAnswerGroupedData-->", result)
+    return result
+  }
+
+  // function submit(e) {
+  //   e.preventDefault();
+  //   const questionAndAns = questionAndAnswerGrouping()
+  //   console.log("questionAndAns", questionAndAns)
+  // }
+
+
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
+    const questionAndAns = questionAndAnswerGrouping()
+    console.log("questionAndAns", questionAndAns)
+    
     const dataa = saveDocument();
 
     const finalize = document.getElementById("finalize-button");
@@ -1831,6 +1918,7 @@ const Header = () => {
         // scale_url: `${scaleData}`,
         company_id: companyId,
         type: decoded.details.action,
+         questionAndAns
       }
     )
       .then((res) => {
