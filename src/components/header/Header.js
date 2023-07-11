@@ -2173,6 +2173,12 @@ const handlePDFPrint = async () => {
   downloadPDF(Array.from(containerAll), fileName);
 };
 
+// const midDocument = document.getElementsByClassName("editSec_midSec")
+
+// midDocument.addEventListener("click", () => {
+//   setIsMenuVisible(false)
+// })
+
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
   return (
@@ -2257,8 +2263,8 @@ const handlePDFPrint = async () => {
                       <p>Remove Page</p>
                     </button>
                   )}
-                  <button className="page_btn p-0 d-flex">
-                    <BiImport onClick={handleToken} />
+                  <button className="page_btn p-0 d-flex" onClick={handleToken}>
+                    <BiImport  />
                     <p>Import</p>
                   </button>
                   <button

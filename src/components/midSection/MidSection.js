@@ -5423,6 +5423,9 @@ const MidSection = React.forwardRef((props, ref) => {
 
 
         const txt = document.getElementsByClassName("textInput");
+        const holderText = "Enter text here";
+        inputField.append(holderText);
+        
         if (txt.length) {
           const h = txt.length;
           inputField.id = `t${h + 1}`;
