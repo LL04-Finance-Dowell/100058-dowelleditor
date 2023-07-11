@@ -2051,6 +2051,8 @@ const Header = () => {
 
   function handleFinalize() {
     setIsLoading(true);
+    const finalize = document.getElementById("finalize-button");
+    const reject = document.getElementById("reject-button");
     Axios.post(
       // `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize/`,
       `https://100094.pythonanywhere.com/v1/processes/${process_id}/finalize-or-reject/`,
@@ -2071,6 +2073,8 @@ const Header = () => {
         console.log("This is my response", res);
         setIsLoading(false);
         toast.success(res?.data);
+        finalize.style.visibility = "hidden";
+        reject.style.visibility = "hidden";
       })
       .catch((err) => {
         setIsLoading(false);
