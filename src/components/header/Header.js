@@ -31,10 +31,6 @@ import { AiFillPrinter } from "react-icons/ai";
 // import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
-
-import {downloadPDF} from '../../utils/genratePDF.js'
-
-import generateImage from '../../utils/generateImage.js'
 // import MidSection from "../../components/midSection/MidSection";
 
 // const Printer = () => {
@@ -143,11 +139,13 @@ const Header = () => {
     containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor,
+    setContainerBorderColor
+
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
   // const [cutItem_value, setCutItem_value] = useState(null);
+
 
   // function getHolderDIV(measure, i, idMatch) {
   //   //console.log("from holder div", i);
@@ -375,6 +373,7 @@ const Header = () => {
   //   return resizer;
   // }
 
+
   // const dragElementOverPage = (event) => {
   //   let holder;
   //   // console.log("dragElement", event.target);
@@ -506,6 +505,7 @@ const Header = () => {
   //   }
   // };
 
+
   // function getHolderMenu(auth_user) {
   //   //putting functional menu on holder
 
@@ -540,6 +540,10 @@ const Header = () => {
 
   //   return holderMenu;
   // }
+
+
+
+
 
   // const copyInput = (clickHandler) => {
   //   // if (typeOfOperation === "IMAGE_INPUT") {
@@ -701,6 +705,7 @@ const Header = () => {
   //   };
   // };
 
+
   // function getOffset(el) {
   //   const parent = document.getElementById("midSection_container");
   //   const parentPos = parent.getBoundingClientRect();
@@ -715,6 +720,7 @@ const Header = () => {
   //     // top: rect.top + window.scrollY
   //   };
   // }
+
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -810,6 +816,8 @@ const Header = () => {
   };
   // const handlePaste = () => {
 
+
+
   //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
   //   const curr_user = document.getElementById("current-user");
 
@@ -891,11 +899,15 @@ const Header = () => {
   //   //     };
   //   //     inputField.innerText = `${element.data}`
 
+
+
+
   //   //     holderDIV.append(inputField);
   //   //     cutItem_value.append(holderDIV);
   //   //     sessionStorage.clear()
   //   //   }
   //   // }
+
 
   // };
   const handleTitle = () => {
@@ -1138,8 +1150,7 @@ const Header = () => {
             left: tempPosn.left,
             type: "IMAGE_INPUT",
             data: dataName,
-            border: `${borderSize}px dotted ${borderColor}`,
-            borderWidth: img[h].parentElement.style.border,
+            borderWidth: `${borderSize}px dotted ${borderColor}`,
             id: `i${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -1206,7 +1217,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                  sign[h].innerHTML
+                sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -1258,9 +1269,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                            .backgroundImage
+                          .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                          ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -1373,7 +1384,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                element?.firstElementChild?.style?.backgroundImage
+                  element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1517,6 +1528,7 @@ const Header = () => {
         }
       }
     }
+
     const newScales = document.getElementsByClassName("newScaleInput");
     if (newScales.length) {
       for (let b = 0; b < newScales.length; b++) {
@@ -1534,33 +1546,13 @@ const Header = () => {
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
-          let scaleText = newScales[b].querySelector(".scale_text");
+          let scaleText = newScales[b].querySelector(".scale_text")
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleID = newScales[b].querySelector(".scaleId");
-          // let buttonImages = newScales[b].querySelectorAll(".circle_label");
-          // const uploadedImageUrl = localStorage.getItem("uploadedImageUrl");
-          let buttonText = newScales[b].querySelectorAll(".circle_label");
-          console.log(buttonText);
-          let buttonImages = newScales[b].querySelectorAll(".images_lebel");
-          let arr = [];
-          let emojiArr = [];
-          console.log(emojiArr);
-          if (buttonText.length !== 0) {
-            for (let i = 0; i < buttonText.length; i++) {
-              emojiArr.push(buttonText[i].textContent);
-            }
-          }
+          console.log(font);
 
-          for (let i = 0; i < buttonImages.length; i++) {
-            emojiArr = [];
-            arr.push(buttonImages[i].src);
-          }
-          console.log(emojiArr);
-
-          // Save the arr array to LocalStorage
-          // localStorage.setItem('buttonImages', JSON.stringify(arr));
-          console.log(arr);
+          // console.log(buttonColors);
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -1570,16 +1562,9 @@ const Header = () => {
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
             scaleID: scaleID.textContent,
-            scaleText: scaleText.textContent,
-            buttonImages: arr,
-            buttonText: emojiArr,
+            scaleText: scaleText.textContent
           };
           console.log(properties);
-          // Create a new custom event to pass the properties to midSection.js
-          const customEvent = new CustomEvent("buttonImagesEvent", {
-            detail: properties,
-          });
-          document.dispatchEvent(customEvent);
           elem = {
             width: tempPosn.width,
             height: tempPosn.height,
@@ -1622,7 +1607,7 @@ const Header = () => {
 
           let properties = {
             imageLinkHolder: imageLinkHolder.textContent,
-            videoLinkHolder: videoLinkHolder.textContent,
+            videoLinkHolder: videoLinkHolder.textContent
           };
           console.log(properties);
           elem = {
@@ -1641,6 +1626,7 @@ const Header = () => {
         }
       }
     }
+
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
@@ -1788,21 +1774,11 @@ const Header = () => {
   //   document_map?.length
   // );
 
-  // if(setIsLoading(true)) {
-  //   const findSaveBtn = document.getElementById("saving-buttonn");
-  //   findSaveBtn.style.display = "none";
-  // }
-
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
-    // if (isLoading(true)) {
-      const findSaveBtn = document.getElementById("saving-buttonn");
-      findSaveBtn.style.display = "none";
-    // }
-    
-   
     const dataa = saveDocument();
+
     const finalize = document.getElementById("finalize-button");
 
     const titleName = document.querySelector(".title-name").innerHTML;
@@ -1973,19 +1949,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    // const loadBtn = document.getElementById("saving-buttonn")
-    // loadBtn.style.display = "none"
-    // if(setIsLoading(true)) {
-    //   const loadBtn = document.getElementById("saving-buttonn")
-    //   loadBtn.style.display = "none"
-    // } else {
-    //   const loadBtn = document.getElementById("saving-buttonn")
-    //   loadBtn.style.display = "block"
-    // }
-
     getPostData();
-    
-    // loadBtn.style.display = "block"
   }, []);
 
   useEffect(() => {
@@ -2079,7 +2043,7 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const linkId = decoded.details.link_id;
+  const linkId = decoded.details.link_id
 
   function handleFinalize() {
     setIsLoading(true);
@@ -2110,6 +2074,7 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
+
   }
 
   function handleReject() {
@@ -2157,29 +2122,12 @@ const Header = () => {
     // bodyEl.style.display = "block";
   };
 
-
-
-  //Event handler for pdf print
-const handlePDFPrint = async () => {
-  const allScales = document.querySelectorAll(".newScaleInput");
-  for (let i = 0; i <= Array.from(allScales).length; i++) {
-      if(Array.from(allScales)[i]){
-       let res = await generateImage(Array.from(allScales)[i]);
-       Array.from(allScales)[i].setAttribute('snapshot',res)
-      }
-  }
-  const containerAll = document.querySelectorAll(".midSection_container");
-  const fileName = document.querySelector(".title-name").innerText;
-  downloadPDF(Array.from(containerAll), fileName);
-};
-
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${
-        actionName == "template" ? "header_bg_template" : "header_bg_document"
-      }`}
+      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
+        }`}
     >
       <Container fluid>
         <Row>
@@ -2189,9 +2137,8 @@ const handlePDFPrint = async () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
-                    isMenuVisible ? "show" : ""
-                  }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
+                    }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -2217,12 +2164,12 @@ const handlePDFPrint = async () => {
                   </div>
                   <div
                     className="d-flex cursor_pointer"
-                    onClick={() => handlePDFPrint()}
+                    onClick={() => setPrintContent(true)}
                   >
                     {/* <ReactToPrint
                       trigger={
                         (e) => ( */}
-                    <p >
+                    <p onClick={hanldePrint}>
                       {/* <p onClick={printJS('docs/printjs.pdf')}> */}
                       <AiFillPrinter /> Print
                     </p>
@@ -2257,8 +2204,8 @@ const handlePDFPrint = async () => {
                       <p>Remove Page</p>
                     </button>
                   )}
-                  <button className="page_btn p-0 d-flex">
-                    <BiImport onClick={handleToken} />
+                  <button className="page_btn p-0 d-flex" onClick={handleToken}>
+                    <BiImport />
                     <p>Import</p>
                   </button>
                   <button
