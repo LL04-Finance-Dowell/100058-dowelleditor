@@ -337,10 +337,10 @@ const AlignRightSide = () =>
 
         <Row className="pt-4">
           <h6 className="my-3">Font Size</h6>
-          <Col>
+          <Col className="">
             <select
               onChange={handleSizing}
-              className="select border-0 bg-white rounded w-100 h-100"
+              className="select border-0 bg-white rounded font-sizing"
               id="font-sizing"
             >
               <option value="8">8</option>
@@ -499,9 +499,9 @@ const AlignRightSide = () =>
             <Button
               variant="white"
               onClick={handleIncreaseSize}
-              className="d-flex select bg-white rounded"
+              className="d-flex select bg-white rounded size-btn"
             >
-              <BiFont onClick={handleIncreaseSize} color="gray" size={16} />
+              <BiFont onClick={handleIncreaseSize} color="gray" size={10} />
               <AiOutlineArrowUp color="gray" />
             </Button>
           </Col>
@@ -509,7 +509,7 @@ const AlignRightSide = () =>
             <Button
               variant="white"
               onClick={handleDecreaseSize}
-              className="d-flex select bg-white rounded"
+              className="d-flex select bg-white rounded size-btn"
             >
               <BiFont color="gray" size={16} />{" "}
               <AiOutlineArrowDown color="gray" size={16} />
