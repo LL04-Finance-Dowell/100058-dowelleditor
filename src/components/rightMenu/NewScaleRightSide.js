@@ -360,44 +360,12 @@ const ScaleRightSide = () => {
     let tempText = scale?.querySelector(".tempText");
     tempText?.remove();
     button4.style.display = "block";
-    if (btnUpdateScale.value !== "") {
-      button.style.backgroundColor = btnUpdateScale.value;
-    }
-
-    for (let i = 0; i < buttonCircle.length; i++) {
-      if (btnUpdateButton.value !== "") {
-        buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
-      }
-    }
-
-    if (btnUpdateFontColor.value !== "") {
-      button4.style.color = btnUpdateFontColor.value;
-    }
 
     if (btnUpdateScaleFont.value !== "") {
       button4.style.fontFamily = btnUpdateScaleFont.value;
     }
 
     const selectedOption = optionSelect.value;
-
-    if (selectedOption === "image") {
-      renderImage();
-    } else if (selectedOption === "emoji") {
-      const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-      const emojis = inputStr
-        .split(emojiFormat)
-        .filter((emoji) => emoji !== "");
-
-      for (let i = 0; i < buttonCircle.length; i++) {
-        if (emojiInp.value !== "") {
-          // Set the text content of the div to the corresponding emoji
-          buttonCircle[i].textContent = emojis[i % emojis.length];
-          console.log(emojis[i % emojis.length]);
-        }
-      }
-    } else if (selectedOption === "number") {
-      renderNumber();
-    }
 
     function renderImage() {
       const uploadedImages = document
@@ -427,48 +395,6 @@ const ScaleRightSide = () => {
         buttonCircle[i].textContent = i;
       }
       document.getElementById("image").style.display = "none";
-    }
-
-    if (option.value === "Horizontal") {
-      button4.style.border = "block";
-      button4.style.textAlign = "center";
-      button.style.display = "flex";
-      button.style.flexDirection = "row";
-      // button.style.marginTop = "5%";
-      button.style.alignItems = "center";
-      // buttonCircle.style.flexDirection = "row";
-      button.style.height = "85%";
-      button.style.width = "100%";
-      button.style.flexDirection = "row";
-      buttonChildRight.style.marginTop = "0px";
-      buttonChildNeutral.style.marginTop = "0px";
-      buttonChild.style.flexDirection = "row";
-      buttonChild.style.justifyContent = "space-between";
-      buttonChild.style.alignItems = "center";
-      button.style.position = "relative";
-      buttonChild.style.marginLeft = "0px";
-      button.style.marginLeft = "0px";
-    }
-
-    if (option.value === "Vertical") {
-      button4.style.border = "none";
-      button4.style.textAlign = "center";
-      button.style.height = "100%";
-      button.style.width = "30%";
-      button.style.position = "absolute";
-      button.style.flexDirection = "column";
-      button.style.alignItems = "center";
-      button.style.marginTop = "0";
-      // button.style.marginLeft = "26%";
-      buttonChild.style.display = "flex";
-      buttonChild.style.flexDirection = "column";
-      buttonChild.style.justifyContent = "space-between";
-      // buttonChild.style.marginLeft = "38%";
-      buttonChildLeft.style.marginTop = "0px";
-      buttonChildRight.style.marginTop = "40%";
-      buttonChildNeutral.style.marginTop = "50%";
-      //buttonCircle.style.flexDirection = "column";
-      buttonCircleM.style.marginTop = "2px";
     }
 
     if (btnUpdateLeft.value !== "") {
@@ -501,25 +427,25 @@ const ScaleRightSide = () => {
     let timeId = document.getElementById("timeId");
     let time = document.getElementById("time");
 
-    const prepareImageLabels = () => {
-      const imageLabels = {};
+    // const prepareImageLabels = () => {
+    //   const imageLabels = {};
 
-      const repeatedImages = [];
-      const selectedCount = Math.min(selectedImages.length, 11); // Replace 11 with the actual label count
+    //   const repeatedImages = [];
+    //   const selectedCount = Math.min(selectedImages.length, 11); // Replace 11 with the actual label count
 
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        const imageIndex = i % selectedCount;
-        repeatedImages.push(selectedImages[imageIndex]);
-      }
+    //   for (let i = 0; i < 11; i++) {
+    //     // Replace 11 with the actual label count
+    //     const imageIndex = i % selectedCount;
+    //     repeatedImages.push(selectedImages[imageIndex]);
+    //   }
 
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        imageLabels[i] = repeatedImages[i];
-      }
+    //   for (let i = 0; i < 11; i++) {
+    //     // Replace 11 with the actual label count
+    //     imageLabels[i] = repeatedImages[i];
+    //   }
 
-      return imageLabels;
-    };
+    //   return imageLabels;
+    // };
     const prepareEmojiLabels = () => {
       const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
       const emojis = inputStr
@@ -546,12 +472,13 @@ const ScaleRightSide = () => {
     };
     const emojiLabels = prepareEmojiLabels();
     console.log(emojiLabels);
-    const imageLabels = prepareImageLabels();
-    console.log(imageLabels);
-
+    // const imageLabels = prepareImageLabels();
+    // console.log(imageLabels);
+    let response = {}
     if (idHolder.textContent === "scale Id" || idHolder.textContent === "id") {
       setIsLoading(true);
       console.log("post req");
+      console.log(selectedOption)
       Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
         user: "true",
         username: "NdoneAmbrose",
@@ -560,33 +487,89 @@ const ScaleRightSide = () => {
         roundcolor: btnUpdateButton.value,
         fontcolor: btnUpdateFontColor.value,
         fomat: selectedOption,
-        allow_resp: false,
-        show_total_score: true,
         no_of_scales: 6,
         time: timeId.style.display === "none" ? "00" : time?.value,
         name: beNametnUpdateScal.value,
         left: btnUpdateLeft.value,
         right: btnUpdateRight.value,
         center: btnUpdateCenter.value,
-        image_label_format: imageLabels,
+        allow_resp: false,
+        show_total_score: true,
+        image_label_format: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
         fontstyle: btnUpdateScaleFont.value,
-        custom_emoji_format: emojiLabels,
+        custom_emoji_format: emojiLabels
       })
-        .then((res) => {
-          if (res.status == 200) {
+      .then((res) => {
             setIsLoading(false);
             sendMessage();
             setScaleData(res.data);
             const success = res.data.success;
             var successObj = JSON.parse(success);
             const id = successObj.inserted_id;
-            console.log(id);
+            console.log("This is scale id",id);
             if (id.length) {
               setScaleId(id && id);
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
-            console.log(res);
+            response = res.data.data.settings
+            console.log("This is the response",response);
+            if (response.orientation === 'Horizontal') {
+              button4.style.border = "block";
+              button4.style.textAlign = "center";
+              button.style.display = "flex";
+              button.style.flexDirection = "row";
+              // button.style.marginTop = "5%";
+              button.style.alignItems = "center";
+              // buttonCircle.style.flexDirection = "row";
+              button.style.height = "85%";
+              button.style.width = "100%";
+              button.style.flexDirection = "row";
+              buttonChildRight.style.marginTop = "0px";
+              buttonChildNeutral.style.marginTop = "0px";
+              buttonChild.style.flexDirection = "row";
+              buttonChild.style.justifyContent = "space-between";
+              buttonChild.style.alignItems = "center";
+              button.style.position = "relative";
+              buttonChild.style.marginLeft = "0px";
+              button.style.marginLeft = "0px";
+            }
+        
+            if (response.orientation === 'Vertical') {
+              button4.style.border = "none";
+              button4.style.textAlign = "center";
+              button.style.height = "100%";
+              button.style.width = "30%";
+              button.style.position = "absolute";
+              button.style.flexDirection = "column";
+              button.style.alignItems = "center";
+              button.style.marginTop = "0";
+              // button.style.marginLeft = "26%";
+              buttonChild.style.display = "flex";
+              buttonChild.style.flexDirection = "column";
+              buttonChild.style.justifyContent = "space-between";
+              // buttonChild.style.marginLeft = "38%";
+              buttonChildLeft.style.marginTop = "0px";
+              buttonChildRight.style.marginTop = "40%";
+              buttonChildNeutral.style.marginTop = "50%";
+              //buttonCircle.style.flexDirection = "column";
+              buttonCircleM.style.marginTop = "2px";
+            }
+            button.style.backgroundColor = response.scalecolor
+            for (let i = 0; i < buttonCircle.length; i++) {
+                buttonCircle[i].style.backgroundColor = response.roundcolor;
+            }
+            button4.style.color = response.fontcolor;
+            if(response.fomat ==="number"){
+              renderNumber();
+            }else if(response.fomat ==="image"){
+              renderImage();
+            }else if(response.fomat ==="emoji"){
+            for (let i = 0; i < buttonCircle.length; i++) {
+            //Set the text content of the div to the corresponding emoji
+            buttonCircle[i].textContent = response.custom_emoji_format[i]
+            console.log(response.custom_emoji_format[i]);
+          }
           }
         })
         .catch((err) => {
@@ -626,6 +609,65 @@ const ScaleRightSide = () => {
             setScaleId(scaleId);
             console.log(res);
             console.log("This is the still scale", scale);
+            response = res.data.data.settings
+            console.log("This is the response",response);
+            if (response.orientation === 'Horizontal') {
+              button4.style.border = "block";
+              button4.style.textAlign = "center";
+              button.style.display = "flex";
+              button.style.flexDirection = "row";
+              // button.style.marginTop = "5%";
+              button.style.alignItems = "center";
+              // buttonCircle.style.flexDirection = "row";
+              button.style.height = "85%";
+              button.style.width = "100%";
+              button.style.flexDirection = "row";
+              buttonChildRight.style.marginTop = "0px";
+              buttonChildNeutral.style.marginTop = "0px";
+              buttonChild.style.flexDirection = "row";
+              buttonChild.style.justifyContent = "space-between";
+              buttonChild.style.alignItems = "center";
+              button.style.position = "relative";
+              buttonChild.style.marginLeft = "0px";
+              button.style.marginLeft = "0px";
+            }
+        
+            if (response.orientation === 'Vertical') {
+              button4.style.border = "none";
+              button4.style.textAlign = "center";
+              button.style.height = "100%";
+              button.style.width = "30%";
+              button.style.position = "absolute";
+              button.style.flexDirection = "column";
+              button.style.alignItems = "center";
+              button.style.marginTop = "0";
+              // button.style.marginLeft = "26%";
+              buttonChild.style.display = "flex";
+              buttonChild.style.flexDirection = "column";
+              buttonChild.style.justifyContent = "space-between";
+              // buttonChild.style.marginLeft = "38%";
+              buttonChildLeft.style.marginTop = "0px";
+              buttonChildRight.style.marginTop = "40%";
+              buttonChildNeutral.style.marginTop = "50%";
+              //buttonCircle.style.flexDirection = "column";
+              buttonCircleM.style.marginTop = "2px";
+            }
+            button.style.backgroundColor = response.scalecolor
+            for (let i = 0; i < buttonCircle.length; i++) {
+                buttonCircle[i].style.backgroundColor = response.roundcolor;
+            }
+            button4.style.color = response.fontcolor;
+            if(response.fomat ==="number"){
+              renderNumber();
+            }else if(response.fomat ==="image"){
+              renderImage();
+            }else if(response.fomat ==="emoji"){
+            for (let i = 0; i < buttonCircle.length; i++) {
+            //Set the text content of the div to the corresponding emoji
+            buttonCircle[i].textContent = response.custom_emoji_format[i]
+            console.log(response.custom_emoji_format[i]);
+          }
+        }
           }
         })
         .catch((err) => {

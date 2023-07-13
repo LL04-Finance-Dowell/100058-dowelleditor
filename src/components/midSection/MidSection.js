@@ -5899,7 +5899,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "black";
+        scaleHold.style.color = "#fff";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
@@ -5925,7 +5925,7 @@ const MidSection = React.forwardRef((props, ref) => {
         labelHold.style.width = "100%";
         labelHold.style.height = "85%";
         labelHold.style.border = "1px solid black";
-        labelHold.style.backgroundColor = "blue";
+        labelHold.style.backgroundColor = "#fff";
         // labelHold.style.display = "none";
         scaleHold.appendChild(labelHold);
         labelHold.style.display = "flex";
@@ -5940,7 +5940,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
-          circle.style.backgroundColor = "red";
+          circle.style.backgroundColor = "white";
           circle.style.top = "30%";
           circle.style.left = "30%";
           circle.style.display = "flex";
