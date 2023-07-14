@@ -141,6 +141,10 @@ export const ContextProvider = ({ children }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   // handle drop event for table and retrieve midsection
 
+
+  const [questionAndAnswerGroupedData,
+    setQuestionAndAnsGroupedData] = useState([])
+
   const handleDropp = (e) => {
     e.preventDefault();
     if (
@@ -1100,14 +1104,16 @@ export const ContextProvider = ({ children }) => {
         setScaleBorderSize,
         scaleBorderColor,
         setScaleBorderColor,
-        containerBorderSize, 
+        containerBorderSize,
         setContainerBorderSize,
         containerBorderColor,
         setContainerBorderColor,
-        formBorderSize, 
+        formBorderSize,
         setFormBorderSize,
         formBorderColor,
-        setFormBorderColor
+        setFormBorderColor,
+        questionAndAnswerGroupedData,
+        setQuestionAndAnsGroupedData
       }}
     >
       {children}

@@ -1775,6 +1775,9 @@ const Header = () => {
   //   document_map?.length
   // );
 
+ 
+
+  //working solution
   // const questionAndAnswerGrouping = () => {
   //   // const elements = document.querySelectorAll(".holderDIV")
   //   const result = []
@@ -1783,20 +1786,19 @@ const Header = () => {
 
 
   //   if (elements.length % 2 === 1) {
-  //     console.log("first for looop")
-  //     for (let i = 0; i < elements.length -1; i++) {
-  //       console.log("value of i-->", i)
-  //       const question = elements[i].id;
-  //       const answer = elements[i + 1].id;
+  //     const elementsCopy = [...elements]
+  //     const lastItem = elementsCopy.pop()
+  //     for (let i = 0; i < elementsCopy.length; i += 2) {
+  //       const question = elementsCopy[i].id;
+  //       const answer = elementsCopy[i + 1].id;
   //       const item = {
   //         question,
   //         answer,
   //       };
-  //       console.log("item2", item)
   //       result.push(item);
   //     }
+  //     result.push({ question: result[result.length - 1].answer, answer: lastItem.id })
   //   } else {
-  //     console.log("second for looop")
   //     for (let i = 0; i < elements.length; i += 2) {
   //       const question = elements[i].id;
   //       const answer = elements[i + 1].id;
@@ -1808,135 +1810,101 @@ const Header = () => {
   //     }
   //   }
 
-
-
   //   console.log("questionAndAnswerGroupedData-->", result)
-  //   // return result
+  //   return result
   // }
 
-  const questionAndAnswerGrouping = () => {
-    // const elements = document.querySelectorAll(".holderDIV")
-    const result = []
-    const elements = document.querySelectorAll(".holderDIV div")
-    console.log(elements);
+   const questionAndAnswerGrouping = () => {
 
-
-    if (elements.length % 2 === 1) {
-      const elementsCopy = [...elements]
-      const lastItem = elementsCopy.pop()
-      for (let i = 0; i < elementsCopy.length; i += 2) {
-        const question = elementsCopy[i].id;
-        const answer = elementsCopy[i + 1].id;
-        const item = {
-          question,
-          answer,
-        };
-        result.push(item);
-      }
-      result.push({ question: result[result.length - 1].answer, answer: lastItem.id })
-    } else {
-      for (let i = 0; i < elements.length; i += 2) {
-        const question = elements[i].id;
-        const answer = elements[i + 1].id;
-        const item = {
-          question,
-          answer,
-        };
-        result.push(item);
-      }
-    }
-
-    console.log("questionAndAnswerGroupedData-->", result)
-    return result
-  }
-
-  // function submit(e) {
-  //   e.preventDefault();
-  //   const questionAndAns = questionAndAnswerGrouping()
-  //   console.log("questionAndAns", questionAndAns)
-  // }
-
-
+   }
 
   function submit(e) {
     e.preventDefault();
-    setIsLoading(true);
     const questionAndAns = questionAndAnswerGrouping()
     console.log("questionAndAns", questionAndAns)
-    
-    const dataa = saveDocument();
-
-    const finalize = document.getElementById("finalize-button");
-
-    const titleName = document.querySelector(".title-name").innerHTML;
-
-    const field = {
-      _id: decoded.details._id,
-    };
-    let updateField = {};
-    if (decoded.details.action === "template") {
-      updateField = {
-        template_name: titleName,
-        content: JSON.stringify(dataa),
-        page: item,
-      };
-    } else if (decoded.details.action === "document") {
-      updateField = {
-        document_name: titleName,
-        content: JSON.stringify(dataa),
-        page: item,
-      };
-    }
-
-    console.log(updateField);
-    //console.log(field);
-
-    <iframe src="http://localhost:5500/"></iframe>;
-
-    function sendMessage() {
-      const message =
-        decoded.details.action === "document"
-          ? "Document saved"
-          : "Template saved";
-      const iframe = document.querySelector("iframe");
-      iframe?.contentWindow?.postMessage(message, "*");
-    }
-
-    Axios.post(
-      "https://100058.pythonanywhere.com/api/save-data-into-collection/",
-      {
-        cluster: decoded.details.cluster,
-        collection: decoded.details.collection,
-        command: decoded.details.command,
-        database: decoded.details.database,
-        document: decoded.details.document,
-        field: field,
-        function_ID: decoded.details.function_ID,
-        team_member_ID: decoded.details.team_member_ID,
-        update_field: updateField,
-        page: item,
-        // scale_url: `${scaleData}`,
-        company_id: companyId,
-        type: decoded.details.action,
-         questionAndAns
-      }
-    )
-      .then((res) => {
-        if (res) {
-          toast.success("Saved successfully");
-          setIsLoading(false);
-          if (finalize) {
-            handleFinalize();
-          }
-          setIsDataSaved(true);
-        }
-        //console.log(res);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        //console.log(err);
-      });
   }
+
+
+
+  // function submit(e) {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   const questionAndAns = questionAndAnswerGrouping()
+  //   console.log("questionAndAns", questionAndAns)
+    
+  //   const dataa = saveDocument();
+
+  //   const finalize = document.getElementById("finalize-button");
+
+  //   const titleName = document.querySelector(".title-name").innerHTML;
+
+  //   const field = {
+  //     _id: decoded.details._id,
+  //   };
+  //   let updateField = {};
+  //   if (decoded.details.action === "template") {
+  //     updateField = {
+  //       template_name: titleName,
+  //       content: JSON.stringify(dataa),
+  //       page: item,
+  //     };
+  //   } else if (decoded.details.action === "document") {
+  //     updateField = {
+  //       document_name: titleName,
+  //       content: JSON.stringify(dataa),
+  //       page: item,
+  //     };
+  //   }
+
+  //   console.log(updateField);
+  //   //console.log(field);
+
+  //   <iframe src="http://localhost:5500/"></iframe>;
+
+  //   function sendMessage() {
+  //     const message =
+  //       decoded.details.action === "document"
+  //         ? "Document saved"
+  //         : "Template saved";
+  //     const iframe = document.querySelector("iframe");
+  //     iframe?.contentWindow?.postMessage(message, "*");
+  //   }
+
+  //   Axios.post(
+  //     "https://100058.pythonanywhere.com/api/save-data-into-collection/",
+  //     {
+  //       cluster: decoded.details.cluster,
+  //       collection: decoded.details.collection,
+  //       command: decoded.details.command,
+  //       database: decoded.details.database,
+  //       document: decoded.details.document,
+  //       field: field,
+  //       function_ID: decoded.details.function_ID,
+  //       team_member_ID: decoded.details.team_member_ID,
+  //       update_field: updateField,
+  //       page: item,
+  //       // scale_url: `${scaleData}`,
+  //       company_id: companyId,
+  //       type: decoded.details.action,
+  //        questionAndAns
+  //     }
+  //   )
+  //     .then((res) => {
+  //       if (res) {
+  //         toast.success("Saved successfully");
+  //         setIsLoading(false);
+  //         if (finalize) {
+  //           handleFinalize();
+  //         }
+  //         setIsDataSaved(true);
+  //       }
+  //       //console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       setIsLoading(false);
+  //       //console.log(err);
+  //     });
+  // }
 
   // const handleFlipClick = (e) => {
   //   setIsFlipClicked(!isFlipClicked);
