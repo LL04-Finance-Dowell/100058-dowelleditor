@@ -32,9 +32,9 @@ import { AiFillPrinter } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
 
-import { downloadPDF } from '../../utils/genratePDF.js'
+import { downloadPDF } from "../../utils/genratePDF.js";
 
-import generateImage from '../../utils/generateImage.js'
+import generateImage from "../../utils/generateImage.js";
 // import MidSection from "../../components/midSection/MidSection";
 
 // const Printer = () => {
@@ -143,13 +143,11 @@ const Header = () => {
     containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor
-
+    setContainerBorderColor,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
   // const [cutItem_value, setCutItem_value] = useState(null);
-
 
   // function getHolderDIV(measure, i, idMatch) {
   //   //console.log("from holder div", i);
@@ -377,7 +375,6 @@ const Header = () => {
   //   return resizer;
   // }
 
-
   // const dragElementOverPage = (event) => {
   //   let holder;
   //   // console.log("dragElement", event.target);
@@ -509,7 +506,6 @@ const Header = () => {
   //   }
   // };
 
-
   // function getHolderMenu(auth_user) {
   //   //putting functional menu on holder
 
@@ -544,10 +540,6 @@ const Header = () => {
 
   //   return holderMenu;
   // }
-
-
-
-
 
   // const copyInput = (clickHandler) => {
   //   // if (typeOfOperation === "IMAGE_INPUT") {
@@ -709,7 +701,6 @@ const Header = () => {
   //   };
   // };
 
-
   // function getOffset(el) {
   //   const parent = document.getElementById("midSection_container");
   //   const parentPos = parent.getBoundingClientRect();
@@ -724,7 +715,6 @@ const Header = () => {
   //     // top: rect.top + window.scrollY
   //   };
   // }
-
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -820,8 +810,6 @@ const Header = () => {
   };
   // const handlePaste = () => {
 
-
-
   //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
   //   const curr_user = document.getElementById("current-user");
 
@@ -903,15 +891,11 @@ const Header = () => {
   //   //     };
   //   //     inputField.innerText = `${element.data}`
 
-
-
-
   //   //     holderDIV.append(inputField);
   //   //     cutItem_value.append(holderDIV);
   //   //     sessionStorage.clear()
   //   //   }
   //   // }
-
 
   // };
   const handleTitle = () => {
@@ -1221,7 +1205,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -1273,9 +1257,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -1388,7 +1372,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -1550,7 +1534,7 @@ const Header = () => {
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
-          let scaleText = newScales[b].querySelector(".scale_text")
+          let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleID = newScales[b].querySelector(".scaleId");
@@ -1566,7 +1550,7 @@ const Header = () => {
             right: rightChild.textContent,
             buttonColor: circles.style.backgroundColor,
             scaleID: scaleID.textContent,
-            scaleText: scaleText.textContent
+            scaleText: scaleText.textContent,
           };
           console.log(properties);
           elem = {
@@ -1611,7 +1595,7 @@ const Header = () => {
 
           let properties = {
             imageLinkHolder: imageLinkHolder.textContent,
-            videoLinkHolder: videoLinkHolder.textContent
+            videoLinkHolder: videoLinkHolder.textContent,
           };
           console.log(properties);
           elem = {
@@ -1630,7 +1614,6 @@ const Header = () => {
         }
       }
     }
-
 
     const buttons = document.getElementsByClassName("buttonInput");
     if (buttons.length) {
@@ -1778,6 +1761,59 @@ const Header = () => {
   //   document_map?.length
   // );
 
+  function handleFinalizeButton() {
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    const documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      const scaleId = scale?.querySelector(".scaleId")?.textContent;
+      const holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: generateLoginUser(),
+      document_responses: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/api/nps_responses_create",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -1843,6 +1879,7 @@ const Header = () => {
           setIsLoading(false);
           if (finalize) {
             handleFinalize();
+            handleFinalizeButton();
           }
           setIsDataSaved(true);
         }
@@ -2047,7 +2084,7 @@ const Header = () => {
   }
 
   // console.log('page count check', item);
-  const linkId = decoded.details.link_id
+  const linkId = decoded.details.link_id;
 
   function handleFinalize() {
     setIsLoading(true);
@@ -2082,7 +2119,6 @@ const Header = () => {
         toast.error(err);
         // alert(err?.message);
       });
-
   }
 
   function handleReject() {
@@ -2136,7 +2172,7 @@ const Header = () => {
     for (let i = 0; i <= Array.from(allScales).length; i++) {
       if (Array.from(allScales)[i]) {
         let res = await generateImage(Array.from(allScales)[i]);
-        Array.from(allScales)[i].setAttribute('snapshot', res)
+        Array.from(allScales)[i].setAttribute("snapshot", res);
       }
     }
     const containerAll = document.querySelectorAll(".midSection_container");
@@ -2148,8 +2184,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -2159,8 +2196,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -2221,7 +2259,10 @@ const Header = () => {
                     </button>
                   )}
                   {actionName == "template" && (
-                    <button className="page_btn p-0 d-flex" onClick={() => removePage()}>
+                    <button
+                      className="page_btn p-0 d-flex"
+                      onClick={() => removePage()}
+                    >
                       <CgPlayListRemove />
                       <p>Remove Page</p>
                     </button>
