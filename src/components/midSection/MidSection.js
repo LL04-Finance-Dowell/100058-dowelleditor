@@ -3653,6 +3653,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     // If holdElem doesn't exist, create a new one
                     holdElem = document.createElement("div");
                     holdElem.className = "holdElem";
+                    holdElem.style.display = "none";
                     holdElem.textContent = i;
                     holding.appendChild(holdElem);
                   }

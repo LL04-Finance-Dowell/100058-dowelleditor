@@ -1793,7 +1793,7 @@ const Header = () => {
       instance_id: 1,
       brand_name: "XYZ545",
       product_name: "XYZ511",
-      username: generateLoginUser(),
+      username: authorizedLogin(),
       document_responses: documentResponses,
     };
 
