@@ -10,6 +10,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 
 const DropDownRightSide = () => {
   const {
@@ -23,7 +24,7 @@ const DropDownRightSide = () => {
     setDropdownOptions,
     rightSideDropDown,
     setRightSideDropDown,
-    dropdownBorderSize, 
+    dropdownBorderSize,
     setDropdownBorderSize,
     dropdownBorderColor,
     setDropdownBorderColor
@@ -40,6 +41,7 @@ const DropDownRightSide = () => {
   //   localStorage.getItem("borderColor") || "#000000"
   // );
   const [showSlider, setShowSlider] = useState(false);
+  const [selectedType, setSelectedType] = useState('')
 
   const dropdownField = document.querySelector(".focussed");
   if (dropdownField) {
@@ -97,8 +99,7 @@ const DropDownRightSide = () => {
     // }
   }
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setDropdownBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
@@ -106,8 +107,7 @@ const DropDownRightSide = () => {
 
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setDropdownBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${dropdownBorderColor}`;
@@ -185,6 +185,7 @@ const DropDownRightSide = () => {
       </Row>
 
       <hr />
+      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
 
       <div />
       <div>

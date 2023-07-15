@@ -1,9 +1,10 @@
 import Axios  from 'axios';
-import React from 'react'
+import React, {useState} from 'react'
 import { Button } from 'react-bootstrap'
+import SelectAnsAndQuestion from '../SelectAnsAndQuestion';
 
 function CameraRightSide() {
-
+  const [selectedType,setSelectedType] = useState('')
   let mediaRecorder
   const snap = () =>{
     let camera = document.querySelector(".focussedd");
@@ -155,6 +156,10 @@ function CameraRightSide() {
               >
                 Record
               </Button>
+              <div>
+              <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
+              <br/>
+              </div>
               <Button
                 variant="secondary"
                 // className="remove_button"

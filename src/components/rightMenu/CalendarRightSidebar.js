@@ -12,10 +12,10 @@ import jwt_decode from "jwt-decode";
 
 import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 import { useSearchParams } from "react-router-dom";
 
-const CalendarRightSidebar = (props) =>
-{
+const CalendarRightSidebar = (props) => {
   const {
     startDate,
     setStartDate,
@@ -25,11 +25,12 @@ const CalendarRightSidebar = (props) =>
     method,
     setMethod,
     setIsFinializeDisabled,
-    calendarBorderSize, 
+    calendarBorderSize,
     setCalendarBorderSize,
     calendarBorderColor,
     setCalendarBorderColor
   } = useStateContext();
+  const [selectedType, setSelectedType] = useState('')
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -51,20 +52,15 @@ const CalendarRightSidebar = (props) =>
   // enable disable finalize btn
   // let dateInnerText = "";
 
-  if (date?.parentElement?.classList?.contains("focussedd"))
-  {
-    if (rightSideDatemenu)
-    {
+  if (date?.parentElement?.classList?.contains("focussedd")) {
+    if (rightSideDatemenu) {
       // dateInnerText = date.innerText;
       //console.log("date inner text", dateInnerText);
-      if (method == "select")
-      {
+      if (method == "select") {
         date.innerHTML = startDate.toLocaleString().split(",")[0];
-      } else if (method == "first")
-      {
+      } else if (method == "first") {
         //console.log("first", startDate);
-        if (startDate)
-        {
+        if (startDate) {
           const localDate = new Date(startDate).toLocaleString().split(",")[0];
           const localDateArray = localDate.split("/");
           //console.log(
@@ -73,12 +69,10 @@ const CalendarRightSidebar = (props) =>
           // );
           date.innerHTML = `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`;
         }
-      } else if (method == "second")
-      {
+      } else if (method == "second") {
         //console.log("second", startDate);
         date.innerHTML = startDate && new Date(startDate)?.toDateString();
-      } else if (method == "fourth")
-      {
+      } else if (method == "fourth") {
         //console.log("fourth", startDate);
         date.innerHTML =
           startDate && new Date(startDate)?.toISOString().split("T")[0];
@@ -88,53 +82,42 @@ const CalendarRightSidebar = (props) =>
 
   // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
 
-  function removeDate()
-  {
-    if (document.querySelector(".focussedd").classList.contains("dropp"))
-    {
-      if (document.querySelector(".focussedd").hasChildNodes())
-      {
+  function removeDate() {
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++)
-        {
+        for (let i = 0; i < childLength; i++) {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else
-    {
+    } else {
       document.querySelector(".focussedd").remove();
     }
   }
 
-  function handleDateMethod(e)
-  {
+  function handleDateMethod(e) {
     setMethod(e.target.value);
     setRightSideDateMenu(true);
   }
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setCalendarBorderSize(parseInt(e.target.value));
 
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderWidth = `${calendarBorderSize}px`;
 
   };
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setCalendarBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${calendarBorderColor}`;
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
 
-  useEffect(() =>
-  {
-    if (document.querySelector(".react-datepicker"))
-    {
+  useEffect(() => {
+    if (document.querySelector(".react-datepicker")) {
       //console.log("datePicker", document.querySelector(".react-datepicker"));
       setDatePickerMargin(
         document.querySelector(".react-datepicker").offsetHeight + "px"
@@ -178,16 +161,13 @@ const CalendarRightSidebar = (props) =>
             openToDate={new Date()}
             selected={startDate}
             open={true}
-            onChange={(date) =>
-            {
+            onChange={(date) => {
               // console.log("date", date, startDate);
-              if (date != startDate)
-              {
+              if (date != startDate) {
                 // console.log("date?.innerHTML", dateInnerText);
                 //setIsFinializeDisabled(false)
                 var dateDiv = document.querySelector(".focussed");
-                if (dateDiv.parentElement.classList.contains("holderDIV"))
-                {
+                if (dateDiv.parentElement.classList.contains("holderDIV")) {
                   dateDiv.parentElement.classList.add("element_updated");
                 }
               }
@@ -215,9 +195,13 @@ const CalendarRightSidebar = (props) =>
         </div>
       )}
       <hr />
+
+      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+
+      <hr />
       <Row className="pt-4">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <h6 style={{ marginRight: "10rem" }}>Border </h6>
           <label className="switch">
             <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
             <span className="slider round"></span>

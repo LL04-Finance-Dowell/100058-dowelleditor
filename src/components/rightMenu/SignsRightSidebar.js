@@ -11,6 +11,7 @@ import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 
 const SignsRightSidebar = () =>
 {
@@ -19,6 +20,7 @@ const SignsRightSidebar = () =>
   const { signState, setSignState, setIsFinializeDisabled, handleClicked,  signBorderSize, 
     setSignBorderSize, signBorderColor, setSignBorderColor } =
     useStateContext();
+    const [selectedType,setSelectedType] = useState('')
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -208,6 +210,9 @@ const SignsRightSidebar = () =>
           onChange={() => { }}
         />
       </div>
+      <hr/>
+      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
+      <hr/>
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
           Update Changes

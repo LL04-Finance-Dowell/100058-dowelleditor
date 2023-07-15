@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
@@ -53,7 +54,7 @@ const AlignRightSide = () => {
     inputBorderSize,
     setInputBorderSize
   } = useStateContext();
-
+  const [selectedType, setSelectedType] = useState("")
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -688,7 +689,8 @@ const AlignRightSide = () => {
 
         <hr />
 
-       <SelectAnsAndQuestion/>
+        <SelectAnsAndQuestion selectedType={selectedType} 
+        setSelectedType={setSelectedType} />
         <hr />
 
         <Row className="pt-0">

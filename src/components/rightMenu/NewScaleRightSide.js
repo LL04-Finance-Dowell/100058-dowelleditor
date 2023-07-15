@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
 import { GrEmoji } from "react-icons/gr";
 import Picker from "emoji-picker-react";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 
 const ScaleRightSide = () => {
   const {
@@ -28,6 +29,7 @@ const ScaleRightSide = () => {
     setScaleId,
     scaleId,
   } = useStateContext();
+  const [selectedType,setSelectedType] = useState('')
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
@@ -1747,6 +1749,11 @@ const ScaleRightSide = () => {
                       </option>
                     </select>
                   </div>
+
+                  <br/>
+                  <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
+                  <br/>
+
                   <div>
                     <Button 
                       id="button_id" 

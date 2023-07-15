@@ -4,6 +4,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 
 const ScaleRightSide = () => {
   const {
@@ -26,6 +27,7 @@ const ScaleRightSide = () => {
     scaleBorderColor,
     setScaleBorderColor
   } = useStateContext();
+  const [selectedType,setSelectedType] = useState('')
 
   // const [borderSize, setBorderSize] = useState(1);
   // const [borderColor, setBorderColor] = useState("#000000");
@@ -355,6 +357,8 @@ const ScaleRightSide = () => {
               )}
             </Row>
             <hr />
+            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
+            <hr/>
             <div id="settingRight" style={{ display: 'none' }}>
               <h3>Configurations</h3>
               {/* iframe */}
