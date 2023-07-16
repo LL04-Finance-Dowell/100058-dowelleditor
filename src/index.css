@@ -64,6 +64,14 @@ code {
     overflow: auto;
   }
   .midSection_container {
-    margin-top: 28px;
+    margin-top: 150px;
+    margin-right: 160px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .midSection_container {
+    margin-top: 80px;
+    margin-right: 120px;
   }
 }

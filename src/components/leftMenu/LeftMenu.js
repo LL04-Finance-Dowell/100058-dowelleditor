@@ -346,7 +346,7 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<FaCamera />}
               title="camera"
             />
-            }: ""
+            }
            {
            //"}"
           }

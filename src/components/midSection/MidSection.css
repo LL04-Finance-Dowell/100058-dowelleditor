@@ -2,6 +2,7 @@
   display: flex;
   height: 327mm;
   align-items: center;
+  flex-wrap: wrap;
 }
 .midSection_container {
   background-color: #ffffff;
@@ -9,6 +10,7 @@
   height: 297mm;
   position: relative;
   box-shadow: 1px 1px 6px #41414144;
+  margin-right: auto;
 }
 .disable_pointer_event {
   pointer-events: none;
@@ -35,3 +37,15 @@
     height: 297mm;
     position: relative;
 } */
+/* Custom CSS */
+
+/* Media Query for smaller screens */
+@media (max-width: 770px) {
+  .midSection_container {
+    background-color: #ffffff;
+    box-shadow: 1px 1px 6px #41414144;
+    position: relative;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
