@@ -6488,7 +6488,6 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CONTAINER_INPUT" &&
         decoded.details.action === "template"
       ) {
-        // console.log("typeOfOperation", typeOfOperation);
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";

@@ -99,16 +99,38 @@
   .leftMenu {
     background-color: #ffffff;
     height: 13vh;
+    flex-wrap: wrap;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     margin-top: 0px;
   }
-  /* .fixed2 {
-    position: fixed;
-    width: 100%;
-    margin-left: -10px;
-    z-index: 999;
+
+  .leftMenu > button:hover {
+    background-color: #25c7a3;
+  }
+
+  .leftMenu > button:hover svg {
+    /* color: #000000; */
+  }
+
+  .leftMenu > img {
+    width: fit-content;
+    width: -moz-fit-content;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+  }
+
+  /* .leftMenu > button > img {
+    width: 20px;
+    height: 20px;
+    color: #fff;
   } */
+  .leftMenu > button > svg {
+    color: #fff;
+    width: 1.0rem !important;
+    margin: 0;
+  }
 }
