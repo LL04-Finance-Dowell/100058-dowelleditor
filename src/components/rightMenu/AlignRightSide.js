@@ -9,34 +9,34 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import "./AlignRightSide.css";
 
 import {
-BiFont,
-BiAlignLeft,
-BiAlignMiddle,
-BiAlignRight,
+  BiFont,
+  BiAlignLeft,
+  BiAlignMiddle,
+  BiAlignRight,
 } from "react-icons/bi";
 import { MdBorderColor, MdFormatColorFill } from "react-icons/md";
 import {
-AiOutlineArrowUp,
-AiOutlineArrowDown,
-AiOutlineFontColors,
+  AiOutlineArrowUp,
+  AiOutlineArrowDown,
+  AiOutlineFontColors,
 } from "react-icons/ai";
 import {
-FaBold,
-FaItalic,
-FaStrikethrough,
-FaUnderline,
-FaOutdent,
-FaIndent,
-FaListUl,
-FaListOl,
+  FaBold,
+  FaItalic,
+  FaStrikethrough,
+  FaUnderline,
+  FaOutdent,
+  FaIndent,
+  FaListUl,
+  FaListOl,
 } from "react-icons/fa";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
 
-const AlignRightSide = () =>
-{
+const AlignRightSide = () => {
   const {
     bold,
     setBold,
@@ -686,6 +686,9 @@ const AlignRightSide = () =>
           </Row>
         </Row>
 
+        <hr />
+
+       <SelectAnsAndQuestion/>
         <hr />
 
         <Row className="pt-0">
