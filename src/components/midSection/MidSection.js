@@ -3655,7 +3655,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.className = "holdElem";
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
-                    holding.appendChild(holdElem);
+                    holding?.appendChild(holdElem);
                   }
 
                   // Store holdElem inside the holding div
