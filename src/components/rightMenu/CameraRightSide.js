@@ -20,6 +20,7 @@ function CameraRightSide() {
     const mediaStream = video.srcObject
     const tracks = mediaStream.getTracks()
     tracks[0].stop()
+    tracks[1].stop()
     video.remove()
     let dataURI = canvas.toDataURL("image/jpeg")
     let urlToFile = (url) =>{
@@ -32,7 +33,7 @@ function CameraRightSide() {
       while(n--){
         dataArr[n] = dataStr.charCodeAt(n)
       }
-      let file = new File([dataArr], 'myPic8.jpg', {type: mime})
+      let file = new File([dataArr], 'myPic9.jpg', {type: mime})
       console.log(file)
       return file
       //console.log(data)
@@ -126,6 +127,7 @@ function CameraRightSide() {
     const mediaStream = video.srcObject
     const tracks = mediaStream.getTracks()
     tracks[0].stop()
+    tracks[1].stop()
   }
 
   function removeCamera() {
