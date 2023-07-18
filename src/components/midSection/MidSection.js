@@ -3655,7 +3655,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.className = "holdElem";
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
-                    holding.appendChild(holdElem);
+                    holding?.appendChild(holdElem);
                     console.log("This is holdEle", holdElem.textContent)
                     const required_map_document = document_map_required?.filter(
                       (item) => element.id == item.content
