@@ -5718,7 +5718,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "#fff";
+        scaleHold.style.color = "#000";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
