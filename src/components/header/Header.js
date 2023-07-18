@@ -1733,6 +1733,7 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const documentFlag = decoded?.details?.document_flag;
+  const titleName = decoded?.details?.name;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -2301,7 +2302,7 @@ const Header = () => {
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-                {title && title}
+                {titleName}
               </div>
               <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>
