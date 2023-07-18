@@ -9,8 +9,15 @@ import {
   HashRouter,
 } from "react-router-dom";
 import Printer from "./utils/spinner/Printer";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    const UNDO_REDO = sessionStorage.getItem("undoRedo");
+    if(!UNDO_REDO) {
+      sessionStorage.setItem("undoRedo", "[]")
+    }
+  }, [])
   return (
     <div className="app">
       {/* <Printer /> */}
