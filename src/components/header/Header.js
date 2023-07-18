@@ -1540,6 +1540,17 @@ const Header = () => {
           let scaleID = newScales[b].querySelector(".scaleId");
           console.log(font);
 
+          let buttonText = newScales[b].querySelectorAll(".circle_label");
+          console.log(buttonText);
+
+          let emojiArr = [];
+
+          if (buttonText.length !== 0) {
+            for (let i = 0; i < buttonText.length; i++) {
+              emojiArr.push(buttonText[i].textContent);
+            }
+          }
+
           // console.log(buttonColors);
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
@@ -1548,9 +1559,10 @@ const Header = () => {
             left: leftChild.textContent,
             center: neutralChild.textContent,
             right: rightChild.textContent,
-            buttonColor: circles.style.backgroundColor,
+            buttonColor: circles?.style?.backgroundColor,
             scaleID: scaleID.textContent,
             scaleText: scaleText.textContent,
+            buttonText: emojiArr,
           };
           console.log(properties);
           elem = {
