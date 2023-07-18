@@ -3655,7 +3655,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.className = "holdElem";
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
-                    holding.appendChild(holdElem);
+                    holding?.appendChild(holdElem);
                   }
 
                   // Store holdElem inside the holding div
@@ -5718,7 +5718,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "#fff";
+        scaleHold.style.color = "#000";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
@@ -6488,7 +6488,6 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CONTAINER_INPUT" &&
         decoded.details.action === "template"
       ) {
-        // console.log("typeOfOperation", typeOfOperation);
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
