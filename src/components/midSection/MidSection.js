@@ -3568,214 +3568,44 @@ const MidSection = React.forwardRef((props, ref) => {
               return res.status(401).json({ error: "Unauthorized" });
             }
 
-            // Decode the token.
-            // const decodedToken = jwt.decode(token, secret);
-
-            // Get the username from the decoded token.
-            const username = decoded?.details?.authorized;
-            console.log(username);
-
-            // Return the username.
-            // return res.json({ username });
-            // function generateLoginUser() {
-            //   return "user_" + Math.random().toString(36).substring(7);
-            //   // return token;
-            // }
-            // const details = decoded?.details;
-            // console.log(details);
-            // const Authorized = detaillUser['Authorized'] ? detaillUser['Authorized'] : generateLoginUser();
-            // const { _id, authorized } = decoded?.details;
-            // console.log(authorized);
-            // console.log(_id);
-
-            // function authorizedLogin() {
-            //   return ( username === undefined ? generateLoginUser(): username )
-            // }
-
-            if (
-              decoded.details.action === "document" &&
-              username !== undefined
-            ) {
+            if (decoded.details.action === "document") {
               let circles = document.querySelectorAll(".circle_label");
               let isClicked = false;
-              let selectedScore = -1;
-              // const submitButtonScale = document.getElementById('finalize-button');
 
               circle.addEventListener("click", function () {
                 if (!isClicked) {
                   let scale = document.querySelector(".focussedd");
-                  const scaleNewId =
-                    scale?.querySelector(".scaleId").textContent;
-                  console.log(scaleNewId);
-                  console.log(scaleNewId);
+                  let holding = scale?.querySelector(".newScaleInput");
+
                   circle.style.backgroundColor = "blue";
-                  Axios.post(
-                    "https://100035.pythonanywhere.com/api/nps_responses_create",
-                    {
-                      scale_id: scaleNewId,
-                      instance_id: pageNo,
-                      brand_name: "XYZ545",
-                      product_name: "XYZ511",
-                      username: username,
-                      score: i,
+
+                  let holdElem = scale?.querySelector(".holdElem");
+
+                  if (holdElem) {
+                    // If holdElem exists, update its text content
+                    holdElem.textContent = i;
+                  } else {
+                    // If holdElem doesn't exist, create a new one
+                    holdElem = document.createElement("div");
+                    holdElem.className = "holdElem";
+                    holdElem.style.display = "none";
+                    holdElem.textContent = i;
+                    holding?.appendChild(holdElem);
+                    console.log("This is holdEle", holdElem.textContent)
+                    const required_map_document = document_map_required?.filter(
+                      (item) => element.id == item.content
+                    );
+                    if (
+                      scaleField?.parentElement?.classList.contains("holderDIV") &&
+                      required_map_document.length > 0
+                    ) {
+                      scaleField?.parentElement?.classList.add("element_updated");
                     }
-                  )
-                    .then((response) => {
-                      if (response.status === 200) {
-                        setIsLoading(false);
-                        var responseData = response.data;
-                        setScaleData(responseData);
-                        console.log(response);
-                        //disable all circles and change background color
-                        // const circles = document.querySelectorAll(".circle_label");
-
-                        // Remove the event listener on the button after the API request is successful.
-                        // circles.removeEventListener("click", this);
-
-                        const alert = document.createElement("div");
-                        alert.className = "scale_alert";
-                        const img = document.createElement("img");
-                        const button = document.createElement("button");
-                        img.src =
-                          "https://img.freepik.com/premium-vector/pin-with-check-mark-icon-vector-isolated-map-location-pointer-locator-position-point_578506-202.jpg?w=740";
-                        img.width = 100;
-                        img.height = 100;
-                        button.appendChild(img);
-                        const paragraph = document.createElement("h4");
-                        paragraph.textContent =
-                          "Response recorded successfully for your selected button " +
-                          i;
-                        button.appendChild(paragraph);
-                        button.style.width = "100%";
-                        alert.appendChild(button);
-                        paragraph.style.color = "green";
-                        alert.style.position = "absolute";
-                        alert.style.marginRight = "3%";
-                        button.style.background = "#fff";
-                        // labelHold.style.display ="none";
-
-                        childDiv.style.display = "none";
-                        button.style.color = "blue";
-                        button.style.borderRadius = "5px";
-                        // button.style.padding = "10px 20px";
-                        button.style.cursor = "pointer";
-                        // button.addEventListener("click", function() {
-                        //     alert.remove();
-                        // });
-                        button.classList.add("alert-button");
-                        button.classList.add("close");
-                        // setTimeout(() => {
-                        //   alert.remove();
-                        // }, 5000);
-                        alert.appendChild(button);
-                        scaleHold.appendChild(alert);
-                        isClicked = true;
-                        labelHold.style.display = "none";
-                        window.onbeforeunload = (event) => {
-                          //Prevent the page from reloading
-                          event.preventDefault();
-                          event.returnValue = selectedScore;
-                        };
-                      }
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-                } else {
-                  if ((selectedScore = i)) {
-                    const alert = document.createElement("div");
-                    const img = document.createElement("img");
-                    const button = document.createElement("button");
-                    img.src =
-                      "https://img.freepik.com/free-photo/yellow-triangle-warning-sign-symbol-danger-caution-risk-traffic-icon-background-3d-rendering_56104-1156.jpg?w=1060&t=st=1687272853~exp=1687273453~hmac=2a25ac004fa8fa44791de0ec6f23d6f27e6dcae15ed65cde391a01685579ddf1";
-                    img.width = 100;
-                    img.height = 100;
-                    img.style.background = "#808080";
-                    button.appendChild(img);
-                    const paragraph = document.createElement("h4");
-                    paragraph.textContent =
-                      "You have already selected button " + i;
-                    button.appendChild(paragraph);
-                    button.style.width = "100%";
-                    alert.appendChild(button);
-                    paragraph.style.color = "yellow";
-                    alert.style.position = "absolute";
-                    alert.style.marginRight = "3%";
-                    button.style.background = "#808080";
-                    // labelHold.style.display ="none";
-                    // childDiv.style.display ="none";
-                    button.style.color = "blue";
-                    button.style.borderRadius = "5px";
-                    // button.style.padding = "10px 20px";
-                    button.style.cursor = "pointer";
-                    button.addEventListener("click", function () {
-                      alert.remove();
-                    });
-                    button.classList.add("alert-button");
-                    button.classList.add("close");
-                    setTimeout(() => {
-                      alert.remove();
-                    }, 5000);
-                    alert.appendChild(button);
-                    labelHold.appendChild(alert);
-                    isClicked = true;
-                    return;
                   }
-                  // selectedScore === i;
-                  // alert("You have selected score " + i);
+
+                  // Store holdElem inside the holding div
+                  // holding.appendChild(holdElem);
                 }
-                //   let isRequestSuccessful = false;
-                //   if (!isRequestSuccessful) {
-                //     for (let i = 0; i < 11; i++) {
-                //       const circle = document.createElement("div");
-                //       circle.className = "circle_label";
-                //       circle.style.width = "35%";
-                //       circle.style.height = "35%";
-                //       circle.style.borderRadius = "50%";
-                //       circle.style.backgroundColor = element?.raw_data?.buttonColor;
-                //       circle.style.top = "30%";
-                //       circle.style.left = "30%";
-                //       circle.style.display = "flex";
-                //       circle.style.justifyContent = "center";
-                //       circle.style.alignItems = "center";
-                //       circle.style.marginLeft = "2px";
-
-                //       circle.textContent = i;
-                //       labelHold.append(circle);
-                //   circle.addEventListener("click", function() {
-                //         let scale = document.querySelector(".focussedd");
-                //     const scaleNewId = scale?.querySelector('.scaleId').textContent;
-
-                //     console.log(scaleNewId);
-                //     console.log(scaleNewId);
-                //     circle.style.backgroundColor = "blue";
-
-                //     Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create',
-                //     {
-                //       scale_id: scaleNewId,
-                //       instance_id: pageNo,
-                //       brand_name: "XYZ545",
-                //       product_name: "XYZ511",
-                //       username: generateLoginUser(),
-                //       score: i,
-                //     }
-                //   )
-                //     .then((response) => {
-                //       if (response.status === 200) {
-                //         setIsLoading(false);
-                //         var responseData = response.data;
-                //         setScaleData(responseData);
-                //         console.log(response);
-                //         isRequestSuccessful = true;
-                //       }
-                //     })
-                //     .catch(function (error) {
-                //       console.log(error);
-                //     });
-                //       });
-                //     }
-
-                //   }
               });
             }
           }
@@ -5356,7 +5186,6 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.position = "relative";
         inputField.style.cursor = "text";
 
-
         const txt = document.getElementsByClassName("textInput");
         const holderText = "Enter text here";
         inputField.append(holderText);
@@ -5837,7 +5666,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "black";
+        scaleHold.style.color = "#000";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
@@ -5863,7 +5692,7 @@ const MidSection = React.forwardRef((props, ref) => {
         labelHold.style.width = "100%";
         labelHold.style.height = "85%";
         labelHold.style.border = "1px solid black";
-        labelHold.style.backgroundColor = "blue";
+        labelHold.style.backgroundColor = "#fff";
         // labelHold.style.display = "none";
         scaleHold.appendChild(labelHold);
         labelHold.style.display = "flex";
@@ -5878,7 +5707,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.width = "35%";
           circle.style.height = "35%";
           circle.style.borderRadius = "50%";
-          circle.style.backgroundColor = "red";
+          circle.style.backgroundColor = "white";
           circle.style.top = "30%";
           circle.style.left = "30%";
           circle.style.display = "flex";
@@ -6191,6 +6020,7 @@ const MidSection = React.forwardRef((props, ref) => {
           }
           All_mediaDevices.getUserMedia({
             video: true,
+            audio: true,
           })
             .then(function (vidStream) {
               var video = videoField;

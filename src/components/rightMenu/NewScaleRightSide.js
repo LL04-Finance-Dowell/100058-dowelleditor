@@ -144,11 +144,10 @@ const ScaleRightSide = () => {
   }
   var format = document.getElementById("format");
   console.log(format);
-  var imageLabel = scale?.querySelector(".images_label");
-  var circleLabel = scale?.querySelector(".circle_label").textContent;
+  // var imageLabel = scale?.querySelector(".images_label");
+  var circleLabel = scale?.querySelector(".circle_label")?.textContent;
   if (format) {
-    format.selectedIndex =
-      circleLabel.indexOf("0") !== -1 ? 0 : imageLabel ? 1 : 2;
+    format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
   }
 
   // console.log(leftChild.innerHTML);
@@ -166,6 +165,23 @@ const ScaleRightSide = () => {
       document.getElementById("emoji").style.display = "none";
     }
   };
+
+  const handleFormatChange = (e) => {
+    const format = e.target.value;
+    if (format === "snipte") {
+      document.getElementById("npsScaleForm").style.display = "none";
+      document.getElementById("snippScaleForm").style.display = "flex";
+    } else if (format === "nps") {
+      document.getElementById("snippScaleForm").style.display = "none";
+      document.getElementById("npsScaleForm").style.display = "flex";
+    }
+  };
+
+  useEffect(() => {
+    // document.getElementById("npsScaleForm").style.display = "none";
+    // document.getElementById("snippScaleForm").style.display = "none";
+  }, []);
+
   const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImage = (event) => {
@@ -305,275 +321,279 @@ const ScaleRightSide = () => {
 
   console.log(scale);
   const handleUpdates = () => {
-    const scale = document.querySelector(".focussedd");
-    console.log(scale);
-    const circles = scale?.querySelector(".circle_label");
-    console.log(circles);
-    const btnUpdateButton = document.getElementById("button_color");
-    const emojiInp = document.getElementById("emojiInp");
-    const btnUpdateScale = document.getElementById("scale_color");
-    const btnUpdateFontColor = document.getElementById("font_color");
-    const btnUpdateScaleFont = document.getElementById("font_style");
-    const beNametnUpdateScal = document.getElementById("scaleLabel");
+    const scaleType = document.getElementById("scaleType");
+    if (scaleType.value === "nps") {
+      const scale = document.querySelector(".focussedd");
+      console.log(scale);
+      const circles = scale?.querySelector(".circle_label");
+      console.log(circles);
+      const btnUpdateButton = document.getElementById("button_color");
+      const emojiInp = document.getElementById("emojiInp");
+      const btnUpdateScale = document.getElementById("scale_color");
+      const btnUpdateFontColor = document.getElementById("font_color");
+      const btnUpdateScaleFont = document.getElementById("font_style");
+      const beNametnUpdateScal = document.getElementById("scaleLabel");
 
-    const headerText = document.getElementById("headerText");
-    console.log(headerText);
-    console.log(btnUpdateScale);
-    // const btnUpdateOrientation = document.getElementById("orientation");
-    const btnUpdateLeft = document.getElementById("left");
-    const btnUpdateRight = document.getElementById("right");
-    const btnUpdateCenter = document.getElementById("centre");
-    // const btnUpdateScales = document.getElementById("scales");
-    // const btnUpdateScore = document.getElementById("score");
-    const btnUpdateScaleLabel = document.getElementById("scaleLabel");
-    // const btnUpdateTime = document.getElementById("time");
-    // const btnUpdateFormat = document.getElementById("select");
-    // const button1 = document.querySelector(".focussed");
+      const headerText = document.getElementById("headerText");
+      console.log(headerText);
+      console.log(btnUpdateScale);
+      // const btnUpdateOrientation = document.getElementById("orientation");
+      const btnUpdateLeft = document.getElementById("left");
+      const btnUpdateRight = document.getElementById("right");
+      const btnUpdateCenter = document.getElementById("centre");
+      // const btnUpdateScales = document.getElementById("scales");
+      // const btnUpdateScore = document.getElementById("score");
+      const btnUpdateScaleLabel = document.getElementById("scaleLabel");
+      // const btnUpdateTime = document.getElementById("time");
+      // const btnUpdateFormat = document.getElementById("select");
+      // const button1 = document.querySelector(".focussed");
 
-    const button = scale?.querySelector(".label_hold");
-    console.log(button);
-    // const btnParent = document.getElementById("parent");
-    const scaleText = scale?.querySelector(".scale_text");
-    // const buttonScaleField = document.querySelector(".scaleInput");
-    const button4 = scale?.querySelector(".scool_input");
-    const font = scale?.querySelector(".newScaleInput");
-    console.log(font);
-    console.log(button4);
-    const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
-    const buttonImage = scale?.querySelectorAll(".image_label");
-    console.log(buttonImage);
-    const buttonCircleM = scale?.querySelector(".circle_label");
-    const buttonChild = document.getElementById("child");
-    const buttonChildLeft = scale?.querySelector(".left_child");
-    const buttonChildRight = scale?.querySelector(".right_child");
-    const buttonChildNeutral = scale?.querySelector(".neutral_child");
-    const buttonImageRight = document.getElementById("ImageUpload");
-    const optionSelect = document.getElementById("format");
-    const option =
-      document.querySelector("#orientationId").options[
-        document.querySelector("#orientationId").selectedIndex
-      ];
-    const test = document.querySelector("select");
-    console.log(test);
-    console.log(option);
+      const button = scale?.querySelector(".label_hold");
+      console.log(button);
+      // const btnParent = document.getElementById("parent");
+      const scaleText = scale?.querySelector(".scale_text");
+      // const buttonScaleField = document.querySelector(".scaleInput");
+      const button4 = scale?.querySelector(".scool_input");
+      const font = scale?.querySelector(".newScaleInput");
+      console.log(font);
+      console.log(button4);
+      const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
+      const buttonImage = scale?.querySelectorAll(".image_label");
+      console.log(buttonImage);
+      const buttonCircleM = scale?.querySelector(".circle_label");
+      const buttonChild = document.getElementById("child");
+      const buttonChildLeft = scale?.querySelector(".left_child");
+      const buttonChildRight = scale?.querySelector(".right_child");
+      const buttonChildNeutral = scale?.querySelector(".neutral_child");
+      const buttonImageRight = document.getElementById("ImageUpload");
+      const optionSelect = document.getElementById("format");
+      const option =
+        document.querySelector("#orientationId").options[
+          document.querySelector("#orientationId").selectedIndex
+        ];
+      const test = document.querySelector("select");
+      console.log(test);
+      console.log(option);
 
-    let tempText = scale?.querySelector(".tempText");
-    tempText?.remove();
-    button4.style.display = "block";
-    if (btnUpdateScale.value !== "") {
-      button.style.backgroundColor = btnUpdateScale.value;
-    }
-
-    for (let i = 0; i < buttonCircle.length; i++) {
-      if (btnUpdateButton.value !== "") {
-        buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
+      let tempText = scale?.querySelector(".tempText");
+      tempText?.remove();
+      button4.style.display = "block";
+      if (btnUpdateScale.value !== "") {
+        button.style.backgroundColor = btnUpdateScale.value;
       }
-    }
-
-    if (btnUpdateFontColor.value !== "") {
-      button4.style.color = btnUpdateFontColor.value;
-    }
-
-    if (btnUpdateScaleFont.value !== "") {
-      button4.style.fontFamily = btnUpdateScaleFont.value;
-    }
-
-    const selectedOption = optionSelect.value;
-
-    if (selectedOption === "image") {
-      renderImage();
-    } else if (selectedOption === "emoji") {
-      const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-      const emojis = inputStr
-        .split(emojiFormat)
-        .filter((emoji) => emoji !== "");
 
       for (let i = 0; i < buttonCircle.length; i++) {
-        if (emojiInp.value !== "") {
-          // Set the text content of the div to the corresponding emoji
-          buttonCircle[i].textContent = emojis[i % emojis.length];
-          console.log(emojis[i % emojis.length]);
+        if (btnUpdateButton.value !== "") {
+          buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
         }
       }
-    } else if (selectedOption === "number") {
-      renderNumber();
-    }
 
-    function renderImage() {
-      const uploadedImages = document
-        .getElementById("ImageUpload")
-        .querySelectorAll("img");
-      const numUploadedImages = uploadedImages.length;
+      if (btnUpdateFontColor.value !== "") {
+        button4.style.color = btnUpdateFontColor.value;
+      }
 
-      for (let i = 0; i < buttonCircle.length; i++) {
-        if (numUploadedImages > 0) {
-          const imageIndex = i % numUploadedImages; // Calculate the index of the uploaded image to display
+      if (btnUpdateScaleFont.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFont.value;
+      }
 
-          buttonCircle[i].textContent = ""; // Clear existing content of the button
+      const selectedOption = optionSelect.value;
 
-          const image = document.createElement("img");
-          image.className = "images_lebel";
-          image.src = uploadedImages[imageIndex].src;
-          image.alt = "Uploaded";
-          buttonCircle[i].appendChild(image);
-        } else {
+      if (selectedOption === "image") {
+        renderImage();
+      } else if (selectedOption === "emoji") {
+        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+        const emojis = inputStr
+          .split(emojiFormat)
+          .filter((emoji) => emoji !== "");
+
+        for (let i = 0; i < buttonCircle.length; i++) {
+          if (emojiInp.value !== "") {
+            // Set the text content of the div to the corresponding emoji
+            buttonCircle[i].textContent = emojis[i % emojis.length];
+            console.log(emojis[i % emojis.length]);
+          }
+        }
+      } else if (selectedOption === "number") {
+        renderNumber();
+      }
+
+      function renderImage() {
+        const uploadedImages = document
+          .getElementById("ImageUpload")
+          .querySelectorAll("img");
+        const numUploadedImages = uploadedImages.length;
+
+        for (let i = 0; i < buttonCircle.length; i++) {
+          if (numUploadedImages > 0) {
+            const imageIndex = i % numUploadedImages; // Calculate the index of the uploaded image to display
+
+            buttonCircle[i].textContent = ""; // Clear existing content of the button
+
+            const image = document.createElement("img");
+            image.className = "images_lebel";
+            image.src = uploadedImages[imageIndex].src;
+            image.alt = "Uploaded";
+            buttonCircle[i].appendChild(image);
+          } else {
+            buttonCircle[i].textContent = i;
+          }
+        }
+      }
+
+      function renderNumber() {
+        for (let i = 0; i < buttonCircle.length; i++) {
           buttonCircle[i].textContent = i;
         }
-      }
-    }
-
-    function renderNumber() {
-      for (let i = 0; i < buttonCircle.length; i++) {
-        buttonCircle[i].textContent = i;
-      }
-      document.getElementById("image").style.display = "none";
-    }
-
-    if (option.value === "Horizontal") {
-      button4.style.border = "block";
-      button4.style.textAlign = "center";
-      button.style.display = "flex";
-      button.style.flexDirection = "row";
-      // button.style.marginTop = "5%";
-      button.style.alignItems = "center";
-      // buttonCircle.style.flexDirection = "row";
-      button.style.height = "85%";
-      button.style.width = "100%";
-      button.style.flexDirection = "row";
-      buttonChildRight.style.marginTop = "0px";
-      buttonChildNeutral.style.marginTop = "0px";
-      buttonChild.style.flexDirection = "row";
-      buttonChild.style.justifyContent = "space-between";
-      buttonChild.style.alignItems = "center";
-      button.style.position = "relative";
-      buttonChild.style.marginLeft = "0px";
-      button.style.marginLeft = "0px";
-    }
-
-    if (option.value === "Vertical") {
-      button4.style.border = "none";
-      button4.style.textAlign = "center";
-      button.style.height = "100%";
-      button.style.width = "30%";
-      button.style.position = "absolute";
-      button.style.flexDirection = "column";
-      button.style.alignItems = "center";
-      button.style.marginTop = "0";
-      // button.style.marginLeft = "26%";
-      buttonChild.style.display = "flex";
-      buttonChild.style.flexDirection = "column";
-      buttonChild.style.justifyContent = "space-between";
-      // buttonChild.style.marginLeft = "38%";
-      buttonChildLeft.style.marginTop = "0px";
-      buttonChildRight.style.marginTop = "40%";
-      buttonChildNeutral.style.marginTop = "50%";
-      //buttonCircle.style.flexDirection = "column";
-      buttonCircleM.style.marginTop = "2px";
-    }
-
-    if (btnUpdateLeft.value !== "") {
-      buttonChildLeft.textContent = btnUpdateLeft.value;
-    }
-
-    if (btnUpdateRight.value !== "") {
-      buttonChildRight.textContent = btnUpdateRight.value;
-    }
-
-    if (btnUpdateCenter.value !== "") {
-      buttonChildNeutral.textContent = btnUpdateCenter.value;
-    }
-    // if (btnUpdateScales.value !=="") {
-    //   button4.style.textContent = btnUpdateScales.value;
-    // }
-    // if (btnUpdateScore.value !=="") {
-    //   buttonChild.style.color = btnUpdateScore.value;
-    // }
-    if (beNametnUpdateScal.value !== "") {
-      scaleText.textContent = beNametnUpdateScal.value;
-    }
-    console.log(btnUpdateButton.value);
-    console.log(btnUpdateScale.value);
-    console.log(btnUpdateFontColor.value);
-    // setScaleId("");
-    const idHolder = scale?.querySelector(".scaleId");
-    console.log(idHolder);
-    console.log(scaleId);
-    let timeId = document.getElementById("timeId");
-    let time = document.getElementById("time");
-
-    const prepareImageLabels = () => {
-      const imageLabels = {};
-
-      const repeatedImages = [];
-      const selectedCount = Math.min(selectedImages.length, 11); // Replace 11 with the actual label count
-
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        const imageIndex = i % selectedCount;
-        repeatedImages.push(selectedImages[imageIndex]);
+        document.getElementById("image").style.display = "none";
       }
 
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        imageLabels[i] = repeatedImages[i];
+      if (option.value === "Horizontal") {
+        button4.style.border = "block";
+        button4.style.textAlign = "center";
+        button.style.display = "flex";
+        button.style.flexDirection = "row";
+        // button.style.marginTop = "5%";
+        button.style.alignItems = "center";
+        // buttonCircle.style.flexDirection = "row";
+        button.style.height = "85%";
+        button.style.width = "100%";
+        button.style.flexDirection = "row";
+        buttonChildRight.style.marginTop = "0px";
+        buttonChildNeutral.style.marginTop = "0px";
+        buttonChild.style.flexDirection = "row";
+        buttonChild.style.justifyContent = "space-between";
+        buttonChild.style.alignItems = "center";
+        button.style.position = "relative";
+        buttonChild.style.marginLeft = "0px";
+        button.style.marginLeft = "0px";
       }
 
-      return imageLabels;
-    };
-    const prepareEmojiLabels = () => {
-      const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-      const emojis = inputStr
-        .split(emojiFormat)
-        .filter((emoji) => emoji !== "");
-
-      const emojiLabels = {};
-
-      const repeatedEmoji = [];
-      const selectedCount = Math.min(emojis.length, 11); // Replace 11 with the actual label count
-
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        const emojindex = i % selectedCount;
-        repeatedEmoji.push(emojis[emojindex]);
+      if (option.value === "Vertical") {
+        button4.style.border = "none";
+        button4.style.textAlign = "center";
+        button.style.height = "100%";
+        button.style.width = "30%";
+        button.style.position = "absolute";
+        button.style.flexDirection = "column";
+        button.style.alignItems = "center";
+        button.style.marginTop = "0";
+        // button.style.marginLeft = "26%";
+        buttonChild.style.display = "flex";
+        buttonChild.style.flexDirection = "column";
+        buttonChild.style.justifyContent = "space-between";
+        // buttonChild.style.marginLeft = "38%";
+        buttonChildLeft.style.marginTop = "0px";
+        buttonChildRight.style.marginTop = "40%";
+        buttonChildNeutral.style.marginTop = "50%";
+        //buttonCircle.style.flexDirection = "column";
+        buttonCircleM.style.marginTop = "2px";
       }
 
-      for (let i = 0; i < 11; i++) {
-        // Replace 11 with the actual label count
-        emojiLabels[i] = repeatedEmoji[i];
+      if (btnUpdateLeft.value !== "") {
+        buttonChildLeft.textContent = btnUpdateLeft.value;
       }
 
-      return emojiLabels;
-    };
-    const emojiLabels = prepareEmojiLabels();
-    console.log(emojiLabels);
-    const imageLabels = prepareImageLabels();
-    console.log(imageLabels);
+      if (btnUpdateRight.value !== "") {
+        buttonChildRight.textContent = btnUpdateRight.value;
+      }
 
-    if (idHolder.textContent === "scale Id" || idHolder.textContent === "id") {
-      setIsLoading(true);
-      console.log("post req");
-      Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
-        user: "true",
-        username: "NdoneAmbrose",
-        orientation: option?.value,
-        scalecolor: btnUpdateScale.value,
-        roundcolor: btnUpdateButton.value,
-        fontcolor: btnUpdateFontColor.value,
-        fomat: selectedOption,
-        allow_resp: false,
-        show_total_score: true,
-        no_of_scales: 6,
-        time: timeId.style.display === "none" ? "00" : time?.value,
-        name: beNametnUpdateScal.value,
-        left: btnUpdateLeft.value,
-        right: btnUpdateRight.value,
-        center: btnUpdateCenter.value,
-        image_label_format: imageLabels,
-        fontstyle: btnUpdateScaleFont.value,
-        custom_emoji_format: emojiLabels,
-      })
-        .then((res) => {
-          if (res.status == 200) {
+      if (btnUpdateCenter.value !== "") {
+        buttonChildNeutral.style.display = "block";
+        buttonChildNeutral.textContent = btnUpdateCenter.value;
+      }
+      // if (btnUpdateScales.value !=="") {
+      //   button4.style.textContent = btnUpdateScales.value;
+      // }
+      // if (btnUpdateScore.value !=="") {
+      //   buttonChild.style.color = btnUpdateScore.value;
+      // }
+      if (beNametnUpdateScal.value !== "") {
+        scaleText.textContent = beNametnUpdateScal.value;
+      }
+      console.log(btnUpdateButton.value);
+      console.log(btnUpdateScale.value);
+      console.log(btnUpdateFontColor.value);
+      // setScaleId("");
+      const idHolder = scale?.querySelector(".scaleId");
+      console.log(idHolder);
+      console.log(scaleId);
+      let timeId = document.getElementById("timeId");
+      let time = document.getElementById("time");
+
+      const prepareImageLabels = () => {
+        const imageLabels = {};
+
+        const repeatedImages = [];
+        const selectedCount = Math.min(selectedImages.length, 11); // Replace 11 with the actual label count
+
+        for (let i = 0; i < 11; i++) {
+          // Replace 11 with the actual label count
+          const imageIndex = i % selectedCount;
+          repeatedImages.push(selectedImages[imageIndex]);
+        }
+
+        for (let i = 0; i < 11; i++) {
+          // Replace 11 with the actual label count
+          imageLabels[i] = repeatedImages[i];
+        }
+
+        return imageLabels;
+      };
+      const prepareEmojiLabels = () => {
+        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+        const emojis = inputStr
+          .split(emojiFormat)
+          .filter((emoji) => emoji !== "");
+
+        const emojiLabels = {};
+
+        const repeatedEmoji = [];
+        const selectedCount = Math.min(emojis.length, 11); // Replace 11 with the actual label count
+
+        for (let i = 0; i < 11; i++) {
+          // Replace 11 with the actual label count
+          const emojindex = i % selectedCount;
+          repeatedEmoji.push(emojis[emojindex]);
+        }
+
+        for (let i = 0; i < 11; i++) {
+          // Replace 11 with the actual label count
+          emojiLabels[i] = repeatedEmoji[i];
+        }
+
+        return emojiLabels;
+      };
+      const emojiLabels = prepareEmojiLabels();
+      const imageLabels = prepareImageLabels();
+      console.log(imageLabels);
+
+      if (
+        idHolder.textContent === "scale Id" ||
+        idHolder.textContent === "id"
+      ) {
+        setIsLoading(true);
+        console.log("post req");
+        Axios.post("https://100035.pythonanywhere.com/api/nps_create/", {
+          user: "true",
+          username: "NdoneAmbrose",
+          orientation: option?.value,
+          scalecolor: btnUpdateScale.value,
+          roundcolor: btnUpdateButton.value,
+          fontcolor: btnUpdateFontColor.value,
+          fomat: "numbers",
+          allow_resp: false,
+          show_total_score: true,
+          no_of_scales: 6,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          center: btnUpdateCenter.value,
+          image_label_format: imageLabels,
+          fontstyle: btnUpdateScaleFont.value,
+          custom_emoji_format: emojiLabels,
+        })
+          .then((res) => {
             setIsLoading(false);
             sendMessage();
             setScaleData(res.data);
@@ -587,51 +607,211 @@ const ScaleRightSide = () => {
               idHolder.textContent = id && id;
             }
             console.log(res);
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log(err);
-        });
-    } else {
-      setIsLoading(true);
-      console.log("PUT req");
-      console.log(idHolder.textContent);
-      Axios.put("https://100035.pythonanywhere.com/api/nps_create/", {
-        user: "true",
-        scale_id: idHolder.textContent,
-        username: "NdoneAmbrose",
-        orientation: option?.value,
-        scalecolor: btnUpdateScale.value,
-        roundcolor: btnUpdateButton.value,
-        fontcolor: btnUpdateFontColor.value,
-        fomat: "number",
-        allow_resp: false,
-        show_total_score: true,
-        no_of_scales: 6,
-        time: timeId?.style?.display === "none" ? "00" : time?.value,
-        name: beNametnUpdateScal.value,
-        left: btnUpdateLeft.value,
-        right: btnUpdateRight.value,
-        center: btnUpdateCenter.value,
-        label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-        fontstyle: btnUpdateScaleFont.value,
-        custom_emoji_format: emojiLabels,
-      })
-        .then((res) => {
-          if (res.status == 200) {
+          })
+          .catch((err) => {
             setIsLoading(false);
-            sendMessage();
-            setScaleData(res.data);
-            setScaleId(scaleId);
-            console.log(res);
-            console.log("This is the still scale", scale);
-          }
+            console.log(err);
+          });
+      } else {
+        setIsLoading(true);
+        console.log("PUT req");
+        console.log(idHolder.textContent);
+        Axios.put("https://100035.pythonanywhere.com/api/nps_create/", {
+          user: "true",
+          scale_id: idHolder.textContent,
+          username: "NdoneAmbrose",
+          orientation: option?.value,
+          scalecolor: btnUpdateScale.value,
+          roundcolor: btnUpdateButton.value,
+          fontcolor: btnUpdateFontColor.value,
+          fomat: selectedOption,
+          allow_resp: false,
+          show_total_score: true,
+          no_of_scales: 6,
+          time: timeId?.style?.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          center: btnUpdateCenter.value,
+          label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+          fontstyle: btnUpdateScaleFont.value,
+          custom_emoji_format: emojiLabels,
         })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log(err.message);
-        });
+          .then((res) => {
+            if (res.status == 200) {
+              setIsLoading(false);
+              sendMessage();
+              setScaleData(res.data);
+              setScaleId(scaleId);
+              console.log(res);
+              console.log("This is the still scale", scale);
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err.message);
+          });
+      }
+    } else {
+      const scale = document.querySelector(".focussedd");
+      console.log(scale);
+
+      // const btnUpdateScale = document.getElementById("scale_color");
+      // const btnUpdateFontColor = document.getElementById("font_color");
+      // const btnUpdateScaleFont = document.getElementById("font_style");
+      // const beNametnUpdateScal = document.getElementById("scaleLabel");
+
+      // const headerText = document.getElementById("headerText");
+      const btnUpdateLeft = document.getElementById("left");
+      const btnUpdateRight = document.getElementById("right");
+      const btnUpdateCenter = document.getElementById("centre");
+      let upperVal = document.getElementById("upperVal").value;
+      // console.log(value?.value);
+      // console.log(value);
+
+      const button = scale?.querySelector(".label_hold");
+      const scaleText = scale?.querySelector(".scale_text");
+      const button4 = scale?.querySelector(".scool_input");
+      const font = scale?.querySelector(".newScaleInput");
+
+      const buttonCircleM = scale?.querySelector(".circle_label");
+      const buttonChild = document.getElementById("child");
+      const buttonChildLeft = scale?.querySelector(".left_child");
+      const buttonChildRight = scale?.querySelector(".right_child");
+      const buttonChildNeutral = scale?.querySelector(".neutral_child");
+      const optionSelect = document.getElementById("format");
+      const option =
+        document.querySelector("#orientationId").options[
+          document.querySelector("#orientationId").selectedIndex
+        ];
+
+      let tempText = scale?.querySelector(".tempText");
+      tempText?.remove();
+
+      if (scaleText) {
+        console.log(scaleText);
+        scaleText.innerHTML = "Stapel scale";
+      }
+      if (button) {
+        button.style.backgroundColor = "orange";
+      }
+      if (buttonChildLeft) {
+        buttonChildLeft.textContent = "Very unlikely";
+      }
+      if (buttonChildNeutral) {
+        buttonChildNeutral.style.display = "none";
+      }
+      if (buttonChildRight) {
+        buttonChildRight.textContent = "Very likely";
+      }
+      button4.style.display = "block";
+
+      const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
+      // button.removeChild()
+
+      const spacing = parseInt(document.getElementById("spacing").value);
+      console.log(spacing);
+      if (upperVal < 11) {
+        for (let i = 0; i < buttonCircle.length; i++) {
+          buttonCircle[i].remove();
+        }
+        // const spacing = 4;
+        // let count = 0;
+        for (let i = -upperVal; i <= upperVal; i += spacing) {
+          // buttonCircle.style.display = "none";
+          // buttonCircle[count].style.backgroundColor = "white";
+          // buttonCircle[count].textContent = i;
+          let newBtn = document.createElement("div");
+          newBtn.className = "stapel_circle_label";
+          newBtn.style.width = "35%";
+          newBtn.style.height = "35%";
+          newBtn.style.borderRadius = "50%";
+          newBtn.style.backgroundColor = "white";
+          newBtn.style.top = "30%";
+          newBtn.style.left = "30%";
+          newBtn.style.display = "flex";
+          newBtn.style.justifyContent = "center";
+          newBtn.style.alignItems = "center";
+          newBtn.style.marginLeft = "2px";
+          newBtn.textContent = i;
+          button.append(newBtn);
+          // buttonCircle[count].style.display = "block"; // Display the button
+          // count++;
+        }
+      }
+
+      // if (btnUpdateFontColor.value !== "") {
+      //   button4.style.color = btnUpdateFontColor.value;
+      // }
+
+      // if (btnUpdateScaleFont.value !== "") {
+      //   button4.style.fontFamily = btnUpdateScaleFont.value;
+      // }
+
+      const selectedOption = optionSelect.value;
+
+      if (option.value === "Horizontal") {
+        button4.style.border = "block";
+        button4.style.textAlign = "center";
+        button.style.display = "flex";
+        button.style.flexDirection = "row";
+        // button.style.marginTop = "5%";
+        button.style.alignItems = "center";
+        // buttonCircle.style.flexDirection = "row";
+        button.style.height = "85%";
+        button.style.width = "100%";
+        button.style.flexDirection = "row";
+        buttonChildRight.style.marginTop = "0px";
+        buttonChildNeutral.style.marginTop = "0px";
+        buttonChild.style.flexDirection = "row";
+        buttonChild.style.justifyContent = "space-between";
+        buttonChild.style.alignItems = "center";
+        button.style.position = "relative";
+        buttonChild.style.marginLeft = "0px";
+        button.style.marginLeft = "0px";
+      }
+
+      if (option.value === "Vertical") {
+        button4.style.border = "none";
+        button4.style.textAlign = "center";
+        button.style.height = "100%";
+        button.style.width = "30%";
+        button.style.position = "absolute";
+        button.style.flexDirection = "column";
+        button.style.alignItems = "center";
+        button.style.marginTop = "0";
+        // button.style.marginLeft = "26%";
+        buttonChild.style.display = "flex";
+        buttonChild.style.flexDirection = "column";
+        buttonChild.style.justifyContent = "space-between";
+        // buttonChild.style.marginLeft = "38%";
+        buttonChildLeft.style.marginTop = "0px";
+        buttonChildRight.style.marginTop = "40%";
+        buttonChildNeutral.style.marginTop = "50%";
+        //buttonCircle.style.flexDirection = "column";
+        buttonCircleM.style.marginTop = "2px";
+      }
+
+      if (btnUpdateLeft.value !== "") {
+        buttonChildLeft.textContent = btnUpdateLeft.value;
+      }
+
+      if (btnUpdateRight.value !== "") {
+        buttonChildRight.textContent = btnUpdateRight.value;
+      }
+
+      if (btnUpdateCenter.value !== "") {
+        buttonChildNeutral.textContent = btnUpdateCenter.value;
+      }
+      // if (btnUpdateScales.value !=="") {
+      //   button4.style.textContent = btnUpdateScales.value;
+      // }
+      // if (btnUpdateScore.value !=="") {
+      //   buttonChild.style.color = btnUpdateScore.value;
+      // }
+      // if (beNametnUpdateScal.value !== "") {
+      //   scaleText.textContent = beNametnUpdateScal.value;
+      // }
     }
   };
   const idHolder = scale?.querySelector(".scaleId");
@@ -970,97 +1150,1055 @@ const ScaleRightSide = () => {
             }}
             id="iframeRight"
           >
-            <form
+            <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
-                // gap: "15px",
+                gap: "2px",
+                width: "40%",
+                paddingLeft: "12px",
               }}
             >
+              <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Scales</h6>
               <div
                 style={{
+                  backgroundColor: "#e8e8e8",
+                  padding: "3px 7px",
+                  borderRadius: "7px",
+                  // height: "30px",
+                  width: "100%",
                   display: "flex",
-                  margin: "0",
-                  padding: "0",
-                  flexDirection: "column",
-                  // gap: "5px",
-                  alignItems: "start",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
+                <select
+                  style={{
+                    width: "100px",
+                    height: "15px",
+                    display: "flex",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                    border: "none",
+                    alignItems: "center",
+                  }}
+                  id="scaleType"
+                  onChange={handleFormatChange}
+                >
+                  <option value="snipte">Stapel Scale</option>
+                  <option value="nps">Nps Scale</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="npsScaleForm">
+              <form
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  gap: "15px",
+                  width: "100%",
+                  overflowY: "auto",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "12px",
+                  paddingRight: "12px",
+                  marginTop: "15px",
+                  fontSize: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "0",
+                    padding: "0",
+                    flexDirection: "column",
+                    // gap: "5px",
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    <h1
+                      id="headerText"
+                      style={{ margin: "auto 0", fontSize: "15px" }}
+                    >
+                      Edit {scaleTitle}
+                    </h1>
+                  </div>
+                  <h6 style={{ fontSize: "12px" }}>Orientation</h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      // padding: "5px 10px",
+                      borderRadius: "10px",
+                      padding: "5px 7px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <select
+                      style={{
+                        width: "100%",
+                        backgroundColor: "transparent",
+                        // borderRadius: "10px",
+                        // padding: "3px 10px",
+                        height: "15px",
+                        border: "none",
+                        justifyContent: "center",
+                        outline: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "12px",
+                        margin: "0 auto",
+                      }}
+                      className="bg-gray-800"
+                      id="orientationId"
+                    >
+                      <option value="Horizontal" style={{ color: "black" }}>
+                        Horizontal
+                      </option>
+                      <option value="Vertical" style={{ color: "black" }}>
+                        Vertical
+                      </option>
+                    </select>
+                  </div>
+                </div>
                 <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "2px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
+                    // justifyContent: "space-between",
+                    gap: "10px",
+                    marginTop: "10px",
+                    // alignItems: "center",
                   }}
                 >
-                  <h1
-                    id="headerText"
-                    style={{ margin: "auto 0", fontSize: "15px" }}
-                  >
-                    Edit {scaleTitle}
-                  </h1>
-                </div>
-                <h6 style={{ fontSize: "12px" }}>Orientation</h6>
-                <div
-                  style={{
-                    backgroundColor: "#e8e8e8",
-                    // padding: "5px 10px",
-                    borderRadius: "10px",
-                    padding: "5px 7px",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <select
+                  <div
                     style={{
-                      width: "100%",
-                      backgroundColor: "transparent",
-                      // borderRadius: "10px",
-                      // padding: "3px 10px",
-                      height: "15px",
-                      border: "none",
-                      justifyContent: "center",
-                      outline: "none",
                       display: "flex",
                       alignItems: "center",
-                      fontSize: "12px",
-                      margin: "0 auto",
+                      gap: "7px",
+                      justifyContent: "space-between",
                     }}
-                    className="bg-gray-800"
-                    id="orientationId"
                   >
-                    <option value="Horizontal" style={{ color: "black" }}>
-                      Horizontal
-                    </option>
-                    <option value="Vertical" style={{ color: "black" }}>
-                      Vertical
-                    </option>
-                  </select>
-                </div>
-              </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   scaleDisplay.style.display !== "none" ? scaleBg : ""
+                          // }
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   !scaleDisplay
+                          //     ? undefined
+                          //     : scaleDisplay === "none"
+                          //     ? undefined
+                          //     : scaleBg
+                          // }
+                          // defaultValue={scale && scaleBg}
+                          // defaultValue={
+                          //   document
+                          //     ?.querySelector(".focussedd")
+                          //     ?.querySelector(".label_hold")?.style?.backgroundColor
+                          // }
+                          id="scale_color"
+                        />
+                      </div>
+                    </div>
 
-              <div
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Button Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // scaleDisplay.style?.display !== "none" ? circles : ""
+                          //   // scaleDisplay?.style?.display ? scaleDisplay.style.display ==="block" ? circles : ""
+                          // }
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? undefined
+                          //     : circles
+                          // }
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   !scaleDisplay
+                          //     ? undefined
+                          //     : scaleDisplay === "none"
+                          //     ? undefined
+                          //     : circles
+                          // }
+                          // defaultValue={circles ? circles : ""}
+                          id="button_color"
+                        />
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   !scaleDisplay
+                          //     ? undefined
+                          //     : scaleDisplay === "none"
+                          //     ? undefined
+                          //     : fontColor
+                          // }
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? undefined
+                          //     : fontColor
+                          // }
+                          // defaultValue={
+                          //   scaleDisplay.style.display !== "none" ? fontColor : ""
+                          // }
+                          // defaultValue={fontColor ? fontColor : ""}
+                          id="font_color"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Style
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style"
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "70px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="format"
+                          onChange={handleFormat}
+                        >
+                          <option value="number">Number</option>
+                          {/* <option value="image">Image</option> */}
+                          <option value="emoji">Emoji</option>
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale label
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? ""
+                          //     : leftChild.innerHTML
+                          // }
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            scaleT ? scaleT.innerHTML : ""
+                          }
+                          style={{
+                            width: "82px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scaleLabel"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "none",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                      id="emoji"
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Select Emoji
+                      </h6>
+                      <div
+                        style={{
+                          position: "relative",
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="emojiInp"
+                          value={inputStr}
+                          onChange={(e) => setInputStr(e.target.value)}
+                        />
+
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: "-140px",
+                            zIndex: 1,
+                            maxWidth: "250px",
+                            maxHeight: "300px",
+                            overflowY: "auto",
+                            padding: "5px",
+                          }}
+                        >
+                          {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                        </div>
+                        <GrEmoji
+                          style={{
+                            position: "absolute",
+                            zIndex: "1",
+                            backgroundColor: "#e8e8e8",
+                            right: "-14px",
+                            // top: "1px",
+                          }}
+                          onClick={() => setShowPicker(!showPicker)}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "none",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                      id="image"
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "10px" }}>
+                        Upload Image
+                      </h6>
+                      <div
+                        style={{
+                          position: "relative",
+                          // backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          style={{
+                            width: "100px",
+                            // height: "18px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          type="file"
+                          onChange={handleImage}
+                        />
+                        {selectedImages.length > 0 && (
+                          <div
+                            style={{
+                              // display: "flex",
+                              // flexDirection: "row",
+                              width: "100%",
+                              gap: "2px",
+                              padding: "5px",
+                            }}
+                            id="ImageUpload"
+                          >
+                            {selectedImages.map((imageData, index) => (
+                              <img
+                                key={index}
+                                src={imageData}
+                                alt={`Uploaded ${index}`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Left
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? ""
+                          //     : leftChild.innerHTML
+                          // }
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   leftChild ? leftChild.innerHTML : ""
+                          // }
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="left"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Centre
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   neutralChild ? neutralChild.innerHTML : ""
+                          // }
+                          id="centre"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Right
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        // defaultValue={
+                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                        //   rightChild ? rightChild.innerHTML : ""
+                        // }
+                        id="right"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Number of scales
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="scales"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      // gap: "2px",
+                      alignItems: "center",
+                      justifyContent: "space-between      ",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "12px" }}>Time(sec)</h6>
+
+                    <div class="form-check form-switch">
+                      <input
+                        style={{ cursor: "pointer" }}
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        // onChange={(e) => setIsSwitchEnabled(e.target.checked)}
+                        onChange={onTimeChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="timeId"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="time"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      // gap: "2px",
+                      alignItems: "center",
+                      justifyContent: "space-between      ",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "12px" }}>
+                      Show total score for all instances
+                    </h6>
+
+                    <div class="form-check form-switch">
+                      <input
+                        style={{ cursor: "pointer" }}
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        // onChange={(e) => setScore(e.target.checked)}
+                        onChange={onScoreChange}
+                      />
+                    </div>
+                  </div>
+
+                  {/* {score && ( */}
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="scoreInput"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="score"
+                      />
+                    </div>
+                  </div>
+                  {/* // )} */}
+                </div>
+                <hr />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                    padding: "0 5px",
+                    gap: "10px",
+                  }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h6 style={{ fontSize: "13px" }}>Grouped Elements</h6>
+                    <div
+                      style={{ display: "flex", gap: "10px", padding: "5px" }}
+                    >
+                      <Button
+                        id="updateSingleScale"
+                        type="button"
+                        variant="secondary"
+                        onClick={showSingle}
+                        style={{ fontSize: "13px" }}
+                      >
+                        Single Select
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={showMulti}
+                        style={{ fontSize: "13px" }}
+                      >
+                        Multi Select
+                      </Button>
+                    </div>
+                    <hr />
+                    <div
+                      style={{
+                        backgroundColor: "#ffffff",
+                        // padding: "10px 10px",
+                        borderRadius: "10px",
+                        // padding: "5px 7px",
+                        width: "100%",
+                        margin: "0",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      className="shadow-sm p-3 bg-white rounded "
+                    >
+                      <select
+                        style={{
+                          width: "100%",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          // borderRadius: "10px",
+                          // padding: "3px 10px",
+                          // height: "15px",
+                          border: "none",
+                          justifyContent: "center",
+                          outline: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: "12px",
+                          margin: "0 auto",
+                        }}
+                        className="bg-gray-800"
+                      >
+                        <option style={{ color: "black" }}>
+                          Nothing Selected
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <h6 style={{ fontSize: "13px" }}>User Permissions</h6>
+                    <div
+                      style={{
+                        backgroundColor: "#ffffff",
+                        // padding: "10px 10px",
+                        borderRadius: "10px",
+                        // padding: "2px 0",
+
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      className="shadow-sm p-3 bg-white rounded"
+                    >
+                      <select
+                        style={{
+                          width: "100%",
+                          cursor: "pointer",
+                          backgroundColor: "transparent",
+                          // borderRadius: "10px",
+                          // padding: "3px 10px",
+                          // height: "15px",
+                          border: "none",
+                          justifyContent: "center",
+                          outline: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: "12px",
+                          margin: "0 auto",
+                        }}
+                        className="bg-gray-800"
+                      >
+                        <option style={{ color: "black" }}>
+                          Nothing Selected
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <Button
+                        id="button_id"
+                        type="button"
+                        width="50%"
+                        marginTop="60px"
+                        onClick={handleUpdates}
+                      >
+                        Update
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div id="snippScaleForm">
+              <form
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  // justifyContent: "space-between",
-                  gap: "10px",
-                  marginTop: "10px",
-                  // alignItems: "center",
+                  justifyContent: "center",
+                  gap: "15px",
+                  width: "100%",
+                  overflowY: "auto",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "12px",
+                  paddingRight: "12px",
+                  marginTop: "15px",
+                  fontSize: "10px",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "7px",
-                    justifyContent: "space-between",
+                    margin: "0",
+                    padding: "0",
+                    flexDirection: "column",
+                    // gap: "5px",
+                    alignItems: "start",
                   }}
                 >
                   <div
@@ -1068,112 +2206,57 @@ const ScaleRightSide = () => {
                       display: "flex",
                       flexDirection: "column",
                       gap: "2px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
                     }}
                   >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Scale Color
-                    </h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "5px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
+                    <h1
+                      id="headerText"
+                      style={{ margin: "auto 0", fontSize: "15px" }}
                     >
-                      <input
-                        type="color"
-                        style={{
-                          width: "100px",
-                          height: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                        // defaultValue={
-                        //   scaleDisplay.style.display !== "none" ? scaleBg : ""
-                        // }
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   !scaleDisplay
-                        //     ? undefined
-                        //     : scaleDisplay === "none"
-                        //     ? undefined
-                        //     : scaleBg
-                        // }
-                        // defaultValue={scale && scaleBg}
-                        // defaultValue={
-                        //   document
-                        //     ?.querySelector(".focussedd")
-                        //     ?.querySelector(".label_hold")?.style?.backgroundColor
-                        // }
-                        id="scale_color"
-                      />
-                    </div>
+                      Edit {scaleTitle}
+                    </h1>
                   </div>
-
+                  <h6 style={{ fontSize: "12px" }}>Orientation</h6>
                   <div
                     style={{
+                      backgroundColor: "#e8e8e8",
+                      // padding: "5px 10px",
+                      borderRadius: "10px",
+                      padding: "5px 7px",
+                      width: "100%",
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Button Color
-                    </h6>
-                    <div
+                    <select
                       style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "5px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
                         width: "100%",
-                        display: "flex",
+                        backgroundColor: "transparent",
+                        // borderRadius: "10px",
+                        // padding: "3px 10px",
+                        height: "15px",
+                        border: "none",
                         justifyContent: "center",
+                        outline: "none",
+                        display: "flex",
                         alignItems: "center",
+                        fontSize: "12px",
+                        margin: "0 auto",
                       }}
+                      className="bg-gray-800"
+                      id="orientationId"
                     >
-                      <input
-                        type="color"
-                        style={{
-                          width: "100px",
-                          height: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                        // defaultValue={
-                        //   // scaleDisplay.style?.display !== "none" ? circles : ""
-                        //   // scaleDisplay?.style?.display ? scaleDisplay.style.display ==="block" ? circles : ""
-                        // }
-                        // defaultValue={
-                        //   scaleDisplay.style.display === "none"
-                        //     ? undefined
-                        //     : circles
-                        // }
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   !scaleDisplay
-                        //     ? undefined
-                        //     : scaleDisplay === "none"
-                        //     ? undefined
-                        //     : circles
-                        // }
-                        // defaultValue={circles ? circles : ""}
-                        id="button_color"
-                      />
-                      {/* <BiChevronDown
-                    size={20}
-                    ref={ref}
-                    style={{ fontSize: "12px", width: "4px" }}
-                  /> */}
-                    </div>
+                      <option value="Horizontal" style={{ color: "black" }}>
+                        Horizontal
+                      </option>
+                      <option value="Vertical" style={{ color: "black" }}>
+                        Vertical
+                      </option>
+                    </select>
                   </div>
                 </div>
-
                 <div
                   style={{
                     display: "flex",
@@ -1190,166 +2273,7 @@ const ScaleRightSide = () => {
                     }}
                   >
                     <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Font Color
-                    </h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "5px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <input
-                        type="color"
-                        style={{
-                          width: "100px",
-                          height: "12px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   !scaleDisplay
-                        //     ? undefined
-                        //     : scaleDisplay === "none"
-                        //     ? undefined
-                        //     : fontColor
-                        // }
-                        // defaultValue={
-                        //   scaleDisplay.style.display === "none"
-                        //     ? undefined
-                        //     : fontColor
-                        // }
-                        // defaultValue={
-                        //   scaleDisplay.style.display !== "none" ? fontColor : ""
-                        // }
-                        // defaultValue={fontColor ? fontColor : ""}
-                        id="font_color"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Font Style
-                    </h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <select
-                        style={{
-                          width: "100px",
-                          height: "15px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          outline: "none",
-                          border: "none",
-                          alignItems: "center",
-                        }}
-                        id="font_style"
-                        defaultValue={
-                          // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                          fontFamlity ? fontFamlity.style.fontFamily : "Select"
-                        }
-                      >
-                        <option style={{ fontSize: "11px" }}>Select</option>
-                        {fontStyles.map((fontStyle, index) => (
-                          <option key={index} value={fontStyle}>
-                            {fontStyle}
-                          </option>
-                        ))}
-                      </select>
-                      {/* <BiChevronDown
-                    size={20}
-                    ref={ref}
-                    style={{ fontSize: "12px", width: "4px" }}
-                  /> */}
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "7px",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Format
-                    </h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <select
-                        style={{
-                          width: "70px",
-                          height: "15px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          outline: "none",
-                          border: "none",
-                          alignItems: "center",
-                        }}
-                        id="format"
-                        onChange={handleFormat}
-                      >
-                        <option value="number">Number</option>
-                        <option value="image">Image</option>
-                        <option value="emoji">Emoji</option>
-                      </select>
-                      {/* <BiChevronDown
-                    size={20}
-                    ref={ref}
-                    style={{ fontSize: "12px", width: "4px" }}
-                  /> */}
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Scale label
+                      Scale Upper Limit
                     </h6>
                     <div
                       style={{
@@ -1365,195 +2289,6 @@ const ScaleRightSide = () => {
                     >
                       <input
                         type="text"
-                        onChange={(e) => setScaleTitle(e.target.value)}
-                        // defaultValue={leftChild ? leftChild.innerHTML : ""}
-                        // defaultValue={
-                        //   scaleDisplay.style.display === "none"
-                        //     ? ""
-                        //     : leftChild.innerHTML
-                        // }
-                        defaultValue={
-                          // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                          scaleT ? scaleT.innerHTML : ""
-                        }
-                        style={{
-                          width: "82px",
-                          height: "12px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
-                          alignItems: "center",
-                        }}
-                        id="scaleLabel"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "none",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                    id="emoji"
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Select Emoji
-                    </h6>
-                    <div
-                      style={{
-                        position: "relative",
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <input
-                        style={{
-                          width: "100px",
-                          height: "15px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          outline: "none",
-                          border: "none",
-                          alignItems: "center",
-                        }}
-                        id="emojiInp"
-                        value={inputStr}
-                        onChange={(e) => setInputStr(e.target.value)}
-                      />
-
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "100%",
-                          left: "-140px",
-                          zIndex: 1,
-                          maxWidth: "250px",
-                          maxHeight: "300px",
-                          overflowY: "auto",
-                          padding: "5px",
-                        }}
-                      >
-                        {showPicker && <Picker onEmojiClick={onEmojiClick} />}
-                      </div>
-                      <GrEmoji
-                        style={{
-                          position: "absolute",
-                          zIndex: "1",
-                          backgroundColor: "#e8e8e8",
-                          right: "-14px",
-                          // top: "1px",
-                        }}
-                        onClick={() => setShowPicker(!showPicker)}
-                      />
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "none",
-                      flexDirection: "column",
-                      gap: "1px",
-                    }}
-                    id="image"
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "10px" }}>
-                      Upload Image
-                    </h6>
-                    <div
-                      style={{
-                        position: "relative",
-                        // backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <input
-                        style={{
-                          width: "100px",
-                          // height: "18px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          outline: "none",
-                          border: "none",
-                          alignItems: "center",
-                        }}
-                        type="file"
-                        onChange={handleImage}
-                      />
-                      {selectedImages.length > 0 && (
-                        <div
-                          style={{
-                            // display: "flex",
-                            // flexDirection: "row",
-                            width: "100%",
-                            gap: "2px",
-                            padding: "5px",
-                          }}
-                          id="ImageUpload"
-                        >
-                          {selectedImages.map((imageData, index) => (
-                            <img
-                              key={index}
-                              src={imageData}
-                              alt={`Uploaded ${index}`}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "7px",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Left</h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "5px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <input
-                        type="text"
-                        // defaultValue={leftChild ? leftChild.innerHTML : ""}
-                        // defaultValue={
-                        //   scaleDisplay.style.display === "none"
-                        //     ? ""
-                        //     : leftChild.innerHTML
-                        // }
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   leftChild ? leftChild.innerHTML : ""
-                        // }
                         style={{
                           width: "100px",
                           height: "12px",
@@ -1563,7 +2298,8 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        id="left"
+                        id="upperVal"
+                        // onChange={upperValueChange}
                       />
                     </div>
                   </div>
@@ -1575,7 +2311,7 @@ const ScaleRightSide = () => {
                     }}
                   >
                     <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Centre
+                      Scale Lower Limit
                     </h6>
                     <div
                       style={{
@@ -1600,10 +2336,6 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   neutralChild ? neutralChild.innerHTML : ""
-                        // }
                         id="centre"
                       />
                     </div>
@@ -1616,47 +2348,8 @@ const ScaleRightSide = () => {
                     gap: "2px",
                   }}
                 >
-                  <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Right</h6>
-                  <div
-                    style={{
-                      backgroundColor: "#e8e8e8",
-                      padding: "3px 7px",
-                      borderRadius: "7px",
-                      // height: "30px",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      style={{
-                        width: "100%",
-                        height: "15px",
-                        display: "flex",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        outline: "none",
-                        alignItems: "center",
-                      }}
-                      // defaultValue={
-                      //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                      //   rightChild ? rightChild.innerHTML : ""
-                      // }
-                      id="right"
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2px",
-                  }}
-                >
                   <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                    Number of scales
+                    Spacing Unit
                   </h6>
                   <div
                     style={{
@@ -1672,7 +2365,6 @@ const ScaleRightSide = () => {
                   >
                     <input
                       type="text"
-                      placeholder="1"
                       style={{
                         width: "100%",
                         height: "15px",
@@ -1682,260 +2374,582 @@ const ScaleRightSide = () => {
                         outline: "none",
                         alignItems: "center",
                       }}
-                      id="scales"
+                      id="spacing"
                     />
                   </div>
                 </div>
-
                 <div
                   style={{
                     display: "flex",
-                    // gap: "2px",
-                    alignItems: "center",
-                    justifyContent: "space-between      ",
-                  }}
-                >
-                  <h6 style={{ fontSize: "12px" }}>Time(sec)</h6>
-
-                  <div class="form-check form-switch">
-                    <input
-                      style={{ cursor: "pointer" }}
-                      class="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                      // onChange={(e) => setIsSwitchEnabled(e.target.checked)}
-                      onChange={onTimeChange}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    display: "none",
                     flexDirection: "column",
-                    gap: "2px",
-                    marginTop: "-10px",
+                    // justifyContent: "space-between",
+                    gap: "10px",
+                    marginTop: "10px",
+                    // alignItems: "center",
                   }}
-                  id="timeId"
                 >
                   <div
                     style={{
-                      backgroundColor: "#e8e8e8",
-                      padding: "3px 7px",
-                      borderRadius: "7px",
-                      // height: "30px",
-                      width: "100%",
                       display: "flex",
-                      justifyContent: "center",
                       alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <input
-                      type="text"
-                      placeholder="1"
+                    <div
                       style={{
-                        width: "100%",
-                        height: "15px",
                         display: "flex",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        outline: "none",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="scale_color"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Round Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="button_color"
+                        />
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="font_color"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "70px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="select"
+                          onChange={handleFormat}
+                        >
+                          <option value="number">Number</option>
+                          <option value="image">Image</option>
+                          <option value="emoji">Emoji</option>
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale label
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          defaultValue={scaleT ? scaleT.innerHTML : ""}
+                          style={{
+                            width: "82px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scaleLabel"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "none",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                      id="emoji"
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Select Emoji
+                      </h6>
+                      <div
+                        style={{
+                          position: "relative",
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          value={inputStr}
+                          onChange={(e) => setInputStr(e.target.value)}
+                        />
+
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: "-140px",
+                            zIndex: 1,
+                            maxWidth: "250px",
+                            maxHeight: "300px",
+                            overflowY: "auto",
+                            padding: "5px",
+                          }}
+                        >
+                          {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                        </div>
+                        <GrEmoji
+                          style={{
+                            position: "absolute",
+                            zIndex: "1",
+                            backgroundColor: "#e8e8e8",
+                            right: "-14px",
+                            // top: "1px",
+                          }}
+                          onClick={() => setShowPicker(!showPicker)}
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "none",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                      id="image"
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "10px" }}>
+                        Upload Image
+                      </h6>
+                      <div
+                        style={{
+                          position: "relative",
+                          // backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          style={{
+                            width: "100px",
+                            // height: "18px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          type="file"
+                          onChange={handleImage}
+                        />
+                        {selectedImages.length > 0 && (
+                          <div
+                            style={{
+                              // display: "flex",
+                              // flexDirection: "row",
+                              width: "100%",
+                              gap: "2px",
+                              padding: "5px",
+                            }}
+                            id="ImageUpload"
+                          >
+                            {selectedImages.map((imageData, index) => (
+                              <img
+                                key={index}
+                                src={imageData}
+                                alt={`Uploaded ${index}`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Left
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="left"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Right
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100%",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   rightChild ? rightChild.innerHTML : ""
+                          // }
+                          id="right"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Number of scales
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
                         alignItems: "center",
                       }}
-                      id="time"
-                    />
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="scales"
+                      />
+                    </div>
                   </div>
-                </div>
 
+                  <div
+                    style={{
+                      display: "flex",
+                      // gap: "2px",
+                      alignItems: "center",
+                      justifyContent: "space-between      ",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "12px" }}>Time(sec)</h6>
+
+                    <div class="form-check form-switch">
+                      <input
+                        style={{ cursor: "pointer" }}
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        // onChange={(e) => setIsSwitchEnabled(e.target.checked)}
+                        onChange={onTimeChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="timeId"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="time"
+                      />
+                    </div>
+                  </div>
+                  {/* // )} */}
+                </div>
                 <div
                   style={{
                     display: "flex",
-                    // gap: "2px",
-                    alignItems: "center",
-                    justifyContent: "space-between      ",
-                  }}
-                >
-                  <h6 style={{ fontSize: "12px" }}>
-                    Show total score for all instances
-                  </h6>
-
-                  <div class="form-check form-switch">
-                    <input
-                      style={{ cursor: "pointer" }}
-                      class="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                      // onChange={(e) => setScore(e.target.checked)}
-                      onChange={onScoreChange}
-                    />
-                  </div>
-                </div>
-
-                {/* {score && ( */}
-                <div
-                  style={{
-                    display: "none",
                     flexDirection: "column",
-                    gap: "2px",
-                    marginTop: "-10px",
+                    width: "100%",
+                    padding: "0 5px",
+                    gap: "10px",
                   }}
-                  id="scoreInput"
                 >
                   <div
-                    style={{
-                      backgroundColor: "#e8e8e8",
-                      padding: "3px 7px",
-                      borderRadius: "7px",
-                      // height: "30px",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      placeholder="1"
-                      style={{
-                        width: "100%",
-                        height: "15px",
-                        display: "flex",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        outline: "none",
-                        alignItems: "center",
-                      }}
-                      id="score"
-                    />
+                    style={{ display: "flex", flexDirection: "column" }}
+                  ></div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div>
+                      <Button
+                        id="button_id"
+                        type="button"
+                        width="50%"
+                        marginTop="60px"
+                        onClick={handleUpdates}
+                      >
+                        Update
+                      </Button>
+                    </div>
                   </div>
                 </div>
-                {/* // )} */}
-              </div>
-              <hr />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                  padding: "0 5px",
-                  gap: "10px",
-                }}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <h6 style={{ fontSize: "13px" }}>Grouped Elements</h6>
-                  <div style={{ display: "flex", gap: "10px", padding: "5px" }}>
-                    <Button
-                      id="updateSingleScale"
-                      type="button"
-                      variant="secondary"
-                      onClick={showSingle}
-                      style={{ fontSize: "13px" }}
-                    >
-                      Single Select
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      onClick={showMulti}
-                      style={{ fontSize: "13px" }}
-                    >
-                      Multi Select
-                    </Button>
-                  </div>
-                  <hr />
-                  <div
-                    style={{
-                      backgroundColor: "#ffffff",
-                      // padding: "10px 10px",
-                      borderRadius: "10px",
-                      // padding: "5px 7px",
-                      width: "100%",
-                      margin: "0",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    className="shadow-sm p-3 bg-white rounded "
-                  >
-                    <select
-                      style={{
-                        width: "100%",
-                        cursor: "pointer",
-                        backgroundColor: "transparent",
-                        // borderRadius: "10px",
-                        // padding: "3px 10px",
-                        // height: "15px",
-                        border: "none",
-                        justifyContent: "center",
-                        outline: "none",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "12px",
-                        margin: "0 auto",
-                      }}
-                      className="bg-gray-800"
-                    >
-                      <option style={{ color: "black" }}>
-                        Nothing Selected
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <h6 style={{ fontSize: "13px" }}>User Permissions</h6>
-                  <div
-                    style={{
-                      backgroundColor: "#ffffff",
-                      // padding: "10px 10px",
-                      borderRadius: "10px",
-                      // padding: "2px 0",
-
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    className="shadow-sm p-3 bg-white rounded"
-                  >
-                    <select
-                      style={{
-                        width: "100%",
-                        cursor: "pointer",
-                        backgroundColor: "transparent",
-                        // borderRadius: "10px",
-                        // padding: "3px 10px",
-                        // height: "15px",
-                        border: "none",
-                        justifyContent: "center",
-                        outline: "none",
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "12px",
-                        margin: "0 auto",
-                      }}
-                      className="bg-gray-800"
-                    >
-                      <option style={{ color: "black" }}>
-                        Nothing Selected
-                      </option>
-                    </select>
-                  </div>
-                  <div>
-                    <Button
-                      id="button_id"
-                      type="button"
-                      width="50%"
-                      marginTop="60px"
-                      onClick={handleUpdates}
-                    >
-                      Update
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
           <div style={{ display: "none" }} id="border">
             <Row className="pt-4">
