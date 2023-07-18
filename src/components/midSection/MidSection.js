@@ -3656,6 +3656,16 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
                     holding.appendChild(holdElem);
+                    console.log("This is holdEle", holdElem.textContent)
+                    const required_map_document = document_map_required?.filter(
+                      (item) => element.id == item.content
+                    );
+                    if (
+                      scaleField?.parentElement?.classList.contains("holderDIV") &&
+                      required_map_document.length > 0
+                    ) {
+                      scaleField?.parentElement?.classList.add("element_updated");
+                    }
                   }
 
                   // Store holdElem inside the holding div
@@ -6488,6 +6498,7 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CONTAINER_INPUT" &&
         decoded.details.action === "template"
       ) {
+        // console.log("typeOfOperation", typeOfOperation);
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
