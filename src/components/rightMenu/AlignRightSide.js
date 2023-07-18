@@ -127,9 +127,40 @@ const AlignRightSide = () =>
     document.execCommand("indent");
   };
 
-  const handleIncreaseSize = () => {
+  const handleIncreaseSize = (size) => {
     document.execCommand("increaseFontSize");
+
+
+    // let selection = document.getSelection();
+
+    // let selectedHtml = "";
+    // if(selection.rangeCount) {
+    //   let textContainer = document.querySelector(".focussedd")
+    //   for (let i = 0; i < selection.rangeCount; i++) {
+    //     textContainer.appendChild(selection.getRangeAt(i).cloneContents())
+    //   }
+
+    //   const children = textContainer.getElementsByClassName("textInput")
+    //   for (let child of children) {
+    //     if(child.style.fontSize) {
+    //       child.style.fontSize = `${size}px`
+    //     }
+        
+    //   }
+
+    //   selectedHtml = textContainer.innerHTML;
+
+    
+    //   console.log("getting text Input", children);
+    //   console.log("getting text container", textContainer)
+    // }
+
+    // let html = `<div style="font-size: ${size}px">${selectedHtml}</div>`
+    // document.execCommand('insertHTML', false, html)
+
   };
+
+
   const handleDecreaseSize = () => {
     document.execCommand("decreaseFontSize");
   };
@@ -196,8 +227,8 @@ const AlignRightSide = () =>
     }
   }
 
-  //
 
+  //
   // selectElement.addEventListener('change', (event) => {
   //   const userSelection = window.getSelection();
   //   const selectedTextRange = userSelection.getRangeAt(0);
