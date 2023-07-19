@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
 import { GrEmoji } from "react-icons/gr";
 import Picker from "emoji-picker-react";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ScaleRightSide = () => {
   const {
@@ -29,7 +29,7 @@ const ScaleRightSide = () => {
     setScaleId,
     scaleId,
   } = useStateContext();
-  const [selectedType,setSelectedType] = useState('')
+  const [selectedType, setSelectedType] = useState('')
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
@@ -293,7 +293,7 @@ const ScaleRightSide = () => {
     const buttonChildNeutral = scale?.querySelector(".neutral_child");
     const option =
       document.querySelector("#orientationId").options[
-        document.querySelector("#orientationId").selectedIndex
+      document.querySelector("#orientationId").selectedIndex
       ];
     const test = document.querySelector("select");
     console.log(test);
@@ -475,7 +475,7 @@ const ScaleRightSide = () => {
             setScaleData(res.data);
             setScaleId(scaleId);
             console.log(res);
-            console.log("This is the still scale",scale)
+            console.log("This is the still scale", scale)
           }
         })
         .catch((err) => {
@@ -684,8 +684,8 @@ const ScaleRightSide = () => {
               }}
               id="updateScale"
               className="py-2 bg-white border-none"
-              // style={{"}}
-              // onClick={showIframe}
+            // style={{"}}
+            // onClick={showIframe}
             >
               Appearance
             </button>
@@ -697,8 +697,8 @@ const ScaleRightSide = () => {
               }}
               id="setScale"
               className="py-2 bg-white border-none"
-              // style={{ bordern: "none", outline: "none" }}
-              // onClick={showSetting}
+            // style={{ bordern: "none", outline: "none" }}
+            // onClick={showSetting}
             >
               Configurations
             </button>
@@ -1663,8 +1663,8 @@ const ScaleRightSide = () => {
                     >
                       Single Select
                     </Button>
-                    <Button type="button" 
-                      variant="secondary" 
+                    <Button type="button"
+                      variant="secondary"
                       onClick={showMulti}
                       style={{ fontSize: "13px" }}
                     >
@@ -1750,13 +1750,13 @@ const ScaleRightSide = () => {
                     </select>
                   </div>
 
-                  <br/>
-                  <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
-                  <br/>
+                  <br />
+                  <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+                  <br />
 
                   <div>
-                    <Button 
-                      id="button_id" 
+                    <Button
+                      id="button_id"
                       type="button"
                       width="50%"
                       marginTop="60px"
@@ -1829,7 +1829,7 @@ const ScaleRightSide = () => {
                 {options}
               </select>
             </div>
-            
+
             {/* iframe */}
             <div>
               {/* <Form.Control

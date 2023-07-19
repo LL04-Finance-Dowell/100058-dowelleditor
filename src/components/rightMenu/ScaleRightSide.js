@@ -4,7 +4,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ScaleRightSide = () => {
   const {
@@ -27,7 +27,7 @@ const ScaleRightSide = () => {
     scaleBorderColor,
     setScaleBorderColor
   } = useStateContext();
-  const [selectedType,setSelectedType] = useState('')
+  const [selectedType, setSelectedType] = useState('')
 
   // const [borderSize, setBorderSize] = useState(1);
   // const [borderColor, setBorderColor] = useState("#000000");
@@ -357,8 +357,8 @@ const ScaleRightSide = () => {
               )}
             </Row>
             <hr />
-            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
-            <hr/>
+            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+            <hr />
             <div id="settingRight" style={{ display: 'none' }}>
               <h3>Configurations</h3>
               {/* iframe */}
@@ -374,64 +374,64 @@ const ScaleRightSide = () => {
           // onChange={handleChange}
           /> */}
 
-              <select
-                onChange={handleSelect}
-                id="select"
-                // onChange={handleDateMethod}
-                className="select border-0 bg-white rounded w-100 h-75 p-2 "
+                <select
+                  onChange={handleSelect}
+                  id="select"
+                  // onChange={handleDateMethod}
+                  className="select border-0 bg-white rounded w-100 h-75 p-2 "
                 //multiple
-              >
-                <option value="select">Select Element</option>
-                {options}
-              </select>
-            </div>
-            <div>
-              <Form.Label>Scale Label</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Scale Label"
-                value={custom1}
-                name="label"
-                // id="iframe_src"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mt-2 text-center pt-3">
-              <Button
-                variant="primary"
-                className="px-5"
-                onClick={refreshIframe}
-                style={{ marginTop: "90px" }}
-              >
-                refresh
-              </Button>
-            </div>
-            <div className="mt-2 text-center pt-3">
-              <Button
-                variant="primary"
-                className="px-5"
-                onClick={scaleSubmit}
-                style={{ marginRight: "10px" }}
-              >
-                Save
-              </Button>
-              <Button
-                variant="secondary"
-                className={
-                  decoded.details.action === "template"
-                    ? "remove_button"
-                    : "remove_button disable_button"
-                }
-                onClick={removeScale}
-              >
-                Remove Scale
-              </Button>
-            </div>
+                >
+                  <option value="select">Select Element</option>
+                  {options}
+                </select>
+              </div>
+              <div>
+                <Form.Label>Scale Label</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Scale Label"
+                  value={custom1}
+                  name="label"
+                  // id="iframe_src"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mt-2 text-center pt-3">
+                <Button
+                  variant="primary"
+                  className="px-5"
+                  onClick={refreshIframe}
+                  style={{ marginTop: "90px" }}
+                >
+                  refresh
+                </Button>
+              </div>
+              <div className="mt-2 text-center pt-3">
+                <Button
+                  variant="primary"
+                  className="px-5"
+                  onClick={scaleSubmit}
+                  style={{ marginRight: "10px" }}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="secondary"
+                  className={
+                    decoded.details.action === "template"
+                      ? "remove_button"
+                      : "remove_button disable_button"
+                  }
+                  onClick={removeScale}
+                >
+                  Remove Scale
+                </Button>
+              </div>
 
-            {/* iframe */}
-          </div>
-        </>
-}
+              {/* iframe */}
+            </div>
+          </>
+      }
     </>
   );
 };

@@ -12,7 +12,7 @@ import jwt_decode from "jwt-decode";
 
 import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 import { useSearchParams } from "react-router-dom";
 
 const CalendarRightSidebar = (props) => {

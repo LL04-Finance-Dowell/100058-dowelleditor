@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { Row, Col } from "react-bootstrap";
-import { useStateContext } from "../contexts/contextProvider";
-import { useEffect, useState } from "react";
+import { Row, Col, Container } from "react-bootstrap";
+import { useStateContext } from "../../contexts/contextProvider";
 import { toast } from "react-toastify";
-import { BiQuestionMark } from "react-icons/bi";
+import { useState } from "react";
 
 const TEXT_INPUT = "textInput"
 const IMAGE_INPUT = "imageInput"
@@ -53,8 +52,13 @@ const Option = ({ id, className, element }) => {
 }
 
 
-const SelectAnsAndQuestion = ({ selectedType, setSelectedType }) => {
+const SelectAnsAndQuestion = ({ selectedType,
+    setSelectedType,
+    addedAns,
+    setAddedAns
+}) => {
     const { questionAndAnswerGroupedData, setQuestionAndAnsGroupedData } = useStateContext()
+    // const [addedAns, setAddedAns] = useState([])
     console.log(questionAndAnswerGroupedData, "questionAndAnswerGroupedData");
     const currentElmId = document.querySelector('.focussedd div').id
     const elements = [
@@ -97,7 +101,7 @@ const SelectAnsAndQuestion = ({ selectedType, setSelectedType }) => {
     //     }
     //   }
 
-    const handleSelectTypeChange = (passedData) => {
+    const handleSelectTypeChangeHelper = (passedData) => {
         const { id, title } = JSON.parse(passedData)
         const questions = new Set();
         const answers = new Set();
@@ -108,36 +112,90 @@ const SelectAnsAndQuestion = ({ selectedType, setSelectedType }) => {
             return elm;
         });
 
-        if (questions.has(id) || answers.has(id)) {
-            return toast.error(`${title} is already an answer or a question!`);
+        if (questions.has(id)
+            // || answers.has(id)
+        ) {
+            return toast.error(`${title} is already a question!`);
         }
 
         const currentDataAsQuestion = data.find((elm) => elm.question === currentElmId);
+        console.log("currentDataAsQuestion", currentDataAsQuestion)
+
+        function checksAnsExistsInQuestion() {
+            if (!currentDataAsQuestion) return false;
+            if (currentDataAsQuestion.answers.includes(id)) {
+                // toast.error(`${title} has already been added has an answer to this question!`);
+                return true
+            }
+            else {
+                return false
+            }
+        }
+
+        function peformStatesUpdates(newData) {
+            const result = checksAnsExistsInQuestion()
+            if (result) return;
+            setAddedAns([...addedAns, title])
+            setQuestionAndAnsGroupedData(newData)
+        }
 
         if (currentDataAsQuestion) {
             const newData = { ...currentDataAsQuestion, answers: [...currentDataAsQuestion.answers, id] };
-            setQuestionAndAnsGroupedData(data.map(elm => (elm.question === currentElmId ? newData : elm)));
+            peformStatesUpdates(data.map(elm => (elm.question === currentElmId ? newData : elm)))
         } else {
             if (currentElmId === id) {
                 return toast.error(`${title} is a question already!`)
             }
             const newData = { question: currentElmId, answers: [id] };
-            setQuestionAndAnsGroupedData([...questionAndAnswerGroupedData, newData]);
+            peformStatesUpdates([...questionAndAnswerGroupedData, newData])
         }
     };
 
+    const handleSelectTypeChange = (multipleValues) => {
+        if (multipleValues?.length === 0) return;
+
+        const passedData = [...multipleValues].map(options => options.getAttribute('value'))
+
+        for (let index = 0; index < passedData?.length; index++) {
+            const item = passedData[index];
+            handleSelectTypeChangeHelper(item)
+        }
+    }
 
 
 
     return (
         <>
+            {addedAns?.length > 0 &&
+                <>
+                    <Container fluid>
+                        <Row>
+                            <Col>
+                                <div
+                                    className="border px-1 py-1"
+                                    style={{
+                                        width: "100%",
+                                        maxHeight: '150px',
+                                        overflowX: 'scroll',
+                                        backgroundColor: 'white',
+                                    }}>
+                                    {addedAns.map(ans =>
+                                    (<div type="button" class="btn btn-primary mb-2">
+                                        {ans} <span class="badge bg-secondary">X</span>
+                                    </div>))}
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <hr /></>}
+
             <Row>
                 <h6>Select Type</h6>
                 <Col>
                     <select
                         onChange={(e) => {
                             console.log("Select Type", e.target.value)
-                            setSelectedType(e.target.value)
+                            setSelectedType(e.target.value);
                         }}
                         className="select border-0 bg-white rounded w-100 h-100"
                         id="font-sizing"
@@ -157,9 +215,10 @@ const SelectAnsAndQuestion = ({ selectedType, setSelectedType }) => {
                         <h6>Answers</h6>
                         <Col>
                             <select
+                                multiple
                                 onChange={(e) => {
                                     console.log("Selected Answers", e.target.value)
-                                    handleSelectTypeChange(e.target.value)
+                                    handleSelectTypeChange(e.target.selectedOptions)
                                 }}
                                 className="select border-0 bg-white rounded w-100 h-100"
                                 id="font-sizing"

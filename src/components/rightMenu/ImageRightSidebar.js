@@ -10,7 +10,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ImageRightSidebar = () => {
   var { setIsFinializeDisabled, handleClicked, setSidebar, borderSize,

@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useStateContext } from "../../contexts/contextProvider";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 // import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -25,12 +25,12 @@ const EmailRightSideBar = () => {
 
 
     const {
-        formBorderSize, 
+        formBorderSize,
         setFormBorderSize,
         formBorderColor,
         setFormBorderColor
     } = useStateContext()
-    const [selectedType,setSelectedType] = useState('')
+    const [selectedType, setSelectedType] = useState('')
 
     // const [borderSize, setBorderSize] = useState(
     //     Number(localStorage.getItem("borderSize")) || 0
@@ -402,8 +402,8 @@ const EmailRightSideBar = () => {
                 )}
             </Row>
             <hr />
-            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
-            <hr/>
+            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+            <hr />
             <div className="d-flex justify-content-center">
                 <Button
                     variant="primary"

@@ -11,16 +11,15 @@ import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
-const SignsRightSidebar = () =>
-{
- 
+const SignsRightSidebar = () => {
+
   const [showSlider, setShowSlider] = useState(false);
-  const { signState, setSignState, setIsFinializeDisabled, handleClicked,  signBorderSize, 
+  const { signState, setSignState, setIsFinializeDisabled, handleClicked, signBorderSize,
     setSignBorderSize, signBorderColor, setSignBorderColor } =
     useStateContext();
-    const [selectedType,setSelectedType] = useState('')
+  const [selectedType, setSelectedType] = useState('')
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -28,13 +27,11 @@ const SignsRightSidebar = () =>
   let sigPad = useRef({});
   let data = "";
 
-  const clear = () =>
-  {
+  const clear = () => {
     sigPad.current.clear();
   };
 
-  const save = () =>
-  {
+  const save = () => {
     data = sigPad.current.getTrimmedCanvas().toDataURL("image/png");
 
     setSignState({ trimmedDataURL: data });
@@ -42,14 +39,11 @@ const SignsRightSidebar = () =>
     const signImage = `<img src=${data} />`;
 
     const sign = document.querySelector(".focussed");
-    if (sign.parentElement.classList.contains("focussedd"))
-    {
-      if (document.querySelector(".focussed").innerHTML != signImage)
-      {
+    if (sign.parentElement.classList.contains("focussedd")) {
+      if (document.querySelector(".focussed").innerHTML != signImage) {
         // console.log("signature right menu", document.querySelector('.focussed').innerHTML,"data", data );
         //setIsFinializeDisabled(false)
-        if (sign.parentElement.classList.contains("holderDIV"))
-        {
+        if (sign.parentElement.classList.contains("holderDIV")) {
           sign.parentElement.classList.add("element_updated");
         }
       }
@@ -61,59 +55,48 @@ const SignsRightSidebar = () =>
   };
 
   //clicked choose file button
-  const chooseFileClick = () =>
-  {
+  const chooseFileClick = () => {
     const addImageButtonInput =
       document.getElementsByClassName("addSignButtonInput");
     addImageButtonInput.item(0).click();
     handleClicked("sign2", "table2");
   };
 
-  function removeSign()
-  {
+  function removeSign() {
     // document.querySelector('.focussedd').remove();
-    if (document.querySelector(".focussedd").classList.contains("dropp"))
-    {
-      if (document.querySelector(".focussedd").hasChildNodes())
-      {
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++)
-        {
+        for (let i = 0; i < childLength; i++) {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else
-    {
+    } else {
       document.querySelector(".focussedd").remove();
     }
   }
-  const handleUpdate = () =>
-  {
+  const handleUpdate = () => {
     const imageName = document.getElementById("image_name");
     const button = document.querySelector(".focussed");
-    if (imageName.value != "")
-    {
+    if (imageName.value != "") {
       button.textContent = imageName.value;
     }
   };
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setSignBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderWidth = `${signBorderSize}px`;
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setSignBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${signBorderColor}`;
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
 
@@ -210,9 +193,9 @@ const SignsRightSidebar = () =>
           onChange={() => { }}
         />
       </div>
-      <hr/>
-      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType}/>
-      <hr/>
+      <hr />
+      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+      <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
           Update Changes
@@ -221,16 +204,16 @@ const SignsRightSidebar = () =>
       <hr />
       {/* {signState.trimmedDataURL && <img src={signState.trimmedDataURL} alt="sig" />} */}
       <div className="mt-5 text-center">
- 
-          <Button
-            variant="primary"
-            onClick={removeSign}
-            // className="remove_button"
-            className = {decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
-          >
-            Remove Signature
-          </Button>
-       
+
+        <Button
+          variant="primary"
+          onClick={removeSign}
+          // className="remove_button"
+          className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
+        >
+          Remove Signature
+        </Button>
+
       </div>
     </div>
   );

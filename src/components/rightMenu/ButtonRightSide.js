@@ -7,13 +7,13 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import SelectAnsAndQuestion from "../SelectAnsAndQuestion";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ButtonRightSide = () => {
   const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor } =
     useStateContext();
   const [selectedType, setSelectedType] = useState('')
-
+  const [addedAns, setAddedAns] = useState([])
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -192,8 +192,11 @@ const ButtonRightSide = () => {
         )}
       </Row>
       <hr />
-      <SelectAnsAndQuestion selectedType={selectedType} 
-      setSelectedType={setSelectedType} />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
       <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
