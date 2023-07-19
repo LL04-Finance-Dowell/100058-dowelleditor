@@ -1746,7 +1746,8 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const documentFlag = decoded?.details?.document_flag;
-
+  const iniTitle = decoded?.details?.update_field.document_name;
+  console.log(iniTitle);
   // console.log(authorized);
   // console.log(process_id);
   // console.log(_id);
@@ -2286,14 +2287,12 @@ const Header = () => {
               {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
               <div
                 className="title-name px-3"
-                contentEditable={true}
+                contentEditable= {docMap? false : true}
                 style={{ fontSize: 24 }}
                 spellCheck="false"
                 ref={inputRef}
               >
-                {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
-               : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-                {title && title}
+                {docMap ? iniTitle : title && title}
               </div>
               <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>
