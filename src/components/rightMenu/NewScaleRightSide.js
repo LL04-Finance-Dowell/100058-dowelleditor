@@ -143,11 +143,14 @@ const ScaleRightSide = () => {
     button_color.defaultValue = circles;
   }
   var format = document.getElementById("format");
-  console.log(format);
-  // var imageLabel = scale?.querySelector(".images_label");
+
   var circleLabel = scale?.querySelector(".circle_label")?.textContent;
   if (format) {
-    format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    if (/\d/.test(circleLabel)) {
+      format.selectedIndex = 0; // Select the number option
+    } else {
+      format.selectedIndex = 1; // Select the emoji option
+    }
   }
 
   // console.log(leftChild.innerHTML);
@@ -1565,54 +1568,7 @@ const ScaleRightSide = () => {
                   /> */}
                       </div>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Scale label
-                      </h6>
-                      <div
-                        style={{
-                          backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
-                          borderRadius: "7px",
-                          // height: "30px",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <input
-                          type="text"
-                          onChange={(e) => setScaleTitle(e.target.value)}
-                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
-                          // defaultValue={
-                          //   scaleDisplay.style.display === "none"
-                          //     ? ""
-                          //     : leftChild.innerHTML
-                          // }
-                          defaultValue={
-                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                            scaleT ? scaleT.innerHTML : ""
-                          }
-                          style={{
-                            width: "82px",
-                            height: "12px",
-                            display: "flex",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            alignItems: "center",
-                          }}
-                          id="scaleLabel"
-                        />
-                      </div>
-                    </div>
+
                     <div
                       style={{
                         display: "none",
@@ -1759,7 +1715,7 @@ const ScaleRightSide = () => {
                       <div
                         style={{
                           backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
+                          padding: "3px 7px",
                           borderRadius: "7px",
                           // height: "30px",
                           width: "100%",
@@ -1782,7 +1738,7 @@ const ScaleRightSide = () => {
                           // }
                           style={{
                             width: "100px",
-                            height: "12px",
+                            height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
                             border: "none",
@@ -1838,42 +1794,99 @@ const ScaleRightSide = () => {
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Right
-                    </h6>
                     <div
                       style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
                         display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        gap: "2px",
                       }}
                     >
-                      <input
-                        type="text"
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Right
+                      </h6>
+                      <div
                         style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
                           width: "100%",
-                          height: "15px",
                           display: "flex",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
+                          justifyContent: "center",
                           alignItems: "center",
                         }}
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   rightChild ? rightChild.innerHTML : ""
-                        // }
-                        id="right"
-                      />
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100%",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   rightChild ? rightChild.innerHTML : ""
+                          // }
+                          id="right"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale label
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? ""
+                          //     : leftChild.innerHTML
+                          // }
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            scaleT ? scaleT.innerHTML : ""
+                          }
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scaleLabel"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
