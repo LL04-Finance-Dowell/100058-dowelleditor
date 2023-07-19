@@ -382,30 +382,26 @@ const ScaleRightSide = () => {
       tempText?.remove();
       button4.style.display = "block";
 
-      if (btnUpdateScaleFont.value !== "") {
-        button4.style.fontFamily = btnUpdateScaleFont.value;
-      }
-
       const selectedOption = optionSelect.value;
 
-      if (selectedOption === "image") {
-        renderImage();
-      } else if (selectedOption === "emoji") {
-        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-        const emojis = inputStr
-          .split(emojiFormat)
-          .filter((emoji) => emoji !== "");
+      // if (selectedOption === "image") {
+      //   renderImage();
+      // } else if (selectedOption === "emoji") {
+      //   const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+      //   const emojis = inputStr
+      //     .split(emojiFormat)
+      //     .filter((emoji) => emoji !== "");
 
-        for (let i = 0; i < buttonCircle.length; i++) {
-          if (emojiInp.value !== "") {
-            // Set the text content of the div to the corresponding emoji
-            buttonCircle[i].textContent = emojis[i % emojis.length];
-            console.log(emojis[i % emojis.length]);
-          }
-        }
-      } else if (selectedOption === "number") {
-        renderNumber();
-      }
+      //   for (let i = 0; i < buttonCircle.length; i++) {
+      //     if (emojiInp.value !== "") {
+      //       // Set the text content of the div to the corresponding emoji
+      //       buttonCircle[i].textContent = emojis[i % emojis.length];
+      //       console.log(emojis[i % emojis.length]);
+      //     }
+      //   }
+      // } else if (selectedOption === "number") {
+      //   renderNumber();
+      // }
 
       function renderImage() {
         const uploadedImages = document
@@ -479,27 +475,12 @@ const ScaleRightSide = () => {
         buttonCircleM.style.marginTop = "2px";
       }
 
-      if (btnUpdateLeft.value !== "") {
-        buttonChildLeft.textContent = btnUpdateLeft.value;
-      }
-
-      if (btnUpdateRight.value !== "") {
-        buttonChildRight.textContent = btnUpdateRight.value;
-      }
-
-      if (btnUpdateCenter.value !== "") {
-        buttonChildNeutral.style.display = "block";
-        buttonChildNeutral.textContent = btnUpdateCenter.value;
-      }
       // if (btnUpdateScales.value !=="") {
       //   button4.style.textContent = btnUpdateScales.value;
       // }
       // if (btnUpdateScore.value !=="") {
       //   buttonChild.style.color = btnUpdateScore.value;
       // }
-      if (beNametnUpdateScal.value !== "") {
-        scaleText.textContent = beNametnUpdateScal.value;
-      }
       console.log(btnUpdateButton.value);
       console.log(btnUpdateScale.value);
       console.log(btnUpdateFontColor.value);
@@ -602,6 +583,24 @@ const ScaleRightSide = () => {
             for (let i = 0; i < buttonCircle.length; i++) {
               buttonCircle[i].style.backgroundColor = response.roundcolor;
             }
+
+            if(response.fomat === "number"){
+              renderNumber()
+            } else if(response.fomat === "emoji"){
+              for (let i = 0; i < buttonCircle.length; i++) {
+                buttonCircle[i].textContent = response.custom_emoji_format[i];
+                console.log(response.custom_emoji_format[i]);
+              }
+            }else {
+              renderImage()
+            }
+
+            scaleText.textContent = response.name;
+            buttonChildLeft.textContent = response.left;
+            buttonChildRight.textContent = response.right;
+            buttonChildNeutral.style.display = "block";
+            buttonChildNeutral.textContent = response.center;
+            button4.style.fontFamily = response.fontstyle;
             console.log("This is the response first",res.data.data.settings);
           })
           .catch((err) => {
@@ -640,6 +639,30 @@ const ScaleRightSide = () => {
               setScaleData(res.data);
               setScaleId(scaleId);
               console.log(res);
+              response = res.data.data.settings
+              button.style.backgroundColor = response.scalecolor;
+              button4.style.color = response.fontcolor;
+              for (let i = 0; i < buttonCircle.length; i++) {
+              buttonCircle[i].style.backgroundColor = response.roundcolor;
+              }
+
+            if(response.fomat === "number"){
+              renderNumber()
+            } else if(response.fomat === "emoji"){
+              for (let i = 0; i < buttonCircle.length; i++) {
+                buttonCircle[i].textContent = response.custom_emoji_format[i];
+                console.log(response.custom_emoji_format[i]);
+              }
+            }else {
+              renderImage()
+            }
+
+            scaleText.textContent = response.name;
+            buttonChildLeft.textContent = response.left;
+            buttonChildRight.textContent = response.right;
+            buttonChildNeutral.style.display = "block";
+            buttonChildNeutral.textContent = response.center;
+            button4.style.fontFamily = response.fontstyle;
               console.log("This is the still scale", scale);
             }
           })
