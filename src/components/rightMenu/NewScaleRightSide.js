@@ -378,19 +378,6 @@ const ScaleRightSide = () => {
       let tempText = scale?.querySelector(".tempText");
       tempText?.remove();
       button4.style.display = "block";
-      if (btnUpdateScale.value !== "") {
-        button.style.backgroundColor = btnUpdateScale.value;
-      }
-
-      for (let i = 0; i < buttonCircle.length; i++) {
-        if (btnUpdateButton.value !== "") {
-          buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
-        }
-      }
-
-      if (btnUpdateFontColor.value !== "") {
-        button4.style.color = btnUpdateFontColor.value;
-      }
 
       if (btnUpdateScaleFont.value !== "") {
         button4.style.fontFamily = btnUpdateScaleFont.value;
@@ -566,7 +553,7 @@ const ScaleRightSide = () => {
       const emojiLabels = prepareEmojiLabels();
       const imageLabels = prepareImageLabels();
       console.log(imageLabels);
-
+       let response = {}
       if (
         idHolder.textContent === "scale Id" ||
         idHolder.textContent === "id"
@@ -580,7 +567,7 @@ const ScaleRightSide = () => {
           scalecolor: btnUpdateScale.value,
           roundcolor: btnUpdateButton.value,
           fontcolor: btnUpdateFontColor.value,
-          fomat: "numbers",
+          fomat: selectedOption,
           allow_resp: false,
           show_total_score: true,
           no_of_scales: 6,
@@ -606,7 +593,13 @@ const ScaleRightSide = () => {
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
-            console.log(res);
+            response = res.data.data.settings
+            button.style.backgroundColor = response.scalecolor;
+            button4.style.color = response.fontcolor;
+            for (let i = 0; i < buttonCircle.length; i++) {
+              buttonCircle[i].style.backgroundColor = response.roundcolor;
+            }
+            console.log("This is the response first",res.data.data.settings);
           })
           .catch((err) => {
             setIsLoading(false);
