@@ -663,7 +663,7 @@ const ScaleRightSide = () => {
             buttonChildNeutral.style.display = "block";
             buttonChildNeutral.textContent = response.center;
             button4.style.fontFamily = response.fontstyle;
-              console.log("This is the still scale", scale);
+            console.log("This is the still scale", scale);
             }
           })
           .catch((err) => {

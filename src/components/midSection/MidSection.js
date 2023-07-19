@@ -3560,7 +3560,22 @@ const MidSection = React.forwardRef((props, ref) => {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
 
-                  circle.style.backgroundColor = "blue";
+                  console.log("This is the background color",circle.style.backgroundColor)
+                  function componentToHex(c) {
+                    var hex = c.toString(16);
+                    return hex.length == 1 ? "0" + hex : hex;
+                }
+                
+                  function rgbToHex(r, g, b) {
+                    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                }
+                  function invert(rgb) {
+                    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+                    for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                    return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                  }
+
+                circle.style.backgroundColor = invert(circle.style.backgroundColor)
 
                   let holdElem = scale?.querySelector(".holdElem");
 
