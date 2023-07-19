@@ -51,7 +51,6 @@ import MidSection from "../midSection/MidSection";
 const Header = () => {
   const inputRef = useRef(null);
   const componentRef = useRef(null);
-
   // import { ToastContainer, toast } from 'react-toastify';
   // import 'react-toastify/dist/ReactToastify.css';
   // import { AiFillPrinter } from 'react-icons/ai';
@@ -139,8 +138,8 @@ const Header = () => {
     containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor
-
+    setContainerBorderColor,
+    questionAndAnswerGroupedData,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -1775,7 +1774,7 @@ const Header = () => {
   //   document_map?.length
   // );
 
- 
+
 
   //working solution
   // const questionAndAnswerGrouping = () => {
@@ -1814,97 +1813,97 @@ const Header = () => {
   //   return result
   // }
 
-   const questionAndAnswerGrouping = () => {
+  const questionAndAnswerGrouping = () => {
 
-   }
-
-  function submit(e) {
-    e.preventDefault();
-    const questionAndAns = questionAndAnswerGrouping()
-    console.log("questionAndAns", questionAndAns)
   }
-
-
 
   // function submit(e) {
   //   e.preventDefault();
-  //   setIsLoading(true);
   //   const questionAndAns = questionAndAnswerGrouping()
   //   console.log("questionAndAns", questionAndAns)
-    
-  //   const dataa = saveDocument();
-
-  //   const finalize = document.getElementById("finalize-button");
-
-  //   const titleName = document.querySelector(".title-name").innerHTML;
-
-  //   const field = {
-  //     _id: decoded.details._id,
-  //   };
-  //   let updateField = {};
-  //   if (decoded.details.action === "template") {
-  //     updateField = {
-  //       template_name: titleName,
-  //       content: JSON.stringify(dataa),
-  //       page: item,
-  //     };
-  //   } else if (decoded.details.action === "document") {
-  //     updateField = {
-  //       document_name: titleName,
-  //       content: JSON.stringify(dataa),
-  //       page: item,
-  //     };
-  //   }
-
-  //   console.log(updateField);
-  //   //console.log(field);
-
-  //   <iframe src="http://localhost:5500/"></iframe>;
-
-  //   function sendMessage() {
-  //     const message =
-  //       decoded.details.action === "document"
-  //         ? "Document saved"
-  //         : "Template saved";
-  //     const iframe = document.querySelector("iframe");
-  //     iframe?.contentWindow?.postMessage(message, "*");
-  //   }
-
-  //   Axios.post(
-  //     "https://100058.pythonanywhere.com/api/save-data-into-collection/",
-  //     {
-  //       cluster: decoded.details.cluster,
-  //       collection: decoded.details.collection,
-  //       command: decoded.details.command,
-  //       database: decoded.details.database,
-  //       document: decoded.details.document,
-  //       field: field,
-  //       function_ID: decoded.details.function_ID,
-  //       team_member_ID: decoded.details.team_member_ID,
-  //       update_field: updateField,
-  //       page: item,
-  //       // scale_url: `${scaleData}`,
-  //       company_id: companyId,
-  //       type: decoded.details.action,
-  //        questionAndAns
-  //     }
-  //   )
-  //     .then((res) => {
-  //       if (res) {
-  //         toast.success("Saved successfully");
-  //         setIsLoading(false);
-  //         if (finalize) {
-  //           handleFinalize();
-  //         }
-  //         setIsDataSaved(true);
-  //       }
-  //       //console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       setIsLoading(false);
-  //       //console.log(err);
-  //     });
   // }
+
+
+
+  function submit(e) {
+    e.preventDefault();
+    setIsLoading(true);
+    // const questionAndAns = questionAndAnswerGrouping()
+    // console.log("questionAndAns", questionAndAns)
+
+    const dataa = saveDocument();
+
+    const finalize = document.getElementById("finalize-button");
+
+    const titleName = document.querySelector(".title-name").innerHTML;
+
+    const field = {
+      _id: decoded.details._id,
+    };
+    let updateField = {};
+    if (decoded.details.action === "template") {
+      updateField = {
+        template_name: titleName,
+        content: JSON.stringify(dataa),
+        page: item,
+      };
+    } else if (decoded.details.action === "document") {
+      updateField = {
+        document_name: titleName,
+        content: JSON.stringify(dataa),
+        page: item,
+      };
+    }
+
+    console.log(updateField);
+    //console.log(field);
+
+    <iframe src="http://localhost:5500/"></iframe>;
+
+    function sendMessage() {
+      const message =
+        decoded.details.action === "document"
+          ? "Document saved"
+          : "Template saved";
+      const iframe = document.querySelector("iframe");
+      iframe?.contentWindow?.postMessage(message, "*");
+    }
+
+    Axios.post(
+      "https://100058.pythonanywhere.com/api/save-data-into-collection/",
+      {
+        cluster: decoded.details.cluster,
+        collection: decoded.details.collection,
+        command: decoded.details.command,
+        database: decoded.details.database,
+        document: decoded.details.document,
+        field: field,
+        function_ID: decoded.details.function_ID,
+        team_member_ID: decoded.details.team_member_ID,
+        update_field: updateField,
+        page: item,
+        // scale_url: `${scaleData}`,
+        company_id: companyId,
+        type: decoded.details.action,
+        questionAndAns: questionAndAnswerGroupedData,
+      }
+    )
+      .then((res) => {
+        if (res) {
+          toast.success("Saved successfully");
+          setIsLoading(false);
+          if (finalize) {
+            handleFinalize();
+          }
+          setIsDataSaved(true);
+        }
+        //console.log(res);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        //console.log(err);
+      });
+  }
 
   // const handleFlipClick = (e) => {
   //   setIsFlipClicked(!isFlipClicked);

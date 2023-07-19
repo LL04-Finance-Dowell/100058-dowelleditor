@@ -27,6 +27,7 @@ const IframeRightSidebar = () => {
   // );
   const [showSlider, setShowSlider] = useState(false);
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   const makeIframe = () => {
     var iframeDiv = document.querySelector('.focussed');
@@ -141,7 +142,11 @@ const IframeRightSidebar = () => {
         )}
       </Row>
       <hr />
-      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
       <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={makeIframe}>

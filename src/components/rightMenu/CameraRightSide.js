@@ -5,6 +5,7 @@ import SelectAnsAndQuestion from '../selectAnsAndQuestion';
 
 function CameraRightSide() {
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
   let mediaRecorder
   const snap = () => {
     let camera = document.querySelector(".focussedd");
@@ -157,7 +158,11 @@ function CameraRightSide() {
           Record
         </Button>
         <div>
-          <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+          <SelectAnsAndQuestion
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            setAddedAns={setAddedAns}
+            addedAns={addedAns} />
           <br />
         </div>
         <Button

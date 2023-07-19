@@ -31,6 +31,7 @@ const CalendarRightSidebar = (props) => {
     setCalendarBorderColor
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -196,7 +197,12 @@ const CalendarRightSidebar = (props) => {
       )}
       <hr />
 
-      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        addedAns={addedAns}
+        setAddedAns={setAddedAns}
+      />
 
       <hr />
       <Row className="pt-4">

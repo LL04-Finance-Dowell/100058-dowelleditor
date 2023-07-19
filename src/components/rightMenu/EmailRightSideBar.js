@@ -31,6 +31,7 @@ const EmailRightSideBar = () => {
         setFormBorderColor
     } = useStateContext()
     const [selectedType, setSelectedType] = useState('')
+    const [addedAns, setAddedAns] = useState([])
 
     // const [borderSize, setBorderSize] = useState(
     //     Number(localStorage.getItem("borderSize")) || 0
@@ -402,7 +403,11 @@ const EmailRightSideBar = () => {
                 )}
             </Row>
             <hr />
-            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+            <SelectAnsAndQuestion
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
+                setAddedAns={setAddedAns}
+                addedAns={addedAns} />
             <hr />
             <div className="d-flex justify-content-center">
                 <Button

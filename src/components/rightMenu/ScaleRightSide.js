@@ -28,6 +28,7 @@ const ScaleRightSide = () => {
     setScaleBorderColor
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   // const [borderSize, setBorderSize] = useState(1);
   // const [borderColor, setBorderColor] = useState("#000000");
@@ -357,7 +358,11 @@ const ScaleRightSide = () => {
               )}
             </Row>
             <hr />
-            <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+            <SelectAnsAndQuestion
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              setAddedAns={setAddedAns}
+              addedAns={addedAns} />
             <hr />
             <div id="settingRight" style={{ display: 'none' }}>
               <h3>Configurations</h3>

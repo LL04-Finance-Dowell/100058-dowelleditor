@@ -20,6 +20,7 @@ const SignsRightSidebar = () => {
     setSignBorderSize, signBorderColor, setSignBorderColor } =
     useStateContext();
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -194,7 +195,11 @@ const SignsRightSidebar = () => {
         />
       </div>
       <hr />
-      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
       <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>

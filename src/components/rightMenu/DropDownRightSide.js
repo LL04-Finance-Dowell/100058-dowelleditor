@@ -42,6 +42,7 @@ const DropDownRightSide = () => {
   // );
   const [showSlider, setShowSlider] = useState(false);
   const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   const dropdownField = document.querySelector(".focussed");
   if (dropdownField) {
@@ -185,7 +186,11 @@ const DropDownRightSide = () => {
       </Row>
 
       <hr />
-      <SelectAnsAndQuestion selectedType={selectedType} setSelectedType={setSelectedType} />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
 
       <div />
       <div>
