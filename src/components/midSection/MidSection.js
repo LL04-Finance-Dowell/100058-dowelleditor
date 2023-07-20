@@ -3555,10 +3555,13 @@ const MidSection = React.forwardRef((props, ref) => {
               let circles = document.querySelectorAll(".circle_label");
               let isClicked = false;
 
+              let circleBgColor = circle.style.backgroundColor
+
               circle.addEventListener("click", function () {
                 if (!isClicked) {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
+                  const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
 
                   console.log("This is the background color",circle.style.backgroundColor)
                   function componentToHex(c) {
@@ -3575,7 +3578,13 @@ const MidSection = React.forwardRef((props, ref) => {
                     return rgbToHex(rgb[0], rgb[1], rgb[2]);
                   }
 
-                circle.style.backgroundColor = invert(circle.style.backgroundColor)
+                  circle.style.backgroundColor = invert(circle.style.backgroundColor)
+
+                  for (let i = 0; i < buttonCircle.length; i++) {
+                    if(buttonCircle[i].textContent !== circle.textContent){
+                      buttonCircle[i].style.backgroundColor = circleBgColor;
+                    }
+                  }
 
                   let holdElem = scale?.querySelector(".holdElem");
 
