@@ -32,7 +32,8 @@ import { AiFillPrinter } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
 
-import { downloadPDF } from "../../utils/genratePDF.js";
+import { downloadPDF } from '../../utils/genratePDF.js'
+import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
 
 import generateImage from "../../utils/generateImage.js";
 // import MidSection from "../../components/midSection/MidSection";
@@ -51,6 +52,12 @@ import generateImage from "../../utils/generateImage.js";
 //   );
 // };
 // export default Printer;
+
+const initialContextMenu = {
+  show: false,
+  x: 0,
+  y: 0,
+};
 
 const Header = () => {
   const inputRef = useRef(null);
@@ -144,580 +151,638 @@ const Header = () => {
     setContainerBorderSize,
     containerBorderColor,
     setContainerBorderColor,
+    setRightSideDateMenu,
+    setStartDate,
+    setMethod,
+    postData,
+    setPostData,
+    setRightSideDropDown,
+
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
-  // const [cutItem_value, setCutItem_value] = useState(null);
+  const [cutItem_value, setCutItem_value] = useState(null);
+  const [contextMenu, setContextMenu] = useState(initialContextMenu);
 
-  // function getHolderDIV(measure, i, idMatch) {
-  //   //console.log("from holder div", i);
-  //   //creating holder for every input field over the page
-  //   const holderDIV = document.createElement("div");
-  //   // holderDIV.style.border = '1px dotted rgb(255 191 0)';
-  //   holderDIV.style.position = "absolute";
-  //   holderDIV.style.overflow = "visible";
-  //   holderDIV.style.display = "flex";
-  //   holderDIV.style.cursor = "move";
-  //   holderDIV.style.zIndex = 1;
-  //   holderDIV.className = "holderDIV";
-  //   holderDIV.setAttribute("id", "holderId");
-  //   holderDIV.setAttribute("draggable", true);
-  //   holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
-  //   holderDIV.style.display = "flex";
-  //   holderDIV.style.flexDirection = "column";
-  //   // holderDIV.style.border = "2px dotted gray";
-  //   holderDIV.tabIndex = "1";
-  //   // //console.log("measure", measure);
-  //   holderDIV.style.width = measure.width;
-  //   holderDIV.style.height = measure.height;
-  //   holderDIV.style.left = measure.left;
-  //   holderDIV.style.top = measure.top;
-  //   holderDIV.classList.add(`page_${i}`);
-  //   //console.log(idMatch);
-  //   if (idMatch?.length > 0) {
-  //     holderDIV.classList.add(`enable_pointer_event`);
-  //     holderDIV.style.border = "1px solid green !important";
-  //   } else if (idMatch?.length < 1 && actionName == "document") {
-  //     holderDIV.classList.add(`dotted_border`);
-  //     holderDIV.classList.add(`disable_pointer_event`);
-  //   } else {
-  //     holderDIV.classList.add(`dotted_border`);
-  //   }
 
-  //   holderDIV.addEventListener("dragstart", (event) => {
-  //     console.log("dragStart fun called");
-  //   });
-  //   holderDIV.ondragstart = (e) => {
-  //     console.log("dragStart fun called");
-  //   };
-  //   //Putting resize button on holder
 
-  //   const resizerTL = getResizer("top", "left");
-  //   const resizerTR = getResizer("top", "right");
-  //   const resizerBL = getResizer("bottom", "left");
-  //   const resizerBR = getResizer("bottom", "right");
-  //   const holderMenu = getHolderMenu(measure.auth_user);
+  function getHolderDIV(measure, i, idMatch) {
+    //console.log("from holder div", i);
+    //creating holder for every input field over the page
+    const holderDIV = document.createElement("div");
+    // holderDIV.style.border = '1px dotted rgb(255 191 0)';
+    holderDIV.style.position = "absolute";
+    holderDIV.style.overflow = "visible";
+    holderDIV.style.display = "flex";
+    holderDIV.style.cursor = "move";
+    holderDIV.style.zIndex = 1;
+    holderDIV.className = "holderDIV";
+    holderDIV.setAttribute("id", "holderId");
+    holderDIV.setAttribute("draggable", true);
+    holderDIV.setAttribute("data-idD", "INPUT_HOLDER");
+    holderDIV.style.display = "flex";
+    holderDIV.style.flexDirection = "column";
+    // holderDIV.style.border = "2px dotted gray";
+    holderDIV.tabIndex = "1";
+    // //console.log("measure", measure);
+    holderDIV.style.width = measure.width;
+    holderDIV.style.height = measure.height;
+    holderDIV.style.left = measure.left;
+    holderDIV.style.top = measure.top;
+    holderDIV.classList.add(`page_${i}`);
+    //console.log(idMatch);
+    if (idMatch?.length > 0) {
+      holderDIV.classList.add(`enable_pointer_event`);
+      holderDIV.style.border = "1px solid green !important";
+    } else if (idMatch?.length < 1 && actionName == "document") {
+      holderDIV.classList.add(`dotted_border`);
+      holderDIV.classList.add(`disable_pointer_event`);
+    } else {
+      holderDIV.classList.add(`dotted_border`);
+    }
 
-  //   // const isTemplate = JSON.parse(document.getElementById('template'));
-  //   // const currUser = JSON.parse(document.getElementById('curr_user'));
+    holderDIV.addEventListener("dragstart", (event) => {
+      console.log("dragStart fun called");
+    });
+    holderDIV.ondragstart = (e) => {
+      console.log("dragStart fun called");
+    };
+    //Putting resize button on holder
 
-  //   // if (isTemplate) {
-  //   //   holderDIV.style.border = '1px dotted rgb(255 191 0)';
-  //   //              const resizerTL = getResizer('top', 'left');
-  //   // const resizerTR = getResizer('top', 'right');
-  //   // const resizerBL = getResizer('bottom', 'left');
-  //   // const resizerBR = getResizer('bottom', 'right');
+    const resizerTL = getResizer("top", "left");
+    const resizerTR = getResizer("top", "right");
+    const resizerBL = getResizer("bottom", "left");
+    const resizerBR = getResizer("bottom", "right");
+    const holderMenu = getHolderMenu(measure.auth_user);
 
-  //   holderDIV.onmousedown = holderDIV.addEventListener(
-  //     "mousedown",
-  //     (event) => {
-  //       dragElementOverPage(event);
-  //     },
-  //     false
-  //   );
+    // const isTemplate = JSON.parse(document.getElementById('template'));
+    // const currUser = JSON.parse(document.getElementById('curr_user'));
 
-  //   holderDIV.onresize = (evntt) => {
-  //     //console.log("Holder resized");
-  //   };
-  //   // }
+    // if (isTemplate) {
+    //   holderDIV.style.border = '1px dotted rgb(255 191 0)';
+    //              const resizerTL = getResizer('top', 'left');
+    // const resizerTR = getResizer('top', 'right');
+    // const resizerBL = getResizer('bottom', 'left');
+    // const resizerBR = getResizer('bottom', 'right');
 
-  //   // holderDIV.style.border = "2px dotted gray";
+    holderDIV.onmousedown = holderDIV.addEventListener(
+      "mousedown",
+      (event) => {
+        dragElementOverPage(event);
+      },
+      false
+    );
 
-  //   holderDIV.addEventListener("focus", function (e) {
-  //     // holderDIV.classList.add("focussedd");
-  //     holderDIV.classList.add("zIndex-two");
-  //     holderDIV.style.border = "2px solid orange";
-  //     // holderDIV.append(holderMenu);
+    holderDIV.onresize = (evntt) => {
+      //console.log("Holder resized");
+    };
+    // }
 
-  //     holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
-  //   });
+    // holderDIV.style.border = "2px dotted gray";
 
-  //   // holderDIV.addEventListener("click", function (e) {
-  //   //   let allDiv = document.getElementsByClassName("focussedd");
-  //   //   for (let i = 0; i < allDiv.length; i++) {
-  //   //     allDiv[i].classList.remove("focussedd");
-  //   //   }
-  //   //   e.target.parentElement.classList.add("focussedd");
-  //   // });
-  //   holderDIV.addEventListener("focusout", function (e) {
-  //     // holderDIV.classList.remove("focussedd");
-  //     // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
-  //     //   holderDIV.style.border = "3px dotted gray";
+    holderDIV.addEventListener("focus", function (e) {
+      // holderDIV.classList.add("focussedd");
+      holderDIV.classList.add("zIndex-two");
+      holderDIV.style.border = "2px solid orange";
+      // holderDIV.append(holderMenu);
 
-  //     // }
-  //     holderDIV.classList.remove("zIndex-two");
-  //     holderDIV.style.border = "3px dotted gray";
+      holderDIV.append(resizerTL, resizerTR, resizerBL, resizerBR);
+    });
 
-  //     holderMenu.remove();
-  //     resizerTL.remove();
-  //     resizerTR.remove();
-  //     resizerBL.remove();
-  //     resizerBR.remove();
-  //   });
+    // holderDIV.addEventListener("click", function (e) {
+    //   let allDiv = document.getElementsByClassName("focussedd");
+    //   for (let i = 0; i < allDiv.length; i++) {
+    //     allDiv[i].classList.remove("focussedd");
+    //   }
+    //   e.target.parentElement.classList.add("focussedd");
+    // });
+    holderDIV.addEventListener("focusout", function (e) {
+      // holderDIV.classList.remove("focussedd");
+      // if(holderDIV.target.firstElementChild.classList.contains("textInput")){
+      //   holderDIV.style.border = "3px dotted gray";
 
-  //   // if (!isTemplate) {
-  //   //   if (currUser == measure.auth_user) {
-  //   //     //console.log("They are equal");
-  //   //     //console.log(measure.auth_user);
-  //   //     //console.log(currUser);
+      // }
+      holderDIV.classList.remove("zIndex-two");
+      holderDIV.style.border = "3px dotted gray";
 
-  //   //   }
+      holderMenu.remove();
+      resizerTL.remove();
+      resizerTR.remove();
+      resizerBL.remove();
+      resizerBR.remove();
+    });
 
-  //   // }
+    // if (!isTemplate) {
+    //   if (currUser == measure.auth_user) {
+    //     //console.log("They are equal");
+    //     //console.log(measure.auth_user);
+    //     //console.log(currUser);
 
-  //   return holderDIV;
-  // }
+    //   }
 
-  // let resizing = false;
+    // }
 
-  // function getResizer(attr1, attr2) {
-  //   const resizer = document.createElement("span");
-  //   resizer.style.width = "5px";
-  //   resizer.style.height = "5px";
-  //   resizer.style.display = "block";
-  //   resizer.className = "resizeBtn";
-  //   resizer.style.position = "absolute";
-  //   resizer.style.backgroundColor = "#00aaff";
+    return holderDIV;
+  }
 
-  //   if (attr1 === "top") {
-  //     resizer.style.top = "-5px";
-  //   } else {
-  //     resizer.style.bottom = "-5px";
-  //   }
+  let resizing = false;
 
-  //   if (attr2 === "left") {
-  //     resizer.style.left = "-5px";
-  //   } else {
-  //     resizer.style.right = "-5px";
-  //   }
+  function getResizer(attr1, attr2) {
+    const resizer = document.createElement("span");
+    resizer.style.width = "5px";
+    resizer.style.height = "5px";
+    resizer.style.display = "block";
+    resizer.className = "resizeBtn";
+    resizer.style.position = "absolute";
+    resizer.style.backgroundColor = "#00aaff";
 
-  //   if (
-  //     (attr1 == "top" && attr2 === "right") ||
-  //     (attr1 == "bottom" && attr2 === "left")
-  //   ) {
-  //     resizer.onmouseover = (event) => {
-  //       event.target.style.cursor = "nesw-resize";
-  //     };
-  //   } else {
-  //     resizer.onmouseover = (event) => {
-  //       event.target.style.cursor = "nwse-resize";
-  //     };
-  //   }
+    if (attr1 === "top") {
+      resizer.style.top = "-5px";
+    } else {
+      resizer.style.bottom = "-5px";
+    }
 
-  //   resizer.onmousedown = (event) => {
-  //     let initX = event.screenX;
-  //     let initY = event.screenY;
-  //     resizing = true;
-  //     event.preventDefault();
+    if (attr2 === "left") {
+      resizer.style.left = "-5px";
+    } else {
+      resizer.style.right = "-5px";
+    }
 
-  //     const holder = event.target.parentNode;
+    if (
+      (attr1 == "top" && attr2 === "right") ||
+      (attr1 == "bottom" && attr2 === "left")
+    ) {
+      resizer.onmouseover = (event) => {
+        event.target.style.cursor = "nesw-resize";
+      };
+    } else {
+      resizer.onmouseover = (event) => {
+        event.target.style.cursor = "nwse-resize";
+      };
+    }
 
-  //     const holderSize = (function () {
-  //       const holderSize = {
-  //         width:
-  //           decoded.details.flag === "editing" ? holder.offsetWidth : undefined,
-  //         height:
-  //           decoded.details.flag === "editing"
-  //             ? holder.offsetHeight
-  //             : undefined,
-  //         top:
-  //           decoded.details.flag === "editing" ? holder.offsetTop : undefined,
-  //         left:
-  //           decoded.details.flag === "editing" ? holder.offsetLeft : undefined,
+    resizer.onmousedown = (event) => {
+      let initX = event.screenX;
+      let initY = event.screenY;
+      resizing = true;
+      event.preventDefault();
 
-  //         // width: parseInt(holder.style.width.slice(0, -2)),
-  //         // height: parseInt(holder.style.height.slice(0, -2)),
-  //         // top: parseInt(holder.style.top.slice(0, -2)),
-  //         // left: parseInt(holder.style.left.slice(0, -2))//elemLeft : 0
-  //       };
-  //       return Object.seal(holderSize);
-  //     })();
+      const holder = event.target.parentNode;
 
-  //     window.addEventListener("mousemove", resizeElement);
-  //     function resizeElement(ev) {
-  //       const el = document.getElementById("midSection_container");
-  //       const midsectionRect = el.getBoundingClientRect();
-  //       if (
-  //         ev.screenX > midsectionRect.left &&
-  //         ev.screenY > midsectionRect.top &&
-  //         ev.screenX < midsectionRect.right
-  //       ) {
-  //         if (attr1 == "bottom" && attr2 == "right") {
-  //           holder.style.width = ev.screenX - initX + holderSize.width + "px";
-  //           holder.style.height = ev.screenY - initY + holderSize.height + "px";
-  //         } else if (attr1 == "bottom" && attr2 == "left") {
-  //           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
-  //           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
-  //           holder.style.height = ev.screenY - initY + holderSize.height + "px";
-  //         } else if (attr1 == "top" && attr2 == "left") {
-  //           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
-  //           holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
-  //           holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
-  //           holder.style.height =
-  //             holderSize.height - (ev.screenY - initY) + "px";
-  //         } else if (attr1 == "top" && attr2 == "right") {
-  //           holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
-  //           holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
-  //           holder.style.height =
-  //             holderSize.height - (ev.screenY - initY) + "px";
-  //         }
-  //       }
-  //     }
+      const holderSize = (function () {
+        const holderSize = {
+          width:
+            decoded.details.flag === "editing" ? holder.offsetWidth : undefined,
+          height:
+            decoded.details.flag === "editing"
+              ? holder.offsetHeight
+              : undefined,
+          top:
+            decoded.details.flag === "editing" ? holder.offsetTop : undefined,
+          left:
+            decoded.details.flag === "editing" ? holder.offsetLeft : undefined,
 
-  //     window.addEventListener("mouseup", stopResizing);
-  //     function stopResizing(ev) {
-  //       window.removeEventListener("mousemove", resizeElement);
-  //       window.removeEventListener("mouseup", stopResizing);
-  //       resizing = false;
-  //     }
-  //   };
+          // width: parseInt(holder.style.width.slice(0, -2)),
+          // height: parseInt(holder.style.height.slice(0, -2)),
+          // top: parseInt(holder.style.top.slice(0, -2)),
+          // left: parseInt(holder.style.left.slice(0, -2))//elemLeft : 0
+        };
+        return Object.seal(holderSize);
+      })();
 
-  //   return resizer;
-  // }
+      window.addEventListener("mousemove", resizeElement);
+      function resizeElement(ev) {
+        const el = document.getElementById("midSection_container");
+        const midsectionRect = el.getBoundingClientRect();
+        if (
+          ev.screenX > midsectionRect.left &&
+          ev.screenY > midsectionRect.top &&
+          ev.screenX < midsectionRect.right
+        ) {
+          if (attr1 == "bottom" && attr2 == "right") {
+            holder.style.width = ev.screenX - initX + holderSize.width + "px";
+            holder.style.height = ev.screenY - initY + holderSize.height + "px";
+          } else if (attr1 == "bottom" && attr2 == "left") {
+            holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+            holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+            holder.style.height = ev.screenY - initY + holderSize.height + "px";
+          } else if (attr1 == "top" && attr2 == "left") {
+            holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+            holder.style.left = holderSize.left + (ev.screenX - initX) + "px";
+            holder.style.width = holderSize.width - (ev.screenX - initX) + "px";
+            holder.style.height =
+              holderSize.height - (ev.screenY - initY) + "px";
+          } else if (attr1 == "top" && attr2 == "right") {
+            holder.style.top = holderSize.top + (ev.screenY - initY) + "px";
+            holder.style.width = holderSize.width + (ev.screenX - initX) + "px";
+            holder.style.height =
+              holderSize.height - (ev.screenY - initY) + "px";
+          }
+        }
+      }
 
-  // const dragElementOverPage = (event) => {
-  //   let holder;
-  //   // console.log("dragElement", event.target);
-  //   // event.dataTransfer.setData("text/plain", "DATE_INPUT");
-  //   if (!resizing) {
-  //     let initX = event.screenX;
-  //     let initY = event.screenY;
+      window.addEventListener("mouseup", stopResizing);
+      function stopResizing(ev) {
+        window.removeEventListener("mousemove", resizeElement);
+        window.removeEventListener("mouseup", stopResizing);
+        resizing = false;
+      }
+    };
 
-  //     // console.log("initX ", initX, "initY ", initY);
-  //     /* Ensure That target has changed */
-  //     var counterCheck = true;
-  //     var tempTarget = event.target;
-  //     var hitTarget = "";
-  //     while (counterCheck) {
-  //       // if(tempTarget.className === 'holderDIV'){
-  //       if (tempTarget.classList.contains("holderDIV")) {
-  //         hitTarget = tempTarget;
-  //         counterCheck = false;
-  //       } else if (tempTarget.classList.contains("textInput")) {
-  //         hitTarget = null;
-  //         counterCheck = false;
-  //       }
-  //       tempTarget = tempTarget?.parentNode;
-  //     }
+    return resizer;
+  }
 
-  //     holder = hitTarget;
-  //     const holderPos = (function () {
-  //       const holderPos = {
-  //         // top:
-  //         //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
-  //         // left:
-  //         //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
-  //         top: parseInt(holder?.style.top.slice(0, -2)),
-  //         left: parseInt(holder?.style.left.slice(0, -2)),
-  //       };
-  //       return Object.seal(holderPos);
-  //     })();
-  //     // holder.ondragstart = (e) => {
-  //     //   console.log("i am dragged", e.target);
-  //     // };
-  //     // code for conatainer element move start
-  //     let holderParentHolder = "";
-  //     let holderParentHolderRect = "";
-  //     let hodlerRect = "";
-  //     if (holder?.parentElement.classList.contains("containerInput")) {
-  //       holderParentHolder = holder?.parentElement?.parentElement;
-  //     }
-  //     if (holderParentHolder) {
-  //       holderParentHolderRect = holderParentHolder.getBoundingClientRect();
-  //     }
-  //     hodlerRect = holder?.getBoundingClientRect();
-  //     // code for container element move end
-  //     // console.log("finding moveable element", holderPos);
 
-  //     window.addEventListener("mousemove", moveObject);
-  //     function moveObject(ev) {
-  //       //console.log(ev);
-  //       ev.preventDefault();
-  //       const el = document.getElementById("midSection_container");
-  //       const midsectionRect = el.getBoundingClientRect();
-  //       //console.log(
-  //       //   midsectionRect.left,
-  //       //   midsectionRect.top,
-  //       //   midsectionRect.right
-  //       // );
-  //       //  screenX: 531, screenY: 175, clientX: 531, Top-left
-  //       //  screenX: 1061, screenY: 154, Top right
+  const dragElementOverPage = (event) => {
+    let holder;
+    // console.log("dragElement", event.target);
+    // event.dataTransfer.setData("text/plain", "DATE_INPUT");
+    if (!resizing) {
+      let initX = event.screenX;
+      let initY = event.screenY;
 
-  //       // console.log("midsectionRect", midsectionRect);
-  //       // const eventClientX = ev.clientX;
-  //       const elemtnMeasureX =
-  //         ev.screenX + holderPos.left + hodlerRect.width - initX;
-  //       const elmentMeasureY =
-  //         ev.screenY + holderPos.top + hodlerRect.height - initY;
-  //       // if (
-  //       //   ev.screenX > holderParentHolderRect.left &&
-  //       //   ev.screenY > holderParentHolderRect.top &&
-  //       //   ev.screenX < holderParentHolderRect.right
-  //       // ) {
-  //       if (holder?.parentElement.classList.contains("containerInput")) {
-  //         if (
-  //           holderParentHolderRect.width > elemtnMeasureX + 5 &&
-  //           // holderParentHolderRect.left + 20 < elemtnMeasureX &&
-  //           ev.screenX + holderPos.left - initX > 0 &&
-  //           holderParentHolderRect.height > elmentMeasureY + 5 &&
-  //           // holderParentHolderRect.top - 50 < elmentMeasureY
-  //           ev.screenY + holderPos.top - initY > 0
-  //         ) {
-  //           //console.log("checking motion");
-  //           const diffX = ev.screenX - initX;
-  //           const diffY = ev.screenY - initY;
-  //           holder.style.top = holderPos.top + diffY + "px";
-  //           holder.style.left = holderPos.left + diffX + "px";
-  //         } else {
-  //           holder.style.top = holderPos.top + "px";
-  //           holder.style.left = holderPos.left + "px";
-  //         }
-  //       } else {
-  //         // if (
-  //         //   ev.screenX > midsectionRect.left &&
-  //         //   ev.screenY > midsectionRect.top &&
-  //         //   ev.screenX < midsectionRect.right
-  //         // ) {
+      // console.log("initX ", initX, "initY ", initY);
+      /* Ensure That target has changed */
+      var counterCheck = true;
+      var tempTarget = event.target;
+      var hitTarget = "";
+      while (counterCheck) {
+        // if(tempTarget.className === 'holderDIV'){
+        if (tempTarget.classList.contains("holderDIV")) {
+          hitTarget = tempTarget;
+          counterCheck = false;
+        } else if (tempTarget.classList.contains("textInput")) {
+          hitTarget = null;
+          counterCheck = false;
+        }
+        tempTarget = tempTarget?.parentNode;
+      }
 
-  //         if (
-  //           midsectionRect.width > elemtnMeasureX + 5 &&
-  //           ev.screenX + holderPos.left - initX > 0 &&
-  //           midsectionRect.height > elmentMeasureY + 5 &&
-  //           // midsectionRect.top - 50 < elmentMeasureY
-  //           ev.screenY + holderPos.top - initY > 0
-  //         ) {
-  //           //console.log("checking motion");
-  //           const diffX = ev.screenX - initX;
-  //           const diffY = ev.screenY - initY;
-  //           holder.style.top = holderPos.top + diffY + "px";
-  //           holder.style.left = holderPos.left + diffX + "px";
-  //         } else {
-  //           holder.style.top = holderPos.top + "px";
-  //           holder.style.left = holderPos.left + "px";
-  //         }
-  //       }
-  //     }
+      holder = hitTarget;
+      const holderPos = (function () {
+        const holderPos = {
+          // top:
+          //   decoded.details.flag === "editing" ? holder?.offsetTop : undefined,
+          // left:
+          //   decoded.details.flag === "editing" ? holder?.offsetLeft : undefined,
+          top: parseInt(holder?.style.top.slice(0, -2)),
+          left: parseInt(holder?.style.left.slice(0, -2)),
+        };
+        return Object.seal(holderPos);
+      })();
+      // holder.ondragstart = (e) => {
+      //   console.log("i am dragged", e.target);
+      // };
+      // code for conatainer element move start
+      let holderParentHolder = "";
+      let holderParentHolderRect = "";
+      let hodlerRect = "";
+      if (holder?.parentElement.classList.contains("containerInput")) {
+        holderParentHolder = holder?.parentElement?.parentElement;
+      }
+      if (holderParentHolder) {
+        holderParentHolderRect = holderParentHolder.getBoundingClientRect();
+      }
+      hodlerRect = holder?.getBoundingClientRect();
+      // code for container element move end
+      // console.log("finding moveable element", holderPos);
 
-  //     window.addEventListener("mouseup", stopMove);
-  //     function stopMove(ev) {
-  //       window.removeEventListener("mousemove", moveObject);
-  //       window.removeEventListener("mouseup", stopMove);
-  //     }
-  //   }
-  // };
+      window.addEventListener("mousemove", moveObject);
+      function moveObject(ev) {
+        //console.log(ev);
+        ev.preventDefault();
+        const el = document.getElementById("midSection_container");
+        const midsectionRect = el.getBoundingClientRect();
+        //console.log(
+        //   midsectionRect.left,
+        //   midsectionRect.top,
+        //   midsectionRect.right
+        // );
+        //  screenX: 531, screenY: 175, clientX: 531, Top-left
+        //  screenX: 1061, screenY: 154, Top right
 
-  // function getHolderMenu(auth_user) {
-  //   //putting functional menu on holder
+        // console.log("midsectionRect", midsectionRect);
+        // const eventClientX = ev.clientX;
+        const elemtnMeasureX =
+          ev.screenX + holderPos.left + hodlerRect.width - initX;
+        const elmentMeasureY =
+          ev.screenY + holderPos.top + hodlerRect.height - initY;
+        // if (
+        //   ev.screenX > holderParentHolderRect.left &&
+        //   ev.screenY > holderParentHolderRect.top &&
+        //   ev.screenX < holderParentHolderRect.right
+        // ) {
+        if (holder?.parentElement.classList.contains("containerInput")) {
+          if (
+            holderParentHolderRect.width > elemtnMeasureX + 5 &&
+            // holderParentHolderRect.left + 20 < elemtnMeasureX &&
+            ev.screenX + holderPos.left - initX > 0 &&
+            holderParentHolderRect.height > elmentMeasureY + 5 &&
+            // holderParentHolderRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
+        } else {
+          // if (
+          //   ev.screenX > midsectionRect.left &&
+          //   ev.screenY > midsectionRect.top &&
+          //   ev.screenX < midsectionRect.right
+          // ) {
 
-  //   const HMContainer = document.createElement("div");
+          if (
+            midsectionRect.width > elemtnMeasureX + 5 &&
+            ev.screenX + holderPos.left - initX > 0 &&
+            midsectionRect.height > elmentMeasureY + 5 &&
+            // midsectionRect.top - 50 < elmentMeasureY
+            ev.screenY + holderPos.top - initY > 0
+          ) {
+            //console.log("checking motion");
+            const diffX = ev.screenX - initX;
+            const diffY = ev.screenY - initY;
+            holder.style.top = holderPos.top + diffY + "px";
+            holder.style.left = holderPos.left + diffX + "px";
+          } else {
+            holder.style.top = holderPos.top + "px";
+            holder.style.left = holderPos.left + "px";
+          }
+        }
+      }
 
-  //   HMContainer.style.height = "100%";
-  //   HMContainer.style.padding = "5px";
-  //   HMContainer.style.display = "flex";
-  //   HMContainer.style.alignItems = "center";
-  //   HMContainer.style.justifyContent = "center";
-  //   HMContainer.style.backgroundColor = "rgb(129 129 129 / 50%)";
+      window.addEventListener("mouseup", stopMove);
+      function stopMove(ev) {
+        window.removeEventListener("mousemove", moveObject);
+        window.removeEventListener("mouseup", stopMove);
+      }
+    }
+  };
 
-  //   // HMContainer.append(getSelectOptionsField(auth_user));
 
-  //   // if (isTemplate) {
-  //   //     HMContainer.append(getDeleteBtn());
-  //   // }
+  function getHolderMenu(auth_user) {
+    //putting functional menu on holder
 
-  //   const holderMenu = document.createElement("div");
-  //   holderMenu.className = "holder-menu";
-  //   holderMenu.style.height = "35px";
-  //   holderMenu.style.display = "flex";
-  //   holderMenu.style.justifyContent = "center";
-  //   holderMenu.style.width = "100%";
-  //   holderMenu.style.borderRadius = "0%";
-  //   holderMenu.style.position = "absolute";
-  //   holderMenu.style.right = "0px";
-  //   holderMenu.style.top = "-40px";
+    const HMContainer = document.createElement("div");
 
-  //   holderMenu.append(HMContainer);
-  //   //holderMenu.style.transform = 'translateX(-50%)';
+    HMContainer.style.height = "100%";
+    HMContainer.style.padding = "5px";
+    HMContainer.style.display = "flex";
+    HMContainer.style.alignItems = "center";
+    HMContainer.style.justifyContent = "center";
+    HMContainer.style.backgroundColor = "rgb(129 129 129 / 50%)";
 
-  //   return holderMenu;
-  // }
+    // HMContainer.append(getSelectOptionsField(auth_user));
 
-  // const copyInput = (clickHandler) => {
-  //   // if (typeOfOperation === "IMAGE_INPUT") {
-  //   const element = document.querySelector(".focussedd");
-  //   // console.log("copy_element", element);
-  //   let counter = 1;
-  //   const copyEle = element.cloneNode(true);
-  //   const rect = element.getBoundingClientRect();
-  //   // console.log("rect from midsection", rect);
-  //   const copyEleTop =
-  //     parseInt(copyEle.style.top.slice(0, -2)) +
-  //     parseInt(rect.height) +
-  //     20 +
-  //     "px";
-  //   // console.log("clickHandler", clickHandler);
-  //   // parseInt(holder.style.top.slice(0, -2))
-  //   copyEle.classList.remove("focussedd");
-  //   copyEle.firstChild.classList.remove("focussed");
-  //   // copyEle.classList.add("imageInput")
-  //   // console.log(copyEleTop)
-  //   copyEle.onfocus = () => {
-  //     copyEle.style.border = "1px solid rgb(255 191 0)";
-  //   };
-  //   copyEle.onblur = () => {
-  //     copyEle.style.border = "3px dotted gray";
-  //   };
-  //   if (copyEle) {
-  //     copyEle.style.top = copyEleTop;
-  //     copyEle.style.border = "3px dotted gray";
-  //     copyEle.classList.remove("resizeBtn");
+    // if (isTemplate) {
+    //     HMContainer.append(getDeleteBtn());
+    // }
 
-  //     copyEle.onmousedown = copyEle.addEventListener(
-  //       "mousedown",
-  //       (event) => {
-  //         dragElementOverPage(event);
-  //       },
-  //       false
-  //     );
+    const holderMenu = document.createElement("div");
+    holderMenu.className = "holder-menu";
+    holderMenu.style.height = "35px";
+    holderMenu.style.display = "flex";
+    holderMenu.style.justifyContent = "center";
+    holderMenu.style.width = "100%";
+    holderMenu.style.borderRadius = "0%";
+    holderMenu.style.position = "absolute";
+    holderMenu.style.right = "0px";
+    holderMenu.style.top = "-40px";
 
-  //     // trying to remove resize btn
+    holderMenu.append(HMContainer);
+    //holderMenu.style.transform = 'translateX(-50%)';
 
-  //     const resizeTags = copyEle.getElementsByClassName("resizeBtn");
-  //     while (resizeTags.length > 0) {
-  //       console.log("resizeTags", resizeTags[0]);
-  //       resizeTags[0].remove();
-  //     }
+    return holderMenu;
+  }
 
-  //     const resizerTL = getResizer("top", "left");
-  //     const resizerTR = getResizer("top", "right");
-  //     const resizerBL = getResizer("bottom", "left");
-  //     const resizerBR = getResizer("bottom", "right");
-  //     // parseInt(holder.style.top.slice(0, -2))
 
-  //     copyEle.addEventListener("focus", function (e) {
-  //       copyEle.style.border = "2px solid orange";
-  //       // holderDIV.append(holderMenu);
 
-  //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
-  //     });
-  //     copyEle.addEventListener("focusout", function (e) {
-  //       copyEle.classList.remove("zIndex-two");
-  //       copyEle.style.border = "3px dotted gray";
 
-  //       // holderMenu.remove();
-  //       resizerTL.remove();
-  //       resizerTR.remove();
-  //       resizerBL.remove();
-  //       resizerBR.remove();
-  //     });
-  //     copyEle.addEventListener("click", (e) => {
-  //       e.stopPropagation();
-  //       focuseddClassMaintain(e);
-  //       console.log("find classlist", e.target.classList[0]);
-  //       if (
-  //         e.target?.parentElement?.parentElement.classList.contains(
-  //           "containerInput"
-  //         )
-  //       ) {
-  //         //
-  //         let type = "";
-  //         const containerClassName = e.target.classList[0];
-  //         switch (containerClassName) {
-  //           case "dateInput":
-  //             type = "calendar2";
-  //             break;
-  //           case "textInput":
-  //             type = "align2";
-  //             break;
-  //           case "imageInput":
-  //             type = "image2";
-  //             break;
-  //           case "signInput":
-  //             type = "signs2";
-  //             break;
-  //           case "iframeInput":
-  //             type = "iframe2";
-  //             break;
-  //           case "scaleInput":
-  //             type = "scale2";
-  //             break;
-  //           case "buttonInput":
-  //             type = "button2";
-  //             break;
-  //           case "dropdownInput":
-  //             type = "dropdown2";
-  //             break;
-  //           case "emailButton":
-  //             type = "email2";
-  //             break;
-  //           default:
-  //             type = "";
-  //         }
-  //         //
-  //         handleClicked(type, "container2");
-  //         console.log("inside if", type);
-  //       } else {
-  //         handleClicked(clickHandler);
-  //       }
 
-  //       setSidebar(true);
-  //     });
-  //   }
+  const copyInput = (clickHandler) => {
+    // if (typeOfOperation === "IMAGE_INPUT") {
+    const element = document.querySelector(".focussedd");
+    // console.log("copy_element", element);
+    let counter = 1;
+    const copyEle = element.cloneNode(true);
+    const rect = element.getBoundingClientRect();
+    // console.log("rect from midsection", rect);
+    const copyEleTop =
+      parseInt(copyEle.style.top.slice(0, -2)) +
+      parseInt(rect.height) +
+      20 +
+      "px";
+    // console.log("clickHandler", clickHandler);
+    // parseInt(holder.style.top.slice(0, -2))
+    copyEle.classList.remove("focussedd");
+    copyEle.firstChild.classList.remove("focussed");
+    // copyEle.classList.add("imageInput")
+    // console.log(copyEleTop)
+    copyEle.onfocus = () => {
+      copyEle.style.border = "1px solid rgb(255 191 0)";
+    };
+    copyEle.onblur = () => {
+      copyEle.style.border = "3px dotted gray";
+    };
+    if (copyEle) {
+      copyEle.style.top = copyEleTop;
+      copyEle.style.border = "3px dotted gray";
+      copyEle.classList.remove("resizeBtn");
 
-  //   // console.log(copyEle);
-  //   // let midSec = document.querySelector(".drop_zone");
-  //   let midSec = null;
+      copyEle.onmousedown = copyEle.addEventListener(
+        "mousedown",
+        (event) => {
+          dragElementOverPage(event);
+        },
+        false
+      );
 
-  //   if (!midSec) {
-  //     let targetParent = element;
-  //     while (1) {
-  //       if (
-  //         targetParent.classList.contains("containerInput") ||
-  //         targetParent.classList.contains("midSection_container")
-  //       ) {
-  //         targetParent = targetParent;
-  //         break;
-  //       } else {
-  //         targetParent = targetParent.parentElement;
-  //         midSec = targetParent;
-  //       }
-  //     }
-  //   }
-  //   // console.log("mid sec", midSec)
-  //   copyEle.id += counter;
-  //   if (
-  //     parseInt(copyEle.style.top.slice(0, -2)) +
-  //       parseInt(rect.height) +
-  //       parseInt(rect.height) +
-  //       20 <
-  //     1122
-  //   ) {
-  //     midSec.appendChild(copyEle);
-  //   }
+      // trying to remove resize btn
 
-  //   copyEle.onclick = (clickHandler2) => {
-  //     if (clickHandler2.ctrlKey) {
-  //       copyInput(clickHandler);
-  //     }
-  //   };
-  // };
+      const resizeTags = copyEle.getElementsByClassName("resizeBtn");
+      while (resizeTags.length > 0) {
+        console.log("resizeTags", resizeTags[0]);
+        resizeTags[0].remove();
+      }
 
-  // function getOffset(el) {
-  //   const parent = document.getElementById("midSection_container");
-  //   const parentPos = parent.getBoundingClientRect();
-  //   const rect = el.getBoundingClientRect();
+      const resizerTL = getResizer("top", "left");
+      const resizerTR = getResizer("top", "right");
+      const resizerBL = getResizer("bottom", "left");
+      const resizerBR = getResizer("bottom", "right");
+      // parseInt(holder.style.top.slice(0, -2))
 
-  //   return {
-  //     top: rect.top - parentPos.top,
-  //     left: rect.left - parentPos.left,
-  //     bottom: rect.bottom - parentPos.top,
-  //     right: rect.right - parentPos.left,
-  //     // left: rect.left + window.scrollX,
-  //     // top: rect.top + window.scrollY
-  //   };
-  // }
+      copyEle.addEventListener("focus", function (e) {
+        copyEle.style.border = "2px solid orange";
+        // holderDIV.append(holderMenu);
+
+        copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+      });
+      copyEle.addEventListener("focusout", function (e) {
+        copyEle.classList.remove("zIndex-two");
+        copyEle.style.border = "3px dotted gray";
+
+        // holderMenu.remove();
+        resizerTL.remove();
+        resizerTR.remove();
+        resizerBL.remove();
+        resizerBR.remove();
+      });
+      copyEle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        focuseddClassMaintain(e);
+        console.log("find classlist", e.target.classList[0]);
+        if (
+          e.target?.parentElement?.parentElement.classList.contains(
+            "containerInput"
+          )
+        ) {
+          //
+          let type = "";
+          const containerClassName = e.target.classList[0];
+          switch (containerClassName) {
+            case "dateInput":
+              type = "calendar2";
+              break;
+            case "textInput":
+              type = "align2";
+              break;
+            case "imageInput":
+              type = "image2";
+              break;
+            case "signInput":
+              type = "signs2";
+              break;
+            case "iframeInput":
+              type = "iframe2";
+              break;
+            case "scaleInput":
+              type = "scale2";
+              break;
+            case "buttonInput":
+              type = "button2";
+              break;
+            case "dropdownInput":
+              type = "dropdown2";
+              break;
+            case "emailButton":
+              type = "email2";
+              break;
+            default:
+              type = "";
+          }
+          //
+          handleClicked(type, "container2");
+          console.log("inside if", type);
+        } else {
+          let type = "";
+          const containerClassName = e.target.classList[0];
+          switch (containerClassName) {
+            case "dateInput":
+              type = "calendar2";
+              break;
+            case "textInput":
+              type = "align2";
+              break;
+            case "imageInput":
+              type = "image2";
+              break;
+            case "signInput":
+              type = "signs2";
+              break;
+            case "iframeInput":
+              type = "iframe2";
+              break;
+            case "scaleInput":
+              type = "scale2";
+              break;
+            case "buttonInput":
+              type = "button2";
+              break;
+            case "dropdownInput":
+              type = "dropdown2";
+              break;
+            case "emailButton":
+              type = "email2";
+              break;
+            default:
+              type = "";
+          }
+          //
+          handleClicked(type, "container2");
+          console.log("inside if", type);
+        }
+
+        setSidebar(true);
+      });
+    }
+
+    // console.log(copyEle);
+    // let midSec = document.querySelector(".drop_zone");
+    let midSec = null;
+
+    if (!midSec) {
+      let targetParent = element;
+      while (1) {
+        if (
+          targetParent.classList.contains("containerInput") ||
+          targetParent.classList.contains("midSection_container")
+        ) {
+          targetParent = targetParent;
+          break;
+        } else {
+          targetParent = targetParent.parentElement;
+          midSec = targetParent;
+        }
+      }
+    }
+    // console.log("mid sec", midSec)
+    copyEle.id += counter;
+    if (
+      parseInt(copyEle.style.top.slice(0, -2)) +
+      parseInt(rect.height) +
+      parseInt(rect.height) +
+      20 <
+      1122
+    ) {
+      midSec.appendChild(copyEle);
+    }
+
+    copyEle.onclick = (clickHandler2) => {
+      if (clickHandler2.ctrlKey) {
+        copyInput(clickHandler);
+      }
+    };
+  };
+
+
+  function getOffset(el) {
+    const parent = document.getElementById("midSection_container");
+    const parentPos = parent.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+
+    return {
+      top: rect.top - parentPos.top,
+      left: rect.left - parentPos.left,
+      bottom: rect.bottom - parentPos.top,
+      right: rect.right - parentPos.left,
+      // left: rect.left + window.scrollX,
+      // top: rect.top + window.scrollY
+    };
+  }
+
 
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
+    const menuVisibility = document.querySelector(".midSection")
+
+    menuVisibility.onclick(() => {
+      setIsMenuVisible(false)
+    })
   };
   const handleUndo = () => {
     document.execCommand("undo");
@@ -725,179 +790,1169 @@ const Header = () => {
   const handleRedo = () => {
     document.execCommand("redo");
   };
-  // const handleCut = (e) => {
-  //   const cutItem = document.querySelector(".focussedd");
-  //   const cutEle = cutItem.cloneNode(true);
+  const handleCut = (e) => {
+    const cutItem = document.querySelector(".focussedd");
+    const cutEle = cutItem.cloneNode(true);
 
-  //   function getPosition(el) {
-  //     console.log("element check", el);
-  //     const midSec = document.getElementById("midSection_container");
-  //     const rect = el.getBoundingClientRect();
-  //     const midsectionRect = midSec.getBoundingClientRect();
-  //     return {
-  //       top:
-  //         rect.top > 0
-  //           ? Math.abs(midsectionRect.top)
-  //           : rect.top - midsectionRect.top,
-  //       left: rect.left - midsectionRect.left,
-  //       bottom: rect.bottom,
-  //       right: rect.right,
-  //       width: rect.width,
-  //       height: rect.height,
-  //     };
-  //   }
+    function getPosition(el) {
+      console.log("element check", el);
+      const midSec = document.getElementById("midSection_container");
+      const rect = el.getBoundingClientRect();
+      const midsectionRect = midSec.getBoundingClientRect();
+      return {
+        top:
+          rect.top > 0
+            ? Math.abs(midsectionRect.top)
+            : rect.top - midsectionRect.top,
+        left: rect.left - midsectionRect.left,
+        bottom: rect.bottom,
+        right: rect.right,
+        width: rect.width,
+        height: rect.height,
+      };
+    }
 
-  //   let tempPosn = getPosition(cutEle);
-  //   const find_class_name = cutEle.firstElementChild?.className.split(" ")[0];
-  //   let type = "";
-  //   // console.log("containerChildClassName", containerChildClassName);
-  //   switch (find_class_name) {
-  //     case "dateInput":
-  //       type = "DATE_INPUT";
-  //       break;
-  //     case "textInput":
-  //       type = "TEXT_INPUT";
-  //       break;
-  //     case "imageInput":
-  //       type = "IMAGE_INPUT";
-  //       break;
-  //     case "signInput":
-  //       type = "SIGN_INPUT";
-  //       break;
-  //     case "iframeInput":
-  //       type = "IFRAME_INPUT";
-  //       break;
-  //     case "scaleInput":
-  //       type = "SCALE_INPUT";
-  //       break;
-  //     case "buttonInput":
-  //       type = "BUTTON_INPUT";
-  //       break;
-  //     case "dropdownInput":
-  //       type = "DROPDOWN_INPUT";
-  //       break;
-  //     case "containerInput":
-  //       type = "CONTAINER_INPUT";
-  //       break;
-  //     default:
-  //       type = "";
-  //   }
+    let tempPosn = getPosition(cutEle);
+    const find_class_name = cutEle.firstElementChild?.className.split(" ")[0];
+    let type = "";
+    // console.log("containerChildClassName", containerChildClassName);
+    switch (find_class_name) {
+      case "dateInput":
+        type = "DATE_INPUT";
+        break;
+      case "textInput":
+        type = "TEXT_INPUT";
+        break;
+      case "imageInput":
+        type = "IMAGE_INPUT";
+        break;
+      case "signInput":
+        type = "SIGN_INPUT";
+        break;
+      case "iframeInput":
+        type = "IFRAME_INPUT";
+        break;
+      case "scaleInput":
+        type = "SCALE_INPUT";
+        break;
+      case "buttonInput":
+        type = "BUTTON_INPUT";
+        break;
+      case "dropdownInput":
+        type = "DROPDOWN_INPUT";
+        break;
+      case "containerInput":
+        type = "CONTAINER_INPUT";
+        break;
+      default:
+        type = "";
+    }
 
-  //   elem = {
-  //     width: cutEle.style.width,
-  //     height: cutEle.style.height,
-  //     top: cutEle.style.top,
-  //     topp: cutEle.style.top,
-  //     left: cutEle.style.left,
-  //     type: type,
-  //     data: cutEle.firstChild.innerHTML,
-  //     data2: cutEle.firstChild.outerHTML,
-  //     // id: `d${h + 1}`,
-  //   };
-  //   setCutItem_value(e.target)
-  //   sessionStorage.setItem("cutItem", JSON.stringify(elem));
-  //   cutItem.remove();
-  // };
-  const handleCopy = () => {
-    // const element = document.querySelector(".focussedd");
-    // // console.log(element);
-    // let counter = 1;
-    // const copyEle = element.cloneNode(true);
-    // // console.log(copyEle)
-    // copyEle.id += counter;
-    // holderDIV.appendChild(copyEle);
-    // console.log("coping", copyEle)
+    elem = {
+      width: cutEle.style.width,
+      height: cutEle.style.height,
+      top: cutEle.style.top,
+      topp: cutEle.style.top,
+      left: cutEle.style.left,
+      type: type,
+      data: cutEle.firstChild.innerHTML,
+      data2: cutEle.firstChild.outerHTML,
+      // id: `d${h + 1}`,
+    };
+    setCutItem_value(e.target)
+    sessionStorage.setItem("cutItem", JSON.stringify(elem));
+    cutItem.remove();
   };
-  // const handlePaste = () => {
-
-  //   const element = JSON.parse(sessionStorage.getItem("cutItem"));
-  //   const curr_user = document.getElementById("current-user");
-
-  //   const measure = {
-  //     // top: `${contextMenu.y}px`,
-  //     // left: `${contextMenu.x}px`,
-  //     width: element.width,
-  //     height: element.height,
-  //     left: element.left,
-  //     top: element.topp,
-  //     // auth_user: curr_user,
-  //   };
-
-  //   const holderDIV = getHolderDIV(measure);
-
-  //   // if (sessionStorage.getItem("cutItem")) {
-  //   //   // console.log("getting item now....j")
-  //   //   if(element.type === "TEXT_INPUT") {
-  //   //     let inputField = document.createElement("div");
-  //   //     //  inputField.setAttribute('draggable', true);
-  //   //     inputField.setAttribute("contenteditable", true);
-  //   //     inputField.className = "textInput";
-  //   //     inputField.innerHTML = "Enter text here";
-  //   //     inputField.style.width = "100%";
-  //   //     inputField.style.height = "100%";
-  //   //     inputField.style.resize = "none";
-  //   //     inputField.style.backgroundColor = "#0000";
-  //   //     inputField.style.borderRadius = "0px";
-  //   //     inputField.style.outline = "0px";
-  //   //     inputField.style.overflow = "overlay";
-  //   //     inputField.style.position = "relative";
-  //   //     inputField.style.cursor = "text";
-
-  //   //     const txt = document.getElementsByClassName("textInput");
-  //   //     if (txt.length) {
-  //   //       const h = txt.length;
-  //   //       inputField.id = `t${h + 1}`;
-  //   //     } else {
-  //   //       inputField.id = "t1";
-  //   //     }
-  //   //     // inputField.innerText = `${postData.editTextField.value}`
-
-  //   //     // inputField.oninput = (event) => {
-  //   //     //   event.preventDefault();
-  //   //     if (inputField.innerHTML[0]) {
-  //   //       const editTextField = {
-  //   //         editTextField: {
-  //   //           value: inputField.innerHTML,
-  //   //           xcoordinate: getOffset(holderDIV).left,
-  //   //           ycoordinate: getOffset(holderDIV).top,
-  //   //         },
-  //   //       };
-
-  //   //       // postData.push(editTextField);
-  //   //       // setPostData({
-  //   //       //   ...postData,
-  //   //       //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-  //   //       // })
-  //   //     }
-
-  //   //     if (inputField.value !== "") {
-  //   //       // setPostData({
-  //   //       //   ...postData,
-  //   //       //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
-  //   //       // })
-  //   //     }
-
-  //   //     inputField.onclick = (e) => {
-  //   //       e.stopPropagation();
-  //   //       focuseddClassMaintain(e);
-  //   //       if (e.ctrlKey) {
-  //   //         copyInput("align2");
-  //   //       }
-  //   //       handleClicked("align2", "container2");
-  //   //       setSidebar(true);
-  //   //       // holderDIV.classList.add('focussedd')
-  //   //       // inputField.classList.add("focussed");
-  //   //       // inputField.parentElement.focus()
-  //   //     };
-  //   //     inputField.innerText = `${element.data}`
-
-  //   //     holderDIV.append(inputField);
-  //   //     cutItem_value.append(holderDIV);
-  //   //     sessionStorage.clear()
-  //   //   }
-  //   // }
-
+  // const handleCopy = () => {
+  //   // const element = document.querySelector(".focussedd");
+  //   // // console.log(element);
+  //   // let counter = 1;
+  //   // const copyEle = element.cloneNode(true);
+  //   // // console.log(copyEle)
+  //   // copyEle.id += counter;
+  //   // holderDIV.appendChild(copyEle);
+  //   // console.log("coping", copyEle)
   // };
+  const handlePaste = () => {
+
+
+
+    const element = JSON.parse(sessionStorage.getItem("cutItem"));
+    const curr_user = document.getElementById("current-user");
+
+    const measure = {
+      // top: `${contextMenu.y}px`,
+      // left: `${contextMenu.x}px`,
+      width: element.width,
+      height: element.height,
+      left: element.left,
+      top: element.topp,
+
+      // auth_user: curr_user,
+    };
+
+    const holderDIV = getHolderDIV(measure);
+
+    if (sessionStorage.getItem("cutItem")) {
+      // console.log("getting item now....j")
+      if (element.type === "TEXT_INPUT") {
+        let inputField = document.createElement("div");
+        //  inputField.setAttribute('draggable', true);
+        inputField.setAttribute("contenteditable", true);
+        inputField.className = "textInput";
+        inputField.innerHTML = "Enter text here";
+        inputField.style.width = "100%";
+        inputField.style.height = "100%";
+        inputField.style.resize = "none";
+        inputField.style.backgroundColor = "#0000";
+        inputField.style.borderRadius = "0px";
+        inputField.style.outline = "0px";
+        inputField.style.overflow = "overlay";
+        inputField.style.position = "relative";
+        inputField.style.cursor = "text";
+
+        const txt = document.getElementsByClassName("textInput");
+        if (txt.length) {
+          const h = txt.length;
+          inputField.id = `t${h + 1}`;
+        } else {
+          inputField.id = "t1";
+        }
+        // inputField.innerText = `${postData.editTextField.value}`
+
+        // inputField.oninput = (event) => {
+        //   event.preventDefault();
+        if (inputField.innerHTML[0]) {
+          const editTextField = {
+            editTextField: {
+              value: inputField.innerHTML,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          };
+
+          // postData.push(editTextField);
+          // setPostData({
+          //   ...postData,
+          //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
+        }
+
+        if (inputField.value !== "") {
+          // setPostData({
+          //   ...postData,
+          //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
+        }
+
+        inputField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("align2");
+          }
+          handleClicked("align2", "container2");
+          setSidebar(true);
+          // holderDIV.classList.add('focussedd')
+          // inputField.classList.add("focussed");
+          // inputField.parentElement.focus()
+        };
+        inputField.innerText = `${element.data}`;
+
+        holderDIV.append(inputField);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear()
+      } else if (element.type === "DATE_INPUT") {
+        const measure = {
+          // top: `${contextMenu.y}px`,
+          // left: `${contextMenu.x}px`,
+          width: element.width,
+          height: element.height,
+          left: element.left,
+          top: element.topp,
+          // auth_user: curr_user,
+        };
+        // const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+        const holderDIV = getHolderDIV(measure);
+        const id = `${element.id}`;
+        // const holderDIV = getHolderDIV(measure, pageNo);
+
+        let dateField = document.createElement("div");
+        dateField.className = "dateInput";
+        dateField.id = id;
+        dateField.style.width = "100%";
+        dateField.style.height = "100%";
+        dateField.style.backgroundColor = "#dedede";
+        dateField.style.borderRadius = "0px";
+        dateField.style.outline = "0px";
+        dateField.style.overflow = "overlay";
+        dateField.style.position = "relative";
+
+        function dateClick() {
+          document.getElementById("date_picker")?.click();
+        }
+
+        dateField.onclick = (e) => {
+          if (e.ctrlKey) {
+            copyInput("calendar2");
+          }
+          focuseddClassMaintain(e);
+          handleClicked("calendar2");
+          setRightSideDateMenu(false);
+          //console.log("innerText", e.target.innerText);
+          if (e.target.innerText != "mm/dd/yyyy") {
+            if (e.target.innerText.includes("/")) {
+              const setDate = new Date(e.target.innerText);
+              //console.log("First from Midsection", setDate);
+              setMethod("first");
+              setStartDate(setDate);
+            } else {
+              if (e.target.innerText.includes("-")) {
+                setMethod("fourth");
+              } else {
+                setMethod("second");
+              }
+              const setDate = new Date(e.target.innerText);
+              //console.log("Second from Midsection", setDate);
+
+              setStartDate(setDate);
+            }
+          }
+          setSidebar(true);
+          setTimeout(dateClick, 0);
+        };
+        dateField.innerText = `${element.data}`;
+
+        holderDIV.append(dateField);
+        // document
+        //   .getElementsByClassName("midSection_container")
+        //   [p - 1] // ?.item(0)
+        //   ?.append(holderDIV);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "IMAGE_INPUT") {
+        let imageField = document.createElement("div");
+        imageField.className = "imageInput";
+        imageField.id = "inputImg";
+        imageField.style.width = "100%";
+        imageField.style.height = "100%";
+        imageField.style.backgroundColor = "#0000";
+        imageField.style.borderRadius = "0px";
+        imageField.style.outline = "0px";
+        imageField.style.overflow = "overlay";
+        imageField.innerText = "Choose Image";
+        // imageField.innerHTML = `<img src="${postData.imageField.value}" alt="">`;
+        imageField.style.position = "relative";
+
+        const img = document.getElementsByClassName("imageInput");
+        if (img.length) {
+          const h = img.length;
+          imageField.id = `i${h + 1}`;
+        } else {
+          imageField.id = "i1";
+        }
+
+        imageField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          // cutInput()
+          if (e.ctrlKey) {
+            copyInput("image2");
+          }
+          // imageField.classList.add("focussed");
+          handleClicked("image2", "container2");
+          // copyImage()
+          setSidebar(true);
+        };
+
+        const imageButton = document.createElement("div");
+        imageButton.className = "addImageButton";
+        imageButton.innerText = "Choose File";
+        imageButton.style.display = "none";
+        // imageButton.onclick = (e) => chooseFileClick(e);
+
+        const imgBtn = document.createElement("input");
+        imgBtn.className = "addImageButtonInput";
+        imgBtn.type = "file";
+        imgBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        imgBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            document.querySelector(
+              ".focussed"
+            ).style.backgroundImage = `url(${uploadedImage})`;
+          });
+          reader.readAsDataURL(imgBtn.files[0]);
+        });
+        imageField.outerHTML = `${element.data2}`;
+        console.log("element data getting", `${element.data2}`);
+
+        // imgBtn.style.width = "100%";
+        imageButton.append(imgBtn);
+        holderDIV.append(imageField);
+        holderDIV.append(imageButton);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "IFRAME_INPUT") {
+        let iframeField = document.createElement("div");
+        iframeField.className = "iframeInput";
+        iframeField.style.width = "100%";
+        iframeField.style.height = "100%";
+        iframeField.style.backgroundColor = "#dedede";
+        iframeField.style.borderRadius = "0px";
+        iframeField.style.outline = "0px";
+        iframeField.style.overflow = "overlay";
+        // iframeField.innerHTML = "iframe";
+        iframeField.style.position = "absolute";
+        iframeField.innerText = "iFrame here";
+
+        const iframes = document.getElementsByClassName("iframeInput");
+        if (iframes.length) {
+          const i = iframes.length;
+          iframeField.id = `ifr${i + 1}`;
+        } else {
+          iframeField.id = "ifr1";
+        }
+
+        iframeField.onclick = (e) => {
+          // focuseddClassMaintain(e);
+          e.stopPropagation();
+          if (e.ctrlKey) {
+            copyInput("iframe2");
+          }
+          table_dropdown_focuseddClassMaintain(e);
+          // tableField.classList.add("focussed");
+          handleClicked("iframe2", "container2");
+          setSidebar(true);
+        };
+        iframeField.innerHTML = `${element.data}`;
+
+        holderDIV.append(iframeField);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "SCALE_INPUT") {
+        setIsLoading(true);
+
+        let scaleField = document.createElement("div");
+        scaleField.className = "scaleInput";
+        scaleField.style.width = "100%";
+        scaleField.style.height = "100%";
+        scaleField.style.backgroundColor = "#dedede";
+        scaleField.style.borderRadius = "0px";
+        scaleField.style.outline = "0px";
+        scaleField.style.overflow = "overlay";
+        // scaleField.innerHTML = 'iframe';
+        scaleField.style.position = "absolute";
+        // scaleField.innerText = "scale here";
+
+        const scales = document.getElementsByClassName("scaleInput");
+        if (scales.length) {
+          const s = scales.length;
+          scaleField.id = `scl${s + 1}`;
+        } else {
+          scaleField.id = "scl1";
+        }
+
+        let scale = document.createElement("iframe");
+        scale.style.width = "90%";
+        scale.style.height = "90%";
+        const scaleIdHolder = document.createElement("div");
+        scaleIdHolder.className = "scaleId_holder";
+        scaleIdHolder.style.display = "none";
+
+        const labelHolder = document.createElement("div");
+        labelHolder.className = "label_holder";
+        labelHolder.style.display = "none";
+
+        scaleField.addEventListener("resize", () => {
+          scale.style.width = scaleField.clientWidth + "px";
+          scale.style.height = scaleField.clientHeight + "px";
+        });
+
+        scaleField.append(scale);
+        Axios.post(
+          "https://100035.pythonanywhere.com/api/nps_settings_create/",
+          {
+            username: "nake",
+            orientation: "horizontal",
+            scalecolor: "#8f1e1e",
+            roundcolor: "#938585",
+            fontcolor: "#000000",
+            fomat: "numbers",
+            time: "00",
+            name: `${title}_scale`,
+            left: "good",
+            right: "best",
+            center: "neutral",
+          }
+        )
+          .then((res) => {
+            setIsLoading(false);
+            console.log(res.data, "scaleData");
+            setScaleData(res.data);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+            console.log(res.scale_urls, "stateScale");
+            if (id.length) {
+              console.log(id, "id");
+              // setScaleId(id);
+              scaleIdHolder.innerHTML = id;
+            }
+            scale.src = res.data.scale_urls;
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
+          });
+
+        scaleField.onclick = (e) => {
+          e.stopPropagation();
+          table_dropdown_focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("scale2");
+          }
+          handleClicked("scale2");
+          setSidebar(true);
+        };
+
+        scaleField.innerHTML = `${element.data}`;
+
+        holderDIV.append(scaleField);
+        holderDIV.append(scaleIdHolder);
+        holderDIV.append(labelHolder);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "SIGN_INPUT") {
+        let signField = document.createElement("div");
+        signField.className = "signInput";
+        signField.style.width = "100%";
+        signField.style.height = "100%";
+        signField.style.backgroundColor = "#0000";
+        signField.style.borderRadius = "0px";
+        signField.style.outline = "0px";
+        signField.style.overflow = "overlay";
+        // signField.innerHTML = 'Place your signature here';
+        signField.innerText = "Signature here";
+        signField.style.position = "absolute";
+
+        signField.onchange = (event) => {
+          event.preventDefault();
+          setPostData({
+            ...postData,
+            signField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          });
+        };
+
+        signField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          // if (actionName = "template") {
+          // signField.classList.add("focussed");
+          if (e.ctrlKey) {
+            copyInput("signs2");
+          }
+          handleClicked("signs2", "container2");
+          setSidebar(true);
+        };
+        const imageSignButton = document.createElement("div");
+        imageSignButton.className = "addImageSignButton";
+        imageSignButton.innerText = "Choose File";
+        imageSignButton.style.display = "none";
+
+        const signBtn = document.createElement("input");
+        signBtn.className = "addSignButtonInput";
+        signBtn.type = "file";
+        signBtn.style.objectFit = "cover";
+        var uploadedImage = "";
+
+        signBtn.addEventListener("input", () => {
+          const reader = new FileReader();
+
+          reader.addEventListener("load", () => {
+            uploadedImage = reader.result;
+            const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+            document.querySelector(".focussed").innerHTML = signImage;
+          });
+          reader.readAsDataURL(signBtn.files[0]);
+        });
+
+        imageSignButton.append(signBtn);
+
+        signField.innerText = `${element.data}`;
+
+        // const para = document.createElement("p");
+        // para.innerHTML = "Place your signature here";
+        // signField.append(para);
+        holderDIV.append(signField);
+        holderDIV.append(imageSignButton);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "DROPDOWN_INPUT") {
+        let dropdownField = document.createElement("div");
+        dropdownField.className = "dropdownInput";
+        dropdownField.style.width = "100%";
+        dropdownField.style.height = "100%";
+        dropdownField.style.backgroundColor = "#0000";
+        dropdownField.style.borderRadius = "0px";
+        dropdownField.style.outline = "0px";
+        dropdownField.style.border = "1px solid gray";
+        dropdownField.style.overflow = "overlay";
+        // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
+        dropdownField.style.position = "absolute";
+
+        const selectElement = document.createElement("select");
+        selectElement.className = "select-element";
+        selectElement.style.width = "500";
+        selectElement.style.height = "auto";
+        selectElement.onclick = () => {
+          selectElement.parentElement.click();
+        };
+
+        dropdownField.onchange = (event) => {
+          event.preventDefault();
+          setPostData({
+            ...postData,
+            dropdownField: {
+              value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          });
+        };
+
+        if (dropdownField) {
+          const dropdownField = {
+            dropdownField: {
+              // value: event.target.value,
+              xcoordinate: getOffset(holderDIV).left,
+              ycoordinate: getOffset(holderDIV).top,
+            },
+          };
+
+          // postData.push(dropdownField);
+          // setPostData({
+          //   ...postData,
+          //   dropdownField: { value: dropdownField.innerHTML, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+          // })
+        }
+
+        dropdownField.onclick = (e) => {
+          e.stopPropagation();
+          // focuseddClassMaintain(e);
+          table_dropdown_focuseddClassMaintain(e);
+          // dropdownField.classList.add("focussed");
+          if (e.ctrlKey) {
+            copyInput("dropdown2");
+          }
+          handleClicked("dropdown2", "container2");
+          setRightSideDropDown(false);
+          setSidebar(true);
+        };
+
+        const para = document.createElement("p");
+        para.innerHTML = " Dropdown Name";
+        para.className = "dropdownName";
+        para.onclick = () => {
+          para.parentElement.click();
+        };
+
+        dropdownField.innerHTML = `${element.data2}`;
+
+        // dropdownField.innerText = `${element.data}`
+        dropdownField.append(para);
+        dropdownField.append(selectElement);
+        holderDIV.append(dropdownField);
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "CONTAINER_INPUT") {
+        let containerField = document.createElement("div");
+        containerField.className = "containerInput";
+        containerField.id = "containerInput";
+        containerField.style.width = "100%";
+        containerField.style.height = "100%";
+        containerField.style.backgroundColor = "#0000";
+        containerField.style.borderRadius = "0px";
+        containerField.style.outline = "0px";
+        containerField.style.overflow = "overlay";
+        containerField.style.position = "absolute";
+
+        containerField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("container2");
+          }
+          handleClicked("container2");
+          setSidebar(true);
+          console.log("container field clicked");
+        };
+        containerField.ondragover = (e) => {
+          console.log("console from container dragover", e.target);
+          if (e.ctrlKey) {
+            copyInput("container2");
+          }
+        };
+        containerField.ondrop = (event) => {
+          const container = event.target;
+          const containerRect = container.getBoundingClientRect();
+          const typeOfOperationContainer =
+            event.dataTransfer.getData("text/plain");
+          //             const midSec = document.querySelector(".drop_zone");
+          //     const midsectionRect = midSec.getBoundingClientRect();
+          // const measure = {
+          //       width: "200px",
+          //       height: "80px",
+          //       left: event.clientX - midsectionRect.left + "px",
+          //       top: event.clientY - midsectionRect.top + "px",
+          //       auth_user: curr_user,
+          //     };
+          // console.log("typeOfOperationContainer", typeOfOperationContainer);
+          const measureContainer = {
+            width: "200px",
+            height: "80px",
+            left: event.clientX - containerRect.left + "px",
+            top: event.clientY - containerRect.top + "px",
+            auth_user: curr_user,
+          };
+
+          // const copyContainerInput = (clickHandler) => {
+          //   // if (typeOfOperation === "IMAGE_INPUT") {
+          //   const element = document.querySelector(".focussedd");
+          //   // const cornerBtn = document.getElementsByClassName("resizeBtn");
+
+          //   // console.log("cornerBtn", cornerBtn);
+          //   // cornerBtn.style.backgroundColor = "red"
+          //   // console.log(element);
+          //   let counter = 1;
+          //   const copyEle = element.cloneNode(true);
+          //   const copyEleTop = parseInt(copyEle.style.top.slice(0, -2)) + 100 + "px";
+
+          //   // parseInt(holder.style.top.slice(0, -2))
+          //   copyEle.classList.remove("focussedd")
+          //   copyEle.firstChild.classList.remove("focussed")
+          //   // cornerBtn.classList.remove("resizeBtn")
+          //   // copyEle.classList.add("imageInput")
+          //   // console.log(copyEleTop)
+          //   copyEle.onfocus = () => {
+          //     copyEle.style.border = "1px solid rgb(255 191 0)";
+          //   }
+          //   copyEle.onblur = () => {
+          //     copyEle.style.border = "3px dotted gray";
+          //     // cornerBtn.style.backgroundColor = "red";
+          //   }
+          //   if (copyEle) {
+          //     copyEle.style.top = copyEleTop;
+          //     copyEle.style.border = "3px dotted gray";
+          //     // copyEle.classList.remove("resizeBtn")
+
+          //     copyEle.onmousedown = copyEle.addEventListener(
+          //       "mousedown",
+          //       (event) => {
+          //         dragElementOverPage(event);
+          //       },
+          //       false
+          //     );
+
+          //     const resizerTL = getResizer("top", "left");
+          //     const resizerTR = getResizer("top", "right");
+          //     const resizerBL = getResizer("bottom", "left");
+          //     const resizerBR = getResizer("bottom", "right");
+          //     // parseInt(holder.style.top.slice(0, -2))
+
+          //     copyEle.addEventListener("focus", function (e) {
+          //       copyEle.style.border = "2px solid orange";
+          //       // holderDIV.append(holderMenu);
+
+          //       copyEle.append(resizerTL, resizerTR, resizerBL, resizerBR);
+          //     });
+          //     copyEle.addEventListener("click", (e) => {
+          //       e.stopPropagation();
+          //       focuseddClassMaintain(e);
+          //       // cornerBtn.style.backgroundColor = "green"
+
+          //       // imageField.classList.add("focussed");
+          //       handleClicked(clickHandler, "container2");
+
+          //       setSidebar(true);
+          //     })
+
+          //   }
+
+          //   // console.log(copyEle)
+          //   let midSec = document.querySelector(".drop_zone")
+
+          //   if (!midSec) {
+          //     let targetParent = element;
+          //     while (1) {
+          //       if (targetParent.classList.contains("midSection_container")) {
+          //         targetParent = targetParent;
+          //         break;
+          //       } else {
+          //         targetParent = targetParent.parentElement;
+          //         midSec = targetParent
+          //       }
+          //     }
+          //   }
+          //   // console.log("mid sec", midSec)
+          //   copyEle.id += counter;
+          //   midSec.appendChild(copyEle);
+
+          //   copyEle.onclick = (clickHandler2) => {
+
+          //     if(clickHandler2.ctrlKey) {
+          //       copyInput( clickHandler, "container2")
+          //     }
+
+          //   }
+
+          // }
+
+          const holderDIVContainer = getHolderDIV(measureContainer);
+          if (typeOfOperationContainer === "DATE_INPUT") {
+            let dateFieldContainer = document.createElement("div");
+            dateFieldContainer.className = "dateInput";
+            dateFieldContainer.style.width = "100%";
+            dateFieldContainer.style.height = "100%";
+            dateFieldContainer.style.backgroundColor = "#0000";
+            dateFieldContainer.style.borderRadius = "0px";
+            dateFieldContainer.style.outline = "0px";
+            dateFieldContainer.style.overflow = "overlay";
+            dateFieldContainer.style.position = "relative";
+
+            dateFieldContainer.onchange = (event) => {
+              event.preventDefault();
+              setPostData({
+                ...postData,
+                calenderField: {
+                  value: event.target.value,
+                  xcoordinate: getOffset(holderDIVContainer).left,
+                  ycoordinate: getOffset(holderDIVContainer).top,
+                },
+              });
+            };
+            setStartDate(new Date());
+            setMethod("select");
+            function dateClick() {
+              document.getElementById("date_picker").click();
+              setRightSideDateMenu(false);
+            }
+            dateFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("calendar2");
+              }
+              handleClicked("calendar2", "container2");
+              setRightSideDateMenu(false);
+              if (e.target.innerText != "mm/dd/yyyy") {
+                if (e.target.innerText.includes("/")) {
+                  const setDate = new Date(e.target.innerText);
+                  setMethod("first");
+                  setStartDate(setDate);
+                } else {
+                  if (e.target.innerText.includes("-")) {
+                    setMethod("fourth");
+                  } else {
+                    setMethod("second");
+                  }
+                  const setDate = new Date(e.target.innerText);
+                  setStartDate(setDate);
+                }
+              }
+              setSidebar(true);
+              setTimeout(dateClick, 0);
+            };
+            dateFieldContainer.innerText = "mm/dd/yyyy";
+
+            holderDIVContainer.append(dateFieldContainer);
+          } else if (typeOfOperationContainer === "IMAGE_INPUT") {
+            let imageFieldContainer = document.createElement("div");
+            imageFieldContainer.className = "imageInput";
+            imageFieldContainer.style.width = "100%";
+            imageFieldContainer.style.height = "100%";
+            imageFieldContainer.style.backgroundColor = "#0000";
+            imageFieldContainer.style.borderRadius = "0px";
+            imageFieldContainer.style.outline = "0px";
+            imageFieldContainer.style.overflow = "overlay";
+            imageFieldContainer.innerText = "Choose Image";
+            imageFieldContainer.style.position = "relative";
+
+            imageFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("image2");
+              }
+              handleClicked("image2");
+              setSidebar(true);
+            };
+
+            const imageButtonContainer = document.createElement("div");
+            imageButtonContainer.className = "addImageButton";
+            imageButtonContainer.innerText = "Choose File";
+            imageButtonContainer.style.display = "none";
+            // imageButtonContainer.onclick = (e) => chooseFileClick(e);
+
+            const imgBtnContainer = document.createElement("input");
+            imgBtnContainer.className = "addImageButtonInput";
+            imgBtnContainer.type = "file";
+            imgBtnContainer.style.objectFit = "cover";
+            var uploadedImage = "";
+
+            imgBtnContainer.addEventListener("input", () => {
+              const reader = new FileReader();
+
+              reader.addEventListener("load", () => {
+                uploadedImage = reader.result;
+                document.querySelector(
+                  ".focussed"
+                ).style.backgroundImage = `url(${uploadedImage})`;
+              });
+              reader.readAsDataURL(imgBtnContainer.files[0]);
+            });
+
+            // imgBtnContainer.style.width = "100%";
+            imageButtonContainer.append(imgBtnContainer);
+            holderDIVContainer.append(imageFieldContainer);
+            holderDIVContainer.append(imageButtonContainer);
+          } else if (typeOfOperationContainer === "DROPDOWN_INPUT") {
+            let dropdownFieldContainer = document.createElement("div");
+            dropdownFieldContainer.className = "dropdownInput";
+            dropdownFieldContainer.style.width = "100%";
+            dropdownFieldContainer.style.height = "100%";
+            dropdownFieldContainer.style.backgroundColor = "#0000";
+            dropdownFieldContainer.style.borderRadius = "0px";
+            dropdownFieldContainer.style.outline = "0px";
+            dropdownFieldContainer.style.overflow = "overlay";
+            dropdownFieldContainer.style.position = "absolute";
+
+            const selectElement = document.createElement("select");
+            selectElement.className = "select-element";
+            selectElement.style.width = "500";
+            selectElement.style.height = "auto";
+            selectElement.onclick = () => {
+              selectElement.parentElement.click();
+            };
+
+            dropdownFieldContainer.onchange = (event) => {
+              event.preventDefault();
+              setPostData({
+                ...postData,
+                dropdownFieldContainer: {
+                  value: event.target.value,
+                  xcoordinate: getOffset(holderDIVContainer).left,
+                  ycoordinate: getOffset(holderDIVContainer).top,
+                },
+              });
+            };
+
+            // if (dropdownFieldContainer) {
+            //   const dropdownFieldContainer = {
+            //     dropdownFieldContainer: {
+            //       value: event.target.value,
+            //       xcoordinate: getOffset(holderDIVContainer).left,
+            //       ycoordinate: getOffset(holderDIVContainer).top,
+            //     },
+            //   };
+            // }
+
+            dropdownFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("dropdown2");
+              }
+              handleClicked("dropdown2");
+              setRightSideDropDown(false);
+              setSidebar(true);
+            };
+
+            const para = document.createElement("p");
+            para.innerHTML = " Dropdown Name";
+            para.className = "dropdownName";
+            para.onclick = () => {
+              para.parentElement.click();
+            };
+            dropdownFieldContainer.append(para);
+            dropdownFieldContainer.append(selectElement);
+            holderDIVContainer.append(dropdownFieldContainer);
+          } else if (typeOfOperationContainer === "TEXT_INPUT") {
+            let inputFieldContainer = document.createElement("div");
+            //  inputFieldContainer.setAttribute('draggable', true);
+            inputFieldContainer.setAttribute("contenteditable", true);
+            inputFieldContainer.className = "textInput";
+            inputFieldContainer.innerHTML = "Enter text here";
+            inputFieldContainer.style.width = "100%";
+            inputFieldContainer.style.height = "100%";
+            inputFieldContainer.style.resize = "none";
+            inputFieldContainer.style.backgroundColor = "#0000";
+            inputFieldContainer.style.borderRadius = "0px";
+            inputFieldContainer.style.outline = "0px";
+            inputFieldContainer.style.overflow = "overlay";
+            inputFieldContainer.style.position = "relative";
+            inputFieldContainer.style.cursor = "text";
+            if (inputFieldContainer.innerHTML[0]) {
+              const editTextField = {
+                editTextField: {
+                  value: inputFieldContainer.innerHTML,
+                  xcoordinate: getOffset(holderDIVContainer).left,
+                  ycoordinate: getOffset(holderDIVContainer).top,
+                },
+              };
+            }
+
+            if (inputFieldContainer.value !== "") {
+              // setPostData({
+              //   ...postData,
+              //   editTextField: { value: inputFieldContainer.value, xcoordinate: getOffset(holderDIVContainer).left, ycoordinate: getOffset(holderDIVContainer).top }
+              // })
+            }
+
+            inputFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("align2");
+              }
+              handleClicked("align2");
+              setSidebar(true);
+            };
+            holderDIVContainer.append(inputFieldContainer);
+          } else if (typeOfOperationContainer === "SIGN_INPUT") {
+            let signFieldContainer = document.createElement("div");
+            signFieldContainer.className = "signInput";
+            signFieldContainer.style.width = "100%";
+            signFieldContainer.style.height = "100%";
+            signFieldContainer.style.backgroundColor = "#0000";
+            signFieldContainer.style.borderRadius = "0px";
+            signFieldContainer.style.outline = "0px";
+            signFieldContainer.style.overflow = "overlay";
+            signFieldContainer.innerText = "Signature here";
+            signFieldContainer.style.position = "absolute";
+
+            signFieldContainer.onchange = (event) => {
+              event.preventDefault();
+              setPostData({
+                ...postData,
+                signFieldContainer: {
+                  value: event.target.value,
+                  xcoordinate: getOffset(holderDIVContainer).left,
+                  ycoordinate: getOffset(holderDIVContainer).top,
+                },
+              });
+            };
+
+            signFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("signs2");
+              }
+              handleClicked("signs2");
+              setSidebar(true);
+            };
+            const imageSignButton = document.createElement("div");
+            imageSignButton.className = "addImageSignButton";
+            imageSignButton.innerText = "Choose File";
+            imageSignButton.style.display = "none";
+
+            const signBtn = document.createElement("input");
+            signBtn.className = "addSignButtonInput";
+            signBtn.type = "file";
+            signBtn.style.objectFit = "cover";
+            var uploadedImage = "";
+
+            signBtn.addEventListener("input", () => {
+              const reader = new FileReader();
+
+              reader.addEventListener("load", () => {
+                uploadedImage = reader.result;
+                const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+                document.querySelector(".focussed").innerHTML = signImage;
+              });
+              reader.readAsDataURL(signBtn.files[0]);
+            });
+
+            imageSignButton.append(signBtn);
+            holderDIVContainer.append(signFieldContainer);
+            holderDIVContainer.append(imageSignButton);
+          } else if (typeOfOperationContainer === "IFRAME_INPUT") {
+            let iframeFieldContainer = document.createElement("div");
+            iframeFieldContainer.className = "iframeInput";
+            iframeFieldContainer.style.width = "100%";
+            iframeFieldContainer.style.height = "100%";
+            iframeFieldContainer.style.backgroundColor = "#dedede";
+            iframeFieldContainer.style.borderRadius = "0px";
+            iframeFieldContainer.style.outline = "0px";
+            iframeFieldContainer.style.overflow = "overlay";
+            iframeFieldContainer.style.position = "absolute";
+            iframeFieldContainer.innerText = "iFrame here";
+
+            iframeFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("iframe2");
+              }
+              handleClicked("iframe2");
+              setSidebar(true);
+            };
+
+            holderDIVContainer.append(iframeFieldContainer);
+          } else if (typeOfOperationContainer === "SCALE_INPUT") {
+            setIsLoading(true);
+
+            let scaleFieldContainer = document.createElement("div");
+            scaleFieldContainer.className = "scaleInput";
+            scaleFieldContainer.style.width = "100%";
+            scaleFieldContainer.style.height = "100%";
+            scaleFieldContainer.style.backgroundColor = "#dedede";
+            scaleFieldContainer.style.borderRadius = "0px";
+            scaleFieldContainer.style.outline = "0px";
+            scaleFieldContainer.style.overflow = "overlay";
+            // scaleFieldContainer.innerHTML = 'iframe';
+            scaleFieldContainer.style.position = "absolute";
+            // scaleFieldContainer.innerText = "scale here";
+
+            let scale = document.createElement("iframe");
+            scaleFieldContainer.append(scale);
+            Axios.post(
+              "https://100035.pythonanywhere.com/api/nps_settings_create/",
+              {
+                username: "nake",
+                orientation: "horizontal",
+                scalecolor: "#8f1e1e",
+                roundcolor: "#938585",
+                fontcolor: "#000000",
+                fomat: "numbers",
+                time: "00",
+                name: `${title}_scale`,
+                left: "good",
+                right: "best",
+                center: "neutral",
+              }
+            )
+              .then((res) => {
+                setIsLoading(false);
+                console.log(res.data, "scaleData");
+                setScaleData(res.data);
+                const success = res.data.success;
+                var successObj = JSON.parse(success);
+                const id = successObj.inserted_id;
+                console.log(res.scale_urls, "stateScale");
+                if (id.length) {
+                  console.log(id, "id");
+                  setScaleId(id);
+                }
+                scale.src = res.data.scale_urls;
+              })
+              .catch((err) => {
+                setIsLoading(false);
+                console.log(err);
+              });
+
+            scaleFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("scale2");
+              }
+              handleClicked("scale2");
+              setSidebar(true);
+            };
+
+            holderDIVContainer.append(scaleFieldContainer);
+          } else if (typeOfOperationContainer === "TABLE_INPUT") {
+            let tableFieldContainer = document.createElement("div");
+            tableFieldContainer.className = "tableInput";
+            tableFieldContainer.style.width = "100%";
+            tableFieldContainer.style.height = "100%";
+            tableFieldContainer.style.backgroundColor = "#dedede";
+            tableFieldContainer.style.borderRadius = "0px";
+            tableFieldContainer.style.outline = "0px";
+            tableFieldContainer.style.overflow = "overlay";
+            tableFieldContainer.style.position = "absolute";
+
+            tableFieldContainer.onchange = (event) => {
+              event.preventDefault();
+
+              setPostData({
+                ...postData,
+                tableFieldContainer: {
+                  value: event.target.value,
+                  xcoordinate: getOffset(holderDIVContainer).left,
+                  ycoordinate: getOffset(holderDIVContainer).top,
+                },
+              });
+            };
+
+            tableFieldContainer.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("table2");
+              }
+              handleClicked("table2");
+              setSidebar(true);
+            };
+            holderDIVContainer.append(tableFieldContainer);
+          } else if (typeOfOperationContainer == "BUTTON_INPUT") {
+            let buttonField = document.createElement("button");
+            buttonField.className = "buttonInput";
+            buttonField.style.width = "100%";
+            buttonField.style.height = "100%";
+            buttonField.style.backgroundColor = "#0000";
+            buttonField.style.borderRadius = "0px";
+            buttonField.style.outline = "0px";
+            buttonField.style.overflow = "overlay";
+            buttonField.style.position = "absolute";
+            buttonField.textContent = "Button";
+
+            buttonField.onclick = (e) => {
+              e.stopPropagation();
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("button2");
+              }
+              handleClicked("button2", "container2");
+              setSidebar(true);
+            };
+
+            const linkHolder = document.createElement("div");
+            linkHolder.className = "link_holder";
+            linkHolder.style.display = "none";
+
+            const purposeHolder = document.createElement("div");
+            purposeHolder.className = "purpose_holder";
+            purposeHolder.style.display = "none";
+
+            // holderDIVContainer.append(dateFieldContainer);
+            holderDIVContainer.append(buttonField);
+            holderDIVContainer.append(linkHolder);
+            holderDIVContainer.append(purposeHolder);
+          }
+          if (typeOfOperationContainer !== "CONTAINER_INPUT")
+            containerField.append(holderDIVContainer);
+        };
+        containerField.innerHTML = `${element.data}`;
+
+        holderDIV.append(containerField);
+        cutItem_value.append(containerField);
+        sessionStorage.clear();
+      }
+    }
+
+
+  };
   const handleTitle = () => {
     const divElement = inputRef.current;
     divElement.focus();
@@ -1745,6 +2800,7 @@ const Header = () => {
   const actionName = decoded?.details?.action;
   const docMap = decoded?.details?.document_map;
   const documentFlag = decoded?.details?.document_flag;
+  const titleName = decoded?.details?.name;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -2220,16 +3276,16 @@ const Header = () => {
                     <ImRedo />
                     <p>Redo</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handleUndo}>
+                  <div className="d-flex cursor_pointer" onClick={handleCut}>
                     {/* handleCut */}
                     <BiCut />
                     <p>Cut</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handleCopy}>
+                  <div className="d-flex cursor_pointer" onClick={copyInput}>
                     <BiCopyAlt />
                     <p>Copy</p>
                   </div>
-                  <div className="d-flex cursor_pointer" onClick={handleRedo}>
+                  <div className="d-flex cursor_pointer" onClick={handlePaste}>
                     {/* handlePaste */}
                     <ImPaste />
                     <p>Paste</p>
@@ -2313,7 +3369,7 @@ const Header = () => {
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-                {title && title}
+                {titleName}
               </div>
               <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>

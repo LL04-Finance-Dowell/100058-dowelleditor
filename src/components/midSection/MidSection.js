@@ -26,6 +26,7 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
+// import useUndo from "use-undo";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -192,6 +193,12 @@ const MidSection = React.forwardRef((props, ref) => {
       }
     });
   }, []);
+
+  // const menuVisibility = document.querySelector(".midSection")
+
+  // menuVisibility.onclick(() => {
+  //   // setIsMenuVisible(false)
+  // })
 
   // document.querySelectorAll('.midSection_container').forEach()
 
@@ -771,99 +778,6 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(labelHolder);
         cutItem_value.append(holderDIV);
         sessionStorage.clear();
-      } else if (element.type === "NEW_SCALE_INPUT") {
-        setIsLoading(true);
-
-        let scaleField = document.createElement("div");
-        scaleField.className = "scaleInput";
-        scaleField.style.width = "100%";
-        scaleField.style.height = "100%";
-        scaleField.style.backgroundColor = "#dedede";
-        scaleField.style.borderRadius = "0px";
-        scaleField.style.outline = "0px";
-        scaleField.style.overflow = "overlay";
-        // scaleField.innerHTML = 'iframe';
-        scaleField.style.position = "absolute";
-        // scaleField.innerText = "scale here";
-
-        const scales = document.getElementsByClassName("newScaleInput");
-        if (scales.length) {
-          const s = scales.length;
-          scaleField.id = `scl${s + 1}`;
-        } else {
-          scaleField.id = "scl1";
-        }
-
-        let scale = document.createElement("iframe");
-        scale.style.width = "90%";
-        scale.style.height = "90%";
-        const scaleIdHolder = document.createElement("div");
-        scaleIdHolder.className = "scaleId_holder";
-        scaleIdHolder.style.display = "none";
-
-        const labelHolder = document.createElement("div");
-        labelHolder.className = "label_holder";
-        labelHolder.style.display = "none";
-
-        scaleField.addEventListener("resize", () => {
-          scale.style.width = scaleField.clientWidth + "px";
-          scale.style.height = scaleField.clientHeight + "px";
-        });
-
-        scaleField.append(scale);
-        // Axios.post(
-        //   "https://100035.pythonanywhere.com/api/nps_settings_create/",
-        //   {
-        //     username: "nake",
-        //     orientation: "horizontal",
-        //     scalecolor: "#8f1e1e",
-        //     roundcolor: "#938585",
-        //     fontcolor: "#000000",
-        //     fomat: "numbers",
-        //     time: "00",
-        //     name: `${title}_scale`,
-        //     left: "good",
-        //     right: "best",
-        //     center: "neutral",
-        //   }
-        // )
-        //   .then((res) => {
-        //     setIsLoading(false);
-        //     console.log(res.data, "scaleData");
-        //     setScaleData(res.data);
-        //     const success = res.data.success;
-        //     var successObj = JSON.parse(success);
-        //     const id = successObj.inserted_id;
-        //     console.log(res.scale_urls, "stateScale");
-        //     if (id.length) {
-        //       console.log(id, "id");
-        //       // setScaleId(id);
-        //       scaleIdHolder.innerHTML = id;
-        //     }
-        //     scale.src = res.data.scale_urls;
-        //   })
-        //   .catch((err) => {
-        //     setIsLoading(false);
-        //     console.log(err);
-        //   });
-
-        scaleField.onclick = (e) => {
-          e.stopPropagation();
-          table_dropdown_focuseddClassMaintain(e);
-          if (e.ctrlKey) {
-            copyInput("newScale2");
-          }
-          handleClicked("newScale2");
-          setSidebar(true);
-        };
-
-        scaleField.innerHTML = `${element.data}`;
-
-        holderDIV.append(scaleField);
-        holderDIV.append(scaleIdHolder);
-        holderDIV.append(labelHolder);
-        cutItem_value.append(holderDIV);
-        sessionStorage.clear();
       } else if (element.type === "SIGN_INPUT") {
         let signField = document.createElement("div");
         signField.className = "signInput";
@@ -996,13 +910,14 @@ const MidSection = React.forwardRef((props, ref) => {
         };
 
         const para = document.createElement("p");
-        para.innerHTML = " Dropdown Name";
+        para.innerHTML = "Dropdown Name";
         para.className = "dropdownName";
         para.onclick = () => {
           para.parentElement.click();
         };
 
         dropdownField.innerHTML = `${element.data2}`;
+        // para.innerHTML=`${element.data2}`
 
         // dropdownField.innerText = `${element.data}`
         dropdownField.append(para);
@@ -1314,7 +1229,7 @@ const MidSection = React.forwardRef((props, ref) => {
             };
 
             const para = document.createElement("p");
-            para.innerHTML = " Dropdown Name";
+            para.innerHTML = " ";
             para.className = "dropdownName";
             para.onclick = () => {
               para.parentElement.click();
@@ -1623,7 +1538,7 @@ const MidSection = React.forwardRef((props, ref) => {
       console.log("data", element, "cutItem_value", cutItem_value);
       // cutItem_value.append(data);
     }
-    //if (sessionStorage.getItem("copyItem")) {
+    //  if (sessionStorage.getItem("copyItem")) {
     //   console.log("getting copy Item")
     //   if (element.type === "DATE_INPUT") {
     //     const measure = {
@@ -1773,11 +1688,14 @@ const MidSection = React.forwardRef((props, ref) => {
       type: type,
       data: cutEle.firstChild.innerHTML,
       data2: cutEle.firstChild.outerHTML,
+      // createAt: new Date(),
+      // updateAt: new Date
       // id: `d${h + 1}`,
     };
     sessionStorage.setItem("cutItem", JSON.stringify(elem));
     cutItem.remove();
 
+    // sessionStorage.setItem("undoRedo", elem)
     // console.log(sessionStorage);
   };
 
@@ -3642,7 +3560,22 @@ const MidSection = React.forwardRef((props, ref) => {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
 
-                  circle.style.backgroundColor = "blue";
+                  console.log("This is the background color",circle.style.backgroundColor)
+                  function componentToHex(c) {
+                    var hex = c.toString(16);
+                    return hex.length == 1 ? "0" + hex : hex;
+                }
+                
+                  function rgbToHex(r, g, b) {
+                    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                }
+                  function invert(rgb) {
+                    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+                    for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                    return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                  }
+
+                circle.style.backgroundColor = invert(circle.style.backgroundColor)
 
                   let holdElem = scale?.querySelector(".holdElem");
 
@@ -3656,6 +3589,20 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
                     holding?.appendChild(holdElem);
+                    console.log("This is holdEle", holdElem.textContent);
+                    const required_map_document = document_map_required?.filter(
+                      (item) => element.id == item.content
+                    );
+                    if (
+                      scaleField?.parentElement?.classList.contains(
+                        "holderDIV"
+                      ) &&
+                      required_map_document.length > 0
+                    ) {
+                      scaleField?.parentElement?.classList.add(
+                        "element_updated"
+                      );
+                    }
                   }
 
                   // Store holdElem inside the holding div
@@ -5242,6 +5189,9 @@ const MidSection = React.forwardRef((props, ref) => {
         inputField.style.cursor = "text";
 
         const txt = document.getElementsByClassName("textInput");
+        const holderText = "Enter text here";
+        inputField.append(holderText);
+
         if (txt.length) {
           const h = txt.length;
           inputField.id = `t${h + 1}`;
@@ -6488,6 +6438,7 @@ const MidSection = React.forwardRef((props, ref) => {
         typeOfOperation === "CONTAINER_INPUT" &&
         decoded.details.action === "template"
       ) {
+        // console.log("typeOfOperation", typeOfOperation);
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
@@ -7177,6 +7128,41 @@ const MidSection = React.forwardRef((props, ref) => {
   //   return contentFile;
   // }
 
+  // const draggableElements = [
+  //   { id: 1, x: 50, y: 50 },
+  //   { id: 2, x: 150, y: 100 },
+  //   { id: 3, x: 250, y: 150 },
+  // ];
+
+  // const positionHistoryRef = useRef();
+  // const [elements, { set: setElements, undo, redo, canUndo, canRedo }] = useUndo(draggableElements);
+
+  // const handleDrag = (index, newX, newY) => {
+  //   const updatedElements = [...elements.present];
+  //   updatedElements[index] = { ...updatedElements[index], x: newX, y: newY };
+  //   setElements(updatedElements);
+  // };
+
+  // const handleUndo = () => {
+  //   undo();
+  // };
+
+  // const handleRedo = () => {
+  //   redo();
+  // };
+
+  // const handleDragStart = () => {
+  //   // Save the current state before dragging starts
+  //   positionHistoryRef.current = elements.present;
+  // };
+
+  // const handleDragStop = () => {
+  //   // If the position has changed during dragging, save the new state
+  //   if (positionHistoryRef.current !== elements.present) {
+  //     setElements(elements.present);
+  //   }
+  // };
+
   return (
     <>
       {item?.map((currentItem, index) => {
@@ -7192,6 +7178,10 @@ const MidSection = React.forwardRef((props, ref) => {
               <Container
                 as="div"
                 ref={midSectionRef}
+                // defaultPosition={{ x: currentItem.x, y: currentItem.y }}
+                // onStart={() => handleDragStart(index)}
+                // onStop={handleDragStop}
+                // onDrag={(e, data) => handleDrag(index, data.x, data.y)}
                 className={
                   // !sidebar
                   //   ? "midSection_without_RightMenu_container"

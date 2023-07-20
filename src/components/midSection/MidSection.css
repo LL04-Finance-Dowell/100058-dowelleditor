@@ -24,6 +24,10 @@
   border: 2px dotted gray;
 }
 
+.textInput:empty::before {
+  content: attr(dataPlaceholder);
+}
+
 /*
 .midSection_container{
     background-color: #ffffff;
