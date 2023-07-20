@@ -149,7 +149,7 @@ const ScaleRightSide = () => {
   if (format) {
     format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
   }
-
+  
   // console.log(leftChild.innerHTML);
   const handleFormat = () => {
     const format = document.getElementById("format");
@@ -177,10 +177,28 @@ const ScaleRightSide = () => {
     }
   };
 
+  const handleFormatStapel = () => {
+    const format = document.getElementById("format_stapel");
+    const selectedValue = format.value;
+    if (selectedValue === "number") {
+      document.getElementById("emoji_stapel").style.display = "none";
+      document.getElementById("image").style.display = "none";
+    } else if (selectedValue === "emoji") {
+      document.getElementById("emoji_stapel").style.display = "flex";
+      document.getElementById("image").style.display = "none";
+    } else if (selectedValue === "image") {
+      document.getElementById("image").style.display = "flex";
+      document.getElementById("emoji").style.display = "none";
+    }
+  };
+  
   useEffect(() => {
-    // document.getElementById("npsScaleForm").style.display = "none";
-    // document.getElementById("snippScaleForm").style.display = "none";
+    if (decoded.details.action === "template") {
+      document.getElementById("npsScaleForm").style.display = "none";
+      document.getElementById("snippScaleForm").style.display = "none";
+    }
   }, []);
+ 
 
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -328,7 +346,7 @@ const ScaleRightSide = () => {
       const circles = scale?.querySelector(".circle_label");
       console.log(circles);
       const btnUpdateButton = document.getElementById("button_color");
-      const emojiInp = document.getElementById("emojiInp");
+      const emojiInp = document.getElementById("emojiInp").value;
       const btnUpdateScale = document.getElementById("scale_color");
       const btnUpdateFontColor = document.getElementById("font_color");
       const btnUpdateScaleFont = document.getElementById("font_style");
@@ -358,6 +376,7 @@ const ScaleRightSide = () => {
       console.log(font);
       console.log(button4);
       const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
+      const labelHold = scale?.querySelector('.label_hold');
       const buttonImage = scale?.querySelectorAll(".image_label");
       console.log(buttonImage);
       const buttonCircleM = scale?.querySelector(".circle_label");
@@ -382,9 +401,31 @@ const ScaleRightSide = () => {
         button.style.backgroundColor = btnUpdateScale.value;
       }
 
-      for (let i = 0; i < buttonCircle.length; i++) {
-        if (btnUpdateButton.value !== "") {
-          buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
+      labelHold.innerHTML = '';
+
+      for (let i = 0; i <= 10; i++) {
+        const selectedOption = optionSelect.value;
+        const circle = document.createElement('div');
+        circle.className = 'circle_label';
+        circle.textContent = i;
+  
+        // Apply circular background using inline style
+        circle.style.width = '35%';
+        circle.style.height = '35%';
+        circle.style.borderRadius = '50%';
+        circle.style.display = 'flex';
+        circle.style.justifyContent = 'center';
+        circle.style.alignItems = 'center';
+        circle.style.backgroundColor = btnUpdateButton.value;
+        labelHold.appendChild(circle);
+        if (selectedOption === "emoji" && emojiInp !== "") {
+          // Set the text content of the div to the corresponding emoji
+          const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+          const emojis = emojiInp.split(emojiFormat).filter(emoji => emoji !== "");
+          circle.textContent = emojis[(i) % emojis.length];
+        } else {
+          // Set the text content of the div to the number
+          circle.textContent = i;
         }
       }
 
@@ -398,54 +439,58 @@ const ScaleRightSide = () => {
 
       const selectedOption = optionSelect.value;
 
-      if (selectedOption === "image") {
-        renderImage();
-      } else if (selectedOption === "emoji") {
-        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-        const emojis = inputStr
-          .split(emojiFormat)
-          .filter((emoji) => emoji !== "");
+      // if (selectedOption === "image") {
+      //   renderImage();
+      // } else if (selectedOption === "emoji") {
+      //   renderEmoji()
+      // } else if (selectedOption === "number") {
+      //   renderNumber();
+      // }
 
-        for (let i = 0; i < buttonCircle.length; i++) {
-          if (emojiInp.value !== "") {
-            // Set the text content of the div to the corresponding emoji
-            buttonCircle[i].textContent = emojis[i % emojis.length];
-            console.log(emojis[i % emojis.length]);
-          }
-        }
-      } else if (selectedOption === "number") {
-        renderNumber();
-      }
+      // function renderEmoji() {
+      //   const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+      //   const emojis = inputStr
+      //     .split(emojiFormat)
+      //     .filter((emoji) => emoji !== "");
 
-      function renderImage() {
-        const uploadedImages = document
-          .getElementById("ImageUpload")
-          .querySelectorAll("img");
-        const numUploadedImages = uploadedImages.length;
+      //   for (let i = 0; i < buttonCircle.length; i++) {
+      //     if (emojiInp.value !== "") {
+      //       // Set the text content of the div to the corresponding emoji
+      //       buttonCircle[i].textContent = emojis[i % emojis.length];
+      //       console.log(emojis[i % emojis.length]);
+      //     }
+      //   }
+      // }
 
-        for (let i = 0; i < buttonCircle.length; i++) {
-          if (numUploadedImages > 0) {
-            const imageIndex = i % numUploadedImages; // Calculate the index of the uploaded image to display
+      // function renderImage() {
+      //   const uploadedImages = document
+      //     .getElementById("ImageUpload")
+      //     .querySelectorAll("img");
+      //   const numUploadedImages = uploadedImages.length;
 
-            buttonCircle[i].textContent = ""; // Clear existing content of the button
+      //   for (let i = 0; i < buttonCircle.length; i++) {
+      //     if (numUploadedImages > 0) {
+      //       const imageIndex = i % numUploadedImages; // Calculate the index of the uploaded image to display
 
-            const image = document.createElement("img");
-            image.className = "images_lebel";
-            image.src = uploadedImages[imageIndex].src;
-            image.alt = "Uploaded";
-            buttonCircle[i].appendChild(image);
-          } else {
-            buttonCircle[i].textContent = i;
-          }
-        }
-      }
+      //       buttonCircle[i].textContent = ""; // Clear existing content of the button
 
-      function renderNumber() {
-        for (let i = 0; i < buttonCircle.length; i++) {
-          buttonCircle[i].textContent = i;
-        }
-        document.getElementById("image").style.display = "none";
-      }
+      //       const image = document.createElement("img");
+      //       image.className = "images_lebel";
+      //       image.src = uploadedImages[imageIndex].src;
+      //       image.alt = "Uploaded";
+      //       buttonCircle[i].appendChild(image);
+      //     } else {
+      //       buttonCircle[i].textContent = i;
+      //     }
+      //   }
+      // }
+
+      // function renderNumber() {
+      //   for (let i = 0; i < buttonCircle.length; i++) {
+      //     buttonCircle[i].textContent = i;
+      //   }
+      //   document.getElementById("image").style.display = "none";
+      // }
 
       if (option.value === "Horizontal") {
         button4.style.border = "block";
@@ -656,16 +701,16 @@ const ScaleRightSide = () => {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
 
-      // const btnUpdateScale = document.getElementById("scale_color");
-      // const btnUpdateFontColor = document.getElementById("font_color");
-      // const btnUpdateScaleFont = document.getElementById("font_style");
-      // const beNametnUpdateScal = document.getElementById("scaleLabel");
+      const btnUpdateScale = document.getElementById("scale_color_stapel");
+      const btnUpdateFontColor = document.getElementById("font_color_stapel");
+      const btnUpdateButton = document.getElementById("button_color_stapel");
+      const beNametnUpdateScal = document.getElementById("scaleLabel_stapel");
 
       // const headerText = document.getElementById("headerText");
-      const btnUpdateLeft = document.getElementById("left");
-      const btnUpdateRight = document.getElementById("right");
+      const btnUpdateLeft = document.getElementById("leftStapel");
+      const btnUpdateRight = document.getElementById("rightStapel");
       const btnUpdateCenter = document.getElementById("centre");
-      let upperVal = document.getElementById("upperVal").value;
+      // let upperVal = document.getElementById("upperVal").value;
       // console.log(value?.value);
       // console.log(value);
 
@@ -674,81 +719,137 @@ const ScaleRightSide = () => {
       const button4 = scale?.querySelector(".scool_input");
       const font = scale?.querySelector(".newScaleInput");
 
-      const buttonCircleM = scale?.querySelector(".circle_label");
+      // const buttonCircle = document.querySelectorAll(".circle_label");
+      const buttonCircle = scale ? document.querySelectorAll(".circle_label") : [];
       const buttonChild = document.getElementById("child");
       const buttonChildLeft = scale?.querySelector(".left_child");
       const buttonChildRight = scale?.querySelector(".right_child");
       const buttonChildNeutral = scale?.querySelector(".neutral_child");
-      const optionSelect = document.getElementById("format");
+      const optionSelect = document.getElementById("format_stapel");
       const option =
-        document.querySelector("#orientationId").options[
-          document.querySelector("#orientationId").selectedIndex
+        document.querySelector("#orientationIdStapel").options[
+          document.querySelector("#orientationIdStapel").selectedIndex
         ];
-
+      let timeId = document.getElementById("timeId_stapel");
+      let time = document.getElementById("time_stapel");
+      const emojiInp = document.getElementById("emojiInp_stapel").value;
       let tempText = scale?.querySelector(".tempText");
+      const labelHold = scale?.querySelector('.label_hold');
+      const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
+      const spacing = parseInt(document.getElementById('spacing').value, 10);
+      const lowerVal = -upperVal;
       tempText?.remove();
+      if (btnUpdateScale.value !== "") {
+        button.style.backgroundColor = btnUpdateScale.value;
+      }
 
-      if (scaleText) {
-        console.log(scaleText);
-        scaleText.innerHTML = "Stapel scale";
+       if (beNametnUpdateScal.value !== "") {
+        scaleText.textContent = beNametnUpdateScal.value;
       }
-      if (button) {
-        button.style.backgroundColor = "orange";
+
+      // for (let i = 0; i < buttonCircle.length; i++) {
+      //   if (btnUpdateButton.value !== "") {
+      //     buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
+      //   }
+      // }
+
+      if (btnUpdateFontColor.value !== "") {
+        button4.style.color = btnUpdateFontColor.value;
       }
-      if (buttonChildLeft) {
-        buttonChildLeft.textContent = "Very unlikely";
+
+      // if (scaleText) {
+      //   console.log(scaleText);
+      //   scaleText.innerHTML = "Stapel scale";
+      // }
+
+      if (btnUpdateLeft.value !== "") {
+        buttonChildLeft.textContent = btnUpdateLeft.value;
       }
-      if (buttonChildNeutral) {
-        buttonChildNeutral.style.display = "none";
+      if (btnUpdateCenter.value !== "") {
+        buttonChildNeutral.style.display ="none" ;
       }
-      if (buttonChildRight) {
-        buttonChildRight.textContent = "Very likely";
+
+      if (btnUpdateRight.value !== "") {
+        buttonChildRight.textContent = btnUpdateRight.value;
       }
       button4.style.display = "block";
 
-      const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
-      // button.removeChild()
+      // Clear existing values
+      labelHold.innerHTML = '';
 
-      const spacing = parseInt(document.getElementById("spacing").value);
-      console.log(spacing);
-      if (upperVal < 11) {
-        for (let i = 0; i < buttonCircle.length; i++) {
-          buttonCircle[i].remove();
-        }
-        // const spacing = 4;
-        // let count = 0;
-        for (let i = -upperVal; i <= upperVal; i += spacing) {
-          // buttonCircle.style.display = "none";
-          // buttonCircle[count].style.backgroundColor = "white";
-          // buttonCircle[count].textContent = i;
-          let newBtn = document.createElement("div");
-          newBtn.className = "stapel_circle_label";
-          newBtn.style.width = "35%";
-          newBtn.style.height = "35%";
-          newBtn.style.borderRadius = "50%";
-          newBtn.style.backgroundColor = "white";
-          newBtn.style.top = "30%";
-          newBtn.style.left = "30%";
-          newBtn.style.display = "flex";
-          newBtn.style.justifyContent = "center";
-          newBtn.style.alignItems = "center";
-          newBtn.style.marginLeft = "2px";
-          newBtn.textContent = i;
-          button.append(newBtn);
-          // buttonCircle[count].style.display = "block"; // Display the button
-          // count++;
+    // Construct row of values
+    const selectedOption = optionSelect.value;
+    for (let i = lowerVal; i <= upperVal; i += spacing) {
+      const selectedOption = optionSelect.value;
+      if (i !== 0) {
+        const circle = document.createElement('div');
+        circle.className = 'circle_label';
+        circle.textContent = i;
+        labelHold.appendChild(circle);
+        circle.style.width = '35%';
+        circle.style.height = '35%';
+        circle.style.borderRadius = '50%';
+        circle.style.display = 'flex';
+        circle.style.justifyContent = 'center';
+        circle.style.alignItems = 'center';
+        circle.style.margin = '0 2px';
+        circle.style.backgroundColor = btnUpdateButton.value;
+        if (selectedOption === "emoji" && emojiInp !== "") {
+          // Set the text content of the div to the corresponding emoji
+          const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+          const emojis = emojiInp.split(emojiFormat).filter(emoji => emoji !== "");
+          circle.textContent = emojis[(i - lowerVal) % emojis.length];
+        } else {
+          // Set the text content of the div to the number
+          circle.textContent = i;
         }
       }
+    }
 
-      // if (btnUpdateFontColor.value !== "") {
-      //   button4.style.color = btnUpdateFontColor.value;
-      // }
+    const prepareEmojiLabels = () => {
+      const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+      const emojis = inputStr
+        .split(emojiFormat)
+        .filter((emoji) => emoji !== "");
 
-      // if (btnUpdateScaleFont.value !== "") {
-      //   button4.style.fontFamily = btnUpdateScaleFont.value;
-      // }
+        const emojiLabels = {};
 
-      const selectedOption = optionSelect.value;
+        const selectedCount = Math.min(emojis.length, Math.abs(upperVal) + Math.abs(lowerVal) + spacing);
+
+        for (let i = lowerVal; i <= upperVal; i += spacing) {
+          if (i !== 0) {
+            const emojiIndex = (i >= 0 ? (i - lowerVal) : (Math.abs(upperVal) + i)) % selectedCount;
+            emojiLabels[i] = emojis[emojiIndex];
+          }
+        }
+
+        return emojiLabels;
+    };
+    const emojiLabels = prepareEmojiLabels();
+    
+    // function renderNumber() {
+    //     for (let i = 0; i < buttonCircle.length; i++) {
+    //       buttonCircle[i].textContent = i;
+    //     }
+    //     document.getElementById("image").style.display = "none";
+    // }
+
+    // if (selectedOption === "emoji") {
+    //     const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+    //     const emojis = inputStr
+    //       .split(emojiFormat)
+    //       .filter((emoji) => emoji !== "");
+
+    //     for (let i = 0; i < buttonCircle.length; i++) {
+    //       if (emojiInp.value !== "") {
+    //         // Set the text content of the div to the corresponding emoji
+    //         buttonCircle[i].textContent = emojis[i % emojis.length];
+    //         console.log(emojis[i % emojis.length]);
+    //       }
+    //     }
+    //   } else if (selectedOption === "number") {
+    //     renderNumber();
+    //   }
 
       if (option.value === "Horizontal") {
         button4.style.border = "block";
@@ -789,19 +890,81 @@ const ScaleRightSide = () => {
         buttonChildRight.style.marginTop = "40%";
         buttonChildNeutral.style.marginTop = "50%";
         //buttonCircle.style.flexDirection = "column";
-        buttonCircleM.style.marginTop = "2px";
       }
 
-      if (btnUpdateLeft.value !== "") {
-        buttonChildLeft.textContent = btnUpdateLeft.value;
-      }
-
-      if (btnUpdateRight.value !== "") {
-        buttonChildRight.textContent = btnUpdateRight.value;
-      }
-
-      if (btnUpdateCenter.value !== "") {
-        buttonChildNeutral.textContent = btnUpdateCenter.value;
+      if (
+        idHolder.textContent === "scale Id" ||
+        idHolder.textContent === "id"
+      ) {
+        setIsLoading(true);
+        console.log("post req");
+        Axios.post("https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/", {
+          user: "yes",
+          username: "NdoneAmbrose",
+          orientation: option?.value,
+          spacing_unit:spacing,
+          scale_upper_limit: upperVal,
+          scalecolor: btnUpdateScale.value,
+          roundcolor: btnUpdateButton.value,
+          fontcolor: btnUpdateFontColor.value,
+          fomat: selectedOption,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+          fontstyle: "Arial",
+          custom_emoji_format: emojiLabels,
+        })
+          .then((res) => {
+            setIsLoading(false);
+            sendMessage();
+            setScaleData(res.data);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+            console.log(id);
+            if (id.length) {
+              setScaleId(id && id);
+              const idHolder = scale?.querySelector(".scaleId");
+              idHolder.textContent = id && id;
+            }
+            console.log(res);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
+          });
+      } else {
+        setIsLoading(true);
+        console.log("PUT req");
+        console.log(idHolder.textContent);
+        Axios.put("https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/", {
+          scale_id: idHolder.textContent,
+          fomat: selectedOption,
+          scale_upper_limit: upperVal,
+          time: timeId?.style?.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+          fontstyle: "Arial",
+          custom_emoji_format: emojiLabels,
+        })
+          .then((res) => {
+            if (res.status == 200) {
+              setIsLoading(false);
+              sendMessage();
+              setScaleData(res.data);
+              setScaleId(scaleId);
+              console.log(res);
+              console.log("This is the still scale", scale);
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err.message);
+          });
       }
       // if (btnUpdateScales.value !=="") {
       //   button4.style.textContent = btnUpdateScales.value;
@@ -986,6 +1149,7 @@ const ScaleRightSide = () => {
       scoreId.style.display = "none";
     }
   };
+
   const onTimeChange = (e) => {
     let timeId = document.getElementById("timeId");
     if (e.target.checked) {
@@ -994,6 +1158,24 @@ const ScaleRightSide = () => {
       timeId.style.display = "none";
     }
   };
+
+  const onTimeChangeStapel = (e) => {
+    let timeId = document.getElementById("timeId_stapel");
+    if (e.target.checked) {
+      timeId.style.display = "flex";
+    } else {
+      timeId.style.display = "none";
+    }
+  };
+
+  // const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
+  // if (upperVal !==null) {
+  //   const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
+  //   return (
+  //     upperVal
+  //   );
+  // };
+
   return (
     <>
       {decoded.details.action === "document" ? (
@@ -1105,8 +1287,6 @@ const ScaleRightSide = () => {
             style={{
               width: "100%",
               display: "flex",
-              // borderRadius: "20px",
-              // backgroundColor: "red",
             }}
           >
             <button
@@ -2246,7 +2426,7 @@ const ScaleRightSide = () => {
                         margin: "0 auto",
                       }}
                       className="bg-gray-800"
-                      id="orientationId"
+                      id="orientationIdStapel"
                     >
                       <option value="Horizontal" style={{ color: "black" }}>
                         Horizontal
@@ -2336,7 +2516,8 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        id="centre"
+                        id="loweVal"
+                        // value={-upperVal}
                       />
                     </div>
                   </div>
@@ -2426,7 +2607,7 @@ const ScaleRightSide = () => {
                             display: "flex",
                             alignItems: "center",
                           }}
-                          id="scale_color"
+                          id="scale_color_stapel"
                         />
                       </div>
                     </div>
@@ -2461,7 +2642,7 @@ const ScaleRightSide = () => {
                             display: "flex",
                             alignItems: "center",
                           }}
-                          id="button_color"
+                          id="button_color_stapel"
                         />
                         {/* <BiChevronDown
                     size={20}
@@ -2510,7 +2691,7 @@ const ScaleRightSide = () => {
                             display: "flex",
                             alignItems: "center",
                           }}
-                          id="font_color"
+                          id="font_color_stapel"
                         />
                       </div>
                     </div>
@@ -2556,8 +2737,8 @@ const ScaleRightSide = () => {
                             border: "none",
                             alignItems: "center",
                           }}
-                          id="select"
-                          onChange={handleFormat}
+                          id="format_stapel"
+                          onChange={handleFormatStapel}
                         >
                           <option value="number">Number</option>
                           <option value="image">Image</option>
@@ -2605,7 +2786,7 @@ const ScaleRightSide = () => {
                             outline: "none",
                             alignItems: "center",
                           }}
-                          id="scaleLabel"
+                          id="scaleLabel_stapel"
                         />
                       </div>
                     </div>
@@ -2615,7 +2796,7 @@ const ScaleRightSide = () => {
                         flexDirection: "column",
                         gap: "2px",
                       }}
-                      id="emoji"
+                      id="emoji_stapel"
                     >
                       <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
                         Select Emoji
@@ -2643,6 +2824,7 @@ const ScaleRightSide = () => {
                             border: "none",
                             alignItems: "center",
                           }}
+                          id = "emojiInp_stapel"
                           value={inputStr}
                           onChange={(e) => setInputStr(e.target.value)}
                         />
@@ -2774,7 +2956,7 @@ const ScaleRightSide = () => {
                             outline: "none",
                             alignItems: "center",
                           }}
-                          id="left"
+                          id="leftStapel"
                         />
                       </div>
                     </div>
@@ -2815,7 +2997,7 @@ const ScaleRightSide = () => {
                           //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
                           //   rightChild ? rightChild.innerHTML : ""
                           // }
-                          id="right"
+                          id="rightStapel"
                         />
                       </div>
                     </div>
@@ -2855,7 +3037,7 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        id="scales"
+                        id="scales_stapel"
                       />
                     </div>
                   </div>
@@ -2878,7 +3060,7 @@ const ScaleRightSide = () => {
                         role="switch"
                         id="flexSwitchCheckDefault"
                         // onChange={(e) => setIsSwitchEnabled(e.target.checked)}
-                        onChange={onTimeChange}
+                        onChange={onTimeChangeStapel}
                       />
                     </div>
                   </div>
@@ -2890,7 +3072,7 @@ const ScaleRightSide = () => {
                       gap: "2px",
                       marginTop: "-10px",
                     }}
-                    id="timeId"
+                    id="timeId_stapel"
                   >
                     <div
                       style={{
@@ -2916,7 +3098,7 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        id="time"
+                        id="time_stapel"
                       />
                     </div>
                   </div>
