@@ -27,6 +27,8 @@ const ScaleRightSide = () => {
     setScaleData,
     setScaleId,
     scaleId,
+    scaleTypeContent,
+    setScaleTypeContent,
   } = useStateContext();
 
   const [inputStr, setInputStr] = useState("");
@@ -115,6 +117,7 @@ const ScaleRightSide = () => {
   const neutralChild = scale?.querySelector(".neutral_child");
   const rightChild = scale?.querySelector(".right_child");
   const scaleT = scale?.querySelector(".scale_text");
+  const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
 
   const [scaleTitle, setScaleTitle] = useState(scaleT ? scaleT.innerHTML : "");
 
@@ -177,6 +180,16 @@ const ScaleRightSide = () => {
     }
   };
 
+  // const handleScaleType = (e) => {
+  //   if((scaleTypeContent === "" || scaleTypeContent === "nps") && scaleTypeHolder.textContent === "nps"){
+  //     document.getElementById("npsScaleForm").style.display = "flex";
+  //     document.getElementById("snippScaleForm").style.display = "none";
+  //   }else if((scaleTypeContent === "" || scaleTypeContent === "snipte") && scaleTypeHolder.textContent === "snipte") {
+  //     document.getElementById("snippScaleForm").style.display = "flex";
+  //     document.getElementById("npsScaleForm").style.display = "none";
+  //   }
+  // };
+
   const handleFormatStapel = () => {
     const format = document.getElementById("format_stapel");
     const selectedValue = format.value;
@@ -194,8 +207,17 @@ const ScaleRightSide = () => {
   
   useEffect(() => {
     if (decoded.details.action === "template") {
+      if(scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
       document.getElementById("npsScaleForm").style.display = "none";
       document.getElementById("snippScaleForm").style.display = "none";
+      }
+       else if((scaleTypeContent === "" || scaleTypeContent === "nps") && (scaleTypeHolder.textContent === "nps" || scaleTypeHolder.textContent === "")){
+        document.getElementById("npsScaleForm").style.display = "flex";
+        document.getElementById("snippScaleForm").style.display = "none";
+      }else if((scaleTypeContent === "" || scaleTypeContent === "snipte") && (scaleTypeHolder.textContent === "snipte" || scaleTypeHolder.textContent === "")) {
+        document.getElementById("snippScaleForm").style.display = "flex";
+        document.getElementById("npsScaleForm").style.display = "none";
+      }
     }
   }, []);
  
@@ -340,7 +362,10 @@ const ScaleRightSide = () => {
   console.log(scale);
   const handleUpdates = () => {
     const scaleType = document.getElementById("scaleType");
-    if (scaleType.value === "nps") {
+    setScaleTypeContent(scaleType ? scaleType.value : scaleTypeContent)
+    const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
+    scaleTypeHolder.textContent = (scaleType ? scaleType.value : scaleTypeContent)
+    if (scaleType ? (scaleType.value === "nps" || scaleTypeContent === "nps"):scaleTypeContent === "nps") {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
       const circles = scale?.querySelector(".circle_label");
@@ -697,7 +722,7 @@ const ScaleRightSide = () => {
             console.log(err.message);
           });
       }
-    } else {
+    } else if (scaleType ? (scaleType.value === "stapel" || scaleTypeContent === "snipte") : scaleTypeContent === "snipte") {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
 
@@ -1339,6 +1364,10 @@ const ScaleRightSide = () => {
                 paddingLeft: "12px",
               }}
             >
+              <div>
+              {
+              scaleTypeHolder.textContent  === "" && scaleTypeContent === "" ?
+              <div>
               <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Scales</h6>
               <div
                 style={{
@@ -1368,6 +1397,9 @@ const ScaleRightSide = () => {
                   <option value="snipte">Stapel Scale</option>
                   <option value="nps">Nps Scale</option>
                 </select>
+              </div>
+              </div>: ""
+              }
               </div>
             </div>
 

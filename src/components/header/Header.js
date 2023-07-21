@@ -2592,6 +2592,7 @@ const Header = () => {
           let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
+          let scaleType = newScales[b].querySelector(".scaleTypeHolder");
           let scaleID = newScales[b].querySelector(".scaleId");
           console.log(font);
 
@@ -2618,6 +2619,7 @@ const Header = () => {
             scaleID: scaleID.textContent,
             scaleText: scaleText.textContent,
             buttonText: emojiArr,
+            scaleType: scaleType.textContent,
           };
           console.log(properties);
           elem = {

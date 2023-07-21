@@ -3649,6 +3649,12 @@ const MidSection = React.forwardRef((props, ref) => {
           idHolder.style.display = "none";
           childDiv.appendChild(idHolder);
 
+          const scaleTypeHolder = document.createElement("h6");
+          scaleTypeHolder.className = "scaleTypeHolder";
+          scaleTypeHolder.textContent = element?.raw_data?.scaleType;
+          scaleTypeHolder.style.display = "none";
+          childDiv.appendChild(scaleTypeHolder);
+
           scaleHold.append(childDiv);
           scaleField.append(scaleHold);
 
@@ -3913,6 +3919,7 @@ const MidSection = React.forwardRef((props, ref) => {
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
             setSidebar(true);
+            console.log("This is it",scaleTypeHolder.textContent)
           };
           console.log(element);
           holderDIV.append(scaleField);
@@ -5758,6 +5765,12 @@ const MidSection = React.forwardRef((props, ref) => {
         idHolder.textContent = "scale Id";
         idHolder.style.display = "none";
         childDiv.appendChild(idHolder);
+
+        const scaleTypeHolder = document.createElement("h6");
+        scaleTypeHolder.className = "scaleTypeHolder";
+        scaleTypeHolder.textContent = "";
+        scaleTypeHolder.style.display = "none";
+        childDiv.appendChild(scaleTypeHolder);
         // childDiv.appendChild( idHolder);
 
         // childDiv.appendChild(element3);
