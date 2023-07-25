@@ -5674,6 +5674,12 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
 
+        const scaleTypeHolder = document.createElement("h6");
+        scaleTypeHolder.className = "scaleTypeHolder";
+        scaleTypeHolder.textContent = "";
+        scaleTypeHolder.style.display = "none";
+        scaleField.appendChild(scaleTypeHolder);
+    
         const tempText = document.createElement("div");
         tempText.className = "tempText";
         tempText.textContent = "New scale";
@@ -5684,7 +5690,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "#000";
+        scaleHold.style.color = "#fff";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
@@ -5732,6 +5738,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.justifyContent = "center";
           circle.style.alignItems = "center";
           circle.style.marginLeft = "2px";
+          circle.style.display = "none"
 
           circle.textContent = i;
 
@@ -5766,11 +5773,6 @@ const MidSection = React.forwardRef((props, ref) => {
         idHolder.style.display = "none";
         childDiv.appendChild(idHolder);
 
-        const scaleTypeHolder = document.createElement("h6");
-        scaleTypeHolder.className = "scaleTypeHolder";
-        scaleTypeHolder.textContent = "";
-        scaleTypeHolder.style.display = "none";
-        childDiv.appendChild(scaleTypeHolder);
         // childDiv.appendChild( idHolder);
 
         // childDiv.appendChild(element3);

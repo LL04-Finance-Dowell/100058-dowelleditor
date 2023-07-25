@@ -357,8 +357,6 @@ const ScaleRightSide = () => {
       });
   }
 
-  const buttonChildLeft = document.querySelector(".left_child");
-
   console.log(scale);
   const handleUpdates = () => {
     const scaleType = document.getElementById("scaleType");
@@ -791,7 +789,7 @@ const ScaleRightSide = () => {
         buttonChildLeft.textContent = btnUpdateLeft.value;
       }
       if (btnUpdateCenter.value !== "") {
-        buttonChildNeutral.style.display ="none" ;
+        buttonChildNeutral.textContent = "" ;
       }
 
       if (btnUpdateRight.value !== "") {
