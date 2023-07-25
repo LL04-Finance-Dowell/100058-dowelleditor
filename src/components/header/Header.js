@@ -2586,6 +2586,7 @@ const Header = () => {
           let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
+          let scaleType = newScales[b].querySelector(".scaleTypeHolder");
           let scaleID = newScales[b].querySelector(".scaleId");
           console.log(font);
 
@@ -2616,8 +2617,7 @@ const Header = () => {
             buttonColor: circles?.style?.backgroundColor,
             scaleID: scaleID.textContent,
             scaleText: scaleText.textContent,
-            buttonText: emojiArr,  
-            // buttonStapel: stapelNum, 
+            buttonText: emojiArr,
           };
           console.log(properties);
           elem = {

@@ -3553,7 +3553,6 @@ const MidSection = React.forwardRef((props, ref) => {
 
             if (decoded.details.action === "document") {
               let isClicked = false;
-              let circleBgColor = circle.style.backgroundColor;
 
               // Function to set the background color of the clicked circle in localStorage
               function setClickedCircleBackgroundColor(
@@ -3593,9 +3592,6 @@ const MidSection = React.forwardRef((props, ref) => {
                 if (!isClicked) {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
-                  const buttonCircle = scale
-                    ? scale.querySelectorAll(".circle_label")
-                    : [];
 
                   console.log(
                     "This is the background color",
@@ -3627,15 +3623,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     return rgbToHex(rgb[0], rgb[1], rgb[2]);
                   }
 
-                  circle.style.backgroundColor = invert(
-                    circle.style.backgroundColor
-                  );
-
-                  for (let i = 0; i < buttonCircle.length; i++) {
-                    if (buttonCircle[i].textContent !== circle.textContent) {
-                      buttonCircle[i].style.backgroundColor = circleBgColor;
-                    }
-                  }
+                circle.style.backgroundColor = invert(circle.style.backgroundColor)
 
                   let holdElem = scale?.querySelector(".holdElem");
 
@@ -3706,6 +3694,12 @@ const MidSection = React.forwardRef((props, ref) => {
           idHolder.textContent = element?.raw_data?.scaleID;
           idHolder.style.display = "none";
           childDiv.appendChild(idHolder);
+
+          const scaleTypeHolder = document.createElement("h6");
+          scaleTypeHolder.className = "scaleTypeHolder";
+          scaleTypeHolder.textContent = element?.raw_data?.scaleType;
+          scaleTypeHolder.style.display = "none";
+          childDiv.appendChild(scaleTypeHolder);
 
           scaleHold.append(childDiv);
           scaleField.append(scaleHold);
@@ -3971,6 +3965,7 @@ const MidSection = React.forwardRef((props, ref) => {
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
             setSidebar(true);
+            console.log("This is it",scaleTypeHolder.textContent)
           };
           console.log(element);
           holderDIV.append(scaleField);
@@ -5816,6 +5811,12 @@ const MidSection = React.forwardRef((props, ref) => {
         idHolder.textContent = "scale Id";
         idHolder.style.display = "none";
         childDiv.appendChild(idHolder);
+
+        const scaleTypeHolder = document.createElement("h6");
+        scaleTypeHolder.className = "scaleTypeHolder";
+        scaleTypeHolder.textContent = "";
+        scaleTypeHolder.style.display = "none";
+        childDiv.appendChild(scaleTypeHolder);
         // childDiv.appendChild( idHolder);
 
         // childDiv.appendChild(element3);
