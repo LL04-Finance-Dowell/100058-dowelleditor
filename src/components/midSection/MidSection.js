@@ -3507,7 +3507,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.justifyContent = "space-between";
           labelHold.style.alignItems = "center";
           console.log(scaleId, "scale button");
-          for (let i = 0; i < 11; i++) {
+          for (let i = 0; i <= 10; i++) {
             const circle = document.createElement("div");
             circle.className = "circle_label";
             circle.style.width = "35%";
@@ -3552,39 +3552,78 @@ const MidSection = React.forwardRef((props, ref) => {
             }
 
             if (decoded.details.action === "document") {
-              let circles = document.querySelectorAll(".circle_label");
               let isClicked = false;
 
-              let circleBgColor = circle.style.backgroundColor
+              // Function to set the background color of the clicked circle in localStorage
+              function setClickedCircleBackgroundColor(
+                circle,
+                bgColor,
+                scaleID
+              ) {
+                localStorage.setItem(
+                  `circleBgColor_${scaleID}_${circle.textContent}`,
+                  bgColor
+                );
+              }
 
+              // Function to get the background color of the clicked circle from localStorage
+              function getClickedCircleBackgroundColor(circle, scaleID) {
+                return localStorage.getItem(
+                  `circleBgColor_${scaleID}_${circle.textContent}`
+                );
+              }
+
+              // Get the stored background color if it exists for the specific circle in this scale
+              const scale = document.querySelectorAll(".newScaleInput");
+              scale.forEach((scale) => {
+                const scaleID = scale?.querySelector(".scaleId").textContent;
+
+                console.log(circle);
+                console.log(scaleID);
+                const circlesInScale = scale.querySelectorAll(".circle_label");
+                circlesInScale.forEach(circle => {
+                  const storedBgColor = getClickedCircleBackgroundColor(circle, scaleID);
+                  if (storedBgColor) {
+                    circle.style.backgroundColor = storedBgColor;
+                  }
+                });
+              });
               circle.addEventListener("click", function () {
                 if (!isClicked) {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
-                  const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
 
-                  console.log("This is the background color",circle.style.backgroundColor)
+                  console.log(
+                    "This is the background color",
+                    circle.style.backgroundColor
+                  );
+
                   function componentToHex(c) {
                     var hex = c.toString(16);
                     return hex.length == 1 ? "0" + hex : hex;
-                }
-                
+                  }
+
                   function rgbToHex(r, g, b) {
-                    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-                }
+                    return (
+                      "#" +
+                      componentToHex(r) +
+                      componentToHex(g) +
+                      componentToHex(b)
+                    );
+                  }
+
                   function invert(rgb) {
-                    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
-                    for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                    rgb = [].slice
+                      .call(arguments)
+                      .join(",")
+                      .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                      .split(",");
+                    for (var i = 0; i < rgb.length; i++)
+                      rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
                     return rgbToHex(rgb[0], rgb[1], rgb[2]);
                   }
 
-                  circle.style.backgroundColor = invert(circle.style.backgroundColor)
-
-                  for (let i = 0; i < buttonCircle.length; i++) {
-                    if(buttonCircle[i].textContent !== circle.textContent){
-                      buttonCircle[i].style.backgroundColor = circleBgColor;
-                    }
-                  }
+                circle.style.backgroundColor = invert(circle.style.backgroundColor)
 
                   let holdElem = scale?.querySelector(".holdElem");
 
@@ -3614,8 +3653,15 @@ const MidSection = React.forwardRef((props, ref) => {
                     }
                   }
 
-                  // Store holdElem inside the holding div
-                  // holding.appendChild(holdElem);
+                  // Update the background color of the clicked circle and store it with scale ID
+
+                  const scaleID = scale?.querySelector(".scaleId")?.textContent;
+                  console.log(scaleID);
+                  setClickedCircleBackgroundColor(
+                    circle,
+                    circle.style.backgroundColor,
+                    scaleID
+                  );
                 }
               });
             }
