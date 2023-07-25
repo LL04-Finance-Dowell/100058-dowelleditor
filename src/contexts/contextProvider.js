@@ -135,6 +135,7 @@ export const ContextProvider = ({ children }) => {
   const [containerBorderColor, setContainerBorderColor] = useState("gray");
   const [formBorderSize, setFormBorderSize] = useState(2);
   const [formBorderColor, setFormBorderColor] = useState("gray");
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   //Company id
   const [companyId, setCompanyId] = useState("");
@@ -1107,7 +1108,9 @@ export const ContextProvider = ({ children }) => {
         formBorderSize, 
         setFormBorderSize,
         formBorderColor,
-        setFormBorderColor
+        setFormBorderColor,
+        selectedTemplate, 
+        setSelectedTemplate 
       }}
     >
       {children}

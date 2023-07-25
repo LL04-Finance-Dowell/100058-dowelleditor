@@ -27,6 +27,7 @@ const ScaleRightSide = () => {
     setScaleData,
     setScaleId,
     scaleId,
+    setSelectedTemplate
   } = useStateContext();
 
   const [inputStr, setInputStr] = useState("");
@@ -171,9 +172,12 @@ const ScaleRightSide = () => {
     if (format === "snipte") {
       document.getElementById("npsScaleForm").style.display = "none";
       document.getElementById("snippScaleForm").style.display = "flex";
+      setSelectedTemplate("stapel");
     } else if (format === "nps") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "flex";
+      setSelectedTemplate("nps");
+      
     }
   };
 
@@ -899,8 +903,8 @@ const ScaleRightSide = () => {
         setIsLoading(true);
         console.log("post req");
         Axios.post("https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/", {
-          user: "yes",
-          username: "NdoneAmbrose",
+          user: "true",
+          username: "TadesseJemal",
           orientation: option?.value,
           spacing_unit:spacing,
           scale_upper_limit: upperVal,
@@ -1346,25 +1350,28 @@ const ScaleRightSide = () => {
                   padding: "3px 7px",
                   borderRadius: "7px",
                   // height: "30px",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  width: "200%",
+                  // alignItems: "center",
+                  fontWeight: "600",
+                  fontSize: "16px",
                 }}
               >
                 <select
                   style={{
-                    width: "100px",
-                    height: "15px",
+                    width: "180px",
+                    height: "35px",
                     display: "flex",
+                    justifyContent: "center",
+                    gap: "5rem",
                     backgroundColor: "transparent",
                     outline: "none",
                     border: "none",
-                    alignItems: "center",
+                    fontWeight: "600",
                   }}
                   id="scaleType"
                   onChange={handleFormatChange}
-                >
+                > 
+                  <option>Select Scales</option>
                   <option value="snipte">Stapel Scale</option>
                   <option value="nps">Nps Scale</option>
                 </select>
@@ -2453,7 +2460,7 @@ const ScaleRightSide = () => {
                     }}
                   >
                     <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Scale Upper Limit
+                      Scale Limit
                     </h6>
                     <div
                       style={{
@@ -2491,7 +2498,7 @@ const ScaleRightSide = () => {
                     }}
                   >
                     <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Scale Lower Limit
+                      Spacing Unit
                     </h6>
                     <div
                       style={{
@@ -2516,49 +2523,13 @@ const ScaleRightSide = () => {
                           outline: "none",
                           alignItems: "center",
                         }}
-                        id="loweVal"
+                        id="spacing"
                         // value={-upperVal}
                       />
                     </div>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2px",
-                  }}
-                >
-                  <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                    Spacing Unit
-                  </h6>
-                  <div
-                    style={{
-                      backgroundColor: "#e8e8e8",
-                      padding: "3px 7px",
-                      borderRadius: "7px",
-                      // height: "30px",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      style={{
-                        width: "100%",
-                        height: "15px",
-                        display: "flex",
-                        backgroundColor: "transparent",
-                        border: "none",
-                        outline: "none",
-                        alignItems: "center",
-                      }}
-                      id="spacing"
-                    />
-                  </div>
-                </div>
+                
                 <div
                   style={{
                     display: "flex",
