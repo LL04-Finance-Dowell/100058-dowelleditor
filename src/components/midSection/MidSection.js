@@ -26,7 +26,7 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
-import useUndo from "use-undo";
+// import useUndo from "use-undo";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -1978,7 +1978,7 @@ const MidSection = React.forwardRef((props, ref) => {
     let holder;
     // console.log("dragElement", event.target);
     // event.dataTransfer.setData("text/plain", "DATE_INPUT");
-    if (!resizing) {
+    if (!resizing && !documnentsMap) {
       let initX = event.screenX;
       let initY = event.screenY;
 
