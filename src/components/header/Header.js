@@ -3000,8 +3000,8 @@ const Header = () => {
       .then((res) => {
         if (res) {
           toast.success("Saved successfully");
-          setIsLoading(false);
           if (finalize) {
+          setIsLoading(true);
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
@@ -3027,6 +3027,7 @@ const Header = () => {
             //   // handleFinalizeButtonStapel();
             // }
           }
+          setIsLoading(false);
           setIsDataSaved(true);
         }
         //console.log(res);
