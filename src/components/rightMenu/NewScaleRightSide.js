@@ -727,7 +727,7 @@ const ScaleRightSide = () => {
             console.log(err.message);
           });
       }
-    } else if (scaleType ? (scaleType.value === "stapel" || scaleTypeContent === "snipte") : scaleTypeContent === "snipte") {
+    } else if (scaleType ? (scaleType.value === "snipte" || scaleTypeContent === "snipte") : scaleTypeContent === "snipte") {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
 
@@ -807,8 +807,20 @@ const ScaleRightSide = () => {
       // Clear existing values
       labelHold.innerHTML = '';
 
+      const stapelScaleArray = document.createElement('div');
+      stapelScaleArray.className = "stapelScaleArray"
+      stapelScaleArray.textContent = ""
+      stapelScaleArray.style.display = "none"
+      labelHold.append(stapelScaleArray)
+
+
     // Construct row of values
     const selectedOption = optionSelect.value;
+    const optionHolder = document.createElement('div');
+    optionHolder.className = "stapelOptionHolder"
+    optionHolder.textContent = optionSelect.value
+    optionHolder.style.display = "none"
+    labelHold.appendChild(optionHolder);
     for (let i = lowerVal; i <= upperVal; i += spacing) {
       const selectedOption = optionSelect.value;
       if (i !== 0) {
@@ -959,7 +971,10 @@ const ScaleRightSide = () => {
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
-            console.log(res);
+
+            stapelScaleArray.textContent = res.data.data.settings.scale 
+            console.log("This is the stapel  scale response", res.data.data);
+            console.log(stapelScaleArray)
           })
           .catch((err) => {
             setIsLoading(false);

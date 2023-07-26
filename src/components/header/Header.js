@@ -2601,6 +2601,14 @@ const Header = () => {
             }
           }
 
+          let stapelOptionHolder = ""
+          let stapelScaleArray = ""
+
+          if(scaleType.textContent === "snipte"){
+            stapelOptionHolder = newScales[b].querySelector(".stapelOptionHolder");
+            stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
+          }
+
           // if (buttonStapel.length !==0) {
           //   for (let i = lowerVal; i <= upperVal; i += spacing) {
           //     stapelNum.push(buttonStapel[i].textContent);
@@ -2618,6 +2626,9 @@ const Header = () => {
             scaleID: scaleID.textContent,
             scaleText: scaleText.textContent,
             buttonText: emojiArr,
+            scaleType: scaleType.textContent,
+            stapelOptionHolder: stapelOptionHolder.textContent,
+            stapelScaleArray: stapelScaleArray.textContent,
           };
           console.log(properties);
           elem = {
