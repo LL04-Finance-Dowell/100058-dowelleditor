@@ -28,7 +28,8 @@ const EmailRightSideBar = () => {
         formBorderSize,
         setFormBorderSize,
         formBorderColor,
-        setFormBorderColor
+        setFormBorderColor,
+        setConfirmRemove, confirmRemove
     } = useStateContext()
     const [selectedType, setSelectedType] = useState('')
     const [addedAns, setAddedAns] = useState([])
@@ -412,7 +413,8 @@ const EmailRightSideBar = () => {
             <div className="d-flex justify-content-center">
                 <Button
                     variant="primary"
-                    onClick={removeContainer}
+                    // onClick={removeContainer}
+                    onClick={() => setConfirmRemove(!confirmRemove)}
                     className="remove_container text-center mt-5"
                 >
                     Remove Container

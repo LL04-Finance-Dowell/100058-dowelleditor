@@ -14,7 +14,7 @@ import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ImageRightSidebar = () => {
   var { setIsFinializeDisabled, handleClicked, setSidebar, borderSize,
-    setBorderSize, borderColor, setBorderColor } = useStateContext();
+    setBorderSize, borderColor, setBorderColor, setConfirmRemove, confirmRemove } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -244,7 +244,8 @@ const ImageRightSidebar = () => {
         <Button
           className={decoded.details.action === "template" ? "w-7 remove_button" : "w-7 remove_button disable_button"}
           variant="primary"
-          onClick={removeImage}
+          // onClick={removeImage}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Image
         </Button>

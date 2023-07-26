@@ -12,7 +12,7 @@ import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from '../selectAnsAndQuestion';
 
 const IframeRightSidebar = () => {
-  const { setSidebar, handleClicked, setIsFinializeDisabled, iframeBorderSize, setIframeBorderSize, iframeBorderColor, setIframeBorderColor } =
+  const { setSidebar, handleClicked, setIsFinializeDisabled, iframeBorderSize, setIframeBorderSize, iframeBorderColor, setIframeBorderColor, setConfirmRemove, confirmRemove } =
     useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -161,7 +161,8 @@ const IframeRightSidebar = () => {
           variant="primary"
 
           className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
-          onClick={removeIframe}
+          // onClick={removeIframe}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Iframe
         </Button>

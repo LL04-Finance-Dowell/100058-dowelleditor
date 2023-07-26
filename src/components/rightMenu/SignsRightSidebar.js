@@ -17,7 +17,7 @@ const SignsRightSidebar = () => {
 
   const [showSlider, setShowSlider] = useState(false);
   const { signState, setSignState, setIsFinializeDisabled, handleClicked, signBorderSize,
-    setSignBorderSize, signBorderColor, setSignBorderColor } =
+    setSignBorderSize, signBorderColor, setSignBorderColor, setConfirmRemove, confirmRemove } =
     useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -212,7 +212,8 @@ const SignsRightSidebar = () => {
 
         <Button
           variant="primary"
-          onClick={removeSign}
+          // onClick={removeSign}
+          onClick={() => setConfirmRemove(!confirmRemove)}
           // className="remove_button"
           className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
         >

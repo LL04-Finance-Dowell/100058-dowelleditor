@@ -60,7 +60,7 @@ const SelectAnsAndQuestion = ({ selectedType,
     const { questionAndAnswerGroupedData, setQuestionAndAnsGroupedData } = useStateContext()
     // const [addedAns, setAddedAns] = useState([])
     console.log(questionAndAnswerGroupedData, "questionAndAnswerGroupedData");
-    const currentElmId = document.querySelector('.focussedd div').id
+    const currentElmId = document.querySelector('.focussedd div')?.id ? document.querySelector('.focussedd div')?.id : null
     const elements = [
         ...document.querySelectorAll(`.${TEXT_INPUT}`),
         ...document.querySelectorAll(`.${IMAGE_INPUT}`),

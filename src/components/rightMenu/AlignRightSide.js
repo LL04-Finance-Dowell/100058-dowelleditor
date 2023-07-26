@@ -36,6 +36,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import RemoveElmentModal from "../RemoveElementModal";
 
 const AlignRightSide = () => {
   const {
@@ -71,6 +72,7 @@ const AlignRightSide = () => {
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
+  const { confirmRemove, setConfirmRemove } = useStateContext()
 
 
   // function boldCommand() {
@@ -712,7 +714,8 @@ const AlignRightSide = () => {
           <div className="mt-3 text-center">
             <Button
               variant="primary"
-              onClick={removeTextBox}
+              // onClick={removeTextBox}
+              onClick={() => setConfirmRemove(!confirmRemove)}
               className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
             >
               Remove TextBox

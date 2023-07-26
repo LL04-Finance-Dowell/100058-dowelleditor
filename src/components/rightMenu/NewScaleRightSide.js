@@ -28,6 +28,7 @@ const ScaleRightSide = () => {
     setScaleData,
     setScaleId,
     scaleId,
+    setConfirmRemove, confirmRemove
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -1897,7 +1898,8 @@ const ScaleRightSide = () => {
                 variant="secondary"
                 // className="remove_button"
                 className="remove_button"
-                onClick={removeScale}
+                // onClick={removeScale}
+                onClick={() => setConfirmRemove(!confirmRemove)}
               >
                 Remove Scale
               </Button>

@@ -25,7 +25,8 @@ const ScaleRightSide = () => {
     scaleBorderSize,
     setScaleBorderSize,
     scaleBorderColor,
-    setScaleBorderColor
+    setScaleBorderColor,
+    setConfirmRemove, confirmRemove
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -427,7 +428,8 @@ const ScaleRightSide = () => {
                       ? "remove_button"
                       : "remove_button disable_button"
                   }
-                  onClick={removeScale}
+                  // onClick={removeScale}
+                  onClick={() => setConfirmRemove(!confirmRemove)}
                 >
                   Remove Scale
                 </Button>

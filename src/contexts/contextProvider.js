@@ -145,6 +145,10 @@ export const ContextProvider = ({ children }) => {
   const [questionAndAnswerGroupedData,
     setQuestionAndAnsGroupedData] = useState([])
 
+
+  const [confirmRemove, setConfirmRemove] = useState(false)
+  const [confirmation, setConfirmation] = useState('')
+
   const handleDropp = (e) => {
     e.preventDefault();
     if (
@@ -1113,7 +1117,8 @@ export const ContextProvider = ({ children }) => {
         formBorderColor,
         setFormBorderColor,
         questionAndAnswerGroupedData,
-        setQuestionAndAnsGroupedData
+        setQuestionAndAnsGroupedData,
+        confirmRemove, setConfirmRemove
       }}
     >
       {children}

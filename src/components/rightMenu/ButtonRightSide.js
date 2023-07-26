@@ -11,7 +11,7 @@ import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 
 const ButtonRightSide = () => {
-  const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor } =
+  const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor, setConfirmRemove, confirmRemove } =
     useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -209,7 +209,8 @@ const ButtonRightSide = () => {
         <Button
           variant="primary"
           className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
-          onClick={removeButton}
+          // onClick={removeButton}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Button
         </Button>

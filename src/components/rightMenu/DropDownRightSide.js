@@ -27,7 +27,9 @@ const DropDownRightSide = () => {
     dropdownBorderSize,
     setDropdownBorderSize,
     dropdownBorderColor,
-    setDropdownBorderColor
+    setDropdownBorderColor,
+    setConfirmRemove,
+    confirmRemove
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -195,7 +197,8 @@ const DropDownRightSide = () => {
       <div />
       <div>
         <Button
-          onClick={removeDropdown}
+          // onClick={removeDropdown}
+          onClick={() => setConfirmRemove(!confirmRemove)}
           variant="primary"
           className={decoded.details.action === "template" ? "mt-5 remove_button" : "mt-5 remove_button disable_button"}
         >

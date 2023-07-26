@@ -28,7 +28,9 @@ const CalendarRightSidebar = (props) => {
     calendarBorderSize,
     setCalendarBorderSize,
     calendarBorderColor,
-    setCalendarBorderColor
+    setCalendarBorderColor,
+    setConfirmRemove,
+    confirmRemove
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -188,7 +190,8 @@ const CalendarRightSidebar = (props) => {
         >
           <Button
             variant="primary"
-            onClick={removeDate}
+            // onClick={removeDate}
+            onClick={() => setConfirmRemove(!confirmRemove)}
             className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
           >
             Remove Date

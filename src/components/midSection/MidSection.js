@@ -26,6 +26,9 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import RemoveElementModal from "../RemoveElementModal";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -112,6 +115,10 @@ const MidSection = React.forwardRef((props, ref) => {
   const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
+
+  const { confirmRemove } = useStateContext()
+  // const [confirmation, setConfirmation] = useState('confirmation')
+
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
@@ -144,6 +151,8 @@ const MidSection = React.forwardRef((props, ref) => {
   }
 
   const midSectionRef = useRef([]);
+
+
 
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
@@ -1871,7 +1880,11 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // Remove Input
   const handleRemoveInput = () => {
+    console.log("handleRemoveInput", "i was called - 1")
     const selectInput = document.querySelector(".focussedd");
+    console.log("selectInput", selectInput)
+    console.log("handleRemoveInput", "i was called - 2")
+    if (!selectInput) return;
     selectInput.remove();
   };
 
@@ -2229,12 +2242,12 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.style.height = measure.height;
     holderDIV.style.left = measure.left;
     holderDIV.style.top = measure.top;
-    holderDIV.style.border= measure.border
+    holderDIV.style.border = measure.border
 
     holderDIV.classList.add(`page_${i}`);
     //console.log(idMatch);
-    if(borderWidth && !idMatch?.length) {
-      holderDIV.style.border =  borderWidth ;
+    if (borderWidth && !idMatch?.length) {
+      holderDIV.style.border = borderWidth;
       // console.log("calendar date", borderWidth)
 
       // holderDIV.style.border =  `${borderWidth} dotted ${borderColor}` ;
@@ -2261,7 +2274,7 @@ const MidSection = React.forwardRef((props, ref) => {
       // const storeData = localStorage.getItem("borderSize")
       // const dataas = `${storeData}` + "px"
       // holderDIV.style.border = `${dataas} dotted gray`;
-      
+
     }
 
     holderDIV.addEventListener("dragstart", (event) => {
@@ -2329,13 +2342,13 @@ const MidSection = React.forwardRef((props, ref) => {
       // const dataas = `${storeData}` + "px"
       // holderDIV.style.border = `${dataas} dotted gray`;
       holderDIV.classList.remove("zIndex-two");
-    
+
       // const borderData = document.querySelector(".foucussedd");
-      
+
       // holderDIV.style.border = measure.border;
       // holderDIV.style.border = borderWidth;
       holderDIV.style.border = "3px dotted gray";
-      
+
       // holderDIV.classList.remove("focussedd")
       // localStorage.removeItem("borderSize")
 
@@ -2348,13 +2361,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
     // holderDIV.onblur = () => {
     //   holderDIV.classList.remove("zIndex-two");
-    
+
     //   // const borderData = document.querySelector(".foucussedd");
-      
+
     //   holderDIV.style.border = measure.border;
     //   // holderDIV.style.border = borderWidth;
     //   // holderDIV.style.border = "3px dotted gray";
-      
+
     //   // holderDIV.classList.remove("focussedd")
     //   // localStorage.removeItem("borderSize")
 
@@ -3208,7 +3221,7 @@ const MidSection = React.forwardRef((props, ref) => {
             if (isAnyRequiredElementEdited) {
               finalizeButton?.click();
             } else {
-              finalizeButton.disabled = true; 
+              finalizeButton.disabled = true;
             }
           }
 
@@ -3438,159 +3451,159 @@ const MidSection = React.forwardRef((props, ref) => {
           // const holderDIV = getHolderDIV(measure, pageNo);
           if (
             decoded.details.action === "template"
-          ){
-          let cameraField = document.createElement("div");
-          cameraField.className = "cameraInput";
-          cameraField.id = id;
-          cameraField.style.width = "100%";
-          cameraField.style.height = "100%";
-          cameraField.style.borderRadius = "0px";
-          cameraField.style.outline = "0px";
-          cameraField.style.overflow = "overlay";
-          
-          let videoField = document.createElement("video");
-          if(videoLinkHolder === "video_link"){
-          videoField.className = "videoInput";
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          videoField.style.display = "none"
-          cameraField.append(videoField)
-        }else {
-          videoField.className = "videoInput";
-          videoField.src = videoLinkHolder
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.muted = true;
-          videoField.loop = true;
-          cameraField.append(videoField)
-        }
+          ) {
+            let cameraField = document.createElement("div");
+            cameraField.className = "cameraInput";
+            cameraField.id = id;
+            cameraField.style.width = "100%";
+            cameraField.style.height = "100%";
+            cameraField.style.borderRadius = "0px";
+            cameraField.style.outline = "0px";
+            cameraField.style.overflow = "overlay";
 
-          let imgHolder = document.createElement("img");
-          if(imageLinkHolder === "image_link"){
-          imgHolder.className = "imageHolder";
-          imgHolder.style.height = "100%"
-          imgHolder.style.width = "100%"
-          imgHolder.alt = "";
-          imgHolder.style.display = "none"
-          cameraField.append(imgHolder)
-          }else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%"
-            imgHolder.style.width = "100%"
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder
-            cameraField.append(imgHolder)
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
-
-          cameraField.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
+            let videoField = document.createElement("video");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none"
+              cameraField.append(videoField)
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.muted = true;
+              videoField.loop = true;
+              cameraField.append(videoField)
             }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-  
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
+
+            let imgHolder = document.createElement("img");
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%"
+              imgHolder.style.width = "100%"
+              imgHolder.alt = "";
+              imgHolder.style.display = "none"
+              cameraField.append(imgHolder)
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%"
+              imgHolder.style.width = "100%"
+              imgHolder.alt = "";
+              imgHolder.src = imageLinkHolder
+              cameraField.append(imgHolder)
             }
-            handleClicked("camera2");
-            setSidebar(true);
-            console.log("The camera",cameraField)
-          };
-          holderDIV.append(cameraField);
+
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
+
+            cameraField.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+            };
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField)
+            };
+            holderDIV.append(cameraField);
           }
           if (
             element.details === "Document instance" &&
             decoded.details.action === "document"
-          ){
+          ) {
             let cameraField = document.createElement("div");
-          cameraField.className = "cameraInput";
-          cameraField.id = id;
-          cameraField.style.width = "100%";
-          cameraField.style.height = "100%";
-          cameraField.style.borderRadius = "0px";
-          cameraField.style.outline = "0px";
-          cameraField.style.overflow = "overlay";
-          
-          let videoField = document.createElement("video");
-          if(videoLinkHolder === "video_link"){
-          videoField.className = "videoInput";
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          videoField.style.display = "none"
-          cameraField.append(videoField)
-        }else {
-          videoField.className = "videoInput";
-          videoField.src = videoLinkHolder
-          videoField.style.width = "100%";
-          videoField.style.height = "100%";
-          videoField.autoplay = true;
-          videoField.loop = true;
-          cameraField.append(videoField)
-        }
+            cameraField.className = "cameraInput";
+            cameraField.id = id;
+            cameraField.style.width = "100%";
+            cameraField.style.height = "100%";
+            cameraField.style.borderRadius = "0px";
+            cameraField.style.outline = "0px";
+            cameraField.style.overflow = "overlay";
 
-          let imgHolder = document.createElement("img");
-          if(imageLinkHolder === "image_link"){
-          imgHolder.className = "imageHolder";
-          imgHolder.style.height = "100%"
-          imgHolder.style.width = "100%"
-          imgHolder.alt = "";
-          imgHolder.style.display = "none"
-          cameraField.append(imgHolder)
-          }else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%"
-            imgHolder.style.width = "100%"
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder
-            cameraField.append(imgHolder)
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
-
-          cameraField.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
+            let videoField = document.createElement("video");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none"
+              cameraField.append(videoField)
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              cameraField.append(videoField)
             }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-  
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
+
+            let imgHolder = document.createElement("img");
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%"
+              imgHolder.style.width = "100%"
+              imgHolder.alt = "";
+              imgHolder.style.display = "none"
+              cameraField.append(imgHolder)
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%"
+              imgHolder.style.width = "100%"
+              imgHolder.alt = "";
+              imgHolder.src = imageLinkHolder
+              cameraField.append(imgHolder)
             }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-          holderDIV.append(cameraField);
+
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
+
+            cameraField.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+            };
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+            };
+            holderDIV.append(cameraField);
           }
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -3677,7 +3690,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
             // Get the username from the decoded token.
             const username = decoded?.details?.authorized;
-            console.log(username); 
+            console.log(username);
 
             // Return the username.
             // return res.json({ username });
@@ -3695,181 +3708,181 @@ const MidSection = React.forwardRef((props, ref) => {
             // function authorizedLogin() {
             //   return ( username === undefined ? generateLoginUser(): username )
             // }
-            
+
             if (
-              decoded.details.action ==="document" && username!==undefined) {
+              decoded.details.action === "document" && username !== undefined) {
 
-                let circles = document.querySelectorAll(".circle_label");
-                let isClicked = false;
-                let selectedScore = -1;
-                // const submitButtonScale = document.getElementById('finalize-button');
+              let circles = document.querySelectorAll(".circle_label");
+              let isClicked = false;
+              let selectedScore = -1;
+              // const submitButtonScale = document.getElementById('finalize-button');
 
-                circle.addEventListener('click', function() {
-                  if (!isClicked) {
-                      let scale = document.querySelector(".focussedd");
-                      const scaleNewId = scale?.querySelector('.scaleId').textContent;
-                      console.log(scaleNewId);
-                      console.log(scaleNewId);
-                      circle.style.backgroundColor = "blue";
-                      Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', {
-                          scale_id: scaleNewId,
-                          instance_id: pageNo,
-                          brand_name: "XYZ545",
-                          product_name: "XYZ511",
-                          username: username,
-                          score: i,
-                      })
-                          .then((response) => {
-                              if (response.status === 200) {
-                                  setIsLoading(false);
-                                  var responseData = response.data;
-                                  setScaleData(responseData);
-                                  console.log(response);
-                                  //disable all circles and change background color
-                                  // const circles = document.querySelectorAll(".circle_label");
-                                 
-                                  // Remove the event listener on the button after the API request is successful.
-                                  // circles.removeEventListener("click", this);
-                              
-                                  const alert = document.createElement("div");
-                                  alert.className = "scale_alert"
-                                  const img = document.createElement("img");
-                                  const button = document.createElement("button");
-                                  img.src = "https://img.freepik.com/premium-vector/pin-with-check-mark-icon-vector-isolated-map-location-pointer-locator-position-point_578506-202.jpg?w=740";
-                                  img.width = 100;
-                                  img.height = 100;
-                                  button.appendChild(img);
-                                  const paragraph = document.createElement("h4");
-                                  paragraph.textContent = "Response recorded successfully for your selected button " + i;
-                                  button.appendChild(paragraph);
-                                  button.style.width = "100%";
-                                  alert.appendChild(button);
-                                  paragraph.style.color = "green";
-                                  alert.style.position = "absolute";
-                                  alert.style.marginRight = "3%";
-                                  button.style.background = "#fff";
-                                  // labelHold.style.display ="none";
-                                 
-                                  childDiv.style.display ="none";
-                                  button.style.color = "blue";
-                                  button.style.borderRadius = "5px";
-                                  // button.style.padding = "10px 20px";
-                                  button.style.cursor = "pointer";
-                                  // button.addEventListener("click", function() {
-                                  //     alert.remove();
-                                  // });
-                                  button.classList.add("alert-button");
-                                  button.classList.add("close");
-                                  // setTimeout(() => {
-                                  //   alert.remove();
-                                  // }, 5000);
-                                  alert.appendChild(button);
-                                  scaleHold.appendChild(alert);
-                                  isClicked = true;
-                                  labelHold.style.display = "none";
-                                  window.onbeforeunload = (event) => {
-                                  //Prevent the page from reloading
-                                    event.preventDefault();
-                                    event.returnValue = selectedScore;
-                                  };
-                              }
-                          })
-                          .catch(function (error) {
-                              console.log(error);
-                });
-                  } else {
-                    if (selectedScore = i) {
-                      const alert = document.createElement("div");
-                      const img = document.createElement("img");
-                      const button = document.createElement("button");
-                      img.src = "https://img.freepik.com/free-photo/yellow-triangle-warning-sign-symbol-danger-caution-risk-traffic-icon-background-3d-rendering_56104-1156.jpg?w=1060&t=st=1687272853~exp=1687273453~hmac=2a25ac004fa8fa44791de0ec6f23d6f27e6dcae15ed65cde391a01685579ddf1";
-                      img.width = 100;
-                      img.height = 100;
-                      img.style.background = "#808080";
-                      button.appendChild(img);
-                      const paragraph = document.createElement("h4");
-                      paragraph.textContent = "You have already selected button " + i;
-                      button.appendChild(paragraph);
-                      button.style.width = "100%";
-                      alert.appendChild(button);
-                      paragraph.style.color = "yellow";
-                      alert.style.position = "absolute";
-                      alert.style.marginRight = "3%";
-                      button.style.background = "#808080";
-                      // labelHold.style.display ="none";
-                      // childDiv.style.display ="none";
-                      button.style.color = "blue";
-                      button.style.borderRadius = "5px";
-                      // button.style.padding = "10px 20px";
-                      button.style.cursor = "pointer";
-                      button.addEventListener("click", function() {
-                          alert.remove();
-                      });
-                      button.classList.add("alert-button");
-                      button.classList.add("close");
-                      setTimeout(() => {
-                        alert.remove();
-                      }, 5000);
-                      alert.appendChild(button);
-                      labelHold.appendChild(alert);
-                      isClicked = true;
-                      return;
-                    }
-                    // selectedScore === i;
-                    // alert("You have selected score " + i);
+              circle.addEventListener('click', function () {
+                if (!isClicked) {
+                  let scale = document.querySelector(".focussedd");
+                  const scaleNewId = scale?.querySelector('.scaleId').textContent;
+                  console.log(scaleNewId);
+                  console.log(scaleNewId);
+                  circle.style.backgroundColor = "blue";
+                  Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', {
+                    scale_id: scaleNewId,
+                    instance_id: pageNo,
+                    brand_name: "XYZ545",
+                    product_name: "XYZ511",
+                    username: username,
+                    score: i,
+                  })
+                    .then((response) => {
+                      if (response.status === 200) {
+                        setIsLoading(false);
+                        var responseData = response.data;
+                        setScaleData(responseData);
+                        console.log(response);
+                        //disable all circles and change background color
+                        // const circles = document.querySelectorAll(".circle_label");
+
+                        // Remove the event listener on the button after the API request is successful.
+                        // circles.removeEventListener("click", this);
+
+                        const alert = document.createElement("div");
+                        alert.className = "scale_alert"
+                        const img = document.createElement("img");
+                        const button = document.createElement("button");
+                        img.src = "https://img.freepik.com/premium-vector/pin-with-check-mark-icon-vector-isolated-map-location-pointer-locator-position-point_578506-202.jpg?w=740";
+                        img.width = 100;
+                        img.height = 100;
+                        button.appendChild(img);
+                        const paragraph = document.createElement("h4");
+                        paragraph.textContent = "Response recorded successfully for your selected button " + i;
+                        button.appendChild(paragraph);
+                        button.style.width = "100%";
+                        alert.appendChild(button);
+                        paragraph.style.color = "green";
+                        alert.style.position = "absolute";
+                        alert.style.marginRight = "3%";
+                        button.style.background = "#fff";
+                        // labelHold.style.display ="none";
+
+                        childDiv.style.display = "none";
+                        button.style.color = "blue";
+                        button.style.borderRadius = "5px";
+                        // button.style.padding = "10px 20px";
+                        button.style.cursor = "pointer";
+                        // button.addEventListener("click", function() {
+                        //     alert.remove();
+                        // });
+                        button.classList.add("alert-button");
+                        button.classList.add("close");
+                        // setTimeout(() => {
+                        //   alert.remove();
+                        // }, 5000);
+                        alert.appendChild(button);
+                        scaleHold.appendChild(alert);
+                        isClicked = true;
+                        labelHold.style.display = "none";
+                        window.onbeforeunload = (event) => {
+                          //Prevent the page from reloading
+                          event.preventDefault();
+                          event.returnValue = selectedScore;
+                        };
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+                } else {
+                  if (selectedScore = i) {
+                    const alert = document.createElement("div");
+                    const img = document.createElement("img");
+                    const button = document.createElement("button");
+                    img.src = "https://img.freepik.com/free-photo/yellow-triangle-warning-sign-symbol-danger-caution-risk-traffic-icon-background-3d-rendering_56104-1156.jpg?w=1060&t=st=1687272853~exp=1687273453~hmac=2a25ac004fa8fa44791de0ec6f23d6f27e6dcae15ed65cde391a01685579ddf1";
+                    img.width = 100;
+                    img.height = 100;
+                    img.style.background = "#808080";
+                    button.appendChild(img);
+                    const paragraph = document.createElement("h4");
+                    paragraph.textContent = "You have already selected button " + i;
+                    button.appendChild(paragraph);
+                    button.style.width = "100%";
+                    alert.appendChild(button);
+                    paragraph.style.color = "yellow";
+                    alert.style.position = "absolute";
+                    alert.style.marginRight = "3%";
+                    button.style.background = "#808080";
+                    // labelHold.style.display ="none";
+                    // childDiv.style.display ="none";
+                    button.style.color = "blue";
+                    button.style.borderRadius = "5px";
+                    // button.style.padding = "10px 20px";
+                    button.style.cursor = "pointer";
+                    button.addEventListener("click", function () {
+                      alert.remove();
+                    });
+                    button.classList.add("alert-button");
+                    button.classList.add("close");
+                    setTimeout(() => {
+                      alert.remove();
+                    }, 5000);
+                    alert.appendChild(button);
+                    labelHold.appendChild(alert);
+                    isClicked = true;
+                    return;
+                  }
+                  // selectedScore === i;
+                  // alert("You have selected score " + i);
                 }
-              //   let isRequestSuccessful = false;
-              //   if (!isRequestSuccessful) {
-              //     for (let i = 0; i < 11; i++) {
-              //       const circle = document.createElement("div");
-              //       circle.className = "circle_label";
-              //       circle.style.width = "35%";
-              //       circle.style.height = "35%";
-              //       circle.style.borderRadius = "50%";
-              //       circle.style.backgroundColor = element?.raw_data?.buttonColor;
-              //       circle.style.top = "30%";
-              //       circle.style.left = "30%";
-              //       circle.style.display = "flex";
-              //       circle.style.justifyContent = "center";
-              //       circle.style.alignItems = "center";
-              //       circle.style.marginLeft = "2px";
-        
-              //       circle.textContent = i;
-              //       labelHold.append(circle);
-              //   circle.addEventListener("click", function() {
-              //         let scale = document.querySelector(".focussedd");
-              //     const scaleNewId = scale?.querySelector('.scaleId').textContent;
-                  
-              //     console.log(scaleNewId);
-              //     console.log(scaleNewId);
-              //     circle.style.backgroundColor = "blue";
-                  
-              //     Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
-              //     {
-              //       scale_id: scaleNewId,
-              //       instance_id: pageNo,
-              //       brand_name: "XYZ545",
-              //       product_name: "XYZ511",
-              //       username: generateLoginUser(),
-              //       score: i,
-              //     }
-              //   )
-              //     .then((response) => {
-              //       if (response.status === 200) {
-              //         setIsLoading(false);
-              //         var responseData = response.data;
-              //         setScaleData(responseData);
-              //         console.log(response);
-              //         isRequestSuccessful = true;
-              //       }
-              //     })
-              //     .catch(function (error) {
-              //       console.log(error);
-              //     });
-              //       });
-              //     }
-                  
-              //   }
+                //   let isRequestSuccessful = false;
+                //   if (!isRequestSuccessful) {
+                //     for (let i = 0; i < 11; i++) {
+                //       const circle = document.createElement("div");
+                //       circle.className = "circle_label";
+                //       circle.style.width = "35%";
+                //       circle.style.height = "35%";
+                //       circle.style.borderRadius = "50%";
+                //       circle.style.backgroundColor = element?.raw_data?.buttonColor;
+                //       circle.style.top = "30%";
+                //       circle.style.left = "30%";
+                //       circle.style.display = "flex";
+                //       circle.style.justifyContent = "center";
+                //       circle.style.alignItems = "center";
+                //       circle.style.marginLeft = "2px";
+
+                //       circle.textContent = i;
+                //       labelHold.append(circle);
+                //   circle.addEventListener("click", function() {
+                //         let scale = document.querySelector(".focussedd");
+                //     const scaleNewId = scale?.querySelector('.scaleId').textContent;
+
+                //     console.log(scaleNewId);
+                //     console.log(scaleNewId);
+                //     circle.style.backgroundColor = "blue";
+
+                //     Axios.post('https://100035.pythonanywhere.com/api/nps_responses_create', 
+                //     {
+                //       scale_id: scaleNewId,
+                //       instance_id: pageNo,
+                //       brand_name: "XYZ545",
+                //       product_name: "XYZ511",
+                //       username: generateLoginUser(),
+                //       score: i,
+                //     }
+                //   )
+                //     .then((response) => {
+                //       if (response.status === 200) {
+                //         setIsLoading(false);
+                //         var responseData = response.data;
+                //         setScaleData(responseData);
+                //         console.log(response);
+                //         isRequestSuccessful = true;
+                //       }
+                //     })
+                //     .catch(function (error) {
+                //       console.log(error);
+                //     });
+                //       });
+                //     }
+
+                //   }
               });
             }
           }
@@ -5422,7 +5435,7 @@ const MidSection = React.forwardRef((props, ref) => {
     let holderDIV = null;
     if (event.target.classList.contains("midSection_container")) {
       pageNum = event.target.innerText.split("\n")[0];
-      holderDIV = getHolderDIV(measure, pageNum, );
+      holderDIV = getHolderDIV(measure, pageNum,);
     } else {
       holderDIV = getHolderDIV(measure);
     }
@@ -5453,7 +5466,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const textBorder = localStorage.getItem("alignSize");
         const textBorderColor = localStorage.getItem("alignColor");
-        
+
         // imageField.style.border = ImgBorder + "px"
 
         const dataas = `${textBorder}` + "px"
@@ -5528,7 +5541,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // const ImgBorder = localStorage.getItem("borderSize");
         // const ImgBorderColor = localStorage.getItem("borderColor");
         // console.log(ImgBorderColor)
-        
+
         // // imageField.style.border = ImgBorder + "px"
 
         // const dataas = `${ImgBorder}` + "px"
@@ -6341,32 +6354,32 @@ const MidSection = React.forwardRef((props, ref) => {
           videoField.style.height = cameraField.clientHeight + "px";
         });
 
-        function openCam(){
-          let All_mediaDevices=navigator.mediaDevices
+        function openCam() {
+          let All_mediaDevices = navigator.mediaDevices
           if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
-             alert("Media not supported.");
-             return;
+            alert("Media not supported.");
+            return;
           }
           All_mediaDevices.getUserMedia({
-             video: true
+            video: true
           })
-          .then(function(vidStream) {
-             var video = videoField;
-             if ("srcObject" in video) {
+            .then(function (vidStream) {
+              var video = videoField;
+              if ("srcObject" in video) {
                 video.srcObject = vidStream;
-             } else {
+              } else {
                 video.src = window.URL.createObjectURL(vidStream);
-             }
-             video.onloadedmetadata = function(e) {
+              }
+              video.onloadedmetadata = function (e) {
                 video.play();
-             };
-          })
-          .catch(function(e) {
-             alert(e.name + ": " + e.message);
-          });
-       }
+              };
+            })
+            .catch(function (e) {
+              alert(e.name + ": " + e.message);
+            });
+        }
 
-       openCam()
+        openCam()
 
         cameraField.onclick = (e) => {
           e.stopPropagation();
@@ -7456,6 +7469,7 @@ const MidSection = React.forwardRef((props, ref) => {
   //   return contentFile;
   // }
 
+
   return (
     <>
       {item?.map((currentItem, index) => {
@@ -7482,6 +7496,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 onDrop={onDrop}
                 onContextMenu={handleContextMenu}
               >
+                {confirmRemove && <RemoveElementModal
+                  handleRemoveInput={handleRemoveInput} />}
+
                 {contextMenu.show && (
                   <RightContextMenu
                     x={contextMenu.x}
