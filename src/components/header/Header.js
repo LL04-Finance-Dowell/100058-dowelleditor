@@ -2812,6 +2812,7 @@ const Header = () => {
   const docMap = decoded?.details?.document_map;
   const documentFlag = decoded?.details?.document_flag;
   const titleName = decoded?.details?.name;
+  const finalDocName = decoded?.details?.update_field.document_name;
 
   // console.log(authorized);
   // console.log(process_id);
@@ -3010,8 +3011,8 @@ const Header = () => {
       .then((res) => {
         if (res) {
           toast.success("Saved successfully");
-          setIsLoading(false);
           if (finalize) {
+          setIsLoading(true);
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
@@ -3037,6 +3038,7 @@ const Header = () => {
             //   // handleFinalizeButtonStapel();
             // }
           }
+          setIsLoading(false);
           setIsDataSaved(true);
         }
         //console.log(res);
@@ -3457,7 +3459,7 @@ const Header = () => {
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-                {titleName}
+                {docMap ? finalDocName : titleName}
               </div>
               <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>

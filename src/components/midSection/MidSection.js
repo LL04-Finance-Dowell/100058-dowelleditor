@@ -1961,7 +1961,7 @@ const MidSection = React.forwardRef((props, ref) => {
     let holder;
     // console.log("dragElement", event.target);
     // event.dataTransfer.setData("text/plain", "DATE_INPUT");
-    if (!resizing) {
+    if (!resizing && !documnentsMap) {
       let initX = event.screenX;
       let initY = event.screenY;
 
