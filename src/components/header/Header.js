@@ -163,6 +163,7 @@ const Header = () => {
   const [printContent, setPrintContent] = useState(false);
   const [cutItem_value, setCutItem_value] = useState(null);
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
+  const [selectedTemplate, setSelectedTemplate] = useState(""); // Add a state for selected template
 
 
 
@@ -560,10 +561,6 @@ const Header = () => {
     return holderMenu;
   }
 
-
-
-
-
   const copyInput = (clickHandler) => {
     // if (typeOfOperation === "IMAGE_INPUT") {
     const element = document.querySelector(".focussedd");
@@ -874,9 +871,6 @@ const Header = () => {
   //   // console.log("coping", copyEle)
   // };
   const handlePaste = () => {
-
-
-
     const element = JSON.parse(sessionStorage.getItem("cutItem"));
     const curr_user = document.getElementById("current-user");
 
@@ -2581,10 +2575,10 @@ const Header = () => {
           )
         ) {
           let tempElem = newScales[b].parentElement;
-
           let tempPosn = getPosition(tempElem);
           console.log(newScales[b]);
           let circles = newScales[b].querySelector(".circle_label");
+          // const hasNegative = [...circles].some((circle) => parseInt(circle.textContent) < 0);
           let scaleBg = newScales[b].querySelector(".label_hold");
           let leftChild = newScales[b].querySelector(".left_child");
           let neutralChild = newScales[b].querySelector(".neutral_child");
@@ -2592,6 +2586,7 @@ const Header = () => {
           let scaleText = newScales[b].querySelector(".scale_text");
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
+          let scaleType = newScales[b].querySelector(".scaleTypeHolder");
           let scaleID = newScales[b].querySelector(".scaleId");
           console.log(font);
 
@@ -2605,6 +2600,11 @@ const Header = () => {
               emojiArr.push(buttonText[i].textContent);
             }
           }
+
+          // if (buttonStapel.length !==0) {
+          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
+          //     stapelNum.push(buttonStapel[i].textContent);
+          // }
 
           // console.log(buttonColors);
           let properties = {
@@ -2842,6 +2842,7 @@ const Header = () => {
     function authorizedLogin() {
       return username === undefined ? generateLoginUser() : username;
     }
+
     let scaleElements = document.querySelectorAll(".newScaleInput");
 
     const documentResponses = [];
@@ -2868,6 +2869,60 @@ const Header = () => {
 
     Axios.post(
       "https://100035.pythonanywhere.com/api/nps_responses_create",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleFinalizeButtonStapel() {
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+    
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    const documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      const scaleId = scale?.querySelector(".scaleId")?.textContent;
+      const holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: authorizedLogin(),
+      document_responses: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/stapel/api/stapel_responses_create/",
       requestBody
     )
       .then((response) => {
@@ -2948,7 +3003,29 @@ const Header = () => {
           setIsLoading(false);
           if (finalize) {
             handleFinalize();
-            handleFinalizeButton();
+            const scale = document.querySelector(".focussedd");
+            let circles = scale?.querySelectorAll(".circle_label");
+            const hasNegative = [...circles].some((circle) => parseInt(circle.textContent) < 0);
+            // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
+            // handleFinalizeButton();
+            // if (selectedTemplate === "nps") {
+            //   handleFinalizeButton();
+            // } else if (selectedTemplate === "stapel") {
+            //   handleFinalizeButtonStapel();
+            // } else {
+            //   // Handle the case when no template is selected
+            // }
+            if (hasNegative) {
+              handleFinalizeButtonStapel();
+            } 
+            else {
+              handleFinalizeButton();
+            }
+
+            // if (hasEmoji) {
+            //   handleFinalizeButton();
+            //   // handleFinalizeButtonStapel();
+            // }
           }
           setIsDataSaved(true);
         }
