@@ -1,7 +1,7 @@
-import { Suspense, lazy } from "react";
+// import { react } from "react";
 import "./App.css";
-// import HomePage from "./pages/HomePage";
-const HomePage = lazy(() => import("./pages/HomePage"));
+import HomePage from "./pages/HomePage";
+// const HomePage = lazy(() => import("./pages/HomePage"));
 
 // import {
 //   BrowserRouter as Router,
@@ -20,12 +20,12 @@ function App() {
   //   }
   // }, [])
   return (
-    <Suspense fallback={"Loading......."}>
+    // <Suspense fallback={"Loading......."}>
       <div className="app">
         {/* <Printer /> */}
         <HomePage />
       </div>
-    </Suspense>
+    // </Suspense>
   );
 }
 

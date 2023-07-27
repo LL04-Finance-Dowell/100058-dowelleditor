@@ -512,11 +512,8 @@ const MidSection = React.forwardRef((props, ref) => {
         //   [p - 1] // ?.item(0)
         //   ?.append(holderDIV);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (
-        element.type === "TEXT_INPUT"
-      ) {
+        sessionStorage.clear();
+      } else if (element.type === "TEXT_INPUT") {
         let inputField = document.createElement("div");
         //  inputField.setAttribute('draggable', true);
         inputField.setAttribute("contenteditable", true);
@@ -578,17 +575,12 @@ const MidSection = React.forwardRef((props, ref) => {
           // inputField.classList.add("focussed");
           // inputField.parentElement.focus()
         };
-        inputField.innerText = `${element.data}`
-
-
-
+        inputField.innerText = `${element.data}`;
 
         holderDIV.append(inputField);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-
-      }
-      else if (element.type === "IMAGE_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "IMAGE_INPUT") {
         let imageField = document.createElement("div");
         imageField.className = "imageInput";
         imageField.id = "inputImg";
@@ -654,10 +646,9 @@ const MidSection = React.forwardRef((props, ref) => {
         imageButton.append(imgBtn);
         holderDIV.append(imageField);
         holderDIV.append(imageButton);
-        cutItem_value.append(holderDIV)
-        sessionStorage.clear()
-      }
-      else if (element.type === "IFRAME_INPUT") {
+        cutItem_value.append(holderDIV);
+        sessionStorage.clear();
+      } else if (element.type === "IFRAME_INPUT") {
         let iframeField = document.createElement("div");
         iframeField.className = "iframeInput";
         iframeField.style.width = "100%";
@@ -689,13 +680,12 @@ const MidSection = React.forwardRef((props, ref) => {
           handleClicked("iframe2", "container2");
           setSidebar(true);
         };
-        iframeField.innerHTML = `${element.data}`
+        iframeField.innerHTML = `${element.data}`;
 
         holderDIV.append(iframeField);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "SCALE_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "SCALE_INPUT") {
         setIsLoading(true);
 
         let scaleField = document.createElement("div");
@@ -781,15 +771,14 @@ const MidSection = React.forwardRef((props, ref) => {
           setSidebar(true);
         };
 
-        scaleField.innerHTML = `${element.data}`
+        scaleField.innerHTML = `${element.data}`;
 
         holderDIV.append(scaleField);
         holderDIV.append(scaleIdHolder);
         holderDIV.append(labelHolder);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "SIGN_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "SIGN_INPUT") {
         let signField = document.createElement("div");
         signField.className = "signInput";
         signField.style.width = "100%";
@@ -849,7 +838,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         imageSignButton.append(signBtn);
 
-        signField.innerText = `${element.data}`
+        signField.innerText = `${element.data}`;
 
         // const para = document.createElement("p");
         // para.innerHTML = "Place your signature here";
@@ -857,9 +846,8 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(signField);
         holderDIV.append(imageSignButton);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
-      }
-      else if (element.type === "DROPDOWN_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "DROPDOWN_INPUT") {
         let dropdownField = document.createElement("div");
         dropdownField.className = "dropdownInput";
         dropdownField.style.width = "100%";
@@ -867,7 +855,7 @@ const MidSection = React.forwardRef((props, ref) => {
         dropdownField.style.backgroundColor = "#0000";
         dropdownField.style.borderRadius = "0px";
         dropdownField.style.outline = "0px";
-        dropdownField.style.border = "1px solid gray"
+        dropdownField.style.border = "1px solid gray";
         dropdownField.style.overflow = "overlay";
         // dropdownField.innerHTML = `<select><option>${postData.dropdownField.value}</option></select>`;
         dropdownField.style.position = "absolute";
@@ -928,7 +916,7 @@ const MidSection = React.forwardRef((props, ref) => {
           para.parentElement.click();
         };
 
-        dropdownField.innerHTML = `${element.data2}`
+        dropdownField.innerHTML = `${element.data2}`;
         // para.innerHTML=`${element.data2}`
 
         // dropdownField.innerText = `${element.data}`
@@ -937,8 +925,7 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(dropdownField);
         cutItem_value.append(holderDIV);
         sessionStorage.clear();
-      }
-      else if (element.type === "CONTAINER_INPUT") {
+      } else if (element.type === "CONTAINER_INPUT") {
         let containerField = document.createElement("div");
         containerField.className = "containerInput";
         containerField.id = "containerInput";
@@ -1508,14 +1495,12 @@ const MidSection = React.forwardRef((props, ref) => {
           if (typeOfOperationContainer !== "CONTAINER_INPUT")
             containerField.append(holderDIVContainer);
         };
-        containerField.innerHTML = `${element.data}`
-
+        containerField.innerHTML = `${element.data}`;
 
         holderDIV.append(containerField);
         cutItem_value.append(containerField);
-        sessionStorage.clear()
-      }
-      else if (element.type === "BUTTON_INPUT") {
+        sessionStorage.clear();
+      } else if (element.type === "BUTTON_INPUT") {
         let buttonField = document.createElement("button");
         buttonField.className = "buttonInput";
         buttonField.style.width = "100%";
@@ -1549,7 +1534,6 @@ const MidSection = React.forwardRef((props, ref) => {
         holderDIV.append(linkHolder);
         holderDIV.append(purposeHolder);
       }
-
 
       console.log("data", element, "cutItem_value", cutItem_value);
       // cutItem_value.append(data);
@@ -1627,7 +1611,6 @@ const MidSection = React.forwardRef((props, ref) => {
     //   }
     // }
   };
-
 
   const handleCutInput = () => {
     const cutItem = document.querySelector(".focussedd");
@@ -1957,9 +1940,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -1978,7 +1961,7 @@ const MidSection = React.forwardRef((props, ref) => {
     let holder;
     // console.log("dragElement", event.target);
     // event.dataTransfer.setData("text/plain", "DATE_INPUT");
-    if (!resizing) {
+    if (!resizing && !documnentsMap) {
       let initX = event.screenX;
       let initY = event.screenY;
 
@@ -2437,7 +2420,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2545,7 +2528,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2629,7 +2612,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2749,7 +2732,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -3008,7 +2991,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3063,7 +3046,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3177,7 +3160,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3221,7 +3204,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3350,7 +3333,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3466,7 +3449,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -3513,6 +3496,24 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleText.style.borderRadius = "0px";
           scaleHold.append(scaleText);
 
+          const scaleTypeHolder = document.createElement("h6");
+          scaleTypeHolder.className = "scaleTypeHolder";
+          scaleTypeHolder.textContent = element?.raw_data?.scaleType;
+          scaleTypeHolder.style.display = "none";
+          scaleHold.appendChild(scaleTypeHolder);
+
+          const stapelScaleArray = document.createElement('div');
+          stapelScaleArray.className = "stapelScaleArray"
+          stapelScaleArray.textContent = element?.raw_data?.stapelScaleArray
+          stapelScaleArray.style.display = "none"
+          scaleHold.append(stapelScaleArray)
+
+          const optionHolder = document.createElement('div');
+          optionHolder.className = "stapelOptionHolder"
+          optionHolder.textContent = element?.raw_data?.stapelOptionHolder
+          optionHolder.style.display = "none"
+          scaleHold.append(optionHolder)
+
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
           labelHold.style.width = "100%";
@@ -3524,6 +3525,7 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.justifyContent = "space-between";
           labelHold.style.alignItems = "center";
           console.log(scaleId, "scale button");
+          if(scaleTypeHolder.textContent === "nps"){
           for (let i = 0; i < 11; i++) {
             const circle = document.createElement("div");
             circle.className = "circle_label";
@@ -3572,12 +3574,36 @@ const MidSection = React.forwardRef((props, ref) => {
               let circles = document.querySelectorAll(".circle_label");
               let isClicked = false;
 
+              let circleBgColor = circle.style.backgroundColor
+
               circle.addEventListener("click", function () {
                 if (!isClicked) {
                   let scale = document.querySelector(".focussedd");
                   let holding = scale?.querySelector(".newScaleInput");
+                  const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
 
-                  circle.style.backgroundColor = "blue";
+                  console.log("This is the background color",circle.style.backgroundColor)
+                  function componentToHex(c) {
+                    var hex = c.toString(16);
+                    return hex.length == 1 ? "0" + hex : hex;
+                }
+                
+                  function rgbToHex(r, g, b) {
+                    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                }
+                  function invert(rgb) {
+                    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+                    for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                    return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                  }
+
+                  circle.style.backgroundColor = invert(circle.style.backgroundColor)
+
+                  for (let i = 0; i < buttonCircle.length; i++) {
+                    if(buttonCircle[i].textContent !== circle.textContent){
+                      buttonCircle[i].style.backgroundColor = circleBgColor;
+                    }
+                  }
 
                   let holdElem = scale?.querySelector(".holdElem");
 
@@ -3591,15 +3617,19 @@ const MidSection = React.forwardRef((props, ref) => {
                     holdElem.style.display = "none";
                     holdElem.textContent = i;
                     holding?.appendChild(holdElem);
-                    console.log("This is holdEle", holdElem.textContent)
+                    console.log("This is holdEle", holdElem.textContent);
                     const required_map_document = document_map_required?.filter(
                       (item) => element.id == item.content
                     );
                     if (
-                      scaleField?.parentElement?.classList.contains("holderDIV") &&
+                      scaleField?.parentElement?.classList.contains(
+                        "holderDIV"
+                      ) &&
                       required_map_document.length > 0
                     ) {
-                      scaleField?.parentElement?.classList.add("element_updated");
+                      scaleField?.parentElement?.classList.add(
+                        "element_updated"
+                      );
                     }
                   }
 
@@ -3609,7 +3639,102 @@ const MidSection = React.forwardRef((props, ref) => {
               });
             }
           }
+        } else if(scaleTypeHolder.textContent === "snipte"){
+          const stapelScale = (stapelScaleArray.textContent).split(',')
+          const selectedOption = optionHolder.textContent;
+          console.log("This is the stapel",stapelScale)
+          for (let i = 0; i < stapelScale.length; i ++) {
+              const circle = document.createElement('div');
+              circle.className = 'circle_label';
+              circle.textContent = stapelScale[i];
+              labelHold.appendChild(circle);
+              circle.style.width = '35%';
+              circle.style.height = '35%';
+              circle.style.borderRadius = '50%';
+              circle.style.display = 'flex';
+              circle.style.justifyContent = 'center';
+              circle.style.alignItems = 'center';
+              circle.style.margin = '0 2px';
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+              if(selectedOption === "emoji"){
+                const buttonText = element.raw_data.buttonText;
+                circle.textContent = buttonText[i % buttonText.length];
+              }
 
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+
+              if (decoded.details.action === "document") {
+                let circles = document.querySelectorAll(".circle_label");
+                let isClicked = false;
+  
+                let circleBgColor = circle.style.backgroundColor
+  
+                circle.addEventListener("click", function () {
+                  if (!isClicked) {
+                    let scale = document.querySelector(".focussedd");
+                    let holding = scale?.querySelector(".newScaleInput");
+                    const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
+  
+                    console.log("This is the background color",circle.style.backgroundColor)
+                    function componentToHex(c) {
+                      var hex = c.toString(16);
+                      return hex.length == 1 ? "0" + hex : hex;
+                  }
+                  
+                    function rgbToHex(r, g, b) {
+                      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                  }
+                    function invert(rgb) {
+                      rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+                      for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                      return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                    }
+  
+                    circle.style.backgroundColor = invert(circle.style.backgroundColor)
+  
+                    for (let i = 0; i < buttonCircle.length; i++) {
+                      if(buttonCircle[i].textContent !== circle.textContent){
+                        buttonCircle[i].style.backgroundColor = circleBgColor;
+                      }
+                    }
+  
+                    let holdElem = scale?.querySelector(".holdElem");
+  
+                    if (holdElem) {
+                      // If holdElem exists, update its text content
+                      holdElem.textContent = i;
+                    } else {
+                      // If holdElem doesn't exist, create a new one
+                      holdElem = document.createElement("div");
+                      holdElem.className = "holdElem";
+                      holdElem.style.display = "none";
+                      holdElem.textContent = i;
+                      holding?.appendChild(holdElem);
+                      console.log("This is holdEle", holdElem.textContent);
+                      const required_map_document = document_map_required?.filter(
+                        (item) => element.id == item.content
+                      );
+                      if (
+                        scaleField?.parentElement?.classList.contains(
+                          "holderDIV"
+                        ) &&
+                        required_map_document.length > 0
+                      ) {
+                        scaleField?.parentElement?.classList.add(
+                          "element_updated"
+                        );
+                      }
+                    }
+  
+                    // Store holdElem inside the holding div
+                    // holding.appendChild(holdElem);
+                  }
+                });
+              }
+          }
+        }
           const childDiv = document.createElement("div");
           childDiv.id = "child";
           childDiv.style.display = "flex";
@@ -3902,6 +4027,7 @@ const MidSection = React.forwardRef((props, ref) => {
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
             setSidebar(true);
+            console.log("This is the scale type",scaleTypeHolder.textContent)
           };
           console.log(element);
           holderDIV.append(scaleField);
@@ -3910,7 +4036,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -3975,7 +4101,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -5015,7 +5141,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
@@ -5656,6 +5782,12 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleField.style.position = "absolute";
         // scaleField.innerText = "scale here";
 
+        const scaleTypeHolder = document.createElement("h6");
+        scaleTypeHolder.className = "scaleTypeHolder";
+        scaleTypeHolder.textContent = "";
+        scaleTypeHolder.style.display = "none";
+        scaleField.appendChild(scaleTypeHolder);
+    
         const tempText = document.createElement("div");
         tempText.className = "tempText";
         tempText.textContent = "New scale";
@@ -5666,7 +5798,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         const scaleHold = document.createElement("div");
         scaleHold.className = "scool_input";
-        scaleHold.style.color = "#000";
+        scaleHold.style.color = "#fff";
         scaleHold.style.width = "100%";
         scaleHold.style.height = "90%";
         scaleHold.style.padding = "10px";
@@ -5714,6 +5846,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.justifyContent = "center";
           circle.style.alignItems = "center";
           circle.style.marginLeft = "2px";
+          circle.style.display = "none"
 
           circle.textContent = i;
 
@@ -5747,6 +5880,7 @@ const MidSection = React.forwardRef((props, ref) => {
         idHolder.textContent = "scale Id";
         idHolder.style.display = "none";
         childDiv.appendChild(idHolder);
+
         // childDiv.appendChild( idHolder);
 
         // childDiv.appendChild(element3);
@@ -7126,10 +7260,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   return contentFile;
   // }
 
-
-
-
-  
   // const draggableElements = [
   //   { id: 1, x: 50, y: 50 },
   //   { id: 2, x: 150, y: 100 },
@@ -7144,8 +7274,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   updatedElements[index] = { ...updatedElements[index], x: newX, y: newY };
   //   setElements(updatedElements);
   // };
-
-
 
   // const handleUndo = () => {
   //   undo();
@@ -7167,7 +7295,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   }
   // };
 
-
   return (
     <>
       {item?.map((currentItem, index) => {
@@ -7175,14 +7302,11 @@ const MidSection = React.forwardRef((props, ref) => {
           // <div key={index} className={`midSection ${actionName == 'document' && 'disable_pointer_event'}`}>
           // <div key={index} className={`midSection disable_pointer_event`}>
           <Print>
-
             <div
               ref={ref}
               key={index}
               className={`midSection print_midsection_${index}`}
             >
-
-
               <Container
                 as="div"
                 ref={midSectionRef}
