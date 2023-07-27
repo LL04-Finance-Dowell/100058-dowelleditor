@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
@@ -9,34 +10,35 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import "./AlignRightSide.css";
 
 import {
-BiFont,
-BiAlignLeft,
-BiAlignMiddle,
-BiAlignRight,
+  BiFont,
+  BiAlignLeft,
+  BiAlignMiddle,
+  BiAlignRight,
 } from "react-icons/bi";
 import { MdBorderColor, MdFormatColorFill } from "react-icons/md";
 import {
-AiOutlineArrowUp,
-AiOutlineArrowDown,
-AiOutlineFontColors,
+  AiOutlineArrowUp,
+  AiOutlineArrowDown,
+  AiOutlineFontColors,
 } from "react-icons/ai";
 import {
-FaBold,
-FaItalic,
-FaStrikethrough,
-FaUnderline,
-FaOutdent,
-FaIndent,
-FaListUl,
-FaListOl,
+  FaBold,
+  FaItalic,
+  FaStrikethrough,
+  FaUnderline,
+  FaOutdent,
+  FaIndent,
+  FaListUl,
+  FaListOl,
 } from "react-icons/fa";
 import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import RemoveElmentModal from "../RemoveElementModal";
 
-const AlignRightSide = () =>
-{
+const AlignRightSide = () => {
   const {
     bold,
     setBold,
@@ -53,7 +55,8 @@ const AlignRightSide = () =>
     inputBorderSize,
     setInputBorderSize
   } = useStateContext();
-
+  const [selectedType, setSelectedType] = useState("")
+  const [addedAns, setAddedAns] = useState([])
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -69,6 +72,7 @@ const AlignRightSide = () =>
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
+  const { confirmRemove, setConfirmRemove } = useStateContext()
 
 
   // function boldCommand() {
@@ -742,6 +746,14 @@ const AlignRightSide = () =>
 
         <hr />
 
+        <SelectAnsAndQuestion
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          setAddedAns={setAddedAns}
+          addedAns={addedAns}
+        />
+        <hr />
+
         <Row className="pt-0">
           {/* <div className='dropdown'>
             <h6>User permissions</h6>
@@ -756,7 +768,8 @@ const AlignRightSide = () =>
           <div className="mt-3 text-center">
             <Button
               variant="primary"
-              onClick={removeTextBox}
+              // onClick={removeTextBox}
+              onClick={() => setConfirmRemove(!confirmRemove)}
               className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
             >
               Remove TextBox

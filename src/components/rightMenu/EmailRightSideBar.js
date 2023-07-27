@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useStateContext } from "../../contexts/contextProvider";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 // import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -24,11 +25,14 @@ const EmailRightSideBar = () => {
 
 
     const {
-        formBorderSize, 
+        formBorderSize,
         setFormBorderSize,
         formBorderColor,
-        setFormBorderColor
+        setFormBorderColor,
+        setConfirmRemove, confirmRemove
     } = useStateContext()
+    const [selectedType, setSelectedType] = useState('')
+    const [addedAns, setAddedAns] = useState([])
 
     // const [borderSize, setBorderSize] = useState(
     //     Number(localStorage.getItem("borderSize")) || 0
@@ -400,10 +404,17 @@ const EmailRightSideBar = () => {
                 )}
             </Row>
             <hr />
+            <SelectAnsAndQuestion
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
+                setAddedAns={setAddedAns}
+                addedAns={addedAns} />
+            <hr />
             <div className="d-flex justify-content-center">
                 <Button
                     variant="primary"
-                    onClick={removeContainer}
+                    // onClick={removeContainer}
+                    onClick={() => setConfirmRemove(!confirmRemove)}
                     className="remove_container text-center mt-5"
                 >
                     Remove Container

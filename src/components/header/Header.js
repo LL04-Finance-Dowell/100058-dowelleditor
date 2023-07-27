@@ -62,7 +62,6 @@ const initialContextMenu = {
 const Header = () => {
   const inputRef = useRef(null);
   const componentRef = useRef(null);
-
   // import { ToastContainer, toast } from 'react-toastify';
   // import 'react-toastify/dist/ReactToastify.css';
   // import { AiFillPrinter } from 'react-icons/ai';
@@ -157,7 +156,7 @@ const Header = () => {
     postData,
     setPostData,
     setRightSideDropDown,
-
+    questionAndAnswerGroupedData,
   } = useStateContext();
 
   const [printContent, setPrintContent] = useState(false);
@@ -2799,6 +2798,7 @@ const Header = () => {
 
     return contentFile;
   }
+  // end of save document function
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -2952,6 +2952,9 @@ const Header = () => {
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
+    // const questionAndAns = questionAndAnswerGrouping()
+    // console.log("questionAndAns", questionAndAns)
+
     const dataa = saveDocument();
 
     const finalize = document.getElementById("finalize-button");
@@ -3006,6 +3009,7 @@ const Header = () => {
         // scale_url: `${scaleData}`,
         company_id: companyId,
         type: decoded.details.action,
+        questionAndAns: questionAndAnswerGroupedData,
       }
     )
       .then((res) => {
@@ -3452,7 +3456,7 @@ const Header = () => {
               {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
               <div
                 className="title-name px-3"
-                contentEditable={true}
+                contentEditable= {docMap? false : true}
                 style={{ fontSize: 24 }}
                 spellCheck="false"
                 ref={inputRef}

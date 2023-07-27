@@ -18,13 +18,14 @@ import { Provider } from "react-redux";
 import { applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
+import PrintProvider from "react-easy-print";
 
 // const store = configureStore(reducers, compose(applyMiddleware(thunk)))
-import PrintProvider from "react-easy-print";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ContextProvider>
     <PrintProvider>
+      {/* <Provider store={store}> */}
       <React.StrictMode>
         <Router basename={window.location.pathname || ""}>
           <Routes>
@@ -32,6 +33,7 @@ root.render(
           </Routes>
         </Router>
       </React.StrictMode>
+      {/* </Provider> */}
     </PrintProvider>
   </ContextProvider>
 );

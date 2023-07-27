@@ -32,7 +32,8 @@ const TableRightSidebar = () => {
     tableBorderSize,
     setTableBorderSize,
     tableBorderColor,
-    setTableBorderColor
+    setTableBorderColor,
+    setConfirmRemove, confirmRemove
     // handleDropp,
   } = useStateContext();
 
@@ -1151,7 +1152,7 @@ const TableRightSidebar = () => {
         <Button
           variant="primary"
           className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
-          onClick={removeTable}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Table
         </Button>

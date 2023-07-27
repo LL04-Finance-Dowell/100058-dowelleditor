@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
 import { GrEmoji } from "react-icons/gr";
 import Picker from "emoji-picker-react";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const ScaleRightSide = () => {
   const {
@@ -28,8 +29,11 @@ const ScaleRightSide = () => {
     setScaleId,
     scaleId,
     setScaleTypeContent,
-    scaleTypeContent
+    scaleTypeContent,
+    setConfirmRemove, confirmRemove
   } = useStateContext();
+  const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
@@ -1241,8 +1245,8 @@ const ScaleRightSide = () => {
               }}
               id="updateScale"
               className="py-2 bg-white border-none"
-              // style={{"}}
-              // onClick={showIframe}
+            // style={{"}}
+            // onClick={showIframe}
             >
               Appearance
             </button>
@@ -1254,8 +1258,8 @@ const ScaleRightSide = () => {
               }}
               id="setScale"
               className="py-2 bg-white border-none"
-              // style={{ bordern: "none", outline: "none" }}
-              // onClick={showSetting}
+            // style={{ bordern: "none", outline: "none" }}
+            // onClick={showSetting}
             >
               Configurations
             </button>
@@ -3274,7 +3278,8 @@ const ScaleRightSide = () => {
                 variant="secondary"
                 // className="remove_button"
                 className="remove_button"
-                onClick={removeScale}
+                // onClick={removeScale}
+                onClick={() => setConfirmRemove(!confirmRemove)}
               >
                 Remove Scale
               </Button>

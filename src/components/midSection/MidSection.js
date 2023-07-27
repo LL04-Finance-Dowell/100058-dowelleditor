@@ -26,6 +26,9 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import RemoveElementModal from "../RemoveElementModal";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -112,6 +115,10 @@ const MidSection = React.forwardRef((props, ref) => {
   const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
+
+  const { confirmRemove } = useStateContext()
+  // const [confirmation, setConfirmation] = useState('confirmation')
+
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
@@ -144,6 +151,8 @@ const MidSection = React.forwardRef((props, ref) => {
   }
 
   const midSectionRef = useRef([]);
+
+
 
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
@@ -1789,7 +1798,11 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // Remove Input
   const handleRemoveInput = () => {
+    console.log("handleRemoveInput", "i was called - 1")
     const selectInput = document.querySelector(".focussedd");
+    console.log("selectInput", selectInput)
+    console.log("handleRemoveInput", "i was called - 2")
+    if (!selectInput) return;
     selectInput.remove();
   };
 
@@ -3420,10 +3433,10 @@ const MidSection = React.forwardRef((props, ref) => {
             cameraField.append(imageLinkHolder1);
           }
 
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
 
           cameraField.onclick = (e) => {
             e.stopPropagation();
@@ -3449,7 +3462,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -7325,6 +7338,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 onDrop={onDrop}
                 onContextMenu={handleContextMenu}
               >
+                {confirmRemove && <RemoveElementModal
+                  handleRemoveInput={handleRemoveInput} />}
+
                 {contextMenu.show && (
                   <RightContextMenu
                     x={contextMenu.x}
