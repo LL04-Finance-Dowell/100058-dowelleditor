@@ -756,6 +756,7 @@ const ScaleRightSide = () => {
       // const buttonCircle = document.querySelectorAll(".circle_label");
       const buttonCircle = scale ? document.querySelectorAll(".circle_label") : [];
       const buttonChild = document.getElementById("child");
+      const btnUpdateScaleFontStapel = document.getElementById("font_style_stapel");
       const buttonChildLeft = scale?.querySelector(".left_child");
       const buttonChildRight = scale?.querySelector(".right_child");
       const buttonChildNeutral = scale?.querySelector(".neutral_child");
@@ -789,6 +790,10 @@ const ScaleRightSide = () => {
 
       if (btnUpdateFontColor.value !== "") {
         button4.style.color = btnUpdateFontColor.value;
+      }
+
+      if (btnUpdateScaleFontStapel.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFontStapel.value;
       }
 
       // if (scaleText) {
@@ -959,7 +964,7 @@ const ScaleRightSide = () => {
           left: btnUpdateLeft.value,
           right: btnUpdateRight.value,
           label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-          fontstyle: "Arial",
+          fontstyle: btnUpdateScaleFontStapel.value,
           custom_emoji_format: emojiLabels,
         })
           .then((res) => {
@@ -997,7 +1002,7 @@ const ScaleRightSide = () => {
           left: btnUpdateLeft.value,
           right: btnUpdateRight.value,
           label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-          fontstyle: "Arial",
+          fontstyle: btnUpdateScaleFontStapel.value,
           custom_emoji_format: emojiLabels,
         })
           .then((res) => {
@@ -1582,7 +1587,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-
                     <div
                       style={{
                         display: "flex",
@@ -1641,7 +1645,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -1756,7 +1759,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -2727,16 +2729,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "7px",
-                      justifyContent: "space-between",
-                    }}
-                  >
                     <div
                       style={{
                         display: "flex",
@@ -2745,7 +2737,7 @@ const ScaleRightSide = () => {
                       }}
                     >
                       <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Format
+                        Font Style
                       </h6>
                       <div
                         style={{
@@ -2761,7 +2753,71 @@ const ScaleRightSide = () => {
                       >
                         <select
                           style={{
-                            width: "70px",
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style_stapel"
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "90%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "60px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
@@ -2787,7 +2843,7 @@ const ScaleRightSide = () => {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "2px",
+                        gap: "1px",
                       }}
                     >
                       <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
@@ -2840,7 +2896,7 @@ const ScaleRightSide = () => {
                           padding: "3px 7px",
                           borderRadius: "7px",
                           // height: "30px",
-                          width: "100%",
+                          width: "90%",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -2848,7 +2904,7 @@ const ScaleRightSide = () => {
                       >
                         <input
                           style={{
-                            width: "100px",
+                            width: "80px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
