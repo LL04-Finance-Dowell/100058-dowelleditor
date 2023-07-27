@@ -54,7 +54,7 @@ const ContainerRigntSideBar = () =>
     setContainerBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${containerBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
 
@@ -62,7 +62,7 @@ const ContainerRigntSideBar = () =>
   {
     setContainerBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${containerBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
 
   };
   const handleRangeBlur = (e) =>
@@ -108,7 +108,7 @@ const ContainerRigntSideBar = () =>
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={containerBorderSize}
               onChange={handleBorderSizeChange}

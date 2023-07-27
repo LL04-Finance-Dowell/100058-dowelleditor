@@ -101,7 +101,7 @@ const ButtonRightSide = () => {
     setButtonBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${buttonBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
 
@@ -109,7 +109,7 @@ const ButtonRightSide = () => {
   {
     setButtonBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${buttonBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
   };
   const handleRangeBlur = (e) => {
     e.target.focus();
@@ -178,7 +178,7 @@ const ButtonRightSide = () => {
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={buttonBorderSize}
               onChange={handleBorderSizeChange}

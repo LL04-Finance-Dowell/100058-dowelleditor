@@ -117,14 +117,14 @@ const CalendarRightSidebar = (props) =>
     setCalendarBorderSize(parseInt(e.target.value));
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${calendarBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
   const handleBorderColorChange = (e) =>
   {
     setCalendarBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${calendarBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
   };
   const handleRangeBlur = (e) =>
   {
@@ -234,7 +234,7 @@ const CalendarRightSidebar = (props) =>
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={calendarBorderSize}
               onChange={handleBorderSizeChange}

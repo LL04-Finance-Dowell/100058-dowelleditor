@@ -127,8 +127,19 @@ const AlignRightSide = () =>
     document.execCommand("indent");
   };
 
+
+  let currentFontSize = 16;
   const handleIncreaseSize = (size) => {
-    document.execCommand("increaseFontSize");
+    // document.execCommand("increaseFontSize");
+//  console.log("increasing Font Size")
+    var sel = document.getElementsByClassName("focussed")[0];
+    // console.log("selection", sel)
+
+    // selectBtn.addEventListener("click", () => {
+      currentFontSize += 2;
+      sel.style.fontSize = currentFontSize + "px";
+    // })
+
 
 
     // let selection = document.getSelection();
@@ -162,7 +173,13 @@ const AlignRightSide = () =>
 
 
   const handleDecreaseSize = () => {
-    document.execCommand("decreaseFontSize");
+    // document.execCommand("decreaseFontSize");
+
+    var sel = document.getElementsByClassName("focussed")[0];
+    currentFontSize -= 2;
+    sel.style.fontSize = currentFontSize + "px";
+
+    
   };
 
   function handleSizing(event) {
@@ -280,7 +297,8 @@ const AlignRightSide = () =>
     setInputBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${inputBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
+    console.log("border Slide", e.target.value)
 
   };
   // const handleBorderColorBlur = () => {
@@ -298,8 +316,14 @@ const AlignRightSide = () =>
   const handleBorderColorChange = (e) => {
     setInputBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${inputBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
   };
+
+  // console.log("handling color", inputBorderColor);
+
+  // const handleCheckedBorder = (e) => {
+  //   if()
+  // }
 
 
   useEffect(() => {
@@ -530,9 +554,9 @@ const AlignRightSide = () =>
             <Button
               variant="white"
               onClick={handleIncreaseSize}
-              className="d-flex select bg-white rounded size-btn"
+              className="d-flex select bg-white rounded size-btn selectionBtn"
             >
-              <BiFont onClick={handleIncreaseSize} color="gray" size={10} />
+              <BiFont color="gray" />
               <AiOutlineArrowUp color="gray" />
             </Button>
           </Col>
@@ -552,7 +576,7 @@ const AlignRightSide = () =>
           <div style={{ display: "flex", alignItems: "center" }}>
             <h6 style={{ marginRight: "10rem" }}>Border</h6>
             <label className="switch">
-              <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+              <input type="checkbox" onClick={() => setShowSlider(!showSlider)} checked={!showSlider?false:true}/>
               <span className="slider round"></span>
             </label>
           </div>
@@ -567,14 +591,13 @@ const AlignRightSide = () =>
               />
               <input
                 type="range"
-                min="-10"
+                min="0"
                 max="20"
                 value={inputBorderSize}
                 onChange={handleBorderSizeChange}
                 onBlur={handleRangeBlur}
                 id="range"
-                className="range-color"
-
+                className="form-range"
               />
 
             </div>

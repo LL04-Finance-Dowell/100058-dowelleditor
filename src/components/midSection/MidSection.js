@@ -26,7 +26,6 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
-import useUndo from "use-undo";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -647,8 +646,9 @@ const MidSection = React.forwardRef((props, ref) => {
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
-        imageField.outerHTML = `${element.data2}`
-        console.log("element data getting", `${element.data}`)
+        imageField.innerHTML = `${element.data  }`
+        imageField.innerHTML = `${element.data2  }`
+        // console.log("element data getting", `${element.data2}`)
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
@@ -1634,7 +1634,7 @@ const MidSection = React.forwardRef((props, ref) => {
     const cutEle = cutItem.cloneNode(true);
 
     function getPosition(el) {
-      console.log("element check", el);
+      // console.log("element check", el);
       const midSec = document.getElementById("midSection_container");
       const rect = el.getBoundingClientRect();
       const midsectionRect = midSec.getBoundingClientRect();
@@ -1704,7 +1704,7 @@ const MidSection = React.forwardRef((props, ref) => {
       left: cutEle.style.left,
       type: type,
       data: cutEle.firstChild.innerHTML,
-      data2: cutEle.firstChild.outerHTML,
+      data2: cutEle.firstChild.outerHTML  ,
       // createAt: new Date(),
       // updateAt: new Date
       // id: `d${h + 1}`,

@@ -101,14 +101,14 @@ const SignsRightSidebar = () =>
     setSignBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${signBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
   };
 
   const handleBorderColorChange = (e) =>
   {
     setSignBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${signBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
   };
   const handleRangeBlur = (e) =>
   {
@@ -184,7 +184,7 @@ const SignsRightSidebar = () =>
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={signBorderSize}
               onChange={handleBorderSizeChange}

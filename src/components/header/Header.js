@@ -3369,7 +3369,7 @@ const Header = () => {
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
-                {titleName}
+                {titleName && titleName}
               </div>
               <FaPen className="cursor-pointer" onClick={handleTitle} />
             </div>

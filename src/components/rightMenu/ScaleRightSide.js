@@ -202,7 +202,7 @@ const ScaleRightSide = () => {
     setScaleBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${scaleBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
 
@@ -219,7 +219,7 @@ const ScaleRightSide = () => {
   const handleBorderColorChange = (e) => {
     setScaleBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${scaleBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
 
   };
   return (
@@ -342,7 +342,7 @@ const ScaleRightSide = () => {
                   />
                   <input
                     type="range"
-                    min="-10"
+                    min="0"
                     max="20"
                     value={scaleBorderSize}
                     onChange={handleBorderSizeChange}
