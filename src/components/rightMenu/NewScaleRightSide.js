@@ -30,7 +30,7 @@ const ScaleRightSide = () => {
     scaleId,
     setScaleTypeContent,
     scaleTypeContent,
-    setConfirmRemove, confirmRemove
+    setConfirmRemove, confirmRemove,
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
   const [addedAns, setAddedAns] = useState([])
@@ -1245,8 +1245,8 @@ const ScaleRightSide = () => {
               }}
               id="updateScale"
               className="py-2 bg-white border-none"
-            // style={{"}}
-            // onClick={showIframe}
+              // style={{"}}
+              // onClick={showIframe}
             >
               Appearance
             </button>
@@ -1258,8 +1258,8 @@ const ScaleRightSide = () => {
               }}
               id="setScale"
               className="py-2 bg-white border-none"
-            // style={{ bordern: "none", outline: "none" }}
-            // onClick={showSetting}
+              // style={{ bordern: "none", outline: "none" }}
+              // onClick={showSetting}
             >
               Configurations
             </button>
@@ -2398,6 +2398,15 @@ const ScaleRightSide = () => {
                         </option>
                       </select>
                     </div>
+
+                    <br />
+                  <SelectAnsAndQuestion
+                    selectedType={selectedType}
+                    setSelectedType={setSelectedType}
+                    setAddedAns={setAddedAns}
+                    addedAns={addedAns} />
+                  <br />
+
                     <div>
                       <Button
                         id="button_id"
@@ -3278,8 +3287,7 @@ const ScaleRightSide = () => {
                 variant="secondary"
                 // className="remove_button"
                 className="remove_button"
-                // onClick={removeScale}
-                onClick={() => setConfirmRemove(!confirmRemove)}
+                onClick={removeScale}
               >
                 Remove Scale
               </Button>
