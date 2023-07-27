@@ -313,12 +313,12 @@ const LeftMenu = ({ showSidebar }) => {
               icon={<BsCodeSquare />}
               title="Iframe"
             />
-            <NavButton
+            {/* <NavButton
               dragStartFunc={dragStartScale}
               customFunc={() => handleDrop("scale")}
               icon={<IoScale />}
               title="Scale"
-            />
+            /> */}
 
             <NavButton
               dragStartFunc={dragStartButton}

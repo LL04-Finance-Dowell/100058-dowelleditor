@@ -3502,10 +3502,17 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleTypeHolder.style.display = "none";
           scaleHold.appendChild(scaleTypeHolder);
 
+          const stapelScaleArray = document.createElement('div');
+          stapelScaleArray.className = "stapelScaleArray"
+          stapelScaleArray.textContent = element?.raw_data?.stapelScaleArray
+          stapelScaleArray.style.display = "none"
+          scaleHold.append(stapelScaleArray)
+
           const optionHolder = document.createElement('div');
           optionHolder.className = "stapelOptionHolder"
           optionHolder.textContent = element?.raw_data?.stapelOptionHolder
           optionHolder.style.display = "none"
+          scaleHold.append(optionHolder)
 
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
@@ -3633,12 +3640,13 @@ const MidSection = React.forwardRef((props, ref) => {
             }
           }
         } else if(scaleTypeHolder.textContent === "snipte"){
-          const stapelScaleArray = (element?.raw_data?.stapelScaleArray).split(',')
-          for (let i = 0; i < stapelScaleArray.length; i ++) {
-            const selectedOption = optionHolder.textContent;
+          const stapelScale = (stapelScaleArray.textContent).split(',')
+          const selectedOption = optionHolder.textContent;
+          console.log("This is the stapel",stapelScale)
+          for (let i = 0; i < stapelScale.length; i ++) {
               const circle = document.createElement('div');
               circle.className = 'circle_label';
-              circle.textContent = i;
+              circle.textContent = stapelScale[i];
               labelHold.appendChild(circle);
               circle.style.width = '35%';
               circle.style.height = '35%';
@@ -3648,9 +3656,7 @@ const MidSection = React.forwardRef((props, ref) => {
               circle.style.alignItems = 'center';
               circle.style.margin = '0 2px';
               circle.style.backgroundColor = element?.raw_data?.buttonColor;
-              if(selectedOption === "numbers"){
-                circle.textContent = stapelScaleArray[i];
-              }else {
+              if(selectedOption === "emoji"){
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
               }
