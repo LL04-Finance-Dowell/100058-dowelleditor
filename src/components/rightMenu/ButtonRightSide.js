@@ -7,11 +7,14 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+
 
 const ButtonRightSide = () => {
-  const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor } =
+  const { buttonLink, setButtonLink, buttonPurpose, setButtonPurpose, buttonBorderSize, setButtonBorderSize, buttonBorderColor, setButtonBorderColor, setConfirmRemove, confirmRemove } =
     useStateContext();
-
+  const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -96,20 +99,18 @@ const ButtonRightSide = () => {
     document.querySelector(".focussedd").remove();
   };
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setButtonBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${buttonBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setButtonBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${buttonBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
   };
   const handleRangeBlur = (e) => {
     e.target.focus();
@@ -178,7 +179,7 @@ const ButtonRightSide = () => {
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={buttonBorderSize}
               onChange={handleBorderSizeChange}
@@ -192,6 +193,12 @@ const ButtonRightSide = () => {
         )}
       </Row>
       <hr />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
+      <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
           Update Changes
@@ -202,7 +209,8 @@ const ButtonRightSide = () => {
         <Button
           variant="primary"
           className={decoded.details.action === "template" ? "px-5 remove_button" : "px-5 remove_button disable_button"}
-          onClick={removeButton}
+          // onClick={removeButton}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Button
         </Button>

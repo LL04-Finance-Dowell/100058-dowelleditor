@@ -9,8 +9,7 @@ import jwt_decode from "jwt-decode";
 
 
 
-const ContainerRigntSideBar = () =>
-{
+const ContainerRigntSideBar = () => {
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -24,49 +23,42 @@ const ContainerRigntSideBar = () =>
   // );
 
   const {
-    containerBorderSize, 
+    containerBorderSize,
     setContainerBorderSize,
     containerBorderColor,
-    setContainerBorderColor
+    setContainerBorderColor,
+    setConfirmRemove, confirmRemove
   } = useStateContext()
   const [showSlider, setShowSlider] = useState(false);
-  function removeContainer()
-  {
+  function removeContainer() {
     // document.querySelector('.focussedd').remove();
-    if (document.querySelector(".focussedd").classList.contains("dropp"))
-    {
-      if (document.querySelector(".focussedd").hasChildNodes())
-      {
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++)
-        {
+        for (let i = 0; i < childLength; i++) {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else
-    {
+    } else {
       document.querySelector(".focussedd").remove();
     }
   }
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setContainerBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${containerBorderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
 
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setContainerBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${containerBorderColor}`;
+    box.style.borderColor = `${e.target.value}`;
 
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
   };
   // useEffect(() =>
@@ -81,7 +73,8 @@ const ContainerRigntSideBar = () =>
         <hr />
         <Button
           variant="primary"
-          onClick={removeContainer}
+          // onClick={removeContainer}
+          onClick={() => setConfirmRemove(!confirmRemove)}
           className={decoded.details.action === "template" ? "remove_container text-center mt-5" : "remove_container text-center mt-5 disable_button"}
         >
           Remove Container
@@ -108,7 +101,7 @@ const ContainerRigntSideBar = () =>
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={containerBorderSize}
               onChange={handleBorderSizeChange}

@@ -26,7 +26,9 @@ import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMain
 import PrintProvider, { Print, NoPrint } from "react-easy-print";
 import RightContextMenu from "../contextMenu/RightContextMenu";
 import useDateElement from "../../customHooks/useDateElement";
-// import useUndo from "use-undo";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import RemoveElementModal from "../RemoveElementModal";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -113,6 +115,10 @@ const MidSection = React.forwardRef((props, ref) => {
   const [allPages, setAllPages] = useState([]);
   const [searchParams] = useSearchParams();
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
+
+  const { confirmRemove } = useStateContext();
+  // const [confirmation, setConfirmation] = useState('confirmation')
+
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
   const actionName = decoded?.details?.action;
@@ -639,8 +645,9 @@ const MidSection = React.forwardRef((props, ref) => {
           });
           reader.readAsDataURL(imgBtn.files[0]);
         });
-        imageField.outerHTML = `${element.data2}`;
-        console.log("element data getting", `${element.data}`);
+        imageField.innerHTML = `${element.data}`;
+        imageField.innerHTML = `${element.data2}`;
+        // console.log("element data getting", `${element.data2}`)
 
         // imgBtn.style.width = "100%";
         imageButton.append(imgBtn);
@@ -1617,7 +1624,7 @@ const MidSection = React.forwardRef((props, ref) => {
     const cutEle = cutItem.cloneNode(true);
 
     function getPosition(el) {
-      console.log("element check", el);
+      // console.log("element check", el);
       const midSec = document.getElementById("midSection_container");
       const rect = el.getBoundingClientRect();
       const midsectionRect = midSec.getBoundingClientRect();
@@ -1789,7 +1796,11 @@ const MidSection = React.forwardRef((props, ref) => {
 
   // Remove Input
   const handleRemoveInput = () => {
+    console.log("handleRemoveInput", "i was called - 1");
     const selectInput = document.querySelector(".focussedd");
+    console.log("selectInput", selectInput);
+    console.log("handleRemoveInput", "i was called - 2");
+    if (!selectInput) return;
     selectInput.remove();
   };
 
@@ -3502,17 +3513,17 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleTypeHolder.style.display = "none";
           scaleHold.appendChild(scaleTypeHolder);
 
-          const stapelScaleArray = document.createElement('div');
-          stapelScaleArray.className = "stapelScaleArray"
-          stapelScaleArray.textContent = element?.raw_data?.stapelScaleArray
-          stapelScaleArray.style.display = "none"
-          scaleHold.append(stapelScaleArray)
+          const stapelScaleArray = document.createElement("div");
+          stapelScaleArray.className = "stapelScaleArray";
+          stapelScaleArray.textContent = element?.raw_data?.stapelScaleArray;
+          stapelScaleArray.style.display = "none";
+          scaleHold.append(stapelScaleArray);
 
-          const optionHolder = document.createElement('div');
-          optionHolder.className = "stapelOptionHolder"
-          optionHolder.textContent = element?.raw_data?.stapelOptionHolder
-          optionHolder.style.display = "none"
-          scaleHold.append(optionHolder)
+          const optionHolder = document.createElement("div");
+          optionHolder.className = "stapelOptionHolder";
+          optionHolder.textContent = element?.raw_data?.stapelOptionHolder;
+          optionHolder.style.display = "none";
+          scaleHold.append(optionHolder);
 
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
@@ -3525,138 +3536,228 @@ const MidSection = React.forwardRef((props, ref) => {
           labelHold.style.justifyContent = "space-between";
           labelHold.style.alignItems = "center";
           console.log(scaleId, "scale button");
-          if(scaleTypeHolder.textContent === "nps"){
-          for (let i = 0; i < 11; i++) {
-            const circle = document.createElement("div");
-            circle.className = "circle_label";
-            circle.style.width = "35%";
-            circle.style.height = "35%";
-            circle.style.borderRadius = "50%";
-            circle.style.backgroundColor = element?.raw_data?.buttonColor;
-            circle.style.top = "30%";
-            circle.style.left = "30%";
-            circle.style.display = "flex";
-            circle.style.justifyContent = "center";
-            circle.style.alignItems = "center";
-            circle.style.marginLeft = "2px";
+          if (scaleTypeHolder.textContent === "nps") {
+            for (let i = 0; i < 11; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
+              circle.style.width = "35%";
+              circle.style.height = "35%";
+              circle.style.borderRadius = "50%";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+              circle.style.top = "30%";
+              circle.style.left = "30%";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.marginLeft = "2px";
 
-            const buttonImage = element?.raw_data?.buttonImages;
-            if (buttonImage && Array.isArray(buttonImage) && buttonImage[i]) {
-              let newImg = document.createElement("img");
-              newImg.className = "images_label";
-              newImg.src = buttonImage[i];
-              console.log(buttonImage[i]);
-              circle.appendChild(newImg);
-            }
-
-            if (element?.raw_data?.buttonText) {
-              const buttonText = element.raw_data.buttonText;
-              if (Array.isArray(buttonText) && buttonText.length > 0) {
-                circle.textContent = buttonText[i % buttonText.length];
-                console.log("EMOJIIIIIIIIIII");
-              } else {
-                console.log("Empty buttonText array");
+              const buttonImage = element?.raw_data?.buttonImages;
+              if (buttonImage && Array.isArray(buttonImage) && buttonImage[i]) {
+                let newImg = document.createElement("img");
+                newImg.className = "images_label";
+                newImg.src = buttonImage[i];
+                console.log(buttonImage[i]);
+                circle.appendChild(newImg);
               }
-            } else {
-              console.log("NUMBERRRRRRRRRRRRRR");
-              circle.textContent = i;
-            }
-            labelHold.append(circle);
-            // Get the token from the request header.
-            // const token = request.headers.get("Authorization");
 
-            // If the token is not present, return an error.
-            if (!token) {
-              return res.status(401).json({ error: "Unauthorized" });
-            }
-
-            if (decoded.details.action === "document") {
-              let circles = document.querySelectorAll(".circle_label");
-              let isClicked = false;
-
-              let circleBgColor = circle.style.backgroundColor
-
-              circle.addEventListener("click", function () {
-                if (!isClicked) {
-                  let scale = document.querySelector(".focussedd");
-                  let holding = scale?.querySelector(".newScaleInput");
-                  const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
-
-                  console.log("This is the background color",circle.style.backgroundColor)
-                  function componentToHex(c) {
-                    var hex = c.toString(16);
-                    return hex.length == 1 ? "0" + hex : hex;
+              if (element?.raw_data?.buttonText) {
+                const buttonText = element.raw_data.buttonText;
+                if (Array.isArray(buttonText) && buttonText.length > 0) {
+                  circle.textContent = buttonText[i % buttonText.length];
+                  console.log("EMOJIIIIIIIIIII");
+                } else {
+                  console.log("Empty buttonText array");
                 }
-                
-                  function rgbToHex(r, g, b) {
-                    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+              } else {
+                console.log("NUMBERRRRRRRRRRRRRR");
+                circle.textContent = i;
+              }
+              labelHold.append(circle);
+              // Get the token from the request header.
+              // const token = request.headers.get("Authorization");
+
+              // If the token is not present, return an error.
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+                if (shouldHideFinalizeButton === "true") {
+                  const finalizeButton =
+                    document.querySelector("#finalize-button");
+                  const rejectButton = document.querySelector("#reject-button");
+                  finalizeButton.style.display = "none";
+                  rejectButton.style.display = "none";
                 }
-                  function invert(rgb) {
-                    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
-                    for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
-                    return rgbToHex(rgb[0], rgb[1], rgb[2]);
-                  }
 
-                  circle.style.backgroundColor = invert(circle.style.backgroundColor)
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent
+                  );
+                }
 
-                  for (let i = 0; i < buttonCircle.length; i++) {
-                    if(buttonCircle[i].textContent !== circle.textContent){
-                      buttonCircle[i].style.backgroundColor = circleBgColor;
-                    }
-                  }
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  return localStorage.getItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`
+                  );
+                }
 
-                  let holdElem = scale?.querySelector(".holdElem");
-
-                  if (holdElem) {
-                    // If holdElem exists, update its text content
-                    holdElem.textContent = i;
-                  } else {
-                    // If holdElem doesn't exist, create a new one
-                    holdElem = document.createElement("div");
-                    holdElem.className = "holdElem";
-                    holdElem.style.display = "none";
-                    holdElem.textContent = i;
-                    holding?.appendChild(holdElem);
-                    console.log("This is holdEle", holdElem.textContent);
-                    const required_map_document = document_map_required?.filter(
-                      (item) => element.id == item.content
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
                     );
-                    if (
-                      scaleField?.parentElement?.classList.contains(
-                        "holderDIV"
-                      ) &&
-                      required_map_document.length > 0
-                    ) {
-                      scaleField?.parentElement?.classList.add(
-                        "element_updated"
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 200);
+
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale = document.querySelector(".focussedd");
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
+
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+
+                      const circleBgColor = circle.style.backgroundColor;
+
+                      circle.style.backgroundColor = invert(circleBgColor);
+
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+
+                      let holdElem = scale?.querySelector(".holdElem");
+
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = i;
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = i;
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
                       );
                     }
-                  }
-
-                  // Store holdElem inside the holding div
-                  // holding.appendChild(holdElem);
+                  });
                 }
-              });
+              }
             }
-          }
-        } else if(scaleTypeHolder.textContent === "snipte"){
-          const stapelScale = (stapelScaleArray.textContent).split(',')
-          const selectedOption = optionHolder.textContent;
-          console.log("This is the stapel",stapelScale)
-          for (let i = 0; i < stapelScale.length; i ++) {
-              const circle = document.createElement('div');
-              circle.className = 'circle_label';
+          } else if (scaleTypeHolder.textContent === "snipte") {
+            const stapelScale = stapelScaleArray.textContent.split(",");
+            const selectedOption = optionHolder.textContent;
+            console.log("This is the stapel", stapelScale);
+            for (let i = 0; i < stapelScale.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
               circle.textContent = stapelScale[i];
               labelHold.appendChild(circle);
-              circle.style.width = '35%';
-              circle.style.height = '35%';
-              circle.style.borderRadius = '50%';
-              circle.style.display = 'flex';
-              circle.style.justifyContent = 'center';
-              circle.style.alignItems = 'center';
-              circle.style.margin = '0 2px';
+              circle.style.width = "35%";
+              circle.style.height = "35%";
+              circle.style.borderRadius = "50%";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.margin = "0 2px";
               circle.style.backgroundColor = element?.raw_data?.buttonColor;
-              if(selectedOption === "emoji"){
+              if (selectedOption === "emoji") {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
               }
@@ -3668,40 +3769,57 @@ const MidSection = React.forwardRef((props, ref) => {
               if (decoded.details.action === "document") {
                 let circles = document.querySelectorAll(".circle_label");
                 let isClicked = false;
-  
-                let circleBgColor = circle.style.backgroundColor
-  
+
+                let circleBgColor = circle.style.backgroundColor;
+
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
                     let scale = document.querySelector(".focussedd");
                     let holding = scale?.querySelector(".newScaleInput");
-                    const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
-  
-                    console.log("This is the background color",circle.style.backgroundColor)
+                    const buttonCircle = scale
+                      ? scale.querySelectorAll(".circle_label")
+                      : [];
+
+                    console.log(
+                      "This is the background color",
+                      circle.style.backgroundColor
+                    );
                     function componentToHex(c) {
                       var hex = c.toString(16);
                       return hex.length == 1 ? "0" + hex : hex;
-                  }
-                  
+                    }
+
                     function rgbToHex(r, g, b) {
-                      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-                  }
+                      return (
+                        "#" +
+                        componentToHex(r) +
+                        componentToHex(g) +
+                        componentToHex(b)
+                      );
+                    }
                     function invert(rgb) {
-                      rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
-                      for (var i = 0; i < rgb.length; i++) rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                      rgb = [].slice
+                        .call(arguments)
+                        .join(",")
+                        .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                        .split(",");
+                      for (var i = 0; i < rgb.length; i++)
+                        rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
                       return rgbToHex(rgb[0], rgb[1], rgb[2]);
                     }
-  
-                    circle.style.backgroundColor = invert(circle.style.backgroundColor)
-  
+
+                    circle.style.backgroundColor = invert(
+                      circle.style.backgroundColor
+                    );
+
                     for (let i = 0; i < buttonCircle.length; i++) {
-                      if(buttonCircle[i].textContent !== circle.textContent){
+                      if (buttonCircle[i].textContent !== circle.textContent) {
                         buttonCircle[i].style.backgroundColor = circleBgColor;
                       }
                     }
-  
+
                     let holdElem = scale?.querySelector(".holdElem");
-  
+
                     if (holdElem) {
                       // If holdElem exists, update its text content
                       holdElem.textContent = i;
@@ -3713,9 +3831,10 @@ const MidSection = React.forwardRef((props, ref) => {
                       holdElem.textContent = i;
                       holding?.appendChild(holdElem);
                       console.log("This is holdEle", holdElem.textContent);
-                      const required_map_document = document_map_required?.filter(
-                        (item) => element.id == item.content
-                      );
+                      const required_map_document =
+                        document_map_required?.filter(
+                          (item) => element.id == item.content
+                        );
                       if (
                         scaleField?.parentElement?.classList.contains(
                           "holderDIV"
@@ -3727,14 +3846,14 @@ const MidSection = React.forwardRef((props, ref) => {
                         );
                       }
                     }
-  
+
                     // Store holdElem inside the holding div
                     // holding.appendChild(holdElem);
                   }
                 });
               }
+            }
           }
-        }
           const childDiv = document.createElement("div");
           childDiv.id = "child";
           childDiv.style.display = "flex";
@@ -4027,7 +4146,7 @@ const MidSection = React.forwardRef((props, ref) => {
             table_dropdown_focuseddClassMaintain(e);
             handleClicked("newScale2");
             setSidebar(true);
-            console.log("This is the scale type",scaleTypeHolder.textContent)
+            console.log("This is the scale type", scaleTypeHolder.textContent);
           };
           console.log(element);
           holderDIV.append(scaleField);
@@ -5787,7 +5906,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scaleTypeHolder.textContent = "";
         scaleTypeHolder.style.display = "none";
         scaleField.appendChild(scaleTypeHolder);
-    
+
         const tempText = document.createElement("div");
         tempText.className = "tempText";
         tempText.textContent = "New scale";
@@ -5846,7 +5965,7 @@ const MidSection = React.forwardRef((props, ref) => {
           circle.style.justifyContent = "center";
           circle.style.alignItems = "center";
           circle.style.marginLeft = "2px";
-          circle.style.display = "none"
+          circle.style.display = "none";
 
           circle.textContent = i;
 
@@ -7325,6 +7444,10 @@ const MidSection = React.forwardRef((props, ref) => {
                 onDrop={onDrop}
                 onContextMenu={handleContextMenu}
               >
+                {confirmRemove && (
+                  <RemoveElementModal handleRemoveInput={handleRemoveInput} />
+                )}
+
                 {contextMenu.show && (
                   <RightContextMenu
                     x={contextMenu.x}

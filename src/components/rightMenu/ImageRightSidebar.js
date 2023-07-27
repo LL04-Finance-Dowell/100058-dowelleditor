@@ -10,11 +10,11 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
-const ImageRightSidebar = () =>
-{
+const ImageRightSidebar = () => {
   var { setIsFinializeDisabled, handleClicked, setSidebar, borderSize,
-    setBorderSize, borderColor, setBorderColor } = useStateContext();
+    setBorderSize, borderColor, setBorderColor, setConfirmRemove, confirmRemove } = useStateContext();
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -32,12 +32,13 @@ const ImageRightSidebar = () =>
   const [showSlider, setShowSlider] = useState(false);
 
   const addImageButtonInput = useRef(null);
+  const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   var uploadedImage = "";
 
   //clicked choose file button
-  const chooseFileClick = (e) =>
-  {
+  const chooseFileClick = (e) => {
     e.stopPropagation();
 
     var imageDiv = document.querySelector(".focussedd");
@@ -59,44 +60,35 @@ const ImageRightSidebar = () =>
     console.log("iamgeDiv", imageDiv);
     const removalbeFocusseddDiv = document.getElementsByClassName("focussedd");
     // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
-    if (removalbeFocusseddDiv)
-    {
-      for (let i = 0; i < removalbeFocusseddDiv?.length; i++)
-      {
+    if (removalbeFocusseddDiv) {
+      for (let i = 0; i < removalbeFocusseddDiv?.length; i++) {
         removalbeFocusseddDiv[i].classList.remove("focussedd");
       }
     }
 
     const removalbeFocussedDiv = document.getElementsByClassName("focussed");
     // console.log("removalbeFocusseddDiv", removalbeFocusseddDiv);
-    if (removalbeFocussedDiv)
-    {
-      for (let i = 0; i < removalbeFocussedDiv?.length; i++)
-      {
+    if (removalbeFocussedDiv) {
+      for (let i = 0; i < removalbeFocussedDiv?.length; i++) {
         removalbeFocussedDiv[i].classList.remove("focussed");
       }
     }
     // // addImageButton;
-    while (1)
-    {
-      if (imageDiv.classList.contains("holderDIV"))
-      {
+    while (1) {
+      if (imageDiv.classList.contains("holderDIV")) {
         imageDiv.classList.add("focussedd");
         imageDiv.firstElementChild.classList.add("focussed");
         console.log("imageDiv", imageDiv);
         break;
-      } else
-      {
+      } else {
         imageDiv = imageDiv.parentElement;
       }
     }
 
     // if(imageDiv.)
 
-    if (imageDiv)
-    {
-      if (imageDiv.parentElement.classList.contains("holderDIV"))
-      {
+    if (imageDiv) {
+      if (imageDiv.parentElement.classList.contains("holderDIV")) {
         imageDiv.parentElement.classList.add("element_updated");
         console.log("imagediv", imageDiv);
         // if (imageDiv.firstElementChild.classList.contains("imageInput")) {
@@ -105,52 +97,44 @@ const ImageRightSidebar = () =>
       }
     }
   };
-  const handleUpdate = () =>
-  {
+  const handleUpdate = () => {
     const imageName = document.getElementById("image_name");
     const button = document.querySelector(".focussed");
-    if (imageName.value != "")
-    {
+    if (imageName.value != "") {
       button.textContent = imageName.value;
     }
   };
 
-  function removeImage()
-  {
-    if (document.querySelector(".focussedd").classList.contains("dropp"))
-    {
-      if (document.querySelector(".focussedd").hasChildNodes())
-      {
+  function removeImage() {
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
         const childLength =
           document.querySelector(".focussedd").children.length;
-        for (let i = 0; i < childLength; i++)
-        {
+        for (let i = 0; i < childLength; i++) {
           document.querySelector(".focussedd").firstElementChild.remove();
         }
       }
-    } else
-    {
+    } else {
       document.querySelector(".focussedd").remove();
     }
   }
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderWidth = `${borderSize}px`;
+    box.style.borderWidth = `${e.target.value}px`;
     // localStorage.setItem("borderSize", borderSize)
     // document.addEventListener("onblur", () => {
     //   setBorderSize(e.target.value);
-  
+
     //   const box = document.getElementsByClassName("focussedd")[0];
     //   box.style.borderWidth = `${borderSize}px`;
     // })
 
     // document.addEventListener("onfocus", () => {
     //   setBorderSize(e.target.value);
-  
+
     //   const box = document.getElementsByClassName("focussedd")[0];
     //   box.style.borderWidth = `${borderSize}px`;
     // })
@@ -164,16 +148,14 @@ const ImageRightSidebar = () =>
   //   box.style.borderWidth = `${borderSize}px`;
   // })
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
-    box.style.borderColor = `${borderColor}`;
+    box.style.borderColor = `${e.target.value}`;
     // localStorage.setItem("borderColor", borderColor)
 
   };
-  const handleRangeBlur = (e) =>
-  {
+  const handleRangeBlur = (e) => {
     e.target.focus();
 
   };
@@ -224,7 +206,7 @@ const ImageRightSidebar = () =>
             />
             <input
               type="range"
-              min="-10"
+              min="0"
               max="20"
               value={borderSize}
               onChange={handleBorderSizeChange}
@@ -237,6 +219,12 @@ const ImageRightSidebar = () =>
           </div>
         )}
       </Row>
+      <hr />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
       <hr />
       <div className="mt-2 text-center pt-5">
         <Button variant="secondary" className="px-5" onClick={handleUpdate}>
@@ -256,7 +244,8 @@ const ImageRightSidebar = () =>
         <Button
           className={decoded.details.action === "template" ? "w-7 remove_button" : "w-7 remove_button disable_button"}
           variant="primary"
-          onClick={removeImage}
+          // onClick={removeImage}
+          onClick={() => setConfirmRemove(!confirmRemove)}
         >
           Remove Image
         </Button>
