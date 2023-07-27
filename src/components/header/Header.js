@@ -32,7 +32,7 @@ import { AiFillPrinter } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import MidSection from "../midSection/MidSection";
 
-import { downloadPDF } from '../../utils/genratePDF.js'
+import { downloadPDF } from "../../utils/genratePDF.js";
 import { table_dropdown_focuseddClassMaintain } from "../../utils/focusClassMaintain/focusClass";
 
 import generateImage from "../../utils/generateImage.js";
@@ -163,8 +163,6 @@ const Header = () => {
   const [cutItem_value, setCutItem_value] = useState(null);
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const [selectedTemplate, setSelectedTemplate] = useState(""); // Add a state for selected template
-
-
 
   function getHolderDIV(measure, i, idMatch) {
     //console.log("from holder div", i);
@@ -392,7 +390,6 @@ const Header = () => {
     return resizer;
   }
 
-
   const dragElementOverPage = (event) => {
     let holder;
     // console.log("dragElement", event.target);
@@ -523,7 +520,6 @@ const Header = () => {
       }
     }
   };
-
 
   function getHolderMenu(auth_user) {
     //putting functional menu on holder
@@ -740,9 +736,9 @@ const Header = () => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -754,7 +750,6 @@ const Header = () => {
       }
     };
   };
-
 
   function getOffset(el) {
     const parent = document.getElementById("midSection_container");
@@ -771,14 +766,13 @@ const Header = () => {
     };
   }
 
-
   const handleOptions = () => {
     setIsMenuVisible(!isMenuVisible);
-    const menuVisibility = document.querySelector(".midSection")
+    const menuVisibility = document.querySelector(".midSection");
 
     menuVisibility.onclick(() => {
-      setIsMenuVisible(false)
-    })
+      setIsMenuVisible(false);
+    });
   };
   const handleUndo = () => {
     document.execCommand("undo");
@@ -855,7 +849,7 @@ const Header = () => {
       data2: cutEle.firstChild.outerHTML,
       // id: `d${h + 1}`,
     };
-    setCutItem_value(e.target)
+    setCutItem_value(e.target);
     sessionStorage.setItem("cutItem", JSON.stringify(elem));
     cutItem.remove();
   };
@@ -954,7 +948,7 @@ const Header = () => {
 
         holderDIV.append(inputField);
         cutItem_value.append(holderDIV);
-        sessionStorage.clear()
+        sessionStorage.clear();
       } else if (element.type === "DATE_INPUT") {
         const measure = {
           // top: `${contextMenu.y}px`,
@@ -1943,8 +1937,6 @@ const Header = () => {
         sessionStorage.clear();
       }
     }
-
-
   };
   const handleTitle = () => {
     const divElement = inputRef.current;
@@ -2600,11 +2592,13 @@ const Header = () => {
             }
           }
 
-          let stapelOptionHolder = ""
-          let stapelScaleArray = ""
+          let stapelOptionHolder = "";
+          let stapelScaleArray = "";
 
-          if(scaleType.textContent === "snipte"){
-            stapelOptionHolder = newScales[b].querySelector(".stapelOptionHolder");
+          if (scaleType.textContent === "snipte") {
+            stapelOptionHolder = newScales[b].querySelector(
+              ".stapelOptionHolder"
+            );
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
           }
 
@@ -2843,6 +2837,7 @@ const Header = () => {
   // );
 
   function handleFinalizeButton() {
+    localStorage.setItem("hideFinalizeButton", "true");
     const username = decoded?.details?.authorized;
     console.log(username);
 
@@ -2908,7 +2903,7 @@ const Header = () => {
     function authorizedLogin() {
       return username === undefined ? generateLoginUser() : username;
     }
-    
+
     let scaleElements = document.querySelectorAll(".newScaleInput");
 
     const documentResponses = [];
@@ -3017,11 +3012,13 @@ const Header = () => {
         if (res) {
           toast.success("Saved successfully");
           if (finalize) {
-          setIsLoading(true);
+            setIsLoading(true);
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
-            const hasNegative = [...circles].some((circle) => parseInt(circle.textContent) < 0);
+            const hasNegative = [...circles].some(
+              (circle) => parseInt(circle.textContent) < 0
+            );
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3033,8 +3030,7 @@ const Header = () => {
             // }
             if (hasNegative) {
               handleFinalizeButtonStapel();
-            } 
-            else {
+            } else {
               handleFinalizeButton();
             }
 
@@ -3457,7 +3453,7 @@ const Header = () => {
               {/* <div style={{ color: "white", fontSize: 30 }}>Title</div> */}
               <div
                 className="title-name px-3"
-                contentEditable= {docMap? false : true}
+                contentEditable={docMap ? false : true}
                 style={{ fontSize: 24 }}
                 spellCheck="false"
                 ref={inputRef}
