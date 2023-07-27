@@ -2863,7 +2863,7 @@ const ScaleRightSide = () => {
                       >
                         <select
                           style={{
-                            width: "60px",
+                            width: "80px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
@@ -2887,45 +2887,6 @@ const ScaleRightSide = () => {
                     </div>
                     <div
                       style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1px",
-                      }}
-                    >
-                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Scale label
-                      </h6>
-                      <div
-                        style={{
-                          backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
-                          borderRadius: "7px",
-                          // height: "30px",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <input
-                          type="text"
-                          onChange={(e) => setScaleTitle(e.target.value)}
-                          defaultValue={scaleT ? scaleT.innerHTML : ""}
-                          style={{
-                            width: "82px",
-                            height: "12px",
-                            display: "flex",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            alignItems: "center",
-                          }}
-                          id="scaleLabel_stapel"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      style={{
                         display: "none",
                         flexDirection: "column",
                         gap: "2px",
@@ -2942,7 +2903,7 @@ const ScaleRightSide = () => {
                           padding: "3px 7px",
                           borderRadius: "7px",
                           // height: "30px",
-                          width: "90%",
+                          width: "100%",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -2950,7 +2911,7 @@ const ScaleRightSide = () => {
                       >
                         <input
                           style={{
-                            width: "80px",
+                            width: "100px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
@@ -3136,7 +3097,45 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
+                  <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1px",
+                  }}
+                >
+                  <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                    Scale label
+                  </h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      padding: "5px 7px",
+                      borderRadius: "7px",
+                      // height: "30px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      onChange={(e) => setScaleTitle(e.target.value)}
+                      defaultValue={scaleT ? scaleT.innerHTML : ""}
+                      style={{
+                        width: "82px",
+                        height: "12px",
+                        display: "flex",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        outline: "none",
+                        alignItems: "center",
+                      }}
+                      id="scaleLabel_stapel"
+                    />
+                  </div>
+                </div>
                   <div
                     style={{
                       display: "flex",
