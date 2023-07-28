@@ -7275,14 +7275,7 @@ const MidSection = React.forwardRef((props, ref) => {
   //   setElements(updatedElements);
   // };
 
-  // const handleUndo = () => {
-  //   undo();
-  // };
-
-  // const handleRedo = () => {
-  //   redo();
-  // };
-
+  
   // const handleDragStart = () => {
   //   // Save the current state before dragging starts
   //   positionHistoryRef.current = elements.present;

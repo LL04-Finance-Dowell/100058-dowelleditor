@@ -4,7 +4,7 @@ import { BiCopyAlt, BiCut } from 'react-icons/bi';
 import { ImPaste } from 'react-icons/im';
 import { CgPlayListRemove } from 'react-icons/cg';
 
-const RightContextMenu = ({ x, y, closeContextMenu, cutInput, pasteInput, handleCopy, removeInput }) => {
+const RightContextMenu = ({ x, y, closeContextMenu, cutInput, pasteInput,handlePrint, removeInput }) => {
 
 
     return (

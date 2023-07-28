@@ -2125,7 +2125,7 @@ const Header = () => {
             data: txt[h].innerText,
             border: `${inputBorderSize} dotted ${inputBorderColor}`,
             borderWidths: txt[h].parentElement.style.border,
-            raw_data: txt[h].innerHTML,
+            raw_data: txt[h].outerHTML,
             id: `t${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
