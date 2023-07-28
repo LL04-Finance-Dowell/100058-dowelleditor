@@ -10,6 +10,7 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 const DropDownRightSide = () => {
   const {
@@ -23,10 +24,12 @@ const DropDownRightSide = () => {
     setDropdownOptions,
     rightSideDropDown,
     setRightSideDropDown,
-    dropdownBorderSize, 
+    dropdownBorderSize,
     setDropdownBorderSize,
     dropdownBorderColor,
-    setDropdownBorderColor
+    setDropdownBorderColor,
+    setConfirmRemove,
+    confirmRemove
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -40,6 +43,8 @@ const DropDownRightSide = () => {
   //   localStorage.getItem("borderColor") || "#000000"
   // );
   const [showSlider, setShowSlider] = useState(false);
+  const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
 
   const dropdownField = document.querySelector(".focussed");
   if (dropdownField) {
@@ -97,8 +102,7 @@ const DropDownRightSide = () => {
     // }
   }
 
-  const handleBorderSizeChange = (e) =>
-  {
+  const handleBorderSizeChange = (e) => {
     setDropdownBorderSize(e.target.value);
 
     const box = document.getElementsByClassName("focussedd")[0];
@@ -106,8 +110,7 @@ const DropDownRightSide = () => {
 
   };
 
-  const handleBorderColorChange = (e) =>
-  {
+  const handleBorderColorChange = (e) => {
     setDropdownBorderColor(e.target.value);
     const box = document.getElementsByClassName("focussedd")[0];
     box.style.borderColor = `${e.target.value}`;
@@ -185,11 +188,17 @@ const DropDownRightSide = () => {
       </Row>
 
       <hr />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
 
       <div />
       <div>
         <Button
-          onClick={removeDropdown}
+          // onClick={removeDropdown}
+          onClick={() => setConfirmRemove(!confirmRemove)}
           variant="primary"
           className={decoded.details.action === "template" ? "mt-5 remove_button" : "mt-5 remove_button disable_button"}
         >

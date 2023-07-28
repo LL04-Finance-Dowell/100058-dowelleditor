@@ -1,11 +1,15 @@
-import Axios  from 'axios';
-import React from 'react'
+import Axios from 'axios';
+import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
+import SelectAnsAndQuestion from '../selectAnsAndQuestion';
+import { useStateContext } from '../../contexts/contextProvider';
 
 function CameraRightSide() {
-
+  const [selectedType, setSelectedType] = useState('')
+  const [addedAns, setAddedAns] = useState([])
+  const { setConfirmRemove, confirmRemove } = useStateContext()
   let mediaRecorder
-  const snap = () =>{
+  const snap = () => {
     let camera = document.querySelector(".focussedd");
     let canvas = camera?.querySelector(".cameraImageInput")
     let video = camera?.querySelector(".videoInput")
@@ -23,14 +27,14 @@ function CameraRightSide() {
     tracks[1].stop()
     video.remove()
     let dataURI = canvas.toDataURL("image/jpeg")
-    let urlToFile = (url) =>{
+    let urlToFile = (url) => {
       let arr = url.split(",")
       let mime = arr[0].match(/:(.*?);/)[1]
       let data = arr[1]
       let dataStr = atob(data)
       let n = dataStr.length
       let dataArr = new Uint8Array(n)
-      while(n--){
+      while (n--) {
         dataArr[n] = dataStr.charCodeAt(n)
       }
       let file = new File([dataArr], 'myPic9.jpg', {type: mime})
@@ -43,29 +47,29 @@ function CameraRightSide() {
     const formData = new FormData()
     formData.append('image', imageFile)
     Axios.post("http://67.217.61.253/uploadfiles/upload-image-to-drive/",
-    formData).then((res)=>{
-      console.log(res)
-      console.log(res.data.file_url)
-      canvas.remove()
-      imageHolder.src = `${res.data.file_url}`
-      imageHolder.style.display = "block"
-      imageHolder.style.width = "100%"
-      imageHolder.style.height = "100%"
-      const imageLink = res.data.file_url
-      if (imageLink.length) {
-        let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
-        imageLinkHolder.textContent = res.data.file_url
-        console.log(imageLinkHolder)
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      formData).then((res) => {
+        console.log(res)
+        console.log(res.data.file_url)
+        canvas.remove()
+        imageHolder.src = `${res.data.file_url}`
+        imageHolder.style.display = "block"
+        imageHolder.style.width = "100%"
+        imageHolder.style.height = "100%"
+        const imageLink = res.data.file_url
+        if (imageLink.length) {
+          let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
+          imageLinkHolder.textContent = res.data.file_url
+          console.log(imageLinkHolder)
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   const handleRecord = () => {
     let recordBtn = document.getElementById("recordBtn")
-    switch(recordBtn.textContent) {
+    switch (recordBtn.textContent) {
       case 'Record':
         recordBtn.textContent = 'Stop'
         startRecording();
@@ -82,10 +86,10 @@ function CameraRightSide() {
   const startRecording = () => {
     let camera = document.querySelector(".focussedd");
     let video = camera?.querySelector(".videoInput")
-    if(video.srcObject === null) {
+    if (video.srcObject === null) {
       video.srcObject = window.stream
     }
-    mediaRecorder = new MediaRecorder(video.srcObject, {mimeType: 'video/webm;codecs=vp9,opus'})
+    mediaRecorder = new MediaRecorder(video.srcObject, { mimeType: 'video/webm;codecs=vp9,opus' })
     mediaRecorder.start();
     mediaRecorder.ondataavailable = recordVideo
   }
@@ -94,30 +98,30 @@ function CameraRightSide() {
     let camera = document.querySelector(".focussedd");
     let video = camera?.querySelector(".videoInput")
     let videoLinkHolder = camera?.querySelector(".videoLinkHolder")
-    if(event.data && event.data.size > 0) {
+    if (event.data && event.data.size > 0) {
       video.srcObject = null
       let vidUrl = event.data
-      let file = new File([vidUrl], 'video.mp4', {type: 'video/webm;codecs=vp9,opus'})
+      let file = new File([vidUrl], 'video.mp4', { type: 'video/webm;codecs=vp9,opus' })
       console.log(file)
       const formData = new FormData()
       formData.append('video', file)
-      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/", 
-      formData
-       ).then((res)=>{
-      console.log(res)
-      console.log(res.data.file_url)
-      videoLinkHolder.textContent = res.data.file_url
-      video.src = ""
-      video.src = res.data.file_url
-      if (videoLinkHolder) {
+      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/",
+        formData
+      ).then((res) => {
+        console.log(res)
+        console.log(res.data.file_url)
         videoLinkHolder.textContent = res.data.file_url
-      }
-      console.log(videoLinkHolder)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+        video.src = ""
+        video.src = res.data.file_url
+        if (videoLinkHolder) {
+          videoLinkHolder.textContent = res.data.file_url
+        }
+        console.log(videoLinkHolder)
+      })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   const stopRecording = () => {
@@ -139,33 +143,42 @@ function CameraRightSide() {
 
   return (
     <div>
-       <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-              <Button
-                variant="primary"
-                className="px-5"
-                style={{ marginBottom: "30px" }}
-                onClick = {snap}
-              >
-                Capture
-              </Button>
-              <Button
-                id="recordBtn"
-                variant="primary"
-                className="px-5"
-                style={{ marginBottom: "30px"  }}
-                onClick={handleRecord}
-              >
-                Record
-              </Button>
-              <Button
-                variant="secondary"
-                // className="remove_button"
-                className="remove_button"
-                onClick={removeCamera}
-              >
-                Remove Camera
-              </Button>
-              </div>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          variant="primary"
+          className="px-5"
+          style={{ marginBottom: "30px" }}
+          onClick={snap}
+        >
+          Capture
+        </Button>
+        <Button
+          id="recordBtn"
+          variant="primary"
+          className="px-5"
+          style={{ marginBottom: "30px" }}
+          onClick={handleRecord}
+        >
+          Record
+        </Button>
+        <div>
+          <SelectAnsAndQuestion
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            setAddedAns={setAddedAns}
+            addedAns={addedAns} />
+          <br />
+        </div>
+        <Button
+          variant="secondary"
+          // className="remove_button"
+          className="remove_button"
+          // onClick={removeCamera}
+          onClick={() => setConfirmRemove(!confirmRemove)}
+        >
+          Remove Camera
+        </Button>
+      </div>
     </div>
   )
 }

@@ -31,7 +31,7 @@ import CameraRightSide from "./CameraRightSide";
 
 const RightMenu = () => {
   const {
-    isClicked,
+      isClicked,
     setIsClicked,
     setSidebar,
     isFinializeDisabled,
