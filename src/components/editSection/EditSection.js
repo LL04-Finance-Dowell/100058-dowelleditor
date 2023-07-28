@@ -18,6 +18,21 @@ import Axios from "axios";
 import "./EditSection.css";
 import { useStateContext } from "../../contexts/contextProvider";
 import Printer from "../../utils/spinner/Printer";
+import {
+  TEXT_INPUT,
+  IMAGE_INPUT,
+  DATE_INPUT,
+  SIGN_INPUT,
+  TABLE_INPUT,
+  CONTAINER_INPUT,
+  IFRAME_INPUT,
+  SCALE_INPUT,
+  NEW_SCALE_INPUT,
+  CAMERA_INPUT,
+  BUTTON_INPUT,
+  DROPDOWN_INPUT,
+  EMAIL_BUTTON,
+} from "../selectAnsAndQuestion";
 export const editSec_midSec_ref = document.querySelector(".editSec_midSec");
 
 const EditSection = () => {
@@ -80,6 +95,24 @@ const EditSection = () => {
     }
   })
 
+
+  useEffect(() => {
+    const elements = [
+      ...document.querySelectorAll(`.${TEXT_INPUT}`),
+      ...document.querySelectorAll(`.${IMAGE_INPUT}`),
+      ...document.querySelectorAll(`.${DATE_INPUT}`),
+      ...document.querySelectorAll(`.${SIGN_INPUT}`),
+      ...document.querySelectorAll(`.${TABLE_INPUT}`),
+      ...document.querySelectorAll(`.${CONTAINER_INPUT}`),
+      ...document.querySelectorAll(`.${IFRAME_INPUT}`),
+      ...document.querySelectorAll(`.${SCALE_INPUT}`),
+      ...document.querySelectorAll(`.${NEW_SCALE_INPUT}`),
+      ...document.querySelectorAll(`.${CAMERA_INPUT}`),
+      ...document.querySelectorAll(`.${BUTTON_INPUT}`),
+      ...document.querySelectorAll(`.${DROPDOWN_INPUT}`),
+      ...document.querySelectorAll(`.${EMAIL_BUTTON}`),
+    ];
+  })
   return (
     <div className="editSec">
       <Container fluid>

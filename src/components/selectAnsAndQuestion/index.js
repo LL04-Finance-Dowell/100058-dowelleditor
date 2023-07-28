@@ -4,19 +4,19 @@ import { useStateContext } from "../../contexts/contextProvider";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
-const TEXT_INPUT = "textInput"
-const IMAGE_INPUT = "imageInput"
-const DATE_INPUT = "dateInput"
-const SIGN_INPUT = "signInput"
-const TABLE_INPUT = "tableInput"
-const CONTAINER_INPUT = "containerInput"
-const IFRAME_INPUT = "iframeInput"
-const SCALE_INPUT = "scaleInput"
-const NEW_SCALE_INPUT = "newScaleInput"
-const CAMERA_INPUT = "cameraInput"
-const BUTTON_INPUT = "buttonInput"
-const DROPDOWN_INPUT = "dropdownInput"
-const EMAIL_BUTTON = "emailButton"
+export const TEXT_INPUT = "textInput"
+export const IMAGE_INPUT = "imageInput"
+export const DATE_INPUT = "dateInput"
+export const SIGN_INPUT = "signInput"
+export const TABLE_INPUT = "tableInput"
+export const CONTAINER_INPUT = "containerInput"
+export const IFRAME_INPUT = "iframeInput"
+export const SCALE_INPUT = "scaleInput"
+export const NEW_SCALE_INPUT = "newScaleInput"
+export const CAMERA_INPUT = "cameraInput"
+export const BUTTON_INPUT = "buttonInput"
+export const DROPDOWN_INPUT = "dropdownInput"
+export const EMAIL_BUTTON = "emailButton"
 
 
 const Option = ({ id, className, element }) => {
