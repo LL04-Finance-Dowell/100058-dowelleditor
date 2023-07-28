@@ -3585,13 +3585,6 @@ const MidSection = React.forwardRef((props, ref) => {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
                   localStorage.getItem("hideFinalizeButton");
-                if (shouldHideFinalizeButton === "true") {
-                  const finalizeButton =
-                    document.querySelector("#finalize-button");
-                  const rejectButton = document.querySelector("#reject-button");
-                  finalizeButton.style.display = "none";
-                  rejectButton.style.display = "none";
-                }
 
                 function setClickedCircleBackgroundColor(
                   circle,
@@ -3604,14 +3597,14 @@ const MidSection = React.forwardRef((props, ref) => {
                   );
                   localStorage.setItem(
                     `lastClickedCircleID_${scaleID}`,
-                    circle.textContent
+                    circle.textContent,
+                    bgColor
                   );
                 }
 
                 function getClickedCircleBackgroundColor(circle, scaleID) {
-                  return localStorage.getItem(
-                    `circleBgColor_${scaleID}_${circle.textContent}`
-                  );
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
                 }
 
                 setTimeout(() => {
@@ -3641,7 +3634,7 @@ const MidSection = React.forwardRef((props, ref) => {
                       }
                     });
                   });
-                }, 200);
+                }, 500);
 
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
