@@ -2642,6 +2642,7 @@ const Header = () => {
             //     ? "Document instance"
             //     : "Template scale",
           };
+          
           console.log(elem);
           const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);

@@ -796,6 +796,7 @@ const ScaleRightSide = () => {
         ? document.querySelectorAll(".circle_label")
         : [];
       const buttonChild = document.getElementById("child");
+      const btnUpdateScaleFontStapel = document.getElementById("font_style_stapel");
       const buttonChildLeft = scale?.querySelector(".left_child");
       const buttonChildRight = scale?.querySelector(".right_child");
       const buttonChildNeutral = scale?.querySelector(".neutral_child");
@@ -831,6 +832,10 @@ const ScaleRightSide = () => {
 
       if (btnUpdateFontColor.value !== "") {
         button4.style.color = btnUpdateFontColor.value;
+      }
+
+      if (btnUpdateScaleFontStapel.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFontStapel.value;
       }
 
       // if (scaleText) {
@@ -991,27 +996,24 @@ const ScaleRightSide = () => {
       ) {
         setIsLoading(true);
         console.log("post req");
-        Axios.post(
-          "https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/",
-          {
-            user: "true",
-            username: "TadesseJemal",
-            orientation: option?.value,
-            spacing_unit: spacing,
-            scale_upper_limit: upperVal,
-            scalecolor: btnUpdateScale.value,
-            roundcolor: btnUpdateButton.value,
-            fontcolor: btnUpdateFontColor.value,
-            fomat: selectedOption,
-            time: timeId.style.display === "none" ? "00" : time?.value,
-            name: beNametnUpdateScal.value,
-            left: btnUpdateLeft.value,
-            right: btnUpdateRight.value,
-            label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-            fontstyle: "Arial",
-            custom_emoji_format: emojiLabels,
-          }
-        )
+        Axios.post("https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/", {
+          user: "true",
+          username: "TadesseJemal",
+          orientation: option?.value,
+          spacing_unit:spacing,
+          scale_upper_limit: upperVal,
+          scalecolor: btnUpdateScale.value,
+          roundcolor: btnUpdateButton.value,
+          fontcolor: btnUpdateFontColor.value,
+          fomat: selectedOption,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+          fontstyle: "Arial",
+          custom_emoji_format: emojiLabels,
+        })
           .then((res) => {
             setIsLoading(false);
             sendMessage();
@@ -1038,21 +1040,18 @@ const ScaleRightSide = () => {
         setIsLoading(true);
         console.log("PUT req");
         console.log(idHolder.textContent);
-        Axios.put(
-          "https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/",
-          {
-            scale_id: idHolder.textContent,
-            fomat: selectedOption,
-            scale_upper_limit: upperVal,
-            time: timeId?.style?.display === "none" ? "00" : time?.value,
-            name: beNametnUpdateScal.value,
-            left: btnUpdateLeft.value,
-            right: btnUpdateRight.value,
-            label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-            fontstyle: "Arial",
-            custom_emoji_format: emojiLabels,
-          }
-        )
+        Axios.put("https://100035.pythonanywhere.com/stapel/api/stapel_settings_create/", {
+          scale_id: idHolder.textContent,
+          fomat: selectedOption,
+          scale_upper_limit: upperVal,
+          time: timeId?.style?.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
+          fontstyle: "Arial",
+          custom_emoji_format: emojiLabels,
+        })
           .then((res) => {
             if (res.status == 200) {
               setIsLoading(false);
@@ -1642,7 +1641,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-
                     <div
                       style={{
                         display: "flex",
@@ -1701,7 +1699,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -1816,7 +1813,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -2798,16 +2794,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "7px",
-                      justifyContent: "space-between",
-                    }}
-                  >
                     <div
                       style={{
                         display: "flex",
@@ -2816,7 +2802,7 @@ const ScaleRightSide = () => {
                       }}
                     >
                       <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Format
+                        Font Style
                       </h6>
                       <div
                         style={{
@@ -2832,7 +2818,71 @@ const ScaleRightSide = () => {
                       >
                         <select
                           style={{
-                            width: "70px",
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style_stapel"
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "90%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "80px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
@@ -2852,46 +2902,6 @@ const ScaleRightSide = () => {
                     ref={ref}
                     style={{ fontSize: "12px", width: "4px" }}
                   /> */}
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Scale label
-                      </h6>
-                      <div
-                        style={{
-                          backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
-                          borderRadius: "7px",
-                          // height: "30px",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <input
-                          type="text"
-                          onChange={(e) => setScaleTitle(e.target.value)}
-                          defaultValue={scaleT ? scaleT.innerHTML : ""}
-                          style={{
-                            width: "82px",
-                            height: "12px",
-                            display: "flex",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            alignItems: "center",
-                          }}
-                          id="scaleLabel_stapel"
-                          
-                        />
                       </div>
                     </div>
                     <div
@@ -3106,7 +3116,45 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
+                  <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1px",
+                  }}
+                >
+                  <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                    Scale label
+                  </h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      padding: "5px 7px",
+                      borderRadius: "7px",
+                      // height: "30px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      onChange={(e) => setScaleTitle(e.target.value)}
+                      defaultValue={scaleT ? scaleT.innerHTML : ""}
+                      style={{
+                        width: "82px",
+                        height: "12px",
+                        display: "flex",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        outline: "none",
+                        alignItems: "center",
+                      }}
+                      id="scaleLabel_stapel"
+                    />
+                  </div>
+                </div>
                   <div
                     style={{
                       display: "flex",
