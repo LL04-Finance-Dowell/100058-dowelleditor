@@ -3098,6 +3098,12 @@ const Header = () => {
       {
         document_id: decoded.details._id,
         action: decoded.details.action,
+        database: decoded.details.database,
+        collection: decoded.details.collection,
+        team_member_ID: decoded.details.team_member_ID,
+        function_ID: decoded.details.function_ID,
+        cluster: decoded.details.cluster,
+        document: decoded.details.document,
       }
     )
       .then((res) => {
