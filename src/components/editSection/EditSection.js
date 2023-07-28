@@ -31,6 +31,7 @@ const EditSection = () => {
     setIsLoading,
     data,
     setIsMenuVisible,
+    questionAndAnswerGroupedData, setQuestionAndAnsGroupedData
   } = useStateContext();
 
   const [searchParams] = useSearchParams();
@@ -47,6 +48,37 @@ const EditSection = () => {
   //     setIsMenuVisible(false);
   //   });
   // }, []);
+
+  useEffect(() => {
+    const selectedElement = document.querySelector('.focussedd div')?.id;
+    const borderStyles = "2px solid red";
+
+    if (selectedElement) {
+      console.log("selectedElementG-->", selectedElement);
+      const element = document.getElementById(selectedElement);
+      element.style.border = borderStyles;
+      const questions = new Set();
+      const answers = new Set();
+
+      const data = [...questionAndAnswerGroupedData].map(elm => {
+        questions.add(elm.question);
+        answers.add(...elm.answers);
+        return elm;
+      });
+
+      if (questions.has(selectedElement)) {
+        const result = data.find(item => item.question === selectedElement);
+        if (result) {
+          result?.answers?.map(item => {
+            const element = document.getElementById(item);
+            element.style.border = borderStyles;
+            console.log(item)
+            return item;
+          })
+        }
+      }
+    }
+  })
 
   return (
     <div className="editSec">
