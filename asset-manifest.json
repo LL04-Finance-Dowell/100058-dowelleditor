@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/100058-dowelleditor/static/css/main.2d961673.css",
-    "main.js": "/100058-dowelleditor/static/js/main.f69210aa.js",
-    "static/js/787.742d683c.chunk.js": "/100058-dowelleditor/static/js/787.742d683c.chunk.js",
-    "static/media/scale.png": "/100058-dowelleditor/static/media/scale.080c4dc1ada731d39d40.png",
-    "index.html": "/100058-dowelleditor/index.html",
-    "main.2d961673.css.map": "/100058-dowelleditor/static/css/main.2d961673.css.map",
-    "main.f69210aa.js.map": "/100058-dowelleditor/static/js/main.f69210aa.js.map",
-    "787.742d683c.chunk.js.map": "/100058-dowelleditor/static/js/787.742d683c.chunk.js.map"
+    "main.css": "/D/static/css/main.90069c5f.css",
+    "main.js": "/D/static/js/main.dfd3b547.js",
+    "static/js/787.742d683c.chunk.js": "/D/static/js/787.742d683c.chunk.js",
+    "static/media/scale.png": "/D/static/media/scale.080c4dc1ada731d39d40.png",
+    "index.html": "/D/index.html",
+    "main.90069c5f.css.map": "/D/static/css/main.90069c5f.css.map",
+    "main.dfd3b547.js.map": "/D/static/js/main.dfd3b547.js.map",
+    "787.742d683c.chunk.js.map": "/D/static/js/787.742d683c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2d961673.css",
-    "static/js/main.f69210aa.js"
+    "static/css/main.90069c5f.css",
+    "static/js/main.dfd3b547.js"
   ]
 }
