@@ -30,10 +30,11 @@ const ScaleRightSide = () => {
     scaleId,
     setScaleTypeContent,
     scaleTypeContent,
-    setConfirmRemove, confirmRemove,
+    setConfirmRemove,
+    confirmRemove,
   } = useStateContext();
-  const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  const [selectedType, setSelectedType] = useState("");
+  const [addedAns, setAddedAns] = useState([]);
 
   const [inputStr, setInputStr] = useState("");
   const [showPicker, setShowPicker] = useState(false);
@@ -150,13 +151,16 @@ const ScaleRightSide = () => {
     button_color.defaultValue = circles;
   }
   var format = document.getElementById("format");
-  console.log(format);
+  const scaleDisplay = scale?.querySelector(".scool_input");
+
   // var imageLabel = scale?.querySelector(".images_label");
   var circleLabel = scale?.querySelector(".circle_label")?.textContent;
-  if (format) {
-    format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+  if (scaleDisplay.style.display !== "none") {
+    if (format) {
+      format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    }
   }
-  
+
   // console.log(leftChild.innerHTML);
   const handleFormat = () => {
     const format = document.getElementById("format");
@@ -181,7 +185,6 @@ const ScaleRightSide = () => {
     } else if (format === "nps") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "flex";
-      
     }
   };
 
@@ -216,23 +219,30 @@ const ScaleRightSide = () => {
   //     document.getElementById("snippScaleForm").style.display = "none";
   //   }
   // }, []);
-  
+
   useEffect(() => {
     if (decoded.details.action === "template") {
-      if(scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
-      document.getElementById("npsScaleForm").style.display = "none";
-      document.getElementById("snippScaleForm").style.display = "none";
-      }
-       else if((scaleTypeContent === "" || scaleTypeContent === "nps") && (scaleTypeHolder.textContent === "nps" || scaleTypeHolder.textContent === "")){
+      if (scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
+        document.getElementById("npsScaleForm").style.display = "none";
+        document.getElementById("snippScaleForm").style.display = "none";
+      } else if (
+        (scaleTypeContent === "" || scaleTypeContent === "nps") &&
+        (scaleTypeHolder.textContent === "nps" ||
+          scaleTypeHolder.textContent === "")
+      ) {
         document.getElementById("npsScaleForm").style.display = "flex";
         document.getElementById("snippScaleForm").style.display = "none";
-      }else if((scaleTypeContent === "" || scaleTypeContent === "snipte") && (scaleTypeHolder.textContent === "snipte" || scaleTypeHolder.textContent === "")) {
+      } else if (
+        (scaleTypeContent === "" || scaleTypeContent === "snipte") &&
+        (scaleTypeHolder.textContent === "snipte" ||
+          scaleTypeHolder.textContent === "")
+      ) {
         document.getElementById("snippScaleForm").style.display = "flex";
         document.getElementById("npsScaleForm").style.display = "none";
       }
     }
   }, []);
- 
+
   const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImage = (event) => {
@@ -371,10 +381,16 @@ const ScaleRightSide = () => {
   console.log(scale);
   const handleUpdates = () => {
     const scaleType = document.getElementById("scaleType");
-    setScaleTypeContent(scaleType ? scaleType.value : scaleTypeContent)
+    setScaleTypeContent(scaleType ? scaleType.value : scaleTypeContent);
     const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
-    scaleTypeHolder.textContent = (scaleType ? scaleType.value : scaleTypeContent)
-    if (scaleType ? (scaleType.value === "nps" || scaleTypeContent === "nps"):scaleTypeContent === "nps") {
+    scaleTypeHolder.textContent = scaleType
+      ? scaleType.value
+      : scaleTypeContent;
+    if (
+      scaleType
+        ? scaleType.value === "nps" || scaleTypeContent === "nps"
+        : scaleTypeContent === "nps"
+    ) {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
       const circles = scale?.querySelector(".circle_label");
@@ -410,7 +426,7 @@ const ScaleRightSide = () => {
       console.log(font);
       console.log(button4);
       const buttonCircle = scale ? scale.querySelectorAll(".circle_label") : [];
-      const labelHold = scale?.querySelector('.label_hold');
+      const labelHold = scale?.querySelector(".label_hold");
       const buttonImage = scale?.querySelectorAll(".image_label");
       console.log(buttonImage);
       const buttonCircleM = scale?.querySelector(".circle_label");
@@ -435,28 +451,30 @@ const ScaleRightSide = () => {
         button.style.backgroundColor = btnUpdateScale.value;
       }
 
-      labelHold.innerHTML = '';
+      labelHold.innerHTML = "";
 
       for (let i = 0; i <= 10; i++) {
         const selectedOption = optionSelect.value;
-        const circle = document.createElement('div');
-        circle.className = 'circle_label';
+        const circle = document.createElement("div");
+        circle.className = "circle_label";
         circle.textContent = i;
-  
+
         // Apply circular background using inline style
-        circle.style.width = '35%';
-        circle.style.height = '35%';
-        circle.style.borderRadius = '50%';
-        circle.style.display = 'flex';
-        circle.style.justifyContent = 'center';
-        circle.style.alignItems = 'center';
+        circle.style.width = "35%";
+        circle.style.height = "35%";
+        circle.style.borderRadius = "50%";
+        circle.style.display = "flex";
+        circle.style.justifyContent = "center";
+        circle.style.alignItems = "center";
         circle.style.backgroundColor = btnUpdateButton.value;
         labelHold.appendChild(circle);
         if (selectedOption === "emoji" && emojiInp !== "") {
           // Set the text content of the div to the corresponding emoji
           const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-          const emojis = emojiInp.split(emojiFormat).filter(emoji => emoji !== "");
-          circle.textContent = emojis[(i) % emojis.length];
+          const emojis = emojiInp
+            .split(emojiFormat)
+            .filter((emoji) => emoji !== "");
+          circle.textContent = emojis[i % emojis.length];
         } else {
           // Set the text content of the div to the number
           circle.textContent = i;
@@ -731,7 +749,11 @@ const ScaleRightSide = () => {
             console.log(err.message);
           });
       }
-    } else if (scaleType ? (scaleType.value === "snipte" || scaleTypeContent === "snipte") : scaleTypeContent === "snipte") {
+    } else if (
+      scaleType
+        ? scaleType.value === "snipte" || scaleTypeContent === "snipte"
+        : scaleTypeContent === "snipte"
+    ) {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
 
@@ -754,30 +776,35 @@ const ScaleRightSide = () => {
       const font = scale?.querySelector(".newScaleInput");
 
       // const buttonCircle = document.querySelectorAll(".circle_label");
-      const buttonCircle = scale ? document.querySelectorAll(".circle_label") : [];
+      const buttonCircle = scale
+        ? document.querySelectorAll(".circle_label")
+        : [];
       const buttonChild = document.getElementById("child");
+      const btnUpdateScaleFontStapel = document.getElementById("font_style_stapel");
       const buttonChildLeft = scale?.querySelector(".left_child");
       const buttonChildRight = scale?.querySelector(".right_child");
       const buttonChildNeutral = scale?.querySelector(".neutral_child");
       const optionSelect = document.getElementById("format_stapel");
-      const option =
-        document.querySelector("#orientationIdStapel").options[
-          document.querySelector("#orientationIdStapel").selectedIndex
-        ];
+      const option = document.querySelector("#orientationIdStapel").options[
+        document.querySelector("#orientationIdStapel").selectedIndex
+      ];
       let timeId = document.getElementById("timeId_stapel");
       let time = document.getElementById("time_stapel");
       const emojiInp = document.getElementById("emojiInp_stapel").value;
       let tempText = scale?.querySelector(".tempText");
-      const labelHold = scale?.querySelector('.label_hold');
-      const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
-      const spacing = parseInt(document.getElementById('spacing').value, 10);
+      const labelHold = scale?.querySelector(".label_hold");
+      const upperVal = Math.min(
+        10,
+        parseInt(document.getElementById("upperVal").value, 10)
+      );
+      const spacing = parseInt(document.getElementById("spacing").value, 10);
       const lowerVal = -upperVal;
       tempText?.remove();
       if (btnUpdateScale.value !== "") {
         button.style.backgroundColor = btnUpdateScale.value;
       }
 
-       if (beNametnUpdateScal.value !== "") {
+      if (beNametnUpdateScal.value !== "") {
         scaleText.textContent = beNametnUpdateScal.value;
       }
 
@@ -791,6 +818,10 @@ const ScaleRightSide = () => {
         button4.style.color = btnUpdateFontColor.value;
       }
 
+      if (btnUpdateScaleFontStapel.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFontStapel.value;
+      }
+
       // if (scaleText) {
       //   console.log(scaleText);
       //   scaleText.innerHTML = "Stapel scale";
@@ -800,7 +831,7 @@ const ScaleRightSide = () => {
         buttonChildLeft.textContent = btnUpdateLeft.value;
       }
       if (btnUpdateCenter.value !== "") {
-        buttonChildNeutral.textContent = "" ;
+        buttonChildNeutral.textContent = "";
       }
 
       if (btnUpdateRight.value !== "") {
@@ -809,93 +840,98 @@ const ScaleRightSide = () => {
       button4.style.display = "block";
 
       // Clear existing values
-      labelHold.innerHTML = '';
+      labelHold.innerHTML = "";
 
-      const stapelScaleArray = document.createElement('div');
-      stapelScaleArray.className = "stapelScaleArray"
-      stapelScaleArray.textContent = ""
-      stapelScaleArray.style.display = "none"
-      labelHold.append(stapelScaleArray)
+      const stapelScaleArray = document.createElement("div");
+      stapelScaleArray.className = "stapelScaleArray";
+      stapelScaleArray.textContent = "";
+      stapelScaleArray.style.display = "none";
+      labelHold.append(stapelScaleArray);
 
-
-    // Construct row of values
-    const selectedOption = optionSelect.value;
-    const optionHolder = document.createElement('div');
-    optionHolder.className = "stapelOptionHolder"
-    optionHolder.textContent = optionSelect.value
-    optionHolder.style.display = "none"
-    labelHold.appendChild(optionHolder);
-    for (let i = lowerVal; i <= upperVal; i += spacing) {
+      // Construct row of values
       const selectedOption = optionSelect.value;
-      if (i !== 0) {
-        const circle = document.createElement('div');
-        circle.className = 'circle_label';
-        circle.textContent = i;
-        labelHold.appendChild(circle);
-        circle.style.width = '35%';
-        circle.style.height = '35%';
-        circle.style.borderRadius = '50%';
-        circle.style.display = 'flex';
-        circle.style.justifyContent = 'center';
-        circle.style.alignItems = 'center';
-        circle.style.margin = '0 2px';
-        circle.style.backgroundColor = btnUpdateButton.value;
-        if (selectedOption === "emoji" && emojiInp !== "") {
-          // Set the text content of the div to the corresponding emoji
-          const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-          const emojis = emojiInp.split(emojiFormat).filter(emoji => emoji !== "");
-          circle.textContent = emojis[(i - lowerVal) % emojis.length];
-        } else {
-          // Set the text content of the div to the number
+      const optionHolder = document.createElement("div");
+      optionHolder.className = "stapelOptionHolder";
+      optionHolder.textContent = optionSelect.value;
+      optionHolder.style.display = "none";
+      labelHold.appendChild(optionHolder);
+      for (let i = lowerVal; i <= upperVal; i += spacing) {
+        const selectedOption = optionSelect.value;
+        if (i !== 0) {
+          const circle = document.createElement("div");
+          circle.className = "circle_label";
           circle.textContent = i;
+          labelHold.appendChild(circle);
+          circle.style.width = "35%";
+          circle.style.height = "35%";
+          circle.style.borderRadius = "50%";
+          circle.style.display = "flex";
+          circle.style.justifyContent = "center";
+          circle.style.alignItems = "center";
+          circle.style.margin = "0 2px";
+          circle.style.backgroundColor = btnUpdateButton.value;
+          if (selectedOption === "emoji" && emojiInp !== "") {
+            // Set the text content of the div to the corresponding emoji
+            const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+            const emojis = emojiInp
+              .split(emojiFormat)
+              .filter((emoji) => emoji !== "");
+            circle.textContent = emojis[(i - lowerVal) % emojis.length];
+          } else {
+            // Set the text content of the div to the number
+            circle.textContent = i;
+          }
         }
       }
-    }
 
-    const prepareEmojiLabels = () => {
-      const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-      const emojis = inputStr
-        .split(emojiFormat)
-        .filter((emoji) => emoji !== "");
+      const prepareEmojiLabels = () => {
+        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+        const emojis = inputStr
+          .split(emojiFormat)
+          .filter((emoji) => emoji !== "");
 
         const emojiLabels = {};
 
-        const selectedCount = Math.min(emojis.length, Math.abs(upperVal) + Math.abs(lowerVal) + spacing);
+        const selectedCount = Math.min(
+          emojis.length,
+          Math.abs(upperVal) + Math.abs(lowerVal) + spacing
+        );
 
         for (let i = lowerVal; i <= upperVal; i += spacing) {
           if (i !== 0) {
-            const emojiIndex = (i >= 0 ? (i - lowerVal) : (Math.abs(upperVal) + i)) % selectedCount;
+            const emojiIndex =
+              (i >= 0 ? i - lowerVal : Math.abs(upperVal) + i) % selectedCount;
             emojiLabels[i] = emojis[emojiIndex];
           }
         }
 
         return emojiLabels;
-    };
-    const emojiLabels = prepareEmojiLabels();
-    
-    // function renderNumber() {
-    //     for (let i = 0; i < buttonCircle.length; i++) {
-    //       buttonCircle[i].textContent = i;
-    //     }
-    //     document.getElementById("image").style.display = "none";
-    // }
+      };
+      const emojiLabels = prepareEmojiLabels();
 
-    // if (selectedOption === "emoji") {
-    //     const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-    //     const emojis = inputStr
-    //       .split(emojiFormat)
-    //       .filter((emoji) => emoji !== "");
+      // function renderNumber() {
+      //     for (let i = 0; i < buttonCircle.length; i++) {
+      //       buttonCircle[i].textContent = i;
+      //     }
+      //     document.getElementById("image").style.display = "none";
+      // }
 
-    //     for (let i = 0; i < buttonCircle.length; i++) {
-    //       if (emojiInp.value !== "") {
-    //         // Set the text content of the div to the corresponding emoji
-    //         buttonCircle[i].textContent = emojis[i % emojis.length];
-    //         console.log(emojis[i % emojis.length]);
-    //       }
-    //     }
-    //   } else if (selectedOption === "number") {
-    //     renderNumber();
-    //   }
+      // if (selectedOption === "emoji") {
+      //     const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+      //     const emojis = inputStr
+      //       .split(emojiFormat)
+      //       .filter((emoji) => emoji !== "");
+
+      //     for (let i = 0; i < buttonCircle.length; i++) {
+      //       if (emojiInp.value !== "") {
+      //         // Set the text content of the div to the corresponding emoji
+      //         buttonCircle[i].textContent = emojis[i % emojis.length];
+      //         console.log(emojis[i % emojis.length]);
+      //       }
+      //     }
+      //   } else if (selectedOption === "number") {
+      //     renderNumber();
+      //   }
 
       if (option.value === "Horizontal") {
         button4.style.border = "block";
@@ -976,9 +1012,9 @@ const ScaleRightSide = () => {
               idHolder.textContent = id && id;
             }
 
-            stapelScaleArray.textContent = res.data.data.settings.scale 
+            stapelScaleArray.textContent = res.data.data.settings.scale;
             console.log("This is the stapel  scale response", res.data.data);
-            console.log(stapelScaleArray)
+            console.log(stapelScaleArray);
           })
           .catch((err) => {
             setIsLoading(false);
@@ -1389,44 +1425,48 @@ const ScaleRightSide = () => {
               }}
             >
               <div>
-              {
-              scaleTypeHolder.textContent  === "" && scaleTypeContent === "" ?
-              <div>
-              <h6 style={{ margin: "auto 0", fontSize: "12px" }}>Scales</h6>
-              <div
-                style={{
-                  backgroundColor: "#e8e8e8",
-                  padding: "3px 7px",
-                  borderRadius: "7px",
-                  // height: "30px",
-                  width: "200%",
-                  // alignItems: "center",
-                  fontWeight: "600",
-                  fontSize: "16px",
-                }}
-              >
-                <select
-                  style={{
-                    width: "180px",
-                    height: "35px",
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "5rem",
-                    backgroundColor: "transparent",
-                    outline: "none",
-                    border: "none",
-                    fontWeight: "600",
-                  }}
-                  id="scaleType"
-                  onChange={handleFormatChange}
-                > 
-                  <option>Select Scales</option>
-                  <option value="snipte">Stapel Scale</option>
-                  <option value="nps">Nps Scale</option>
-                </select>
-              </div>
-              </div>: ""
-              }
+                {scaleTypeHolder.textContent === "" &&
+                scaleTypeContent === "" ? (
+                  <div>
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Scales
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "200%",
+                        // alignItems: "center",
+                        fontWeight: "600",
+                        fontSize: "16px",
+                      }}
+                    >
+                      <select
+                        style={{
+                          width: "180px",
+                          height: "35px",
+                          display: "flex",
+                          justifyContent: "center",
+                          gap: "5rem",
+                          backgroundColor: "transparent",
+                          outline: "none",
+                          border: "none",
+                          fontWeight: "600",
+                        }}
+                        id="scaleType"
+                        onChange={handleFormatChange}
+                      >
+                        <option>Select Scales</option>
+                        <option value="snipte">Stapel Scale</option>
+                        <option value="nps">Nps Scale</option>
+                      </select>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
@@ -1582,7 +1622,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-
                     <div
                       style={{
                         display: "flex",
@@ -1641,7 +1680,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -1756,7 +1794,6 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     style={{
                       display: "flex",
@@ -1811,54 +1848,7 @@ const ScaleRightSide = () => {
                   /> */}
                       </div>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Scale label
-                      </h6>
-                      <div
-                        style={{
-                          backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
-                          borderRadius: "7px",
-                          // height: "30px",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <input
-                          type="text"
-                          onChange={(e) => setScaleTitle(e.target.value)}
-                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
-                          // defaultValue={
-                          //   scaleDisplay.style.display === "none"
-                          //     ? ""
-                          //     : leftChild.innerHTML
-                          // }
-                          defaultValue={
-                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                            scaleT ? scaleT.innerHTML : ""
-                          }
-                          style={{
-                            width: "82px",
-                            height: "12px",
-                            display: "flex",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            alignItems: "center",
-                          }}
-                          id="scaleLabel"
-                        />
-                      </div>
-                    </div>
+
                     <div
                       style={{
                         display: "none",
@@ -2084,42 +2074,99 @@ const ScaleRightSide = () => {
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Right
-                    </h6>
                     <div
                       style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        // height: "30px",
-                        width: "100%",
                         display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        flexDirection: "column",
+                        gap: "2px",
                       }}
                     >
-                      <input
-                        type="text"
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Right
+                      </h6>
+                      <div
                         style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
                           width: "100%",
-                          height: "15px",
                           display: "flex",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
+                          justifyContent: "center",
                           alignItems: "center",
                         }}
-                        // defaultValue={
-                        //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
-                        //   rightChild ? rightChild.innerHTML : ""
-                        // }
-                        id="right"
-                      />
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100%",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          // defaultValue={
+                          //   // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                          //   rightChild ? rightChild.innerHTML : ""
+                          // }
+                          id="right"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale label
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          // defaultValue={leftChild ? leftChild.innerHTML : ""}
+                          // defaultValue={
+                          //   scaleDisplay.style.display === "none"
+                          //     ? ""
+                          //     : leftChild.innerHTML
+                          // }
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            scaleT ? scaleT.innerHTML : ""
+                          }
+                          style={{
+                            width: "82px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scaleLabel"
+                        />
+                      </div>
                     </div>
                   </div>
                   <div
@@ -2400,12 +2447,13 @@ const ScaleRightSide = () => {
                     </div>
 
                     <br />
-                  <SelectAnsAndQuestion
-                    selectedType={selectedType}
-                    setSelectedType={setSelectedType}
-                    setAddedAns={setAddedAns}
-                    addedAns={addedAns} />
-                  <br />
+                    <SelectAnsAndQuestion
+                      selectedType={selectedType}
+                      setSelectedType={setSelectedType}
+                      setAddedAns={setAddedAns}
+                      addedAns={addedAns}
+                    />
+                    <br />
 
                     <div>
                       <Button
@@ -2590,7 +2638,7 @@ const ScaleRightSide = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div
                   style={{
                     display: "flex",
@@ -2727,16 +2775,6 @@ const ScaleRightSide = () => {
                         />
                       </div>
                     </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "7px",
-                      justifyContent: "space-between",
-                    }}
-                  >
                     <div
                       style={{
                         display: "flex",
@@ -2745,7 +2783,7 @@ const ScaleRightSide = () => {
                       }}
                     >
                       <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Format
+                        Font Style
                       </h6>
                       <div
                         style={{
@@ -2761,7 +2799,71 @@ const ScaleRightSide = () => {
                       >
                         <select
                           style={{
-                            width: "70px",
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style_stapel"
+                          defaultValue={
+                            // !scaleDisplay ? undefined ? scaleDisplay="none" ? undefined : scaleBg
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                        {/* <BiChevronDown
+                    size={20}
+                    ref={ref}
+                    style={{ fontSize: "12px", width: "4px" }}
+                  /> */}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "90%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "80px",
                             height: "15px",
                             display: "flex",
                             backgroundColor: "transparent",
@@ -2781,45 +2883,6 @@ const ScaleRightSide = () => {
                     ref={ref}
                     style={{ fontSize: "12px", width: "4px" }}
                   /> */}
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "2px",
-                      }}
-                    >
-                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                        Scale label
-                      </h6>
-                      <div
-                        style={{
-                          backgroundColor: "#e8e8e8",
-                          padding: "5px 7px",
-                          borderRadius: "7px",
-                          // height: "30px",
-                          width: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <input
-                          type="text"
-                          onChange={(e) => setScaleTitle(e.target.value)}
-                          defaultValue={scaleT ? scaleT.innerHTML : ""}
-                          style={{
-                            width: "82px",
-                            height: "12px",
-                            display: "flex",
-                            backgroundColor: "transparent",
-                            border: "none",
-                            outline: "none",
-                            alignItems: "center",
-                          }}
-                          id="scaleLabel_stapel"
-                        />
                       </div>
                     </div>
                     <div
@@ -2856,7 +2919,7 @@ const ScaleRightSide = () => {
                             border: "none",
                             alignItems: "center",
                           }}
-                          id = "emojiInp_stapel"
+                          id="emojiInp_stapel"
                           value={inputStr}
                           onChange={(e) => setInputStr(e.target.value)}
                         />
@@ -3034,7 +3097,45 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
+                  <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1px",
+                  }}
+                >
+                  <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                    Scale label
+                  </h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      padding: "5px 7px",
+                      borderRadius: "7px",
+                      // height: "30px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      onChange={(e) => setScaleTitle(e.target.value)}
+                      defaultValue={scaleT ? scaleT.innerHTML : ""}
+                      style={{
+                        width: "82px",
+                        height: "12px",
+                        display: "flex",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        outline: "none",
+                        alignItems: "center",
+                      }}
+                      id="scaleLabel_stapel"
+                    />
+                  </div>
+                </div>
                   <div
                     style={{
                       display: "flex",
