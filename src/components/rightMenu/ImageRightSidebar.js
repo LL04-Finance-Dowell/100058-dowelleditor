@@ -12,6 +12,8 @@ import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
+import useSelectedAnswer from '../../customHooks/useSelectedAnswers';
+
 const ImageRightSidebar = () => {
   var { setIsFinializeDisabled, handleClicked, setSidebar, borderSize,
     setBorderSize, borderColor, setBorderColor, setConfirmRemove, confirmRemove } = useStateContext();
@@ -33,7 +35,11 @@ const ImageRightSidebar = () => {
 
   const addImageButtonInput = useRef(null);
   const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
+
+  const { addedAns, setAddedAns } = useSelectedAnswer()
+
+
 
   var uploadedImage = "";
 
