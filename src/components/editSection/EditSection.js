@@ -49,36 +49,108 @@ const EditSection = () => {
   //   });
   // }, []);
 
+
+
+
+
+  const [prevSelectedElement, setPrevSelectedElement] = useState(null);
+  const [prevSelElmAns, setPrevSelElmAns] = useState([])
+
+  const selectedElement = document.querySelector('.focussedd div')?.id;
+
+  // useEffect(() => {
+  //   let borderStyles = "2px solid red";
+
+  //   if (!selectedElement) return;
+
+  //   const questions = new Set();
+  //   const answers = new Set();
+
+  //   const data = [...questionAndAnswerGroupedData].map(elm => {
+  //     questions.add(elm.question);
+  //     answers.add(...elm.answers);
+  //     return elm;
+  //   });
+
+  //   const updateAnsElmBorder = () => {
+  //     const updateBorder = (items) => {
+  //       [...items].forEach(item => {
+  //         const element = document.getElementById(item);
+  //         element.style.border = borderStyles;
+  //       })
+  //     }
+  //     const result = data.find(item => item.question === selectedElement);
+  //     const resultAns = result?.answers
+  //     if (resultAns) {
+  //       updateBorder(resultAns)
+  //     }
+
+  //     if (prevSelElmAns?.length > 1) {
+  //       updateAnsElmBorder(prevSelElmAns)
+  //     }
+  //   }
+
+  //   const element = document.getElementById(selectedElement);
+  //   element.style.border = borderStyles;
+
+  //   if (prevSelectedElement && prevSelectedElement !== selectedElement) {
+  //     console.log("bad if got valled");
+  //     const prevElement = document.getElementById(prevSelectedElement);
+  //     prevElement.style.border = "none";
+  //     updateAnsElmBorder("none");
+  //   }
+
+  //   setPrevSelectedElement(selectedElement);
+  //   setPrevSelElmAns([...data.find(item => item?.question === selectedElement)?.answers])
+
+  //   if (questions.has(selectedElement)) {
+  //     updateAnsElmBorder(borderStyles);
+  //   }
+  // });
+
   useEffect(() => {
-    const selectedElement = document.querySelector('.focussedd div')?.id;
     const borderStyles = "2px solid red";
 
-    if (selectedElement) {
-      console.log("selectedElementG-->", selectedElement);
-      const element = document.getElementById(selectedElement);
-      element.style.border = borderStyles;
-      const questions = new Set();
-      const answers = new Set();
+    if (!selectedElement) return;
 
-      const data = [...questionAndAnswerGroupedData].map(elm => {
-        questions.add(elm.question);
-        answers.add(...elm.answers);
-        return elm;
+    const questions = new Set();
+    const answers = new Set();
+
+    const updateAnsElmBorder = (items, border) => {
+      items.forEach(item => {
+        if (!item) return;
+        // if (!answers.has(item)) return;
+        const element = document.getElementById(item);
+        element.style.border = border;
       });
+    };
 
-      if (questions.has(selectedElement)) {
-        const result = data.find(item => item.question === selectedElement);
-        if (result) {
-          result?.answers?.map(item => {
-            const element = document.getElementById(item);
-            element.style.border = borderStyles;
-            console.log(item)
-            return item;
-          })
-        }
-      }
+    const data = [...questionAndAnswerGroupedData].map(elm => {
+      questions.add(elm.question);
+      elm?.answers?.forEach(ans => answers.add(ans));
+      return elm;
+    });
+
+    const element = document.getElementById(selectedElement);
+    element.style.border = borderStyles;
+
+    if (prevSelectedElement && prevSelectedElement !== selectedElement) {
+      const prevElement = document.getElementById(prevSelectedElement);
+      prevElement.style.border = "none";
+      updateAnsElmBorder(prevSelElmAns, "none");
     }
-  })
+
+    setPrevSelectedElement(selectedElement);
+    const result = data.find(item => item?.question === selectedElement);
+    setPrevSelElmAns(result?.answers || []);
+
+    if (questions.has(selectedElement)) {
+      updateAnsElmBorder(result?.answers, borderStyles);
+    }
+  }, [prevSelElmAns, prevSelectedElement, questionAndAnswerGroupedData, selectedElement]);
+
+
+
 
   return (
     <div className="editSec">
