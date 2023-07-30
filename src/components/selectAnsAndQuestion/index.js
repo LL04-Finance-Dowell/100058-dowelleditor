@@ -19,8 +19,7 @@ export const DROPDOWN_INPUT = "dropdownInput"
 export const EMAIL_BUTTON = "emailButton"
 
 
-const Option = ({ id, className, element }) => {
-    console.log("element", element.className)
+const Option = ({ id, className }) => {
     const titleFormat = () => {
         if (className.includes(TEXT_INPUT)) return `TEXT INPUT - ${id}`;
         else if (className.includes(IMAGE_INPUT)) return `IMAGE INPUT - ${id}`
@@ -101,7 +100,7 @@ const SelectAnsAndQuestion = ({ selectedType,
     //     }
     //   }
 
-    const handleSelectTypeChangeHelper = (passedData) => {
+    const handleSelectAnswerHelper = (passedData) => {
         const { id, title } = JSON.parse(passedData)
         const questions = new Set();
         const answers = new Set();
@@ -143,25 +142,99 @@ const SelectAnsAndQuestion = ({ selectedType,
             const newData = { ...currentDataAsQuestion, answers: [...currentDataAsQuestion.answers, id] };
             peformStatesUpdates(data.map(elm => (elm.question === currentElmId ? newData : elm)))
         } else {
-            if (currentElmId === id) {
-                return toast.error(`${title} is a question already!`)
-            }
+            if (currentElmId === id) return;
+            if (answers.has(currentElmId)) return;
             const newData = { question: currentElmId, answers: [id] };
             peformStatesUpdates([...questionAndAnswerGroupedData, newData])
         }
     };
 
-    const handleSelectTypeChange = (multipleValues) => {
+    const handleSelectAnswer = (multipleValues) => {
         if (multipleValues?.length === 0) return;
 
         const passedData = [...multipleValues].map(options => options.getAttribute('value'))
 
         for (let index = 0; index < passedData?.length; index++) {
             const item = passedData[index];
-            handleSelectTypeChangeHelper(item)
+            handleSelectAnswerHelper(item)
         }
     }
 
+    // const handleSelectQuestionHelper = (passedData) => {
+    //     const { id, title } = JSON.parse(passedData)
+    //     const questions = new Set();
+    //     const answers = new Set();
+
+    //     const data = [...questionAndAnswerGroupedData].map(elm => {
+    //         questions.add(elm.question);
+    //         answers.add(...elm.answers);
+    //         return elm;
+    //     });
+
+    //     if (questions.has(id)
+    //         // || answers.has(id)
+    //     ) {
+    //         return toast.error(`${title} is already a question!`);
+    //     }
+
+    //     const currentDataAsQuestion = data.find((elm) => elm.question === currentElmId);
+    //     console.log("currentDataAsQuestion", currentDataAsQuestion)
+
+    //     function checksAnsExistsInQuestion() {
+    //         if (!currentDataAsQuestion) return false;
+    //         if (currentDataAsQuestion.answers.includes(id)) {
+    //             // toast.error(`${title} has already been added has an answer to this question!`);
+    //             return true
+    //         }
+    //         else {
+    //             return false
+    //         }
+    //     }
+
+    //     function peformStatesUpdates(newData) {
+    //         const result = checksAnsExistsInQuestion()
+    //         if (result) return;
+    //         setAddedAns([...addedAns, title])
+    //         setQuestionAndAnsGroupedData(newData)
+    //     }
+
+    //     if (currentDataAsQuestion) {
+    //         const newData = { ...currentDataAsQuestion, answers: [...currentDataAsQuestion.answers, id] };
+    //         peformStatesUpdates(data.map(elm => (elm.question === currentElmId ? newData : elm)))
+    //     } else {
+    //         if (currentElmId === id) return;
+    //         if (answers.has(currentElmId)) return;
+    //         const newData = { question: currentElmId, answers: [id] };
+    //         peformStatesUpdates([...questionAndAnswerGroupedData, newData])
+    //     }
+    // };
+
+    // const handleSelectQuestion = (multipleValues) => {
+    //     if (multipleValues?.length === 0) return;
+
+    //     const passedData = [...multipleValues].map(options => options.getAttribute('value'))
+
+    //     for (let index = 0; index < passedData?.length; index++) {
+    //         const item = passedData[index];
+    //         handleSelectQuestionHelper(item)
+    //     }
+    // }
+
+
+    const handleDeleteAns = (ans) => {
+        if (!currentElmId) return;
+
+        setAddedAns(prevAddedAns => prevAddedAns.filter(item => item !== ans));
+
+        setQuestionAndAnsGroupedData(prevData => {
+            return prevData.map(item => {
+                if (item.question === currentElmId) {
+                    return { ...item, answers: item.answers.filter(item => item !== ans) };
+                }
+                return item;
+            });
+        });
+    }
 
 
     return (
@@ -179,9 +252,9 @@ const SelectAnsAndQuestion = ({ selectedType,
                                         overflowX: 'scroll',
                                         backgroundColor: 'white',
                                     }}>
-                                    {addedAns.map(ans =>
-                                    (<div type="button" class="btn btn-primary mb-2">
-                                        {ans} <span class="badge bg-secondary">X</span>
+                                    {[...addedAns].map(ans =>
+                                    (<div type="button" class="btn btn-primary mb-2 mt-2">
+                                        {ans} <span class="badge bg-secondary" onClick={() => handleDeleteAns(ans)}>X</span>
                                     </div>))}
                                 </div>
                             </Col>
@@ -202,7 +275,7 @@ const SelectAnsAndQuestion = ({ selectedType,
                     >
                         <option>Select...</option>
                         <option value={question}>Question</option>
-                        <option value={answer}>Answers</option>
+                        {/* <option value={answer}>Answers</option> */}
                     </select>
                 </Col>
 
@@ -218,7 +291,7 @@ const SelectAnsAndQuestion = ({ selectedType,
                                 multiple
                                 onChange={(e) => {
                                     console.log("Selected Answers", e.target.value)
-                                    handleSelectTypeChange(e.target.selectedOptions)
+                                    handleSelectAnswer(e.target.selectedOptions)
                                 }}
                                 className="select border-0 bg-white rounded w-100 h-100"
                                 id="font-sizing"
@@ -234,6 +307,32 @@ const SelectAnsAndQuestion = ({ selectedType,
                 </>
 
             }
+
+            {/* {selectedType === answer &&
+                <>
+                    <hr />
+                    <Row>
+                        <h6>Questions</h6>
+                        <Col>
+                            <select
+                                multiple
+                                onChange={(e) => {
+                                    handleSelectQuestion(e.target.selectedOptions)
+                                }}
+                                className="select border-0 bg-white rounded w-100 h-100"
+                                id="font-sizing"
+                            >
+                                <option>Select...</option>
+                                {elements.map(element => (
+                                    <Option id={element.id} className={element.className} />
+                                ))}
+                            </select>
+                        </Col>
+
+                    </Row>
+                </>
+
+            } */}
         </>
     );
 }

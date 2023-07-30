@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import { useStateContext } from "../../contexts/contextProvider";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 import { useSearchParams } from "react-router-dom";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 const CalendarRightSidebar = (props) => {
   const {
@@ -33,7 +34,7 @@ const CalendarRightSidebar = (props) => {
     confirmRemove
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
 
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
@@ -52,6 +53,7 @@ const CalendarRightSidebar = (props) => {
   // );
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
+  const { addedAns, setAddedAns } = useSelectedAnswer()
   // enable disable finalize btn
   // let dateInnerText = "";
 

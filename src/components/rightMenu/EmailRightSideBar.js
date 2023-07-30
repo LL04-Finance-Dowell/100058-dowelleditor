@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useStateContext } from "../../contexts/contextProvider";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 // import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -32,7 +33,8 @@ const EmailRightSideBar = () => {
         setConfirmRemove, confirmRemove
     } = useStateContext()
     const [selectedType, setSelectedType] = useState('')
-    const [addedAns, setAddedAns] = useState([])
+    // const [addedAns, setAddedAns] = useState([])
+    const { addedAns, setAddedAns } = useSelectedAnswer()
 
     // const [borderSize, setBorderSize] = useState(
     //     Number(localStorage.getItem("borderSize")) || 0

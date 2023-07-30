@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import SelectAnsAndQuestion from '../selectAnsAndQuestion';
 import { useStateContext } from '../../contexts/contextProvider';
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 function CameraRightSide() {
   const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
   const { setConfirmRemove, confirmRemove } = useStateContext()
+
+  const { addedAns, setAddedAns } = useSelectedAnswer();
   let mediaRecorder
   const snap = () => {
     let camera = document.querySelector(".focussedd");
