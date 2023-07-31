@@ -3846,7 +3846,57 @@ const MidSection = React.forwardRef((props, ref) => {
                 });
               }
             }
+          } else if (scaleTypeHolder.textContent === "nps_lite") {
+            labelHold.style.display = "";
+            const surveyQuestionText = document.createElement("div");
+            surveyQuestionText.className = "survey_question"
+            surveyQuestionText.textContent = element?.raw_data?.surveyQuestion;
+            surveyQuestionText.style.margin = '20px auto';
+            surveyQuestionText.style.textAlign = 'center';
+            labelHold.appendChild(surveyQuestionText);
+
+            const circleDiv = document.createElement("div");
+            circleDiv.className = "circle_div";
+            circleDiv.style.display = "flex";
+            circleDiv.style.justifyContent = "space-evenly";
+            circleDiv.style.alignItems = "center";
+
+            const styles = {
+              "background-color": "element?.raw_data?.circleLeftColor",
+              "border-radius": "25px",
+              "padding": "5px 20px",
+              "margin": "0 15px",
+              "display": "flex",
+              "justify-content": "center",
+              "align-items": "center"
+            };
+
+            const circleLeft = document.createElement('div');
+            circleLeft.className = 'circle_label_left';
+            circleLeft.textContent = element?.raw_data?.circleLeftText;
+            circleLeft.style.backgroundColor = element?.raw_data?.circleLeftColor;
+            Object.assign(circleLeft.style, styles);
+            labelHold.appendChild(circleDiv).appendChild(circleLeft);
+
+            const circleCenter = document.createElement('div');
+            circleCenter.className = 'circle_label_center';
+            circleCenter.textContent = element?.raw_data?.circleCenterText;
+            circleCenter.style.backgroundColor = element?.raw_data?.circleCenterColor;
+            Object.assign(circleCenter.style, styles);
+            labelHold.appendChild(circleDiv).appendChild(circleCenter);
+
+            const circleRight = document.createElement('div');
+            circleRight.className = 'circle_label_right';
+            circleRight.textContent = element?.raw_data?.circleRightText;
+            circleRight.style.backgroundColor = element?.raw_data?.circleRightColor
+            Object.assign(circleRight.style, styles);
+            labelHold.appendChild(circleDiv).appendChild(circleRight);
+
+            if (!token) {
+              return res.status(401).json({ error: "Unauthorized" });
+            }
           }
+
           const childDiv = document.createElement("div");
           childDiv.id = "child";
           childDiv.style.display = "flex";
