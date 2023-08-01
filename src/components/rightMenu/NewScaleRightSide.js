@@ -198,10 +198,16 @@ const ScaleRightSide = () => {
     if (format === "snipte") {
       document.getElementById("npsScaleForm").style.display = "none";
       document.getElementById("snippScaleForm").style.display = "flex";
+      document.getElementById("npsLiteScaleForm").style.display = "none";
     } else if (format === "nps") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "flex";
-    }
+      document.getElementById("npsLiteScaleForm").style.display = "none";
+    } else if (format === "nps_lite") {
+      document.getElementById("snippScaleForm").style.display = "none";
+      document.getElementById("npsScaleForm").style.display = "none";
+      document.getElementById("npsLiteScaleForm").style.display = "flex";
+    }  
   };
 
   // const handleScaleType = (e) => {
@@ -241,6 +247,7 @@ const ScaleRightSide = () => {
       if (scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
         document.getElementById("npsScaleForm").style.display = "none";
         document.getElementById("snippScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "nps") &&
         (scaleTypeHolder.textContent === "nps" ||
@@ -248,6 +255,7 @@ const ScaleRightSide = () => {
       ) {
         document.getElementById("npsScaleForm").style.display = "flex";
         document.getElementById("snippScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "snipte") &&
         (scaleTypeHolder.textContent === "snipte" ||
@@ -255,6 +263,15 @@ const ScaleRightSide = () => {
       ) {
         document.getElementById("snippScaleForm").style.display = "flex";
         document.getElementById("npsScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
+      } else if (
+        (scaleTypeContent === "" || scaleTypeContent === "nps_lite") && 
+        (scaleTypeHolder.textContent === "nps_lite" || 
+          scaleTypeHolder.textContent === "")
+      ) {
+        document.getElementById("npsLiteScaleForm").style.display = "flex";
+        document.getElementById("npsScaleForm").style.display = "none";
+        document.getElementById("snippScaleForm").style.display = "none";
       }
     }
   }, []);
@@ -1079,6 +1096,210 @@ const ScaleRightSide = () => {
       // if (beNametnUpdateScal.value !== "") {
       //   scaleText.textContent = beNametnUpdateScal.value;
       // }
+    } else if (scaleType ? (scaleType.value === "nps_lite" || scaleTypeContent === "nps_lite") : scaleTypeContent === "nps_lite") {
+      const btnUpdateScale = document.getElementById("scale_color_nps_lite");
+      const btnUpdateFontColor = document.getElementById("font_color_nps_lite");
+      const btnUpdateScaleFont = document.getElementById("font_style_nps_lite");
+      const beNametnUpdateScal = document.getElementById("scale_label_nps_lite");
+
+      const btnUpdateLeft = document.getElementById("left_nps_lite");
+      const btnUpdateRight = document.getElementById("right_nps_lite");
+      const btnUpdateCenter = document.getElementById("center_nps_lite");
+      const surveyQuestion = document.getElementById("survey_question");
+
+      const button = scale?.querySelector(".label_hold");
+      const scaleText = scale?.querySelector(".scale_text");
+      const button4 = scale?.querySelector(".scool_input");
+
+      const buttonChildLeft = scale?.querySelector(".left_child");
+      const buttonChildRight = scale?.querySelector(".right_child");
+      const buttonChildNeutral = scale?.querySelector(".neutral_child");
+     
+       const option =
+        document.querySelector("#orientationId_nps_lite").options[
+          document.querySelector("#orientationId_nps_lite").selectedIndex
+        ];
+      let timeId = document.getElementById("timeId_nps_lite");
+      let time = document.getElementById("time_nps_lite");
+
+      let labelHold = scale?.querySelector('.label_hold');
+      labelHold.style.display = "";
+      let tempText = scale?.querySelector(".tempText");
+      tempText?.remove();
+
+       if (beNametnUpdateScal.value !== "") {
+        scaleText.textContent = beNametnUpdateScal.value;
+      }
+
+      if (btnUpdateFontColor.value !== "") {
+        button4.style.color = btnUpdateFontColor.value;
+      }
+
+      if (btnUpdateScaleFont.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFont.value;
+      }
+
+      buttonChildLeft.textContent = ""
+      buttonChildNeutral.textContent = ""
+      buttonChildRight.textContent = ""
+
+      button4.style.display = "block";
+
+      // Clear existing values
+      labelHold.innerHTML = '';
+
+      const surveyQuestionText = document.createElement("div");
+      surveyQuestionText.className = "survey_question"
+      surveyQuestionText.textContent = surveyQuestion.value;
+      surveyQuestionText.style.margin = '20px auto';
+      labelHold.appendChild(surveyQuestionText);
+
+      const circleDiv = document.createElement("div");
+      circleDiv.className = "circle_div";
+      circleDiv.style.display = "flex";
+      circleDiv.style.justifyContent = "space-evenly";
+      circleDiv.style.alignItems = "center";
+
+
+      const styles = {
+        "background-color": btnUpdateScale.value,
+        "border-radius": "25px",
+        "padding": "5px 20px",
+        "margin": "0 15px",
+        "display": "flex",
+        "justify-content": "center",
+        "align-items": "center"
+      };
+     
+      const circleLeft = document.createElement('div');
+      circleLeft.className = 'circle_label_left';
+      circleLeft.textContent = btnUpdateLeft.value;
+      Object.assign(circleLeft.style, styles);
+      labelHold.appendChild(circleDiv).appendChild(circleLeft);
+
+      const circleCenter = document.createElement('div');
+      circleCenter.className = 'circle_label_center';
+      circleCenter.textContent = btnUpdateCenter.value;
+      Object.assign(circleCenter.style, styles);
+      labelHold.appendChild(circleDiv).appendChild(circleCenter);
+
+      const circleRight = document.createElement('div');
+      circleRight.className = 'circle_label_right';
+      circleRight.textContent = btnUpdateRight.value;
+      Object.assign(circleRight.style, styles);
+      labelHold.appendChild(circleDiv).appendChild(circleRight);
+
+      const circleDivContainer = document.querySelector('.circle_div');
+
+      if (option.value === "Horizontal") {
+        button4.style.border = "block";
+        button4.style.textAlign = "center";
+        button.style.marginTop = "10px";
+        button.style.alignItems = "center";
+        button.style.height = "85%";
+        button.style.width = "100%";
+        button.style.flexDirection = "row";
+        button.style.position = "relative";
+        button.style.marginLeft = "0px";
+        circleDivContainer.display = "flex";
+
+      }
+
+      if (option.value === "Vertical") {
+        button4.style.border = "none";
+        button4.style.textAlign = "center";
+        button.style.height = "auto";
+        button.style.width = "50%";
+        button.style.position = "absolute";
+        button.style.display = "flex";
+        button.style.flexDirection = "column";
+        button.style.alignItems = "center";
+        button.style.marginTop = "0";
+        button.style.marginLeft = "26%";
+        circleDivContainer.style.flexDirection = "column";
+        circleLeft.style.marginBottom = "15px";
+        circleCenter.style.marginBottom = "15px";
+        circleRight.style.marginBottom = "35px";
+      }
+
+      if (
+        idHolder.textContent === "scale Id" ||
+        idHolder.textContent === "id"
+      ) {
+        setIsLoading(true);
+        console.log("post req");
+        Axios.post("https://100035.pythonanywhere.com/nps-lite/api/nps-lite-settings", {
+          user: "true",
+          username: "NdoneAmbrose",
+          question: surveyQuestion.value,
+          orientation: option?.value,
+          scalecolor: btnUpdateScale.value,
+          fontcolor: btnUpdateFontColor.value,
+          template_name: "temp202",
+          no_of_scales: 6,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          center: btnUpdateCenter.value,
+          fontstyle: btnUpdateScaleFont.value,
+        })
+          .then((res) => {
+            setIsLoading(false);
+            sendMessage();
+            setScaleData(res.data);
+            const success = res.data.success;
+            var successObj = JSON.parse(success);
+            const id = successObj.inserted_id;
+            console.log(id);
+            if (id.length) {
+              setScaleId(id && id);
+              const idHolder = scale?.querySelector(".scaleId");
+              idHolder.textContent = id && id;
+            }
+            console.log(res);
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err);
+          });
+      } else {
+        setIsLoading(true);
+        console.log("PUT req");
+        console.log(idHolder.textContent);
+        Axios.put("https://100035.pythonanywhere.com/nps-lite/api/nps-lite-settings", {
+          scale_id: idHolder.textContent,
+          user: "true",
+          username: "NdoneAmbrose",
+          question: surveyQuestion.value,
+          orientation: option?.value,
+          scalecolor: btnUpdateScale.value,
+          fontcolor: btnUpdateFontColor.value,
+          template_name: "temp202",
+          no_of_scales: 6,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          name: beNametnUpdateScal.value,
+          left: btnUpdateLeft.value,
+          right: btnUpdateRight.value,
+          center: btnUpdateCenter.value,
+          fontstyle: btnUpdateScaleFont.value,
+        })
+          .then((res) => {
+            if (res.status == 200) {
+              setIsLoading(false);
+              sendMessage();
+              setScaleData(res.data);
+              setScaleId(scaleId);
+              console.log(res);
+              console.log("This is the still scale", scale);
+            }
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            console.log(err.message);
+          });
+      }
+
     }
   };
   const idHolder = scale?.querySelector(".scaleId");
@@ -1265,6 +1486,15 @@ const ScaleRightSide = () => {
 
   const onTimeChangeStapel = (e) => {
     let timeId = document.getElementById("timeId_stapel");
+    if (e.target.checked) {
+      timeId.style.display = "flex";
+    } else {
+      timeId.style.display = "none";
+    }
+  };
+
+  const onTimeChangeNpsLite = (e) => {
+    let timeId = document.getElementById("timeId_nps_lite");
     if (e.target.checked) {
       timeId.style.display = "flex";
     } else {
@@ -1480,6 +1710,7 @@ const ScaleRightSide = () => {
                         <option>Select Scales</option>
                         <option value="snipte">Stapel Scale</option>
                         <option value="nps">Nps Scale</option>
+                        <option value="nps_lite">Nps Lite Scale</option>
                       </select>
                     </div>
                   </div>
@@ -3281,6 +3512,573 @@ const ScaleRightSide = () => {
                       </Button>
                     </div>
                   </div>
+                </div>
+              </form>
+            </div>
+            <div id="npsLiteScaleForm">
+              <form
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  gap: "15px",
+                  width: "100%",
+                  overflowY: "auto",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "12px",
+                  paddingRight: "12px",
+                  marginTop: "15px",
+                  fontSize: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "0",
+                    padding: "0",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    <h1
+                      id="headerText"
+                      style={{ margin: "auto 0", fontSize: "15px" }}
+                    >
+                      Edit {scaleTitle}
+                    </h1>
+                  </div>
+                  <h6 style={{ fontSize: "12px" }}>Orientation</h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      borderRadius: "10px",
+                      padding: "5px 7px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <select
+                      style={{
+                        width: "100%",
+                        backgroundColor: "transparent",
+                        height: "15px",
+                        border: "none",
+                        justifyContent: "center",
+                        outline: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "12px",
+                        margin: "0 auto",
+                      }}
+                      className="bg-gray-800"
+                      id="orientationId_nps_lite"
+                    >
+                      <option value="Horizontal" style={{ color: "black" }}>
+                        Horizontal
+                      </option>
+                      <option value="Vertical" style={{ color: "black" }}>
+                        Vertical
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Question of survey
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="textarea"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                       
+                        id="survey_question"
+                      />
+                    </div>
+                  </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="scale_color_nps_lite"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="font_color_nps_lite"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Style
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style_nps_lite"
+                          defaultValue={
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Scale label
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          defaultValue={scaleT ? scaleT.innerHTML : ""}
+                          style={{
+                            width: "82px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scale_label_nps_lite"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                      margin: "auto 0",
+                    }}
+                  >
+                     <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Left
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="left_nps_lite"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Centre
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                          id="center_nps_lite"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                      
+                    }}
+                  >
+                     <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Right
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          style={{
+                            width: "100%",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="right_nps_lite"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Number of Scales
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          placeholder="1"
+                          style={{
+                            width: "100%",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scale_nps_lite"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "12px" }}>Time(sec)</h6>
+                    <div class="form-check form-switch">
+                      <input
+                        style={{ cursor: "pointer" }}
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        onChange={onTimeChangeNpsLite}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="timeId_nps_lite"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="time_nps_lite"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="scoreInput"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="score"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    id="button_id"
+                    type="button"
+                    width="50%"
+                    marginTop="60px"
+                    onClick={handleUpdates}
+                  >
+                    Update
+                  </Button>
                 </div>
               </form>
             </div>
