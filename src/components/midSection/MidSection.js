@@ -3760,11 +3760,61 @@ const MidSection = React.forwardRef((props, ref) => {
               }
 
               if (decoded.details.action === "document") {
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
                 let circles = document.querySelectorAll(".circle_label");
                 let isClicked = false;
 
                 let circleBgColor = circle.style.backgroundColor;
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
 
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
                     let scale = document.querySelector(".focussedd");
@@ -3815,13 +3865,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     if (holdElem) {
                       // If holdElem exists, update its text content
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                     } else {
                       // If holdElem doesn't exist, create a new one
                       holdElem = document.createElement("div");
                       holdElem.className = "holdElem";
                       holdElem.style.display = "none";
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                       holding?.appendChild(holdElem);
                       console.log("This is holdEle", holdElem.textContent);
                       const required_map_document =
@@ -3839,9 +3889,18 @@ const MidSection = React.forwardRef((props, ref) => {
                         );
                       }
                     }
+                    const scaleID =
+                      scale?.querySelector(".scaleId")?.textContent;
+                    setClickedCircleBackgroundColor(
+                      circle,
+                      circle.style.backgroundColor,
+                      scaleID
+                    );
 
-                    // Store holdElem inside the holding div
-                    // holding.appendChild(holdElem);
+                    localStorage.setItem(
+                      `lastClickedCircleID_${scaleID}`,
+                      circle.textContent
+                    );
                   }
                 });
               }
@@ -3849,10 +3908,10 @@ const MidSection = React.forwardRef((props, ref) => {
           } else if (scaleTypeHolder.textContent === "nps_lite") {
             labelHold.style.display = "";
             const surveyQuestionText = document.createElement("div");
-            surveyQuestionText.className = "survey_question"
+            surveyQuestionText.className = "survey_question";
             surveyQuestionText.textContent = element?.raw_data?.surveyQuestion;
-            surveyQuestionText.style.margin = '20px auto';
-            surveyQuestionText.style.textAlign = 'center';
+            surveyQuestionText.style.margin = "20px auto";
+            surveyQuestionText.style.textAlign = "center";
             labelHold.appendChild(surveyQuestionText);
 
             const circleDiv = document.createElement("div");
@@ -3864,31 +3923,34 @@ const MidSection = React.forwardRef((props, ref) => {
             const styles = {
               "background-color": "element?.raw_data?.circleLeftColor",
               "border-radius": "25px",
-              "padding": "5px 20px",
-              "margin": "0 15px",
-              "display": "flex",
+              padding: "5px 20px",
+              margin: "0 15px",
+              display: "flex",
               "justify-content": "center",
-              "align-items": "center"
+              "align-items": "center",
             };
 
-            const circleLeft = document.createElement('div');
-            circleLeft.className = 'circle_label_left';
+            const circleLeft = document.createElement("div");
+            circleLeft.className = "circle_label_left";
             circleLeft.textContent = element?.raw_data?.circleLeftText;
-            circleLeft.style.backgroundColor = element?.raw_data?.circleLeftColor;
+            circleLeft.style.backgroundColor =
+              element?.raw_data?.circleLeftColor;
             Object.assign(circleLeft.style, styles);
             labelHold.appendChild(circleDiv).appendChild(circleLeft);
 
-            const circleCenter = document.createElement('div');
-            circleCenter.className = 'circle_label_center';
+            const circleCenter = document.createElement("div");
+            circleCenter.className = "circle_label_center";
             circleCenter.textContent = element?.raw_data?.circleCenterText;
-            circleCenter.style.backgroundColor = element?.raw_data?.circleCenterColor;
+            circleCenter.style.backgroundColor =
+              element?.raw_data?.circleCenterColor;
             Object.assign(circleCenter.style, styles);
             labelHold.appendChild(circleDiv).appendChild(circleCenter);
 
-            const circleRight = document.createElement('div');
-            circleRight.className = 'circle_label_right';
+            const circleRight = document.createElement("div");
+            circleRight.className = "circle_label_right";
             circleRight.textContent = element?.raw_data?.circleRightText;
-            circleRight.style.backgroundColor = element?.raw_data?.circleRightColor
+            circleRight.style.backgroundColor =
+              element?.raw_data?.circleRightColor;
             Object.assign(circleRight.style, styles);
             labelHold.appendChild(circleDiv).appendChild(circleRight);
 
