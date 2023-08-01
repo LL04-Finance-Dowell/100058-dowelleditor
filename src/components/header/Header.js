@@ -2602,6 +2602,18 @@ const Header = () => {
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
           }
 
+          let surveyQuestion = "";
+          let circleLeft = "";
+          let circleCenter = "";
+          let circleRight = "";
+
+          if (scaleType.textContent === "nps_lite") {
+            surveyQuestion = document.querySelector(".survey_question");
+            circleLeft = document.querySelector(".circle_label_left");
+            circleCenter = document.querySelector(".circle_label_center");
+            circleRight = document.querySelector(".circle_label_right");
+          }
+
           // if (buttonStapel.length !==0) {
           //   for (let i = lowerVal; i <= upperVal; i += spacing) {
           //     stapelNum.push(buttonStapel[i].textContent);
@@ -2622,6 +2634,13 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
+            surveyQuestion: surveyQuestion.textContent,
+            circleLeftText: circleLeft.textContent,
+            circleCenterText: circleCenter.textContent,
+            circleRightText: circleRight.textContent,
+            circleLeftColor: circleLeft?.style?.backgroundColor,
+            circleCenterColor: circleCenter?.style?.backgroundColor,
+            circleRightColor: circleRight?.style?.backgroundColor
           };
           console.log(properties);
           elem = {
@@ -3277,7 +3296,7 @@ const Header = () => {
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
-        item_type: action,
+        item_type: "clone",
         item_id: _id,
         company_id: companyId,
         role: role,
@@ -3308,7 +3327,7 @@ const Header = () => {
         // item_id: process_id,
         authorized: authorized,
         // document_id: _id,
-        item_type: action,
+        item_type: "clone",
         item_id: _id,
         company_id: companyId,
         role: role,
