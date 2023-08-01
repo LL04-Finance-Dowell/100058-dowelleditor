@@ -4187,6 +4187,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const selectElement = document.createElement("select");
           selectElement.className = "select-element";
+          selectElement.innerHTML = element.data2;
           // selectElement.style.width = "auto";
           // selectElement.style.height = "auto";
 
