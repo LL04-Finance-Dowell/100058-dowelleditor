@@ -18,6 +18,7 @@ import { FaSignature } from "react-icons/fa";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
 import { FaCamera } from "react-icons/fa"
+import { FaCreditCard } from "react-icons/fa";
 
 import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
