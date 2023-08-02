@@ -7,10 +7,10 @@ const RemoveElmentModal = ({ handleRemoveInput }) => {
     return (
         <div
             // className="modal show"
-            className="modal-container"
-        // style={{ display: 'block', position: 'initial' }}
+            style={{ display: 'block', position: 'initial' }}
         >
-            <Modal.Dialog style={{ width: '100%' }}>
+            {/* <Modal show={confirmRemove}> */}
+            <Modal.Dialog>
                 <Modal.Header
                 >
                     <Modal.Title>Warning</Modal.Title>
