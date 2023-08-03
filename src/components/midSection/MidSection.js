@@ -3923,7 +3923,6 @@ const MidSection = React.forwardRef((props, ref) => {
             circleDiv.style.alignItems = "center";
 
             const styles = {
-              "background-color": "element?.raw_data?.circleLeftColor",
               "border-radius": "25px",
               padding: "5px 20px",
               margin: "0 15px",
