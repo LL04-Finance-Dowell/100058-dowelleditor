@@ -130,9 +130,20 @@ const ScaleRightSide = () => {
   if (scaleColorInput) {
     scaleColorInput.defaultValue = scaleBg;
   }
+
+  var scaleColorStapel = document.getElementById("scale_color_stapel");
+  if (scaleColorStapel) {
+    scaleColorStapel.defaultValue = scaleBg;
+  }
+
   var font_color = document.getElementById("font_color");
   if (font_color) {
     font_color.defaultValue = fontColor;
+  }
+
+  var font_colorStapel = document.getElementById("font_color_stapel");
+  if (font_colorStapel) {
+    font_colorStapel.defaultValue = fontColor;
   }
   var left = document.getElementById("left");
   if (left) {
@@ -149,6 +160,11 @@ const ScaleRightSide = () => {
   var button_color = document.getElementById("button_color");
   if (button_color) {
     button_color.defaultValue = circles;
+  }
+
+  var button_colorStapel = document.getElementById("button_color_stapel");
+  if (button_colorStapel) {
+    button_colorStapel.defaultValue = circles;
   }
   var format = document.getElementById("format");
   const scaleDisplay = scale?.querySelector(".scool_input");
@@ -1066,6 +1082,9 @@ const ScaleRightSide = () => {
               setScaleId(scaleId);
               console.log(res);
               console.log("This is the still scale", scale);
+              stapelScaleArray.textContent = res.data.data.settings.scale 
+              console.log("This is the stapel  scale response", res.data.data);
+               console.log(stapelScaleArray)
             }
           })
           .catch((err) => {

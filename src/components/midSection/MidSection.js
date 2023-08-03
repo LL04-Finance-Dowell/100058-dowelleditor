@@ -3639,7 +3639,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = document.querySelector(".focussedd");
+                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
@@ -3815,9 +3815,11 @@ const MidSection = React.forwardRef((props, ref) => {
                     });
                   });
                 }, 1000);
+
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
-                    let scale = document.querySelector(".focussedd");
+                    let holdingParentEl = circle.parentElement.parentElement.parentElement.parentElement
+                    let scale = circle.parentElement.parentElement.parentElement.parentElement;
                     let holding = scale?.querySelector(".newScaleInput");
                     const buttonCircle = scale
                       ? scale.querySelectorAll(".circle_label")
@@ -3825,7 +3827,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     console.log(
                       "This is the background color",
-                      circle.style.backgroundColor
+                      holdingParentEl
                     );
                     function componentToHex(c) {
                       var hex = c.toString(16);
