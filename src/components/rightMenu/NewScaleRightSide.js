@@ -1170,8 +1170,6 @@ const ScaleRightSide = () => {
       Object.assign(circleRight.style, styles);
       labelHold.appendChild(circleDiv).appendChild(circleRight);
 
-      const circleDivContainer = document.querySelector('.circle_div');
-
       if (option.value === "Horizontal") {
         button4.style.border = "block";
         button4.style.textAlign = "center";
@@ -1182,8 +1180,6 @@ const ScaleRightSide = () => {
         button.style.flexDirection = "row";
         button.style.position = "relative";
         button.style.marginLeft = "0px";
-        circleDivContainer.display = "flex";
-
       }
 
       if (option.value === "Vertical") {
@@ -1197,7 +1193,7 @@ const ScaleRightSide = () => {
         button.style.alignItems = "center";
         button.style.marginTop = "0";
         button.style.marginLeft = "26%";
-        circleDivContainer.style.flexDirection = "column";
+        circleDiv.style.flexDirection = "column";
         circleLeft.style.marginBottom = "15px";
         circleCenter.style.marginBottom = "15px";
         circleRight.style.marginBottom = "35px";

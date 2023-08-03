@@ -2608,10 +2608,10 @@ const Header = () => {
           let circleRight = "";
 
           if (scaleType.textContent === "nps_lite") {
-            surveyQuestion = document.querySelector(".survey_question");
-            circleLeft = document.querySelector(".circle_label_left");
-            circleCenter = document.querySelector(".circle_label_center");
-            circleRight = document.querySelector(".circle_label_right");
+            surveyQuestion = newScales[b].querySelector(".survey_question");
+            circleLeft = newScales[b].querySelector(".circle_label_left");
+            circleCenter = newScales[b].querySelector(".circle_label_center");
+            circleRight = newScales[b].querySelector(".circle_label_right");
           }
 
           // if (buttonStapel.length !==0) {
