@@ -901,6 +901,7 @@ const ScaleRightSide = () => {
           circle.style.display = "flex";
           circle.style.justifyContent = "center";
           circle.style.alignItems = "center";
+          circle.style.padding = "2%";
           circle.style.margin = "0 2px";
           circle.style.backgroundColor = btnUpdateButton.value;
           if (selectedOption === "emoji" && emojiInp !== "") {
