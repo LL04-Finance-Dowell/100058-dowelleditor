@@ -566,6 +566,7 @@ const ScaleRightSide = () => {
             .split(emojiFormat)
             .filter((emoji) => emoji !== "");
           circle.textContent = emojis[i % emojis.length];
+          circle.style.fontSize = "1.8vw"
         } else {
           // Set the text content of the div to the number
           circle.textContent = i;
@@ -905,8 +906,7 @@ const ScaleRightSide = () => {
           circle.style.borderRadius = "50%";
           circle.style.display = "flex";
           circle.style.justifyContent = "center";
-          circle.style.alignItems = "center";
-          circle.style.padding = "2%";
+          circle.style.alignItems = "center"
           circle.style.margin = "0 2px";
           circle.style.backgroundColor = btnUpdateButton.value;
           if (selectedOption === "emoji" && emojiInp !== "") {
@@ -916,6 +916,7 @@ const ScaleRightSide = () => {
               .split(emojiFormat)
               .filter((emoji) => emoji !== "");
             circle.textContent = emojis[(i - lowerVal) % emojis.length];
+            circle.style.fontSize = "1.8vw"
           } else {
             // Set the text content of the div to the number
             circle.textContent = i;

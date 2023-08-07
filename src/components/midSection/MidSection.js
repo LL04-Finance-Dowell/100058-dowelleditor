@@ -3564,6 +3564,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 const buttonText = element.raw_data.buttonText;
                 if (Array.isArray(buttonText) && buttonText.length > 0) {
                   circle.textContent = buttonText[i % buttonText.length];
+                  circle.style.fontSize = "1.8vw"
                   console.log("EMOJIIIIIIIIIII");
                 } else {
                   console.log("Empty buttonText array");
@@ -3753,6 +3754,7 @@ const MidSection = React.forwardRef((props, ref) => {
               if (selectedOption === "emoji") {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
+                circle.style.fontSize = "1.8vw"
               }
 
               if (!token) {
