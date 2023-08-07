@@ -121,6 +121,9 @@ const ScaleRightSide = () => {
   const leftChild = scale?.querySelector(".left_child");
   const neutralChild = scale?.querySelector(".neutral_child");
   const rightChild = scale?.querySelector(".right_child");
+  const npsLiteLeftChild = scale?.querySelector(".circle_0");
+  const npsLiteCenterChild = scale?.querySelector(".circle_1");
+  const npsLiteRightChild = scale?.querySelector(".circle_2");
   const scaleT = scale?.querySelector(".scale_text");
   const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
 
@@ -136,6 +139,11 @@ const ScaleRightSide = () => {
     scaleColorStapel.defaultValue = scaleBg;
   }
 
+  var scaleColorNpsLite = document.getElementById("scale_color_nps_lite");
+  if (scaleColorNpsLite) {
+    scaleColorNpsLite.defaultValue = circles;
+  }
+
   var font_color = document.getElementById("font_color");
   if (font_color) {
     font_color.defaultValue = fontColor;
@@ -145,6 +153,12 @@ const ScaleRightSide = () => {
   if (font_colorStapel) {
     font_colorStapel.defaultValue = fontColor;
   }
+
+  var npsLiteFontColor = document.getElementById("font_color_nps_lite");
+  if (npsLiteFontColor) {
+    npsLiteFontColor.defaultValue = fontColor;
+  }
+
   var left = document.getElementById("left");
   if (left) {
     left.defaultValue = leftChild?.textContent;
@@ -157,6 +171,22 @@ const ScaleRightSide = () => {
   if (right) {
     right.defaultValue = rightChild?.textContent;
   }
+
+  var leftText = document.getElementById("left_nps_lite");
+  if (leftText) {
+    leftText.defaultValue = npsLiteLeftChild?.textContent ? npsLiteLeftChild?.textContent : "";
+  }
+
+  var centerText = document.getElementById("center_nps_lite");
+  if (centerText) {
+    centerText.defaultValue = npsLiteCenterChild?.textContent ? npsLiteCenterChild?.textContent : "";
+  }
+
+  var rightText = document.getElementById("right_nps_lite");
+  if (rightText) {
+    rightText.defaultValue = npsLiteRightChild?.textContent ? npsLiteRightChild?.textContent : "";
+  }
+   
   var button_color = document.getElementById("button_color");
   if (button_color) {
     button_color.defaultValue = circles;
@@ -167,13 +197,19 @@ const ScaleRightSide = () => {
     button_colorStapel.defaultValue = circles;
   }
   var format = document.getElementById("format");
+  var npsLiteFormat = document.getElementById("format_nps_lite");
   const scaleDisplay = scale?.querySelector(".scool_input");
 
   // var imageLabel = scale?.querySelector(".images_label");
   var circleLabel = scale?.querySelector(".circle_label")?.textContent;
+  const withEmoji = /\p{Extended_Pictographic}/u;
+
   if (scaleDisplay.style.display !== "none") {
     if (format) {
       format.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    }
+    if (npsLiteFormat) {
+      npsLiteFormat.selectedIndex = withEmoji.test(circleLabel) ? 1 : 0 ;
     }
   }
 
@@ -241,6 +277,17 @@ const ScaleRightSide = () => {
       document.getElementById("image").style.display = "flex";
       document.getElementById("emoji").style.display = "none";
     }
+  };
+
+  
+  const handleFormatNpsLite = () => {
+    const format = document.getElementById("format_nps_lite");
+    const selectedValue = format.value;
+    if (selectedValue === "text") {
+      document.getElementById("emoji_nps_lite").style.display = "none";
+    } else if (selectedValue === "emoji") {
+      document.getElementById("emoji_nps_lite").style.display = "flex";
+    } 
   };
 
   // useEffect(() => {
@@ -1112,7 +1159,7 @@ const ScaleRightSide = () => {
       const btnUpdateLeft = document.getElementById("left_nps_lite");
       const btnUpdateRight = document.getElementById("right_nps_lite");
       const btnUpdateCenter = document.getElementById("center_nps_lite");
-      const surveyQuestion = document.getElementById("survey_question");
+      const optionSelect = document.getElementById("format_nps_lite");
 
       const button = scale?.querySelector(".label_hold");
       const scaleText = scale?.querySelector(".scale_text");
@@ -1128,6 +1175,7 @@ const ScaleRightSide = () => {
         ];
       let timeId = document.getElementById("timeId_nps_lite");
       let time = document.getElementById("time_nps_lite");
+      const emojiInp = document.getElementById("emoji_inp_nps_lite").value;
 
       let labelHold = scale?.querySelector('.label_hold');
       labelHold.style.display = "";
@@ -1152,49 +1200,77 @@ const ScaleRightSide = () => {
 
       button4.style.display = "block";
 
-      // Clear existing values
+      const textValues = [btnUpdateLeft.value, btnUpdateCenter.value, btnUpdateRight.value];
+      
       labelHold.innerHTML = '';
+      const selectedOption = optionSelect.value;
 
-      const surveyQuestionText = document.createElement("div");
-      surveyQuestionText.className = "survey_question"
-      surveyQuestionText.textContent = surveyQuestion.value;
-      surveyQuestionText.style.margin = '20px auto';
-      labelHold.appendChild(surveyQuestionText);
+      const npsLiteTextArray = document.createElement('div');
+      npsLiteTextArray.className = "nps_lite_text";
+      npsLiteTextArray.textContent = [...textValues];
+      npsLiteTextArray.style.display = "none";
+      labelHold.append(npsLiteTextArray);
 
-      const circleDiv = document.createElement("div");
-      circleDiv.className = "circle_div";
-      circleDiv.style.display = "flex";
-      circleDiv.style.justifyContent = "space-evenly";
-      circleDiv.style.alignItems = "center";
+      for (let i = 0; i < textValues.length; i++) {
+        const selectedOption = optionSelect.value;
+        const circle = document.createElement("div");
+        circle.className = `circle_label circle_${i}`;
+        circle.textContent = textValues[i];
 
+        circle.style.borderRadius =  "25px";
+        circle.style.padding = "12px 27px";
+        circle.style.margin = "0 auto";
+        circle.style.display = "flex";
+        circle.style.justifyContent = "center";
+        circle.style.alignItems= "center";
+        circle.style.width = "27%";
+        circle.style.height = "35%";
+        circle.style.fontSize = "18px";
+        circle.style.backgroundColor = btnUpdateScale.value
+      
+        if (option.value === "Vertical") {
+          circle.style.margin = "15px 0";
+          circle.style.padding = "10px 30px";
+        }
 
-      const styles = {
-        "background-color": btnUpdateScale.value,
-        "border-radius": "25px",
-        "padding": "5px 20px",
-        "margin": "0 15px",
-        "display": "flex",
-        "justify-content": "center",
-        "align-items": "center"
-      };
+        labelHold.appendChild(circle);
+
+        if (selectedOption === "emoji" && emojiInp !== "") {
+          // Set the text content of the div to the corresponding emoji
+          const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+          const emojis = emojiInp
+            .split(emojiFormat)
+            .filter((emoji) => emoji !== "");
+          circle.textContent = emojis[i % emojis.length];
+        } else {
+          circle.textContent = textValues[i];
+        }
+      }
      
-      const circleLeft = document.createElement('div');
-      circleLeft.className = 'circle_label_left';
-      circleLeft.textContent = btnUpdateLeft.value;
-      Object.assign(circleLeft.style, styles);
-      labelHold.appendChild(circleDiv).appendChild(circleLeft);
+      const prepareEmojiLabels = () => {
+        const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+        const emojis = inputStr
+          .split(emojiFormat)
+          .filter((emoji) => emoji !== "");
 
-      const circleCenter = document.createElement('div');
-      circleCenter.className = 'circle_label_center';
-      circleCenter.textContent = btnUpdateCenter.value;
-      Object.assign(circleCenter.style, styles);
-      labelHold.appendChild(circleDiv).appendChild(circleCenter);
+        const emojiLabels = {};
 
-      const circleRight = document.createElement('div');
-      circleRight.className = 'circle_label_right';
-      circleRight.textContent = btnUpdateRight.value;
-      Object.assign(circleRight.style, styles);
-      labelHold.appendChild(circleDiv).appendChild(circleRight);
+        const repeatedEmoji = [];
+        const selectedCount = Math.min(emojis.length, textValues.length);
+
+        for (let i = 0; i < textValues.length; i++) {
+          const emojindex = i % selectedCount;
+          repeatedEmoji.push(emojis[emojindex]);
+        }
+
+        for (let i = 0; i < textValues.length; i++) {
+          emojiLabels[i] = repeatedEmoji[i];
+        }
+
+        return emojiLabels;
+      };
+      
+      const emojiLabels = prepareEmojiLabels();
 
       if (option.value === "Horizontal") {
         button4.style.border = "block";
@@ -1203,7 +1279,9 @@ const ScaleRightSide = () => {
         button.style.alignItems = "center";
         button.style.height = "85%";
         button.style.width = "100%";
+        button.style.display = "flex";
         button.style.flexDirection = "row";
+        button.style.justifyContent = "center";
         button.style.position = "relative";
         button.style.marginLeft = "0px";
       }
@@ -1219,10 +1297,6 @@ const ScaleRightSide = () => {
         button.style.alignItems = "center";
         button.style.marginTop = "0";
         button.style.marginLeft = "26%";
-        circleDiv.style.flexDirection = "column";
-        circleLeft.style.marginBottom = "15px";
-        circleCenter.style.marginBottom = "15px";
-        circleRight.style.marginBottom = "35px";
       }
 
       if (
@@ -1234,7 +1308,6 @@ const ScaleRightSide = () => {
         Axios.post("https://100035.pythonanywhere.com/nps-lite/api/nps-lite-settings", {
           user: "true",
           username: "NdoneAmbrose",
-          question: surveyQuestion.value,
           orientation: option?.value,
           scalecolor: btnUpdateScale.value,
           fontcolor: btnUpdateFontColor.value,
@@ -1246,6 +1319,8 @@ const ScaleRightSide = () => {
           right: btnUpdateRight.value,
           center: btnUpdateCenter.value,
           fontstyle: btnUpdateScaleFont.value,
+          fomat: selectedOption,
+          custom_emoji_format: emojiLabels
         })
           .then((res) => {
             setIsLoading(false);
@@ -1274,7 +1349,6 @@ const ScaleRightSide = () => {
           scale_id: idHolder.textContent,
           user: "true",
           username: "NdoneAmbrose",
-          question: surveyQuestion.value,
           orientation: option?.value,
           scalecolor: btnUpdateScale.value,
           fontcolor: btnUpdateFontColor.value,
@@ -1286,6 +1360,8 @@ const ScaleRightSide = () => {
           right: btnUpdateRight.value,
           center: btnUpdateCenter.value,
           fontstyle: btnUpdateScaleFont.value,
+          fomat: selectedOption,
+          custom_emoji_format: emojiLabels
         })
           .then((res) => {
             if (res.status == 200) {
@@ -3814,43 +3890,6 @@ const ScaleRightSide = () => {
                   </div>
                 </div>
                 <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                    }}
-                  >
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Question of survey
-                    </h6>
-                    <div
-                      style={{
-                        backgroundColor: "#e8e8e8",
-                        padding: "3px 7px",
-                        borderRadius: "7px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <input
-                        type="textarea"
-                        style={{
-                          width: "100%",
-                          height: "15px",
-                          display: "flex",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          outline: "none",
-                          alignItems: "center",
-                        }}
-                       
-                        id="survey_question"
-                      />
-                    </div>
-                  </div>
-                <div
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -4026,6 +4065,118 @@ const ScaleRightSide = () => {
                             alignItems: "center",
                           }}
                           id="scale_label_nps_lite"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Format
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          // height: "30px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "70px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="format_nps_lite"
+                          onChange={handleFormatNpsLite}
+                        >
+                          <option value="text">Text</option>
+                          <option value="emoji">Emoji</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "none",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                      id="emoji_nps_lite"
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Select Emoji
+                      </h6>
+                      <div
+                        style={{
+                          position: "relative",
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="emoji_inp_nps_lite"
+                          value={inputStr}
+                          onChange={(e) => setInputStr(e.target.value)}
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: "-140px",
+                            zIndex: 1,
+                            maxWidth: "250px",
+                            maxHeight: "300px",
+                            overflowY: "auto",
+                            padding: "5px",
+                          }}
+                        >
+                          {showPicker && <Picker onEmojiClick={onEmojiClick} />}
+                        </div>
+                        <GrEmoji
+                          style={{
+                            position: "absolute",
+                            zIndex: "1",
+                            backgroundColor: "#e8e8e8",
+                            right: "-14px",
+                          }}
+                          onClick={() => setShowPicker(!showPicker)}
                         />
                       </div>
                     </div>

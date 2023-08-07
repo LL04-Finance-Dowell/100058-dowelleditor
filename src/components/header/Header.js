@@ -2602,16 +2602,10 @@ const Header = () => {
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
           }
 
-          let surveyQuestion = "";
-          let circleLeft = "";
-          let circleCenter = "";
-          let circleRight = "";
+          let npsLiteTextArray = "";
 
           if (scaleType.textContent === "nps_lite") {
-            surveyQuestion = newScales[b].querySelector(".survey_question");
-            circleLeft = newScales[b].querySelector(".circle_label_left");
-            circleCenter = newScales[b].querySelector(".circle_label_center");
-            circleRight = newScales[b].querySelector(".circle_label_right");
+            npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
           }
 
           // if (buttonStapel.length !==0) {
@@ -2634,13 +2628,7 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
-            surveyQuestion: surveyQuestion.textContent,
-            circleLeftText: circleLeft.textContent,
-            circleCenterText: circleCenter.textContent,
-            circleRightText: circleRight.textContent,
-            circleLeftColor: circleLeft?.style?.backgroundColor,
-            circleCenterColor: circleCenter?.style?.backgroundColor,
-            circleRightColor: circleRight?.style?.backgroundColor
+            npsLiteTextArray: npsLiteTextArray.textContent,
           };
           console.log(properties);
           elem = {
