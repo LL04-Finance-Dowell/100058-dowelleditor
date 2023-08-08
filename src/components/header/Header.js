@@ -2602,26 +2602,16 @@ const Header = () => {
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
           }
 
-          let surveyQuestion = "";
-          let circleLeft = "";
-          let circleCenter = "";
-          let circleRight = "";
+          let npsLiteTextArray = "";
 
           if (scaleType.textContent === "nps_lite") {
-            surveyQuestion = newScales[b].querySelector(".survey_question");
-            circleLeft = newScales[b].querySelector(".circle_label_left");
-            circleCenter = newScales[b].querySelector(".circle_label_center");
-            circleRight = newScales[b].querySelector(".circle_label_right");
+            npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
           }
 
           let likertScaleArray = "";
-          let likertOptionHolder = "";
 
           if (scaleType.textContent === "likert") {
-            likertOptionHolder = newScales[b].querySelector(
-              ".likertOptionHolder"
-            );
-            likertScaleArray = newScales[b].querySelector(".likertScaleArray");
+            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
           }
 
           let properties = {
@@ -2638,15 +2628,8 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
-            likertOptionHolder: likertOptionHolder.textContent,
-            likertScaleArray: likertScaleArray.textContent,
-            surveyQuestion: surveyQuestion.textContent,
-            circleLeftText: circleLeft.textContent,
-            circleCenterText: circleCenter.textContent,
-            circleRightText: circleRight.textContent,
-            circleLeftColor: circleLeft?.style?.backgroundColor,
-            circleCenterColor: circleCenter?.style?.backgroundColor,
-            circleRightColor: circleRight?.style?.backgroundColor
+            npsLiteTextArray: npsLiteTextArray.textContent,
+            likertScaleArray: likertScaleArray.textContent
           };
           console.log(properties);
           elem = {

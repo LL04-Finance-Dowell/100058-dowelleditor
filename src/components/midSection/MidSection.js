@@ -3519,22 +3519,34 @@ const MidSection = React.forwardRef((props, ref) => {
           stapelScaleArray.style.display = "none";
           scaleHold.append(stapelScaleArray);
 
+          const npsLiteTextArray = document.createElement("div");
+          npsLiteTextArray.className = "nps_lite_text";
+          npsLiteTextArray.textContent = element?.raw_data?.npsLiteTextArray;
+          npsLiteTextArray.style.display = "none";
+          scaleHold.append(npsLiteTextArray);
+
           const optionHolder = document.createElement("div");
           optionHolder.className = "stapelOptionHolder";
           optionHolder.textContent = element?.raw_data?.stapelOptionHolder;
           optionHolder.style.display = "none";
           scaleHold.append(optionHolder);
 
+          const npsLiteOptionHolder = document.createElement("div");
+          optionHolder.className = "nps_option_holder";
+          optionHolder.textContent = element?.raw_data?.npsLiteOptionHolder;
+          optionHolder.style.display = "none";
+          scaleHold.append(npsLiteOptionHolder);
+
           const likertScaleArray = document.createElement("div");
-          likertScaleArray.className = "likertScaleArray";
+          likertScaleArray.className = "likert_Scale_Array";
           likertScaleArray.textContent = element?.raw_data?.likertScaleArray || '';
           likertScaleArray.style.display = "none";
           scaleHold.append(likertScaleArray);
 
           const optionHolderLikert = document.createElement("div");
-          optionHolderLikert.className = "likertOptionHolder";
-          optionHolderLikert.textContent = element?.raw_data?.likertOptionHolder || '';
-          optionHolderLikert.style.display = "none";
+          optionHolder.className = "likert_Option_Holder";
+          optionHolder.textContent = element?.raw_data?.likertOptionHolder || '';
+          optionHolder.style.display = "none";
           scaleHold.append(optionHolderLikert);
 
           const labelHold = document.createElement("div");
@@ -3922,55 +3934,190 @@ const MidSection = React.forwardRef((props, ref) => {
               }
             }
           } else if (scaleTypeHolder.textContent === "nps_lite") {
-            labelHold.style.display = "";
-            const surveyQuestionText = document.createElement("div");
-            surveyQuestionText.className = "survey_question";
-            surveyQuestionText.textContent = element?.raw_data?.surveyQuestion;
-            surveyQuestionText.style.margin = "20px auto";
-            surveyQuestionText.style.textAlign = "center";
-            labelHold.appendChild(surveyQuestionText);
+            const npsLiteText = npsLiteTextArray.textContent.split(",");
+            for (let i = 0; i < npsLiteText.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = `circle_label circle_${i}`;
+              circle.textContent = npsLiteText[i];
+              circle.style.borderRadius =  "25px";
+              circle.style.padding = "12px 27px";
+              circle.style.margin = "0 auto";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems= "center";
+              circle.style.width = "27%";
+              circle.style.height = "35%";
+              circle.style.fontSize = "18px"
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
 
-            const circleDiv = document.createElement("div");
-            circleDiv.className = "circle_div";
-            circleDiv.style.display = "flex";
-            circleDiv.style.justifyContent = "space-evenly";
-            circleDiv.style.alignItems = "center";
+              if (element?.raw_data?.buttonText) {
+                const buttonText = element.raw_data.buttonText;
+                if (Array.isArray(buttonText) && buttonText.length > 0) {
+                  circle.textContent = buttonText[i % buttonText.length];
+                } else {
+                  console.log("Empty buttonText array");
+                }
+              } else {
+                circle.textContent = i;
+              }
 
-            const styles = {
-              "border-radius": "25px",
-              padding: "5px 20px",
-              margin: "0 15px",
-              display: "flex",
-              "justify-content": "center",
-              "align-items": "center",
-            };
+              labelHold.appendChild(circle);
 
-            const circleLeft = document.createElement("div");
-            circleLeft.className = "circle_label_left";
-            circleLeft.textContent = element?.raw_data?.circleLeftText;
-            circleLeft.style.backgroundColor =
-              element?.raw_data?.circleLeftColor;
-            Object.assign(circleLeft.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleLeft);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
 
-            const circleCenter = document.createElement("div");
-            circleCenter.className = "circle_label_center";
-            circleCenter.textContent = element?.raw_data?.circleCenterText;
-            circleCenter.style.backgroundColor =
-              element?.raw_data?.circleCenterColor;
-            Object.assign(circleCenter.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleCenter);
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+  
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+  
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
+  
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_div div");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+  
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+  
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
 
-            const circleRight = document.createElement("div");
-            circleRight.className = "circle_label_right";
-            circleRight.textContent = element?.raw_data?.circleRightText;
-            circleRight.style.backgroundColor =
-              element?.raw_data?.circleRightColor;
-            Object.assign(circleRight.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleRight);
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
 
-            if (!token) {
-              return res.status(401).json({ error: "Unauthorized" });
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+
+                      const circleBgColor = circle.style.backgroundColor;
+
+                      circle.style.backgroundColor = invert(circleBgColor);
+
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+
+                      let holdElem = scale?.querySelector(".holdElem");
+
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = i;
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = i;
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
+                      );
+                    }
+                  });
+                }
+              }
             }
           } else if (scaleTypeHolder.textContent === "likert") {
 
