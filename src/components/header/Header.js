@@ -2608,12 +2608,12 @@ const Header = () => {
             npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
           }
 
-          // if (buttonStapel.length !==0) {
-          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
-          //     stapelNum.push(buttonStapel[i].textContent);
-          // }
+          let likertScaleArray = "";
 
-          // console.log(buttonColors);
+          if (scaleType.textContent === "likert") {
+            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
+          }
+
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2629,6 +2629,7 @@ const Header = () => {
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
             npsLiteTextArray: npsLiteTextArray.textContent,
+            likertScaleArray: likertScaleArray.textContent
           };
           console.log(properties);
           elem = {

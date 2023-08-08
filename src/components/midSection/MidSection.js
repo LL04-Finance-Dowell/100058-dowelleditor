@@ -3537,6 +3537,18 @@ const MidSection = React.forwardRef((props, ref) => {
           optionHolder.style.display = "none";
           scaleHold.append(npsLiteOptionHolder);
 
+          const likertScaleArray = document.createElement("div");
+          likertScaleArray.className = "likert_Scale_Array";
+          likertScaleArray.textContent = element?.raw_data?.likertScaleArray || '';
+          likertScaleArray.style.display = "none";
+          scaleHold.append(likertScaleArray);
+
+          const optionHolderLikert = document.createElement("div");
+          optionHolder.className = "likert_Option_Holder";
+          optionHolder.textContent = element?.raw_data?.likertOptionHolder || '';
+          optionHolder.style.display = "none";
+          scaleHold.append(optionHolderLikert);
+
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
           labelHold.style.width = "100%";
@@ -4105,6 +4117,29 @@ const MidSection = React.forwardRef((props, ref) => {
                     }
                   });
                 }
+              }
+            }
+          } else if (scaleTypeHolder.textContent === "likert") {
+
+            const likertScale = likertScaleArray.textContent.split(",");
+            const selectedOptionLikert = optionHolderLikert.textContent;
+            console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
+
+            for (let i = 0; i < likertScale.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
+              circle.textContent = likertScale[i];
+              circle.style.width = "80%";
+              circle.style.height = "55%";
+              circle.style.borderRadius = "30%";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              labelHold.appendChild(circle);
+              if (selectedOptionLikert === "image") {
+                const buttonText = element.raw_data.buttonText;
+                circle.textContent = buttonText[i % buttonText.length];
               }
             }
           }
