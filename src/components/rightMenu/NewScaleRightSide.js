@@ -1338,6 +1338,7 @@ const ScaleRightSide = () => {
       let tempText = scale?.querySelector(".tempText");
       const labelHold = scale?.querySelector(".label_hold");
       const labelScaleSelection = document.getElementById("labelScaleLinkert");
+      const optionSelect = document.getElementById("label_type_linkert");
       const likertNumberScale = document.getElementById("likert_no_scale");
       tempText?.remove();
       // Clear existing labels
@@ -1391,6 +1392,17 @@ const ScaleRightSide = () => {
       labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
       labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
 
+      const likertScaleArray = document.createElement("div");
+      likertScaleArray.className = "likertScaleArray";
+      likertScaleArray.textContent = "";
+      likertScaleArray.style.display = "none";
+      labelHold.append(likertScaleArray);
+
+      const optionHolderLikert = document.createElement("div");
+      optionHolderLikert.className = "likertOptionHolder";
+      optionHolderLikert.textContent = updatedLabels;
+      optionHolderLikert.style.display = "none";
+      labelHold.append(optionHolderLikert);
     
       // Update circles with new labels
       for (let i = 0; i < updatedLabelScale; i++) {
@@ -1463,6 +1475,7 @@ const ScaleRightSide = () => {
         setIsLoading(true);
         console.log("post req");
         Axios.post("https://100035.pythonanywhere.com/likert/likert-scale_create/", {
+          user: "yes",
           username: "TadesseJemal",
           orientation: option?.value,
           scale_name: beNametnUpdateScal.value,
@@ -1471,6 +1484,7 @@ const ScaleRightSide = () => {
           round_color: btnUpdateButton.value,
           label_type:labelType.toLowerCase(),
           label_scale_selection: updatedLabelScale,
+          // custom_emoji_format:{"0":1,"1":1},
           label_scale_input: updatedLabelInput,
           time: timeId.style.display === "none" ? "00" : time?.value,
           fomat: labelType.toLowerCase()
@@ -1488,7 +1502,7 @@ const ScaleRightSide = () => {
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
-            console.log("This is the stapel  scale response", res.data.data);
+            console.log("This is the likert scale response", res.data.data);
           })
           .catch((err) => {
             setIsLoading(false);
@@ -1500,8 +1514,21 @@ const ScaleRightSide = () => {
         console.log(idHolder.textContent);
         Axios.put("https://100035.pythonanywhere.com/likert/likert-scale_create/", {
           scale_id: idHolder.textContent,
-          label_type: labelTypeForPut,
-          label_input: updatedLabelInput,
+          // label_type: labelTypeForPut,
+          // label_input: updatedLabelInput,
+          user: "yes",
+          username: "TadesseJemal",
+          orientation: option?.value,
+          scale_name: beNametnUpdateScal.value,
+          no_of_scales: numberOfScalesValue,
+          font_color: btnUpdateFontColor.value,
+          round_color: btnUpdateButton.value,
+          label_type:labelTypeForPut,
+          label_scale_selection: updatedLabelScale,
+          custom_emoji_format:{"0":1,"1":1},
+          label_scale_input: updatedLabelInput,
+          time: timeId.style.display === "none" ? "00" : time?.value,
+          fomat: labelTypeForPut
         })
           .then((res) => {
             if (res.status == 200) {
@@ -1929,7 +1956,7 @@ const ScaleRightSide = () => {
                         <option value="snipte">Stapel Scale</option>
                         <option value="nps">Nps Scale</option>
                         <option value="nps_lite">Nps Lite Scale</option>
-                        <option value="likert">Likert</option>
+                        <option value="likert">Likert Scale</option>
                       </select>
                     </div>
                   </div>

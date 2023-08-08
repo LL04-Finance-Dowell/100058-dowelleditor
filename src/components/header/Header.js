@@ -2614,12 +2614,16 @@ const Header = () => {
             circleRight = newScales[b].querySelector(".circle_label_right");
           }
 
-          // if (buttonStapel.length !==0) {
-          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
-          //     stapelNum.push(buttonStapel[i].textContent);
-          // }
+          let likertScaleArray = "";
+          let likertOptionHolder = "";
 
-          // console.log(buttonColors);
+          if (scaleType.textContent === "likert") {
+            likertOptionHolder = newScales[b].querySelector(
+              ".likertOptionHolder"
+            );
+            likertScaleArray = newScales[b].querySelector(".likertScaleArray");
+          }
+
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2634,6 +2638,8 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
+            likertOptionHolder: likertOptionHolder.textContent,
+            likertScaleArray: likertScaleArray.textContent,
             surveyQuestion: surveyQuestion.textContent,
             circleLeftText: circleLeft.textContent,
             circleCenterText: circleCenter.textContent,
