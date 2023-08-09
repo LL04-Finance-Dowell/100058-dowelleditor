@@ -523,11 +523,11 @@ const ScaleRightSide = () => {
     const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
     scaleTypeHolder.textContent = scaleType
       ? scaleType.value
-      : scaleTypeContent;
+      : scaleTypeHolder.textContent;
     if (
       scaleType
         ? scaleType.value === "nps" || scaleTypeContent === "nps"
-        : scaleTypeContent === "nps"
+        : (scaleTypeContent === "nps" || scaleTypeHolder.textContent === "nps")
     ) {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
@@ -672,18 +672,12 @@ const ScaleRightSide = () => {
         buttonCircleM.style.marginTop = "2px";
       }
 
-      if (btnUpdateLeft.value !== "") {
         buttonChildLeft.textContent = btnUpdateLeft.value;
-      }
 
-      if (btnUpdateRight.value !== "") {
         buttonChildRight.textContent = btnUpdateRight.value;
-      }
 
-      if (btnUpdateCenter.value !== "") {
         buttonChildNeutral.style.display = "block";
         buttonChildNeutral.textContent = btnUpdateCenter.value;
-      }
       // if (btnUpdateScales.value !=="") {
       //   button4.style.textContent = btnUpdateScales.value;
       // }
@@ -838,7 +832,7 @@ const ScaleRightSide = () => {
     } else if (
       scaleType
         ? scaleType.value === "snipte" || scaleTypeContent === "snipte"
-        : scaleTypeContent === "snipte"
+        : (scaleTypeContent === "snipte" || scaleTypeHolder.textContent === "snipte")
     ) {
       const scale = document.querySelector(".focussedd");
       console.log(scale);
@@ -860,6 +854,8 @@ const ScaleRightSide = () => {
       const scaleText = scale?.querySelector(".scale_text");
       const button4 = scale?.querySelector(".scool_input");
       const font = scale?.querySelector(".newScaleInput");
+      const savedStapelScaleArr = scale?.querySelector(".stapelScaleArray");
+      const savedOptionHolder = scale?.querySelector(".stapelOptionHolder");
 
       // const buttonCircle = document.querySelectorAll(".circle_label");
       const buttonCircle = scale
@@ -913,17 +909,12 @@ const ScaleRightSide = () => {
       //   scaleText.innerHTML = "Stapel scale";
       // }
 
-      if (btnUpdateLeft.value !== "") {
         buttonChildLeft.textContent = btnUpdateLeft.value;
-      }
       if (btnUpdateCenter.value !== "") {
         buttonChildNeutral.textContent = "";
       }
-
-      if (btnUpdateRight.value !== "") {
         buttonChildRight.textContent = btnUpdateRight.value;
-      }
-      button4.style.display = "block";
+        button4.style.display = "block";
 
       // Clear existing values
       labelHold.innerHTML = "";
@@ -1131,9 +1122,11 @@ const ScaleRightSide = () => {
               setScaleId(scaleId);
               console.log(res);
               console.log("This is the still scale", scale);
-              stapelScaleArray.textContent = res.data.data.settings.scale 
-              console.log("This is the stapel  scale response", res.data.data);
-               console.log(stapelScaleArray)
+              savedStapelScaleArr.textContent = res.data.data.settings.scale
+              savedOptionHolder.textContent =  res.data.data.settings.fomat
+              console.log("This is the option", savedOptionHolder.textContent)
+              console.log("This is stapel update", res.data.data);
+               console.log(savedStapelScaleArr)
             }
           })
           .catch((err) => {
@@ -1150,7 +1143,7 @@ const ScaleRightSide = () => {
       // if (beNametnUpdateScal.value !== "") {
       //   scaleText.textContent = beNametnUpdateScal.value;
       // }
-    } else if (scaleType ? (scaleType.value === "nps_lite" || scaleTypeContent === "nps_lite") : scaleTypeContent === "nps_lite") {
+    } else if (scaleType ? (scaleType.value === "nps_lite" || scaleTypeContent === "nps_lite") : (scaleTypeContent === "nps_lite" || scaleTypeHolder.textContent === "nps_lite")) {
       const btnUpdateScale = document.getElementById("scale_color_nps_lite");
       const btnUpdateFontColor = document.getElementById("font_color_nps_lite");
       const btnUpdateScaleFont = document.getElementById("font_style_nps_lite");
@@ -1382,7 +1375,7 @@ const ScaleRightSide = () => {
     } else if (
       scaleType
         ? scaleType.value === "likert" || scaleTypeContent === "likert"
-        : scaleTypeContent === "likert"
+        : (scaleTypeContent === "likert" || scaleTypeHolder.textContent === "likert")
     ) {
       const scale = document.querySelector(".focussedd");
       console.log(scale);

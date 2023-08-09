@@ -3525,16 +3525,16 @@ const MidSection = React.forwardRef((props, ref) => {
           npsLiteTextArray.style.display = "none";
           scaleHold.append(npsLiteTextArray);
 
-          const optionHolder = document.createElement("div");
-          optionHolder.className = "stapelOptionHolder";
-          optionHolder.textContent = element?.raw_data?.stapelOptionHolder;
-          optionHolder.style.display = "none";
-          scaleHold.append(optionHolder);
+          const stapelOptionHolder = document.createElement("div");
+          stapelOptionHolder.className = "stapelOptionHolder";
+          stapelOptionHolder.textContent = element?.raw_data?.stapelOptionHolder;
+          stapelOptionHolder.style.display = "none";
+          scaleHold.append(stapelOptionHolder);
 
           const npsLiteOptionHolder = document.createElement("div");
-          optionHolder.className = "nps_option_holder";
-          optionHolder.textContent = element?.raw_data?.npsLiteOptionHolder;
-          optionHolder.style.display = "none";
+          npsLiteOptionHolder.className = "nps_option_holder";
+          npsLiteOptionHolder.textContent = element?.raw_data?.npsLiteOptionHolder;
+          npsLiteOptionHolder.style.display = "none";
           scaleHold.append(npsLiteOptionHolder);
 
           const likertScaleArray = document.createElement("div");
@@ -3544,9 +3544,9 @@ const MidSection = React.forwardRef((props, ref) => {
           scaleHold.append(likertScaleArray);
 
           const optionHolderLikert = document.createElement("div");
-          optionHolder.className = "likert_Option_Holder";
-          optionHolder.textContent = element?.raw_data?.likertOptionHolder || '';
-          optionHolder.style.display = "none";
+          optionHolderLikert.className = "likert_Option_Holder";
+          optionHolderLikert.textContent = element?.raw_data?.likertOptionHolder || '';
+          optionHolderLikert.style.display = "none";
           scaleHold.append(optionHolderLikert);
 
           const labelHold = document.createElement("div");
@@ -3760,8 +3760,9 @@ const MidSection = React.forwardRef((props, ref) => {
             }
           } else if (scaleTypeHolder.textContent === "snipte") {
             const stapelScale = stapelScaleArray.textContent.split(",");
-            const selectedOption = optionHolder.textContent;
+            const selectedOption = stapelOptionHolder.textContent;
             console.log("This is the stapel", stapelScale);
+            console.log("This is option", selectedOption)
             for (let i = 0; i < stapelScale.length; i++) {
               const circle = document.createElement("div");
               circle.className = "circle_label";
@@ -6272,17 +6273,17 @@ const MidSection = React.forwardRef((props, ref) => {
         const element1 = document.createElement("h6");
         element1.className = "left_child";
         element1.style.marginLeft = "0px";
-        element1.textContent = "Good";
+        element1.textContent = "";
         childDiv.appendChild(element1);
 
         const element2 = document.createElement("h6");
         element2.className = "neutral_child";
-        element2.textContent = "Neutral";
+        element2.textContent = "";
         childDiv.appendChild(element2);
 
         const element3 = document.createElement("h6");
         element3.className = "right_child";
-        element3.textContent = "Best";
+        element3.textContent = "";
         childDiv.appendChild(element3);
 
         const idHolder = document.createElement("h6");
