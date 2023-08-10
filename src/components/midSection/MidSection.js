@@ -3633,11 +3633,39 @@ const MidSection = React.forwardRef((props, ref) => {
           stapelScaleArray.style.display = "none";
           scaleHold.append(stapelScaleArray);
 
-          const optionHolder = document.createElement("div");
-          optionHolder.className = "stapelOptionHolder";
-          optionHolder.textContent = element?.raw_data?.stapelOptionHolder;
-          optionHolder.style.display = "none";
-          scaleHold.append(optionHolder);
+          const npsLiteTextArray = document.createElement("div");
+          npsLiteTextArray.className = "nps_lite_text";
+          npsLiteTextArray.textContent = element?.raw_data?.npsLiteTextArray;
+          npsLiteTextArray.style.display = "none";
+          scaleHold.append(npsLiteTextArray);
+
+          const stapelOptionHolder = document.createElement("div");
+          stapelOptionHolder.className = "stapelOptionHolder";
+          stapelOptionHolder.textContent =
+            element?.raw_data?.stapelOptionHolder;
+          stapelOptionHolder.style.display = "none";
+          scaleHold.append(stapelOptionHolder);
+
+          const npsLiteOptionHolder = document.createElement("div");
+          npsLiteOptionHolder.className = "nps_option_holder";
+          npsLiteOptionHolder.textContent =
+            element?.raw_data?.npsLiteOptionHolder;
+          npsLiteOptionHolder.style.display = "none";
+          scaleHold.append(npsLiteOptionHolder);
+
+          const likertScaleArray = document.createElement("div");
+          likertScaleArray.className = "likert_Scale_Array";
+          likertScaleArray.textContent =
+            element?.raw_data?.likertScaleArray || "";
+          likertScaleArray.style.display = "none";
+          scaleHold.append(likertScaleArray);
+
+          const optionHolderLikert = document.createElement("div");
+          optionHolderLikert.className = "likert_Option_Holder";
+          optionHolderLikert.textContent =
+            element?.raw_data?.likertOptionHolder || "";
+          optionHolderLikert.style.display = "none";
+          scaleHold.append(optionHolderLikert);
 
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
@@ -3678,6 +3706,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 const buttonText = element.raw_data.buttonText;
                 if (Array.isArray(buttonText) && buttonText.length > 0) {
                   circle.textContent = buttonText[i % buttonText.length];
+                  circle.style.fontSize = "1.8vw";
                   console.log("EMOJIIIIIIIIIII");
                 } else {
                   console.log("Empty buttonText array");
@@ -3699,13 +3728,6 @@ const MidSection = React.forwardRef((props, ref) => {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
                   localStorage.getItem("hideFinalizeButton");
-                if (shouldHideFinalizeButton === "true") {
-                  const finalizeButton =
-                    document.querySelector("#finalize-button");
-                  const rejectButton = document.querySelector("#reject-button");
-                  finalizeButton.style.display = "none";
-                  rejectButton.style.display = "none";
-                }
 
                 function setClickedCircleBackgroundColor(
                   circle,
@@ -3718,14 +3740,14 @@ const MidSection = React.forwardRef((props, ref) => {
                   );
                   localStorage.setItem(
                     `lastClickedCircleID_${scaleID}`,
-                    circle.textContent
+                    circle.textContent,
+                    bgColor
                   );
                 }
 
                 function getClickedCircleBackgroundColor(circle, scaleID) {
-                  return localStorage.getItem(
-                    `circleBgColor_${scaleID}_${circle.textContent}`
-                  );
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
                 }
 
                 setTimeout(() => {
@@ -3755,12 +3777,14 @@ const MidSection = React.forwardRef((props, ref) => {
                       }
                     });
                   });
-                }, 200);
+                }, 500);
 
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = document.querySelector(".focussedd");
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
@@ -3856,8 +3880,9 @@ const MidSection = React.forwardRef((props, ref) => {
             }
           } else if (scaleTypeHolder.textContent === "snipte") {
             const stapelScale = stapelScaleArray.textContent.split(",");
-            const selectedOption = optionHolder.textContent;
+            const selectedOption = stapelOptionHolder.textContent;
             console.log("This is the stapel", stapelScale);
+            console.log("This is option", selectedOption);
             for (let i = 0; i < stapelScale.length; i++) {
               const circle = document.createElement("div");
               circle.className = "circle_label";
@@ -3874,6 +3899,7 @@ const MidSection = React.forwardRef((props, ref) => {
               if (selectedOption === "emoji") {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
+                circle.style.fontSize = "1.8vw";
               }
 
               if (!token) {
@@ -3881,14 +3907,70 @@ const MidSection = React.forwardRef((props, ref) => {
               }
 
               if (decoded.details.action === "document") {
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
                 let circles = document.querySelectorAll(".circle_label");
                 let isClicked = false;
 
                 let circleBgColor = circle.style.backgroundColor;
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
 
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
-                    let scale = document.querySelector(".focussedd");
+                    let holdingParentEl =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
+                    let scale =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
                     let holding = scale?.querySelector(".newScaleInput");
                     const buttonCircle = scale
                       ? scale.querySelectorAll(".circle_label")
@@ -3896,7 +3978,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     console.log(
                       "This is the background color",
-                      circle.style.backgroundColor
+                      holdingParentEl
                     );
                     function componentToHex(c) {
                       var hex = c.toString(16);
@@ -3936,13 +4018,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     if (holdElem) {
                       // If holdElem exists, update its text content
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                     } else {
                       // If holdElem doesn't exist, create a new one
                       holdElem = document.createElement("div");
                       holdElem.className = "holdElem";
                       holdElem.style.display = "none";
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                       holding?.appendChild(holdElem);
                       console.log("This is holdEle", holdElem.textContent);
                       const required_map_document =
@@ -3960,14 +4042,279 @@ const MidSection = React.forwardRef((props, ref) => {
                         );
                       }
                     }
+                    const scaleID =
+                      scale?.querySelector(".scaleId")?.textContent;
+                    setClickedCircleBackgroundColor(
+                      circle,
+                      circle.style.backgroundColor,
+                      scaleID
+                    );
 
-                    // Store holdElem inside the holding div
-                    // holding.appendChild(holdElem);
+                    localStorage.setItem(
+                      `lastClickedCircleID_${scaleID}`,
+                      circle.textContent
+                    );
                   }
                 });
               }
             }
+          } else if (scaleTypeHolder.textContent === "nps_lite") {
+            const npsLiteText = npsLiteTextArray.textContent.split(",");
+            for (let i = 0; i < npsLiteText.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = `circle_label circle_${i}`;
+              circle.textContent = npsLiteText[i];
+              circle.style.borderRadius = "25px";
+              circle.style.padding = "12px 27px";
+              circle.style.margin = "0 auto";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.width = "27%";
+              circle.style.height = "35%";
+              circle.style.fontSize = "18px";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+
+              if (element?.raw_data?.buttonText) {
+                const buttonText = element.raw_data.buttonText;
+                if (Array.isArray(buttonText) && buttonText.length > 0) {
+                  circle.textContent = buttonText[i % buttonText.length];
+                } else {
+                  console.log("Empty buttonText array");
+                }
+              } else {
+                circle.textContent = i;
+              }
+
+              labelHold.appendChild(circle);
+
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
+
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_div div");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
+
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
+
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+
+                      const circleBgColor = circle.style.backgroundColor;
+
+                      circle.style.backgroundColor = invert(circleBgColor);
+
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+
+                      let holdElem = scale?.querySelector(".holdElem");
+
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = i;
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = i;
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
+                      );
+                    }
+                  });
+                }
+              }
+            }
+          } else if (scaleTypeHolder.textContent === "likert") {
+            const likertScale = likertScaleArray.textContent.split(",");
+            const selectedOptionLikert = optionHolderLikert.textContent;
+            console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
+
+            for (let i = 0; i < likertScale.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
+              circle.textContent = likertScale[i];
+              circle.style.width = "80%";
+              circle.style.height = "55%";
+              circle.style.borderRadius = "30%";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              labelHold.appendChild(circle);
+              if (selectedOptionLikert === "image") {
+                const buttonText = element.raw_data.buttonText;
+                circle.textContent = buttonText[i % buttonText.length];
+              }
+            }
+          } else if (scaleTypeHolder.textContent === "percent_scale") {
+            labelHold.style.display = "flex";
+            labelHold.style.justifyContent = "center";
+            labelHold.style.flexDirection = "column";
+            labelHold.style.border = "none";
+            const inputPercent = document.createElement("input");
+            inputPercent.type = "range";
+            inputPercent.min = "0";
+            inputPercent.max = "100";
+            inputPercent.value = element?.raw_data?.percentCenter;
+            inputPercent.className = "percent-slider";
+            inputPercent.style.width = "100%";
+            inputPercent.style.cursor = "pointer";
+            inputPercent.style.background =
+              element?.raw_data?.percentBackground;
+            inputPercent.style.webkitAppearance = "none";
+            inputPercent.style.borderRadius = "10px";
+
+            labelHold.appendChild(inputPercent);
+
+            let percentChilds = document.createElement("div");
+            percentChilds.style.display = "flex";
+            percentChilds.style.width = "100%";
+            percentChilds.style.alignItems = "center";
+            percentChilds.style.justifyContent = "space-between";
+
+            let leftPercent = document.createElement("div");
+            leftPercent.textContent = "0";
+            leftPercent.className = "left-percent";
+            percentChilds.appendChild(leftPercent);
+
+            let centerPercent = document.createElement("div");
+            centerPercent.textContent = `${element?.raw_data?.percentCenter}%`;
+            centerPercent.className = "center-percent";
+            percentChilds.appendChild(centerPercent);
+
+            let rightPercent = document.createElement("div");
+            rightPercent.textContent = "100";
+            rightPercent.className = "right-percent";
+            percentChilds.appendChild(rightPercent);
+
+            labelHold.appendChild(percentChilds);
+            if (!token) {
+              return res.status(401).json({ error: "Unauthorized" });
+            }
           }
+
           const childDiv = document.createElement("div");
           childDiv.id = "child";
           childDiv.style.display = "flex";
@@ -4299,6 +4646,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const selectElement = document.createElement("select");
           selectElement.className = "select-element";
+          selectElement.innerHTML = element.data2;
           // selectElement.style.width = "auto";
           // selectElement.style.height = "auto";
 
@@ -6094,17 +6442,17 @@ const MidSection = React.forwardRef((props, ref) => {
         const element1 = document.createElement("h6");
         element1.className = "left_child";
         element1.style.marginLeft = "0px";
-        element1.textContent = "Good";
+        element1.textContent = "";
         childDiv.appendChild(element1);
 
         const element2 = document.createElement("h6");
         element2.className = "neutral_child";
-        element2.textContent = "Neutral";
+        element2.textContent = "";
         childDiv.appendChild(element2);
 
         const element3 = document.createElement("h6");
         element3.className = "right_child";
-        element3.textContent = "Best";
+        element3.textContent = "";
         childDiv.appendChild(element3);
 
         const idHolder = document.createElement("h6");

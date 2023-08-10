@@ -2601,14 +2601,38 @@ const Header = () => {
               ".stapelOptionHolder"
             );
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
+            console.log("This is the saved stapel", stapelOptionHolder);
           }
 
-          // if (buttonStapel.length !==0) {
-          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
-          //     stapelNum.push(buttonStapel[i].textContent);
-          // }
+          let npsLiteTextArray = "";
 
-          // console.log(buttonColors);
+          if (scaleType.textContent === "nps_lite") {
+            npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
+          }
+
+          let likertScaleArray = "";
+
+          if (scaleType.textContent === "likert") {
+            likertScaleArray = newScales[b].querySelector(
+              ".likert_Scale_Array"
+            );
+          }
+          let percentBackground = "";
+          let percentLeft = "";
+          let percentCenter = "";
+          let percentRight = "";
+
+          if (scaleType.textContent === "percent_scale") {
+            percentBackground = newScales[b].querySelector(".percent-slider");
+            percentLeft = newScales[b].querySelector(".left-percent");
+            percentCenter = newScales[b].querySelector(".center-percent");
+            var currentText = percentCenter.textContent;
+            var textWithoutPercent = currentText.replace("%", "");
+
+            // Set the modified text back to the element
+            percentCenter.textContent = textWithoutPercent;
+            percentRight = document.querySelector(".right-percent");
+          }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2623,6 +2647,12 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
+            npsLiteTextArray: npsLiteTextArray.textContent,
+            likertScaleArray: likertScaleArray.textContent,
+            percentBackground: percentBackground?.style?.background,
+            percentLeft: percentLeft?.textContent,
+            percentCenter: percentCenter?.textContent,
+            percentRight: percentRight?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2643,7 +2673,7 @@ const Header = () => {
             //     ? "Document instance"
             //     : "Template scale",
           };
-          
+
           console.log(elem);
           const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);
@@ -3115,7 +3145,13 @@ const Header = () => {
 
   var dataa = {
     document_id: decoded.details._id,
-    action: actionName,
+    action: decoded.details.action,
+    database: decoded.details.database,
+    collection: decoded.details.collection,
+    team_member_ID: decoded.details.team_member_ID,
+    function_ID: decoded.details.function_ID,
+    cluster: decoded.details.cluster,
+    document: decoded.details.document,
   };
 
   var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
@@ -3242,13 +3278,19 @@ const Header = () => {
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-      console.log("tokkkkkkennn", tokenn);
+      console.log("tokkkkkkennn", decodedTok);
       const getPostData = async () => {
         const response = await Axios.post(
           "https://100058.pythonanywhere.com/api/get-data-from-collection/",
           {
             document_id: decodedTok.document_id,
             action: decodedTok.action,
+            database: decodedTok.database,
+            collection: decodedTok.collection,
+            team_member_ID: decodedTok.team_member_ID,
+            function_ID: decodedTok.function_ID,
+            cluster: decodedTok.cluster,
+            document: decodedTok.document,
           }
         )
           .then((res) => {
