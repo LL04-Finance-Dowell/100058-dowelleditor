@@ -147,10 +147,12 @@ const EditSection = () => {
     });
 
     const element = document.getElementById(selectedElement);
+    if (!element) return;
     element.style.border = borderStyles;
 
     if (prevSelectedElement && prevSelectedElement !== selectedElement) {
       const prevElement = document.getElementById(prevSelectedElement);
+      if (!prevElement) return;
       prevElement.style.border = "none";
       updateAnsElmBorder(prevSelElmAns, "none");
     }
