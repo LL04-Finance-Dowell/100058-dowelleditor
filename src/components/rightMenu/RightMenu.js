@@ -28,6 +28,7 @@ import ContainerRigntSideBar from "./ContainerRightSidebar";
 
 import EmailRightSideBar from "./EmailRightSideBar";
 import CameraRightSide from "./CameraRightSide";
+import PaymentRightSide from "./PaymentRightSide";
 
 const RightMenu = () => {
   const {
@@ -122,6 +123,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false
       });
     }
     if (isClicked.camera2) {
@@ -139,6 +141,7 @@ const RightMenu = () => {
         container2: false,
         email2: false,
         newScale2: false,
+        payment2: false
       });
     }
     if (isClicked.image2) {
@@ -157,6 +160,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.table2) {
@@ -175,6 +179,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.signs2) {
@@ -193,6 +198,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.calendar2) {
@@ -211,6 +217,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.dropdown2) {
@@ -229,6 +236,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.iframe2) {
@@ -247,6 +255,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.scale2) {
@@ -265,6 +274,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.newScale2) {
@@ -283,6 +293,7 @@ const RightMenu = () => {
         email2: false,
         scale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.button2) {
@@ -301,6 +312,25 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         newScale2: false,
+        payment2: false,
+      });
+    }
+    if (isClicked.payment2) {
+      setIsClicked({
+        ...isClicked,
+        align2: false,
+        textfill2: false,
+        image2: false,
+        table2: false,
+        signs2: false,
+        dropdown2: false,
+        calendar2: false,
+        iframe2: false,
+        scale2: false,
+        button2:false,
+        container2: false,
+        email2: false,
+        newScale2: false,
       });
     }
     if (isClicked.container2) {
@@ -318,6 +348,7 @@ const RightMenu = () => {
         email2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
     if (isClicked.email2) {
@@ -336,6 +367,7 @@ const RightMenu = () => {
         container2: false,
         newScale2: false,
         camera2: false,
+        payment2: false,
       });
     }
   }, [
@@ -351,6 +383,7 @@ const RightMenu = () => {
     isClicked.container2,
     isClicked.email2,
     isClicked.camera2,
+    isClicked.payment2,
   ]);
 
   return (
@@ -405,6 +438,7 @@ const RightMenu = () => {
         {isClicked.email2 && <EmailRightSideBar />}
         {isClicked.newScale2 && <NewScaleRightSide />}
         {isClicked.camera2 && <CameraRightSide />}
+        {isClicked.payment2 && <PaymentRightSide/>}
       </div>
     </>
   );

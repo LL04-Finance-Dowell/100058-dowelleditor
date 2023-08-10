@@ -866,10 +866,11 @@ const Header = () => {
   const handlePaste = () => {
     const element = JSON.parse(sessionStorage.getItem("cutItem"));
     const curr_user = document.getElementById("current-user");
+    const midSec = document.getElementsByClassName("midSection_container");
 
     const measure = {
-      // top: `${contextMenu.y}px`,
-      // left: `${contextMenu.x}px`,
+      // top: `${midSec.y}px`,
+      // left: `${midSec.x}px`,
       width: element.width,
       height: element.height,
       left: element.left,
@@ -2714,6 +2715,41 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const payments = document.getElementsByClassName("paymentInput");
+    if (payments.length) {
+      for (let p = 0; p < payments.length; p++) {
+        if (
+          !payments[p]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = payments[p].parentElement;
+          let tempPosn = getPosition(tempElem);
+          const link = buttonLink;
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: payments[p].parentElement.style.top,
+            left: tempPosn.left,
+            type: "PAYMENT_INPUT",
+            buttonBorder: `${buttonBorderSize}px dotted ${buttonBorderColor}`,
+            data: payments[p].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `btn${p + 1}`,
+          };
+          console.log("Raw Data", elem.type);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(payments[p]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);

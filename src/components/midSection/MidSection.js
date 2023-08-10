@@ -188,6 +188,7 @@ const MidSection = React.forwardRef((props, ref) => {
           email2: false,
           newScale2: false,
           camera2: false,
+          payment2: false
         });
 
         const divsArray = document.getElementsByClassName(
@@ -3174,6 +3175,119 @@ const MidSection = React.forwardRef((props, ref) => {
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+        if (element.type === "PAYMENT_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            border: element.buttonBorder,
+            auth_user: curr_user,
+          };
+          // console.log("button input border value", measure.border)
+
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo);
+          const id = `${element.id}`;
+          const finalizeButton = document.getElementById("finalize-button");
+          const rejectButton = document.getElementById("reject-button");
+
+          let paymentField = document.createElement("button");
+          paymentField.className = "paymentInput";
+          paymentField.id = id;
+          paymentField.style.width = "100%";
+          paymentField.style.height = "100%";
+          paymentField.style.backgroundColor = "#0000";
+          paymentField.style.borderRadius = "0px";
+          paymentField.style.outline = "0px";
+          paymentField.style.overflow = "overlay";
+          paymentField.style.position = "absolute";
+          paymentField.textContent = element.data;
+
+          if (decoded.details.action === "template") {
+            paymentField.onclick = (e) => {
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("payment2");
+              }
+              handleClicked("payment2");
+              setSidebar(true);
+            };
+          }
+
+          paymentField.onmouseover = (e) => {
+            // if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+            //   buttonField?.parentElement?.classList.add("element_updated");
+            // }
+
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+            if (
+              paymentField.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
+              paymentField.parentElement.classList.add("element_updated");
+            }
+            if (element.required) {
+              isAnyRequiredElementEdited = true;
+            }
+          };
+
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "custom" &&
+            element.raw_data !== ""
+          ) {
+            buttonField.onclick = (e) => {
+              window.open(element.raw_data, "_blank");
+            };
+          }
+
+          if (finalizeButton) {
+            if (isAnyRequiredElementEdited) {
+              finalizeButton?.click();
+            } else {
+              finalizeButton.disabled = true;
+            }
+          }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "reject"
+          ) {
+            paymentField.onclick = (e) => {
+              rejectButton?.click();
+            };
+          }
+
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.innerHTML = element.raw_data;
+          linkHolder.style.display = "none";
+
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.innerHTML = element.purpose;
+          purposeHolder.style.display = "none";
+
+          holderDIV.append(paymentField);
+          holderDIV.append(linkHolder);
+          holderDIV.append(purposeHolder);
+          console.log(element);
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         if (element.type === "FORM") {
           const measure = {
             width: element.width + "px",
@@ -4165,10 +4279,8 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
-            border: element.dropdownBorder,
             auth_user: curr_user,
           };
-          // console.log("dropdown border value", measure.border);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -4193,15 +4305,15 @@ const MidSection = React.forwardRef((props, ref) => {
           dropdownField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("dropdown2");
+            if(e.ctrlKey) {
+              copyInput("dropdown2")
             }
             handleClicked("dropdown2");
             setRightSideDropDown(false);
             setSidebar(true);
           };
 
-          // selectElement.innerHTML = element.data2;
+          selectElement.innerHTML = element.data2;
 
           const para = document.createElement("p");
           para.innerHTML = " Dropdown Name";
@@ -5372,6 +5484,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scale2: false,
         container2: false,
         newScale2: false,
+        payment2: false
       });
     }
   };
@@ -6683,6 +6796,42 @@ const MidSection = React.forwardRef((props, ref) => {
         purposeHolder.style.display = "none";
 
         holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
+      } else if (
+        typeOfOperation === "PAYMENT_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let paymentField = document.createElement("button");
+        paymentField.className = "paymentInput";
+        paymentField.style.width = "100%";
+        paymentField.style.height = "100%";
+        paymentField.style.backgroundColor = "#0000";
+        paymentField.style.borderRadius = "0px";
+        paymentField.style.outline = "0px";
+        paymentField.style.overflow = "overlay";
+        paymentField.style.position = "absolute";
+        paymentField.textContent = "Pay";
+
+        paymentField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("payment2");
+          }
+          handleClicked("payment2", "container2");
+          setSidebar(true);
+        };
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none";
+
+        holderDIV.append(paymentField);
         holderDIV.append(linkHolder);
         holderDIV.append(purposeHolder);
       } else if (
