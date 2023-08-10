@@ -1126,7 +1126,7 @@ const ScaleRightSide = () => {
               savedOptionHolder.textContent =  res.data.data.settings.fomat
               console.log("This is the option", savedOptionHolder.textContent)
               console.log("This is stapel update", res.data.data);
-               console.log(savedStapelScaleArr)
+              console.log(savedStapelScaleArr)
             }
           })
           .catch((err) => {
