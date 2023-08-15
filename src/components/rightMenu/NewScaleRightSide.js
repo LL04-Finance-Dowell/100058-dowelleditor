@@ -2120,7 +2120,7 @@ const ScaleRightSide = () => {
   };
 
   const onTimeChangeLikert = (e) => {
-    let timeId = document.getElementById("timeId");
+    let timeId = document.getElementById("timeId_likert");
     if (e.target.checked) {
       timeId.style.display = "flex";
     } else {

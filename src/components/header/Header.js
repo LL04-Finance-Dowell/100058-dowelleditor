@@ -3010,6 +3010,61 @@ const Header = () => {
       });
   }
 
+  function handleFinalizeButtonNpsLite() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = []
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      user: authorizedLogin(),
+      scale_id: scaleId,
+      score: holdElem,
+      response: documentResponses
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/nps-lite/api/nps-lite-response",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -3084,6 +3139,16 @@ const Header = () => {
             const hasNegative = [...circles].some(
               (circle) => parseInt(circle.textContent) < 0
             );
+
+            let scaleType = document.querySelector(".scaleTypeHolder");
+            if (scaleType.textContent === "nps") {
+              handleFinalizeButton();
+            } else if (scaleType.textContent === "snipte") {
+              handleFinalizeButtonStapel()
+            } else if (scaleType.textContent === "nps_lite") {
+              handleFinalizeButtonNpsLite();
+            }
+         
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3093,11 +3158,12 @@ const Header = () => {
             // } else {
             //   // Handle the case when no template is selected
             // }
-            if (hasNegative) {
-              handleFinalizeButtonStapel();
-            } else {
-              handleFinalizeButton();
-            }
+
+            // if (hasNegative) {
+            //   handleFinalizeButtonStapel();
+            // } else {
+            //   handleFinalizeButton();
+            // }
 
             // if (hasEmoji) {
             //   handleFinalizeButton();
