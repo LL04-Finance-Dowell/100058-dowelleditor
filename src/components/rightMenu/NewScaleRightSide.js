@@ -3889,11 +3889,11 @@ const ScaleRightSide = () => {
                           onClick={inputStr.length >= ((stapelScaleimit/stapelSpacing * 2) * 2) ? () => setShowPicker(false) : () => setShowPicker(!showPicker)}
                         />
                       </div>
-                      {inputStr.length > ((stapelScaleimit/stapelSpacing * 2) * 2) ||inputStr.length < ((stapelScaleimit/stapelSpacing * 2) * 2) && <p 
+                      {inputStr.length > ((Math.floor(stapelScaleimit/stapelSpacing)* 2) * 2) ||inputStr.length < ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) && <p 
                       style={{
                             fontSize:"small",
                             color: "red"
-                          }}>Select {((stapelScaleimit/stapelSpacing) * 2)} emojis</p>}
+                          }}>Select {(Math.floor(stapelScaleimit/stapelSpacing) * 2)} emojis</p>}
                     </div>
                     <div
                       style={{
@@ -3997,7 +3997,7 @@ const ScaleRightSide = () => {
                             alignItems: "center",
                           }}
                           id="leftStapel"
-                          disabled = {stapelFormat === "emoji" ? (inputStr.length > ((stapelScaleimit/stapelSpacing * 2) * 2) ||inputStr.length < ((stapelScaleimit/stapelSpacing * 2) * 2) ? true : false) : false}
+                          disabled = {stapelFormat === "emoji" ? (inputStr.length > ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ||inputStr.length < ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ? true : false) : false}
                         />
                       </div>
                     </div>
@@ -4039,7 +4039,7 @@ const ScaleRightSide = () => {
                           //   rightChild ? rightChild.innerHTML : ""
                           // }
                           id="rightStapel"
-                          disabled = {stapelFormat === "emoji" ? (inputStr.length > ((stapelScaleimit/stapelSpacing * 2) * 2) ||inputStr.length < ((stapelScaleimit/stapelSpacing * 2) * 2) ? true : false) : false}
+                          disabled = {stapelFormat === "emoji" ? (inputStr.length > ((Math.floor(stapelScaleimit/stapelSpacing)* 2) * 2) ||inputStr.length < ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ? true : false) : false}
                         />
                       </div>
                     </div>
@@ -4080,7 +4080,7 @@ const ScaleRightSide = () => {
                           alignItems: "center",
                         }}
                         id="scaleLabel_stapel"
-                        disabled = {stapelFormat === "emoji" ? (inputStr.length > ((stapelScaleimit/stapelSpacing * 2) * 2) ||inputStr.length < ((stapelScaleimit/stapelSpacing * 2) * 2) ? true : false) : false}
+                        disabled = {stapelFormat === "emoji" ? (inputStr.length > ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ||inputStr.length < ((Math.floor(stapelScaleimit/stapelSpacing)* 2) * 2) ? true : false) : false}
                       />
                     </div>
                   </div>
@@ -4205,7 +4205,7 @@ const ScaleRightSide = () => {
                         width="50%"
                         marginTop="60px"
                         onClick={handleUpdates}
-                        disabled = {stapelFormat === "emoji" ? (inputStr.length > ((stapelScaleimit/stapelSpacing * 2) * 2) ||inputStr.length < ((stapelScaleimit/stapelSpacing * 2) * 2) ? true : false) : false}
+                        disabled = {stapelFormat === "emoji" ? (inputStr.length > ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ||inputStr.length < ((Math.floor(stapelScaleimit/stapelSpacing) * 2) * 2) ? true : false) : false}
                       >
                         Update
                       </Button>

@@ -866,11 +866,10 @@ const Header = () => {
   const handlePaste = () => {
     const element = JSON.parse(sessionStorage.getItem("cutItem"));
     const curr_user = document.getElementById("current-user");
-    const midSec = document.getElementsByClassName("midSection_container");
 
     const measure = {
-      // top: `${midSec.y}px`,
-      // left: `${midSec.x}px`,
+      // top: `${contextMenu.y}px`,
+      // left: `${contextMenu.x}px`,
       width: element.width,
       height: element.height,
       left: element.left,
@@ -2117,7 +2116,7 @@ const Header = () => {
             data: txt[h].innerText,
             border: `${inputBorderSize} dotted ${inputBorderColor}`,
             borderWidths: txt[h].parentElement.style.border,
-            raw_data: txt[h].outerHTML,
+            raw_data: txt[h].innerHTML,
             id: `t${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -2613,9 +2612,10 @@ const Header = () => {
           let likertScaleArray = "";
 
           if (scaleType.textContent === "likert") {
-            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
+            likertScaleArray = newScales[b].querySelector(
+              ".likert_Scale_Array"
+            );
           }
-
           let percentBackground = "";
           let percentLeft = "";
           let percentCenter = "";
@@ -2744,41 +2744,6 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
-          page[0][pageNum].push(elem);
-
-          // page.push(elem);
-        }
-      }
-    }
-
-    const payments = document.getElementsByClassName("paymentInput");
-    if (payments.length) {
-      for (let p = 0; p < payments.length; p++) {
-        if (
-          !payments[p]?.parentElement?.parentElement?.classList?.contains(
-            "containerInput"
-          )
-        ) {
-          let tempElem = payments[p].parentElement;
-          let tempPosn = getPosition(tempElem);
-          const link = buttonLink;
-
-          elem = {
-            width: tempPosn.width,
-            height: tempPosn.height,
-            top: tempPosn.top,
-            topp: payments[p].parentElement.style.top,
-            left: tempPosn.left,
-            type: "PAYMENT_INPUT",
-            buttonBorder: `${buttonBorderSize}px dotted ${buttonBorderColor}`,
-            data: payments[p].textContent,
-            raw_data: tempElem.children[1].innerHTML,
-            purpose: tempElem.children[2].innerHTML,
-            id: `btn${p + 1}`,
-          };
-          console.log("Raw Data", elem.type);
-          // dataInsertWithPage(tempPosn, elem);
-          const pageNum = findPaageNum(payments[p]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
@@ -3010,61 +2975,6 @@ const Header = () => {
       });
   }
 
-  function handleFinalizeButtonNpsLite() {
-    localStorage.setItem("hideFinalizeButton", "true");
-    const username = decoded?.details?.authorized;
-    console.log(username);
-
-    function generateLoginUser() {
-      return "user_" + Math.random().toString(36).substring(7);
-      // return token;
-    }
-
-    function authorizedLogin() {
-      return username === undefined ? generateLoginUser() : username;
-    }
-
-    let scaleElements = document.querySelectorAll(".newScaleInput");
-
-    let scaleId;
-    let holdElem;
-    let documentResponses = []
-
-    scaleElements.forEach((scale) => {
-      console.log(scale);
-      scaleId = scale?.querySelector(".scaleId")?.textContent;
-      holdElem = scale?.querySelector(".holdElem")?.textContent;
-
-      documentResponses.push({ scale_id: scaleId, score: holdElem });
-    });
-
-    const requestBody = {
-      instance_id: 1,
-      brand_name: "XYZ545",
-      product_name: "XYZ511",
-      user: authorizedLogin(),
-      scale_id: scaleId,
-      score: holdElem,
-      response: documentResponses
-    };
-
-    Axios.post(
-      "https://100035.pythonanywhere.com/nps-lite/api/nps-lite-response",
-      requestBody
-    )
-      .then((response) => {
-        if (response.status === 200) {
-          setIsLoading(false);
-          var responseData = response.data;
-          setScaleData(responseData);
-          console.log(response);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -3139,16 +3049,6 @@ const Header = () => {
             const hasNegative = [...circles].some(
               (circle) => parseInt(circle.textContent) < 0
             );
-
-            let scaleType = document.querySelector(".scaleTypeHolder");
-            if (scaleType.textContent === "nps") {
-              handleFinalizeButton();
-            } else if (scaleType.textContent === "snipte") {
-              handleFinalizeButtonStapel()
-            } else if (scaleType.textContent === "nps_lite") {
-              handleFinalizeButtonNpsLite();
-            }
-         
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3158,12 +3058,11 @@ const Header = () => {
             // } else {
             //   // Handle the case when no template is selected
             // }
-
-            // if (hasNegative) {
-            //   handleFinalizeButtonStapel();
-            // } else {
-            //   handleFinalizeButton();
-            // }
+            if (hasNegative) {
+              handleFinalizeButtonStapel();
+            } else {
+              handleFinalizeButton();
+            }
 
             // if (hasEmoji) {
             //   handleFinalizeButton();
