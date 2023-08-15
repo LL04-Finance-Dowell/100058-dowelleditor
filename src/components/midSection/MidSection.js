@@ -3646,13 +3646,6 @@ const MidSection = React.forwardRef((props, ref) => {
           stapelOptionHolder.style.display = "none";
           scaleHold.append(stapelOptionHolder);
 
-          const npsLiteOptionHolder = document.createElement("div");
-          npsLiteOptionHolder.className = "nps_option_holder";
-          npsLiteOptionHolder.textContent =
-            element?.raw_data?.npsLiteOptionHolder;
-          npsLiteOptionHolder.style.display = "none";
-          scaleHold.append(npsLiteOptionHolder);
-
           const likertScaleArray = document.createElement("div");
           likertScaleArray.className = "likert_Scale_Array";
           likertScaleArray.textContent =
@@ -4125,7 +4118,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     const scaleID =
                       scale?.querySelector(".scaleId").textContent;
                     const circlesInScale =
-                      scale.querySelectorAll(".circle_div div");
+                      scale.querySelectorAll(".circle_label");
                     const lastClickedCircleID = localStorage.getItem(
                       `lastClickedCircleID_${scaleID}`
                     );
@@ -4204,13 +4197,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
                       if (holdElem) {
                         // If holdElem exists, update its text content
-                        holdElem.textContent = i;
+                        holdElem.textContent = npsLiteText[i];
                       } else {
                         // If holdElem doesn't exist, create a new one
                         holdElem = document.createElement("div");
                         holdElem.className = "holdElem";
                         holdElem.style.display = "none";
-                        holdElem.textContent = i;
+                        holdElem.textContent = npsLiteText[i];
                         holding?.appendChild(holdElem);
                         console.log("This is holdEle", holdElem.textContent);
                         const required_map_document =
