@@ -3527,25 +3527,29 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const stapelOptionHolder = document.createElement("div");
           stapelOptionHolder.className = "stapelOptionHolder";
-          stapelOptionHolder.textContent = element?.raw_data?.stapelOptionHolder;
+          stapelOptionHolder.textContent =
+            element?.raw_data?.stapelOptionHolder;
           stapelOptionHolder.style.display = "none";
           scaleHold.append(stapelOptionHolder);
 
           const npsLiteOptionHolder = document.createElement("div");
           npsLiteOptionHolder.className = "nps_option_holder";
-          npsLiteOptionHolder.textContent = element?.raw_data?.npsLiteOptionHolder;
+          npsLiteOptionHolder.textContent =
+            element?.raw_data?.npsLiteOptionHolder;
           npsLiteOptionHolder.style.display = "none";
           scaleHold.append(npsLiteOptionHolder);
 
           const likertScaleArray = document.createElement("div");
           likertScaleArray.className = "likert_Scale_Array";
-          likertScaleArray.textContent = element?.raw_data?.likertScaleArray || '';
+          likertScaleArray.textContent =
+            element?.raw_data?.likertScaleArray || "";
           likertScaleArray.style.display = "none";
           scaleHold.append(likertScaleArray);
 
           const optionHolderLikert = document.createElement("div");
           optionHolderLikert.className = "likert_Option_Holder";
-          optionHolderLikert.textContent = element?.raw_data?.likertOptionHolder || '';
+          optionHolderLikert.textContent =
+            element?.raw_data?.likertOptionHolder || "";
           optionHolderLikert.style.display = "none";
           scaleHold.append(optionHolderLikert);
 
@@ -3588,7 +3592,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 const buttonText = element.raw_data.buttonText;
                 if (Array.isArray(buttonText) && buttonText.length > 0) {
                   circle.textContent = buttonText[i % buttonText.length];
-                  circle.style.fontSize = "1.8vw"
+                  circle.style.fontSize = "1.8vw";
                   console.log("EMOJIIIIIIIIIII");
                 } else {
                   console.log("Empty buttonText array");
@@ -3664,7 +3668,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
@@ -3672,7 +3678,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
                       console.log(
                         "This is the background color",
-                        circle.style.backgroundColor
+                        circle.textContent
                       );
 
                       function componentToHex(c) {
@@ -3762,7 +3768,7 @@ const MidSection = React.forwardRef((props, ref) => {
             const stapelScale = stapelScaleArray.textContent.split(",");
             const selectedOption = stapelOptionHolder.textContent;
             console.log("This is the stapel", stapelScale);
-            console.log("This is option", selectedOption)
+            console.log("This is option", selectedOption);
             for (let i = 0; i < stapelScale.length; i++) {
               const circle = document.createElement("div");
               circle.className = "circle_label";
@@ -3779,7 +3785,7 @@ const MidSection = React.forwardRef((props, ref) => {
               if (selectedOption === "emoji") {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
-                circle.style.fontSize = "1.8vw"
+                circle.style.fontSize = "1.8vw";
               }
 
               if (!token) {
@@ -3845,8 +3851,12 @@ const MidSection = React.forwardRef((props, ref) => {
 
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
-                    let holdingParentEl = circle.parentElement.parentElement.parentElement.parentElement
-                    let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                    let holdingParentEl =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
+                    let scale =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
                     let holding = scale?.querySelector(".newScaleInput");
                     const buttonCircle = scale
                       ? scale.querySelectorAll(".circle_label")
@@ -3940,15 +3950,15 @@ const MidSection = React.forwardRef((props, ref) => {
               const circle = document.createElement("div");
               circle.className = `circle_label circle_${i}`;
               circle.textContent = npsLiteText[i];
-              circle.style.borderRadius =  "25px";
+              circle.style.borderRadius = "25px";
               circle.style.padding = "12px 27px";
               circle.style.margin = "0 auto";
               circle.style.display = "flex";
               circle.style.justifyContent = "center";
-              circle.style.alignItems= "center";
+              circle.style.alignItems = "center";
               circle.style.width = "27%";
               circle.style.height = "35%";
-              circle.style.fontSize = "18px"
+              circle.style.fontSize = "18px";
               circle.style.backgroundColor = element?.raw_data?.buttonColor;
 
               if (element?.raw_data?.buttonText) {
@@ -3972,7 +3982,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
                   localStorage.getItem("hideFinalizeButton");
-  
+
                 function setClickedCircleBackgroundColor(
                   circle,
                   bgColor,
@@ -3988,12 +3998,12 @@ const MidSection = React.forwardRef((props, ref) => {
                     bgColor
                   );
                 }
-  
+
                 function getClickedCircleBackgroundColor(circle, scaleID) {
                   const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
                   return localStorage.getItem(circleKey);
                 }
-  
+
                 setTimeout(() => {
                   let scales = document.querySelectorAll(".newScaleInput");
                   console.log(scales);
@@ -4005,13 +4015,13 @@ const MidSection = React.forwardRef((props, ref) => {
                     const lastClickedCircleID = localStorage.getItem(
                       `lastClickedCircleID_${scaleID}`
                     );
-  
+
                     circlesInScale.forEach((circle) => {
                       const storedBgColor = getClickedCircleBackgroundColor(
                         circle,
                         scaleID
                       );
-  
+
                       if (storedBgColor) {
                         if (circle.textContent === lastClickedCircleID) {
                           circle.style.backgroundColor = storedBgColor;
@@ -4026,7 +4036,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
@@ -4121,7 +4133,6 @@ const MidSection = React.forwardRef((props, ref) => {
               }
             }
           } else if (scaleTypeHolder.textContent === "likert") {
-
             const likertScale = likertScaleArray.textContent.split(",");
             const selectedOptionLikert = optionHolderLikert.textContent;
             console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
@@ -4142,6 +4153,51 @@ const MidSection = React.forwardRef((props, ref) => {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
               }
+            }
+          } else if (scaleTypeHolder.textContent === "percent_scale") {
+            labelHold.style.display = "flex";
+            labelHold.style.justifyContent = "center";
+            labelHold.style.flexDirection = "column";
+            labelHold.style.border = "none";
+            const inputPercent = document.createElement("input");
+            inputPercent.type = "range";
+            inputPercent.min = "0";
+            inputPercent.max = "100";
+            inputPercent.value = element?.raw_data?.percentCenter;
+            inputPercent.className = "percent-slider";
+            inputPercent.style.width = "100%";
+            inputPercent.style.cursor = "pointer";
+            inputPercent.style.background =
+              element?.raw_data?.percentBackground;
+            inputPercent.style.webkitAppearance = "none";
+            inputPercent.style.borderRadius = "10px";
+
+            labelHold.appendChild(inputPercent);
+
+            let percentChilds = document.createElement("div");
+            percentChilds.style.display = "flex";
+            percentChilds.style.width = "100%";
+            percentChilds.style.alignItems = "center";
+            percentChilds.style.justifyContent = "space-between";
+
+            let leftPercent = document.createElement("div");
+            leftPercent.textContent = "0";
+            leftPercent.className = "left-percent";
+            percentChilds.appendChild(leftPercent);
+
+            let centerPercent = document.createElement("div");
+            centerPercent.textContent = `${element?.raw_data?.percentCenter}%`;
+            centerPercent.className = "center-percent";
+            percentChilds.appendChild(centerPercent);
+
+            let rightPercent = document.createElement("div");
+            rightPercent.textContent = "100";
+            rightPercent.className = "right-percent";
+            percentChilds.appendChild(rightPercent);
+
+            labelHold.appendChild(percentChilds);
+            if (!token) {
+              return res.status(401).json({ error: "Unauthorized" });
             }
           }
 

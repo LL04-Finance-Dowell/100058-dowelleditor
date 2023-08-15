@@ -736,9 +736,9 @@ const Header = () => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2245,7 +2245,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -2297,9 +2297,9 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
+                            .backgroundImage
                         : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            ?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
@@ -2412,7 +2412,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -2600,7 +2600,7 @@ const Header = () => {
               ".stapelOptionHolder"
             );
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
-            console.log("This is the saved stapel", stapelOptionHolder)
+            console.log("This is the saved stapel", stapelScaleArray);
           }
 
           let npsLiteTextArray = "";
@@ -2612,9 +2612,26 @@ const Header = () => {
           let likertScaleArray = "";
 
           if (scaleType.textContent === "likert") {
-            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
+            likertScaleArray = newScales[b].querySelector(
+              ".likert_Scale_Array"
+            );
           }
+          let percentBackground = "";
+          let percentLeft = "";
+          let percentCenter = "";
+          let percentRight = "";
 
+          if (scaleType.textContent === "percent_scale") {
+            percentBackground = newScales[b].querySelector(".percent-slider");
+            percentLeft = newScales[b].querySelector(".left-percent");
+            percentCenter = newScales[b].querySelector(".center-percent");
+            var currentText = percentCenter.textContent;
+            var textWithoutPercent = currentText.replace("%", "");
+
+            // Set the modified text back to the element
+            percentCenter.textContent = textWithoutPercent;
+            percentRight = document.querySelector(".right-percent");
+          }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2630,7 +2647,11 @@ const Header = () => {
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
             npsLiteTextArray: npsLiteTextArray.textContent,
-            likertScaleArray: likertScaleArray.textContent
+            likertScaleArray: likertScaleArray.textContent,
+            percentBackground: percentBackground?.style?.background,
+            percentLeft: percentLeft?.textContent,
+            percentCenter: percentCenter?.textContent,
+            percentRight: percentRight?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2892,7 +2913,7 @@ const Header = () => {
           setIsLoading(false);
           var responseData = response.data;
           setScaleData(responseData);
-          console.log(response);
+          console.log("This is the response",response);
         }
       })
       .catch(function (error) {
@@ -3370,8 +3391,9 @@ const Header = () => {
   // console.log("isMenuVisible", isMenuVisible);
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -3381,8 +3403,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
