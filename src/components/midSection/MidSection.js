@@ -3642,28 +3642,26 @@ const MidSection = React.forwardRef((props, ref) => {
           const stapelOptionHolder = document.createElement("div");
           stapelOptionHolder.className = "stapelOptionHolder";
           stapelOptionHolder.textContent =
-            element?.raw_data?.stapelOptionHolder;
+          element?.raw_data?.stapelOptionHolder;
           stapelOptionHolder.style.display = "none";
           scaleHold.append(stapelOptionHolder);
 
           const npsLiteOptionHolder = document.createElement("div");
           npsLiteOptionHolder.className = "nps_option_holder";
           npsLiteOptionHolder.textContent =
-            element?.raw_data?.npsLiteOptionHolder;
+          element?.raw_data?.npsLiteOptionHolder;
           npsLiteOptionHolder.style.display = "none";
           scaleHold.append(npsLiteOptionHolder);
 
           const likertScaleArray = document.createElement("div");
           likertScaleArray.className = "likert_Scale_Array";
-          likertScaleArray.textContent =
-            element?.raw_data?.likertScaleArray || "";
+          likertScaleArray.textContent = element?.raw_data?.likertScaleArray || '';
           likertScaleArray.style.display = "none";
           scaleHold.append(likertScaleArray);
 
           const optionHolderLikert = document.createElement("div");
           optionHolderLikert.className = "likert_Option_Holder";
-          optionHolderLikert.textContent =
-            element?.raw_data?.likertOptionHolder || "";
+          optionHolderLikert.textContent = element?.raw_data?.likertOptionHolder || '';
           optionHolderLikert.style.display = "none";
           scaleHold.append(optionHolderLikert);
 
@@ -4247,8 +4245,10 @@ const MidSection = React.forwardRef((props, ref) => {
               }
             }
           } else if (scaleTypeHolder.textContent === "likert") {
+
             const likertScale = likertScaleArray.textContent.split(",");
-            const selectedOptionLikert = optionHolderLikert.textContent;
+            const numRows = Math.ceil(likertScale / 3);
+            const numColumns = Math.min(likertScale, 3);
             console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
 
             for (let i = 0; i < likertScale.length; i++) {
@@ -4257,17 +4257,26 @@ const MidSection = React.forwardRef((props, ref) => {
               circle.textContent = likertScale[i];
               circle.style.width = "80%";
               circle.style.height = "55%";
-              circle.style.borderRadius = "30%";
+              circle.style.borderRadius = "25px";
+              circle.style.padding = "12px 10px";
+              circle.style.marginLeft = "5px";
+              circle.style.marginRight = "5px";
               circle.style.backgroundColor = element?.raw_data?.buttonColor;
               circle.style.display = "flex";
               circle.style.justifyContent = "center";
               circle.style.alignItems = "center";
+              labelHold.style.display = "grid";
+              labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
+              labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
               labelHold.appendChild(circle);
-              if (selectedOptionLikert === "image") {
-                const buttonText = element.raw_data.buttonText;
-                circle.textContent = buttonText[i % buttonText.length];
-              }
+              circle.addEventListener("mouseover", () => {
+                circle.style.backgroundColor = "green"; // Change the color on hover
+              });
+              circle.addEventListener("mouseout", () => {
+                circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
+              });
             }
+            
           } else if (scaleTypeHolder.textContent === "percent_scale") {
             labelHold.style.display = "flex";
             labelHold.style.justifyContent = "center";
