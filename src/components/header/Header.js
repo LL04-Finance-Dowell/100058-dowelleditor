@@ -2613,10 +2613,9 @@ const Header = () => {
           let likertScaleArray = "";
 
           if (scaleType.textContent === "likert") {
-            likertScaleArray = newScales[b].querySelector(
-              ".likert_Scale_Array"
-            );
+            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
           }
+
           let percentBackground = "";
           let percentLeft = "";
           let percentCenter = "";
