@@ -423,7 +423,14 @@ const ScaleRightSide = () => {
       setActiveEmojiPicker(null); // Reset active emoji picker for text label type
     }
   };
+
   const handleEmojiChange = (index, emoji) => {
+    // Check if the emoji is already selected for another input
+    if (selectedEmojis.includes(emoji)) {
+      alert("This emoji is already selected for another input. Please select a different emoji.");
+      return;
+    }
+  
     const updatedSelectedEmojis = [...selectedEmojis];
     updatedSelectedEmojis[index] = emoji;
     setSelectedEmojis(updatedSelectedEmojis);
@@ -1467,29 +1474,6 @@ const ScaleRightSide = () => {
       const likertNumberScale = document.getElementById("likert_no_scale");
       tempText?.remove();
       // Clear existing labels
-      labelHold.innerHTML = "";
-  
-      if (btnUpdateScale.value !== "") {
-        button.style.backgroundColor = "white";
-      }
-
-      if (beNametnUpdateScal.value !== "") {
-        scaleText.textContent = beNametnUpdateScal.value;
-      }
-
-      if (btnUpdateFontColor.value !== "") {
-        button4.style.color = btnUpdateFontColor.value;
-      }
-
-      if (btnUpdateScaleFontLinkert.value !== "") {
-        button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
-      }
-
-      button4.style.display = "block";
-
-      // Clear existing values
-      labelHold.innerHTML = "";
-
       
       if (btnUpdateLeft.value !== "") {
         buttonChildLeft.textContent = "";
@@ -1585,6 +1569,28 @@ const ScaleRightSide = () => {
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
+  
+            if (btnUpdateScale.value !== "") {
+              button.style.backgroundColor = "white";
+            }
+
+            if (beNametnUpdateScal.value !== "") {
+              scaleText.textContent = beNametnUpdateScal.value;
+            }
+
+            if (btnUpdateFontColor.value !== "") {
+              button4.style.color = btnUpdateFontColor.value;
+            }
+
+            if (btnUpdateScaleFontLinkert.value !== "") {
+              button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
+            }
+
+            button4.style.display = "block";
+
+            // Clear existing values
+            labelHold.innerHTML = "";
+
             const likertScaleArray = document.createElement("div");
             likertScaleArray.className = "likert_Scale_Array";
             likertScaleArray.textContent = updatedLabels;
@@ -1662,7 +1668,27 @@ const ScaleRightSide = () => {
               likertScaleArray.textContent = updatedLabels;
               likertScaleArray.style.display = "none";
               labelHold.append(likertScaleArray);
-      
+  
+              if (btnUpdateScale.value !== "") {
+                button.style.backgroundColor = "white";
+              }
+        
+              if (beNametnUpdateScal.value !== "") {
+                scaleText.textContent = beNametnUpdateScal.value;
+              }
+        
+              if (btnUpdateFontColor.value !== "") {
+                button4.style.color = btnUpdateFontColor.value;
+              }
+        
+              if (btnUpdateScaleFontLinkert.value !== "") {
+                button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
+              }
+        
+              button4.style.display = "block";
+        
+              // Clear existing values
+              labelHold.innerHTML = "";
               for (let i = 0; i < updatedLabelScale; i++) {
                 const circle = document.createElement("div");
                 circle.className = "circle_label";
