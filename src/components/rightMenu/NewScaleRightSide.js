@@ -1474,6 +1474,7 @@ const ScaleRightSide = () => {
       const likertNumberScale = document.getElementById("likert_no_scale");
       tempText?.remove();
       // Clear existing labels
+         labelHold.innerHTML = "";
       
       if (btnUpdateLeft.value !== "") {
         buttonChildLeft.textContent = "";
@@ -1501,6 +1502,12 @@ const ScaleRightSide = () => {
       labelHold.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
       labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
       
+      
+      const likertScaleArray = document.createElement("div");
+            likertScaleArray.className = "likert_Scale_Array";
+            likertScaleArray.textContent = updatedLabels;
+            likertScaleArray.style.display = "none";
+            labelHold.append(likertScaleArray);
       // Update circles with new labels
 
       if (option.value === "Horizontal") {
@@ -1590,12 +1597,6 @@ const ScaleRightSide = () => {
 
             // Clear existing values
             labelHold.innerHTML = "";
-
-            const likertScaleArray = document.createElement("div");
-            likertScaleArray.className = "likert_Scale_Array";
-            likertScaleArray.textContent = updatedLabels;
-            likertScaleArray.style.display = "none";
-            labelHold.append(likertScaleArray);
     
             for (let i = 0; i < updatedLabelScale; i++) {
               const circle = document.createElement("div");
@@ -1662,12 +1663,6 @@ const ScaleRightSide = () => {
               setScaleId(scaleId);
               console.log(res);
               console.log("This is the still scale", scale);
-
-              const likertScaleArray = document.createElement("div");
-              likertScaleArray.className = "likert_Scale_Array";
-              likertScaleArray.textContent = updatedLabels;
-              likertScaleArray.style.display = "none";
-              labelHold.append(likertScaleArray);
   
               if (btnUpdateScale.value !== "") {
                 button.style.backgroundColor = "white";
@@ -1687,8 +1682,6 @@ const ScaleRightSide = () => {
         
               button4.style.display = "block";
         
-              // Clear existing values
-              labelHold.innerHTML = "";
               for (let i = 0; i < updatedLabelScale; i++) {
                 const circle = document.createElement("div");
                 circle.className = "circle_label";
