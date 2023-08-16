@@ -332,7 +332,12 @@ const ScaleRightSide = () => {
   //   }
   // }, []);
 
+
   useEffect(() => {
+    if(scaleTypeHolder.textContent !== ""){
+      setScaleTypeContent(scaleTypeHolder.textContent)
+    }
+
     if (decoded.details.action === "template") {
       if (scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
         document.getElementById("npsScaleForm").style.display = "none";
@@ -584,7 +589,7 @@ const ScaleRightSide = () => {
     const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
     scaleTypeHolder.textContent = scaleType
       ? scaleType.value
-      : scaleTypeHolder.textContent;
+      : scaleTypeContent;
     if (
       scaleType
         ? scaleType.value === "nps" || scaleTypeContent === "nps"
@@ -942,10 +947,11 @@ const ScaleRightSide = () => {
       const emojiInp = document.getElementById("emojiInp_stapel").value;
       let tempText = scale?.querySelector(".tempText");
       const labelHold = scale?.querySelector(".label_hold");
-      const upperVal = Math.min(
+      const upVal = Math.min(
         10,
         parseInt(document.getElementById("upperVal").value, 10)
       );
+      const upperVal = upVal / 2 === 2 ? upVal : upVal -1
       const spacing = parseInt(document.getElementById("spacing").value, 10);
       const lowerVal = -upperVal;
       tempText?.remove();
@@ -1140,6 +1146,7 @@ const ScaleRightSide = () => {
 
             stapelScaleArray.textContent = res.data.data.settings.scale;
             console.log("This is the stapel  scale response", res.data.data);
+            console.log("This is scale type holder",scaleTypeHolder.textContent)
             console.log(stapelScaleArray);
           })
           .catch((err) => {
