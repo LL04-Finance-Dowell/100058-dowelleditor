@@ -3065,6 +3065,59 @@ const Header = () => {
       });
   }
 
+  function handleFinalizeButtonLikert() {
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    const documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      const scaleId = scale?.querySelector(".scaleId")?.textContent;
+      const holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: authorizedLogin(),
+      score: documentResponses,
+    };
+
+    Axios.post(
+      "http://127.0.0.1:8000/likert/likert-scale_response/",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -3136,9 +3189,10 @@ const Header = () => {
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
-            const hasNegative = [...circles].some(
-              (circle) => parseInt(circle.textContent) < 0
-            );
+            // let circle = scale?.querySelector(".circle_label");
+            // const hasNegative = [...circles].some(
+            //   (circle) => parseInt(circle.textContent) < 0
+            // );
 
             let scaleType = document.querySelector(".scaleTypeHolder");
             if (scaleType.textContent === "nps") {
@@ -3147,6 +3201,8 @@ const Header = () => {
               handleFinalizeButtonStapel()
             } else if (scaleType.textContent === "nps_lite") {
               handleFinalizeButtonNpsLite();
+            } else if (scaleType.textContent === "likert") {
+              handleFinalizeButtonLikert();
             }
          
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
@@ -3169,6 +3225,10 @@ const Header = () => {
             //   handleFinalizeButton();
             //   // handleFinalizeButtonStapel();
             // }
+            // if (circle.style.width === "80%" && circle.style.height === "55%") {
+            //   handleFinalizeButtonLikert();
+            // }
+
           }
           setIsLoading(false);
           setIsDataSaved(true);
