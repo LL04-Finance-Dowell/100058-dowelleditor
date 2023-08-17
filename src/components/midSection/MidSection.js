@@ -3591,34 +3591,6 @@ const MidSection = React.forwardRef((props, ref) => {
             imageLinkHolder1.textContent = imageLinkHolder;
             imageLinkHolder1.style.display = "none";
             cameraField.append(imageLinkHolder1);
-
-            function openCam() {
-            let All_mediaDevices = navigator.mediaDevices;
-            if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
-              alert("Media not supported.");
-              return;
-            }
-            All_mediaDevices.getUserMedia({
-              video: true,
-              audio: true,
-            })
-              .then(function (vidStream) {
-                var video = videoField;
-                if ("srcObject" in video) {
-                  video.srcObject = vidStream;
-                } else {
-                  video.src = window.URL.createObjectURL(vidStream);
-                }
-                video.onloadedmetadata = function (e) {
-                  video.play();
-                };
-              })
-              .catch(function (e) {
-                alert(e.name + ": " + e.message);
-              });
-          }
-  
-          openCam();
         }
 
           cameraField.onclick = (e) => {
