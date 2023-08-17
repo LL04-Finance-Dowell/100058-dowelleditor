@@ -46,7 +46,7 @@ function CameraRightSide() {
     let imageFile = urlToFile(dataURI)
     const formData = new FormData()
     formData.append('image', imageFile)
-    Axios.post("http://67.217.61.253/uploadfiles/upload-image-to-drive/",
+    Axios.post("https://dowellfileuploader.uxlivinglab.online/uploadfiles/upload-image-to-drive/",
       formData).then((res) => {
         console.log(res)
         console.log(res.data.file_url)
@@ -105,7 +105,7 @@ function CameraRightSide() {
       console.log(file)
       const formData = new FormData()
       formData.append('video', file)
-      Axios.post("http://67.217.61.253/uploadfiles/upload-video-to-drive/",
+      Axios.post("https://dowellfileuploader.uxlivinglab.online/uploadfiles/upload-video-to-drive/",
         formData
       ).then((res) => {
         console.log(res)
