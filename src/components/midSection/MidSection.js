@@ -3790,7 +3790,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
                       console.log(
                         "This is the background color",
-                        circle.textContent
+                        circle.style.backgroundColor
                       );
 
                       function componentToHex(c) {
@@ -4275,6 +4275,157 @@ const MidSection = React.forwardRef((props, ref) => {
               circle.addEventListener("mouseout", () => {
                 circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
               });
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+  
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+  
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
+  
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_div div");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+  
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+  
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
+  
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
+  
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+  
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+  
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+  
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+  
+                      const circleBgColor = circle.style.backgroundColor;
+  
+                      circle.style.backgroundColor = invert(circleBgColor);
+  
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+  
+                      let holdElem = scale?.querySelector(".holdElem");
+  
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = i;
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = i;
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+  
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+  
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
+                      );
+                    }
+                  });
+                }
+              }
             }
             
           } else if (scaleTypeHolder.textContent === "percent_scale") {
