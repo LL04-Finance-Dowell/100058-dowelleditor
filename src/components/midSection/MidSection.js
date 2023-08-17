@@ -2219,13 +2219,15 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        dragElementOverPage(event);
+        if(event.target.className != 'td-resizer' && event.target.className != 'row-resizer' ){
+          dragElementOverPage(event);
+        };
       },
       false
     );
 
     holderDIV.onresize = (evntt) => {
-      //console.log("Holder resized");
+      console.log("Holder resized");
     };
     // }
 

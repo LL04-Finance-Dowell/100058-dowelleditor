@@ -25,7 +25,17 @@ const RemoveElmentModal = ({ handleRemoveInput }) => {
                         setConfirmRemove(false)
                     }}>No</Button>
                     <Button variant="primary" onClick={() => {
-                        document.querySelector(".focussedd").remove();
+                       const targetEl = document.querySelector(".focussedd");          
+                       if(targetEl.tagName.toLocaleLowerCase() === 'td'){                   
+                        const targets= targetEl.children
+                        for(let i = 0; i <targets.length; i++){
+                            if(!targets[i].classList.contains('td-resizer') && !targets[i].classList.contains('row-resizer') ){
+                                targets[i].remove()
+                            }
+                        }
+                       }else{
+                        targetEl.remove()
+                       }
                         setConfirmRemove(false)
                     }}>yes</Button>
                 </Modal.Footer>
