@@ -15,9 +15,11 @@ import {
 
 import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
+import { MdPayments } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
 import { FaCamera } from "react-icons/fa"
+import { FaCreditCard } from "react-icons/fa";
 
 import MidSection from "../midSection/MidSection";
 import TextFill from "./comp/TextFill";
@@ -149,6 +151,16 @@ const dragStartScale = (e) => {
 const dragStartNewScale = (e) => {
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "NEW_SCALE_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+    //console.log("drag start fumb");
+  }
+};
+
+const dragStartPayment = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "PAYMENT_INPUT");
   element.classList.add("dragging");
   if (document.querySelector(".drop_zone")) {
     document.querySelector(".drop_zone").classList.remove("drop_zone");
@@ -347,6 +359,12 @@ const LeftMenu = ({ showSidebar }) => {
               title="camera"
             />
             }
+            <NavButton
+              dragStartFunc={dragStartPayment}
+              customFunc={() => handleDrop("payment")}
+              icon={<MdPayments />}
+              title="payment"
+            />
            {
            //"}"
           }

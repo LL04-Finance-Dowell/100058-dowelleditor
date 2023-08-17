@@ -866,10 +866,11 @@ const Header = () => {
   const handlePaste = () => {
     const element = JSON.parse(sessionStorage.getItem("cutItem"));
     const curr_user = document.getElementById("current-user");
+    const midSec = document.getElementsByClassName("midSection_container");
 
     const measure = {
-      // top: `${contextMenu.y}px`,
-      // left: `${contextMenu.x}px`,
+      // top: `${midSec.y}px`,
+      // left: `${midSec.x}px`,
       width: element.width,
       height: element.height,
       left: element.left,
@@ -2116,7 +2117,7 @@ const Header = () => {
             data: txt[h].innerText,
             border: `${inputBorderSize} dotted ${inputBorderColor}`,
             borderWidths: txt[h].parentElement.style.border,
-            raw_data: txt[h].innerHTML,
+            raw_data: txt[h].outerHTML,
             id: `t${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -2600,26 +2601,37 @@ const Header = () => {
               ".stapelOptionHolder"
             );
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
+            console.log("This is the saved stapel", stapelOptionHolder);
           }
 
-          let surveyQuestion = "";
-          let circleLeft = "";
-          let circleCenter = "";
-          let circleRight = "";
+          let npsLiteTextArray = "";
 
           if (scaleType.textContent === "nps_lite") {
-            surveyQuestion = document.querySelector(".survey_question");
-            circleLeft = document.querySelector(".circle_label_left");
-            circleCenter = document.querySelector(".circle_label_center");
-            circleRight = document.querySelector(".circle_label_right");
+            npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
           }
 
-          // if (buttonStapel.length !==0) {
-          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
-          //     stapelNum.push(buttonStapel[i].textContent);
-          // }
+          let likertScaleArray = "";
 
-          // console.log(buttonColors);
+          if (scaleType.textContent === "likert") {
+            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
+          }
+
+          let percentBackground = "";
+          let percentLeft = "";
+          let percentCenter = "";
+          let percentRight = "";
+
+          if (scaleType.textContent === "percent_scale") {
+            percentBackground = newScales[b].querySelector(".percent-slider");
+            percentLeft = newScales[b].querySelector(".left-percent");
+            percentCenter = newScales[b].querySelector(".center-percent");
+            var currentText = percentCenter.textContent;
+            var textWithoutPercent = currentText.replace("%", "");
+
+            // Set the modified text back to the element
+            percentCenter.textContent = textWithoutPercent;
+            percentRight = document.querySelector(".right-percent");
+          }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2634,13 +2646,12 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
-            surveyQuestion: surveyQuestion.textContent,
-            circleLeftText: circleLeft.textContent,
-            circleCenterText: circleCenter.textContent,
-            circleRightText: circleRight.textContent,
-            circleLeftColor: circleLeft?.style?.backgroundColor,
-            circleCenterColor: circleCenter?.style?.backgroundColor,
-            circleRightColor: circleRight?.style?.backgroundColor
+            npsLiteTextArray: npsLiteTextArray.textContent,
+            likertScaleArray: likertScaleArray.textContent,
+            percentBackground: percentBackground?.style?.background,
+            percentLeft: percentLeft?.textContent,
+            percentCenter: percentCenter?.textContent,
+            percentRight: percentRight?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2661,7 +2672,7 @@ const Header = () => {
             //     ? "Document instance"
             //     : "Template scale",
           };
-          
+
           console.log(elem);
           const pageNum = findPaageNum(newScales[b]);
           page[0][pageNum].push(elem);
@@ -2733,6 +2744,41 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const payments = document.getElementsByClassName("paymentInput");
+    if (payments.length) {
+      for (let p = 0; p < payments.length; p++) {
+        if (
+          !payments[p]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = payments[p].parentElement;
+          let tempPosn = getPosition(tempElem);
+          const link = buttonLink;
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: payments[p].parentElement.style.top,
+            left: tempPosn.left,
+            type: "PAYMENT_INPUT",
+            buttonBorder: `${buttonBorderSize}px dotted ${buttonBorderColor}`,
+            data: payments[p].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `btn${p + 1}`,
+          };
+          console.log("Raw Data", elem.type);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(payments[p]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
@@ -2964,6 +3010,114 @@ const Header = () => {
       });
   }
 
+  function handleFinalizeButtonNpsLite() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = []
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      user: authorizedLogin(),
+      scale_id: scaleId,
+      score: holdElem,
+      response: documentResponses
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/nps-lite/api/nps-lite-response",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleFinalizeButtonLikert() {
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    const documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      const scaleId = scale?.querySelector(".scaleId")?.textContent;
+      const holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: authorizedLogin(),
+      score: documentResponses,
+    };
+
+    Axios.post(
+      "http://127.0.0.1:8000/likert/likert-scale_response/",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -3035,9 +3189,22 @@ const Header = () => {
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
-            const hasNegative = [...circles].some(
-              (circle) => parseInt(circle.textContent) < 0
-            );
+            // let circle = scale?.querySelector(".circle_label");
+            // const hasNegative = [...circles].some(
+            //   (circle) => parseInt(circle.textContent) < 0
+            // );
+
+            let scaleType = document.querySelector(".scaleTypeHolder");
+            if (scaleType.textContent === "nps") {
+              handleFinalizeButton();
+            } else if (scaleType.textContent === "snipte") {
+              handleFinalizeButtonStapel()
+            } else if (scaleType.textContent === "nps_lite") {
+              handleFinalizeButtonNpsLite();
+            } else if (scaleType.textContent === "likert") {
+              handleFinalizeButtonLikert();
+            }
+         
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3047,16 +3214,21 @@ const Header = () => {
             // } else {
             //   // Handle the case when no template is selected
             // }
-            if (hasNegative) {
-              handleFinalizeButtonStapel();
-            } else {
-              handleFinalizeButton();
-            }
+
+            // if (hasNegative) {
+            //   handleFinalizeButtonStapel();
+            // } else {
+            //   handleFinalizeButton();
+            // }
 
             // if (hasEmoji) {
             //   handleFinalizeButton();
             //   // handleFinalizeButtonStapel();
             // }
+            // if (circle.style.width === "80%" && circle.style.height === "55%") {
+            //   handleFinalizeButtonLikert();
+            // }
+
           }
           setIsLoading(false);
           setIsDataSaved(true);
@@ -3098,7 +3270,13 @@ const Header = () => {
 
   var dataa = {
     document_id: decoded.details._id,
-    action: actionName,
+    action: decoded.details.action,
+    database: decoded.details.database,
+    collection: decoded.details.collection,
+    team_member_ID: decoded.details.team_member_ID,
+    function_ID: decoded.details.function_ID,
+    cluster: decoded.details.cluster,
+    document: decoded.details.document,
   };
 
   var stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify(dataa));
@@ -3225,13 +3403,19 @@ const Header = () => {
     var tokenn = prompt("Paste your token here");
     if (tokenn != null) {
       const decodedTok = jwt_decode(tokenn);
-      console.log("tokkkkkkennn", tokenn);
+      console.log("tokkkkkkennn", decodedTok);
       const getPostData = async () => {
         const response = await Axios.post(
           "https://100058.pythonanywhere.com/api/get-data-from-collection/",
           {
             document_id: decodedTok.document_id,
             action: decodedTok.action,
+            database: decodedTok.database,
+            collection: decodedTok.collection,
+            team_member_ID: decodedTok.team_member_ID,
+            function_ID: decodedTok.function_ID,
+            cluster: decodedTok.cluster,
+            document: decodedTok.document,
           }
         )
           .then((res) => {
