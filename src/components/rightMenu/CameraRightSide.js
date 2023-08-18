@@ -25,6 +25,7 @@ function CameraRightSide() {
     videoField.src = ""
     videoField.style.display = "block"
     imageField.style.display = "none"
+    imageField.src = ""
     setIsCameraOn(true)
     let All_mediaDevices = navigator.mediaDevices;
     if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
@@ -102,8 +103,6 @@ function CameraRightSide() {
         console.log(res)
         console.log(res.data.file_url)
         canvas.remove()
-        imageHolder.src = `${res.data.file_url}`
-        imageHolder.style.display = "block"
         imageHolder.style.width = "100%"
         imageHolder.style.height = "100%"
         const imageLink = res.data.file_url
@@ -113,7 +112,8 @@ function CameraRightSide() {
           console.log(imageLinkHolder)
           let videoLinkHolder = camera?.querySelector(".videoLinkHolder")
           videoLinkHolder.textContent = "video_link"
-          imageField.style.display = "block"
+          imageHolder.src = imageLinkHolder.textContent
+          imageHolder.style.display = "block"
         }
       })
       .catch((err) => {
