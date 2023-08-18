@@ -3487,7 +3487,7 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
-
+           if(decoded.details.action === "template"){
           let videoField = document.createElement("video");
           const imageLinkHolder1 = document.createElement("h1");
           const videoLinkHolder1 = document.createElement("h1");
@@ -3552,17 +3552,46 @@ const MidSection = React.forwardRef((props, ref) => {
             videoField.style.height = cameraField.clientHeight + "px";
           });
 
-          if (decoded.details.action === "document") {
-            //clear contents of camera field contents
-            cameraField.innerHTML = ""
-            //Adding new contents
+          imgHolder.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+            console.log("The camera", cameraField);
+          };
+          
+        } else if (decoded.details.action === "document") {
             let videoField = document.createElement("video");
             const videoLinkHolder1 = document.createElement("h1");
-
+            if (videoLinkHolder === "video_link") {
             videoField.className = "videoInput";
-            videoField.src = videoLinkHolder;
+            videoField.src = videoLinkHolder ;
             videoField.style.width = "100%";
             videoField.style.height = "100%";
+            videoField.muted = true;
+            videoField.autoplay = true;
+            videoField.loop = true;
+            videoField.style.display = "none";
+            cameraField.append(videoField);
+            
+            let cameraImageInput = document.createElement("canvas");
+            cameraImageInput.className = "cameraImageInput";
+            cameraImageInput.style.display = "none";
+            cameraField.append(cameraImageInput);
+
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = "";
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+          }else {
+            videoField.className = "videoInput";
+            videoField.src = videoLinkHolder ;
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.muted = true;
             videoField.autoplay = true;
             videoField.loop = true;
             cameraField.append(videoField);
@@ -3576,10 +3605,12 @@ const MidSection = React.forwardRef((props, ref) => {
             videoLinkHolder1.textContent = "";
             videoLinkHolder1.style.display = "none";
             cameraField.append(videoLinkHolder1);
+          }
 
             let imgHolder = document.createElement("img");
             const imageLinkHolder1 = document.createElement("h1");
 
+            if (imageLinkHolder === "image_link") {
             imgHolder.className = "imageHolder";
             imgHolder.style.height = "100%";
             imgHolder.style.width = "100%";
@@ -3591,6 +3622,30 @@ const MidSection = React.forwardRef((props, ref) => {
             imageLinkHolder1.textContent = imageLinkHolder;
             imageLinkHolder1.style.display = "none";
             cameraField.append(imageLinkHolder1);
+          } else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
+            imgHolder.src = imageLinkHolder;
+            imgHolder.alt = "";
+            cameraField.append(imgHolder);
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1);
+          }
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
         }
 
           cameraField.onclick = (e) => {
@@ -3603,16 +3658,6 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
           };
 
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-            console.log("The camera", cameraField);
-          };
           holderDIV.append(cameraField);
 
           document
