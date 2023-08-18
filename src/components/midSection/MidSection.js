@@ -2219,13 +2219,15 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        dragElementOverPage(event);
+        if(event.target.className != 'td-resizer' && event.target.className != 'row-resizer' ){
+          dragElementOverPage(event);
+        };
       },
       false
     );
 
     holderDIV.onresize = (evntt) => {
-      //console.log("Holder resized");
+      console.log("Holder resized");
     };
     // }
 
@@ -3549,6 +3551,47 @@ const MidSection = React.forwardRef((props, ref) => {
             videoField.style.width = cameraField.clientWidth + "px";
             videoField.style.height = cameraField.clientHeight + "px";
           });
+
+          if (decoded.details.action === "document") {
+            //clear contents of camera field contents
+            cameraField.innerHTML = ""
+            //Adding new contents
+            let videoField = document.createElement("video");
+            const videoLinkHolder1 = document.createElement("h1");
+
+            videoField.className = "videoInput";
+            videoField.src = videoLinkHolder;
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.autoplay = true;
+            videoField.loop = true;
+            cameraField.append(videoField);
+            
+            let cameraImageInput = document.createElement("canvas");
+            cameraImageInput.className = "cameraImageInput";
+            cameraImageInput.style.display = "none";
+            cameraField.append(cameraImageInput);
+
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = "";
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+
+            let imgHolder = document.createElement("img");
+            const imageLinkHolder1 = document.createElement("h1");
+
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
+            imgHolder.alt = "";
+            imgHolder.style.display = "none";
+            cameraField.append(imgHolder);
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1);
+        }
 
           cameraField.onclick = (e) => {
             e.stopPropagation();
