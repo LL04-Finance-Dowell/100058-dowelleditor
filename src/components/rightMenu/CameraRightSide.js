@@ -82,7 +82,7 @@ function CameraRightSide() {
       while (n--) {
         dataArr[n] = dataStr.charCodeAt(n)
       }
-      let file = new File([dataArr], 'myPic9.jpg', {type: mime})
+      let file = new File([dataArr], `'${decoded.details.update_field.document_name}'.jpg`, {type: mime})
       console.log(file)
       return file
       //console.log(data)
@@ -148,7 +148,7 @@ function CameraRightSide() {
     if (event.data && event.data.size > 0) {
       video.srcObject = null
       let vidUrl = event.data
-      let file = new File([vidUrl], 'video.mp4', { type: 'video/webm;codecs=vp9,opus' })
+      let file = new File([vidUrl], `'${decoded.details.update_field.document_name}'.mp4`, { type: 'video/webm;codecs=vp9,opus' })
       console.log(file)
       const formData = new FormData()
       formData.append('video', file)
@@ -208,7 +208,7 @@ function CameraRightSide() {
         className="px-5"
         style={{ marginBottom: "30px" }}
         onClick={photo}
-        disabled = {decoded.details.action === "template" ? "true" : "false"}
+        disabled = {decoded.details.action === "template" ? true : false}
         >
           Photo
         </Button>}
@@ -228,7 +228,7 @@ function CameraRightSide() {
       className="px-5"
       style={{ marginBottom: "30px" }}
       onClick={video}
-      disabled = {decoded.details.action === "template" ? "true" : "false"}
+      disabled = {decoded.details.action === "template" ? true : false}
     >
       Video
     </Button>}
