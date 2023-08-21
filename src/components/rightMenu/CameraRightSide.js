@@ -64,7 +64,6 @@ function CameraRightSide() {
     let camera = document.querySelector(".focussedd");
     let canvas = camera?.querySelector(".cameraImageInput")
     let video = camera?.querySelector(".videoInput")
-    let imageHolder = camera?.querySelector(".imageHolder")
     canvas.style.width = "100%"
     canvas.style.height = "100%"
     let context = canvas.getContext('2d')
@@ -103,8 +102,6 @@ function CameraRightSide() {
         console.log(res)
         console.log(res.data.file_url)
         canvas.remove()
-        imageHolder.style.width = "100%"
-        imageHolder.style.height = "100%"
         const imageLink = res.data.file_url
         if (imageLink.length) {
           let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
@@ -112,8 +109,8 @@ function CameraRightSide() {
           console.log(imageLinkHolder)
           let videoLinkHolder = camera?.querySelector(".videoLinkHolder")
           videoLinkHolder.textContent = "video_link"
-          imageHolder.src = imageLinkHolder.textContent
-          imageHolder.style.display = "block"
+          imageField.src = imageLinkHolder.textContent
+          imageField.style.display = "block"
         }
       })
       .catch((err) => {
