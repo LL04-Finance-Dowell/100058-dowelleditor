@@ -19,8 +19,13 @@ function CameraRightSide() {
 
   const camera = document.querySelector(".focussedd");
   let videoField = camera?.querySelector(".videoInput")
+  let imageField = camera?.querySelector(".imageHolder")
 
   function openCam() {
+    videoField.src = ""
+    videoField.style.display = "block"
+    imageField.style.display = "none"
+    imageField.src = ""
     setIsCameraOn(true)
     let All_mediaDevices = navigator.mediaDevices;
     if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
@@ -59,7 +64,6 @@ function CameraRightSide() {
     let camera = document.querySelector(".focussedd");
     let canvas = camera?.querySelector(".cameraImageInput")
     let video = camera?.querySelector(".videoInput")
-    let imageHolder = camera?.querySelector(".imageHolder")
     canvas.style.width = "100%"
     canvas.style.height = "100%"
     let context = canvas.getContext('2d')
@@ -98,15 +102,15 @@ function CameraRightSide() {
         console.log(res)
         console.log(res.data.file_url)
         canvas.remove()
-        imageHolder.src = `${res.data.file_url}`
-        imageHolder.style.display = "block"
-        imageHolder.style.width = "100%"
-        imageHolder.style.height = "100%"
         const imageLink = res.data.file_url
         if (imageLink.length) {
           let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
           imageLinkHolder.textContent = res.data.file_url
           console.log(imageLinkHolder)
+          let videoLinkHolder = camera?.querySelector(".videoLinkHolder")
+          videoLinkHolder.textContent = "video_link"
+          imageField.src = imageLinkHolder.textContent
+          imageField.style.display = "block"
         }
       })
       .catch((err) => {
@@ -166,6 +170,8 @@ function CameraRightSide() {
           videoLinkHolder.textContent = res.data.file_url
         }
         console.log(videoLinkHolder)
+        let imageLinkHolder = camera?.querySelector(".imageLinkHolder")
+        imageLinkHolder.textContent = "image_link"
       })
         .catch((err) => {
           console.log(err);
@@ -246,6 +252,7 @@ function CameraRightSide() {
           className="remove_button"
           // onClick={removeCamera}
           onClick={() => setConfirmRemove(!confirmRemove)}
+          disabled = {decoded.details.action === "document" ? true : false}
         >
           Remove Camera
         </Button>
