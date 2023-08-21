@@ -4271,17 +4271,17 @@ const MidSection = React.forwardRef((props, ref) => {
               labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
               labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
               labelHold.appendChild(circle);
-              circle.addEventListener("mouseover", () => {
-                circle.style.backgroundColor = "green"; // Change the color on hover
-              });
-              circle.addEventListener("mouseout", () => {
-                circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
-              });
+              // circle.addEventListener("mouseover", () => {
+              //   circle.style.backgroundColor = "green"; // Change the color on hover
+              // });
+              // circle.addEventListener("mouseout", () => {
+              //   circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
+              // });
               if (decoded.details.action === "document") {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
                   localStorage.getItem("hideFinalizeButton");
-  
+
                 function setClickedCircleBackgroundColor(
                   circle,
                   bgColor,
@@ -4297,12 +4297,12 @@ const MidSection = React.forwardRef((props, ref) => {
                     bgColor
                   );
                 }
-  
+
                 function getClickedCircleBackgroundColor(circle, scaleID) {
                   const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
                   return localStorage.getItem(circleKey);
                 }
-  
+
                 setTimeout(() => {
                   let scales = document.querySelectorAll(".newScaleInput");
                   console.log(scales);
@@ -4310,17 +4310,17 @@ const MidSection = React.forwardRef((props, ref) => {
                     const scaleID =
                       scale?.querySelector(".scaleId").textContent;
                     const circlesInScale =
-                      scale.querySelectorAll(".circle_div div");
+                      scale.querySelectorAll(".circle_label");
                     const lastClickedCircleID = localStorage.getItem(
                       `lastClickedCircleID_${scaleID}`
                     );
-  
+
                     circlesInScale.forEach((circle) => {
                       const storedBgColor = getClickedCircleBackgroundColor(
                         circle,
                         scaleID
                       );
-  
+
                       if (storedBgColor) {
                         if (circle.textContent === lastClickedCircleID) {
                           circle.style.backgroundColor = storedBgColor;
@@ -4331,26 +4331,28 @@ const MidSection = React.forwardRef((props, ref) => {
                     });
                   });
                 }, 1000);
-  
+
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = circle.parentElement.parentElement.parentElement.parentElement;
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
                         : [];
-  
+
                       console.log(
                         "This is the background color",
                         circle.style.backgroundColor
                       );
-  
+
                       function componentToHex(c) {
                         var hex = c.toString(16);
                         return hex.length == 1 ? "0" + hex : hex;
                       }
-  
+
                       function rgbToHex(r, g, b) {
                         return (
                           "#" +
@@ -4359,7 +4361,7 @@ const MidSection = React.forwardRef((props, ref) => {
                           componentToHex(b)
                         );
                       }
-  
+
                       function invert(rgb) {
                         rgb = [].slice
                           .call(arguments)
@@ -4370,11 +4372,11 @@ const MidSection = React.forwardRef((props, ref) => {
                           rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
                         return rgbToHex(rgb[0], rgb[1], rgb[2]);
                       }
-  
+
                       const circleBgColor = circle.style.backgroundColor;
-  
+
                       circle.style.backgroundColor = invert(circleBgColor);
-  
+
                       for (let i = 0; i < buttonCircle.length; i++) {
                         if (
                           buttonCircle[i].textContent !== circle.textContent
@@ -4382,18 +4384,18 @@ const MidSection = React.forwardRef((props, ref) => {
                           buttonCircle[i].style.backgroundColor = circleBgColor;
                         }
                       }
-  
+
                       let holdElem = scale?.querySelector(".holdElem");
-  
+
                       if (holdElem) {
                         // If holdElem exists, update its text content
-                        holdElem.textContent = i;
+                        holdElem.textContent = likertScale[i];
                       } else {
                         // If holdElem doesn't exist, create a new one
                         holdElem = document.createElement("div");
                         holdElem.className = "holdElem";
                         holdElem.style.display = "none";
-                        holdElem.textContent = i;
+                        holdElem.textContent = likertScale[i];
                         holding?.appendChild(holdElem);
                         console.log("This is holdEle", holdElem.textContent);
                         const required_map_document =
@@ -4411,7 +4413,7 @@ const MidSection = React.forwardRef((props, ref) => {
                           );
                         }
                       }
-  
+
                       const scaleID =
                         scale?.querySelector(".scaleId")?.textContent;
                       setClickedCircleBackgroundColor(
@@ -4419,7 +4421,7 @@ const MidSection = React.forwardRef((props, ref) => {
                         circle.style.backgroundColor,
                         scaleID
                       );
-  
+
                       localStorage.setItem(
                         `lastClickedCircleID_${scaleID}`,
                         circle.textContent

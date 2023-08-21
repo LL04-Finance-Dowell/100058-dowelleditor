@@ -204,6 +204,7 @@ const ScaleRightSide = () => {
   }
   var format = document.getElementById("format");
   var npsLiteFormat = document.getElementById("format_nps_lite");
+  // var likertScaleFormat = document.getElementById("label_type_linkert");
   const scaleDisplay = scale?.querySelector(".scool_input");
 
   // var imageLabel = scale?.querySelector(".images_label");
@@ -217,6 +218,9 @@ const ScaleRightSide = () => {
     if (npsLiteFormat) {
       npsLiteFormat.selectedIndex = withEmoji.test(circleLabel) ? 1 : 0;
     }
+    // if (likertScaleFormat) {
+    //   likertScaleFormat.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    // }
   }
 
   var likertFontColor = document.getElementById("font_color_likert");
@@ -428,6 +432,12 @@ const ScaleRightSide = () => {
       setActiveEmojiPicker(null); // Reset active emoji picker for text label type
     }
   };
+
+  // var likertText = document.querySelectorAll("label-text-input");
+  // const updatedLabels = labelType === "Text" ? labelTexts : selectedEmojis;
+  // if (likertText) {
+  //   likertText.defaultValue = updatedLabels;
+  // }
 
   const handleEmojiChange = (index, emoji) => {
     // Check if the emoji is already selected for another input
@@ -1503,18 +1513,18 @@ const ScaleRightSide = () => {
       labelHold.innerHTML = "";
       const numRows = Math.ceil(updatedLabelScale / 3);
       const numColumns = Math.min(updatedLabelScale, 3);
+      
+      const likertScaleArray = document.createElement("div");
+      likertScaleArray.className = "likert_Scale_Array";
+      likertScaleArray.textContent = updatedLabels;
+      likertScaleArray.style.display = "none";
+      labelHold.append(likertScaleArray);
 
       // // Update labelHold grid styles
       labelHold.style.display = "grid";
       labelHold.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
       labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
       
-      
-      const likertScaleArray = document.createElement("div");
-            likertScaleArray.className = "likert_Scale_Array";
-            likertScaleArray.textContent = updatedLabels;
-            likertScaleArray.style.display = "none";
-            labelHold.append(likertScaleArray);
       // Update circles with new labels
 
       if (option.value === "Horizontal") {
@@ -1601,9 +1611,6 @@ const ScaleRightSide = () => {
             }
 
             button4.style.display = "block";
-
-            // Clear existing values
-            labelHold.innerHTML = "";
     
             for (let i = 0; i < updatedLabelScale; i++) {
               const circle = document.createElement("div");
