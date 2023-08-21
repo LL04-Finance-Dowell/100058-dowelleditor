@@ -4358,12 +4358,12 @@ const MidSection = React.forwardRef((props, ref) => {
               labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
               labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
               labelHold.appendChild(circle);
-              circle.addEventListener("mouseover", () => {
-                circle.style.backgroundColor = "green"; // Change the color on hover
-              });
-              circle.addEventListener("mouseout", () => {
-                circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
-              });
+              // circle.addEventListener("mouseover", () => {
+              //   circle.style.backgroundColor = "green"; // Change the color on hover
+              // });
+              // circle.addEventListener("mouseout", () => {
+              //   circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
+              // });
               if (decoded.details.action === "document") {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
@@ -4397,7 +4397,7 @@ const MidSection = React.forwardRef((props, ref) => {
                     const scaleID =
                       scale?.querySelector(".scaleId").textContent;
                     const circlesInScale =
-                      scale.querySelectorAll(".circle_div div");
+                      scale.querySelectorAll(".circle_label");
                     const lastClickedCircleID = localStorage.getItem(
                       `lastClickedCircleID_${scaleID}`
                     );
@@ -4476,13 +4476,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
                       if (holdElem) {
                         // If holdElem exists, update its text content
-                        holdElem.textContent = i;
+                        holdElem.textContent = likertScale[i];
                       } else {
                         // If holdElem doesn't exist, create a new one
                         holdElem = document.createElement("div");
                         holdElem.className = "holdElem";
                         holdElem.style.display = "none";
-                        holdElem.textContent = i;
+                        holdElem.textContent = likertScale[i];
                         holding?.appendChild(holdElem);
                         console.log("This is holdEle", holdElem.textContent);
                         const required_map_document =

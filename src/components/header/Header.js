@@ -2665,9 +2665,8 @@ const Header = () => {
             percentProdName: prodName,
             percentBackground: percentBackground?.style?.background,
             percentLeft: percentLeft?.textContent,
-            percentCenter: percentCenter,
+            percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
-            percentLabel: percentLabel.length,
           };
           console.log(properties);
           elem = {
@@ -3082,6 +3081,7 @@ const Header = () => {
   }
 
   function handleFinalizeButtonLikert() {
+    localStorage.setItem("hideFinalizeButton", "true");
     const username = decoded?.details?.authorized;
     console.log(username);
 
@@ -3096,13 +3096,15 @@ const Header = () => {
 
     let scaleElements = document.querySelectorAll(".newScaleInput");
 
-    const documentResponses = [];
+    let scaleId;
+    let holdElem;
+    let documentResponses = [];
     console.log(scaleElements);
 
     scaleElements.forEach((scale) => {
       console.log(scale);
-      const scaleId = scale?.querySelector(".scaleId")?.textContent;
-      const holdElem = scale?.querySelector(".holdElem")?.textContent;
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
 
       documentResponses.push({ scale_id: scaleId, score: holdElem });
     });
@@ -3111,14 +3113,15 @@ const Header = () => {
     console.log(documentResponses);
 
     const requestBody = {
+      instance_id: 1,
       brand_name: "XYZ545",
       product_name: "XYZ511",
       username: authorizedLogin(),
-      score: documentResponses,
+      document_responses: documentResponses,
     };
 
     Axios.post(
-      "http://127.0.0.1:8000/likert/likert-scale_response/",
+      "https://100035.pythonanywhere.com/likert/likert-scale_response/",
       requestBody
     )
       .then((response) => {
