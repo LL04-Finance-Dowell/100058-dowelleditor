@@ -188,7 +188,7 @@ const MidSection = React.forwardRef((props, ref) => {
           email2: false,
           newScale2: false,
           camera2: false,
-          payment2: false
+          payment2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -3487,7 +3487,7 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
-
+           if(decoded.details.action === "template"){
           let videoField = document.createElement("video");
           const imageLinkHolder1 = document.createElement("h1");
           const videoLinkHolder1 = document.createElement("h1");
@@ -3552,16 +3552,6 @@ const MidSection = React.forwardRef((props, ref) => {
             videoField.style.height = cameraField.clientHeight + "px";
           });
 
-          cameraField.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-          };
-
           imgHolder.onclick = (e) => {
             e.stopPropagation();
             table_dropdown_focuseddClassMaintain(e);
@@ -3572,6 +3562,102 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
             console.log("The camera", cameraField);
           };
+          
+        } else if (decoded.details.action === "document") {
+            let videoField = document.createElement("video");
+            const videoLinkHolder1 = document.createElement("h1");
+            if (videoLinkHolder === "video_link") {
+            videoField.className = "videoInput";
+            videoField.src = videoLinkHolder ;
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.muted = true;
+            videoField.autoplay = true;
+            videoField.loop = true;
+            videoField.style.display = "none";
+            cameraField.append(videoField);
+            
+            let cameraImageInput = document.createElement("canvas");
+            cameraImageInput.className = "cameraImageInput";
+            cameraImageInput.style.display = "none";
+            cameraField.append(cameraImageInput);
+
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = "";
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+          }else {
+            videoField.className = "videoInput";
+            videoField.src = videoLinkHolder ;
+            videoField.style.width = "100%";
+            videoField.style.height = "100%";
+            videoField.muted = true;
+            videoField.autoplay = true;
+            videoField.loop = true;
+            cameraField.append(videoField);
+            
+            let cameraImageInput = document.createElement("canvas");
+            cameraImageInput.className = "cameraImageInput";
+            cameraImageInput.style.display = "none";
+            cameraField.append(cameraImageInput);
+
+            videoLinkHolder1.className = "videoLinkHolder";
+            videoLinkHolder1.textContent = "";
+            videoLinkHolder1.style.display = "none";
+            cameraField.append(videoLinkHolder1);
+          }
+
+            let imgHolder = document.createElement("img");
+            const imageLinkHolder1 = document.createElement("h1");
+
+            if (imageLinkHolder === "image_link") {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
+            imgHolder.alt = "";
+            imgHolder.style.display = "none";
+            cameraField.append(imgHolder);
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1);
+          } else {
+            imgHolder.className = "imageHolder";
+            imgHolder.style.height = "100%";
+            imgHolder.style.width = "100%";
+            imgHolder.src = imageLinkHolder;
+            imgHolder.alt = "";
+            cameraField.append(imgHolder);
+
+            imageLinkHolder1.className = "imageLinkHolder";
+            imageLinkHolder1.textContent = imageLinkHolder;
+            imageLinkHolder1.style.display = "none";
+            cameraField.append(imageLinkHolder1);
+          }
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
+        }
+
+          cameraField.onclick = (e) => {
+            e.stopPropagation();
+            table_dropdown_focuseddClassMaintain(e);
+            if (e.ctrlKey) {
+              copyInput("camera2");
+            }
+            handleClicked("camera2");
+            setSidebar(true);
+          };
+
           holderDIV.append(cameraField);
 
           document
@@ -3644,7 +3730,7 @@ const MidSection = React.forwardRef((props, ref) => {
           const stapelOptionHolder = document.createElement("div");
           stapelOptionHolder.className = "stapelOptionHolder";
           stapelOptionHolder.textContent =
-          element?.raw_data?.stapelOptionHolder;
+            element?.raw_data?.stapelOptionHolder;
           stapelOptionHolder.style.display = "none";
           scaleHold.append(stapelOptionHolder);
 
@@ -3657,13 +3743,15 @@ const MidSection = React.forwardRef((props, ref) => {
 
           const likertScaleArray = document.createElement("div");
           likertScaleArray.className = "likert_Scale_Array";
-          likertScaleArray.textContent = element?.raw_data?.likertScaleArray || '';
+          likertScaleArray.textContent =
+            element?.raw_data?.likertScaleArray || "";
           likertScaleArray.style.display = "none";
           scaleHold.append(likertScaleArray);
 
           const optionHolderLikert = document.createElement("div");
           optionHolderLikert.className = "likert_Option_Holder";
-          optionHolderLikert.textContent = element?.raw_data?.likertOptionHolder || '';
+          optionHolderLikert.textContent =
+            element?.raw_data?.likertOptionHolder || "";
           optionHolderLikert.style.display = "none";
           scaleHold.append(optionHolderLikert);
 
@@ -4247,7 +4335,6 @@ const MidSection = React.forwardRef((props, ref) => {
               }
             }
           } else if (scaleTypeHolder.textContent === "likert") {
-
             const likertScale = likertScaleArray.textContent.split(",");
             const numRows = Math.ceil(likertScale / 3);
             const numColumns = Math.min(likertScale, 3);
@@ -4431,51 +4518,71 @@ const MidSection = React.forwardRef((props, ref) => {
                 }
               }
             }
-            
           } else if (scaleTypeHolder.textContent === "percent_scale") {
-            labelHold.style.display = "flex";
-            labelHold.style.justifyContent = "center";
-            labelHold.style.flexDirection = "column";
-            labelHold.style.border = "none";
-            const inputPercent = document.createElement("input");
-            inputPercent.type = "range";
-            inputPercent.min = "0";
-            inputPercent.max = "100";
-            inputPercent.value = element?.raw_data?.percentCenter;
-            inputPercent.className = "percent-slider";
-            inputPercent.style.width = "100%";
-            inputPercent.style.cursor = "pointer";
-            inputPercent.style.background =
-              element?.raw_data?.percentBackground;
-            inputPercent.style.webkitAppearance = "none";
-            inputPercent.style.borderRadius = "10px";
+            let prodLength = element?.raw_data?.percentLabel;
+            console.log(prodLength);
 
-            labelHold.appendChild(inputPercent);
+            for (let i = 0; i < prodLength; i++) {
+              let originalText = element?.raw_data?.percentCenter[i];
+              let percentValue = originalText?.replace("%", "");
+              labelHold.style.display = "flex";
+              labelHold.style.justifyContent = "center";
+              labelHold.style.height = "100%";
+              labelHold.style.flexDirection = "column";
+              labelHold.style.border = "none";
 
-            let percentChilds = document.createElement("div");
-            percentChilds.style.display = "flex";
-            percentChilds.style.width = "100%";
-            percentChilds.style.alignItems = "center";
-            percentChilds.style.justifyContent = "space-between";
+              let conatainerDIV = document.createElement("div");
+              conatainerDIV.style.width = "95%";
+              conatainerDIV.style.padding = "10px";
+              conatainerDIV.style.border = "1px solid gray";
+              labelHold.append(conatainerDIV);
 
-            let leftPercent = document.createElement("div");
-            leftPercent.textContent = "0";
-            leftPercent.className = "left-percent";
-            percentChilds.appendChild(leftPercent);
+              let nameDiv = document.createElement("div");
+              nameDiv.className = "product_name";
+              nameDiv.style.textAlign = "center";
+              nameDiv.style.fontWeight = "700";
+              nameDiv.textContent = element?.raw_data?.percentProdName[i];
+              conatainerDIV.appendChild(nameDiv);
 
-            let centerPercent = document.createElement("div");
-            centerPercent.textContent = `${element?.raw_data?.percentCenter}%`;
-            centerPercent.className = "center-percent";
-            percentChilds.appendChild(centerPercent);
+              const inputPercent = document.createElement("input");
+              inputPercent.type = "range";
+              inputPercent.min = "0";
+              inputPercent.max = "100";
+              inputPercent.value = percentValue;
+              inputPercent.className = "percent-slider";
+              inputPercent.style.width = "100%";
+              inputPercent.style.cursor = "pointer";
+              inputPercent.style.background =
+                element?.raw_data?.percentBackground;
+              inputPercent.style.webkitAppearance = "none";
+              inputPercent.style.borderRadius = "10px";
+              conatainerDIV.appendChild(inputPercent);
 
-            let rightPercent = document.createElement("div");
-            rightPercent.textContent = "100";
-            rightPercent.className = "right-percent";
-            percentChilds.appendChild(rightPercent);
+              let percentChilds = document.createElement("div");
+              percentChilds.style.display = "flex";
+              percentChilds.style.width = "100%";
+              percentChilds.style.alignItems = "center";
+              percentChilds.style.justifyContent = "space-between";
 
-            labelHold.appendChild(percentChilds);
-            if (!token) {
-              return res.status(401).json({ error: "Unauthorized" });
+              let leftPercent = document.createElement("div");
+              leftPercent.textContent = "0";
+              leftPercent.className = "left-percent";
+              percentChilds.appendChild(leftPercent);
+
+              let centerPercent = document.createElement("div");
+              centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
+              centerPercent.className = "center-percent";
+              percentChilds.appendChild(centerPercent);
+
+              let rightPercent = document.createElement("div");
+              rightPercent.textContent = "100";
+              rightPercent.className = "right-percent";
+              percentChilds.appendChild(rightPercent);
+
+              conatainerDIV.appendChild(percentChilds);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
             }
           }
 
@@ -4817,8 +4924,8 @@ const MidSection = React.forwardRef((props, ref) => {
           dropdownField.onclick = (e) => {
             // focuseddClassMaintain(e);
             table_dropdown_focuseddClassMaintain(e);
-            if(e.ctrlKey) {
-              copyInput("dropdown2")
+            if (e.ctrlKey) {
+              copyInput("dropdown2");
             }
             handleClicked("dropdown2");
             setRightSideDropDown(false);
@@ -5996,7 +6103,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scale2: false,
         container2: false,
         newScale2: false,
-        payment2: false
+        payment2: false,
       });
     }
   };
@@ -8055,7 +8162,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   setElements(updatedElements);
   // };
 
-  
   // const handleDragStart = () => {
   //   // Save the current state before dragging starts
   //   positionHistoryRef.current = elements.present;

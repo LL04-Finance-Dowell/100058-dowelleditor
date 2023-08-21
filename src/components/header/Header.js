@@ -2613,23 +2613,37 @@ const Header = () => {
           let likertScaleArray = "";
 
           if (scaleType.textContent === "likert") {
-            likertScaleArray = newScales[b].querySelector(".likert_Scale_Array");
+            likertScaleArray = newScales[b].querySelector(
+              ".likert_Scale_Array"
+            );
           }
 
           let percentBackground = "";
+          let percentLabel = "";
           let percentLeft = "";
-          let percentCenter = "";
+          let percentCenter = [];
           let percentRight = "";
+          let prodName = [];
 
           if (scaleType.textContent === "percent_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
-            percentLeft = newScales[b].querySelector(".left-percent");
-            percentCenter = newScales[b].querySelector(".center-percent");
-            var currentText = percentCenter.textContent;
-            var textWithoutPercent = currentText.replace("%", "");
+            percentLabel = newScales[b]?.querySelectorAll(".label_hold");
 
-            // Set the modified text back to the element
-            percentCenter.textContent = textWithoutPercent;
+            percentLabel.forEach((elem) => {
+              prodName.push(elem.querySelector(".product_name")?.textContent);
+              percentCenter.push(
+                elem.querySelector(".center-percent")?.textContent
+              );
+              console.log(prodName);
+              console.log(percentCenter);
+            });
+            percentLeft = newScales[b].querySelector(".left-percent");
+            // percentCenter = newScales[b].querySelector(".center-percent");
+            // var currentText = percentCenter.textContent;
+            // var textWithoutPercent = currentText.replace("%", "");
+
+            // // Set the modified text back to the element
+            // percentCenter.textContent = textWithoutPercent;
             percentRight = document.querySelector(".right-percent");
           }
           let properties = {
@@ -2648,10 +2662,11 @@ const Header = () => {
             stapelScaleArray: stapelScaleArray.textContent,
             npsLiteTextArray: npsLiteTextArray.textContent,
             likertScaleArray: likertScaleArray.textContent,
+            percentProdName: prodName,
             percentBackground: percentBackground?.style?.background,
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
-            percentRight: percentRight?.textContent,   
+            percentRight: percentRight?.textContent,
           };
           console.log(properties);
           elem = {
@@ -3028,7 +3043,7 @@ const Header = () => {
 
     let scaleId;
     let holdElem;
-    let documentResponses = []
+    let documentResponses = [];
 
     scaleElements.forEach((scale) => {
       console.log(scale);
@@ -3045,7 +3060,7 @@ const Header = () => {
       user: authorizedLogin(),
       scale_id: scaleId,
       score: holdElem,
-      response: documentResponses
+      response: documentResponses,
     };
 
     Axios.post(
@@ -3202,13 +3217,13 @@ const Header = () => {
             if (scaleType.textContent === "nps") {
               handleFinalizeButton();
             } else if (scaleType.textContent === "snipte") {
-              handleFinalizeButtonStapel()
+              handleFinalizeButtonStapel();
             } else if (scaleType.textContent === "nps_lite") {
               handleFinalizeButtonNpsLite();
             } else if (scaleType.textContent === "likert") {
               handleFinalizeButtonLikert();
             }
-         
+
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3232,7 +3247,6 @@ const Header = () => {
             // if (circle.style.width === "80%" && circle.style.height === "55%") {
             //   handleFinalizeButtonLikert();
             // }
-
           }
           setIsLoading(false);
           setIsDataSaved(true);
