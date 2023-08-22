@@ -37,6 +37,8 @@ const ScaleRightSide = () => {
   const [addedAns, setAddedAns] = useState([]);
 
   const [inputStr, setInputStr] = useState("");
+  const [upperLimit, setUpperLimit] = useState("")
+  const [space, setSpace] = useState("")
   const [showPicker, setShowPicker] = useState(false);
   const [isSwitchEnabled, setIsSwitchEnabled] = useState(false);
   const [score, setScore] = useState(false);
@@ -329,12 +331,15 @@ const ScaleRightSide = () => {
     if (selectedValue === "number") {
       document.getElementById("emoji_stapel").style.display = "none";
       document.getElementById("image").style.display = "none";
+      setIsEmojiFormat(false)
     } else if (selectedValue === "emoji") {
       document.getElementById("emoji_stapel").style.display = "flex";
       document.getElementById("image").style.display = "none";
+      setIsEmojiFormat(true)
     } else if (selectedValue === "image") {
       document.getElementById("image").style.display = "flex";
       document.getElementById("emoji").style.display = "none";
+      setIsEmojiFormat(false)
     }
   };
 
@@ -1004,48 +1009,27 @@ const ScaleRightSide = () => {
       const lowerVal = -upperVal;
       tempText?.remove();
 
-      if (beNametnUpdateScal.value !== "") {
-        scaleText.textContent = beNametnUpdateScal.value;
-      }
-
       // for (let i = 0; i < buttonCircle.length; i++) {
       //   if (btnUpdateButton.value !== "") {
       //     buttonCircle[i].style.backgroundColor = btnUpdateButton.value;
       //   }
       // }
 
-      if (btnUpdateFontColor.value !== "") {
-        button4.style.color = btnUpdateFontColor.value;
-      }
-
-      if (btnUpdateScaleFontStapel.value !== "") {
-        button4.style.fontFamily = btnUpdateScaleFontStapel.value;
-      }
-
       // if (scaleText) {
       //   console.log(scaleText);
       //   scaleText.innerHTML = "Stapel scale";
       // }
 
-      buttonChildLeft.textContent = btnUpdateLeft.value;
-      if (btnUpdateCenter.value !== "") {
-        buttonChildNeutral.textContent = "";
-      }
-      buttonChildRight.textContent = btnUpdateRight.value;
-
       const stapelScaleArray = document.createElement("div");
       stapelScaleArray.className = "stapelScaleArray";
       stapelScaleArray.textContent = "";
       stapelScaleArray.style.display = "none";
-      labelHold.append(stapelScaleArray);
 
       // Construct row of values
       const selectedOption = optionSelect.value;
       const optionHolder = document.createElement("div");
       optionHolder.className = "stapelOptionHolder";
-      optionHolder.textContent = optionSelect.value;
       optionHolder.style.display = "none";
-      labelHold.appendChild(optionHolder);
 
       const prepareEmojiLabels = () => {
         const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
@@ -1060,7 +1044,7 @@ const ScaleRightSide = () => {
           Math.abs(upperVal) + Math.abs(lowerVal) + spacing
         );
 
-        for (let i = lowerVal; i <= upperVal; i += spacing) {
+        for (let i = (-Math.floor(upperLimit/space) * 2); i < (Math.floor(upperLimit/space) * 2); i += spacing) {
           if (i !== 0) {
             const emojiIndex =
               (i >= 0 ? i - lowerVal : Math.abs(upperVal) + i) % selectedCount;
@@ -1138,7 +1122,7 @@ const ScaleRightSide = () => {
             left: btnUpdateLeft.value,
             right: btnUpdateRight.value,
             label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-            fontstyle: "Arial",
+            fontstyle: btnUpdateScaleFontStapel.value,
             custom_emoji_format: emojiLabels,
           }
         )
@@ -1156,22 +1140,20 @@ const ScaleRightSide = () => {
               idHolder.textContent = id && id;
             }
 
-            stapelScaleArray.textContent = res.data.data.settings.scale;
             console.log("This is the stapel  scale response", res.data.data);
             console.log("This is scale type holder",scaleTypeHolder.textContent);
-            console.log(stapelScaleArray);
+            const scaleArr = res.data.data.settings.scale
+            const fomart = res.data.data.settings.fomat
 
             button4.style.display = "block";
 
             // Clear existing values
             labelHold.innerHTML = "";
 
-            for (let i = lowerVal; i <= upperVal; i += spacing) {
-              const selectedOption = optionSelect.value;
-              if (i !== 0) {
+            for (let i = 0; i < scaleArr.length; i++) {
                 const circle = document.createElement("div");
                 circle.className = "circle_label";
-                circle.textContent = i;
+                circle.textContent = scaleArr[i];
                 labelHold.appendChild(circle);
                 circle.style.width = "35%";
                 circle.style.height = "35%";
@@ -1181,22 +1163,26 @@ const ScaleRightSide = () => {
                 circle.style.alignItems = "center";
                 circle.style.margin = "0 2px";
                 circle.style.backgroundColor = res.data.data.settings.roundcolor;
-                if (selectedOption === "emoji" && emojiInp !== "") {
+                if (fomart === "emoji") {
                   // Set the text content of the div to the corresponding emoji
-                  const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-                  const emojis = emojiInp
-                    .split(emojiFormat)
-                    .filter((emoji) => emoji !== "");
-                  circle.textContent = emojis[(i - lowerVal) % emojis.length];
+                  circle.textContent = res.data.data.settings.custom_emoji_format[scaleArr[i]];
                   circle.style.fontSize = "1.8vw";
                 } else {
                   // Set the text content of the div to the number
-                  circle.textContent = i;
+                  circle.textContent = scaleArr[i];
                 }
-              }
             }
             
             button.style.backgroundColor = res.data.data.settings.scalecolor;
+            button4.style.color = res.data.data.settings.fontcolor;
+            scaleText.textContent = res.data.data.settings.name;
+            buttonChildLeft.textContent = res.data.data.settings.left;
+            buttonChildRight.textContent = res.data.data.settings.right;
+            optionHolder.textContent = res.data.data.settings.fomat
+            button4.style.fontFamily = res.data.data.settings.fontstyle;
+            labelHold.appendChild(optionHolder);
+            stapelScaleArray.textContent = res.data.data.settings.scale;
+            labelHold.append(stapelScaleArray);
           })
           .catch((err) => {
             setIsLoading(false);
@@ -1233,7 +1219,46 @@ const ScaleRightSide = () => {
               savedOptionHolder.textContent = res.data.data.settings.fomat;
               console.log("This is the option", savedOptionHolder.textContent);
               console.log("This is stapel update", res.data.data);
+              const scaleArr = res.data.data.settings.scale
+              const fomart = res.data.data.settings.fomat
               console.log(savedStapelScaleArr);
+              button4.style.display = "block";
+
+            // Clear existing values
+            labelHold.innerHTML = "";
+
+            for (let i = 0; i < scaleArr.length; i++) {
+                const circle = document.createElement("div");
+                circle.className = "circle_label";
+                circle.textContent = scaleArr[i];
+                labelHold.appendChild(circle);
+                circle.style.width = "35%";
+                circle.style.height = "35%";
+                circle.style.borderRadius = "50%";
+                circle.style.display = "flex";
+                circle.style.justifyContent = "center";
+                circle.style.alignItems = "center";
+                circle.style.margin = "0 2px";
+                circle.style.backgroundColor = res.data.data.settings.roundcolor;
+                if (fomart === "emoji") {
+                  // Set the text content of the div to the corresponding emoji
+                  circle.textContent = res.data.data.settings.custom_emoji_format[scaleArr[i]];
+                  circle.style.fontSize = "1.8vw";
+                } else {
+                  // Set the text content of the div to the number
+                  circle.textContent = scaleArr[i];
+                }
+            }
+            
+            button.style.backgroundColor = res.data.data.settings.scalecolor;
+            button4.style.color = res.data.data.settings.fontcolor;
+            scaleText.textContent = res.data.data.settings.name;
+            buttonChildLeft.textContent = res.data.data.settings.left;
+            buttonChildRight.textContent = res.data.data.settings.right;
+            optionHolder.textContent = res.data.data.settings.fomat;
+            labelHold.appendChild(optionHolder);
+            stapelScaleArray.textContent = res.data.data.settings.scale;
+            labelHold.append(stapelScaleArray);
             }
           })
           .catch((err) => {
@@ -2424,7 +2449,7 @@ const ScaleRightSide = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "2px",
-                width: "40%",
+                width: "100%",
                 paddingLeft: "12px",
               }}
             >
@@ -2432,18 +2457,16 @@ const ScaleRightSide = () => {
                 {scaleTypeHolder?.textContent === "" &&
                 scaleTypeContent === "" ? (
                   <div>
-                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
-                      Scales
-                    </h6>
                     <div
                       style={{
                         padding: "3px 7px",
                         borderRadius: "7px",
                         // height: "30px",
-                        width: "200%",
+                        width: "100%",
                         // alignItems: "center",
                         fontWeight: "600",
                         fontSize: "16px",
+                        marginLeft: '0'
                       }}
                     >
                       <div>
@@ -2453,9 +2476,9 @@ const ScaleRightSide = () => {
                           // onChange={handleDateMethod}
                           className="select border-0 bg-white rounded w-100 h-75 p-2"
                           //multiple
-                          style={{ marginBottom: "40px" }}
+                          style={{marginBottom: "6px", width: "100%"}}
                         >
-                          <option>Select Scales</option>
+                          <option>Select Scale</option>
                           <option value="snipte">Stapel Scale</option>
                           <option value="nps">Nps Scale</option>
                           <option value="nps_lite">Nps Lite Scale</option>
@@ -3186,6 +3209,7 @@ const ScaleRightSide = () => {
                             alignItems: "center",
                           }}
                           id="scaleLabel"
+                          disabled = {isEmojiFormat === true && (inputStr.length < 22 || inputStr.length > 22) ? true : false}
                         />
                       </div>
                     </div>
@@ -3617,6 +3641,7 @@ const ScaleRightSide = () => {
                           alignItems: "center",
                         }}
                         id="upperVal"
+                        onChange={(e) => setUpperLimit(e.target.value)}
 
                         // onChange={upperValueChange}
                       />
@@ -3656,6 +3681,7 @@ const ScaleRightSide = () => {
                           alignItems: "center",
                         }}
                         id="spacing"
+                        onChange={(e) => setSpace(e.target.value)}
                         // value={-upperVal}
                       />
                     </div>
@@ -3969,9 +3995,10 @@ const ScaleRightSide = () => {
                             right: "-14px",
                             // top: "1px",
                           }}
-                          onClick={() => setShowPicker(!showPicker)}
+                          onClick={() =>inputStr.length === (Math.floor(upperLimit/space) * 2) * 2 ? "" : setShowPicker(!showPicker)}
                         />
                       </div>
+                      {inputStr.length < ((Math.floor(upperLimit/space) * 2) * 2) || (inputStr.length > (Math.floor(upperLimit/space) * 2) * 2) ? <p style={{fontSize:'small', color:'red'}}>select {(Math.floor(upperLimit/space) * 2)} emojis</p> : ""}
                     </div>
                     <div
                       style={{
@@ -4075,6 +4102,7 @@ const ScaleRightSide = () => {
                             alignItems: "center",
                           }}
                           id="leftStapel"
+                          disabled = {isEmojiFormat === true && (inputStr.length < (Math.floor(upperLimit/space) * 2) * 2 || inputStr.length > (Math.floor(upperLimit/space) * 2) * 2) ? true : false}
                         />
                       </div>
                     </div>
@@ -4116,6 +4144,7 @@ const ScaleRightSide = () => {
                           //   rightChild ? rightChild.innerHTML : ""
                           // }
                           id="rightStapel"
+                          disabled = {isEmojiFormat === true && (inputStr.length < (Math.floor(upperLimit/space) * 2) * 2 || inputStr.length > (Math.floor(upperLimit/space) * 2) * 2) ? true : false}
                         />
                       </div>
                     </div>
@@ -4156,6 +4185,7 @@ const ScaleRightSide = () => {
                           alignItems: "center",
                         }}
                         id="scaleLabel_stapel"
+                        disabled = {isEmojiFormat === true && (inputStr.length < (Math.floor(upperLimit/space) * 2) * 2 || inputStr.length > (Math.floor(upperLimit/space) * 2) * 2) ? true : false}
                       />
                     </div>
                   </div>
@@ -4280,6 +4310,7 @@ const ScaleRightSide = () => {
                         width="50%"
                         marginTop="60px"
                         onClick={handleUpdates}
+                        disabled = {isEmojiFormat === true && (inputStr.length < (Math.floor(upperLimit/space) * 2) * 2 || inputStr.length > (Math.floor(upperLimit/space) * 2) * 2) ? true : false}
                       >
                         Update
                       </Button>
