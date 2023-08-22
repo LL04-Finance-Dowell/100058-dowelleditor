@@ -85,7 +85,7 @@ table{
   height: 100%;
 }
 
-td,th{
+td{
   min-height: 2rem;
   position: relative;
   min-width: 2.5rem;
@@ -124,6 +124,14 @@ td,th{
 }
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+.tableInput{
+  overflow: visible !important;
+}
+
+.target-el img{
+  height: clamp(0.5rem,1.5rem,2.5rem);
+  width: clamp(0.5rem, 2rem,3rem);
 }
 
 .addImageButtonInput{

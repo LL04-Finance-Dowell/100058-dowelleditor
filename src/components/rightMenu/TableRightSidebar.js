@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import deleteSVG from "../../assets/tableicons/delete-button-svgrepo-com.svg"
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
@@ -293,7 +293,6 @@ const TableRightSidebar = () => {
       signField.style.position = "absolute";
       signField.style.top = 0;
       signField.style.left = 0;
-      e.target.style.position = "relative";
 
       // signField.onchange = (event) => {
       //   event.preventDefault();
@@ -349,8 +348,6 @@ const TableRightSidebar = () => {
       // signField.append(para);
       e.target.append(signField);
       e.target.append(imageSignButton);
-      e.target.style.width = signField.style.width;
-      e.target.style.height = signField.style.height;
     }
     else if (typeOfOperation === "DATE_INPUT") {
       let dateField = document.createElement("div");
@@ -562,8 +559,6 @@ const TableRightSidebar = () => {
           resizer.addEventListener("mousedown", (e) => {
             let x = 0;
             let w = 0;
-
-
           })
           createResizableColumn(td, resizer)
           td.appendChild(resizer);
@@ -582,19 +577,21 @@ const TableRightSidebar = () => {
       rowResizeCell.appendChild(resizer)
       createResizableRow(rowResizeCell, resizer)
       table.appendChild(tr);
-      
-      const resizeObserver = new ResizeObserver(entries=>{
-        entries.forEach(entry=>{
-        // console.log("Observing: ",entry.target);
-         const width = entry.contentRect.width;
-         const height = entry.contentRect.height;
-         const table = entry.target
-         setColRowSize(table,width,height)
-        //  console.log("called setcolrowsize");
+
+      const resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+          // console.log("Observing: ",entry.target);
+          const width = entry.contentRect.width;
+          const height = entry.contentRect.height;
+          const table = entry.target
+          const holderDIV = table.parentElement.parentElement
+
+          setColRowSize(table, width, height, holderDIV)
+          //  console.log("called setcolrowsize");
         })
       })
       resizeObserver.observe(table)
-     
+
       tableDiv.appendChild(table);
       setColRowSize(table);
       var tablee = document.querySelector(".focussed").firstElementChild;
@@ -626,7 +623,7 @@ const TableRightSidebar = () => {
           // }
           e.target.classList.add("table_drag");
           if (e.target.childNodes.length < 2) {
-            if(e.target.tagName.toLowerCase()== "td"){
+            if (e.target.tagName.toLowerCase() == "td") {
               e.target.style.border = "3px solid blue";
             };
           }
@@ -643,7 +640,7 @@ const TableRightSidebar = () => {
             e.target.childNodes.length < 2 &&
             !e.target.classList.contains("imageInput")
           ) {
-            if(e.target.tagName.toLowerCase()== "td"){
+            if (e.target.tagName.toLowerCase() == "td") {
               e.target.style.border = "1px solid black";
             };
           }
@@ -664,26 +661,27 @@ const TableRightSidebar = () => {
     setIsCreateTableBtnDisabled(true);
   }
 
-  const setColRowSize = (table,width=null,height=null)=>{
+  const setColRowSize = (table, width = null, height = null) => {
     const col_resizers = table.querySelectorAll('.td-resizer');
-      const row_resizers = table.querySelectorAll('.row-resizer');
-      for (const resizer of col_resizers) {
-        if(height){
-          resizer.style.height = `${height}px`
-          // console.log("set height: ",height);
-        }else{
-          resizer.style.height = `${table.offsetHeight}px`
+    const row_resizers = table.querySelectorAll('.row-resizer');
+    for (const resizer of col_resizers) {
+      if (height) {
+        resizer.style.height = `${height}px`
+        // console.log("set height: ",height);
+      } else {
+        resizer.style.height = `${table.offsetHeight}px`
 
-        }
       }
-      for (const resizer of row_resizers) {
-        if(width){
-          resizer.style.width = `${width}px`
-          // console.log("set witdh: ",width);
-        }else{
-          resizer.style.width = `${table.offsetWidth}px`
-        }
+    }
+    for (const resizer of row_resizers) {
+      if (width) {
+        resizer.style.width = `${width}px`
+        // console.log("set witdh: ",width);
+      } else {
+        resizer.style.width = `${table.offsetWidth}px`
       }
+    }
+
   }
   const createResizableRow = (row, resizer) => {
     // Track the current position of the mouse
@@ -692,7 +690,7 @@ const TableRightSidebar = () => {
 
     const mouseDownHandler = function (e) {
       const holderDiv = row.parentElement.parentElement.parentElement.parentElement
-       holderDiv.removeAttribute('draggable');
+      holderDiv.removeAttribute('draggable');
       // Get the current mouse position
       y = e.clientY;
 
@@ -728,9 +726,7 @@ const TableRightSidebar = () => {
 
     const mouseDownHandler = function (e) {
       const holderDiv = col.parentElement.parentElement.parentElement.parentElement
-      e.stopPropagation()
-      holderDiv.removeAttribute('draggable');
-      console.log(holderDiv.attributes)
+           holderDiv.removeAttribute('draggable');
       // Get the current mouse position
       x = e.clientX;
 
@@ -795,7 +791,7 @@ const TableRightSidebar = () => {
           e.preventDefault();
           e.target.classList.add("table_drag");
           if (!e.target.hasChildNodes()) {
-            if(e.target.tagName.toLowerCase()== "td"){
+            if (e.target.tagName.toLowerCase() == "td") {
               e.target.style.border = "3px solid blue";
             };
           }
@@ -812,7 +808,7 @@ const TableRightSidebar = () => {
             e.target.childNodes.length < 2 &&
             !e.target.classList.contains("imageInput")
           ) {
-            if(e.target.tagName.toLowerCase()== "td"){
+            if (e.target.tagName.toLowerCase() == "td") {
               e.target.style.border = "1px solid black";
             };
           }
@@ -872,7 +868,8 @@ const TableRightSidebar = () => {
           const colDeleteBtn = document.createElement("button");
           colDeleteBtn.className = "btn btn-warning target-el";
           colDeleteBtn.style.marginLeft = "5px";
-          colDeleteBtn.innerText = "Del Col";
+          const deleteIcon = `<img src="${deleteSVG}"/>`
+          colDeleteBtn.innerHTML = deleteIcon
           colDeleteBtn.onclick = (e) => {
             const index = Array.from(
               e.target.parentElement.parentElement.children
@@ -901,7 +898,8 @@ const TableRightSidebar = () => {
             const rowDeleteBtn = document.createElement("button");
             rowDeleteBtn.className = "btn btn-warning target-el";
             rowDeleteBtn.style.marginLeft = "5px";
-            rowDeleteBtn.innerText = "Del Row";
+            const deleteIcon = `<img src="${deleteSVG}"/>`
+            rowDeleteBtn.innerHTML = deleteIcon;
             rowDeleteBtn.onclick = (e) => {
               e.target?.parentElement?.parentElement?.remove();
               e.stopPropagation();
@@ -979,7 +977,7 @@ const TableRightSidebar = () => {
             e.target.childNodes.length < 2 &&
             !e.target.classList.contains("imageInput")
           ) {
-            if(e.target.tagName.toLowerCase()== "td"){
+            if (e.target.tagName.toLowerCase() == "td") {
               e.target.style.border = "1px solid black";
             };
           }
@@ -1004,7 +1002,8 @@ const TableRightSidebar = () => {
       const rowDeleteBtn = document.createElement("button");
       rowDeleteBtn.className = "btn btn-warning target-el";
       rowDeleteBtn.style.marginLeft = "5px";
-      rowDeleteBtn.innerText = "Del Row";
+      const deleteIcon = `<img src="${deleteSVG}"/>`
+      rowDeleteBtn.innerHTML = deleteIcon;
       rowDeleteBtn.onclick = (e) => {
         e.target?.parentElement?.parentElement?.remove();
         e.stopPropagation();
@@ -1142,9 +1141,11 @@ const TableRightSidebar = () => {
         td.className = "dropp";
         td.style.height = "50px";
         const colDeleteBtn = document.createElement("button");
+        const deleteIcon = `<img src="${deleteSVG}"/>`
+        colDeleteBtn.innerHTML = deleteIcon
         colDeleteBtn.className = "btn btn-warning target-el";
         colDeleteBtn.style.marginLeft = "5px";
-        colDeleteBtn.innerText = "Del Col";
+
         colDeleteBtn.onclick = (e) => {
           const index = Array.from(
             e.target.parentElement.parentElement.children
