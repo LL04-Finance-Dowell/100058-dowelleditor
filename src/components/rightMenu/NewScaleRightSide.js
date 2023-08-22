@@ -42,6 +42,12 @@ const ScaleRightSide = () => {
   const [score, setScore] = useState(false);
   const [showBorder, setShowBorder] = useState(true);
   const [holdText, setHoldText] = useState("");
+  const [isEmojiFormat, setIsEmojiFormat] = useState(false);
+
+  const [productCount, setProductCount] = useState(1);
+  const [inputFields, setInputFields] = useState([
+    <input key={0} type="text" placeholder="Product 1" required />,
+  ]);
 
   const fontStyles = [
     "Arial",
@@ -204,6 +210,7 @@ const ScaleRightSide = () => {
   }
   var format = document.getElementById("format");
   var npsLiteFormat = document.getElementById("format_nps_lite");
+  // var likertScaleFormat = document.getElementById("label_type_linkert");
   const scaleDisplay = scale?.querySelector(".scool_input");
 
   // var imageLabel = scale?.querySelector(".images_label");
@@ -217,6 +224,30 @@ const ScaleRightSide = () => {
     if (npsLiteFormat) {
       npsLiteFormat.selectedIndex = withEmoji.test(circleLabel) ? 1 : 0;
     }
+    // if (likertScaleFormat) {
+    //   likertScaleFormat.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    // }
+  }
+
+  var likertFontColor = document.getElementById("font_color_likert");
+  if (likertFontColor) {
+    likertFontColor.defaultValue = fontColor;
+  }
+
+  var button_colorLikert = document.getElementById("button_color_likert");
+  if (button_colorLikert) {
+    button_colorLikert.defaultValue = circles;
+  }
+  var slider_color_percent_scale = document.getElementById(
+    "slider_color_percent_scale"
+  );
+  if (slider_color_percent_scale) {
+    slider_color_percent_scale.defaultValue = scaleBg;
+    // }
+  }
+  var font_color_percent = document.getElementById("font_color_percent");
+  if (font_color_percent) {
+    font_color_percent.defaultValue = fontColor;
   }
 
   if (scaleTypeHolder?.textContent === "percent_scale") {
@@ -235,12 +266,15 @@ const ScaleRightSide = () => {
     if (selectedValue === "number") {
       document.getElementById("emoji").style.display = "none";
       document.getElementById("image").style.display = "none";
+      setIsEmojiFormat(false)
     } else if (selectedValue === "emoji") {
       document.getElementById("emoji").style.display = "flex";
       document.getElementById("image").style.display = "none";
+      setIsEmojiFormat(true)
     } else if (selectedValue === "image") {
       document.getElementById("image").style.display = "flex";
       document.getElementById("emoji").style.display = "none";
+      setIsEmojiFormat(false)
     }
   };
 
@@ -267,8 +301,8 @@ const ScaleRightSide = () => {
     } else if (format === "likert") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "none";
-      document.getElementById("likertScaleForm").style.display = "flex";
       document.getElementById("npsLiteScaleForm").style.display = "none";
+      document.getElementById("likertScaleForm").style.display = "flex";
       document.getElementById("percentScaleForm").style.display = "none";
     } else if (format === "percent_scale") {
       document.getElementById("snippScaleForm").style.display = "none";
@@ -322,6 +356,10 @@ const ScaleRightSide = () => {
   // }, []);
 
   useEffect(() => {
+    if (scaleTypeHolder.textContent !== "") {
+      setScaleTypeContent(scaleTypeHolder.textContent);
+    }
+
     if (decoded.details.action === "template") {
       if (scaleTypeContent === "" && scaleTypeHolder.textContent === "") {
         document.getElementById("npsScaleForm").style.display = "none";
@@ -367,7 +405,7 @@ const ScaleRightSide = () => {
         document.getElementById("likertScaleForm").style.display = "flex";
         document.getElementById("npsScaleForm").style.display = "none";
         document.getElementById("snippScaleForm").style.display = "none";
-        document.getElementById("snippScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "percent_scale") &&
@@ -377,11 +415,12 @@ const ScaleRightSide = () => {
         document.getElementById("likertScaleForm").style.display = "none";
         document.getElementById("npsScaleForm").style.display = "none";
         document.getElementById("snippScaleForm").style.display = "none";
-        document.getElementById("snippScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "flex";
       }
     }
   }, []);
+
 
   const [labelType, setLabelType] = useState("Select Label Type");
   const [labelScale, setLabelScale] = useState("--Select Choice--");
@@ -412,7 +451,22 @@ const ScaleRightSide = () => {
       setActiveEmojiPicker(null); // Reset active emoji picker for text label type
     }
   };
+
+  // var likertText = document.querySelectorAll("label-text-input");
+  // const updatedLabels = labelType === "Text" ? labelTexts : selectedEmojis;
+  // if (likertText) {
+  //   likertText.defaultValue = updatedLabels;
+  // }
+
   const handleEmojiChange = (index, emoji) => {
+    // Check if the emoji is already selected for another input
+    if (selectedEmojis.includes(emoji)) {
+      alert(
+        "This emoji is already selected for another input. Please select a different emoji."
+      );
+      return;
+    }
+
     const updatedSelectedEmojis = [...selectedEmojis];
     updatedSelectedEmojis[index] = emoji;
     setSelectedEmojis(updatedSelectedEmojis);
@@ -423,6 +477,13 @@ const ScaleRightSide = () => {
     updatedLabelTexts[index] = event.target.value;
     setLabelTexts(updatedLabelTexts);
   };
+
+  const areAllTextInputsFilled = labelTexts.every(labelText => labelText.trim() !== '');
+  const areAllImageEmojisFilled = selectedEmojis.some(emoji => emoji);
+
+  const isUpdateButtonDisabled =
+    (labelType === "Text" && (!areAllTextInputsFilled || labelScale === "--Select Choice--")) ||
+    (labelType === "Image" && (!areAllImageEmojisFilled || labelScale === "--Select Choice--"));
 
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -474,8 +535,12 @@ const ScaleRightSide = () => {
 
   const onEmojiClick = (emojiObject) => {
     const emoji = emojiObject.emoji;
-    setInputStr((prevInputStr) => prevInputStr + emoji);
-    setShowPicker(false);
+    if(inputStr.includes(emoji)){
+      alert("The is already selected")
+    }else{
+      setInputStr((prevInputStr) => prevInputStr + emoji);
+      setShowPicker(false);
+    }
   };
   const [borderSize, setBorderSize] = useState(
     Number(localStorage.getItem("borderSize")) || 0
@@ -532,6 +597,21 @@ const ScaleRightSide = () => {
     const iframe = document.querySelector("iframe");
     iframe?.contentWindow?.postMessage(message, "*");
   }
+
+  const handleProductCountChange = (e) => {
+    const newCount = parseInt(e.target.value, 10) || 0;
+    setProductCount(newCount);
+
+    // Update the input fields array
+    const newInputFields = [];
+    for (let i = 0; i < newCount; i++) {
+      newInputFields.push(
+        <input key={i} type="text" placeholder={`Product ${i + 1}`} required />
+      );
+    }
+    setInputFields(newInputFields);
+  };
+
   function scaleSubmit(e) {
     console.log(selectedOptions);
     console.log(selectedOptions[0]);
@@ -566,7 +646,7 @@ const ScaleRightSide = () => {
     const scaleTypeHolder = scale?.querySelector(".scaleTypeHolder");
     scaleTypeHolder.textContent = scaleType
       ? scaleType.value
-      : scaleTypeHolder.textContent;
+      : scaleTypeContent;
     if (
       scaleType
         ? scaleType.value === "nps" || scaleTypeContent === "nps"
@@ -931,9 +1011,6 @@ const ScaleRightSide = () => {
       const spacing = parseInt(document.getElementById("spacing").value, 10);
       const lowerVal = -upperVal;
       tempText?.remove();
-      if (btnUpdateScale.value !== "") {
-        button.style.backgroundColor = btnUpdateScale.value;
-      }
 
       if (beNametnUpdateScal.value !== "") {
         scaleText.textContent = beNametnUpdateScal.value;
@@ -963,10 +1040,6 @@ const ScaleRightSide = () => {
         buttonChildNeutral.textContent = "";
       }
       buttonChildRight.textContent = btnUpdateRight.value;
-      button4.style.display = "block";
-
-      // Clear existing values
-      labelHold.innerHTML = "";
 
       const stapelScaleArray = document.createElement("div");
       stapelScaleArray.className = "stapelScaleArray";
@@ -981,35 +1054,6 @@ const ScaleRightSide = () => {
       optionHolder.textContent = optionSelect.value;
       optionHolder.style.display = "none";
       labelHold.appendChild(optionHolder);
-      for (let i = lowerVal; i <= upperVal; i += spacing) {
-        const selectedOption = optionSelect.value;
-        if (i !== 0) {
-          const circle = document.createElement("div");
-          circle.className = "circle_label";
-          circle.textContent = i;
-          labelHold.appendChild(circle);
-          circle.style.width = "35%";
-          circle.style.height = "35%";
-          circle.style.borderRadius = "50%";
-          circle.style.display = "flex";
-          circle.style.justifyContent = "center";
-          circle.style.alignItems = "center";
-          circle.style.margin = "0 2px";
-          circle.style.backgroundColor = btnUpdateButton.value;
-          if (selectedOption === "emoji" && emojiInp !== "") {
-            // Set the text content of the div to the corresponding emoji
-            const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
-            const emojis = emojiInp
-              .split(emojiFormat)
-              .filter((emoji) => emoji !== "");
-            circle.textContent = emojis[(i - lowerVal) % emojis.length];
-            circle.style.fontSize = "1.8vw";
-          } else {
-            // Set the text content of the div to the number
-            circle.textContent = i;
-          }
-        }
-      }
 
       const prepareEmojiLabels = () => {
         const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
@@ -1122,7 +1166,45 @@ const ScaleRightSide = () => {
 
             stapelScaleArray.textContent = res.data.data.settings.scale;
             console.log("This is the stapel  scale response", res.data.data);
+            console.log("This is scale type holder",scaleTypeHolder.textContent);
             console.log(stapelScaleArray);
+
+            button4.style.display = "block";
+
+            // Clear existing values
+            labelHold.innerHTML = "";
+
+            for (let i = lowerVal; i <= upperVal; i += spacing) {
+              const selectedOption = optionSelect.value;
+              if (i !== 0) {
+                const circle = document.createElement("div");
+                circle.className = "circle_label";
+                circle.textContent = i;
+                labelHold.appendChild(circle);
+                circle.style.width = "35%";
+                circle.style.height = "35%";
+                circle.style.borderRadius = "50%";
+                circle.style.display = "flex";
+                circle.style.justifyContent = "center";
+                circle.style.alignItems = "center";
+                circle.style.margin = "0 2px";
+                circle.style.backgroundColor = res.data.data.settings.roundcolor;
+                if (selectedOption === "emoji" && emojiInp !== "") {
+                  // Set the text content of the div to the corresponding emoji
+                  const emojiFormat = /(\p{Emoji}|\uFE0F)/gu;
+                  const emojis = emojiInp
+                    .split(emojiFormat)
+                    .filter((emoji) => emoji !== "");
+                  circle.textContent = emojis[(i - lowerVal) % emojis.length];
+                  circle.style.fontSize = "1.8vw";
+                } else {
+                  // Set the text content of the div to the number
+                  circle.textContent = i;
+                }
+              }
+            }
+            
+            button.style.backgroundColor = res.data.data.settings.scalecolor;
           })
           .catch((err) => {
             setIsLoading(false);
@@ -1456,32 +1538,11 @@ const ScaleRightSide = () => {
       let time = document.getElementById("time_likert");
       let tempText = scale?.querySelector(".tempText");
       const labelHold = scale?.querySelector(".label_hold");
-      const labelScaleSelection = document.getElementById("labelScaleLinkert");
-      const optionSelect = document.getElementById("label_type_linkert");
+      // const labelScaleSelection = document.getElementById("labelScaleLinkert");
+      // const optionSelect = document.getElementById("label_type_linkert");
       const likertNumberScale = document.getElementById("likert_no_scale");
       tempText?.remove();
       // Clear existing labels
-      labelHold.innerHTML = "";
-
-      if (btnUpdateScale.value !== "") {
-        button.style.backgroundColor = "white";
-      }
-
-      if (beNametnUpdateScal.value !== "") {
-        scaleText.textContent = beNametnUpdateScal.value;
-      }
-
-      if (btnUpdateFontColor.value !== "") {
-        button4.style.color = btnUpdateFontColor.value;
-      }
-
-      if (btnUpdateScaleFontLinkert.value !== "") {
-        button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
-      }
-
-      button4.style.display = "block";
-
-      // Clear existing values
       labelHold.innerHTML = "";
 
       if (btnUpdateLeft.value !== "") {
@@ -1502,57 +1563,22 @@ const ScaleRightSide = () => {
       const updatedLabels = labelType === "Text" ? labelTexts : selectedEmojis;
       const updatedLabelScale =
         labelType === "Text" ? Number(labelScale) : selectedEmojis.length;
-
       // Remove any previous circles from the labelHold
       labelHold.innerHTML = "";
       const numRows = Math.ceil(updatedLabelScale / 3);
-
-      // Update labelHold grid styles
-      labelHold.style.display = "grid";
-      labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
-      labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
-
+      const numColumns = Math.min(updatedLabelScale, 3);
+      
       const likertScaleArray = document.createElement("div");
       likertScaleArray.className = "likert_Scale_Array";
       likertScaleArray.textContent = updatedLabels;
       likertScaleArray.style.display = "none";
       labelHold.append(likertScaleArray);
 
+      // // Update labelHold grid styles
+      labelHold.style.display = "grid";
+      labelHold.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+      labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
       // Update circles with new labels
-      for (let i = 0; i < updatedLabelScale; i++) {
-        const circle = document.createElement("div");
-        circle.className = "circle_label";
-        circle.style.width = "80%";
-        circle.style.height = "55%";
-        circle.style.borderRadius = "30%";
-        circle.style.backgroundColor = btnUpdateButton.value;
-        // circle.style.top = "30%";
-        // circle.style.left = "30%";
-        circle.style.display = "flex";
-        circle.style.justifyContent = "center";
-        circle.style.alignItems = "center";
-        circle.style.marginLeft = "15px";
-        circle.style.marginRight = "15px";
-        circle.addEventListener("mouseover", () => {
-          circle.style.backgroundColor = "green"; // Change the color on hover
-        });
-        circle.addEventListener("mouseout", () => {
-          circle.style.backgroundColor = btnUpdateButton.value; // Reset the color when not hovered
-        });
-
-        // Set the text content to the appropriate label (either text or emoji)
-        circle.textContent = updatedLabels[i] || "";
-
-        labelHold.appendChild(circle);
-      }
-
-      // // Construct row of values
-      // const selectedOption = optionSelect.value;
-      // const optionHolder = document.createElement("div");
-      // optionHolder.className = "stapelOptionHolder";
-      // optionHolder.textContent = optionSelect.value;
-      // optionHolder.style.display = "none";
-      // labelHold.appendChild(optionHolder);
 
       if (option.value === "Horizontal") {
         button4.style.border = "block";
@@ -1567,19 +1593,23 @@ const ScaleRightSide = () => {
         button.style.flexDirection = "row";
         button.style.position = "relative";
         button.style.marginLeft = "0px";
+        button.style.display = "grid";
+        button.style.gridTemplateColumns = `repeat(${numColumns}, 1fr)`;
+        button.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
       }
 
       if (option.value === "Vertical") {
         button4.style.border = "none";
         button4.style.textAlign = "center";
-        button.style.height = "100%";
-        button.style.width = "30%";
+        button.style.height = "80%";
+        button.style.width = "50%";
         button.style.position = "absolute";
+        button.style.display = "flex";
         button.style.flexDirection = "column";
         button.style.alignItems = "center";
-        button.style.marginTop = "0";
-        // buttonChild.style.marginLeft = "38%";
-        //buttonCircle.style.flexDirection = "column";
+        button.style.marginTop = "1%";
+        button.style.marginLeft = "26%";
+        // circle.style.gap = "20px";
       }
 
       if (
@@ -1598,12 +1628,12 @@ const ScaleRightSide = () => {
             no_of_scales: numberOfScalesValue,
             font_color: btnUpdateFontColor.value,
             round_color: btnUpdateButton.value,
-            label_type: labelType.toLowerCase(),
+            label_type: labelTypeForPut,
             label_scale_selection: updatedLabelScale,
-            // custom_emoji_format:{"0":1,"1":1},
             label_scale_input: updatedLabelInput,
+            custom_emoji_format: updatedLabelInput,
             time: timeId.style.display === "none" ? "00" : time?.value,
-            fomat: labelType.toLowerCase(),
+            fomat: labelTypeForPut,
           }
         )
           .then((res) => {
@@ -1619,6 +1649,55 @@ const ScaleRightSide = () => {
               const idHolder = scale?.querySelector(".scaleId");
               idHolder.textContent = id && id;
             }
+
+            if (btnUpdateScale.value !== "") {
+              button.style.backgroundColor = "white";
+            }
+
+            if (beNametnUpdateScal.value !== "") {
+              scaleText.textContent = beNametnUpdateScal.value;
+            }
+
+            if (btnUpdateFontColor.value !== "") {
+              button4.style.color = btnUpdateFontColor.value;
+            }
+
+            if (btnUpdateScaleFontLinkert.value !== "") {
+              button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
+            }
+
+            button4.style.display = "block";
+
+            for (let i = 0; i < updatedLabelScale; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
+              circle.style.width = "80%";
+              circle.style.height = "55%";
+              circle.style.borderRadius = "25px";
+              circle.style.padding = "12px 20px";
+              circle.style.backgroundColor = btnUpdateButton.value;
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.marginLeft = "5px";
+              circle.style.marginRight = "5px";
+              circle.addEventListener("mouseover", () => {
+                circle.style.backgroundColor = "green"; // Change the color on hover
+              });
+              circle.addEventListener("mouseout", () => {
+                circle.style.backgroundColor = btnUpdateButton.value; // Reset the color when not hovered
+              });
+
+              // Set the text content to the appropriate label (either text or emoji)
+              circle.textContent = updatedLabels[i] || "";
+
+              if (option.value === "Vertical") {
+                circle.style.margin = "5px 0";
+                circle.style.padding = "6px 12px";
+              }
+
+              labelHold.appendChild(circle);
+            }
             console.log("This is the likert scale response", res.data.data);
           })
           .catch((err) => {
@@ -1627,14 +1706,13 @@ const ScaleRightSide = () => {
           });
       } else {
         setIsLoading(true);
+        sendMessage();
         console.log("PUT req");
         console.log(idHolder.textContent);
         Axios.put(
           "https://100035.pythonanywhere.com/likert/likert-scale_create/",
           {
             scale_id: idHolder.textContent,
-            // label_type: labelTypeForPut,
-            // label_input: updatedLabelInput,
             user: "yes",
             username: "TadesseJemal",
             orientation: option?.value,
@@ -1644,8 +1722,8 @@ const ScaleRightSide = () => {
             round_color: btnUpdateButton.value,
             label_type: labelTypeForPut,
             label_scale_selection: updatedLabelScale,
-            custom_emoji_format: { 0: 1, 1: 1 },
             label_scale_input: updatedLabelInput,
+            custom_emoji_format: updatedLabelInput,
             time: timeId.style.display === "none" ? "00" : time?.value,
             fomat: labelTypeForPut,
           }
@@ -1658,6 +1736,55 @@ const ScaleRightSide = () => {
               setScaleId(scaleId);
               console.log(res);
               console.log("This is the still scale", scale);
+
+              if (btnUpdateScale.value !== "") {
+                button.style.backgroundColor = "white";
+              }
+
+              if (beNametnUpdateScal.value !== "") {
+                scaleText.textContent = beNametnUpdateScal.value;
+              }
+
+              if (btnUpdateFontColor.value !== "") {
+                button4.style.color = btnUpdateFontColor.value;
+              }
+
+              if (btnUpdateScaleFontLinkert.value !== "") {
+                button4.style.fontFamily = btnUpdateScaleFontLinkert.value;
+              }
+
+              button4.style.display = "block";
+
+              for (let i = 0; i < updatedLabelScale; i++) {
+                const circle = document.createElement("div");
+                circle.className = "circle_label";
+                circle.style.width = "80%";
+                circle.style.height = "55%";
+                circle.style.borderRadius = "25px";
+                circle.style.padding = "12px 20px";
+                circle.style.backgroundColor = btnUpdateButton.value;
+                circle.style.display = "flex";
+                circle.style.justifyContent = "center";
+                circle.style.alignItems = "center";
+                circle.style.marginLeft = "5px";
+                circle.style.marginRight = "5px";
+                circle.addEventListener("mouseover", () => {
+                  circle.style.backgroundColor = "green"; // Change the color on hover
+                });
+                circle.addEventListener("mouseout", () => {
+                  circle.style.backgroundColor = btnUpdateButton.value; // Reset the color when not hovered
+                });
+
+                // Set the text content to the appropriate label (either text or emoji)
+                circle.textContent = updatedLabels[i] || "";
+
+                if (option.value === "Vertical") {
+                  circle.style.margin = "5px 0";
+                  circle.style.padding = "6px 12px";
+                }
+
+                labelHold.appendChild(circle);
+              }
             }
           })
           .catch((err) => {
@@ -1673,6 +1800,10 @@ const ScaleRightSide = () => {
           scaleTypeHolder.textContent === "percent_scale"
     ) {
       const scale = document.querySelector(".focussedd");
+      // const mainScaleDIV = scale?.querySelector(".newScaleInput");
+      // mainScaleDIV.style.display = "flex";
+      // mainScaleDIV.style.flexDirection = "column";
+      // mainScaleDIV.style.justifyContent = "center";
       const btnUpdateScale = document.getElementById(
         "slider_color_percent_scale"
       );
@@ -1684,8 +1815,7 @@ const ScaleRightSide = () => {
       const scaleText = scale?.querySelector(".scale_text");
       const button4 = scale?.querySelector(".scool_input");
 
-      const midVal = scale?.querySelector(".percent-slider")?.value;
-
+      button4.style.display = "block";
       const buttonChildLeft = scale?.querySelector(".left_child");
       const buttonChildRight = scale?.querySelector(".right_child");
       const buttonChildNeutral = scale?.querySelector(".neutral_child");
@@ -1697,6 +1827,7 @@ const ScaleRightSide = () => {
       let time = document.getElementById("time_percent");
 
       let labelHold = scale?.querySelector(".label_hold");
+
       // labelHold.style.display = "block"
       labelHold.style.border = "none";
       setTimeout(() => {
@@ -1720,167 +1851,199 @@ const ScaleRightSide = () => {
       buttonChildNeutral.textContent = "";
       buttonChildRight.textContent = "";
 
-      button4.style.display = "flex";
-      button4.style.flexDirection = "column";
-      // button4.style.justifyContent = "center"
-      button4.style.alignItems = "center";
+      const existingLabelHolds = scale?.querySelectorAll(".label_hold");
+      existingLabelHolds.forEach((label) => {
+        label.remove();
+      });
 
-      // Clear existing values
-      labelHold.innerHTML = "";
-      labelHold.style.justifyContent = "center";
-      let inputPercent = document.createElement("input");
-      inputPercent.type = "range";
-      inputPercent.min = "0";
-      inputPercent.value = midVal ? midVal : "50";
-      inputPercent.max = "100";
-      inputPercent.className = "percent-slider";
-      inputPercent.style.width = "100%";
-      inputPercent.style.cursor = "pointer";
-      inputPercent.style.background = btnUpdateScale.value;
-      inputPercent.style.webkitAppearance = "none";
-      inputPercent.style.borderRadius = "10px";
+      const product_percent_scale = document.getElementById(
+        "product_percent_scale"
+      ).value;
 
-      labelHold.appendChild(inputPercent);
-      let percentChilds = document.createElement("div");
-      percentChilds.style.display = "flex";
-      percentChilds.style.width = "100%";
-      percentChilds.style.alignItems = "center";
-      percentChilds.style.justifyContent = "space-between";
+      for (let i = 0; i < product_percent_scale; i++) {
+        // Clear existing values
+        let newLabelHold = labelHold.cloneNode(true);
+        newLabelHold.innerHTML = "";
+        newLabelHold.style = "";
 
-      let leftPercent = document.createElement("div");
-      leftPercent.textContent = "0";
-      leftPercent.className = "left-percent";
-      percentChilds.appendChild(leftPercent);
+        newLabelHold.style.padding = "3px";
+        newLabelHold.style.borderBottom = "1px solid gray";
 
-      let centerPercent = document.createElement("div");
-      // console.log(percentSlider)
-      centerPercent.textContent = midVal ? `${midVal}%` : "50%";
-      centerPercent.className = "center-percent";
-      percentChilds.appendChild(centerPercent);
+        newLabelHold.style.paddingRight = "35px";
+        newLabelHold.style.paddingLeft = "35px";
+        newLabelHold.style.borderBottom = "1px solid gray";
+        newLabelHold.style.borderTop = "1px solid gray";
 
-      let rightPercent = document.createElement("div");
-      rightPercent.textContent = "100";
-      rightPercent.className = "right-percent";
-      percentChilds.appendChild(rightPercent);
+        let product_names = document.getElementById("product_name");
+        console.log(product_names.length);
+        let inputFields = product_names?.querySelectorAll("input");
+        console.log(inputFields);
 
-      labelHold.appendChild(percentChilds);
+        let nameDiv = document.createElement("div");
+        nameDiv.className = "product_name";
+        nameDiv.style.textAlign = "center";
+        nameDiv.style.fontWeight = "700";
+        nameDiv.textContent = inputFields[i]?.value;
 
-      if (option.value === "Horizontal") {
-        button4.style.border = "block";
-        button4.style.textAlign = "center";
-        button.style.marginTop = "10px";
-        button.style.alignItems = "center";
-        button.style.height = "85%";
-        button.style.width = "100%";
-        button.style.flexDirection = "row";
-        button.style.position = "relative";
-        button.style.marginLeft = "0px";
-      }
+        newLabelHold.insertBefore(nameDiv, newLabelHold.firstChild);
+        let inputPercent = document.createElement("input");
+        inputPercent.type = "range";
+        inputPercent.min = "0";
+        inputPercent.value = "50";
+        inputPercent.max = "100";
+        inputPercent.className = "percent-slider";
+        inputPercent.style.width = "100%";
+        inputPercent.style.cursor = "pointer";
+        inputPercent.style.background = btnUpdateScale.value;
+        inputPercent.style.webkitAppearance = "none";
+        inputPercent.style.borderRadius = "10px";
 
-      if (option.value === "Vertical") {
-        inputPercent.style.transform = "rotate(270deg)";
-        setTimeout(() => {
-          labelHold.style.flexDirection = "row";
-          labelHold.style.width = "70%";
-          labelHold.style.height = "100%";
-          labelHold.style.position = "";
+        newLabelHold.appendChild(inputPercent);
+        let percentChilds = document.createElement("div");
+        percentChilds.style.display = "flex";
+        percentChilds.style.width = "100%";
+        percentChilds.style.alignItems = "center";
+        percentChilds.style.justifyContent = "space-between";
 
-          percentChilds.style.alignItems = "start";
-          percentChilds.style.height = "100%";
-        }, 100);
-        percentChilds.style.flexDirection = "column";
-        button4.style.border = "none";
-        button4.style.textAlign = "center";
-        button.style.height = "auto";
-        button.style.width = "50%";
-        button.style.position = "absolute";
-        button.style.display = "flex";
-        button.style.flexDirection = "column";
-        button.style.alignItems = "center";
-        button.style.marginTop = "0";
-        button.style.marginLeft = "26%";
-      }
+        let leftPercent = document.createElement("div");
+        leftPercent.textContent = "0";
+        leftPercent.className = "left-percent";
+        percentChilds.appendChild(leftPercent);
 
-      if (
-        idHolder.textContent === "scale Id" ||
-        idHolder.textContent === "id"
-      ) {
-        setIsLoading(true);
-        console.log("post req");
-        Axios.post(
-          "https://100035.pythonanywhere.com/percent/api/percent_settings_create/",
-          {
-            username: "pfactorial",
-            time: time.value,
-            scale_name: beNametnUpdateScal.value,
-            no_of_scale: 1,
-            orientation: option.value,
-            scale_color: btnUpdateScale.value,
-            product_count: percentChilds.length ? percentChilds.length : 3,
-            product_names: [
-              leftPercent.textContent,
-              inputPercent.value,
-              rightPercent.textContent,
-            ],
-            user: "yes",
-          }
-        )
-          .then((res) => {
-            setIsLoading(false);
-            sendMessage();
-            setScaleData(res.data);
-            const success = res.data.success;
-            var successObj = JSON.parse(success);
-            const id = successObj.inserted_id;
-            console.log(id);
-            if (id.length) {
-              setScaleId(id && id);
-              const idHolder = scale?.querySelector(".scaleId");
-              idHolder.textContent = id && id;
+        let centerPercent = document.createElement("div");
+        // console.log(percentSlider)
+        inputPercent.addEventListener("input", () => {
+          centerPercent.textContent = `${inputPercent.value}%`
+            ? `${inputPercent.value}%`
+            : "50%";
+        });
+        // centerPercent.textContent = `${inputPercent.value}%`;
+        centerPercent.className = "center-percent";
+        percentChilds.appendChild(centerPercent);
+
+        let rightPercent = document.createElement("div");
+        rightPercent.textContent = "100";
+        rightPercent.className = "right-percent";
+        percentChilds.appendChild(rightPercent);
+
+        newLabelHold.appendChild(percentChilds);
+
+        button4.appendChild(newLabelHold);
+
+        if (option.value === "Horizontal") {
+          button4.style.border = "block";
+          button4.style.textAlign = "center";
+          button.style.marginTop = "10px";
+          button.style.alignItems = "center";
+          button.style.height = "85%";
+          button.style.width = "100%";
+          button.style.flexDirection = "row";
+          button.style.position = "relative";
+          button.style.marginLeft = "0px";
+        }
+
+        if (option.value === "Vertical") {
+          inputPercent.style.transform = "rotate(270deg)";
+          setTimeout(() => {
+            labelHold.style.flexDirection = "row";
+            labelHold.style.width = "70%";
+            labelHold.style.height = "100%";
+            labelHold.style.position = "";
+
+            percentChilds.style.alignItems = "start";
+            percentChilds.style.height = "100%";
+          }, 100);
+          percentChilds.style.flexDirection = "column";
+          button4.style.border = "none";
+          button4.style.textAlign = "center";
+          button.style.height = "auto";
+          button.style.width = "50%";
+          button.style.position = "absolute";
+          button.style.display = "flex";
+          button.style.flexDirection = "column";
+          button.style.alignItems = "center";
+          button.style.marginTop = "0";
+          button.style.marginLeft = "26%";
+        }
+        let productNames = [];
+        for (let i = 0; i < inputFields.length; i++) {
+          productNames.push(inputFields[i].value);
+        }
+        console.log(productNames);
+
+        if (
+          idHolder.textContent === "scale Id" ||
+          idHolder.textContent === "id"
+        ) {
+          setIsLoading(true);
+          console.log("post req");
+          Axios.post(
+            "https://100035.pythonanywhere.com/percent/api/percent_settings_create/",
+            {
+              username: "pfactorial",
+              time: time.value,
+              scale_name: beNametnUpdateScal.value,
+              no_of_scale: 1,
+              orientation: option.value,
+              scale_color: btnUpdateScale.value,
+              product_count: product_percent_scale,
+              product_names: productNames,
+              user: "yes",
             }
-            console.log(res);
-          })
-          .catch((err) => {
-            setIsLoading(false);
-            console.log(err);
-          });
-      } else {
-        setIsLoading(true);
-        console.log("PUT req");
-        console.log(idHolder.textContent);
-        Axios.put(
-          "https://100035.pythonanywhere.com/percent/api/percent_settings_create/",
-          {
-            scale_id: idHolder.textContent,
-            username: "pfactorial",
-            time: time.value,
-            scale_name: beNametnUpdateScal.value,
-            no_of_scale: 1,
-            orientation: option.value,
-            scale_color: btnUpdateScale.value,
-            product_count: 3,
-            product_names: [
-              leftPercent.textContent,
-              inputPercent.value,
-              rightPercent.textContent,
-            ],
-            user: "yes",
-          }
-        )
-          .then((res) => {
-            if (res.status == 200) {
+          )
+            .then((res) => {
               setIsLoading(false);
               sendMessage();
               setScaleData(res.data);
-              setScaleId(scaleId);
+              const success = res.data.success;
+              var successObj = JSON.parse(success);
+              const id = successObj.inserted_id;
+              console.log(id);
+              if (id.length) {
+                setScaleId(id && id);
+                const idHolder = scale?.querySelector(".scaleId");
+                idHolder.textContent = id && id;
+              }
               console.log(res);
-              console.log("This is the still scale", scale);
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              console.log(err);
+            });
+        } else {
+          setIsLoading(true);
+          console.log("PUT req");
+          console.log(idHolder.textContent);
+          Axios.put(
+            "https://100035.pythonanywhere.com/percent/api/percent_settings_create/",
+            {
+              scale_id: idHolder.textContent,
+              username: "pfactorial",
+              time: time.value,
+              scale_name: beNametnUpdateScal.value,
+              no_of_scale: 1,
+              orientation: option.value,
+              scale_color: btnUpdateScale.value,
+              product_count: product_percent_scale,
+              product_names: productNames,
+              user: "yes",
             }
-          })
-          .catch((err) => {
-            setIsLoading(false);
-            console.log(err.message);
-          });
+          )
+            .then((res) => {
+              if (res.status == 200) {
+                setIsLoading(false);
+                sendMessage();
+                setScaleData(res.data);
+                setScaleId(scaleId);
+                console.log(res);
+                console.log("This is the still scale", scale);
+              }
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              console.log(err.message);
+            });
+        }
       }
     }
   };
@@ -2083,6 +2246,16 @@ const ScaleRightSide = () => {
       timeId.style.display = "none";
     }
   };
+
+  const onTimeChangeLikert = (e) => {
+    let timeId = document.getElementById("timeId_likert");
+    if (e.target.checked) {
+      timeId.style.display = "flex";
+    } else {
+      timeId.style.display = "none";
+    }
+  };
+
   const onTimeChangePercent = (e) => {
     let timeId = document.getElementById("timeId_percent");
     if (e.target.checked) {
@@ -2762,9 +2935,10 @@ const ScaleRightSide = () => {
                             right: "-14px",
                             // top: "1px",
                           }}
-                          onClick={() => setShowPicker(!showPicker)}
+                          onClick={() =>inputStr.length === 22 ? "" : setShowPicker(!showPicker)}
                         />
                       </div>
+                      {inputStr.length < 22 || inputStr.length > 22 ? <p style={{fontSize:'small', color:'red'}}>select 11 emojis</p> : ""}
                     </div>
                     <div
                       style={{
@@ -2878,6 +3052,7 @@ const ScaleRightSide = () => {
                             alignItems: "center",
                           }}
                           id="left"
+                          disabled = {isEmojiFormat === true && (inputStr.length < 22 || inputStr.length > 22) ? true : false}
                         />
                       </div>
                     </div>
@@ -2919,6 +3094,7 @@ const ScaleRightSide = () => {
                           //   neutralChild ? neutralChild.innerHTML : ""
                           // }
                           id="centre"
+                          disabled = {isEmojiFormat === true && (inputStr.length < 22 || inputStr.length > 22) ? true : false}
                         />
                       </div>
                     </div>
@@ -2969,6 +3145,7 @@ const ScaleRightSide = () => {
                           //   rightChild ? rightChild.innerHTML : ""
                           // }
                           id="right"
+                          disabled = {isEmojiFormat === true && (inputStr.length < 22 || inputStr.length > 22) ? true : false}
                         />
                       </div>
                     </div>
@@ -3314,6 +3491,7 @@ const ScaleRightSide = () => {
                         width="50%"
                         marginTop="60px"
                         onClick={handleUpdates}
+                        disabled = {isEmojiFormat === true && (inputStr.length < 22 || inputStr.length > 22) ? true : false}
                       >
                         Update
                       </Button>
@@ -5342,7 +5520,7 @@ const ScaleRightSide = () => {
                         role="switch"
                         id="flexSwitchCheckDefault"
                         // onChange={(e) => setIsSwitchEnabled(e.target.checked)}
-                        // onChange={onTimeChangeLikert}
+                        onChange={onTimeChangeLikert}
                       />
                     </div>
                   </div>
@@ -5405,6 +5583,7 @@ const ScaleRightSide = () => {
                         width="50%"
                         marginTop="60px"
                         onClick={handleUpdates}
+                        disabled={isUpdateButtonDisabled} // Disable the button if any text or image input is empty
                       >
                         Update
                       </Button>
@@ -5538,6 +5717,7 @@ const ScaleRightSide = () => {
                             display: "flex",
                             alignItems: "center",
                           }}
+                          // defaultValue="red"
                           id="slider_color_percent_scale"
                         />
                       </div>
@@ -5673,7 +5853,54 @@ const ScaleRightSide = () => {
                       </div>
                     </div>
                   </div>
-
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Product count
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "5px 7px",
+                        borderRadius: "7px",
+                        // height: "30px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="number"
+                        // onChange={(e) => setScaleTitle(e.target.value)}
+                        // defaultValue={scaleT ? scaleT.innerHTML : ""}
+                        style={{
+                          width: "100%",
+                          height: "12px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        min="1"
+                        max="10"
+                        id="product_percent_scale"
+                        value={productCount}
+                        onChange={handleProductCountChange}
+                      />
+                    </div>
+                    <div id="product_name">
+                      {inputFields.map((inputField, index) => (
+                        <div key={index}>{inputField}</div>
+                      ))}
+                    </div>
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -5693,6 +5920,7 @@ const ScaleRightSide = () => {
                       />
                     </div>
                   </div>
+
                   <div
                     style={{
                       display: "none",
@@ -5729,6 +5957,7 @@ const ScaleRightSide = () => {
                       />
                     </div>
                   </div>
+
                   <div
                     style={{
                       display: "none",

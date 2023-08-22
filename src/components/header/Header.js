@@ -2617,20 +2617,33 @@ const Header = () => {
               ".likert_Scale_Array"
             );
           }
+
           let percentBackground = "";
+          let percentLabel = "";
           let percentLeft = "";
-          let percentCenter = "";
+          let percentCenter = [];
           let percentRight = "";
+          let prodName = [];
 
           if (scaleType.textContent === "percent_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
-            percentLeft = newScales[b].querySelector(".left-percent");
-            percentCenter = newScales[b].querySelector(".center-percent");
-            var currentText = percentCenter.textContent;
-            var textWithoutPercent = currentText.replace("%", "");
+            percentLabel = newScales[b]?.querySelectorAll(".label_hold");
 
-            // Set the modified text back to the element
-            percentCenter.textContent = textWithoutPercent;
+            percentLabel.forEach((elem) => {
+              prodName.push(elem.querySelector(".product_name")?.textContent);
+              percentCenter.push(
+                elem.querySelector(".center-percent")?.textContent
+              );
+              console.log(prodName);
+              console.log(percentCenter);
+            });
+            percentLeft = newScales[b].querySelector(".left-percent");
+            // percentCenter = newScales[b].querySelector(".center-percent");
+            // var currentText = percentCenter.textContent;
+            // var textWithoutPercent = currentText.replace("%", "");
+
+            // // Set the modified text back to the element
+            // percentCenter.textContent = textWithoutPercent;
             percentRight = document.querySelector(".right-percent");
           }
           let properties = {
@@ -2649,6 +2662,7 @@ const Header = () => {
             stapelScaleArray: stapelScaleArray.textContent,
             npsLiteTextArray: npsLiteTextArray.textContent,
             likertScaleArray: likertScaleArray.textContent,
+            percentProdName: prodName,
             percentBackground: percentBackground?.style?.background,
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
@@ -3011,6 +3025,118 @@ const Header = () => {
       });
   }
 
+  function handleFinalizeButtonNpsLite() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = [];
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      user: authorizedLogin(),
+      scale_id: scaleId,
+      score: holdElem,
+      response: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/nps-lite/api/nps-lite-response",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleFinalizeButtonLikert() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: authorizedLogin(),
+      document_responses: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/likert/likert-scale_response/",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function submit(e) {
     e.preventDefault();
     setIsLoading(true);
@@ -3082,9 +3208,22 @@ const Header = () => {
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
-            const hasNegative = [...circles].some(
-              (circle) => parseInt(circle.textContent) < 0
-            );
+            // let circle = scale?.querySelector(".circle_label");
+            // const hasNegative = [...circles].some(
+            //   (circle) => parseInt(circle.textContent) < 0
+            // );
+
+            let scaleType = document.querySelector(".scaleTypeHolder");
+            if (scaleType.textContent === "nps") {
+              handleFinalizeButton();
+            } else if (scaleType.textContent === "snipte") {
+              handleFinalizeButtonStapel();
+            } else if (scaleType.textContent === "nps_lite") {
+              handleFinalizeButtonNpsLite();
+            } else if (scaleType.textContent === "likert") {
+              handleFinalizeButtonLikert();
+            }
+
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3094,15 +3233,19 @@ const Header = () => {
             // } else {
             //   // Handle the case when no template is selected
             // }
-            if (hasNegative) {
-              handleFinalizeButtonStapel();
-            } else {
-              handleFinalizeButton();
-            }
+
+            // if (hasNegative) {
+            //   handleFinalizeButtonStapel();
+            // } else {
+            //   handleFinalizeButton();
+            // }
 
             // if (hasEmoji) {
             //   handleFinalizeButton();
             //   // handleFinalizeButtonStapel();
+            // }
+            // if (circle.style.width === "80%" && circle.style.height === "55%") {
+            //   handleFinalizeButtonLikert();
             // }
           }
           setIsLoading(false);

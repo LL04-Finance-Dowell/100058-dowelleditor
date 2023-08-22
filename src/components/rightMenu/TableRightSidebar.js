@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import deleteSVG from "../../assets/tableicons/delete-button-svgrepo-com.svg"
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
@@ -105,52 +105,69 @@ const TableRightSidebar = () => {
           //   setSidebar(true);
           //   e.stopPropagation();
           // }
+          e.stopPropagation();
           focuseddClassMaintain(e);
           handleClicked("align2", "table2");
           setSidebar(true);
-          e.stopPropagation();
         }
       };
 
       e.target.append(inputField);
     }
-    //  else if (typeOfOperation === "IMAGE_INPUT") {
-    //   let imageField = document.createElement("div");
-    //   imageField.className = "imageInput";
-    //   imageField.style.width = "100%";
-    //   imageField.style.height = "50%";
-    //   imageField.style.backgroundColor = "#0000";
-    //   imageField.style.borderRadius = "0px";
-    //   imageField.style.outline = "0px";
-    //   imageField.style.overflow = "overlay";
-    //   imageField.innerHTML = "Image here";
-    //   imageField.style.position = "relative";
+    else if (typeOfOperation === "IMAGE_INPUT") {
+      let imageField = document.createElement("div");
 
-    //   imageField.onclick = (e) => {
-    //     if (imageField) {
-    //       handleClicked("image2", "table2");
-    //       setSidebar(true);
-    //       e.stopPropagation();
-    //       alert("image filed clicked");
-    //     }
-    //   };
-    //   const imgBtn = document.createElement("input");
-    //   imgBtn.type = "file";
-    //   imgBtn.style.objectFit = "cover";
-    //   var uploadedImage = "";
+      const id = (Math.random() * 1782 * Math.random() * 879).toFixed(5);
+      imageField.className = "imageInput";
+      imageField.style.width = "100%";
+      imageField.style.height = "100%";
+      imageField.style.backgroundColor = "#0000";
+      imageField.style.borderRadius = "0px";
+      imageField.style.outline = "0px";
+      imageField.style.overflow = "overlay";
+      imageField.innerHTML = "Image here";
+      imageField.style.position = "relative";
+      imageField.id = id
 
-    //   imgBtn.addEventListener("input", () => {
-    //     const reader = new FileReader();
+      imageField.onclick = (e) => {
+        if (imageField) {
+          handleClicked("image2", "table2");
+          setSidebar(true);
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+        }
+      };
+      const imageButtonContainer = document.createElement("div");
+      imageButtonContainer.className = "addImageButton";
+      imageButtonContainer.innerText = "Choose File";
+      imageButtonContainer.style.display = "none";
+      // imageButtonContainer.onclick = (e) => chooseFileClick(e);
 
-    //     reader.addEventListener("load", () => {
-    //       uploadedImage = reader.result;
-    //       imageField.style.backgroundImage = `url(${uploadedImage})`;
-    //     });
-    //     reader.readAsDataURL(imgBtn.files[0]);
-    //   });
+      const imgBtnContainer = document.createElement("input");
+      imgBtnContainer.className = "addImageButtonInput";
+      imgBtnContainer.id = id;
+      imgBtnContainer.type = "file";
+      imgBtnContainer.style.objectFit = "cover";
+      var uploadedImage = "";
 
-    //   e.target.append(imageField);
-    // }
+      imgBtnContainer.addEventListener("input", (e) => {
+        const reader = new FileReader();
+        const targetId = e.target.id;
+        console.log("from input:", targetId);
+
+        reader.addEventListener("load", () => {
+          const uploadedImage = reader.result;
+          document.getElementById(targetId).style.backgroundImage = `url(${uploadedImage})`;
+        });
+        reader.readAsDataURL(e.target.files[0]);
+      });
+
+
+
+      imageButtonContainer.append(imgBtnContainer);
+      e.target.append(imageField);
+      e.target.append(imageButtonContainer);
+    }
     // else if (
     //   typeOfOperation === "IMAGE_INPUT"
     //   //  &&
@@ -236,150 +253,149 @@ const TableRightSidebar = () => {
     //   texttField.style.height = "30vh";
     //   texttField.style.position = "relative";
     //   e.target.append(texttField);
-    // } else if (typeOfOperation === "SIGN_INPUT") {
-    //   // {
-    //   //   let signField = document.createElement("div");
-    //   //   signField.className = "signInput";
-    //   //   signField.style.width = "100%";
-    //   //   signField.style.height = "100%";
-    //   //   signField.style.backgroundColor = "#0000";
-    //   //   signField.style.borderRadius = "0px";
-    //   //   signField.style.outline = "0px";
-    //   //   signField.style.overflow = "overlay";
-    //   //   signField.innerHTML = "Signature here";
-    //   //   signField.style.position = "absolute";
+    // } 
+    else if (typeOfOperation === "SIGN_INPUT") {
+      // {
+      //   let signField = document.createElement("div");
+      //   signField.className = "signInput";
+      //   signField.style.width = "100%";
+      //   signField.style.height = "100%";
+      //   signField.style.backgroundColor = "#0000";
+      //   signField.style.borderRadius = "0px";
+      //   signField.style.outline = "0px";
+      //   signField.style.overflow = "overlay";
+      //   signField.innerHTML = "Signature here";
+      //   signField.style.position = "absolute";
 
-    //   //   signField.onclick = (e) => {
-    //   //     // focuseddClassMaintain(e);
-    //   //     if (signField) {
-    //   //       // signField.classList.add("focussed");
-    //   //       handleClicked("signs2", "table2");
-    //   //       setSidebar(true);
-    //   //       e.stopPropagation();
-    //   //     } else {
-    //   //       setSidebar(false);
-    //   //     }
-    //   //   };
-    //   //   e.target.append(signField);
-    //   //   // document.getElementsByClassName("dropp").item(0).append(signField);
-    //   // }
-    //   let signField = document.createElement("div");
-    //   signField.className = "signInput";
-    //   signField.style.width = "100%";
-    //   signField.style.height = "100%";
-    //   signField.style.backgroundColor = "#0000";
-    //   signField.style.borderRadius = "0px";
-    //   signField.style.outline = "0px";
-    //   signField.style.overflow = "overlay";
-    //   signField.innerHTML = "signature here";
-    //   signField.style.position = "absolute";
-    //   signField.style.top = 0;
-    //   signField.style.left = 0;
-    //   e.target.style.position = "relative";
+      //   signField.onclick = (e) => {
+      //     // focuseddClassMaintain(e);
+      //     if (signField) {
+      //       // signField.classList.add("focussed");
+      //       handleClicked("signs2", "table2");
+      //       setSidebar(true);
+      //       e.stopPropagation();
+      //     } else {
+      //       setSidebar(false);
+      //     }
+      //   };
+      //   e.target.append(signField);
+      //   // document.getElementsByClassName("dropp").item(0).append(signField);
+      // }
+      let signField = document.createElement("div");
+      signField.className = "signInput";
+      signField.style.width = "100%";
+      signField.style.height = "100%";
+      signField.style.backgroundColor = "#0000";
+      signField.style.borderRadius = "0px";
+      signField.style.outline = "0px";
+      signField.style.overflow = "overlay";
+      signField.innerHTML = "signature here";
+      signField.style.position = "absolute";
+      signField.style.top = 0;
+      signField.style.left = 0;
 
-    //   // signField.onchange = (event) => {
-    //   //   event.preventDefault();
-    //   //   setPostData({
-    //   //     ...postData,
-    //   //     signField: {
-    //   //       value: event.target.value,
-    //   //       xcoordinate: getOffset(holderDIV).left,
-    //   //       ycoordinate: getOffset(holderDIV).top,
-    //   //     },
-    //   //   });
-    //   // };
+      // signField.onchange = (event) => {
+      //   event.preventDefault();
+      //   setPostData({
+      //     ...postData,
+      //     signField: {
+      //       value: event.target.value,
+      //       xcoordinate: getOffset(holderDIV).left,
+      //       ycoordinate: getOffset(holderDIV).top,
+      //     },
+      //   });
+      // };
 
-    //   signField.onclick = (e) => {
-    //     focuseddClassMaintain(e);
-    //     // if (actionName != "template") {
-    //     // signField.classList.add("focussed");
-    //     // handleClicked("signs2");
-    //     // setSidebar(true);
-    //     handleClicked("signs2", "table2");
-    //     setSidebar(true);
-    //     e.stopPropagation();
-    //     // } else {
-    //     //   setSidebar(false);
-    //     // }
-    //   };
-    //   const imageSignButton = document.createElement("div");
-    //   imageSignButton.className = "addImageSignButton";
-    //   imageSignButton.innerText = "Choose File";
-    //   imageSignButton.style.display = "none";
+      signField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        // if (actionName != "template") {
+        // signField.classList.add("focussed");
+        // handleClicked("signs2");
+        // setSidebar(true);
+        handleClicked("signs2", "table2");
+        setSidebar(true);
+        e.stopPropagation();
+        // } else {
+        //   setSidebar(false);
+        // }
+      };
+      const imageSignButton = document.createElement("div");
+      imageSignButton.className = "addImageSignButton";
+      imageSignButton.innerText = "Choose File";
+      imageSignButton.style.display = "none";
 
-    //   const signBtn = document.createElement("input");
-    //   signBtn.className = "addSignButtonInput";
-    //   signBtn.type = "file";
-    //   signBtn.style.objectFit = "cover";
-    //   var uploadedImage = "";
+      const signBtn = document.createElement("input");
+      signBtn.className = "addSignButtonInput";
+      signBtn.type = "file";
+      signBtn.style.objectFit = "cover";
+      var uploadedImage = "";
 
-    //   signBtn.addEventListener("input", () => {
-    //     const reader = new FileReader();
+      signBtn.addEventListener("input", () => {
+        const reader = new FileReader();
 
-    //     reader.addEventListener("load", () => {
-    //       uploadedImage = reader.result;
-    //       const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
-    //       document.querySelector(".focussed").innerHTML = signImage;
-    //     });
-    //     reader.readAsDataURL(signBtn.files[0]);
-    //   });
+        reader.addEventListener("load", () => {
+          uploadedImage = reader.result;
+          const signImage = `<img src=${uploadedImage} width="100%" height="100%"/>`;
+          document.querySelector(".focussed").innerHTML = signImage;
+        });
+        reader.readAsDataURL(signBtn.files[0]);
+      });
 
-    //   imageSignButton.append(signBtn);
+      imageSignButton.append(signBtn);
 
-    //   // const para = document.createElement("p");
-    //   // para.innerHTML = "Place your signature here";
-    //   // signField.append(para);
-    //   e.target.append(signField);
-    //   e.target.append(imageSignButton);
-    //   e.target.style.width = signField.style.width;
-    //   e.target.style.height = signField.style.height;
-    // } else if (typeOfOperation === "DATE_INPUT") {
-    //   let dateField = document.createElement("div");
-    //   dateField.className = "dateInput";
-    //   dateField.style.width = "100%";
-    //   dateField.style.height = "100%";
-    //   dateField.style.backgroundColor = "#0000";
-    //   dateField.style.borderRadius = "0px";
-    //   dateField.style.outline = "0px";
-    //   dateField.style.overflow = "overlay";
-    //   dateField.style.position = "relative";
+      // const para = document.createElement("p");
+      // para.innerHTML = "Place your signature here";
+      // signField.append(para);
+      e.target.append(signField);
+      e.target.append(imageSignButton);
+    }
+    else if (typeOfOperation === "DATE_INPUT") {
+      let dateField = document.createElement("div");
+      dateField.className = "dateInput";
+      dateField.style.width = "100%";
+      dateField.style.height = "100%";
+      dateField.style.backgroundColor = "#0000";
+      dateField.style.borderRadius = "0px";
+      dateField.style.outline = "0px";
+      dateField.style.overflow = "overlay";
+      dateField.style.position = "relative";
 
-    //   setStartDate(new Date());
-    //   setMethod("select");
+      setStartDate(new Date());
+      setMethod("select");
 
-    //   function dateClick() {
-    //     document.getElementById("date_picker").click();
-    //     setRightSideDateMenu(false);
-    //   }
-    //   dateField.onclick = (e) => {
-    //     focuseddClassMaintain(e);
-    //     handleClicked("calendar2");
-    //     setRightSideDateMenu(false);
-    //     if (e.target.innerText != "mm/dd/yyyy") {
-    //       if (e.target.innerText.includes("/")) {
-    //         const setDate = new Date(e.target.innerText);
-    //         setMethod("first");
-    //         setStartDate(setDate);
-    //       } else {
-    //         if (e.target.innerText.includes("-")) {
-    //           setMethod("fourth");
-    //         } else {
-    //           setMethod("second");
-    //         }
-    //         const setDate = new Date(e.target.innerText);
-    //         setStartDate(setDate);
-    //       }
-    //     }
-    //     setSidebar(true);
-    //     setTimeout(dateClick, 0);
-    //     e.stopPropagation();
-    //   };
-    //   dateField.innerText = "mm/dd/yyyy";
+      function dateClick() {
+        document.getElementById("date_picker").click();
+        setRightSideDateMenu(false);
+      }
+      dateField.onclick = (e) => {
+        focuseddClassMaintain(e);
+        handleClicked("calendar2");
+        setRightSideDateMenu(false);
+        if (e.target.innerText != "mm/dd/yyyy") {
+          if (e.target.innerText.includes("/")) {
+            const setDate = new Date(e.target.innerText);
+            setMethod("first");
+            setStartDate(setDate);
+          } else {
+            if (e.target.innerText.includes("-")) {
+              setMethod("fourth");
+            } else {
+              setMethod("second");
+            }
+            const setDate = new Date(e.target.innerText);
+            setStartDate(setDate);
+          }
+        }
+        setSidebar(true);
+        setTimeout(dateClick, 0);
+        e.stopPropagation();
+      };
+      dateField.innerText = "mm/dd/yyyy";
 
-    //   // dateField.append(para)
-    //   e.target.append(dateField);
-    //   //console.log(para);
-    // }
+      // dateField.append(para)
+      e.target.append(dateField);
+      //console.log(para);
+    }
     // }
   };
 
@@ -516,16 +532,20 @@ const TableRightSidebar = () => {
   }
 
   //
+
   function makeTable() {
     const focussedDiv = document.querySelector(".focussedd");
     var table = document.createElement("table");
     table.style.border = "2";
     table.id = "table";
+    table.style.height = "100%"
+    table.style.width = "100%"
     table.className = "droppable";
     var row = document.getElementById("rows").value;
     var col = document.getElementById("cols").value;
 
     var tableDiv = document.querySelector(".focussed");
+    tableDiv.style.overflow = 'visible'
 
     for (var rowIndex = 0; rowIndex < row; rowIndex++) {
       var tr = document.createElement("tr");
@@ -533,24 +553,52 @@ const TableRightSidebar = () => {
       for (var colIndex = 0; colIndex < col; colIndex++) {
         var td = document.createElement("td");
         td.className = "dropp";
-        const iconMenu = createIconMenu();
-        td.appendChild(iconMenu);
+        if (rowIndex === 0) {
+          const resizer = document.createElement('div');
+          resizer.classList.add('td-resizer');
+          resizer.addEventListener("mousedown", (e) => {
+            let x = 0;
+            let w = 0;
+          })
+          createResizableColumn(td, resizer)
+          td.appendChild(resizer);
+        }
         tr.appendChild(td);
       }
+      const rowResizeCell = tr.firstElementChild
+      const resizer = document.createElement('div');
+      resizer.classList.add('row-resizer');
+      resizer.addEventListener("mousedown", (e) => {
+        let x = 0;
+        let w = 0;
 
+
+      })
+      rowResizeCell.appendChild(resizer)
+      createResizableRow(rowResizeCell, resizer)
       table.appendChild(tr);
 
-      tableDiv.appendChild(table);
+      const resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+          // console.log("Observing: ",entry.target);
+          const width = entry.contentRect.width;
+          const height = entry.contentRect.height;
+          const table = entry.target
+          const holderDIV = table.parentElement.parentElement
 
+          setColRowSize(table, width, height, holderDIV)
+          //  console.log("called setcolrowsize");
+        })
+      })
+      resizeObserver.observe(table)
+
+      tableDiv.appendChild(table);
+      setColRowSize(table);
       var tablee = document.querySelector(".focussed").firstElementChild;
       var cells = tablee.getElementsByTagName("td");
 
       for (var i = 0; i < cells.length; i++) {
-        cells[i].onmousedown = function (e) {
-          e.preventDefault();
-          if (e.target.classList.contains("dropp"))
-            e.target.classList.add("cells_menu");
-        };
+
         // cells[i].onmouseleave = function (e) {
         //   e.preventDefault();
         //   var notes = null;
@@ -575,7 +623,9 @@ const TableRightSidebar = () => {
           // }
           e.target.classList.add("table_drag");
           if (e.target.childNodes.length < 2) {
-            e.target.style.border = "3px solid blue";
+            if (e.target.tagName.toLowerCase() == "td") {
+              e.target.style.border = "3px solid blue";
+            };
           }
           if (e.target.classList.contains("imageInput")) {
             e.target.style.border = "none";
@@ -583,14 +633,16 @@ const TableRightSidebar = () => {
         };
         cells[i].ondragleave = (e) => {
           e.preventDefault();
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
           if (
             e.target.childNodes.length < 2 &&
             !e.target.classList.contains("imageInput")
           ) {
-            e.target.style.border = "1px solid black";
-          }
-          if (e.target.classList.contains("imageInput")) {
-            e.target.style.border = "none";
+            if (e.target.tagName.toLowerCase() == "td") {
+              e.target.style.border = "1px solid black";
+            };
           }
         };
 
@@ -609,223 +661,363 @@ const TableRightSidebar = () => {
     setIsCreateTableBtnDisabled(true);
   }
 
-  // const hadleTableUpdateSave = (e) => {
-  //   const focusseddDiv = document.querySelector(".focussedd");
-  //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-  //     focusseddDiv?.firstElementChild?.firstElementChild?.remove();
-  //     focusseddDiv?.firstElementChild?.firstElementChild?.firstElementChild?.remove();
-  //     const trNum =
-  //       focusseddDiv?.firstElementChild?.firstElementChild?.children;
-  //     for (let i = 0; i < trNum.length; i++) {
-  //       trNum[i].lastChild.remove();
-  //     }
-  //     var tablee = focusseddDiv?.firstElementChild?.firstElementChild;
-  //     var cells = tablee.getElementsByTagName("td");
-  //     // console.log("cells", tablee, cells);
-  //     for (let i = 0; i < cells.length; i++) {
-  //       // console.log("cells", cells[i]);
-  //       cells[i].onmouseover = function (e) {
-  //         alert("hi");
-  //         // console.log("mouseOver", e.target);
-  //       };
-  //       cells[i].ondragover = function (e) {
-  //         e.preventDefault();
-  //         e.target.classList.add("table_drag");
-  //         if (!e.target.hasChildNodes()) {
-  //           e.target.style.border = "3px solid blue";
-  //         }
-  //         if (e.target.classList.contains("imageInput")) {
-  //           e.target.style.border = "none";
-  //         }
-  //       };
-  //       cells[i].ondragleave = (e) => {
-  //         e.preventDefault();
-  //         if (
-  //           !e.target.hasChildNodes() &&
-  //           !e.target.classList.contains("imageInput")
-  //         ) {
-  //           e.target.style.border = "1px solid black";
-  //         }
-  //         if (e.target.classList.contains("imageInput")) {
-  //           e.target.style.border = "none";
-  //         }
-  //       };
-  //       cells[i].ondrop = handleDropp;
-  //     }
-  //     e.target?.parentElement.remove();
-  //     setIsDisableTableRightMenu(false);
-  //     e.stopPropagation();
-  //   }
-  // };
-  // const updateTable = (e) => {
-  //   const focusseddDiv = document.querySelector(".focussedd");
-  //   if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-  //     var editDiv = document.createElement("div");
-  //     editDiv.className = "row_col_add_div";
-  //     var addRowBtn = document.createElement("BUTTON");
-  //     // addRowBtn.onclick = handleAddRowBelow;
+  const setColRowSize = (table, width = null, height = null) => {
+    const col_resizers = table.querySelectorAll('.td-resizer');
+    const row_resizers = table.querySelectorAll('.row-resizer');
+    for (const resizer of col_resizers) {
+      if (height) {
+        resizer.style.height = `${height}px`
+        // console.log("set height: ",height);
+      } else {
+        resizer.style.height = `${table.offsetHeight}px`
 
-  //     var addColBtn = document.createElement("BUTTON");
-  //     // addColBtn.onclick = handleAddColumn;
-  //     addRowBtn.className = "btn btn-primary me-3 my-3";
-  //     addRowBtn.innerText = "Add Row";
-  //     addColBtn.innerText = "Add Col";
-  //     addColBtn.className = "btn btn-primary my-3";
-  //     editDiv.appendChild(addRowBtn);
-  //     editDiv.appendChild(addColBtn);
-  //     editDiv.style.display = "flex";
-  //     // editDiv.style.justifyContent = ""
-  //     focusseddDiv?.firstElementChild?.prepend(editDiv);
-  //     if (focusseddDiv?.firstElementChild?.children[1]) {
-  //       const numOfTr =
-  //         focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
-  //       const numOfTd =
-  //         focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
-  //           "td"
-  //         ).length;
-  //       // const numOfROW = numOfTr;
-  //       const numOfCol = numOfTd / numOfTr;
-  //       var tr = document.createElement("tr");
+      }
+    }
+    for (const resizer of row_resizers) {
+      if (width) {
+        resizer.style.width = `${width}px`
+        // console.log("set witdh: ",width);
+      } else {
+        resizer.style.width = `${table.offsetWidth}px`
+      }
+    }
 
-  //       for (let i = 0; i < numOfCol; i++) {
-  //         var td = document.createElement("td");
-  //         td.className = "dropp";
-  //         td.style.height = "50px";
-  //         // if (rowIndex == 0 && colIndex != numOfCol) {
-  //         const colDeleteBtn = document.createElement("button");
-  //         colDeleteBtn.className = "btn btn-warning";
-  //         colDeleteBtn.style.marginLeft = "5px";
-  //         colDeleteBtn.innerText = "Del Col";
-  //         colDeleteBtn.onclick = (e) => {
-  //           const index = Array.from(
-  //             e.target.parentElement.parentElement.children
-  //           ).indexOf(e.target.parentElement);
-  //           const allTableTr =
-  //             focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
-  //               "tr"
-  //             );
-  //           for (let i = 0; i < allTableTr.length; i++) {
-  //             focusseddDiv?.firstElementChild?.children[1]
-  //               .querySelectorAll("tr")
-  //               [i].childNodes[index].remove();
-  //           }
-  //           e.stopPropagation();
-  //         };
-  //         td.style.border = "none";
-  //         td.appendChild(colDeleteBtn);
-  //         tr.appendChild(td);
-  //       }
-  //       focusseddDiv?.firstElementChild?.children[1].prepend(tr);
+  }
+  const createResizableRow = (row, resizer) => {
+    // Track the current position of the mouse
+    let y = 0;
+    let h = 0;
 
-  //       for (let rowIndex = 1; rowIndex < numOfTr + 1; rowIndex++) {
-  //         for (let colIndex = 0; colIndex < numOfCol + 2; colIndex++) {
-  //           // if (colIndex == numOfCol && rowIndex != 0) {
-  //           var td = document.createElement("td");
-  //           const rowDeleteBtn = document.createElement("button");
-  //           rowDeleteBtn.className = "btn btn-warning";
-  //           rowDeleteBtn.style.marginLeft = "5px";
-  //           rowDeleteBtn.innerText = "Del Row";
-  //           rowDeleteBtn.onclick = (e) => {
-  //             e.target?.parentElement?.parentElement?.remove();
-  //             e.stopPropagation();
-  //           };
-  //           td.style.border = "none";
-  //           // td.style.background = "#fff";
-  //           td.appendChild(rowDeleteBtn);
-  //           // }
-  //         }
-  //         // console.log("child element check", focusseddDiv?.firstElementChild);
-  //         focusseddDiv?.firstElementChild?.children[1].childNodes[
-  //           rowIndex
-  //         ].appendChild(td);
-  //       }
-  //       // focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
-  //     }
-  //     var saveDiv = document.createElement("div");
-  //     saveDiv.className = "table_update_save_div";
-  //     var saveBtn = document.createElement("BUTTON");
-  //     saveBtn.className = "btn btn-primary my-3";
-  //     saveBtn.innerText = "Save Changes";
-  //     saveBtn.onclick = hadleTableUpdateSave;
-  //     saveDiv.appendChild(saveBtn);
-  //     focusseddDiv?.firstElementChild?.appendChild(saveDiv);
-  //   }
-  //   setIsDisableTableRightMenu(true);
-  // };
+    const mouseDownHandler = function (e) {
+      const holderDiv = row.parentElement.parentElement.parentElement.parentElement
+      holderDiv.removeAttribute('draggable');
+      // Get the current mouse position
+      y = e.clientY;
 
-  // const handleAddRowBelow = (e) => {
-  //   const focusseddDiv = document.querySelector(".focussedd");
+      // Calculate the current height of the row
+      h = row.clientHeight;
 
-  //   let findTArgetElement = focusseddDiv;
+      // Attach listeners for document's events
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
 
-  //   while (1) {
-  //     if (findTArgetElement.classList.contains("tableInput")) {
-  //       // findTArgetElement.classList.add("focussedd");
-  //       break;
-  //     } else {
-  //       findTArgetElement = findTArgetElement.children[1];
-  //     }
-  //   }
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dy = e.clientY - y;
 
-  //   // if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
-  //   const editableTable = findTArgetElement?.children[0];
-  //   // console.log("findTArgetElement", findTArgetElement, editableTable);
-  //   const numOfTr = editableTable?.rows?.length;
-  //   const numOfTd = editableTable.querySelectorAll("td").length;
-  //   const numOfCol = numOfTd / numOfTr;
-  //   for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
-  //     var tr = document.createElement("tr");
+      // Update the height of the row
+      row.style.height = `${h + dy}px`;
+    };
 
-  //     for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
-  //       // console.log("numOfCol", numOfTr, numOfTd, numOfCol);
-  //       var td = document.createElement("td");
-  //       td.className = "dropp";
-  //       // td.style.height = "50px";
-  //       // if (colIndex == numOfCol - 1) {
-  //       //   const rowDeleteBtn = document.createElement("button");
-  //       //   rowDeleteBtn.className = "btn btn-warning";
-  //       //   rowDeleteBtn.style.marginLeft = "5px";
-  //       //   rowDeleteBtn.innerText = "Del Row";
-  //       //   rowDeleteBtn.onclick = (e) => {
-  //       //     e.target?.parentElement?.parentElement?.remove();
-  //       //     e.stopPropagation();
-  //       //   };
-  //       //   td.style.border = "none";
-  //       //   // td.style.background = "#fff";
-  //       //   td.appendChild(rowDeleteBtn);
-  //       // }
-  //       td.ondragover = function (e) {
-  //         e.preventDefault();
-  //         e.target.classList.add("table_drag");
-  //         if (!e.target.hasChildNodes()) {
-  //           e.target.style.border = "3px solid blue";
-  //         }
-  //         if (e.target.classList.contains("imageInput")) {
-  //           e.target.style.border = "none";
-  //         }
-  //       };
-  //       td.ondragleave = (e) => {
-  //         e.preventDefault();
-  //         if (
-  //           !e.target.hasChildNodes() &&
-  //           !e.target.classList.contains("imageInput")
-  //         ) {
-  //           e.target.style.border = "1px solid black";
-  //         }
-  //         if (e.target.classList.contains("imageInput")) {
-  //           e.target.style.border = "none";
-  //         }
-  //       };
+    // When the user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
 
-  //       // console.log("td", td.classList.contains("dropp"));
-  //       td.ondrop = handleDropp;
-  //       tr.appendChild(td);
-  //     }
-  //     editableTable.appendChild(tr);
-  //   }
-  //   e.stopPropagation();
-  //   // }
-  // };
+    resizer.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  const createResizableColumn = (col, resizer) => {
+    // Track the current position of mouse
+    let x = 0;
+    let w = 0;
+
+    const mouseDownHandler = function (e) {
+      const holderDiv = col.parentElement.parentElement.parentElement.parentElement
+           holderDiv.removeAttribute('draggable');
+      // Get the current mouse position
+      x = e.clientX;
+
+      // Calculate the current width of column
+      const styles = window.getComputedStyle(col);
+      w = parseInt(styles.width, 10);
+
+      // Attach listeners for document's events
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+
+      // Determine how far the mouse has been moved
+      const dx = e.clientX - x;
+
+      // Update the width of column
+      col.style.width = `${w + dx}px`;
+    };
+
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    resizer.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  const hadleTableUpdateSave = (e) => {
+    const focusseddDiv = document.querySelector(".focussedd");
+    let updatedTable;
+    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+      focusseddDiv?.firstElementChild?.firstElementChild?.remove();
+      const trNum = focusseddDiv?.firstElementChild?.firstElementChild?.children;
+      let isHeaderRow = true
+      for (let i = 0; i < trNum.length; i++) {
+        if (trNum[i].querySelector('.target-el') && isHeaderRow) {
+          trNum[i].remove()
+          isHeaderRow = false;
+        }
+        if (!isHeaderRow) {
+          trNum[i].querySelectorAll('td').forEach(td => {
+            if (td.querySelector('.target-el')) {
+              td.remove();
+            }
+          })
+
+        }
+      }
+      var tablee = focusseddDiv?.firstElementChild?.firstElementChild;
+      var cells = tablee.getElementsByTagName("td");
+      // console.log("cells", tablee, cells);
+      for (let i = 0; i < cells.length; i++) {
+        // console.log("cells", cells[i]);
+        cells[i].onmouseover = function (e) {
+
+          // console.log("mouseOver", e.target);
+        };
+        cells[i].ondragover = function (e) {
+          e.preventDefault();
+          e.target.classList.add("table_drag");
+          if (!e.target.hasChildNodes()) {
+            if (e.target.tagName.toLowerCase() == "td") {
+              e.target.style.border = "3px solid blue";
+            };
+          }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
+        };
+        cells[i].ondragleave = (e) => {
+          e.preventDefault();
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
+          if (
+            e.target.childNodes.length < 2 &&
+            !e.target.classList.contains("imageInput")
+          ) {
+            if (e.target.tagName.toLowerCase() == "td") {
+              e.target.style.border = "1px solid black";
+            };
+          }
+        };
+        cells[i].ondrop = handleDropp;
+      }
+      e.target?.parentElement.remove();
+      const updatedTable = tablee;
+      const col_resizers = updatedTable.querySelectorAll('.td-resizer');
+      const row_resizers = updatedTable.querySelectorAll('.row-resizer');
+      for (const resizer of col_resizers) {
+        resizer.style.height = `${updatedTable.offsetHeight}px`
+      }
+      for (const resizer of row_resizers) {
+        resizer.style.width = `${updatedTable.offsetWidth}px`
+      }
+      setIsDisableTableRightMenu(false);
+      e.stopPropagation();
+    }
+  };
+
+
+  const addTableButtons = (focusseddDiv) => {
+    if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
+      var editDiv = document.createElement("div");
+      editDiv.className = "row_col_add_div";
+      var addRowBtn = document.createElement("BUTTON");
+      addRowBtn.onclick = handleAddRowBelow;
+
+      var addColBtn = document.createElement("BUTTON");
+      addColBtn.onclick = addColumn;
+      addRowBtn.className = "btn btn-primary me-3 my-3 target-el";
+      addRowBtn.innerText = "Add Row";
+      addColBtn.innerText = "Add Col";
+      addColBtn.className = "btn btn-primary my-3 target-el";
+      editDiv.appendChild(addRowBtn);
+      editDiv.appendChild(addColBtn);
+      editDiv.style.display = "flex";
+      // editDiv.style.justifyContent = ""
+      focusseddDiv?.firstElementChild?.prepend(editDiv);
+      if (focusseddDiv?.firstElementChild?.children[1]) {
+        const numOfTr =
+          focusseddDiv?.firstElementChild?.children[1]?.rows?.length;
+        const numOfTd =
+          focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+            "td"
+          ).length;
+        // const numOfROW = numOfTr;
+        const numOfCol = numOfTd / numOfTr;
+        var tr = document.createElement("tr");
+
+        for (let i = 0; i < numOfCol; i++) {
+          var td = document.createElement("td");
+          td.className = "dropp";
+          td.style.height = "50px";
+          // if (rowIndex == 0 && colIndex != numOfCol) {
+          const colDeleteBtn = document.createElement("button");
+          colDeleteBtn.className = "btn btn-warning target-el";
+          colDeleteBtn.style.marginLeft = "5px";
+          const deleteIcon = `<img src="${deleteSVG}"/>`
+          colDeleteBtn.innerHTML = deleteIcon
+          colDeleteBtn.onclick = (e) => {
+            const index = Array.from(
+              e.target.parentElement.parentElement.children
+            ).indexOf(e.target.parentElement);
+            const allTableTr =
+              focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+                "tr"
+              );
+            for (let i = 0; i < allTableTr.length; i++) {
+              focusseddDiv?.firstElementChild?.children[1]
+                .querySelectorAll("tr")
+              [i].childNodes[index].remove();
+            }
+            e.stopPropagation();
+          };
+          td.style.border = "none";
+          td.appendChild(colDeleteBtn);
+          tr.appendChild(td);
+        }
+        focusseddDiv?.firstElementChild?.children[1].prepend(tr);
+
+        for (let rowIndex = 1; rowIndex < numOfTr + 1; rowIndex++) {
+          for (let colIndex = 0; colIndex < numOfCol + 2; colIndex++) {
+            // if (colIndex == numOfCol && rowIndex != 0) {
+            var td = document.createElement("td");
+            const rowDeleteBtn = document.createElement("button");
+            rowDeleteBtn.className = "btn btn-warning target-el";
+            rowDeleteBtn.style.marginLeft = "5px";
+            const deleteIcon = `<img src="${deleteSVG}"/>`
+            rowDeleteBtn.innerHTML = deleteIcon;
+            rowDeleteBtn.onclick = (e) => {
+              e.target?.parentElement?.parentElement?.remove();
+              e.stopPropagation();
+            };
+            td.style.border = "none";
+            td.style.backgroundColor = "#fff";
+            // td.style.background = "#fff";
+            td.appendChild(rowDeleteBtn);
+            // }
+          }
+          // console.log("child element check", focusseddDiv?.firstElementChild);
+          focusseddDiv?.firstElementChild?.children[1].childNodes[
+            rowIndex
+          ].appendChild(td);
+        }
+        // focusseddDiv?.firstElementChild?.firstElementChild.appendChild(tr);
+      }
+      var saveDiv = document.createElement("div");
+      saveDiv.className = "table_update_save_div";
+      var saveBtn = document.createElement("BUTTON");
+      saveBtn.className = "btn btn-primary my-3";
+      saveBtn.innerText = "Save Changes";
+      saveBtn.onclick = hadleTableUpdateSave;
+      saveDiv.appendChild(saveBtn);
+      focusseddDiv?.firstElementChild?.appendChild(saveDiv);
+    }
+  }
+
+
+  const updateTable = (e) => {
+    const focusseddDiv = document.querySelector(".focussedd");
+    focusseddDiv.querySelector('.tableInput').style.backgroundColor = 'white !important'
+    focusseddDiv.style.overflow = 'visible';
+    focusseddDiv.style.borderWidth = "0px";
+    focusseddDiv.querySelector('.tableInput').style.backgroundColor = "#fff";
+    console.log(focusseddDiv.style.border)
+    focusseddDiv.classList.remove('.dotted_border')
+    const isUpdating = document.querySelector(".table_update_save_div"); // check if user is already editing
+    if (isUpdating) return; //do nothing if user is editing
+    addTableButtons(focusseddDiv)
+    setIsDisableTableRightMenu(true);
+  };
+
+  const handleAddRowBelow = (e) => {
+    const focusseddDiv = document.querySelector(".focussedd");
+
+    let findTArgetElement = focusseddDiv;
+    const editableTable = findTArgetElement?.children[0].querySelector('table');
+    const numOfTr = editableTable?.rows?.length;
+    const numOfTd = editableTable.querySelectorAll("td").length;
+    const numOfCol = numOfTd / numOfTr;
+    for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
+      var tr = document.createElement("tr");
+      for (var colIndex = 1; colIndex < numOfCol; colIndex++) {
+        // console.log("numOfCol", numOfTr, numOfTd, numOfCol);
+        var td = document.createElement("td");
+        td.className = "dropp";
+
+        td.ondragover = function (e) {
+          e.preventDefault();
+          e.target.classList.add("table_drag");
+          if (!e.target.hasChildNodes()) {
+            e.target.style.border = "3px solid blue";
+          }
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
+        };
+        td.ondragleave = (e) => {
+          e.preventDefault();
+          if (e.target.classList.contains("imageInput")) {
+            e.target.style.border = "none";
+          }
+          if (
+            e.target.childNodes.length < 2 &&
+            !e.target.classList.contains("imageInput")
+          ) {
+            if (e.target.tagName.toLowerCase() == "td") {
+              e.target.style.border = "1px solid black";
+            };
+          }
+        };
+
+        td.ondrop = handleDropp;
+        if (colIndex === 1) {
+          const resizer = document.createElement('div');
+          resizer.classList.add('row-resizer');
+          resizer.addEventListener("mousedown", (e) => {
+            let x = 0;
+            let w = 0;
+
+
+          })
+          td.appendChild(resizer);
+          createResizableRow(td, resizer);
+        }
+        tr.appendChild(td);
+      }
+      const buttonTd = document.createElement("td");
+      const rowDeleteBtn = document.createElement("button");
+      rowDeleteBtn.className = "btn btn-warning target-el";
+      rowDeleteBtn.style.marginLeft = "5px";
+      const deleteIcon = `<img src="${deleteSVG}"/>`
+      rowDeleteBtn.innerHTML = deleteIcon;
+      rowDeleteBtn.onclick = (e) => {
+        e.target?.parentElement?.parentElement?.remove();
+        e.stopPropagation();
+      };
+      buttonTd.style.border = 'none';
+      buttonTd.style.backgroundColor = '#fff';
+      buttonTd.appendChild(rowDeleteBtn);
+      tr.appendChild(buttonTd);
+      editableTable.appendChild(tr);
+
+    }
+    e.stopPropagation();
+    // }
+  };
 
   const handleAddRow = (e, direction) => {
     const focussedDiv = document.querySelector(".focussedd");
@@ -836,7 +1028,6 @@ const TableRightSidebar = () => {
     const numOfCol = numOfTd / numOfTr;
     for (var rowIndex = 0; rowIndex < 1; rowIndex++) {
       var tr = document.createElement("tr");
-
       for (var colIndex = 0; colIndex < numOfCol; colIndex++) {
         // console.log("numOfCol", numOfTr, numOfTd, numOfCol);
         var td = document.createElement("td");
@@ -890,12 +1081,6 @@ const TableRightSidebar = () => {
         };
         td.ondragleave = (e) => {
           e.preventDefault();
-          if (
-            e.target.childNodes.length < 2 &&
-            !e.target.classList.contains("imageInput")
-          ) {
-            e.target.style.border = "1px solid black";
-          }
           if (e.target.classList.contains("imageInput")) {
             e.target.style.border = "none";
           }
@@ -926,6 +1111,60 @@ const TableRightSidebar = () => {
     }
     e.stopPropagation();
   };
+
+
+  const addColumn = () => {
+    const focusseddDiv = document.querySelector(".focussedd");
+
+    let findTArgetElement = focusseddDiv;
+    const editableTable = findTArgetElement.querySelector('table');
+
+    const targetTR = editableTable.querySelectorAll('tr')
+    targetTR.forEach((tr, i) => {
+      if (i > 0) {
+        const td = document.createElement('td')
+        if (i == 1) {
+          const resizer = document.createElement('div');
+          resizer.classList.add('td-resizer');
+          resizer.addEventListener("mousedown", (e) => {
+            let x = 0;
+            let w = 0;
+
+
+          })
+          td.appendChild(resizer);
+          createResizableColumn(td, resizer)
+        }
+        tr.lastElementChild.insertAdjacentElement('beforebegin', td)
+      } else {
+        const td = document.createElement("td");
+        td.className = "dropp";
+        td.style.height = "50px";
+        const colDeleteBtn = document.createElement("button");
+        const deleteIcon = `<img src="${deleteSVG}"/>`
+        colDeleteBtn.innerHTML = deleteIcon
+        colDeleteBtn.className = "btn btn-warning target-el";
+        colDeleteBtn.style.marginLeft = "5px";
+
+        colDeleteBtn.onclick = (e) => {
+          const index = Array.from(
+            e.target.parentElement.parentElement.children
+          ).indexOf(e.target.parentElement);
+          const allTableTr =
+            focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
+              "tr"
+            );
+          for (let i = 0; i < allTableTr.length; i++) {
+            focusseddDiv?.firstElementChild?.children[1].querySelectorAll("tr")[i].childNodes[index].remove();
+          }
+          e.stopPropagation();
+        };
+        td.style.border = "none";
+        td.appendChild(colDeleteBtn);
+        tr.appendChild(td);
+      }
+    })
+  }
   const handleAddColumn = (e, direction) => {
     const focussedDiv = document.querySelector(".focussedd");
 
@@ -980,12 +1219,6 @@ const TableRightSidebar = () => {
       };
       td.ondragleave = (e) => {
         e.preventDefault();
-        if (
-          e.target.childNodes.length < 2 &&
-          !e.target.classList.contains("imageInput")
-        ) {
-          e.target.style.border = "1px solid black";
-        }
         if (e.target.classList.contains("imageInput")) {
           e.target.style.border = "none";
         }
@@ -1126,7 +1359,7 @@ const TableRightSidebar = () => {
         >
           Create Table
         </Button>
-        {/* <Button
+        <Button
           variant="success"
           className="px-5"
           // data-bs-toggle="modal"
@@ -1134,8 +1367,8 @@ const TableRightSidebar = () => {
           onClick={updateTable}
           disabled={isDisableTableRightMenu}
         >
-          Update Table
-        </Button> */}
+          Configure Table
+        </Button>
       </div>
 
       {/* <div className='dropdown pt-4'>
