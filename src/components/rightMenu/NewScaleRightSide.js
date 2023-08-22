@@ -417,6 +417,7 @@ const ScaleRightSide = () => {
     }
   }, []);
 
+
   const [labelType, setLabelType] = useState("Select Label Type");
   const [labelScale, setLabelScale] = useState("--Select Choice--");
   const [labelTexts, setLabelTexts] = useState([]);
@@ -472,6 +473,13 @@ const ScaleRightSide = () => {
     updatedLabelTexts[index] = event.target.value;
     setLabelTexts(updatedLabelTexts);
   };
+
+  const areAllTextInputsFilled = labelTexts.every(labelText => labelText.trim() !== '');
+  const areAllImageEmojisFilled = selectedEmojis.some(emoji => emoji);
+
+  const isUpdateButtonDisabled =
+    (labelType === "Text" && (!areAllTextInputsFilled || labelScale === "--Select Choice--")) ||
+    (labelType === "Image" && (!areAllImageEmojisFilled || labelScale === "--Select Choice--"));
 
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -5565,6 +5573,7 @@ const ScaleRightSide = () => {
                         width="50%"
                         marginTop="60px"
                         onClick={handleUpdates}
+                        disabled={isUpdateButtonDisabled} // Disable the button if any text or image input is empty
                       >
                         Update
                       </Button>
