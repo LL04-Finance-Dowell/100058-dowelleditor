@@ -4997,17 +4997,21 @@ const MidSection = React.forwardRef((props, ref) => {
             //   top: event.clientY - containerRect.top + "px",
             //   auth_user: curr_user,
             // };
+            console.log("container Element data", element.data[p].type)
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
               // top: containerElement.top - element.top + "px",
+              // border: containerElement.borderWidths,
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
+
             const holderDIVContainer = getHolderDIV(measureContainer);
             if (typeOfOperationContainer === "DATE_INPUT") {
+              // const holderDIV = getHolderDIV(measure, pageNo, idMatch);
               let dateFieldContainer = document.createElement("div");
               dateFieldContainer.className = "dateInput";
               dateFieldContainer.style.width = "100%";

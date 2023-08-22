@@ -19,6 +19,7 @@ import { applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
 import PrintProvider from "react-easy-print";
+import ThanksPage from "./utils/ThanksPage/ThanksPage";
 
 // const store = configureStore(reducers, compose(applyMiddleware(thunk)))
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -30,6 +31,7 @@ root.render(
         <Router basename={window.location.pathname || ""}>
           <Routes>
             <Route path="/" element={<App />} />
+            <Route path="/thanks" element={<ThanksPage />} />
           </Routes>
         </Router>
       </React.StrictMode>
