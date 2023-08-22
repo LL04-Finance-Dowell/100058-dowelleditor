@@ -29,6 +29,7 @@ import useDateElement from "../../customHooks/useDateElement";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import RemoveElementModal from "../RemoveElementModal";
+import SocialMedia from "../social-media";
 // tHIS IS FOR A TEST COMMIT
 
 const dummyData = {
@@ -63,6 +64,7 @@ const initialContextMenu = {
 
 // const MidSection = ({showSidebar}) => {
 const MidSection = React.forwardRef((props, ref) => {
+
   const {
     sidebar,
     dropdownName,
@@ -7500,6 +7502,10 @@ const MidSection = React.forwardRef((props, ref) => {
                 onDrop={onDrop}
                 onContextMenu={handleContextMenu}
               >
+
+                {decoded?.product_name !== "workflowai" &&
+                  <SocialMedia />
+                }
                 {confirmRemove && <RemoveElementModal
                   handleRemoveInput={handleRemoveInput} />}
 

@@ -1,0 +1,11 @@
+.sm-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sm-container input {
+    height: 50px;
+    margin-bottom: 20px;
+}
