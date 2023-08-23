@@ -252,6 +252,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
+        console.log("loaded data", loadedData);
         setItem(pageData);
         // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
@@ -1625,8 +1626,9 @@ const MidSection = React.forwardRef((props, ref) => {
     let h = 0;
 
     const mouseDownHandler = function (e) {
-      const holderDiv = row.parentElement.parentElement.parentElement.parentElement
-      holderDiv.removeAttribute('draggable');
+      const holderDiv =
+        row.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
       // Get the current mouse position
       y = e.clientY;
 
@@ -1634,8 +1636,8 @@ const MidSection = React.forwardRef((props, ref) => {
       h = row.clientHeight;
 
       // Attach listeners for document's events
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
     };
 
     const mouseMoveHandler = function (e) {
@@ -1648,11 +1650,11 @@ const MidSection = React.forwardRef((props, ref) => {
 
     // When the user releases the mouse, remove the existing event listeners
     const mouseUpHandler = function () {
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
     };
 
-    resizer.addEventListener('mousedown', mouseDownHandler);
+    resizer.addEventListener("mousedown", mouseDownHandler);
   };
 
   const createResizableColumn = (col, resizer) => {
@@ -1661,8 +1663,9 @@ const MidSection = React.forwardRef((props, ref) => {
     let w = 0;
 
     const mouseDownHandler = function (e) {
-      const holderDiv = col.parentElement.parentElement.parentElement.parentElement
-      holderDiv.removeAttribute('draggable');
+      const holderDiv =
+        col.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
       // Get the current mouse position
       x = e.clientX;
 
@@ -1671,12 +1674,11 @@ const MidSection = React.forwardRef((props, ref) => {
       w = parseInt(styles.width, 10);
 
       // Attach listeners for document's events
-      document.addEventListener('mousemove', mouseMoveHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
     };
 
     const mouseMoveHandler = function (e) {
-
       // Determine how far the mouse has been moved
       const dx = e.clientX - x;
 
@@ -1686,35 +1688,33 @@ const MidSection = React.forwardRef((props, ref) => {
 
     // When user releases the mouse, remove the existing event listeners
     const mouseUpHandler = function () {
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
     };
 
-    resizer.addEventListener('mousedown', mouseDownHandler);
+    resizer.addEventListener("mousedown", mouseDownHandler);
   };
 
   const setColRowSize = (table, width = null, height = null) => {
-    const col_resizers = table.querySelectorAll('.td-resizer');
-    const row_resizers = table.querySelectorAll('.row-resizer');
+    const col_resizers = table.querySelectorAll(".td-resizer");
+    const row_resizers = table.querySelectorAll(".row-resizer");
     for (const resizer of col_resizers) {
       if (height) {
-        resizer.style.height = `${height}px`
+        resizer.style.height = `${height}px`;
         // console.log("set height: ",height);
       } else {
-        resizer.style.height = `${table.offsetHeight}px`
-
+        resizer.style.height = `${table.offsetHeight}px`;
       }
     }
     for (const resizer of row_resizers) {
       if (width) {
-        resizer.style.width = `${width}px`
+        resizer.style.width = `${width}px`;
         // console.log("set witdh: ",width);
       } else {
-        resizer.style.width = `${table.offsetWidth}px`
+        resizer.style.width = `${table.offsetWidth}px`;
       }
     }
-
-  }
+  };
   const handleCutInput = () => {
     const cutItem = document.querySelector(".focussedd");
     const cutEle = cutItem.cloneNode(true);
@@ -2047,9 +2047,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2314,9 +2314,12 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        if (event.target.className != 'td-resizer' && event.target.className != 'row-resizer') {
+        if (
+          event.target.className != "td-resizer" &&
+          event.target.className != "row-resizer"
+        ) {
           dragElementOverPage(event);
-        };
+        }
       },
       false
     );
@@ -2529,7 +2532,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2637,7 +2640,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2721,7 +2724,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2841,7 +2844,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -2897,13 +2900,13 @@ const MidSection = React.forwardRef((props, ref) => {
               var cells = document.createElement("td");
               cells.className = "dropp";
               if (i === 0) {
-                const resizer = document.createElement('div');
-                resizer.classList.add('td-resizer');
+                const resizer = document.createElement("div");
+                resizer.classList.add("td-resizer");
                 resizer.addEventListener("mousedown", (e) => {
                   let x = 0;
                   let w = 0;
-                })
-                createResizableColumn(cells, resizer)
+                });
+                createResizableColumn(cells, resizer);
                 cells.appendChild(resizer);
               }
 
@@ -3056,32 +3059,30 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondrop = handleDropp;
               tabbTR.appendChild(cells);
             }
-            const rowResizeCell = tabbTR.firstElementChild
-            const resizer = document.createElement('div');
-            resizer.classList.add('row-resizer');
+            const rowResizeCell = tabbTR.firstElementChild;
+            const resizer = document.createElement("div");
+            resizer.classList.add("row-resizer");
             resizer.addEventListener("mousedown", (e) => {
               let x = 0;
               let w = 0;
-
-
-            })
-            rowResizeCell.appendChild(resizer)
-            createResizableRow(rowResizeCell, resizer)
+            });
+            rowResizeCell.appendChild(resizer);
+            createResizableRow(rowResizeCell, resizer);
             tabb.appendChild(tabbTR);
           }
-          const resizeObserver = new ResizeObserver(entries => {
-            entries.forEach(entry => {
+          const resizeObserver = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
               // console.log("Observing: ",entry.target);
               const width = entry.contentRect.width;
               const height = entry.contentRect.height;
               const table = entry.target
               const holderDIV = table.parentElement?.parentElement
 
-              setColRowSize(table, width, height, holderDIV)
+              setColRowSize(table, width, height, holderDIV);
               //  console.log("called setcolrowsize");
-            })
-          })
-          resizeObserver.observe(tabb)
+            });
+          });
+          resizeObserver.observe(tabb);
           tableField.append(tabb);
           // var cells = tabb.getElementsByTagName("td");
 
@@ -3143,7 +3144,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3198,7 +3199,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3312,7 +3313,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "PAYMENT_INPUT") {
@@ -3425,7 +3426,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3469,7 +3470,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3598,7 +3599,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3700,7 +3701,6 @@ const MidSection = React.forwardRef((props, ref) => {
               setSidebar(true);
               console.log("The camera", cameraField);
             };
-
           } else if (decoded.details.action === "document") {
             let videoField = document.createElement("video");
             const videoLinkHolder1 = document.createElement("h1");
@@ -3800,7 +3800,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -4661,8 +4661,8 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log(prodLength);
 
             for (let i = 0; i < prodLength; i++) {
-              let originalText = element?.raw_data?.percentCenter[i];
-              let percentValue = originalText?.replace("%", "");
+              // let originalText = element?.raw_data?.percentCenter[i];
+              // let percentValue = originalText?.replace("%", "");
               labelHold.style.display = "flex";
               labelHold.style.justifyContent = "center";
               labelHold.style.height = "100%";
@@ -4671,7 +4671,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
               let conatainerDIV = document.createElement("div");
               conatainerDIV.style.width = "95%";
-              conatainerDIV.style.padding = "10px";
+              conatainerDIV.style.padding = "10px 39px 10px 10px";
               conatainerDIV.style.border = "1px solid gray";
               labelHold.append(conatainerDIV);
 
@@ -4686,7 +4686,8 @@ const MidSection = React.forwardRef((props, ref) => {
               inputPercent.type = "range";
               inputPercent.min = "0";
               inputPercent.max = "100";
-              inputPercent.value = percentValue;
+              // inputPercent.value = percentValue;
+              inputPercent.disabled = "true";
               inputPercent.className = "percent-slider";
               inputPercent.style.width = "100%";
               inputPercent.style.cursor = "pointer";
@@ -4708,7 +4709,7 @@ const MidSection = React.forwardRef((props, ref) => {
               percentChilds.appendChild(leftPercent);
 
               let centerPercent = document.createElement("div");
-              centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
+              // centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
               centerPercent.className = "center-percent";
               percentChilds.appendChild(centerPercent);
 
@@ -4720,6 +4721,28 @@ const MidSection = React.forwardRef((props, ref) => {
               conatainerDIV.appendChild(percentChilds);
               if (!token) {
                 return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                conatainerDIV.style.width = "90%";
+                conatainerDIV.style.position = "relative";
+
+                labelHold.style.width = "52%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+
+                inputPercent.style.width = "100%";
               }
             }
           }
@@ -5025,7 +5048,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -5089,7 +5112,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -5135,7 +5158,7 @@ const MidSection = React.forwardRef((props, ref) => {
             //   top: event.clientY - containerRect.top + "px",
             //   auth_user: curr_user,
             // };
-            console.log("container Element data", element.data[p].type)
+            console.log("container Element data", element.data[p].type);
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
@@ -6133,7 +6156,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-          [p - 1] // ?.item(0)
+            [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });

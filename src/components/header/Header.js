@@ -2625,27 +2625,27 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
+          let orientation = "";
 
           if (scaleType.textContent === "percent_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
+            console.log(percentLabel);
 
             percentLabel.forEach((elem) => {
               prodName.push(elem.querySelector(".product_name")?.textContent);
               percentCenter.push(
-                elem.querySelector(".center-percent")?.textContent
+                elem.querySelector("center-percent")?.textContent
+                  ? elem.querySelector("center-percent")?.textContent
+                  : 1
               );
               console.log(prodName);
               console.log(percentCenter);
             });
             percentLeft = newScales[b].querySelector(".left-percent");
-            // percentCenter = newScales[b].querySelector(".center-percent");
-            // var currentText = percentCenter.textContent;
-            // var textWithoutPercent = currentText.replace("%", "");
-
-            // // Set the modified text back to the element
-            // percentCenter.textContent = textWithoutPercent;
             percentRight = document.querySelector(".right-percent");
+
+            orientation = newScales[b].querySelector(".orientation");
           }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
@@ -2668,6 +2668,8 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
+            percentLabel: percentLabel?.length,
+            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2948,6 +2950,7 @@ const Header = () => {
     console.log(documentResponses);
 
     const requestBody = {
+      process_id: decoded.details.process_id,
       instance_id: 1,
       brand_name: "XYZ545",
       product_name: "XYZ511",
