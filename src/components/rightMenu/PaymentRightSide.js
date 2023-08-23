@@ -12,6 +12,8 @@ import axios, * as others from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import ThanksPage from "../../utils/ThanksPage/ThanksPage";
 import PaymentPopup from "../PaymentPopup/PaymentPopup";
+import Axios from "axios";
+
 
 
 const PaymentRightSide = () => {
@@ -30,7 +32,7 @@ const PaymentRightSide = () => {
   const [paypalPaymentData, setPaypalPaymentData] = useState({});
   const [loader, setLoader] = useState(false);
   var decoded = jwt_decode(token);
-  
+
 
   const button = document.querySelector(".focussed");
   const holderDIV = document.querySelector(".focussedd");
@@ -51,6 +53,7 @@ const PaymentRightSide = () => {
   //   localStorage.getItem("borderColor") || "#000000"
   // );
   const [showSlider, setShowSlider] = useState(false);
+
 
   // useEffect(() => {
   //     if (button) {
@@ -153,18 +156,21 @@ const PaymentRightSide = () => {
     setPopupUrl(null);
   };
 
-
+  const [stripeKey, setStripeKey] = useState("");
+  const [paypalClientId, setPaypalClientId] = useState("");
 
   const handleStripePayment = async (e) => {
     e.preventDefault();
     const stripeData = {
-      stripe_key: "sk_test_51LiKUnEJkGNthfbzNbTn7Up7EnVwyeqRWLcRX1UWyq7ABL7wn1VMmHsS4Aox3U9b2nh3HkHd32vsQRR7nItC8ybv00WChhFen4",
-      template_id: "1234",
+      // stripe_key: "sk_test_51LiKUnEJkGNthfbzNbTn7Up7EnVwyeqRWLcRX1UWyq7ABL7wn1VMmHsS4Aox3U9b2nh3HkHd32vsQRR7nItC8ybv00WChhFen4",
+      stripe_key: stripeKey,
+      template_id: decoded.details._id,
       price: +price,
       product: productName,
       currency_code: currencyCode,
       callback_url: callbackUrl
     }
+    console.log("stripe data", stripeData);
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       e.preventDefault();
@@ -210,9 +216,10 @@ const PaymentRightSide = () => {
   const handlePaypalPayment = async (e) => {
     e.preventDefault();
     const paypalData = {
-      paypal_client_id: "AVJXJddOEG7WGrLkTzg4_9ODsDNhIHrqT4ZL6gwXRz1ftQELliYtticZH-kLjoYaTZfNn_8y5onH_YP3",
+      // paypal_client_id: "AVJXJddOEG7WGrLkTzg4_9ODsDNhIHrqT4ZL6gwXRz1ftQELliYtticZH-kLjoYaTZfNn_8y5onH_YP3",
+      paypal_client_id: paypalClientId,
       paypal_secret_key: "ELsNyOGLDJVZCsfuuu5AhsFRmQbgBwxEVZteB-2XLZm8RLa8cPeS_cfNi35w7bJwkOKDHOnNxyHsJKu6",
-      template_id: "1234",
+      template_id: decoded.details._id,
       price: +price,
       product: productName,
       currency_code: currencyCode,
@@ -220,7 +227,7 @@ const PaymentRightSide = () => {
     }
     console.log("paypal data", paypalData);
     setLoader(true)
-  
+
     try {
       // const iframe = `<iframe width="560" height="315" src="https://www.youtube.com/embed/F-7EYlkoGI8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
       // const timeout = setTimeout(() => {
@@ -233,15 +240,15 @@ const PaymentRightSide = () => {
       setLoader(false)
       console.log("paypal data", res.data)
       const timeout = setTimeout(() => {
-        // window.open(res.data.approval_url, '_blank');
-        openPopup(res.data.approval_url);
+        window.open(res.data.approval_url, '_blank');
+        // openPopup(res.data.approval_url);
       }, 2000); // Wait for 2 seconds
       toast.success("Successfully Submitted!");
       return () => clearTimeout(timeout);
     } catch (error) {
       console.log(error)
       setLoader(false)
-      toast.error(error.response.data.message);
+      toast.error(error.data.error);
     }
   }
 
@@ -264,6 +271,17 @@ const PaymentRightSide = () => {
         {
           selectPayment == "paypal" ?
             <Form noValidate validated={validated} onSubmit={handlePaypalPayment}>
+              <Form.Label>Paypal Client Id</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Paypal Client Id"
+                // id="button_name"
+                value={paypalClientId}
+                onChange={(e) => setPaypalClientId(e.target.value)}
+
+              />
+              <br/>
               <Form.Label>Product Name</Form.Label>
               <Form.Control
                 required
@@ -334,6 +352,18 @@ const PaymentRightSide = () => {
                 }
               </button>
             </Form> : <Form noValidate validated={validated} onSubmit={handleStripePayment}>
+              <Form.Label>Stripe Key</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Stripe Key"
+                // id="button_name"
+                value={stripeKey}
+                onChange={(e) => setStripeKey(e.target.value)}
+
+              />
+
+              <br />
               <Form.Label>Product Name</Form.Label>
               <Form.Control
                 required
@@ -383,19 +413,20 @@ const PaymentRightSide = () => {
                 onChange={(e) => setCallbackUrl(e.target.value)}
               />
               <br />
+
               {/* <Link to={"/thanks"} > */}
-                <button type="submit" className="btn btn-primary">
-                  {
-                    loader ? "Wait...." : "Submit Info"
-                  }
-                </button>
+              <button type="submit" className="btn btn-primary">
+                {
+                  loader ? "Wait...." : "Submit Info"
+                }
+              </button>
               {/* </Link> */}
             </Form>
 
         }
       </div>
 
-   {popupUrl && <PaymentPopup url={popupUrl} onClose={closePopup} />}
+      {popupUrl && <PaymentPopup url={popupUrl} onClose={closePopup} />}
       <hr />
       <Row className="pt-4">
         <div style={{ display: "flex", alignItems: "center" }}>

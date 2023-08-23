@@ -2286,7 +2286,15 @@ const Header = () => {
                   tableChildren[i].children[
                     j
                   ]?.firstElementChild?.className.split(" ")[0];
-
+                const childNodes = tableChildren[i].children[j]?.childNodes
+                const tdElement=[]
+                childNodes.forEach(child=>{
+                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
+                    tdElement.push(child);
+                    console.log("DATA EXTRACTED FROM: ", child);
+                }
+                
+                })
                 const trChild = {
                   td: {
                     type:
@@ -2299,12 +2307,11 @@ const Header = () => {
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
                             .backgroundImage
-                        : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                        : tdElement[0]?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
-
+                 console.log('SENT SENT DATA: ',trChild.td.data);
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
