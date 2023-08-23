@@ -1049,13 +1049,13 @@ const ScaleRightSide = () => {
 
         const selectedCount = Math.min(
           emojis.length,
-          Math.abs(upperVal) + Math.abs(lowerVal) + spacing
+          Math.abs((Math.floor(upperLimit/space) * 2)) + Math.abs((-Math.floor(upperLimit/space) * 2)) + spacing
         );
 
-        for (let i = (-Math.floor(upperLimit/space) * 2); i < (Math.floor(upperLimit/space) * 2); i += spacing) {
+        for (let i = (-Math.floor(upperLimit/space) * 2); i <= (Math.floor(upperLimit/space) * 2); i += spacing) {
           if (i !== 0) {
             const emojiIndex =
-              (i >= 0 ? i - lowerVal : Math.abs(upperVal) + i) % selectedCount;
+              (i >= 0 ? i - (-Math.floor(upperLimit/space) * 2) : Math.abs((Math.floor(upperLimit/space) * 2)) + i) % selectedCount;
             emojiLabels[i] = emojis[emojiIndex];
           }
         }
@@ -1206,12 +1206,16 @@ const ScaleRightSide = () => {
             scale_id: idHolder.textContent,
             fomat: selectedOption,
             scale_upper_limit: upperVal,
+            spacing_unit: spacing,
+            scalecolor: btnUpdateScale.value,
+            roundcolor: btnUpdateButton.value,
+            fontcolor: btnUpdateFontColor.value,
             time: timeId?.style?.display === "none" ? "00" : time?.value,
             name: beNametnUpdateScal.value,
             left: btnUpdateLeft.value,
             right: btnUpdateRight.value,
             label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
-            fontstyle: "Arial",
+            fontstyle: btnUpdateScaleFontStapel.value,
             custom_emoji_format: emojiLabels,
           }
         )
@@ -2228,12 +2232,9 @@ const ScaleRightSide = () => {
     e.target.focus();
   };
   const refreshIframe = () => {
-    const focusseddElmnt = document.querySelector(".focussedd");
-    if (focusseddElmnt.classList.contains("holderDIV")) {
-      var container = document.querySelector(".focussedd");
-      var content = container.innerHTML;
-      container.innerHTML = content;
-    }
+    var container = document.getElementById("settingSelect");
+    var content = container.innerHTML;
+    container.innerHTML = content;
   };
 
   const onScoreChange = (e) => {
