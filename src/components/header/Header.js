@@ -2286,15 +2286,17 @@ const Header = () => {
                   tableChildren[i].children[
                     j
                   ]?.firstElementChild?.className.split(" ")[0];
-                const childNodes = tableChildren[i].children[j]?.childNodes
-                const tdElement=[]
-                childNodes.forEach(child=>{
-                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
+                const childNodes = tableChildren[i].children[j]?.childNodes;
+                const tdElement = [];
+                childNodes.forEach((child) => {
+                  if (
+                    !child.classList.contains("row-resizer") &&
+                    !child.classList.contains("td-resizer")
+                  ) {
                     tdElement.push(child);
                     console.log("DATA EXTRACTED FROM: ", child);
-                }
-                
-                })
+                  }
+                });
                 const trChild = {
                   td: {
                     type:
@@ -2311,7 +2313,7 @@ const Header = () => {
                     id: `tableTd${j + 1}`,
                   },
                 };
-                 console.log('SENT SENT DATA: ',trChild.td.data);
+                console.log("SENT SENT DATA: ", trChild.td.data);
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
@@ -2631,27 +2633,27 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
+          let orientation = "";
 
           if (scaleType.textContent === "percent_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
+            console.log(percentLabel);
 
             percentLabel.forEach((elem) => {
               prodName.push(elem.querySelector(".product_name")?.textContent);
               percentCenter.push(
-                elem.querySelector(".center-percent")?.textContent
+                elem.querySelector("center-percent")?.textContent
+                  ? elem.querySelector("center-percent")?.textContent
+                  : 1
               );
               console.log(prodName);
               console.log(percentCenter);
             });
             percentLeft = newScales[b].querySelector(".left-percent");
-            // percentCenter = newScales[b].querySelector(".center-percent");
-            // var currentText = percentCenter.textContent;
-            // var textWithoutPercent = currentText.replace("%", "");
-
-            // // Set the modified text back to the element
-            // percentCenter.textContent = textWithoutPercent;
             percentRight = document.querySelector(".right-percent");
+
+            orientation = newScales[b].querySelector(".orientation");
           }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
@@ -2674,6 +2676,8 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
+            percentLabel: percentLabel?.length,
+            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
