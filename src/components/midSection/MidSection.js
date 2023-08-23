@@ -252,6 +252,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
+        console.log("loaded data", loadedData);
         setItem(pageData);
         // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
