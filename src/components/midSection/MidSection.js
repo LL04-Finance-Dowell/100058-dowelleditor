@@ -1620,7 +1620,102 @@ const MidSection = React.forwardRef((props, ref) => {
     //   }
     // }
   };
+  const createResizableRow = (row, resizer) => {
+    // Track the current position of the mouse
+    let y = 0;
+    let h = 0;
 
+    const mouseDownHandler = function (e) {
+      const holderDiv = row.parentElement.parentElement.parentElement.parentElement
+      holderDiv.removeAttribute('draggable');
+      // Get the current mouse position
+      y = e.clientY;
+
+      // Calculate the current height of the row
+      h = row.clientHeight;
+
+      // Attach listeners for document's events
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dy = e.clientY - y;
+
+      // Update the height of the row
+      row.style.height = `${h + dy}px`;
+    };
+
+    // When the user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    resizer.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  const createResizableColumn = (col, resizer) => {
+    // Track the current position of mouse
+    let x = 0;
+    let w = 0;
+
+    const mouseDownHandler = function (e) {
+      const holderDiv = col.parentElement.parentElement.parentElement.parentElement
+      holderDiv.removeAttribute('draggable');
+      // Get the current mouse position
+      x = e.clientX;
+
+      // Calculate the current width of column
+      const styles = window.getComputedStyle(col);
+      w = parseInt(styles.width, 10);
+
+      // Attach listeners for document's events
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+
+      // Determine how far the mouse has been moved
+      const dx = e.clientX - x;
+
+      // Update the width of column
+      col.style.width = `${w + dx}px`;
+    };
+
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    resizer.addEventListener('mousedown', mouseDownHandler);
+  };
+
+  const setColRowSize = (table, width = null, height = null) => {
+    const col_resizers = table.querySelectorAll('.td-resizer');
+    const row_resizers = table.querySelectorAll('.row-resizer');
+    for (const resizer of col_resizers) {
+      if (height) {
+        resizer.style.height = `${height}px`
+        // console.log("set height: ",height);
+      } else {
+        resizer.style.height = `${table.offsetHeight}px`
+
+      }
+    }
+    for (const resizer of row_resizers) {
+      if (width) {
+        resizer.style.width = `${width}px`
+        // console.log("set witdh: ",width);
+      } else {
+        resizer.style.width = `${table.offsetWidth}px`
+      }
+    }
+
+  }
   const handleCutInput = () => {
     const cutItem = document.querySelector(".focussedd");
     const cutEle = cutItem.cloneNode(true);
@@ -1953,9 +2048,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-        parseInt(rect.height) +
-        parseInt(rect.height) +
-        20 <
+      parseInt(rect.height) +
+      parseInt(rect.height) +
+      20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2220,7 +2315,7 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        if(event.target.className != 'td-resizer' && event.target.className != 'row-resizer' ){
+        if (event.target.className != 'td-resizer' && event.target.className != 'row-resizer') {
           dragElementOverPage(event);
         };
       },
@@ -2435,7 +2530,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2543,7 +2638,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2627,7 +2722,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2747,7 +2842,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -2802,6 +2897,20 @@ const MidSection = React.forwardRef((props, ref) => {
               // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
               cells.className = "dropp";
+              if (i === 0) {
+                const resizer = document.createElement('div');
+                resizer.classList.add('td-resizer');
+                resizer.addEventListener("mousedown", (e) => {
+                  let x = 0;
+                  let w = 0;
+                })
+                createResizableColumn(cells, resizer)
+                cells.appendChild(resizer);
+              }
+
+
+
+
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
@@ -2893,6 +3002,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   setSidebar(true);
                   e.stopPropagation();
                 };
+                console.log("CONFIGURED TARGET SIGN INPUT: ", cellsDiv);
               }
               cellsDiv.setAttribute("contenteditable", true);
               cellsDiv.style.width = "100%";
@@ -2933,18 +3043,43 @@ const MidSection = React.forwardRef((props, ref) => {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
-                cellsDiv.innerHTML = `${tableTDData.data}`;
-                if (dataType) {
-                  cells.appendChild(cellsDiv);
-                }
+              }
+              else {
+                cellsDiv.innerHTML = tableTDData.data;
+                console.log("RECIEVED TD DATA: ", tableTDData.data, "TARGET TD: ", cells);
+                cells.appendChild(cellsDiv);
+
               }
 
               cells.ondrop = handleDropp;
               tabbTR.appendChild(cells);
             }
+            const rowResizeCell = tabbTR.firstElementChild
+            const resizer = document.createElement('div');
+            resizer.classList.add('row-resizer');
+            resizer.addEventListener("mousedown", (e) => {
+              let x = 0;
+              let w = 0;
+
+
+            })
+            rowResizeCell.appendChild(resizer)
+            createResizableRow(rowResizeCell, resizer)
             tabb.appendChild(tabbTR);
           }
+          const resizeObserver = new ResizeObserver(entries => {
+            entries.forEach(entry => {
+              // console.log("Observing: ",entry.target);
+              const width = entry.contentRect.width;
+              const height = entry.contentRect.height;
+              const table = entry.target
+              const holderDIV = table.parentElement.parentElement
+
+              setColRowSize(table, width, height, holderDIV)
+              //  console.log("called setcolrowsize");
+            })
+          })
+          resizeObserver.observe(tabb)
           tableField.append(tabb);
           // var cells = tabb.getElementsByTagName("td");
 
@@ -3006,7 +3141,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3061,7 +3196,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3175,7 +3310,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "PAYMENT_INPUT") {
@@ -3288,7 +3423,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3332,7 +3467,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3461,7 +3596,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3488,154 +3623,70 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
-           if(decoded.details.action === "template"){
-          let videoField = document.createElement("video");
-          const imageLinkHolder1 = document.createElement("h1");
-          const videoLinkHolder1 = document.createElement("h1");
-          if (videoLinkHolder === "video_link") {
-            videoField.className = "videoInput";
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.loop = true;
-            videoField.style.display = "none";
-            cameraField.append(videoField);
-
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          } else {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.muted = true;
-            videoField.loop = true;
-            cameraField.append(videoField);
-
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }
-
-          let imgHolder = document.createElement("img");
-          if (imageLinkHolder === "image_link") {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.style.display = "none";
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          } else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder;
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
-
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-            console.log("The camera", cameraField);
-          };
-          
-        } else if (decoded.details.action === "document") {
+          if (decoded.details.action === "template") {
             let videoField = document.createElement("video");
+            const imageLinkHolder1 = document.createElement("h1");
             const videoLinkHolder1 = document.createElement("h1");
             if (videoLinkHolder === "video_link") {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder ;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.muted = true;
-            videoField.autoplay = true;
-            videoField.loop = true;
-            videoField.style.display = "none";
-            cameraField.append(videoField);
-            
-            let cameraImageInput = document.createElement("canvas");
-            cameraImageInput.className = "cameraImageInput";
-            cameraImageInput.style.display = "none";
-            cameraField.append(cameraImageInput);
+              videoField.className = "videoInput";
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = "";
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }else {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder ;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.muted = true;
-            videoField.autoplay = true;
-            videoField.loop = true;
-            cameraField.append(videoField);
-            
-            let cameraImageInput = document.createElement("canvas");
-            cameraImageInput.className = "cameraImageInput";
-            cameraImageInput.style.display = "none";
-            cameraField.append(cameraImageInput);
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.muted = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = "";
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
 
             let imgHolder = document.createElement("img");
-            const imageLinkHolder1 = document.createElement("h1");
-
             if (imageLinkHolder === "image_link") {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.style.display = "none";
-            cameraField.append(imgHolder);
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
 
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          } else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.src = imageLinkHolder;
-            imgHolder.alt = "";
-            cameraField.append(imgHolder);
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.src = imageLinkHolder;
+              cameraField.append(imgHolder);
 
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          }
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
 
             imgHolder.onclick = (e) => {
               e.stopPropagation();
@@ -3647,7 +3698,91 @@ const MidSection = React.forwardRef((props, ref) => {
               setSidebar(true);
               console.log("The camera", cameraField);
             };
-        }
+
+          } else if (decoded.details.action === "document") {
+            let videoField = document.createElement("video");
+            const videoLinkHolder1 = document.createElement("h1");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
+
+            let imgHolder = document.createElement("img");
+            const imageLinkHolder1 = document.createElement("h1");
+
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.src = imageLinkHolder;
+              imgHolder.alt = "";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
+          }
 
           cameraField.onclick = (e) => {
             e.stopPropagation();
@@ -3663,7 +3798,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -4888,7 +5023,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -4952,7 +5087,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -5996,7 +6131,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });
