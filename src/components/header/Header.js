@@ -3575,6 +3575,21 @@ const Header = () => {
 
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
+
+  const [content, setContent] = useState('');
+  const maxCharacterLimit = 100;
+
+  const handleInput = () => {
+    const newContent = inputRef.current.textContent;
+    
+    if (newContent.length > maxCharacterLimit) {
+      // Trim the content to the maximum character limit
+      setContent(newContent.slice(0, maxCharacterLimit));
+    } else {
+      setContent(newContent);
+    }
+  };
+
   return (
     <div
       className={`header ${
@@ -3688,9 +3703,11 @@ const Header = () => {
               <div
                 className="title-name px-3"
                 contentEditable={docMap ? false : true}
-                style={{ fontSize: 24 }}
+                // style={{ fontSize: 15 }}
+                style={{ fontSize: 15, height: '50px', overflowY: 'auto', padding: '10px' }}
                 spellCheck="false"
                 ref={inputRef}
+                onInput={handleInput}
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
