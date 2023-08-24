@@ -2627,7 +2627,6 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
-          let orientation = "";
 
           if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
@@ -2670,6 +2669,7 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
+            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
