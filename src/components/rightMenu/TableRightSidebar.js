@@ -726,7 +726,7 @@ const TableRightSidebar = () => {
 
     const mouseDownHandler = function (e) {
       const holderDiv = col.parentElement.parentElement.parentElement.parentElement
-           holderDiv.removeAttribute('draggable');
+      holderDiv.removeAttribute('draggable');
       // Get the current mouse position
       x = e.clientX;
 
@@ -831,7 +831,7 @@ const TableRightSidebar = () => {
   };
 
 
-  const addTableButtons = (focusseddDiv) => {
+  const addTableButtons = (focusseddDiv, table) => {
     if (focusseddDiv?.firstElementChild?.classList.contains("tableInput")) {
       var editDiv = document.createElement("div");
       editDiv.className = "row_col_add_div";
@@ -871,19 +871,23 @@ const TableRightSidebar = () => {
           const deleteIcon = `<img src="${deleteSVG}"/>`
           colDeleteBtn.innerHTML = deleteIcon
           colDeleteBtn.onclick = (e) => {
-            const index = Array.from(
-              e.target.parentElement.parentElement.children
-            ).indexOf(e.target.parentElement);
-            const allTableTr =
-              focusseddDiv?.firstElementChild?.children[1].querySelectorAll(
-                "tr"
-              );
-            for (let i = 0; i < allTableTr.length; i++) {
-              focusseddDiv?.firstElementChild?.children[1]
-                .querySelectorAll("tr")
-              [i].childNodes[index].remove();
-            }
             e.stopPropagation();
+            const index = Array.from(
+              e.target.parentElement.parentElement.parentElement.children
+            ).indexOf(e.target.parentElement.parentElement);
+
+            const allTableRows = Array.from(document.querySelectorAll('table tr'));
+            const tableRow = table.querySelector("tr");
+            allTableRows.forEach(row => {
+              const cells = Array.from(row.children);
+              if (index >= 0 && index < cells.length) {
+                cells[index].remove();
+              }
+            });
+            if (tableRow.children.length === 0) {
+             table.innerHTML=''
+            }
+
           };
           td.style.border = "none";
           td.appendChild(colDeleteBtn);
@@ -901,8 +905,18 @@ const TableRightSidebar = () => {
             const deleteIcon = `<img src="${deleteSVG}"/>`
             rowDeleteBtn.innerHTML = deleteIcon;
             rowDeleteBtn.onclick = (e) => {
-              e.target?.parentElement?.parentElement?.remove();
-              e.stopPropagation();
+              e.stopPropagation()
+              let targetTableRow;;
+              if (e.target.tagName.toLowerCase() === "img") {
+                targetTableRow = e.target.parentElement.parentElement.parentElement
+              } else if (e.target.tagName.toLowerCase() === "button") {
+                targetTableRow = e.target.parentElement.parentElement
+              }
+              targetTableRow.remove()
+              if (table.rows.length === 1) {
+               table.innerHTML=''
+              }
+
             };
             td.style.border = "none";
             td.style.backgroundColor = "#fff";
@@ -931,6 +945,7 @@ const TableRightSidebar = () => {
 
   const updateTable = (e) => {
     const focusseddDiv = document.querySelector(".focussedd");
+    const currentTable = focusseddDiv.querySelector('table');
     focusseddDiv.querySelector('.tableInput').style.backgroundColor = 'white !important'
     focusseddDiv.style.overflow = 'visible';
     focusseddDiv.style.borderWidth = "0px";
@@ -939,7 +954,7 @@ const TableRightSidebar = () => {
     focusseddDiv.classList.remove('.dotted_border')
     const isUpdating = document.querySelector(".table_update_save_div"); // check if user is already editing
     if (isUpdating) return; //do nothing if user is editing
-    addTableButtons(focusseddDiv)
+    addTableButtons(focusseddDiv, currentTable)
     setIsDisableTableRightMenu(true);
   };
 

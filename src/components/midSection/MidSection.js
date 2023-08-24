@@ -2913,9 +2913,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                if (!e.target.hasChildNodes()) {
-                  e.target.style.border = "3px solid blue";
-                }
+                
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "3px solid blue";
+                  };
+                
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
                 }
@@ -2923,10 +2925,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragleave = (e) => {
                 e.preventDefault();
                 if (
-                  !e.target.hasChildNodes() &&
-                  !e.target.classList.contains("imageInput")
+                   !e.target.classList.contains("imageInput")
                 ) {
-                  e.target.style.border = "1px solid black";
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "1px solid black";
+                  };
                 }
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
@@ -2955,7 +2958,8 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDateMenu(false);
                   if (e.target.innerText != "mm/dd/yyyy") {
                     if (e.target.innerText.includes("/")) {
-                      const setDate = new Date(e.target.innerText);
+                      console.log("date value: ",e.target.innerText);
+                      const setDate = new Date(parseInt(e.target.innerText));
                       setMethod("first");
                       setStartDate(setDate);
                     } else {
@@ -3001,7 +3005,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   setSidebar(true);
                   e.stopPropagation();
                 };
-                console.log("CONFIGURED TARGET SIGN INPUT: ", cellsDiv);
               }
               cellsDiv.setAttribute("contenteditable", true);
               cellsDiv.style.width = "100%";
@@ -3042,15 +3045,15 @@ const MidSection = React.forwardRef((props, ref) => {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
-                cellsDiv.innerHTML = tableTDData.data;
-                console.log(
-                  "RECIEVED TD DATA: ",
-                  tableTDData.data,
-                  "TARGET TD: ",
-                  cells
-                );
-                cells.appendChild(cellsDiv);
+              }
+              else {
+           
+                if(dataType){
+                  cellsDiv.innerHTML = tableTDData.data.toString();
+                  cells.appendChild(cellsDiv);
+
+                }
+
               }
 
               cells.ondrop = handleDropp;
@@ -3072,8 +3075,8 @@ const MidSection = React.forwardRef((props, ref) => {
               // console.log("Observing: ",entry.target);
               const width = entry.contentRect.width;
               const height = entry.contentRect.height;
-              const table = entry.target;
-              const holderDIV = table.parentElement.parentElement;
+              const table = entry.target
+              const holderDIV = table.parentElement?.parentElement
 
               setColRowSize(table, width, height, holderDIV);
               //  console.log("called setcolrowsize");
