@@ -2635,7 +2635,7 @@ const Header = () => {
           let prodName = [];
           let orientation = "";
 
-          if (scaleType.textContent === "percent_scale") {
+          if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
             console.log(percentLabel);
