@@ -3314,8 +3314,16 @@ const Header = () => {
     const response = await Axios.post(
       "https://100058.pythonanywhere.com/api/get-data-from-collection/",
       {
+        // document_id: decoded.details._id,
+        // action: decoded.details.action,
         document_id: decoded.details._id,
         action: decoded.details.action,
+        database: decoded.details.database,
+        collection: decoded.details.collection,
+        team_member_ID: decoded.details.team_member_ID,
+        function_ID: decoded.details.function_ID,
+        cluster: decoded.details.cluster,
+        document: decoded.details.document,
         database: decoded.details.database,
         collection: decoded.details.collection,
         team_member_ID: decoded.details.team_member_ID,
