@@ -232,7 +232,7 @@ const ScaleRightSide = () => {
   }
   var format = document.getElementById("format");
   var npsLiteFormat = document.getElementById("format_nps_lite");
-  // var likertScaleFormat = document.getElementById("label_type_linkert");
+  var likertScaleFormat = document.getElementById("label_type_linkert");
   const scaleDisplay = scale?.querySelector(".scool_input");
 
   // var imageLabel = scale?.querySelector(".images_label");
@@ -246,9 +246,9 @@ const ScaleRightSide = () => {
     if (npsLiteFormat) {
       npsLiteFormat.selectedIndex = withEmoji.test(circleLabel) ? 1 : 0;
     }
-    // if (likertScaleFormat) {
-    //   likertScaleFormat.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
-    // }
+    if (likertScaleFormat) {
+      likertScaleFormat.selectedIndex = circleLabel?.indexOf("0") !== -1 ? 0 : 1;
+    }
   }
 
   var likertFontColor = document.getElementById("font_color_likert");
@@ -526,11 +526,11 @@ const ScaleRightSide = () => {
     }
   };
 
-  // var likertText = document.querySelectorAll("label-text-input");
-  // const updatedLabels = labelType === "Text" ? labelTexts : selectedEmojis;
-  // if (likertText) {
-  //   likertText.defaultValue = updatedLabels;
-  // }
+  var likertText = document.querySelectorAll("label-text-input");
+  const updatedLabels = labelType === "Text" ? labelTexts : selectedEmojis;
+  if (likertText) {
+    likertText.defaultValue = updatedLabels;
+  }
 
   const handleEmojiChange = (index, emoji) => {
     // Check if the emoji is already selected for another input
@@ -892,7 +892,6 @@ const ScaleRightSide = () => {
 
       if (option.value === "Vertical") {
         labelHold.style.height = "82%";
-
         labelHold.style.top = "54%";
         labelHold.style.left = "50%";
         labelHold.style.transform = "translate(-50%, -50%)";
@@ -1754,6 +1753,11 @@ const ScaleRightSide = () => {
       }
 
       if (option.value === "Vertical") {
+        let orientation = document.createElement("h2");
+        orientation.className = "orientation";
+        orientation.textContent = "vertical";
+        orientation.style.display = "none";
+        button4.appendChild(orientation);
         button4.style.border = "none";
         button4.style.textAlign = "center";
         button.style.height = "80%";
