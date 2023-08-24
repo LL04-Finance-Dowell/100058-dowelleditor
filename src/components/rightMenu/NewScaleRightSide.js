@@ -46,6 +46,10 @@ const ScaleRightSide = () => {
   const [holdText, setHoldText] = useState("");
   const [isEmojiFormat, setIsEmojiFormat] = useState(false);
 
+  const [percentSumInputValue, setPercentSumInputValue] = useState('');
+  const [percentSumLabelTexts, setPercentSumLabelTexts] = useState([]);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+
   const [productCount, setProductCount] = useState(1);
   const [inputFields, setInputFields] = useState([
     <input key={0} type="text" placeholder="Product 1" required />,
@@ -65,6 +69,7 @@ const ScaleRightSide = () => {
   let scale = document.querySelector(".focussedd");
   let circles = scale?.querySelector(".circle_label");
   let scaleBg = scale?.querySelector(".label_hold");
+  let percentSliderBg = scale?.querySelector(".percent-slider");
   // <<<<<<< HEAD
   let fontColor = scale?.querySelector(".scool_input");
   // =======
@@ -119,6 +124,21 @@ const ScaleRightSide = () => {
 
     // Convert each RGB value to hexadecimal
     scaleBg =
+      "#" +
+      rgbValues
+        .map((value) => parseInt(value).toString(16).padStart(2, "0"))
+        .join("");
+  }
+
+  if (percentSliderBg) {
+    // Get the computed background color in RGB format
+    const rgbColor = getComputedStyle(percentSliderBg).backgroundColor;
+
+    // Extract the RGB values
+    const rgbValues = rgbColor.match(/\d+/g);
+
+    // Convert each RGB value to hexadecimal
+    percentSliderBg =
       "#" +
       rgbValues
         .map((value) => parseInt(value).toString(16).padStart(2, "0"))
@@ -252,7 +272,27 @@ const ScaleRightSide = () => {
     font_color_percent.defaultValue = fontColor;
   }
 
+  var percentSumSliderColor = document.getElementById("slider_color_percent_sum_scale");
+  if (percentSumSliderColor) {
+    percentSumSliderColor.defaultValue = percentSliderBg;
+  }
+
+  var percentSumFontColor = document.getElementById("font_color_percent_sum");
+  if (percentSumFontColor) {
+    percentSumFontColor.defaultValue = fontColor;
+  }
+
   if (scaleTypeHolder?.textContent === "percent_scale") {
+    let percentSlider = scale?.querySelector(".percent-slider");
+    let sliderValueDisplay = scale?.querySelector(".center-percent");
+    function updateSliderValue() {
+      let sliderValue = percentSlider.value;
+      sliderValueDisplay.textContent = `${sliderValue}%`;
+    }
+    percentSlider?.addEventListener("input", updateSliderValue);
+  }
+
+  if (scaleTypeHolder?.textContent === "percent_sum_scale") {
     let percentSlider = scale?.querySelector(".percent-slider");
     let sliderValueDisplay = scale?.querySelector(".center-percent");
     function updateSliderValue() {
@@ -287,12 +327,14 @@ const ScaleRightSide = () => {
       document.getElementById("snippScaleForm").style.display = "flex";
       document.getElementById("npsLiteScaleForm").style.display = "none";
       document.getElementById("percentScaleForm").style.display = "none";
+      document.getElementById("percentSumScaleForm").style.display = "none";
       document.getElementById("likertScaleForm").style.display = "none";
     } else if (format === "nps") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "flex";
       document.getElementById("npsLiteScaleForm").style.display = "none";
       document.getElementById("percentScaleForm").style.display = "none";
+      document.getElementById("percentSumScaleForm").style.display = "none";
       document.getElementById("likertScaleForm").style.display = "none";
     } else if (format === "nps_lite") {
       document.getElementById("snippScaleForm").style.display = "none";
@@ -300,18 +342,29 @@ const ScaleRightSide = () => {
       document.getElementById("npsLiteScaleForm").style.display = "flex";
       document.getElementById("likertScaleForm").style.display = "none";
       document.getElementById("percentScaleForm").style.display = "none";
+      document.getElementById("percentSumScaleForm").style.display = "none";
     } else if (format === "likert") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "none";
       document.getElementById("npsLiteScaleForm").style.display = "none";
       document.getElementById("likertScaleForm").style.display = "flex";
       document.getElementById("percentScaleForm").style.display = "none";
+      document.getElementById("percentSumScaleForm").style.display = "none";
     } else if (format === "percent_scale") {
       document.getElementById("snippScaleForm").style.display = "none";
       document.getElementById("npsScaleForm").style.display = "none";
       document.getElementById("likertScaleForm").style.display = "none";
       document.getElementById("npsLiteScaleForm").style.display = "none";
       document.getElementById("percentScaleForm").style.display = "flex";
+      document.getElementById("percentSumScaleForm").style.display = "none";
+    }
+    else if (format === "percent_sum_scale") {
+      document.getElementById("snippScaleForm").style.display = "none";
+      document.getElementById("npsScaleForm").style.display = "none";
+      document.getElementById("likertScaleForm").style.display = "none";
+      document.getElementById("npsLiteScaleForm").style.display = "none";
+      document.getElementById("percentScaleForm").style.display = "none";
+      document.getElementById("percentSumScaleForm").style.display = "flex";
     }
   };
 
@@ -372,6 +425,7 @@ const ScaleRightSide = () => {
         document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("likertScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "nps") &&
         (scaleTypeHolder.textContent === "nps" ||
@@ -382,6 +436,7 @@ const ScaleRightSide = () => {
         document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("likertScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "snipte") &&
         (scaleTypeHolder.textContent === "snipte" ||
@@ -392,6 +447,7 @@ const ScaleRightSide = () => {
         document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("likertScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "nps_lite") &&
         (scaleTypeHolder.textContent === "nps_lite" ||
@@ -402,6 +458,7 @@ const ScaleRightSide = () => {
         document.getElementById("snippScaleForm").style.display = "none";
         document.getElementById("likertScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "likert") &&
         (scaleTypeHolder.textContent === "likert" ||
@@ -412,6 +469,7 @@ const ScaleRightSide = () => {
         document.getElementById("snippScaleForm").style.display = "none";
         document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "none";
       } else if (
         (scaleTypeContent === "" || scaleTypeContent === "percent_scale") &&
         (scaleTypeHolder.textContent === "percent_scale" ||
@@ -422,6 +480,18 @@ const ScaleRightSide = () => {
         document.getElementById("snippScaleForm").style.display = "none";
         document.getElementById("npsLiteScaleForm").style.display = "none";
         document.getElementById("percentScaleForm").style.display = "flex";
+        document.getElementById("percentSumScaleForm").style.display = "none";
+      } else if (
+        (scaleTypeContent === "" || scaleTypeContent === "percent_sum_scale") &&
+        (scaleTypeHolder.textContent === "percent_sum_scale" ||
+          scaleTypeHolder.textContent === "")
+      ) {
+        document.getElementById("likertScaleForm").style.display = "none";
+        document.getElementById("npsScaleForm").style.display = "none";
+        document.getElementById("snippScaleForm").style.display = "none";
+        document.getElementById("npsLiteScaleForm").style.display = "none";
+        document.getElementById("percentScaleForm").style.display = "none";
+        document.getElementById("percentSumScaleForm").style.display = "flex";
       }
     }
   }, []);
@@ -648,6 +718,44 @@ const ScaleRightSide = () => {
   }
 
   console.log(scale);
+
+  const handleInputChange = (event) => {
+    const selectedValue = event.target.value;
+    setPercentSumInputValue(selectedValue);
+    if (selectedValue == "" ) {
+      setPercentSumLabelTexts([]);
+    }   
+  };
+
+  const handleKeyDownPress = (event) => {
+    if (event.key === 'Enter') {
+      const selectedValue = event.target.value;
+      if (Number(selectedValue) >= 2 && Number(selectedValue) <= 10) {
+        setPercentSumLabelTexts(
+          Array.from({ length: Number(selectedValue) }, (_, index) => "")
+        );
+      } else {
+        alert(`You entered ${selectedValue}. Product Count value should be between 2 to 10 only`);
+        setPercentSumInputValue("")
+      }
+    }
+  }
+
+  const handlePercentSumLabelTextChange = (index, event) => {
+    const updatedLabelTexts = [...percentSumLabelTexts];
+    updatedLabelTexts[index] = event.target.value;
+    setPercentSumLabelTexts(updatedLabelTexts);
+    
+    let productNames = document.getElementById("product_count_label");
+    let inputFields = productNames?.querySelectorAll("input");
+    const hasInputValues = [...inputFields].every((inputField) => inputField.value != "");
+    if (hasInputValues) {
+      setIsSubmitDisabled(false);
+    } else {
+      setIsSubmitDisabled(true);
+    }
+  };
+
   const handleUpdates = () => {
     const scaleType = document.getElementById("scaleType");
     setScaleTypeContent(scaleType ? scaleType.value : scaleTypeContent);
@@ -2087,6 +2195,282 @@ const ScaleRightSide = () => {
             });
         }
       }
+    } else if (
+      scaleType
+        ? scaleType.value === "percent_sum_scale" ||
+          scaleTypeContent === "percent_sum_scale"
+        : scaleTypeContent === "percent_sum_scale" ||
+          scaleTypeHolder.textContent === "percent_sum_scale"
+    ) {
+      const scale = document.querySelector(".focussedd");
+      const btnUpdateScale = document.getElementById(
+        "slider_color_percent_sum_scale"
+      );
+      const btnUpdateFontColor = document.getElementById("font_color_percent_sum");
+      const btnUpdateScaleFont = document.getElementById("font_style_percent_sum");
+      const beNametnUpdateScal = document.getElementById("scale_label_percent_sum");
+
+      const button = scale?.querySelector(".label_hold");
+      const scaleText = scale?.querySelector(".scale_text");
+      const button4 = scale?.querySelector(".scool_input");
+
+      button4.style.display = "block";
+      const buttonChildLeft = scale?.querySelector(".left_child");
+      const buttonChildRight = scale?.querySelector(".right_child");
+      const buttonChildNeutral = scale?.querySelector(".neutral_child");
+
+      const option = document.querySelector("#orientationId_percent_sum").options[
+        document.querySelector("#orientationId_percent_sum").selectedIndex
+      ];
+
+      let time = document.getElementById("time_percent_sum");
+
+      let labelHold = scale?.querySelector(".label_hold");
+
+      setTimeout(() => {
+        labelHold.style.flexDirection = "column";
+      }, 50);
+      let tempText = scale?.querySelector(".tempText");
+      tempText?.remove();
+
+      if (beNametnUpdateScal.value !== "") {
+        scaleText.textContent = beNametnUpdateScal.value;
+      }
+
+      if (btnUpdateFontColor.value !== "") {
+        button4.style.color = btnUpdateFontColor.value;
+      }
+      if (btnUpdateScaleFont.value !== "") {
+        button4.style.fontFamily = btnUpdateScaleFont.value;
+      }
+
+      buttonChildLeft.textContent = "";
+      buttonChildNeutral.textContent = "";
+      buttonChildRight.textContent = "";
+
+      const existingLabelHolds = scale?.querySelectorAll(".label_hold");
+      existingLabelHolds.forEach((label) => {
+        label.remove();
+      });
+    
+      const percentSumProductCount = document.getElementById(
+        "percent_sum_product_count"
+      ).value;
+
+      const containerDiv = document.createElement("div");
+      containerDiv.className = "containerDIV";
+
+      const orientation = document.createElement("div");
+      orientation.className = "orientation";
+      orientation.textContent = option.value;
+      orientation.style.display = "none";
+      button4.appendChild(orientation);
+
+      for (let i = 0; i < Number(percentSumProductCount); i++) {
+        let newLabelHold = labelHold.cloneNode(true);
+        newLabelHold.innerHTML = "";
+        newLabelHold.style = "";
+
+        newLabelHold.style.padding = "3px";
+        newLabelHold.style.borderBottom = "1px solid gray";
+
+        newLabelHold.style.paddingRight = "35px";
+        newLabelHold.style.paddingLeft = "35px";
+        newLabelHold.style.borderBottom = "1px solid gray";
+        newLabelHold.style.borderTop = "1px solid gray";
+
+        let productNames = document.getElementById("product_count_label");
+        let inputFields = productNames?.querySelectorAll("input");
+
+        let nameDiv = document.createElement("div");
+        nameDiv.className = "product_name";
+        nameDiv.style.textAlign = "center";
+        nameDiv.style.fontWeight = "700";
+        nameDiv.textContent = inputFields[i]?.value;
+        newLabelHold.insertBefore(nameDiv, newLabelHold.firstChild);
+        
+        let inputPercent = document.createElement("input");
+        inputPercent.type = "range";
+        inputPercent.disabled = "true";
+        inputPercent.min = "0";
+        inputPercent.value = "50";
+        inputPercent.max = "100";
+        inputPercent.className = "percent-slider";
+        inputPercent.style.width = "100%";
+        inputPercent.style.cursor = "pointer";
+        inputPercent.style.background = btnUpdateScale.value;
+        inputPercent.style.webkitAppearance = "none";
+        inputPercent.style.borderRadius = "10px";
+        newLabelHold.appendChild(inputPercent);
+
+        let percentChilds = document.createElement("div");
+        percentChilds.style.display = "flex";
+        percentChilds.style.width = "100%";
+        percentChilds.style.alignItems = "center";
+        percentChilds.style.justifyContent = "space-between";
+
+        let leftPercent = document.createElement("div");
+        leftPercent.textContent = "0";
+        leftPercent.className = "left-percent";
+        percentChilds.appendChild(leftPercent);
+
+        let centerPercent = document.createElement("div");
+        inputPercent.addEventListener("input", () => {
+          centerPercent.textContent = `${inputPercent.value}%`
+            ? `${inputPercent.value}%`
+            : "50%";
+        });
+        centerPercent.className = "center-percent";
+        percentChilds.appendChild(centerPercent);
+
+        let rightPercent = document.createElement("div");
+        rightPercent.textContent = "100";
+        rightPercent.className = "right-percent";
+        percentChilds.appendChild(rightPercent);
+ 
+        containerDiv.appendChild(newLabelHold);
+
+        newLabelHold.appendChild(percentChilds);
+        button4.appendChild(containerDiv);
+
+        if (option.value === "Horizontal") {
+          button4.style.border = "block";
+          button4.style.textAlign = "center";
+          button.style.marginTop = "10px";
+          button.style.alignItems = "center";
+          button.style.height = "85%";
+          button.style.width = "100%";
+          button.style.flexDirection = "row";
+          button.style.position = "relative";
+          button.style.marginLeft = "0px";
+        }
+
+        if (option.value === "Vertical") {
+          containerDiv.style.transform = "rotate(270deg)";
+          // containerDiv.style.marginLeft = "30px";
+          containerDiv.style.marginTop = "80px";
+          containerDiv.style.width = "100%";
+
+          inputPercent.style.marginTop = "20px";
+
+          nameDiv.style.position = "absolute";
+          nameDiv.style.left = "93%";
+          nameDiv.style.top = "7px";
+          nameDiv.style.right = "-8px";
+          nameDiv.style.transform = "rotate(90deg)";
+          nameDiv.style.paddingLeft = "8px";
+
+          newLabelHold.style.position = "relative";
+          newLabelHold.style.width = "85%";
+
+          percentChilds.style.alignItems = "start";
+          percentChilds.style.height = "100%";
+
+          if (inputFields.length == 5 ) {
+            scaleText.style.marginBottom = "-100px";
+          }
+
+
+          if (inputFields.length == 6 ) {
+            scaleText.style.marginBottom = "-31px";
+          }
+
+          if (inputFields.length == 7 ) {
+            scaleText.style.marginBottom = "-62px";
+          }
+
+          if (inputFields.length == 8 ) {
+            scaleText.style.marginBottom = "-80px";
+          }
+
+          if (inputFields.length == 9 ) {
+            scaleText.style.marginBottom = "-117px";
+          }
+
+          if (inputFields.length == 10 ) {
+            scaleText.style.marginBottom = "-151px";
+          }
+        }
+
+        let productNameLabels = [];
+        for (let i = 0; i < inputFields.length; i++) {
+          productNameLabels.push(inputFields[i].value);
+        }
+
+        if (
+          idHolder.textContent === "scale Id" ||
+          idHolder.textContent === "id"
+        ) {
+          setIsLoading(true);
+          console.log("post req");
+          Axios.post(
+            "https://100035.pythonanywhere.com/percent-sum/percent-sum-settings",
+            {
+              username: "pfactorial",
+              time: time.value,
+              scale_name: beNametnUpdateScal.value,
+              no_of_scale: 1,
+              orientation: option.value,
+              scale_color: btnUpdateScale.value,
+              product_count: Number(percentSumProductCount),
+              product_names: productNameLabels,
+              user: "yes",
+            }
+          )
+            .then((res) => {
+              setIsLoading(false);
+              sendMessage();
+              setScaleData(res.data);
+              const success = res.data.success;
+              var successObj = JSON.parse(success);
+              const id = successObj.inserted_id;
+              console.log(id);
+              if (id.length) {
+                setScaleId(id && id);
+                const idHolder = scale?.querySelector(".scaleId");
+                idHolder.textContent = id && id;
+              }
+              console.log(res);
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              console.log(err);
+            });
+        } else {
+          setIsLoading(true);
+          console.log("PUT req");
+          console.log(idHolder.textContent);
+          Axios.put(
+            "https://100035.pythonanywhere.com/percent-sum/percent-sum-settings",
+            {
+              scale_id: idHolder.textContent,
+              username: "pfactorial",
+              time: time.value,
+              scale_name: beNametnUpdateScal.value,
+              no_of_scale: 1,
+              orientation: option.value,
+              scale_color: btnUpdateScale.value,
+              product_count: Number(percentSumProductCount),
+              product_names: productNameLabels,
+              user: "yes",
+            }
+          )
+            .then((res) => {
+              if (res.status == 200) {
+                setIsLoading(false);
+                sendMessage();
+                setScaleData(res.data);
+                setScaleId(scaleId);
+                console.log(res);
+                console.log("This is the still scale", scale);
+              }
+            })
+            .catch((err) => {
+              setIsLoading(false);
+              console.log(err.message);
+            });
+        }
+      }
     }
   };
   const idHolder = scale?.querySelector(".scaleId");
@@ -2304,6 +2688,15 @@ const ScaleRightSide = () => {
     }
   };
 
+  const onTimeChangePercentSum = (e) => {
+    let timeId = document.getElementById("timeId_percent_sum");
+    if (e.target.checked) {
+      timeId.style.display = "flex";
+    } else {
+      timeId.style.display = "none";
+    }
+  };
+
   // const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
   // if (upperVal !==null) {
   //   const upperVal = Math.min(10, parseInt(document.getElementById('upperVal').value, 10));
@@ -2506,6 +2899,7 @@ const ScaleRightSide = () => {
                           <option value="nps_lite">Nps Lite Scale</option>
                           <option value="likert">Likert Scale</option>
                           <option value="percent_scale">Percent Scale</option>
+                          <option value="percent_sum_scale">Percent-Sum Scale</option>
                         </select>
                       </div>
                       {/* <select
@@ -6139,6 +6533,496 @@ const ScaleRightSide = () => {
                     type="button"
                     width="50%"
                     marginTop="60px"
+                    onClick={handleUpdates}
+                  >
+                    Update
+                  </Button>
+                </div>
+              </form>
+            </div>
+            <div id="percentSumScaleForm">
+              <form
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  gap: "15px",
+                  width: "100%",
+                  overflowY: "auto",
+                  paddingTop: "5px",
+                  paddingBottom: "5px",
+                  paddingLeft: "12px",
+                  paddingRight: "12px",
+                  marginTop: "15px",
+                  fontSize: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "0",
+                    padding: "0",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    <h1
+                      id="headerText"
+                      style={{ margin: "auto 0", fontSize: "15px" }}
+                    >
+                      Edit {scaleTitle}
+                    </h1>
+                  </div>
+                  <h6 style={{ fontSize: "12px" }}>Orientation</h6>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      borderRadius: "10px",
+                      padding: "5px 7px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <select
+                      style={{
+                        width: "100%",
+                        backgroundColor: "transparent",
+                        height: "15px",
+                        border: "none",
+                        justifyContent: "center",
+                        outline: "none",
+                        display: "flex",
+                        alignItems: "center",
+                        fontSize: "12px",
+                        margin: "0 auto",
+                      }}
+                      className="bg-gray-800"
+                      id="orientationId_percent_sum"
+                    >
+                      <option value="Horizontal" style={{ color: "black" }}>
+                        Horizontal
+                      </option>
+                      <option value="Vertical" style={{ color: "black" }}>
+                        Vertical
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    marginTop: "10px",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Slider Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="slider_color_percent_sum_scale"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Color
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="color"
+                          style={{
+                            width: "100px",
+                            height: "12px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          id="font_color_percent_sum"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Font Style
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "3px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <select
+                          style={{
+                            width: "100px",
+                            height: "15px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            outline: "none",
+                            border: "none",
+                            alignItems: "center",
+                          }}
+                          id="font_style_percent_sum"
+                          defaultValue={
+                            fontFamlity
+                              ? fontFamlity.style.fontFamily
+                              : "Select"
+                          }
+                        >
+                          <option style={{ fontSize: "11px" }}>Select</option>
+                          {fontStyles.map((fontStyle, index) => (
+                            <option key={index} value={fontStyle}>
+                              {fontStyle}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2px",
+                      }}
+                    >
+                      <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                        Name of Scale
+                      </h6>
+                      <div
+                        style={{
+                          backgroundColor: "#e8e8e8",
+                          padding: "5px 7px",
+                          borderRadius: "7px",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <input
+                          type="text"
+                          onChange={(e) => setScaleTitle(e.target.value)}
+                          defaultValue={scaleT ? scaleT.innerHTML : ""}
+                          style={{
+                            width: "82px",
+                            height: "12px",
+                            display: "flex",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            alignItems: "center",
+                          }}
+                          id="scale_label_percent_sum"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Number of scales
+                    </h6>
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="scales_precent_sum"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "2px",
+                    }}
+                  >
+                    <h6 style={{ margin: "auto 0", fontSize: "12px" }}>
+                      Product count
+                    </h6>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: "#e8e8e8",
+                      padding: "3px 7px",
+                      borderRadius: "7px",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={percentSumInputValue}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDownPress}
+                      placeholder="No. of Products"
+                      style={{
+                        width: "100%",
+                        height: "15px",
+                        display: "flex",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        outline: "none",
+                        alignItems: "center",
+                      }}
+                      id="percent_sum_product_count"
+                    />
+                  </div>
+                  {percentSumInputValue && (Number(percentSumInputValue) >= 2 && Number(percentSumInputValue) <= 10) && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "7px",
+                      }}
+                      id="product_count_label"
+                    >
+                      {percentSumLabelTexts.map((percentSumLabelText, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            gap: "7px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <label>{`Product ${index + 1} Name`}</label>
+                          <div
+                            style={{
+                              width: "150px",
+                              height: "20px",
+                              backgroundColor: "#e8e8e8",
+                              borderRadius: "5px",
+                              display: "flex",
+                              alignItems: "center",
+                              paddingLeft: "5px",
+                            }}
+                          >
+                            <input
+                              type="text"
+                              value={percentSumLabelText}
+                              onChange={(event) =>
+                                handlePercentSumLabelTextChange(index, event)
+                              }
+                              placeholder={`Product ${index + 1}`}
+                              style={{
+                                backgroundColor: "transparent",
+                                border: "none",
+                                outline: "none",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "12px" }}>Time(sec)</h6>
+                    <div class="form-check form-switch">
+                      <input
+                        style={{ cursor: "pointer" }}
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        onChange={onTimeChangePercentSum}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="timeId_percent_sum"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="time_percent_sum"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "none",
+                      flexDirection: "column",
+                      gap: "2px",
+                      marginTop: "-10px",
+                    }}
+                    id="scoreInput"
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#e8e8e8",
+                        padding: "3px 7px",
+                        borderRadius: "7px",
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type="text"
+                        placeholder="1"
+                        style={{
+                          width: "100%",
+                          height: "15px",
+                          display: "flex",
+                          backgroundColor: "transparent",
+                          border: "none",
+                          outline: "none",
+                          alignItems: "center",
+                        }}
+                        id="score"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <Button
+                    id="button_id"
+                    type="button"
+                    width="50%"
+                    marginTop="60px"
+                    disabled={isSubmitDisabled}
                     onClick={handleUpdates}
                   >
                     Update

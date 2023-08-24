@@ -2913,9 +2913,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                if (!e.target.hasChildNodes()) {
-                  e.target.style.border = "3px solid blue";
-                }
+                
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "3px solid blue";
+                  };
+                
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
                 }
@@ -2923,10 +2925,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragleave = (e) => {
                 e.preventDefault();
                 if (
-                  !e.target.hasChildNodes() &&
-                  !e.target.classList.contains("imageInput")
+                   !e.target.classList.contains("imageInput")
                 ) {
-                  e.target.style.border = "1px solid black";
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "1px solid black";
+                  };
                 }
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
@@ -2955,7 +2958,8 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDateMenu(false);
                   if (e.target.innerText != "mm/dd/yyyy") {
                     if (e.target.innerText.includes("/")) {
-                      const setDate = new Date(e.target.innerText);
+                      console.log("date value: ",e.target.innerText);
+                      const setDate = new Date(parseInt(e.target.innerText));
                       setMethod("first");
                       setStartDate(setDate);
                     } else {
@@ -3001,7 +3005,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   setSidebar(true);
                   e.stopPropagation();
                 };
-                console.log("CONFIGURED TARGET SIGN INPUT: ", cellsDiv);
               }
               cellsDiv.setAttribute("contenteditable", true);
               cellsDiv.style.width = "100%";
@@ -3042,15 +3045,15 @@ const MidSection = React.forwardRef((props, ref) => {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
-                cellsDiv.innerHTML = tableTDData.data;
-                console.log(
-                  "RECIEVED TD DATA: ",
-                  tableTDData.data,
-                  "TARGET TD: ",
-                  cells
-                );
-                cells.appendChild(cellsDiv);
+              }
+              else {
+           
+                if(dataType){
+                  cellsDiv.innerHTML = tableTDData.data.toString();
+                  cells.appendChild(cellsDiv);
+
+                }
+
               }
 
               cells.ondrop = handleDropp;
@@ -3072,8 +3075,8 @@ const MidSection = React.forwardRef((props, ref) => {
               // console.log("Observing: ",entry.target);
               const width = entry.contentRect.width;
               const height = entry.contentRect.height;
-              const table = entry.target;
-              const holderDIV = table.parentElement.parentElement;
+              const table = entry.target
+              const holderDIV = table.parentElement?.parentElement
 
               setColRowSize(table, width, height, holderDIV);
               //  console.log("called setcolrowsize");
@@ -4741,6 +4744,91 @@ const MidSection = React.forwardRef((props, ref) => {
                 nameDiv.style.transform = "rotate(90deg)";
 
                 inputPercent.style.width = "100%";
+              }
+            }
+          }  else if (scaleTypeHolder.textContent === "percent_sum_scale") {
+            let prodLength = element?.raw_data?.percentLabel;
+            console.log(prodLength);
+
+            for (let i = 0; i < prodLength; i++) {
+              labelHold.style.display = "flex";
+              labelHold.style.justifyContent = "center";
+              labelHold.style.height = "100%";
+              labelHold.style.flexDirection = "column";
+              labelHold.style.border = "none";
+
+              let containerDiv = document.createElement("div");
+              containerDiv.style.width = "95%";
+              containerDiv.style.padding = "10px 39px 10px 10px";
+              containerDiv.style.border = "1px solid gray";
+              labelHold.append(containerDiv);
+
+              let nameDiv = document.createElement("div");
+              nameDiv.className = "product_name";
+              nameDiv.style.textAlign = "center";
+              nameDiv.style.fontWeight = "700";
+              nameDiv.textContent = element?.raw_data?.percentProdName[i];
+              containerDiv.appendChild(nameDiv);
+
+              const inputPercent = document.createElement("input");
+              inputPercent.type = "range";
+              inputPercent.min = "0";
+              inputPercent.max = "100";
+              inputPercent.disabled = "true";
+              inputPercent.className = "percent-slider";
+              inputPercent.style.width = "100%";
+              inputPercent.style.cursor = "pointer";
+              inputPercent.style.background =
+                element?.raw_data?.percentBackground;
+              inputPercent.style.webkitAppearance = "none";
+              inputPercent.style.borderRadius = "10px";
+              containerDiv.appendChild(inputPercent);
+
+              let percentChilds = document.createElement("div");
+              percentChilds.style.display = "flex";
+              percentChilds.style.width = "100%";
+              percentChilds.style.alignItems = "center";
+              percentChilds.style.justifyContent = "space-between";
+
+              let leftPercent = document.createElement("div");
+              leftPercent.textContent = "0";
+              leftPercent.className = "left-percent";
+              percentChilds.appendChild(leftPercent);
+
+              let centerPercent = document.createElement("div");
+              centerPercent.className = "center-percent";
+              percentChilds.appendChild(centerPercent);
+
+              let rightPercent = document.createElement("div");
+              rightPercent.textContent = "100";
+              rightPercent.className = "right-percent";
+              percentChilds.appendChild(rightPercent);
+
+              containerDiv.appendChild(percentChilds);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "Vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                containerDiv.style.width = "90%";
+                containerDiv.style.position = "relative";
+                labelHold.style.width = "80%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+                nameDiv.style.paddingLeft = "6px";
+                nameDiv.style.paddingBottom = prodLength > 6 ? "30px" : "0px";
+                inputPercent.style.width = "100%";
+                inputPercent.style.marginTop = "8px";
               }
             }
           }

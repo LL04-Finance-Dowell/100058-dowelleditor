@@ -2282,21 +2282,14 @@ const Header = () => {
               for (let j = 0; j < tableChildren[i].children.length; j++) {
                 // const element = tableChildren[i];
 
-                const TdDivClassName =
-                  tableChildren[i].children[
-                    j
-                  ]?.firstElementChild?.className.split(" ")[0];
-                const childNodes = tableChildren[i].children[j]?.childNodes;
-                const tdElement = [];
-                childNodes.forEach((child) => {
-                  if (
-                    !child.classList.contains("row-resizer") &&
-                    !child.classList.contains("td-resizer")
-                  ) {
+                const childNodes = tableChildren[i].children[j]?.childNodes
+                const tdElement=[]
+                childNodes.forEach(child=>{
+                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
                     tdElement.push(child);
-                    console.log("DATA EXTRACTED FROM: ", child);
-                  }
-                });
+                  }               
+                })
+                const TdDivClassName = tdElement[0]?.className.split(" ")[0];
                 const trChild = {
                   td: {
                     type:
@@ -2313,7 +2306,6 @@ const Header = () => {
                     id: `tableTd${j + 1}`,
                   },
                 };
-                console.log("SENT SENT DATA: ", trChild.td.data);
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
@@ -2635,7 +2627,7 @@ const Header = () => {
           let prodName = [];
           let orientation = "";
 
-          if (scaleType.textContent === "percent_scale") {
+          if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
             console.log(percentLabel);
