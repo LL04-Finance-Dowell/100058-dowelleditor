@@ -622,7 +622,7 @@ const ScaleRightSide = () => {
   const onEmojiClick = (emojiObject) => {
     const emoji = emojiObject.emoji;
     if (inputStr.includes(emoji)) {
-      alert("The is already selected");
+      alert("The emoji is already selected");
     } else {
       setInputStr((prevInputStr) => prevInputStr + emoji);
       setShowPicker(false);
@@ -1008,7 +1008,7 @@ const ScaleRightSide = () => {
           roundcolor: btnUpdateButton.value,
           fontcolor: btnUpdateFontColor.value,
           fomat: "numbers",
-          allow_resp: false,
+          allow_resp: true,
           show_total_score: true,
           no_of_scales: 6,
           time: timeId.style.display === "none" ? "00" : time?.value,
@@ -1052,7 +1052,7 @@ const ScaleRightSide = () => {
           roundcolor: btnUpdateButton.value,
           fontcolor: btnUpdateFontColor.value,
           fomat: selectedOption,
-          allow_resp: false,
+          allow_resp: true,
           show_total_score: true,
           no_of_scales: 6,
           time: timeId?.style?.display === "none" ? "00" : time?.value,
@@ -1259,6 +1259,7 @@ const ScaleRightSide = () => {
             label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
             fontstyle: btnUpdateScaleFontStapel.value,
             custom_emoji_format: emojiLabels,
+            allow_resp: true,
           }
         )
           .then((res) => {
@@ -1603,6 +1604,7 @@ const ScaleRightSide = () => {
             fontstyle: btnUpdateScaleFont.value,
             fomat: selectedOption,
             custom_emoji_format: emojiLabels,
+            allow_resp: true,
           }
         )
           .then((res) => {

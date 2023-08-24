@@ -4043,7 +4043,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   });
                 }, 500);
 
-                if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
                       let scale =
@@ -4139,7 +4138,6 @@ const MidSection = React.forwardRef((props, ref) => {
                       );
                     }
                   });
-                }
               }
             }
           } else if (scaleTypeHolder.textContent === "snipte") {
