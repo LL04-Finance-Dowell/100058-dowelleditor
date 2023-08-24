@@ -3623,6 +3623,7 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
+          
           if (decoded.details.action === "template") {
             let videoField = document.createElement("video");
             const imageLinkHolder1 = document.createElement("h1");
