@@ -2605,6 +2605,7 @@ const Header = () => {
           }
 
           let npsLiteTextArray = "";
+          let orientation = "";
 
           if (scaleType.textContent === "nps_lite") {
             npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
@@ -2616,6 +2617,7 @@ const Header = () => {
             likertScaleArray = newScales[b].querySelector(
               ".likert_Scale_Array"
             );
+            orientation = newScales[b].querySelector(".orientation");
           }
 
           let percentBackground = "";
@@ -2667,6 +2669,7 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
+            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
