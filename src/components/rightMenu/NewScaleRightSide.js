@@ -8,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { GrEmoji } from "react-icons/gr";
 import Picker from "emoji-picker-react";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import useSelectedAnswer from '../../customHooks/useSelectedAnswers';
 
 const ScaleRightSide = () => {
   const {
@@ -33,8 +34,9 @@ const ScaleRightSide = () => {
     setConfirmRemove,
     confirmRemove,
   } = useStateContext();
-  const [selectedType, setSelectedType] = useState("");
-  const [addedAns, setAddedAns] = useState([]);
+  const [selectedType, setSelectedType] = useState('')
+  // const [addedAns, setAddedAns] = useState([])
+  const { addedAns, setAddedAns } = useSelectedAnswer()
 
   const [inputStr, setInputStr] = useState("");
   const [upperLimit, setUpperLimit] = useState("");
@@ -54,6 +56,12 @@ const ScaleRightSide = () => {
   const [inputFields, setInputFields] = useState([
     <input key={0} type="text" placeholder="Product 1" required />,
   ]);
+
+
+
+  useEffect(() => {
+
+  }, []);
 
   const fontStyles = [
     "Arial",

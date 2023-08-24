@@ -5,6 +5,7 @@ import SelectAnsAndQuestion from '../selectAnsAndQuestion';
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useStateContext } from '../../contexts/contextProvider';
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 function CameraRightSide() {
   const [selectedType, setSelectedType] = useState('')

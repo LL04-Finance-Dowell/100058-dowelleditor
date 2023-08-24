@@ -5,6 +5,7 @@ import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useSearchParams } from "react-router-dom";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import useSelectedAnswer from '../../customHooks/useSelectedAnswers';
 
 const ScaleRightSide = () => {
   const {
@@ -29,7 +30,8 @@ const ScaleRightSide = () => {
     setConfirmRemove, confirmRemove
   } = useStateContext();
   const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
+  const { addedAns, setAddedAns } = useSelectedAnswer()
 
   // const [borderSize, setBorderSize] = useState(1);
   // const [borderColor, setBorderColor] = useState("#000000");

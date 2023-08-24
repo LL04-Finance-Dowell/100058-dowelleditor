@@ -5,6 +5,8 @@ import { useStateContext } from "../../contexts/contextProvider";
 
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 
 
 
@@ -30,6 +32,8 @@ const ContainerRigntSideBar = () => {
     setConfirmRemove, confirmRemove
   } = useStateContext()
   const [showSlider, setShowSlider] = useState(false);
+  const [selectedType, setSelectedType] = useState('')
+  const { addedAns, setAddedAns } = useSelectedAnswer()
   function removeContainer() {
     // document.querySelector('.focussedd').remove();
     if (document.querySelector(".focussedd").classList.contains("dropp")) {
@@ -90,6 +94,12 @@ const ContainerRigntSideBar = () => {
             <span className="slider round"></span>
           </label>
         </div>
+        <SelectAnsAndQuestion
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          addedAns={addedAns}
+          setAddedAns={setAddedAns}
+        />
         {showSlider && (
           <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
             <input

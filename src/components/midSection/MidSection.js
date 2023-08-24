@@ -106,6 +106,8 @@ const MidSection = React.forwardRef((props, ref) => {
     setButtonPurpose,
   } = useStateContext();
 
+
+
   // useEffect(() => {
   // const result_Date = useDateElement();
   // console.log(result_Date);

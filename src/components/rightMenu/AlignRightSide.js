@@ -37,6 +37,7 @@ import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 import RemoveElmentModal from "../RemoveElementModal";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 const AlignRightSide = () => {
   const {
@@ -56,7 +57,7 @@ const AlignRightSide = () => {
     setInputBorderSize
   } = useStateContext();
   const [selectedType, setSelectedType] = useState("")
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   var decoded = jwt_decode(token);
@@ -72,8 +73,11 @@ const AlignRightSide = () => {
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
 
-  const { confirmRemove, setConfirmRemove } = useStateContext()
+  const { confirmRemove, setConfirmRemove, questionAndAnswerGroupedData } = useStateContext()
 
+
+
+  const { addedAns, setAddedAns } = useSelectedAnswer()
 
   // function boldCommand() {
   //   const strongElement = document.createElement("em");
