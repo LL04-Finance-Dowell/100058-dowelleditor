@@ -252,6 +252,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
+        console.log("loaded data", loadedData);
         setItem(pageData);
         // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
@@ -1619,7 +1620,101 @@ const MidSection = React.forwardRef((props, ref) => {
     //   }
     // }
   };
+  const createResizableRow = (row, resizer) => {
+    // Track the current position of the mouse
+    let y = 0;
+    let h = 0;
 
+    const mouseDownHandler = function (e) {
+      const holderDiv =
+        row.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
+      // Get the current mouse position
+      y = e.clientY;
+
+      // Calculate the current height of the row
+      h = row.clientHeight;
+
+      // Attach listeners for document's events
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dy = e.clientY - y;
+
+      // Update the height of the row
+      row.style.height = `${h + dy}px`;
+    };
+
+    // When the user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
+    };
+
+    resizer.addEventListener("mousedown", mouseDownHandler);
+  };
+
+  const createResizableColumn = (col, resizer) => {
+    // Track the current position of mouse
+    let x = 0;
+    let w = 0;
+
+    const mouseDownHandler = function (e) {
+      const holderDiv =
+        col.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
+      // Get the current mouse position
+      x = e.clientX;
+
+      // Calculate the current width of column
+      const styles = window.getComputedStyle(col);
+      w = parseInt(styles.width, 10);
+
+      // Attach listeners for document's events
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dx = e.clientX - x;
+
+      // Update the width of column
+      col.style.width = `${w + dx}px`;
+    };
+
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
+    };
+
+    resizer.addEventListener("mousedown", mouseDownHandler);
+  };
+
+  const setColRowSize = (table, width = null, height = null) => {
+    const col_resizers = table.querySelectorAll(".td-resizer");
+    const row_resizers = table.querySelectorAll(".row-resizer");
+    for (const resizer of col_resizers) {
+      if (height) {
+        resizer.style.height = `${height}px`;
+        // console.log("set height: ",height);
+      } else {
+        resizer.style.height = `${table.offsetHeight}px`;
+      }
+    }
+    for (const resizer of row_resizers) {
+      if (width) {
+        resizer.style.width = `${width}px`;
+        // console.log("set witdh: ",width);
+      } else {
+        resizer.style.width = `${table.offsetWidth}px`;
+      }
+    }
+  };
   const handleCutInput = () => {
     const cutItem = document.querySelector(".focussedd");
     const cutEle = cutItem.cloneNode(true);
@@ -2039,6 +2134,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         // console.log("midsectionRect", midsectionRect);
         // const eventClientX = ev.clientX;
+        if(!hodlerRect)return;
         const elemtnMeasureX =
           ev.screenX + holderPos.left + hodlerRect.width - initX;
         const elmentMeasureY =
@@ -2219,9 +2315,12 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        if(event.target.className != 'td-resizer' && event.target.className != 'row-resizer' ){
+        if (
+          event.target.className != "td-resizer" &&
+          event.target.className != "row-resizer"
+        ) {
           dragElementOverPage(event);
-        };
+        }
       },
       false
     );
@@ -2801,12 +2900,25 @@ const MidSection = React.forwardRef((props, ref) => {
               // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
               cells.className = "dropp";
+              if (i === 0) {
+                const resizer = document.createElement("div");
+                resizer.classList.add("td-resizer");
+                resizer.addEventListener("mousedown", (e) => {
+                  let x = 0;
+                  let w = 0;
+                });
+                createResizableColumn(cells, resizer);
+                cells.appendChild(resizer);
+              }
+
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                if (!e.target.hasChildNodes()) {
-                  e.target.style.border = "3px solid blue";
-                }
+                
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "3px solid blue";
+                  };
+                
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
                 }
@@ -2814,10 +2926,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragleave = (e) => {
                 e.preventDefault();
                 if (
-                  !e.target.hasChildNodes() &&
-                  !e.target.classList.contains("imageInput")
+                   !e.target.classList.contains("imageInput")
                 ) {
-                  e.target.style.border = "1px solid black";
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "1px solid black";
+                  };
                 }
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
@@ -2846,7 +2959,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDateMenu(false);
                   if (e.target.innerText != "mm/dd/yyyy") {
                     if (e.target.innerText.includes("/")) {
-                      const setDate = new Date(e.target.innerText);
+                      const setDate = new Date(parseInt(e.target.innerText));
                       setMethod("first");
                       setStartDate(setDate);
                     } else {
@@ -2932,18 +3045,44 @@ const MidSection = React.forwardRef((props, ref) => {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
-                cellsDiv.innerHTML = `${tableTDData.data}`;
-                if (dataType) {
+              }
+              else {
+           
+                if(dataType){
+                  cellsDiv.innerHTML = tableTDData.data.toString();
                   cells.appendChild(cellsDiv);
+
                 }
+
               }
 
               cells.ondrop = handleDropp;
               tabbTR.appendChild(cells);
             }
+            const rowResizeCell = tabbTR.firstElementChild;
+            const resizer = document.createElement("div");
+            resizer.classList.add("row-resizer");
+            resizer.addEventListener("mousedown", (e) => {
+              let x = 0;
+              let w = 0;
+            });
+            rowResizeCell.appendChild(resizer);
+            createResizableRow(rowResizeCell, resizer);
             tabb.appendChild(tabbTR);
           }
+          const resizeObserver = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+              // console.log("Observing: ",entry.target);
+              const width = entry.contentRect.width;
+              const height = entry.contentRect.height;
+              const table = entry.target
+              const holderDIV = table.parentElement?.parentElement
+
+              setColRowSize(table, width, height, holderDIV);
+              //  console.log("called setcolrowsize");
+            });
+          });
+          resizeObserver.observe(tabb);
           tableField.append(tabb);
           // var cells = tabb.getElementsByTagName("td");
 
@@ -3487,154 +3626,70 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
-           if(decoded.details.action === "template"){
-          let videoField = document.createElement("video");
-          const imageLinkHolder1 = document.createElement("h1");
-          const videoLinkHolder1 = document.createElement("h1");
-          if (videoLinkHolder === "video_link") {
-            videoField.className = "videoInput";
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.loop = true;
-            videoField.style.display = "none";
-            cameraField.append(videoField);
-
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          } else {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.muted = true;
-            videoField.loop = true;
-            cameraField.append(videoField);
-
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }
-
-          let imgHolder = document.createElement("img");
-          if (imageLinkHolder === "image_link") {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.style.display = "none";
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          } else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder;
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
-
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-            console.log("The camera", cameraField);
-          };
-          
-        } else if (decoded.details.action === "document") {
+          if (decoded.details.action === "template") {
             let videoField = document.createElement("video");
+            const imageLinkHolder1 = document.createElement("h1");
             const videoLinkHolder1 = document.createElement("h1");
             if (videoLinkHolder === "video_link") {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder ;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.muted = true;
-            videoField.autoplay = true;
-            videoField.loop = true;
-            videoField.style.display = "none";
-            cameraField.append(videoField);
-            
-            let cameraImageInput = document.createElement("canvas");
-            cameraImageInput.className = "cameraImageInput";
-            cameraImageInput.style.display = "none";
-            cameraField.append(cameraImageInput);
+              videoField.className = "videoInput";
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = "";
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }else {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder ;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.muted = true;
-            videoField.autoplay = true;
-            videoField.loop = true;
-            cameraField.append(videoField);
-            
-            let cameraImageInput = document.createElement("canvas");
-            cameraImageInput.className = "cameraImageInput";
-            cameraImageInput.style.display = "none";
-            cameraField.append(cameraImageInput);
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.muted = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = "";
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          }
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
 
             let imgHolder = document.createElement("img");
-            const imageLinkHolder1 = document.createElement("h1");
-
             if (imageLinkHolder === "image_link") {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.style.display = "none";
-            cameraField.append(imgHolder);
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
 
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          } else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.src = imageLinkHolder;
-            imgHolder.alt = "";
-            cameraField.append(imgHolder);
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.src = imageLinkHolder;
+              cameraField.append(imgHolder);
 
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          }
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
 
             imgHolder.onclick = (e) => {
               e.stopPropagation();
@@ -3646,7 +3701,90 @@ const MidSection = React.forwardRef((props, ref) => {
               setSidebar(true);
               console.log("The camera", cameraField);
             };
-        }
+          } else if (decoded.details.action === "document") {
+            let videoField = document.createElement("video");
+            const videoLinkHolder1 = document.createElement("h1");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
+
+            let imgHolder = document.createElement("img");
+            const imageLinkHolder1 = document.createElement("h1");
+
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.src = imageLinkHolder;
+              imgHolder.alt = "";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
+          }
 
           cameraField.onclick = (e) => {
             e.stopPropagation();
@@ -4536,8 +4674,8 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log(prodLength);
 
             for (let i = 0; i < prodLength; i++) {
-              let originalText = element?.raw_data?.percentCenter[i];
-              let percentValue = originalText?.replace("%", "");
+              // let originalText = element?.raw_data?.percentCenter[i];
+              // let percentValue = originalText?.replace("%", "");
               labelHold.style.display = "flex";
               labelHold.style.justifyContent = "center";
               labelHold.style.height = "100%";
@@ -4546,7 +4684,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
               let conatainerDIV = document.createElement("div");
               conatainerDIV.style.width = "95%";
-              conatainerDIV.style.padding = "10px";
+              conatainerDIV.style.padding = "10px 39px 10px 10px";
               conatainerDIV.style.border = "1px solid gray";
               labelHold.append(conatainerDIV);
 
@@ -4561,7 +4699,8 @@ const MidSection = React.forwardRef((props, ref) => {
               inputPercent.type = "range";
               inputPercent.min = "0";
               inputPercent.max = "100";
-              inputPercent.value = percentValue;
+              // inputPercent.value = percentValue;
+              inputPercent.disabled = "true";
               inputPercent.className = "percent-slider";
               inputPercent.style.width = "100%";
               inputPercent.style.cursor = "pointer";
@@ -4583,7 +4722,7 @@ const MidSection = React.forwardRef((props, ref) => {
               percentChilds.appendChild(leftPercent);
 
               let centerPercent = document.createElement("div");
-              centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
+              // centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
               centerPercent.className = "center-percent";
               percentChilds.appendChild(centerPercent);
 
@@ -4595,6 +4734,113 @@ const MidSection = React.forwardRef((props, ref) => {
               conatainerDIV.appendChild(percentChilds);
               if (!token) {
                 return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                conatainerDIV.style.width = "90%";
+                conatainerDIV.style.position = "relative";
+
+                labelHold.style.width = "52%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+
+                inputPercent.style.width = "100%";
+              }
+            }
+          }  else if (scaleTypeHolder.textContent === "percent_sum_scale") {
+            let prodLength = element?.raw_data?.percentLabel;
+            console.log(prodLength);
+
+            for (let i = 0; i < prodLength; i++) {
+              labelHold.style.display = "flex";
+              labelHold.style.justifyContent = "center";
+              labelHold.style.height = "100%";
+              labelHold.style.flexDirection = "column";
+              labelHold.style.border = "none";
+
+              let containerDiv = document.createElement("div");
+              containerDiv.style.width = "95%";
+              containerDiv.style.padding = "10px 39px 10px 10px";
+              containerDiv.style.border = "1px solid gray";
+              labelHold.append(containerDiv);
+
+              let nameDiv = document.createElement("div");
+              nameDiv.className = "product_name";
+              nameDiv.style.textAlign = "center";
+              nameDiv.style.fontWeight = "700";
+              nameDiv.textContent = element?.raw_data?.percentProdName[i];
+              containerDiv.appendChild(nameDiv);
+
+              const inputPercent = document.createElement("input");
+              inputPercent.type = "range";
+              inputPercent.min = "0";
+              inputPercent.max = "100";
+              inputPercent.disabled = "true";
+              inputPercent.className = "percent-slider";
+              inputPercent.style.width = "100%";
+              inputPercent.style.cursor = "pointer";
+              inputPercent.style.background =
+                element?.raw_data?.percentBackground;
+              inputPercent.style.webkitAppearance = "none";
+              inputPercent.style.borderRadius = "10px";
+              containerDiv.appendChild(inputPercent);
+
+              let percentChilds = document.createElement("div");
+              percentChilds.style.display = "flex";
+              percentChilds.style.width = "100%";
+              percentChilds.style.alignItems = "center";
+              percentChilds.style.justifyContent = "space-between";
+
+              let leftPercent = document.createElement("div");
+              leftPercent.textContent = "0";
+              leftPercent.className = "left-percent";
+              percentChilds.appendChild(leftPercent);
+
+              let centerPercent = document.createElement("div");
+              centerPercent.className = "center-percent";
+              percentChilds.appendChild(centerPercent);
+
+              let rightPercent = document.createElement("div");
+              rightPercent.textContent = "100";
+              rightPercent.className = "right-percent";
+              percentChilds.appendChild(rightPercent);
+
+              containerDiv.appendChild(percentChilds);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "Vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                containerDiv.style.width = "90%";
+                containerDiv.style.position = "relative";
+                labelHold.style.width = "80%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+                nameDiv.style.paddingLeft = "6px";
+                nameDiv.style.paddingBottom = prodLength > 6 ? "30px" : "0px";
+                inputPercent.style.width = "100%";
+                inputPercent.style.marginTop = "8px";
               }
             }
           }
@@ -5010,17 +5256,21 @@ const MidSection = React.forwardRef((props, ref) => {
             //   top: event.clientY - containerRect.top + "px",
             //   auth_user: curr_user,
             // };
+            console.log("container Element data", element.data[p].type);
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
               // top: containerElement.top - element.top + "px",
+              // border: containerElement.borderWidths,
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
+
             const holderDIVContainer = getHolderDIV(measureContainer);
             if (typeOfOperationContainer === "DATE_INPUT") {
+              // const holderDIV = getHolderDIV(measure, pageNo, idMatch);
               let dateFieldContainer = document.createElement("div");
               dateFieldContainer.className = "dateInput";
               dateFieldContainer.style.width = "100%";

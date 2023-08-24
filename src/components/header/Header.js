@@ -2282,11 +2282,14 @@ const Header = () => {
               for (let j = 0; j < tableChildren[i].children.length; j++) {
                 // const element = tableChildren[i];
 
-                const TdDivClassName =
-                  tableChildren[i].children[
-                    j
-                  ]?.firstElementChild?.className.split(" ")[0];
-
+                const childNodes = tableChildren[i].children[j]?.childNodes
+                const tdElement=[]
+                childNodes.forEach(child=>{
+                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
+                    tdElement.push(child);
+                  }               
+                })
+                const TdDivClassName = tdElement[0]?.className.split(" ")[0];
                 const trChild = {
                   td: {
                     type:
@@ -2299,12 +2302,10 @@ const Header = () => {
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
                             .backgroundImage
-                        : tableChildren[i].children[j]?.firstElementChild
-                            ?.innerHTML,
+                        : tdElement[0]?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
-
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
@@ -2626,27 +2627,27 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
+          let orientation = "";
 
-          if (scaleType.textContent === "percent_scale") {
+          if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
+            console.log(percentLabel);
 
             percentLabel.forEach((elem) => {
               prodName.push(elem.querySelector(".product_name")?.textContent);
               percentCenter.push(
-                elem.querySelector(".center-percent")?.textContent
+                elem.querySelector("center-percent")?.textContent
+                  ? elem.querySelector("center-percent")?.textContent
+                  : 1
               );
               console.log(prodName);
               console.log(percentCenter);
             });
             percentLeft = newScales[b].querySelector(".left-percent");
-            // percentCenter = newScales[b].querySelector(".center-percent");
-            // var currentText = percentCenter.textContent;
-            // var textWithoutPercent = currentText.replace("%", "");
-
-            // // Set the modified text back to the element
-            // percentCenter.textContent = textWithoutPercent;
             percentRight = document.querySelector(".right-percent");
+
+            orientation = newScales[b].querySelector(".orientation");
           }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
@@ -2669,7 +2670,6 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
-            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2950,6 +2950,7 @@ const Header = () => {
     console.log(documentResponses);
 
     const requestBody = {
+      process_id: decoded.details.process_id,
       instance_id: 1,
       brand_name: "XYZ545",
       product_name: "XYZ511",
@@ -3571,6 +3572,21 @@ const Header = () => {
 
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
+
+  const [content, setContent] = useState('');
+  const maxCharacterLimit = 100;
+
+  const handleInput = () => {
+    const newContent = inputRef.current.textContent;
+    
+    if (newContent.length > maxCharacterLimit) {
+      // Trim the content to the maximum character limit
+      setContent(newContent.slice(0, maxCharacterLimit));
+    } else {
+      setContent(newContent);
+    }
+  };
+
   return (
     <div
       className={`header ${
@@ -3684,9 +3700,11 @@ const Header = () => {
               <div
                 className="title-name px-3"
                 contentEditable={docMap ? false : true}
-                style={{ fontSize: 24 }}
+                // style={{ fontSize: 15 }}
+                style={{ fontSize: 15, height: '50px', overflowY: 'auto', padding: '10px' }}
                 spellCheck="false"
                 ref={inputRef}
+                onInput={handleInput}
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}

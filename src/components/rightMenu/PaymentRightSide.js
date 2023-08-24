@@ -5,10 +5,15 @@ import React, { useEffect, useState } from "react";
 import { Row, Button, Form } from "react-bootstrap";
 import { useStateContext } from "../../contexts/contextProvider";
 
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from "../selectAnsAndQuestion";
 import axios, * as others from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import ThanksPage from "../../utils/ThanksPage/ThanksPage";
+import PaymentPopup from "../PaymentPopup/PaymentPopup";
+import Axios from "axios";
+
 
 
 const PaymentRightSide = () => {
@@ -20,12 +25,14 @@ const PaymentRightSide = () => {
   const token = searchParams.get("token");
   const [selectPayment, setSelectPayment] = useState();
   const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState();
   const [currencyCode, setCurrencyCode] = useState("");
   const [callbackUrl, setCallbackUrl] = useState("");
   const [stripePaymentData, setStripePaymentData] = useState({});
   const [paypalPaymentData, setPaypalPaymentData] = useState({});
+  const [loader, setLoader] = useState(false);
   var decoded = jwt_decode(token);
+
 
   const button = document.querySelector(".focussed");
   const holderDIV = document.querySelector(".focussedd");
@@ -46,6 +53,7 @@ const PaymentRightSide = () => {
   //   localStorage.getItem("borderColor") || "#000000"
   // );
   const [showSlider, setShowSlider] = useState(false);
+
 
   // useEffect(() => {
   //     if (button) {
@@ -136,30 +144,67 @@ const PaymentRightSide = () => {
   const handleSelectPayment = (e) => {
     setSelectPayment(e.target.value);
   }
+  const [validated, setValidated] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [popupUrl, setPopupUrl] = useState(null);
+
+  const openPopup = (url) => {
+    setPopupUrl(url);
+  };
+
+  const closePopup = () => {
+    setPopupUrl(null);
+  };
+
+  const [stripeKey, setStripeKey] = useState("");
+  const [paypalClientId, setPaypalClientId] = useState("");
 
   const handleStripePayment = async (e) => {
     e.preventDefault();
     const stripeData = {
-      stripe_key: "sk_test_51LiKUnEJkGNthfbzNbTn7Up7EnVwyeqRWLcRX1UWyq7ABL7wn1VMmHsS4Aox3U9b2nh3HkHd32vsQRR7nItC8ybv00WChhFen4",
+      // stripe_key: "sk_test_51LiKUnEJkGNthfbzNbTn7Up7EnVwyeqRWLcRX1UWyq7ABL7wn1VMmHsS4Aox3U9b2nh3HkHd32vsQRR7nItC8ybv00WChhFen4",
+      stripe_key: stripeKey,
+      template_id: decoded.details._id,
       price: +price,
       product: productName,
       currency_code: currencyCode,
       callback_url: callbackUrl
     }
-    // console.log("stripe data", stripeData);
+    console.log("stripe data", stripeData);
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setLoader(false)
 
-    try {
-      const res = await axios.post("https://100088.pythonanywhere.com/api/stripe/initialize/public/c419bc8c-f724-4f98-8724-556d6c1f20eb", stripeData)
-      // .then(res => console.log("res data coming", res.data))
-      setStripePaymentData(res.data);
-
-      const timeout = setTimeout(() => {
-        window.open(res.data.approval_url, '_blank');
-      }, 2000); // Wait for 2 seconds
-      return () => clearTimeout(timeout);
-    } catch (error) {
-      console.log(error)
     }
+    setValidated(true);
+    // setLoader(true)
+    if (form.checkValidity() === true) {
+      e.preventDefault();
+      setLoader(true)
+
+      try {
+        const res = await axios.post("https://100088.pythonanywhere.com/api/workflow/stripe/initialize", stripeData)
+        setStripePaymentData(res.data);
+        console.log("payment response", res.data);
+        setLoader(false)
+        toast.success("Successfully Submitted!")
+        const timeout = setTimeout(() => {
+          window.open(res.data.approval_url, '_blank');
+          // openPopup(res.data.approval_url);
+          // openPopup("https://abdul-mozid-fahim.netlify.app/");
+          // window.frames[0].location = "https://abdul-mozid-fahim.netlify.app/";
+        }, 2000); // Wait for 2 seconds
+        return () => clearTimeout(timeout);
+      } catch (error) {
+        console.log(error)
+        setLoader(false)
+        toast.error(error.response.data.message);
+      }
+    }
+    // console.log("stripe data", stripeData);
+    // setLoader(true)
 
 
 
@@ -171,25 +216,39 @@ const PaymentRightSide = () => {
   const handlePaypalPayment = async (e) => {
     e.preventDefault();
     const paypalData = {
-      paypal_client_id: "AVJXJddOEG7WGrLkTzg4_9ODsDNhIHrqT4ZL6gwXRz1ftQELliYtticZH-kLjoYaTZfNn_8y5onH_YP3",
+      // paypal_client_id: "AVJXJddOEG7WGrLkTzg4_9ODsDNhIHrqT4ZL6gwXRz1ftQELliYtticZH-kLjoYaTZfNn_8y5onH_YP3",
+      paypal_client_id: paypalClientId,
       paypal_secret_key: "ELsNyOGLDJVZCsfuuu5AhsFRmQbgBwxEVZteB-2XLZm8RLa8cPeS_cfNi35w7bJwkOKDHOnNxyHsJKu6",
+      template_id: decoded.details._id,
       price: +price,
       product: productName,
       currency_code: currencyCode,
       callback_url: callbackUrl
     }
     console.log("paypal data", paypalData);
+    setLoader(true)
 
     try {
-      const res = await axios.post("https://100088.pythonanywhere.com/api/paypal/initialize/public/c419bc8c-f724-4f98-8724-556d6c1f20eb", paypalData)
+      // const iframe = `<iframe width="560" height="315" src="https://www.youtube.com/embed/F-7EYlkoGI8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      // const timeout = setTimeout(() => {
+      //   window.open(iframe, '_blank');
+      // }, 2000); 
+      // const res = await axios.post("https://100088.pythonanywhere.com/api/paypal/initialize/public/c419bc8c-f724-4f98-8724-556d6c1f20eb", paypalData)
+      const res = await axios.post("https://100088.pythonanywhere.com/api/workflow/paypal/initialize", paypalData)
+      setLoader(true)
       setPaypalPaymentData(res.data);
-      // console.log("paypal data", res.data)
+      setLoader(false)
+      console.log("paypal data", res.data)
       const timeout = setTimeout(() => {
         window.open(res.data.approval_url, '_blank');
+        // openPopup(res.data.approval_url);
       }, 2000); // Wait for 2 seconds
+      toast.success("Successfully Submitted!");
       return () => clearTimeout(timeout);
     } catch (error) {
       console.log(error)
+      setLoader(false)
+      toast.error(error.data.error);
     }
   }
 
@@ -210,42 +269,57 @@ const PaymentRightSide = () => {
         <br />
 
         {
-          selectPayment == "paypal" ? <form>
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Product name"
-              id="button_name"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
+          selectPayment == "paypal" ?
+            <Form noValidate validated={validated} onSubmit={handlePaypalPayment}>
+              <Form.Label>Paypal Client Id</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Paypal Client Id"
+                // id="button_name"
+                value={paypalClientId}
+                onChange={(e) => setPaypalClientId(e.target.value)}
 
-            <br />
+              />
+              <br/>
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Product name"
+                id="button_name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+              />
 
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Product Price"
-              // id="button_name"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <br />
-            <select
-              onChange={(e) => setCurrencyCode(e.target.value)}
-              id="selectt"
-              // onChange={handleDateMethod}
-              className="select border-0 bg-white rounded w-100 h-75 p-2"
-            >
-              <option value="">Select Currency</option>
-              <option value="usd">USD</option>
-              <option value="aed">AED</option>
-              <option value="afn">AFN</option>
-              <option value="amd">AMD</option>
-              <option value="ang">ANG</option>
-              <option value="aoa">AOA</option>
-            </select>
-            {/* <br />
+              <br />
+
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                required
+                type="number"
+                placeholder="Product Price"
+                // id="button_name"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <br />
+              <select
+                required
+                onChange={(e) => setCurrencyCode(e.target.value)}
+                id="selectt"
+                // onChange={handleDateMethod}
+                className="select border-0 bg-white rounded w-100 h-75 p-2"
+              >
+                <option value="">Select Currency</option>
+                <option value="usd">USD</option>
+                <option value="aed">AED</option>
+                <option value="afn">AFN</option>
+                <option value="amd">AMD</option>
+                <option value="ang">ANG</option>
+                <option value="aoa">AOA</option>
+              </select>
+              {/* <br />
             <Form.Label>Paypal Client Id</Form.Label>
             <Form.Control
               type="text"
@@ -261,68 +335,98 @@ const PaymentRightSide = () => {
               id="button_name"
               onChange={() => { }}
             /> */}
-            <br />
-            <Form.Label>Callback URL</Form.Label>
-            <Form.Control
-              type="url"
-              placeholder="Callback URL"
-              // id="button_name"
-              value={callbackUrl}
-              onChange={(e) => setCallbackUrl(e.target.value)}
-            />
-            <br />
-            <button type="submit" className="btn btn-primary" onClick={handlePaypalPayment}>Submeit Info</button>
-          </form> : <form>
-            <Form.Label>Product Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Product name"
-              id="button_name"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
+              <br />
+              <Form.Label>Callback URL</Form.Label>
+              <Form.Control
+                required
+                type="url"
+                placeholder="Callback URL"
+                // id="button_name"
+                value={callbackUrl}
+                onChange={(e) => setCallbackUrl(e.target.value)}
+              />
+              <br />
+              <button type="submit" className="btn btn-primary">
+                {
+                  loader ? "Wait...." : "Submit Info"
+                }
+              </button>
+            </Form> : <Form noValidate validated={validated} onSubmit={handleStripePayment}>
+              <Form.Label>Stripe Key</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Stripe Key"
+                // id="button_name"
+                value={stripeKey}
+                onChange={(e) => setStripeKey(e.target.value)}
 
-            <br />
+              />
 
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Product Price"
-              // id="button_name"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <br />
-            <select
-              onChange={(e) => setCurrencyCode(e.target.value)}
-              id="selectt"
-              // onChange={handleDateMethod}
-              className="select border-0 bg-white rounded w-100 h-75 p-2"
-            >
-              <option value="">Select Currency</option>
-              <option value="usd">USD</option>
-              <option value="aed">AED</option>
-              <option value="afn">AFN</option>
-              <option value="amd">AMD</option>
-              <option value="ang">ANG</option>
-              <option value="aoa">AOA</option>
-            </select>
-            <br />
-            <Form.Label>Callback URL</Form.Label>
-            <Form.Control
-              type="url"
-              placeholder="Callback URL"
-              // id="button_name"
-              value={callbackUrl}
-              onChange={(e) => setCallbackUrl(e.target.value)}
-            />
-            <br />
-            <button type="submit" className="btn btn-primary" onClick={handleStripePayment}>Submeit Info</button>
-          </form>
+              <br />
+              <Form.Label>Product Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="Product name"
+                id="button_name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+
+              />
+
+              <br />
+
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                required
+                type="number"
+                placeholder="Product Price"
+                // id="button_name"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <br />
+              <select
+                required
+                onChange={(e) => setCurrencyCode(e.target.value)}
+                id="selectt"
+                // onChange={handleDateMethod}
+                className="select border-0 bg-white rounded w-100 h-75 p-2"
+              >
+                <option value="">Select Currency</option>
+                <option value="usd">USD</option>
+                <option value="aed">AED</option>
+                <option value="afn">AFN</option>
+                <option value="amd">AMD</option>
+                <option value="ang">ANG</option>
+                <option value="aoa">AOA</option>
+              </select>
+              <br />
+              <Form.Label>Callback URL</Form.Label>
+              <Form.Control
+                required
+                type="url"
+                placeholder="Callback URL"
+                // id="button_name"
+                value={callbackUrl}
+                onChange={(e) => setCallbackUrl(e.target.value)}
+              />
+              <br />
+
+              {/* <Link to={"/thanks"} > */}
+              <button type="submit" className="btn btn-primary">
+                {
+                  loader ? "Wait...." : "Submit Info"
+                }
+              </button>
+              {/* </Link> */}
+            </Form>
+
         }
       </div>
 
-
+      {popupUrl && <PaymentPopup url={popupUrl} onClose={closePopup} />}
       <hr />
       <Row className="pt-4">
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -379,6 +483,8 @@ const PaymentRightSide = () => {
           Remove Payment Button
         </Button>
       </div>
+      <ToastContainer size={5} />
+
     </>
   );
 };
