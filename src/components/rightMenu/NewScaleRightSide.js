@@ -1854,6 +1854,7 @@ const ScaleRightSide = () => {
               labelHold.appendChild(circle);
             }
             console.log("This is the likert scale response", res.data.data);
+            console.log("num scale", numberOfScalesValue)
           })
           .catch((err) => {
             setIsLoading(false);
