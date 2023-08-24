@@ -3162,12 +3162,14 @@ const Header = () => {
         template_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
+        questionAndAns: questionAndAnswerGroupedData,
       };
     } else if (decoded.details.action === "document") {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
+        questionAndAns: questionAndAnswerGroupedData,
       };
     }
 
