@@ -4481,6 +4481,7 @@ const MidSection = React.forwardRef((props, ref) => {
             console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
 
             for (let i = 0; i < likertScale.length; i++) {
+              let orientation = element?.raw_data?.orientation;
               const circle = document.createElement("div");
               circle.className = "circle_label";
               circle.textContent = likertScale[i];
@@ -4504,6 +4505,18 @@ const MidSection = React.forwardRef((props, ref) => {
               // circle.addEventListener("mouseout", () => {
               //   circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
               // });
+              if (orientation === "vertical"){
+                labelHold.style.position = "absolute";
+                circle.style.margin = "5px 0";
+                circle.style.padding = "6px 12px";
+                labelHold.style.height = "80%";
+                labelHold.style.width = "50%";
+                labelHold.style.display = "flex";
+                labelHold.style.flexDirection = "column";
+                labelHold.style.alignItems = "center";
+                labelHold.style.marginTop = "1%";
+                labelHold.style.marginLeft = "26%";
+              }
               if (decoded.details.action === "document") {
                 let isClicked = false;
                 const shouldHideFinalizeButton =

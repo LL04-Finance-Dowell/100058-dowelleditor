@@ -2606,6 +2606,7 @@ const Header = () => {
           }
 
           let npsLiteTextArray = "";
+          let orientation = "";
 
           if (scaleType.textContent === "nps_lite") {
             npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
@@ -2617,6 +2618,7 @@ const Header = () => {
             likertScaleArray = newScales[b].querySelector(
               ".likert_Scale_Array"
             );
+            orientation = newScales[b].querySelector(".orientation");
           }
 
           let percentBackground = "";
@@ -2625,7 +2627,6 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
-          let orientation = "";
 
           if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
@@ -2668,7 +2669,6 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
-            percentLabel: percentLabel?.length,
             orientation: orientation?.textContent,
           };
           console.log(properties);
