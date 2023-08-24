@@ -2282,21 +2282,14 @@ const Header = () => {
               for (let j = 0; j < tableChildren[i].children.length; j++) {
                 // const element = tableChildren[i];
 
-                const TdDivClassName =
-                  tableChildren[i].children[
-                    j
-                  ]?.firstElementChild?.className.split(" ")[0];
-                const childNodes = tableChildren[i].children[j]?.childNodes;
-                const tdElement = [];
-                childNodes.forEach((child) => {
-                  if (
-                    !child.classList.contains("row-resizer") &&
-                    !child.classList.contains("td-resizer")
-                  ) {
+                const childNodes = tableChildren[i].children[j]?.childNodes
+                const tdElement=[]
+                childNodes.forEach(child=>{
+                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
                     tdElement.push(child);
-                    console.log("DATA EXTRACTED FROM: ", child);
-                  }
-                });
+                  }               
+                })
+                const TdDivClassName = tdElement[0]?.className.split(" ")[0];
                 const trChild = {
                   td: {
                     type:
@@ -2313,7 +2306,6 @@ const Header = () => {
                     id: `tableTd${j + 1}`,
                   },
                 };
-                console.log("SENT SENT DATA: ", trChild.td.data);
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
@@ -2614,6 +2606,7 @@ const Header = () => {
           }
 
           let npsLiteTextArray = "";
+          let orientation = "";
 
           if (scaleType.textContent === "nps_lite") {
             npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
@@ -2625,6 +2618,7 @@ const Header = () => {
             likertScaleArray = newScales[b].querySelector(
               ".likert_Scale_Array"
             );
+            orientation = newScales[b].querySelector(".orientation");
           }
 
           let percentBackground = "";
@@ -2633,9 +2627,8 @@ const Header = () => {
           let percentCenter = [];
           let percentRight = "";
           let prodName = [];
-          let orientation = "";
 
-          if (scaleType.textContent === "percent_scale") {
+          if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
             percentBackground = newScales[b].querySelector(".percent-slider");
             percentLabel = newScales[b]?.querySelectorAll(".label_hold");
             console.log(percentLabel);
@@ -2676,7 +2669,6 @@ const Header = () => {
             percentLeft: percentLeft?.textContent,
             percentCenter: percentCenter?.textContent,
             percentRight: percentRight?.textContent,
-            percentLabel: percentLabel?.length,
             orientation: orientation?.textContent,
           };
           console.log(properties);
@@ -3170,12 +3162,14 @@ const Header = () => {
         template_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
+        questionAndAns: questionAndAnswerGroupedData,
       };
     } else if (decoded.details.action === "document") {
       updateField = {
         document_name: titleName,
         content: JSON.stringify(dataa),
         page: item,
+        questionAndAns: questionAndAnswerGroupedData,
       };
     }
 
@@ -3580,6 +3574,21 @@ const Header = () => {
 
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
+
+  const [content, setContent] = useState('');
+  const maxCharacterLimit = 100;
+
+  const handleInput = () => {
+    const newContent = inputRef.current.textContent;
+    
+    if (newContent.length > maxCharacterLimit) {
+      // Trim the content to the maximum character limit
+      setContent(newContent.slice(0, maxCharacterLimit));
+    } else {
+      setContent(newContent);
+    }
+  };
+
   return (
     <div
       className={`header ${
@@ -3693,9 +3702,11 @@ const Header = () => {
               <div
                 className="title-name px-3"
                 contentEditable={docMap ? false : true}
-                style={{ fontSize: 24 }}
+                // style={{ fontSize: 15 }}
+                style={{ fontSize: 15, height: '50px', overflowY: 'auto', padding: '10px' }}
                 spellCheck="false"
                 ref={inputRef}
+                onInput={handleInput}
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}
