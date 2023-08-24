@@ -2134,6 +2134,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         // console.log("midsectionRect", midsectionRect);
         // const eventClientX = ev.clientX;
+        if(!hodlerRect)return;
         const elemtnMeasureX =
           ev.screenX + holderPos.left + hodlerRect.width - initX;
         const elmentMeasureY =
@@ -2958,7 +2959,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDateMenu(false);
                   if (e.target.innerText != "mm/dd/yyyy") {
                     if (e.target.innerText.includes("/")) {
-                      console.log("date value: ",e.target.innerText);
                       const setDate = new Date(parseInt(e.target.innerText));
                       setMethod("first");
                       setStartDate(setDate);
