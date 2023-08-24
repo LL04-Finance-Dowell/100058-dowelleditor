@@ -10,6 +10,9 @@ import { useStateContext } from '../../contexts/contextProvider';
 import { useSearchParams } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import SelectAnsAndQuestion from '../selectAnsAndQuestion';
+import useSelectedAnswer from '../../customHooks/useSelectedAnswers';
+
+
 
 const IframeRightSidebar = () => {
   const { setSidebar, handleClicked, setIsFinializeDisabled, iframeBorderSize, setIframeBorderSize, iframeBorderColor, setIframeBorderColor, setConfirmRemove, confirmRemove } =
@@ -27,7 +30,8 @@ const IframeRightSidebar = () => {
   // );
   const [showSlider, setShowSlider] = useState(false);
   const [selectedType, setSelectedType] = useState('')
-  const [addedAns, setAddedAns] = useState([])
+  // const [addedAns, setAddedAns] = useState([])
+  const { addedAns, setAddedAns } = useSelectedAnswer()
 
   const makeIframe = () => {
     var iframeDiv = document.querySelector('.focussed');
