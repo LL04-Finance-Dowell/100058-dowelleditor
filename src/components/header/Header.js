@@ -736,9 +736,9 @@ const Header = () => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-      parseInt(rect.height) +
-      parseInt(rect.height) +
-      20 <
+        parseInt(rect.height) +
+        parseInt(rect.height) +
+        20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -866,10 +866,11 @@ const Header = () => {
   const handlePaste = () => {
     const element = JSON.parse(sessionStorage.getItem("cutItem"));
     const curr_user = document.getElementById("current-user");
+    const midSec = document.getElementsByClassName("midSection_container");
 
     const measure = {
-      // top: `${contextMenu.y}px`,
-      // left: `${contextMenu.x}px`,
+      // top: `${midSec.y}px`,
+      // left: `${midSec.x}px`,
       width: element.width,
       height: element.height,
       left: element.left,
@@ -2116,7 +2117,7 @@ const Header = () => {
             data: txt[h].innerText,
             border: `${inputBorderSize} dotted ${inputBorderColor}`,
             borderWidths: txt[h].parentElement.style.border,
-            raw_data: txt[h].innerHTML,
+            raw_data: txt[h].outerHTML,
             id: `t${h + 1}`,
           };
           // dataInsertWithPage(tempPosn, elem);
@@ -2245,7 +2246,7 @@ const Header = () => {
             data:
               sign[h].firstElementChild === null
                 ? // decoded.details.action === "document"
-                sign[h].innerHTML
+                  sign[h].innerHTML
                 : sign[h].firstElementChild.src,
             id: `s${h + 1}`,
           };
@@ -2281,11 +2282,14 @@ const Header = () => {
               for (let j = 0; j < tableChildren[i].children.length; j++) {
                 // const element = tableChildren[i];
 
-                const TdDivClassName =
-                  tableChildren[i].children[
-                    j
-                  ]?.firstElementChild?.className.split(" ")[0];
-
+                const childNodes = tableChildren[i].children[j]?.childNodes
+                const tdElement=[]
+                childNodes.forEach(child=>{
+                  if (!child.classList.contains("row-resizer") && !child.classList.contains("td-resizer")) {
+                    tdElement.push(child);
+                  }               
+                })
+                const TdDivClassName = tdElement[0]?.className.split(" ")[0];
                 const trChild = {
                   td: {
                     type:
@@ -2297,13 +2301,11 @@ const Header = () => {
                     data:
                       TdDivClassName == "imageInput"
                         ? tableChildren[i].children[j]?.firstElementChild.style
-                          .backgroundImage
-                        : tableChildren[i].children[j]?.firstElementChild
-                          ?.innerHTML,
+                            .backgroundImage
+                        : tdElement[0]?.innerHTML,
                     id: `tableTd${j + 1}`,
                   },
                 };
-
                 newTableTR.push(trChild);
               }
               tableTR.tr = newTableTR;
@@ -2412,7 +2414,7 @@ const Header = () => {
               childData.type = type;
               const imageData =
                 "imageInput" &&
-                  element?.firstElementChild?.style?.backgroundImage
+                element?.firstElementChild?.style?.backgroundImage
                   ? element.firstElementChild.style.backgroundImage
                   : element.firstElementChild?.innerHTML;
               if (type != "TEXT_INPUT") {
@@ -2600,26 +2602,51 @@ const Header = () => {
               ".stapelOptionHolder"
             );
             stapelScaleArray = newScales[b].querySelector(".stapelScaleArray");
+            console.log("This is the saved stapel", stapelOptionHolder);
           }
 
-          let surveyQuestion = "";
-          let circleLeft = "";
-          let circleCenter = "";
-          let circleRight = "";
+          let npsLiteTextArray = "";
 
           if (scaleType.textContent === "nps_lite") {
-            surveyQuestion = document.querySelector(".survey_question");
-            circleLeft = document.querySelector(".circle_label_left");
-            circleCenter = document.querySelector(".circle_label_center");
-            circleRight = document.querySelector(".circle_label_right");
+            npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
           }
 
-          // if (buttonStapel.length !==0) {
-          //   for (let i = lowerVal; i <= upperVal; i += spacing) {
-          //     stapelNum.push(buttonStapel[i].textContent);
-          // }
+          let likertScaleArray = "";
 
-          // console.log(buttonColors);
+          if (scaleType.textContent === "likert") {
+            likertScaleArray = newScales[b].querySelector(
+              ".likert_Scale_Array"
+            );
+          }
+
+          let percentBackground = "";
+          let percentLabel = "";
+          let percentLeft = "";
+          let percentCenter = [];
+          let percentRight = "";
+          let prodName = [];
+          let orientation = "";
+
+          if (scaleType.textContent === "percent_scale" || scaleType.textContent === "percent_sum_scale") {
+            percentBackground = newScales[b].querySelector(".percent-slider");
+            percentLabel = newScales[b]?.querySelectorAll(".label_hold");
+            console.log(percentLabel);
+
+            percentLabel.forEach((elem) => {
+              prodName.push(elem.querySelector(".product_name")?.textContent);
+              percentCenter.push(
+                elem.querySelector("center-percent")?.textContent
+                  ? elem.querySelector("center-percent")?.textContent
+                  : 1
+              );
+              console.log(prodName);
+              console.log(percentCenter);
+            });
+            percentLeft = newScales[b].querySelector(".left-percent");
+            percentRight = document.querySelector(".right-percent");
+
+            orientation = newScales[b].querySelector(".orientation");
+          }
           let properties = {
             scaleBgColor: scaleBg.style.backgroundColor,
             fontColor: font.style.color,
@@ -2634,13 +2661,15 @@ const Header = () => {
             scaleType: scaleType.textContent,
             stapelOptionHolder: stapelOptionHolder.textContent,
             stapelScaleArray: stapelScaleArray.textContent,
-            surveyQuestion: surveyQuestion.textContent,
-            circleLeftText: circleLeft.textContent,
-            circleCenterText: circleCenter.textContent,
-            circleRightText: circleRight.textContent,
-            circleLeftColor: circleLeft?.style?.backgroundColor,
-            circleCenterColor: circleCenter?.style?.backgroundColor,
-            circleRightColor: circleRight?.style?.backgroundColor
+            npsLiteTextArray: npsLiteTextArray.textContent,
+            likertScaleArray: likertScaleArray.textContent,
+            percentProdName: prodName,
+            percentBackground: percentBackground?.style?.background,
+            percentLeft: percentLeft?.textContent,
+            percentCenter: percentCenter?.textContent,
+            percentRight: percentRight?.textContent,
+            percentLabel: percentLabel?.length,
+            orientation: orientation?.textContent,
           };
           console.log(properties);
           elem = {
@@ -2733,6 +2762,41 @@ const Header = () => {
           };
           // dataInsertWithPage(tempPosn, elem);
           const pageNum = findPaageNum(buttons[b]);
+          page[0][pageNum].push(elem);
+
+          // page.push(elem);
+        }
+      }
+    }
+
+    const payments = document.getElementsByClassName("paymentInput");
+    if (payments.length) {
+      for (let p = 0; p < payments.length; p++) {
+        if (
+          !payments[p]?.parentElement?.parentElement?.classList?.contains(
+            "containerInput"
+          )
+        ) {
+          let tempElem = payments[p].parentElement;
+          let tempPosn = getPosition(tempElem);
+          const link = buttonLink;
+
+          elem = {
+            width: tempPosn.width,
+            height: tempPosn.height,
+            top: tempPosn.top,
+            topp: payments[p].parentElement.style.top,
+            left: tempPosn.left,
+            type: "PAYMENT_INPUT",
+            buttonBorder: `${buttonBorderSize}px dotted ${buttonBorderColor}`,
+            data: payments[p].textContent,
+            raw_data: tempElem.children[1].innerHTML,
+            purpose: tempElem.children[2].innerHTML,
+            id: `btn${p + 1}`,
+          };
+          console.log("Raw Data", elem.type);
+          // dataInsertWithPage(tempPosn, elem);
+          const pageNum = findPaageNum(payments[p]);
           page[0][pageNum].push(elem);
 
           // page.push(elem);
@@ -2886,6 +2950,7 @@ const Header = () => {
     console.log(documentResponses);
 
     const requestBody = {
+      process_id: decoded.details.process_id,
       instance_id: 1,
       brand_name: "XYZ545",
       product_name: "XYZ511",
@@ -2949,6 +3014,118 @@ const Header = () => {
 
     Axios.post(
       "https://100035.pythonanywhere.com/stapel/api/stapel_responses_create/",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleFinalizeButtonNpsLite() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = [];
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      user: authorizedLogin(),
+      scale_id: scaleId,
+      score: holdElem,
+      response: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/nps-lite/api/nps-lite-response",
+      requestBody
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          setIsLoading(false);
+          var responseData = response.data;
+          setScaleData(responseData);
+          console.log(response);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function handleFinalizeButtonLikert() {
+    localStorage.setItem("hideFinalizeButton", "true");
+    const username = decoded?.details?.authorized;
+    console.log(username);
+
+    function generateLoginUser() {
+      return "user_" + Math.random().toString(36).substring(7);
+      // return token;
+    }
+
+    function authorizedLogin() {
+      return username === undefined ? generateLoginUser() : username;
+    }
+
+    let scaleElements = document.querySelectorAll(".newScaleInput");
+
+    let scaleId;
+    let holdElem;
+    let documentResponses = [];
+    console.log(scaleElements);
+
+    scaleElements.forEach((scale) => {
+      console.log(scale);
+      scaleId = scale?.querySelector(".scaleId")?.textContent;
+      holdElem = scale?.querySelector(".holdElem")?.textContent;
+
+      documentResponses.push({ scale_id: scaleId, score: holdElem });
+    });
+
+    console.log(generateLoginUser());
+    console.log(documentResponses);
+
+    const requestBody = {
+      instance_id: 1,
+      brand_name: "XYZ545",
+      product_name: "XYZ511",
+      username: authorizedLogin(),
+      document_responses: documentResponses,
+    };
+
+    Axios.post(
+      "https://100035.pythonanywhere.com/likert/likert-scale_response/",
       requestBody
     )
       .then((response) => {
@@ -3037,9 +3214,22 @@ const Header = () => {
             handleFinalize();
             const scale = document.querySelector(".focussedd");
             let circles = scale?.querySelectorAll(".circle_label");
-            const hasNegative = [...circles].some(
-              (circle) => parseInt(circle.textContent) < 0
-            );
+            // let circle = scale?.querySelector(".circle_label");
+            // const hasNegative = [...circles].some(
+            //   (circle) => parseInt(circle.textContent) < 0
+            // );
+
+            let scaleType = document.querySelector(".scaleTypeHolder");
+            if (scaleType.textContent === "nps") {
+              handleFinalizeButton();
+            } else if (scaleType.textContent === "snipte") {
+              handleFinalizeButtonStapel();
+            } else if (scaleType.textContent === "nps_lite") {
+              handleFinalizeButtonNpsLite();
+            } else if (scaleType.textContent === "likert") {
+              handleFinalizeButtonLikert();
+            }
+
             // const hasEmoji = [...circles].some((circle) => /[\p{Emoji}\uFE0F]/u.test(circle.textContent));
             // handleFinalizeButton();
             // if (selectedTemplate === "nps") {
@@ -3049,15 +3239,19 @@ const Header = () => {
             // } else {
             //   // Handle the case when no template is selected
             // }
-            if (hasNegative) {
-              handleFinalizeButtonStapel();
-            } else {
-              handleFinalizeButton();
-            }
+
+            // if (hasNegative) {
+            //   handleFinalizeButtonStapel();
+            // } else {
+            //   handleFinalizeButton();
+            // }
 
             // if (hasEmoji) {
             //   handleFinalizeButton();
             //   // handleFinalizeButtonStapel();
+            // }
+            // if (circle.style.width === "80%" && circle.style.height === "55%") {
+            //   handleFinalizeButtonLikert();
             // }
           }
           setIsLoading(false);
@@ -3380,10 +3574,26 @@ const Header = () => {
 
   // console.log("page count check", item);
   // console.log("isMenuVisible", isMenuVisible);
+
+  const [content, setContent] = useState('');
+  const maxCharacterLimit = 100;
+
+  const handleInput = () => {
+    const newContent = inputRef.current.textContent;
+    
+    if (newContent.length > maxCharacterLimit) {
+      // Trim the content to the maximum character limit
+      setContent(newContent.slice(0, maxCharacterLimit));
+    } else {
+      setContent(newContent);
+    }
+  };
+
   return (
     <div
-      className={`header ${actionName == "template" ? "header_bg_template" : "header_bg_document"
-        }`}
+      className={`header ${
+        actionName == "template" ? "header_bg_template" : "header_bg_document"
+      }`}
     >
       <Container fluid>
         <Row>
@@ -3393,8 +3603,9 @@ const Header = () => {
               {isMenuVisible && (
                 <div
                   ref={menuRef}
-                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${isMenuVisible ? "show" : ""
-                    }`}
+                  className={`position-absolute bg-white d-flex flex-column p-4 bar-menu menu ${
+                    isMenuVisible ? "show" : ""
+                  }`}
                 >
                   <div className="d-flex cursor_pointer" onClick={handleUndo}>
                     <ImUndo />
@@ -3491,9 +3702,11 @@ const Header = () => {
               <div
                 className="title-name px-3"
                 contentEditable={docMap ? false : true}
-                style={{ fontSize: 24 }}
+                // style={{ fontSize: 15 }}
+                style={{ fontSize: 15, height: '50px', overflowY: 'auto', padding: '10px' }}
                 spellCheck="false"
                 ref={inputRef}
+                onInput={handleInput}
               >
                 {/* {(decoded.details.action == "template") ? ((data.data.template_name == "") ? ("Untitled-File"): (data.data.template_name) )
                : ((data.data.document_name == "") ? ("Untitled-File"): (data.data.document_name))} */}

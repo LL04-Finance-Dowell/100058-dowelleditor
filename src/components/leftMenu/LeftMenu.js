@@ -15,6 +15,7 @@ import {
 
 import { SiBigbluebutton, SiLinuxcontainers } from "react-icons/si";
 import { FaSignature } from "react-icons/fa";
+import { MdPayments } from "react-icons/md";
 import { AiOutlineMail } from "react-icons/ai";
 import { IoScale } from "react-icons/io5";
 import { FaCamera } from "react-icons/fa"
@@ -157,6 +158,16 @@ const dragStartNewScale = (e) => {
   }
 };
 
+const dragStartPayment = (e) => {
+  const element = document.getElementById("draggable");
+  e.dataTransfer.setData("text/plain", "PAYMENT_INPUT");
+  element.classList.add("dragging");
+  if (document.querySelector(".drop_zone")) {
+    document.querySelector(".drop_zone").classList.remove("drop_zone");
+    //console.log("drag start fumb");
+  }
+};
+
 const dragStartCamera = (e) => {
   const element = document.getElementById("draggable");
   e.dataTransfer.setData("text/plain", "CAMERA_INPUT");
@@ -278,12 +289,12 @@ const LeftMenu = ({ showSidebar }) => {
               // onDrop={handleContainerDrop}
               // onDragOver = {e=>{console.log(alert("I am contianer"));}}
             />
-            {/* <NavButton
+            <NavButton
               dragStartFunc={dragStartTable}
               customFunc={() => handleDrop("table")}
               icon={<BsTable />}
               title="Table"
-            /> */}
+            />
             <NavButton
               dragStartFunc={dragStartSigns}
               customFunc={() => handleDrop("signs")}
@@ -348,6 +359,12 @@ const LeftMenu = ({ showSidebar }) => {
               title="camera"
             />
             }
+            <NavButton
+              dragStartFunc={dragStartPayment}
+              customFunc={() => handleDrop("payment")}
+              icon={<MdPayments />}
+              title="payment"
+            />
            {
            //"}"
           }

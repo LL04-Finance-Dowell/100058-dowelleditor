@@ -6,7 +6,7 @@ import { CgPlayListRemove } from 'react-icons/cg';
 import { useStateContext } from '../../contexts/contextProvider';
 
 
-const RightContextMenu = ({ x, y, closeContextMenu, cutInput, pasteInput, handleCopy, removeInput }) => {
+const RightContextMenu = ({ x, y, closeContextMenu, cutInput, pasteInput,handlePrint, removeInput }) => {
 
     const { confirmRemove, setConfirmRemove } = useStateContext()
     return (

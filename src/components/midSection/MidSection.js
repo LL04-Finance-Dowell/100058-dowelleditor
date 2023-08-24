@@ -188,6 +188,7 @@ const MidSection = React.forwardRef((props, ref) => {
           email2: false,
           newScale2: false,
           camera2: false,
+          payment2: false,
         });
 
         const divsArray = document.getElementsByClassName(
@@ -251,6 +252,7 @@ const MidSection = React.forwardRef((props, ref) => {
         // console.log("midSection", res);
         const loadedData = JSON.parse(res.data.content);
         const pageData = res.data.page;
+        console.log("loaded data", loadedData);
         setItem(pageData);
         // console.log(pageData, 'pageData');
         //console.log(loadedData[0][0]);
@@ -1618,7 +1620,101 @@ const MidSection = React.forwardRef((props, ref) => {
     //   }
     // }
   };
+  const createResizableRow = (row, resizer) => {
+    // Track the current position of the mouse
+    let y = 0;
+    let h = 0;
 
+    const mouseDownHandler = function (e) {
+      const holderDiv =
+        row.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
+      // Get the current mouse position
+      y = e.clientY;
+
+      // Calculate the current height of the row
+      h = row.clientHeight;
+
+      // Attach listeners for document's events
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dy = e.clientY - y;
+
+      // Update the height of the row
+      row.style.height = `${h + dy}px`;
+    };
+
+    // When the user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
+    };
+
+    resizer.addEventListener("mousedown", mouseDownHandler);
+  };
+
+  const createResizableColumn = (col, resizer) => {
+    // Track the current position of mouse
+    let x = 0;
+    let w = 0;
+
+    const mouseDownHandler = function (e) {
+      const holderDiv =
+        col.parentElement.parentElement.parentElement.parentElement;
+      holderDiv.removeAttribute("draggable");
+      // Get the current mouse position
+      x = e.clientX;
+
+      // Calculate the current width of column
+      const styles = window.getComputedStyle(col);
+      w = parseInt(styles.width, 10);
+
+      // Attach listeners for document's events
+      document.addEventListener("mousemove", mouseMoveHandler);
+      document.addEventListener("mouseup", mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // Determine how far the mouse has been moved
+      const dx = e.clientX - x;
+
+      // Update the width of column
+      col.style.width = `${w + dx}px`;
+    };
+
+    // When user releases the mouse, remove the existing event listeners
+    const mouseUpHandler = function () {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
+    };
+
+    resizer.addEventListener("mousedown", mouseDownHandler);
+  };
+
+  const setColRowSize = (table, width = null, height = null) => {
+    const col_resizers = table.querySelectorAll(".td-resizer");
+    const row_resizers = table.querySelectorAll(".row-resizer");
+    for (const resizer of col_resizers) {
+      if (height) {
+        resizer.style.height = `${height}px`;
+        // console.log("set height: ",height);
+      } else {
+        resizer.style.height = `${table.offsetHeight}px`;
+      }
+    }
+    for (const resizer of row_resizers) {
+      if (width) {
+        resizer.style.width = `${width}px`;
+        // console.log("set witdh: ",width);
+      } else {
+        resizer.style.width = `${table.offsetWidth}px`;
+      }
+    }
+  };
   const handleCutInput = () => {
     const cutItem = document.querySelector(".focussedd");
     const cutEle = cutItem.cloneNode(true);
@@ -2038,6 +2134,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         // console.log("midsectionRect", midsectionRect);
         // const eventClientX = ev.clientX;
+        if(!hodlerRect)return;
         const elemtnMeasureX =
           ev.screenX + holderPos.left + hodlerRect.width - initX;
         const elmentMeasureY =
@@ -2218,13 +2315,18 @@ const MidSection = React.forwardRef((props, ref) => {
     holderDIV.onmousedown = holderDIV.addEventListener(
       "mousedown",
       (event) => {
-        dragElementOverPage(event);
+        if (
+          event.target.className != "td-resizer" &&
+          event.target.className != "row-resizer"
+        ) {
+          dragElementOverPage(event);
+        }
       },
       false
     );
 
     holderDIV.onresize = (evntt) => {
-      //console.log("Holder resized");
+      console.log("Holder resized");
     };
     // }
 
@@ -2798,12 +2900,25 @@ const MidSection = React.forwardRef((props, ref) => {
               // console.log("tableTD", tableTRData[j]["td"]);
               var cells = document.createElement("td");
               cells.className = "dropp";
+              if (i === 0) {
+                const resizer = document.createElement("div");
+                resizer.classList.add("td-resizer");
+                resizer.addEventListener("mousedown", (e) => {
+                  let x = 0;
+                  let w = 0;
+                });
+                createResizableColumn(cells, resizer);
+                cells.appendChild(resizer);
+              }
+
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                if (!e.target.hasChildNodes()) {
-                  e.target.style.border = "3px solid blue";
-                }
+                
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "3px solid blue";
+                  };
+                
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
                 }
@@ -2811,10 +2926,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragleave = (e) => {
                 e.preventDefault();
                 if (
-                  !e.target.hasChildNodes() &&
-                  !e.target.classList.contains("imageInput")
+                   !e.target.classList.contains("imageInput")
                 ) {
-                  e.target.style.border = "1px solid black";
+                  if (e.target.tagName.toLowerCase() == "td") {
+                    e.target.style.border = "1px solid black";
+                  };
                 }
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
@@ -2843,7 +2959,7 @@ const MidSection = React.forwardRef((props, ref) => {
                   setRightSideDateMenu(false);
                   if (e.target.innerText != "mm/dd/yyyy") {
                     if (e.target.innerText.includes("/")) {
-                      const setDate = new Date(e.target.innerText);
+                      const setDate = new Date(parseInt(e.target.innerText));
                       setMethod("first");
                       setStartDate(setDate);
                     } else {
@@ -2929,18 +3045,44 @@ const MidSection = React.forwardRef((props, ref) => {
                   cells.appendChild(cellsDiv);
                   cells.appendChild(imgBtn);
                 }
-              } else {
-                cellsDiv.innerHTML = `${tableTDData.data}`;
-                if (dataType) {
+              }
+              else {
+           
+                if(dataType){
+                  cellsDiv.innerHTML = tableTDData.data.toString();
                   cells.appendChild(cellsDiv);
+
                 }
+
               }
 
               cells.ondrop = handleDropp;
               tabbTR.appendChild(cells);
             }
+            const rowResizeCell = tabbTR.firstElementChild;
+            const resizer = document.createElement("div");
+            resizer.classList.add("row-resizer");
+            resizer.addEventListener("mousedown", (e) => {
+              let x = 0;
+              let w = 0;
+            });
+            rowResizeCell.appendChild(resizer);
+            createResizableRow(rowResizeCell, resizer);
             tabb.appendChild(tabbTR);
           }
+          const resizeObserver = new ResizeObserver((entries) => {
+            entries.forEach((entry) => {
+              // console.log("Observing: ",entry.target);
+              const width = entry.contentRect.width;
+              const height = entry.contentRect.height;
+              const table = entry.target
+              const holderDIV = table.parentElement?.parentElement
+
+              setColRowSize(table, width, height, holderDIV);
+              //  console.log("called setcolrowsize");
+            });
+          });
+          resizeObserver.observe(tabb);
           tableField.append(tabb);
           // var cells = tabb.getElementsByTagName("td");
 
@@ -3174,6 +3316,119 @@ const MidSection = React.forwardRef((props, ref) => {
             [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
+        if (element.type === "PAYMENT_INPUT") {
+          const measure = {
+            width: element.width + "px",
+            height: element.height + "px",
+            left: element.left + "px",
+            top: element.topp,
+            border: element.buttonBorder,
+            auth_user: curr_user,
+          };
+          // console.log("button input border value", measure.border)
+
+          const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
+          const holderDIV = getHolderDIV(measure, pageNo);
+          const id = `${element.id}`;
+          const finalizeButton = document.getElementById("finalize-button");
+          const rejectButton = document.getElementById("reject-button");
+
+          let paymentField = document.createElement("button");
+          paymentField.className = "paymentInput";
+          paymentField.id = id;
+          paymentField.style.width = "100%";
+          paymentField.style.height = "100%";
+          paymentField.style.backgroundColor = "#0000";
+          paymentField.style.borderRadius = "0px";
+          paymentField.style.outline = "0px";
+          paymentField.style.overflow = "overlay";
+          paymentField.style.position = "absolute";
+          paymentField.textContent = element.data;
+
+          if (decoded.details.action === "template") {
+            paymentField.onclick = (e) => {
+              focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("payment2");
+              }
+              handleClicked("payment2");
+              setSidebar(true);
+            };
+          }
+
+          paymentField.onmouseover = (e) => {
+            // if (buttonField?.parentElement?.classList.contains("holderDIV")) {
+            //   buttonField?.parentElement?.classList.add("element_updated");
+            // }
+
+            const required_map_document = document_map_required?.filter(
+              (item) => element.id == item.content
+            );
+            if (
+              paymentField.parentElement.classList.contains("holderDIV") &&
+              required_map_document.length > 0
+            ) {
+              paymentField.parentElement.classList.add("element_updated");
+            }
+            if (element.required) {
+              isAnyRequiredElementEdited = true;
+            }
+          };
+
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "custom" &&
+            element.raw_data !== ""
+          ) {
+            buttonField.onclick = (e) => {
+              window.open(element.raw_data, "_blank");
+            };
+          }
+
+          if (finalizeButton) {
+            if (isAnyRequiredElementEdited) {
+              finalizeButton?.click();
+            } else {
+              finalizeButton.disabled = true;
+            }
+          }
+
+          // if (
+          //   decoded.details.action === "document" &&
+          //   element.purpose == "finalize"
+          // ) {
+          //   buttonField.onclick = (e) => {
+          //     finalizeButton?.click();
+          //   };
+          // }
+          if (
+            decoded.details.action === "document" &&
+            element.purpose == "reject"
+          ) {
+            paymentField.onclick = (e) => {
+              rejectButton?.click();
+            };
+          }
+
+          const linkHolder = document.createElement("div");
+          linkHolder.className = "link_holder";
+          linkHolder.innerHTML = element.raw_data;
+          linkHolder.style.display = "none";
+
+          const purposeHolder = document.createElement("div");
+          purposeHolder.className = "purpose_holder";
+          purposeHolder.innerHTML = element.purpose;
+          purposeHolder.style.display = "none";
+
+          holderDIV.append(paymentField);
+          holderDIV.append(linkHolder);
+          holderDIV.append(purposeHolder);
+          console.log(element);
+          document
+            .getElementsByClassName("midSection_container")
+            [p - 1] // ?.item(0)
+            ?.append(holderDIV);
+        }
         if (element.type === "FORM") {
           const measure = {
             width: element.width + "px",
@@ -3371,70 +3626,165 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
+          if (decoded.details.action === "template") {
+            let videoField = document.createElement("video");
+            const imageLinkHolder1 = document.createElement("h1");
+            const videoLinkHolder1 = document.createElement("h1");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
 
-          let videoField = document.createElement("video");
-          const imageLinkHolder1 = document.createElement("h1");
-          const videoLinkHolder1 = document.createElement("h1");
-          if (videoLinkHolder === "video_link") {
-            videoField.className = "videoInput";
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.loop = true;
-            videoField.style.display = "none";
-            cameraField.append(videoField);
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.autoplay = true;
+              videoField.muted = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
-          } else {
-            videoField.className = "videoInput";
-            videoField.src = videoLinkHolder;
-            videoField.style.width = "100%";
-            videoField.style.height = "100%";
-            videoField.autoplay = true;
-            videoField.muted = true;
-            videoField.loop = true;
-            cameraField.append(videoField);
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = videoLinkHolder;
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
 
-            videoLinkHolder1.className = "videoLinkHolder";
-            videoLinkHolder1.textContent = videoLinkHolder;
-            videoLinkHolder1.style.display = "none";
-            cameraField.append(videoLinkHolder1);
+            let imgHolder = document.createElement("img");
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.src = imageLinkHolder;
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            cameraField.addEventListener("resize", () => {
+              videoField.style.width = cameraField.clientWidth + "px";
+              videoField.style.height = cameraField.clientHeight + "px";
+            });
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
+          } else if (decoded.details.action === "document") {
+            let videoField = document.createElement("video");
+            const videoLinkHolder1 = document.createElement("h1");
+            if (videoLinkHolder === "video_link") {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              videoField.style.display = "none";
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            } else {
+              videoField.className = "videoInput";
+              videoField.src = videoLinkHolder;
+              videoField.style.width = "100%";
+              videoField.style.height = "100%";
+              videoField.muted = true;
+              videoField.autoplay = true;
+              videoField.loop = true;
+              cameraField.append(videoField);
+
+              let cameraImageInput = document.createElement("canvas");
+              cameraImageInput.className = "cameraImageInput";
+              cameraImageInput.style.display = "none";
+              cameraField.append(cameraImageInput);
+
+              videoLinkHolder1.className = "videoLinkHolder";
+              videoLinkHolder1.textContent = "";
+              videoLinkHolder1.style.display = "none";
+              cameraField.append(videoLinkHolder1);
+            }
+
+            let imgHolder = document.createElement("img");
+            const imageLinkHolder1 = document.createElement("h1");
+
+            if (imageLinkHolder === "image_link") {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.alt = "";
+              imgHolder.style.display = "none";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            } else {
+              imgHolder.className = "imageHolder";
+              imgHolder.style.height = "100%";
+              imgHolder.style.width = "100%";
+              imgHolder.src = imageLinkHolder;
+              imgHolder.alt = "";
+              cameraField.append(imgHolder);
+
+              imageLinkHolder1.className = "imageLinkHolder";
+              imageLinkHolder1.textContent = imageLinkHolder;
+              imageLinkHolder1.style.display = "none";
+              cameraField.append(imageLinkHolder1);
+            }
+
+            imgHolder.onclick = (e) => {
+              e.stopPropagation();
+              table_dropdown_focuseddClassMaintain(e);
+              if (e.ctrlKey) {
+                copyInput("camera2");
+              }
+              handleClicked("camera2");
+              setSidebar(true);
+              console.log("The camera", cameraField);
+            };
           }
-
-          let imgHolder = document.createElement("img");
-          if (imageLinkHolder === "image_link") {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.style.display = "none";
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          } else {
-            imgHolder.className = "imageHolder";
-            imgHolder.style.height = "100%";
-            imgHolder.style.width = "100%";
-            imgHolder.alt = "";
-            imgHolder.src = imageLinkHolder;
-            cameraField.append(imgHolder);
-
-            imageLinkHolder1.className = "imageLinkHolder";
-            imageLinkHolder1.textContent = imageLinkHolder;
-            imageLinkHolder1.style.display = "none";
-            cameraField.append(imageLinkHolder1);
-          }
-
-          cameraField.addEventListener("resize", () => {
-            videoField.style.width = cameraField.clientWidth + "px";
-            videoField.style.height = cameraField.clientHeight + "px";
-          });
 
           cameraField.onclick = (e) => {
             e.stopPropagation();
@@ -3446,16 +3796,6 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
           };
 
-          imgHolder.onclick = (e) => {
-            e.stopPropagation();
-            table_dropdown_focuseddClassMaintain(e);
-            if (e.ctrlKey) {
-              copyInput("camera2");
-            }
-            handleClicked("camera2");
-            setSidebar(true);
-            console.log("The camera", cameraField);
-          };
           holderDIV.append(cameraField);
 
           document
@@ -3519,11 +3859,39 @@ const MidSection = React.forwardRef((props, ref) => {
           stapelScaleArray.style.display = "none";
           scaleHold.append(stapelScaleArray);
 
-          const optionHolder = document.createElement("div");
-          optionHolder.className = "stapelOptionHolder";
-          optionHolder.textContent = element?.raw_data?.stapelOptionHolder;
-          optionHolder.style.display = "none";
-          scaleHold.append(optionHolder);
+          const npsLiteTextArray = document.createElement("div");
+          npsLiteTextArray.className = "nps_lite_text";
+          npsLiteTextArray.textContent = element?.raw_data?.npsLiteTextArray;
+          npsLiteTextArray.style.display = "none";
+          scaleHold.append(npsLiteTextArray);
+
+          const stapelOptionHolder = document.createElement("div");
+          stapelOptionHolder.className = "stapelOptionHolder";
+          stapelOptionHolder.textContent =
+            element?.raw_data?.stapelOptionHolder;
+          stapelOptionHolder.style.display = "none";
+          scaleHold.append(stapelOptionHolder);
+
+          const npsLiteOptionHolder = document.createElement("div");
+          npsLiteOptionHolder.className = "nps_option_holder";
+          npsLiteOptionHolder.textContent =
+            element?.raw_data?.npsLiteOptionHolder;
+          npsLiteOptionHolder.style.display = "none";
+          scaleHold.append(npsLiteOptionHolder);
+
+          const likertScaleArray = document.createElement("div");
+          likertScaleArray.className = "likert_Scale_Array";
+          likertScaleArray.textContent =
+            element?.raw_data?.likertScaleArray || "";
+          likertScaleArray.style.display = "none";
+          scaleHold.append(likertScaleArray);
+
+          const optionHolderLikert = document.createElement("div");
+          optionHolderLikert.className = "likert_Option_Holder";
+          optionHolderLikert.textContent =
+            element?.raw_data?.likertOptionHolder || "";
+          optionHolderLikert.style.display = "none";
+          scaleHold.append(optionHolderLikert);
 
           const labelHold = document.createElement("div");
           labelHold.className = "label_hold";
@@ -3564,6 +3932,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 const buttonText = element.raw_data.buttonText;
                 if (Array.isArray(buttonText) && buttonText.length > 0) {
                   circle.textContent = buttonText[i % buttonText.length];
+                  circle.style.fontSize = "1.8vw";
                   console.log("EMOJIIIIIIIIIII");
                 } else {
                   console.log("Empty buttonText array");
@@ -3639,7 +4008,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
-                      let scale = document.querySelector(".focussedd");
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
                       let holding = scale?.querySelector(".newScaleInput");
                       const buttonCircle = scale
                         ? scale.querySelectorAll(".circle_label")
@@ -3735,8 +4106,9 @@ const MidSection = React.forwardRef((props, ref) => {
             }
           } else if (scaleTypeHolder.textContent === "snipte") {
             const stapelScale = stapelScaleArray.textContent.split(",");
-            const selectedOption = optionHolder.textContent;
+            const selectedOption = stapelOptionHolder.textContent;
             console.log("This is the stapel", stapelScale);
+            console.log("This is option", selectedOption);
             for (let i = 0; i < stapelScale.length; i++) {
               const circle = document.createElement("div");
               circle.className = "circle_label";
@@ -3753,6 +4125,7 @@ const MidSection = React.forwardRef((props, ref) => {
               if (selectedOption === "emoji") {
                 const buttonText = element.raw_data.buttonText;
                 circle.textContent = buttonText[i % buttonText.length];
+                circle.style.fontSize = "1.8vw";
               }
 
               if (!token) {
@@ -3760,14 +4133,70 @@ const MidSection = React.forwardRef((props, ref) => {
               }
 
               if (decoded.details.action === "document") {
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
                 let circles = document.querySelectorAll(".circle_label");
                 let isClicked = false;
 
                 let circleBgColor = circle.style.backgroundColor;
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
 
                 circle.addEventListener("click", function () {
                   if (!isClicked) {
-                    let scale = document.querySelector(".focussedd");
+                    let holdingParentEl =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
+                    let scale =
+                      circle.parentElement.parentElement.parentElement
+                        .parentElement;
                     let holding = scale?.querySelector(".newScaleInput");
                     const buttonCircle = scale
                       ? scale.querySelectorAll(".circle_label")
@@ -3775,7 +4204,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     console.log(
                       "This is the background color",
-                      circle.style.backgroundColor
+                      holdingParentEl
                     );
                     function componentToHex(c) {
                       var hex = c.toString(16);
@@ -3815,13 +4244,13 @@ const MidSection = React.forwardRef((props, ref) => {
 
                     if (holdElem) {
                       // If holdElem exists, update its text content
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                     } else {
                       // If holdElem doesn't exist, create a new one
                       holdElem = document.createElement("div");
                       holdElem.className = "holdElem";
                       holdElem.style.display = "none";
-                      holdElem.textContent = i;
+                      holdElem.textContent = stapelScale[i];
                       holding?.appendChild(holdElem);
                       console.log("This is holdEle", holdElem.textContent);
                       const required_map_document =
@@ -3839,61 +4268,567 @@ const MidSection = React.forwardRef((props, ref) => {
                         );
                       }
                     }
+                    const scaleID =
+                      scale?.querySelector(".scaleId")?.textContent;
+                    setClickedCircleBackgroundColor(
+                      circle,
+                      circle.style.backgroundColor,
+                      scaleID
+                    );
 
-                    // Store holdElem inside the holding div
-                    // holding.appendChild(holdElem);
+                    localStorage.setItem(
+                      `lastClickedCircleID_${scaleID}`,
+                      circle.textContent
+                    );
                   }
                 });
               }
             }
           } else if (scaleTypeHolder.textContent === "nps_lite") {
-            labelHold.style.display = "";
-            const surveyQuestionText = document.createElement("div");
-            surveyQuestionText.className = "survey_question"
-            surveyQuestionText.textContent = element?.raw_data?.surveyQuestion;
-            surveyQuestionText.style.margin = '20px auto';
-            surveyQuestionText.style.textAlign = 'center';
-            labelHold.appendChild(surveyQuestionText);
+            const npsLiteText = npsLiteTextArray.textContent.split(",");
+            for (let i = 0; i < npsLiteText.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = `circle_label circle_${i}`;
+              circle.textContent = npsLiteText[i];
+              circle.style.borderRadius = "25px";
+              circle.style.padding = "12px 27px";
+              circle.style.margin = "0 auto";
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              circle.style.width = "27%";
+              circle.style.height = "35%";
+              circle.style.fontSize = "18px";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
 
-            const circleDiv = document.createElement("div");
-            circleDiv.className = "circle_div";
-            circleDiv.style.display = "flex";
-            circleDiv.style.justifyContent = "space-evenly";
-            circleDiv.style.alignItems = "center";
+              if (element?.raw_data?.buttonText) {
+                const buttonText = element.raw_data.buttonText;
+                if (Array.isArray(buttonText) && buttonText.length > 0) {
+                  circle.textContent = buttonText[i % buttonText.length];
+                } else {
+                  console.log("Empty buttonText array");
+                }
+              } else {
+                circle.textContent = i;
+              }
 
-            const styles = {
-              "background-color": "element?.raw_data?.circleLeftColor",
-              "border-radius": "25px",
-              "padding": "5px 20px",
-              "margin": "0 15px",
-              "display": "flex",
-              "justify-content": "center",
-              "align-items": "center"
-            };
+              labelHold.appendChild(circle);
 
-            const circleLeft = document.createElement('div');
-            circleLeft.className = 'circle_label_left';
-            circleLeft.textContent = element?.raw_data?.circleLeftText;
-            circleLeft.style.backgroundColor = element?.raw_data?.circleLeftColor;
-            Object.assign(circleLeft.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleLeft);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
 
-            const circleCenter = document.createElement('div');
-            circleCenter.className = 'circle_label_center';
-            circleCenter.textContent = element?.raw_data?.circleCenterText;
-            circleCenter.style.backgroundColor = element?.raw_data?.circleCenterColor;
-            Object.assign(circleCenter.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleCenter);
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
 
-            const circleRight = document.createElement('div');
-            circleRight.className = 'circle_label_right';
-            circleRight.textContent = element?.raw_data?.circleRightText;
-            circleRight.style.backgroundColor = element?.raw_data?.circleRightColor
-            Object.assign(circleRight.style, styles);
-            labelHold.appendChild(circleDiv).appendChild(circleRight);
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
 
-            if (!token) {
-              return res.status(401).json({ error: "Unauthorized" });
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
+
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
+
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
+
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+
+                      const circleBgColor = circle.style.backgroundColor;
+
+                      circle.style.backgroundColor = invert(circleBgColor);
+
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+
+                      let holdElem = scale?.querySelector(".holdElem");
+
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = npsLiteText[i];
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = npsLiteText[i];
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
+                      );
+                    }
+                  });
+                }
+              }
+            }
+          } else if (scaleTypeHolder.textContent === "likert") {
+            const likertScale = likertScaleArray.textContent.split(",");
+            const numRows = Math.ceil(likertScale / 3);
+            const numColumns = Math.min(likertScale, 3);
+            console.log("This is the likertjddddddd++++!!!!!!!!!", likertScale);
+
+            for (let i = 0; i < likertScale.length; i++) {
+              const circle = document.createElement("div");
+              circle.className = "circle_label";
+              circle.textContent = likertScale[i];
+              circle.style.width = "80%";
+              circle.style.height = "55%";
+              circle.style.borderRadius = "25px";
+              circle.style.padding = "12px 10px";
+              circle.style.marginLeft = "5px";
+              circle.style.marginRight = "5px";
+              circle.style.backgroundColor = element?.raw_data?.buttonColor;
+              circle.style.display = "flex";
+              circle.style.justifyContent = "center";
+              circle.style.alignItems = "center";
+              labelHold.style.display = "grid";
+              labelHold.style.gridTemplateColumns = `repeat(3, 1fr)`;
+              labelHold.style.gridTemplateRows = `repeat(${numRows}, 1fr)`;
+              labelHold.appendChild(circle);
+              // circle.addEventListener("mouseover", () => {
+              //   circle.style.backgroundColor = "green"; // Change the color on hover
+              // });
+              // circle.addEventListener("mouseout", () => {
+              //   circle.style.backgroundColor = element?.raw_data?.buttonColor; // Reset the color when not hovered
+              // });
+              if (decoded.details.action === "document") {
+                let isClicked = false;
+                const shouldHideFinalizeButton =
+                  localStorage.getItem("hideFinalizeButton");
+
+                function setClickedCircleBackgroundColor(
+                  circle,
+                  bgColor,
+                  scaleID
+                ) {
+                  localStorage.setItem(
+                    `circleBgColor_${scaleID}_${circle.textContent}`,
+                    bgColor
+                  );
+                  localStorage.setItem(
+                    `lastClickedCircleID_${scaleID}`,
+                    circle.textContent,
+                    bgColor
+                  );
+                }
+
+                function getClickedCircleBackgroundColor(circle, scaleID) {
+                  const circleKey = `circleBgColor_${scaleID}_${circle.textContent}`;
+                  return localStorage.getItem(circleKey);
+                }
+
+                setTimeout(() => {
+                  let scales = document.querySelectorAll(".newScaleInput");
+                  console.log(scales);
+                  scales.forEach((scale) => {
+                    const scaleID =
+                      scale?.querySelector(".scaleId").textContent;
+                    const circlesInScale =
+                      scale.querySelectorAll(".circle_label");
+                    const lastClickedCircleID = localStorage.getItem(
+                      `lastClickedCircleID_${scaleID}`
+                    );
+
+                    circlesInScale.forEach((circle) => {
+                      const storedBgColor = getClickedCircleBackgroundColor(
+                        circle,
+                        scaleID
+                      );
+
+                      if (storedBgColor) {
+                        if (circle.textContent === lastClickedCircleID) {
+                          circle.style.backgroundColor = storedBgColor;
+                        } else {
+                          circle.style.backgroundColor;
+                        }
+                      }
+                    });
+                  });
+                }, 1000);
+
+                if (!shouldHideFinalizeButton) {
+                  circle.addEventListener("click", function () {
+                    if (!isClicked) {
+                      let scale =
+                        circle.parentElement.parentElement.parentElement
+                          .parentElement;
+                      let holding = scale?.querySelector(".newScaleInput");
+                      const buttonCircle = scale
+                        ? scale.querySelectorAll(".circle_label")
+                        : [];
+
+                      console.log(
+                        "This is the background color",
+                        circle.style.backgroundColor
+                      );
+
+                      function componentToHex(c) {
+                        var hex = c.toString(16);
+                        return hex.length == 1 ? "0" + hex : hex;
+                      }
+
+                      function rgbToHex(r, g, b) {
+                        return (
+                          "#" +
+                          componentToHex(r) +
+                          componentToHex(g) +
+                          componentToHex(b)
+                        );
+                      }
+
+                      function invert(rgb) {
+                        rgb = [].slice
+                          .call(arguments)
+                          .join(",")
+                          .replace(/rgb\(|\)|rgba\(|\)|\s/gi, "")
+                          .split(",");
+                        for (var i = 0; i < rgb.length; i++)
+                          rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+                        return rgbToHex(rgb[0], rgb[1], rgb[2]);
+                      }
+
+                      const circleBgColor = circle.style.backgroundColor;
+
+                      circle.style.backgroundColor = invert(circleBgColor);
+
+                      for (let i = 0; i < buttonCircle.length; i++) {
+                        if (
+                          buttonCircle[i].textContent !== circle.textContent
+                        ) {
+                          buttonCircle[i].style.backgroundColor = circleBgColor;
+                        }
+                      }
+
+                      let holdElem = scale?.querySelector(".holdElem");
+
+                      if (holdElem) {
+                        // If holdElem exists, update its text content
+                        holdElem.textContent = likertScale[i];
+                      } else {
+                        // If holdElem doesn't exist, create a new one
+                        holdElem = document.createElement("div");
+                        holdElem.className = "holdElem";
+                        holdElem.style.display = "none";
+                        holdElem.textContent = likertScale[i];
+                        holding?.appendChild(holdElem);
+                        console.log("This is holdEle", holdElem.textContent);
+                        const required_map_document =
+                          document_map_required?.filter(
+                            (item) => element.id == item.content
+                          );
+                        if (
+                          scaleField?.parentElement?.classList.contains(
+                            "holderDIV"
+                          ) &&
+                          required_map_document.length > 0
+                        ) {
+                          scaleField?.parentElement?.classList.add(
+                            "element_updated"
+                          );
+                        }
+                      }
+
+                      const scaleID =
+                        scale?.querySelector(".scaleId")?.textContent;
+                      setClickedCircleBackgroundColor(
+                        circle,
+                        circle.style.backgroundColor,
+                        scaleID
+                      );
+
+                      localStorage.setItem(
+                        `lastClickedCircleID_${scaleID}`,
+                        circle.textContent
+                      );
+                    }
+                  });
+                }
+              }
+            }
+          } else if (scaleTypeHolder.textContent === "percent_scale") {
+            let prodLength = element?.raw_data?.percentLabel;
+            console.log(prodLength);
+
+            for (let i = 0; i < prodLength; i++) {
+              // let originalText = element?.raw_data?.percentCenter[i];
+              // let percentValue = originalText?.replace("%", "");
+              labelHold.style.display = "flex";
+              labelHold.style.justifyContent = "center";
+              labelHold.style.height = "100%";
+              labelHold.style.flexDirection = "column";
+              labelHold.style.border = "none";
+
+              let conatainerDIV = document.createElement("div");
+              conatainerDIV.style.width = "95%";
+              conatainerDIV.style.padding = "10px 39px 10px 10px";
+              conatainerDIV.style.border = "1px solid gray";
+              labelHold.append(conatainerDIV);
+
+              let nameDiv = document.createElement("div");
+              nameDiv.className = "product_name";
+              nameDiv.style.textAlign = "center";
+              nameDiv.style.fontWeight = "700";
+              nameDiv.textContent = element?.raw_data?.percentProdName[i];
+              conatainerDIV.appendChild(nameDiv);
+
+              const inputPercent = document.createElement("input");
+              inputPercent.type = "range";
+              inputPercent.min = "0";
+              inputPercent.max = "100";
+              // inputPercent.value = percentValue;
+              inputPercent.disabled = "true";
+              inputPercent.className = "percent-slider";
+              inputPercent.style.width = "100%";
+              inputPercent.style.cursor = "pointer";
+              inputPercent.style.background =
+                element?.raw_data?.percentBackground;
+              inputPercent.style.webkitAppearance = "none";
+              inputPercent.style.borderRadius = "10px";
+              conatainerDIV.appendChild(inputPercent);
+
+              let percentChilds = document.createElement("div");
+              percentChilds.style.display = "flex";
+              percentChilds.style.width = "100%";
+              percentChilds.style.alignItems = "center";
+              percentChilds.style.justifyContent = "space-between";
+
+              let leftPercent = document.createElement("div");
+              leftPercent.textContent = "0";
+              leftPercent.className = "left-percent";
+              percentChilds.appendChild(leftPercent);
+
+              let centerPercent = document.createElement("div");
+              // centerPercent.textContent = `${element?.raw_data?.percentCenter[i]}`;
+              centerPercent.className = "center-percent";
+              percentChilds.appendChild(centerPercent);
+
+              let rightPercent = document.createElement("div");
+              rightPercent.textContent = "100";
+              rightPercent.className = "right-percent";
+              percentChilds.appendChild(rightPercent);
+
+              conatainerDIV.appendChild(percentChilds);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                conatainerDIV.style.width = "90%";
+                conatainerDIV.style.position = "relative";
+
+                labelHold.style.width = "52%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+
+                inputPercent.style.width = "100%";
+              }
+            }
+          }  else if (scaleTypeHolder.textContent === "percent_sum_scale") {
+            let prodLength = element?.raw_data?.percentLabel;
+            console.log(prodLength);
+
+            for (let i = 0; i < prodLength; i++) {
+              labelHold.style.display = "flex";
+              labelHold.style.justifyContent = "center";
+              labelHold.style.height = "100%";
+              labelHold.style.flexDirection = "column";
+              labelHold.style.border = "none";
+
+              let containerDiv = document.createElement("div");
+              containerDiv.style.width = "95%";
+              containerDiv.style.padding = "10px 39px 10px 10px";
+              containerDiv.style.border = "1px solid gray";
+              labelHold.append(containerDiv);
+
+              let nameDiv = document.createElement("div");
+              nameDiv.className = "product_name";
+              nameDiv.style.textAlign = "center";
+              nameDiv.style.fontWeight = "700";
+              nameDiv.textContent = element?.raw_data?.percentProdName[i];
+              containerDiv.appendChild(nameDiv);
+
+              const inputPercent = document.createElement("input");
+              inputPercent.type = "range";
+              inputPercent.min = "0";
+              inputPercent.max = "100";
+              inputPercent.disabled = "true";
+              inputPercent.className = "percent-slider";
+              inputPercent.style.width = "100%";
+              inputPercent.style.cursor = "pointer";
+              inputPercent.style.background =
+                element?.raw_data?.percentBackground;
+              inputPercent.style.webkitAppearance = "none";
+              inputPercent.style.borderRadius = "10px";
+              containerDiv.appendChild(inputPercent);
+
+              let percentChilds = document.createElement("div");
+              percentChilds.style.display = "flex";
+              percentChilds.style.width = "100%";
+              percentChilds.style.alignItems = "center";
+              percentChilds.style.justifyContent = "space-between";
+
+              let leftPercent = document.createElement("div");
+              leftPercent.textContent = "0";
+              leftPercent.className = "left-percent";
+              percentChilds.appendChild(leftPercent);
+
+              let centerPercent = document.createElement("div");
+              centerPercent.className = "center-percent";
+              percentChilds.appendChild(centerPercent);
+
+              let rightPercent = document.createElement("div");
+              rightPercent.textContent = "100";
+              rightPercent.className = "right-percent";
+              percentChilds.appendChild(rightPercent);
+
+              containerDiv.appendChild(percentChilds);
+              if (!token) {
+                return res.status(401).json({ error: "Unauthorized" });
+              }
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "Vertical") {
+                scaleHold.style.display = "flex";
+                scaleHold.style.flexDirection = "column";
+                scaleHold.style.alignItems = "center";
+                scaleHold.style.justifyContent = "center";
+                containerDiv.style.width = "90%";
+                containerDiv.style.position = "relative";
+                labelHold.style.width = "80%";
+                labelHold.style.height = "69%";
+                labelHold.style.alignItems = "center";
+                labelHold.style.transform = "rotate(270deg)";
+                nameDiv.style.position = "absolute";
+                nameDiv.style.top = "7px";
+                nameDiv.style.right = "-2px";
+                nameDiv.style.left = "85%";
+                nameDiv.style.transform = "rotate(90deg)";
+                nameDiv.style.paddingLeft = "6px";
+                nameDiv.style.paddingBottom = prodLength > 6 ? "30px" : "0px";
+                inputPercent.style.width = "100%";
+                inputPercent.style.marginTop = "8px";
+              }
             }
           }
 
@@ -4208,10 +5143,8 @@ const MidSection = React.forwardRef((props, ref) => {
             height: element.height + "px",
             left: element.left + "px",
             top: element.topp,
-            border: element.dropdownBorder,
             auth_user: curr_user,
           };
-          // console.log("dropdown border value", measure.border);
           const idMatch = documnetMap?.filter((elmnt) => elmnt == element?.id);
           const holderDIV = getHolderDIV(measure, pageNo, idMatch);
           const id = `${element.id}`;
@@ -4245,7 +5178,7 @@ const MidSection = React.forwardRef((props, ref) => {
             setSidebar(true);
           };
 
-          // selectElement.innerHTML = element.data2;
+          selectElement.innerHTML = element.data2;
 
           const para = document.createElement("p");
           para.innerHTML = " Dropdown Name";
@@ -4310,17 +5243,21 @@ const MidSection = React.forwardRef((props, ref) => {
             //   top: event.clientY - containerRect.top + "px",
             //   auth_user: curr_user,
             // };
+            console.log("container Element data", element.data[p].type);
             const measureContainer = {
               width: containerElement.width + "px",
               height: containerElement.height + "px",
               left: containerElement.left - element.left + "px",
               top: containerElement.topp,
               // top: containerElement.top - element.top + "px",
+              // border: containerElement.borderWidths,
               auth_user: curr_user,
             };
             const typeOfOperationContainer = containerElement.type;
+
             const holderDIVContainer = getHolderDIV(measureContainer);
             if (typeOfOperationContainer === "DATE_INPUT") {
+              // const holderDIV = getHolderDIV(measure, pageNo, idMatch);
               let dateFieldContainer = document.createElement("div");
               dateFieldContainer.className = "dateInput";
               dateFieldContainer.style.width = "100%";
@@ -5416,6 +6353,7 @@ const MidSection = React.forwardRef((props, ref) => {
         scale2: false,
         container2: false,
         newScale2: false,
+        payment2: false,
       });
     }
   };
@@ -6025,17 +6963,17 @@ const MidSection = React.forwardRef((props, ref) => {
         const element1 = document.createElement("h6");
         element1.className = "left_child";
         element1.style.marginLeft = "0px";
-        element1.textContent = "Good";
+        element1.textContent = "";
         childDiv.appendChild(element1);
 
         const element2 = document.createElement("h6");
         element2.className = "neutral_child";
-        element2.textContent = "Neutral";
+        element2.textContent = "";
         childDiv.appendChild(element2);
 
         const element3 = document.createElement("h6");
         element3.className = "right_child";
-        element3.textContent = "Best";
+        element3.textContent = "";
         childDiv.appendChild(element3);
 
         const idHolder = document.createElement("h6");
@@ -6727,6 +7665,42 @@ const MidSection = React.forwardRef((props, ref) => {
         purposeHolder.style.display = "none";
 
         holderDIV.append(buttonField);
+        holderDIV.append(linkHolder);
+        holderDIV.append(purposeHolder);
+      } else if (
+        typeOfOperation === "PAYMENT_INPUT" &&
+        decoded.details.action === "template"
+      ) {
+        let paymentField = document.createElement("button");
+        paymentField.className = "paymentInput";
+        paymentField.style.width = "100%";
+        paymentField.style.height = "100%";
+        paymentField.style.backgroundColor = "#0000";
+        paymentField.style.borderRadius = "0px";
+        paymentField.style.outline = "0px";
+        paymentField.style.overflow = "overlay";
+        paymentField.style.position = "absolute";
+        paymentField.textContent = "Pay";
+
+        paymentField.onclick = (e) => {
+          e.stopPropagation();
+          focuseddClassMaintain(e);
+          if (e.ctrlKey) {
+            copyInput("payment2");
+          }
+          handleClicked("payment2", "container2");
+          setSidebar(true);
+        };
+
+        const linkHolder = document.createElement("div");
+        linkHolder.className = "link_holder";
+        linkHolder.style.display = "none";
+
+        const purposeHolder = document.createElement("div");
+        purposeHolder.className = "purpose_holder";
+        purposeHolder.style.display = "none";
+
+        holderDIV.append(paymentField);
         holderDIV.append(linkHolder);
         holderDIV.append(purposeHolder);
       } else if (
@@ -7436,14 +8410,6 @@ const MidSection = React.forwardRef((props, ref) => {
   //   const updatedElements = [...elements.present];
   //   updatedElements[index] = { ...updatedElements[index], x: newX, y: newY };
   //   setElements(updatedElements);
-  // };
-
-  // const handleUndo = () => {
-  //   undo();
-  // };
-
-  // const handleRedo = () => {
-  //   redo();
   // };
 
   // const handleDragStart = () => {

@@ -72,27 +72,72 @@ textarea{
   width: 300px;
 }
 
+.test{
+  border: none !important;
+}
 table, th, td {
   border-collapse: collapse;
   padding: 5px;
-  min-height: 100px;
-  min-width: 100px;
 }
+
+table{
+  width: 100%;
+  height: 100%;
+}
+
 td{
+  min-height: 2rem;
+  position: relative;
+  min-width: 2.5rem;
+  background-color: #fff;
   border: 1px solid black;
-  height: 100px;
+}
+.td-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 20;
+}
+
+.row-resizer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  cursor: row-resize;
+  user-select: none;
+  z-index: 20;
+}
+.td-resizer:hover,
+.resizing {
+    border-right: 2px solid blue;
+}
+.row-resizer:hover,
+.resizing {
+    border-top: 2px solid blue;
+}
+.row_col_add_div{
+  border: none;
 }
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-th {
-  background-color: #5a5a5a;
-  color: white;
+.tableInput{
+  overflow: visible !important;
+}
+
+.target-el img{
+  height: clamp(0.5rem,1.5rem,2.5rem);
+  width: clamp(0.5rem, 2rem,3rem);
 }
 
 .addImageButtonInput{
   display: none;
 }
+
 
 
 .addImageButton {
