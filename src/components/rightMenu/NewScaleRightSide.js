@@ -1994,8 +1994,6 @@ const ScaleRightSide = () => {
           orientation.style.display = "none";
           button4.appendChild(orientation);
           containerDiv.style.transform = "rotate(270deg)";
-          containerDiv.style.marginTop = "80px";
-          containerDiv.style.width = "85%";
           nameDiv.style.position = "absolute";
           nameDiv.style.left = "93%";
           nameDiv.style.top = "7px";
@@ -2003,7 +2001,8 @@ const ScaleRightSide = () => {
           nameDiv.style.transform = "rotate(90deg)";
 
           newLabelHold.style.position = "relative";
-          newLabelHold.style.width = "85%";
+          newLabelHold.style.width = "80%";
+          newLabelHold.style.paddingTop = "24px";
           percentChilds.style.alignItems = "start";
           percentChilds.style.height = "100%";
         }
