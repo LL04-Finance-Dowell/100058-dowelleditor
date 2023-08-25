@@ -2577,6 +2577,7 @@ const Header = () => {
           let neutralChild = newScales[b].querySelector(".neutral_child");
           let rightChild = newScales[b].querySelector(".right_child");
           let scaleText = newScales[b].querySelector(".scale_text");
+          let orientation = "";
           // console.log(circles.style.backgroundColor);
           let font = newScales[b].querySelector(".scool_input");
           let scaleType = newScales[b].querySelector(".scaleTypeHolder");
@@ -2606,10 +2607,10 @@ const Header = () => {
           }
 
           let npsLiteTextArray = "";
-          let orientation = "";
 
           if (scaleType.textContent === "nps_lite") {
             npsLiteTextArray = newScales[b].querySelector(".nps_lite_text");
+            orientation = newScales[b].querySelector(".orientation");
           }
 
           let likertScaleArray = "";

@@ -1450,6 +1450,7 @@ const ScaleRightSide = () => {
       const option = document.querySelector("#orientationId_nps_lite").options[
         document.querySelector("#orientationId_nps_lite").selectedIndex
       ];
+
       let timeId = document.getElementById("timeId_nps_lite");
       let time = document.getElementById("time_nps_lite");
       const emojiInp = document.getElementById("emoji_inp_nps_lite").value;
@@ -1491,6 +1492,12 @@ const ScaleRightSide = () => {
       npsLiteTextArray.textContent = [...textValues];
       npsLiteTextArray.style.display = "none";
       labelHold.append(npsLiteTextArray);
+
+      const orientation = document.createElement("div");
+      orientation.className = "orientation";
+      orientation.textContent = option.value;
+      orientation.style.display = "none";
+      button4.appendChild(orientation);
 
       for (let i = 0; i < textValues.length; i++) {
         const selectedOption = optionSelect.value;

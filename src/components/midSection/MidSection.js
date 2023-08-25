@@ -4354,6 +4354,23 @@ const MidSection = React.forwardRef((props, ref) => {
                 return res.status(401).json({ error: "Unauthorized" });
               }
 
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "Vertical") {
+                circle.style.margin = "15px 0";
+                circle.style.padding = "10px 30px";
+
+                scaleHold.style.border = "none";
+                scaleHold.style.textAlign = "center";
+                labelHold.style.height = "auto";
+                labelHold.style.width = "50%";
+                labelHold.style.position = "absolute";
+                labelHold.style.display = "flex";
+                labelHold.style.flexDirection = "column";
+                labelHold.style.alignItems = "center";
+                labelHold.style.marginTop = "0";
+                labelHold.style.marginLeft = "26%";
+              }
+
               if (decoded.details.action === "document") {
                 let isClicked = false;
                 const shouldHideFinalizeButton =
