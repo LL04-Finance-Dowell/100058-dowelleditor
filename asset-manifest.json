@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/100058-dowelleditor/static/css/main.8a092bd1.css",
-    "main.js": "/100058-dowelleditor/static/js/main.dcf77bbe.js",
+    "main.css": "/100058-dowelleditor/static/css/main.e0aae8a8.css",
+    "main.js": "/100058-dowelleditor/static/js/main.72aa26a4.js",
     "static/js/787.742d683c.chunk.js": "/100058-dowelleditor/static/js/787.742d683c.chunk.js",
     "static/media/paymentSuccessful.svg": "/100058-dowelleditor/static/media/paymentSuccessful.8efc8ecdfb90a9981486ff18d61fd59d.svg",
     "static/media/scale.png": "/100058-dowelleditor/static/media/scale.080c4dc1ada731d39d40.png",
     "static/media/delete-button-svgrepo-com.svg": "/100058-dowelleditor/static/media/delete-button-svgrepo-com.212c8821d736f8b11fbebad7e3d13d5b.svg",
     "index.html": "/100058-dowelleditor/index.html",
-    "main.8a092bd1.css.map": "/100058-dowelleditor/static/css/main.8a092bd1.css.map",
-    "main.dcf77bbe.js.map": "/100058-dowelleditor/static/js/main.dcf77bbe.js.map",
+    "main.e0aae8a8.css.map": "/100058-dowelleditor/static/css/main.e0aae8a8.css.map",
+    "main.72aa26a4.js.map": "/100058-dowelleditor/static/js/main.72aa26a4.js.map",
     "787.742d683c.chunk.js.map": "/100058-dowelleditor/static/js/787.742d683c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8a092bd1.css",
-    "static/js/main.dcf77bbe.js"
+    "static/css/main.e0aae8a8.css",
+    "static/js/main.72aa26a4.js"
   ]
 }
