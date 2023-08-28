@@ -1,77 +1,153 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useStateContext } from '../../contexts/contextProvider';
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+import { Row, Button, Form } from "react-bootstrap";
+
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { useStateContext } from "../../contexts/contextProvider";
+
+import { useSearchParams } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 const DropDownRightSide = () => {
+  const {
+    dropdownName,
+    setDropdownName,
+    dropdownLabel,
+    setDropdownLabel,
+    dropdownItems,
+    setDropdownItems,
+    dropdownOptions,
+    setDropdownOptions,
+    rightSideDropDown,
+    setRightSideDropDown,
+    dropdownBorderSize,
+    setDropdownBorderSize,
+    dropdownBorderColor,
+    setDropdownBorderColor,
+    setConfirmRemove,
+    confirmRemove
+  } = useStateContext();
 
-  const { dropdownName, setDropdownName, dropdownLabel, setDropdownLabel, dropdownItems, setDropdownItems, dropdownOptions, setDropdownOptions, } = useStateContext();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
 
-  // Dropdown Name 
-  const dropdownNameField = document.getElementsByClassName('dropdownName')
-  dropdownNameField.item(0).innerHTML = `${dropdownName}`
+  // const [borderSize, setBorderSize] = useState(
+  //   Number(localStorage.getItem("borderSize")) || 0
+  // );
+  // const [borderColor, setBorderColor] = useState(
+  //   localStorage.getItem("borderColor") || "#000000"
+  // );
+  const [showSlider, setShowSlider] = useState(false);
+  const [selectedType, setSelectedType] = useState('')
+  // const [addedAns, setAddedAns] = useState([])
+  const { addedAns, setAddedAns } = useSelectedAnswer()
 
-  function handleNameChange(e) {
-    setDropdownName(e.target.value)
+
+  const dropdownField = document.querySelector(".focussed");
+  if (dropdownField) {
+    //console.log(dropdownField.firstElementChild);
+    //console.log(dropdownField.lastElementChild);
+  }
+
+  // Dropdown Name
+
+  const dropdownNameField = dropdownField?.firstElementChild
+  if (dropdownNameField !== null && rightSideDropDown) {
+    dropdownNameField.innerHTML = `${dropdownName}`;
   }
 
 
+
+  function handleNameChange(e) {
+    setDropdownName(e.target.value);
+  }
 
   // Dropdown Items
 
-  const selectionn = document.getElementsByClassName('select-element').item(0)
-  const options = document.createElement('option');
-  for (const [index, a] of dropdownOptions.entries()) {
-    options.value = index;
-    options.innerHTML = a;
-  }
   useEffect(() => {
-    selectionn.appendChild(options)
 
-  }, [dropdownOptions])
-
-
+    const selectionn = dropdownField?.lastElementChild
+    if (rightSideDropDown && selectionn !== null) {
+      var options = document.createElement("option");
+      for (const [index, a] of dropdownOptions.entries()) {
+        options.value = index;
+        options.innerHTML = a;
+      }
+      selectionn.appendChild(options);
+    }
+    // localStorage.setItem("borderSize", borderSize === "0")
+    // localStorage.setItem("borderColor", borderColor === "black")
+  }, [dropdownOptions]);
 
   function handleItemsChange(e) {
-    setDropdownItems(e.target.value)
-
+    setDropdownItems(e.target.value);
   }
-
 
   const addOptions = () => {
-    setDropdownOptions([...dropdownOptions, [dropdownItems]])
-    setDropdownItems("")
-  }
+    if (dropdownItems !== "") {
+      setDropdownOptions([...dropdownOptions, [dropdownItems]]);
+    }
+    setDropdownItems("");
+    setRightSideDropDown(true);
+  };
 
   function removeDropdown() {
-    document.querySelector('.focussedd').remove()
+    document.querySelector(".focussedd").remove();
+    // const focusseddElmnt = document.querySelector(".focussedd");
+    // if (focusseddElmnt.classList.contains("holderDIV")) {
+    //   document.querySelector(".focussedd").remove();
+    // }
   }
 
+  const handleBorderSizeChange = (e) => {
+    setDropdownBorderSize(e.target.value);
 
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${e.target.value}px`;
+
+  };
+
+  const handleBorderColorChange = (e) => {
+    setDropdownBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${e.target.value}`;
+
+  };
+  const handleRangeBlur = (e) => {
+    e.target.focus();
+  };
   return (
     <div>
       <h3>Dropdown Settings</h3>
       <Form.Label>Dropdown Name</Form.Label>
       <Form.Control
-        type='text'
+        type="text"
         placeholder="Enter Name"
         onChange={handleNameChange}
       />
-      <Form.Label>Label</Form.Label>
-      <Form.Control type='text' placeholder="Enter Label" />
+
       <Form.Label>List Items</Form.Label>
       <Form.Control
-        type='text'
+        type="text"
         placeholder="Add List Items"
         value={dropdownItems}
         onChange={handleItemsChange}
       />
-      <Button variant="primary" className='mt-2 mb-5 w-100' onClick={addOptions}>+</Button>
+      <Button
+        variant="primary"
+        className="mt-2 mb-5 w-100"
+        onClick={addOptions}
+      >
+        +
+      </Button>
       <hr />
-      <div className='dropdown '>
+      {/* <div className='dropdown '>
         <h6>User permissions</h6>
         <select className='shadow bg-white rounded w-100 h-75'>
           <option value="Nothing Selected" selected="selected">Nothing Selected</option>
@@ -79,14 +155,61 @@ const DropDownRightSide = () => {
           <option value="Another action">Another action</option>
           <option value="Something else">Something else</option>
         </select>
-      </div>
+      </div> */}
+
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border</h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={dropdownBorderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="0"
+              max="20"
+              value={dropdownBorderSize}
+              onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
+              id="range"
+              className="range-color"
+
+            />
+
+          </div>
+        )}
+      </Row>
+
+      <hr />
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        setAddedAns={setAddedAns}
+        addedAns={addedAns} />
 
       <div />
       <div>
-        <Button onClick={removeDropdown} variant="primary" className='mt-5'>Remove Dropdown</Button>
+        <Button
+          // onClick={removeDropdown}
+          onClick={() => setConfirmRemove(!confirmRemove)}
+          variant="primary"
+          className={decoded.details.action === "template" ? "mt-5 remove_button" : "mt-5 remove_button disable_button"}
+        >
+          Remove Dropdown
+        </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DropDownRightSide
+export default DropDownRightSide;
