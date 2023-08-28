@@ -123,48 +123,50 @@ const EditSection = () => {
   //   }
   // });
 
-  useEffect(() => {
-    const borderStyles = "2px solid red";
+  // useEffect(() => {
+  //   const borderStyles = "2px solid red";
 
-    if (!selectedElement) return;
+  //   if (!selectedElement) return;
 
-    const questions = new Set();
-    const answers = new Set();
+  //   const questions = new Set();
+  //   const answers = new Set();
 
-    const updateAnsElmBorder = (items, border) => {
-      items.forEach(item => {
-        if (!item) return;
-        // if (!answers.has(item)) return;
-        const element = document.getElementById(item);
-        element.style.border = border;
-      });
-    };
+  //   const updateAnsElmBorder = (items, border) => {
+  //     items.forEach(item => {
+  //       if (!item) return;
+  //       // if (!answers.has(item)) return;
+  //       const element = document.getElementById(item);
+  //       element.style.border = border;
+  //     });
+  //   };
+    
+    
 
-    const data = [...questionAndAnswerGroupedData].map(elm => {
-      questions.add(elm.question);
-      elm?.answers?.forEach(ans => answers.add(ans));
-      return elm;
-    });
+  //   const data = [...questionAndAnswerGroupedData].map(elm => {
+  //     questions.add(elm.question);
+  //     elm?.answers?.forEach(ans => answers.add(ans));
+  //     return elm;
+  //   });
 
-    const element = document.getElementById(selectedElement);
-    if (!element) return;
-    element.style.border = borderStyles;
+  //   const element = document.getElementById(selectedElement);
+  //   if (!element) return;
+  //   element.style.border = borderStyles;
 
-    if (prevSelectedElement && prevSelectedElement !== selectedElement) {
-      const prevElement = document.getElementById(prevSelectedElement);
-      if (!prevElement) return;
-      prevElement.style.border = "none";
-      updateAnsElmBorder(prevSelElmAns, "none");
-    }
+  //   if (prevSelectedElement && prevSelectedElement !== selectedElement) {
+  //     const prevElement = document.getElementById(prevSelectedElement);
+  //     if (!prevElement) return;
+  //     prevElement.style.border = "none";
+  //     updateAnsElmBorder(prevSelElmAns, "none");
+  //   }
 
-    setPrevSelectedElement(selectedElement);
-    const result = data.find(item => item?.question === selectedElement);
-    setPrevSelElmAns(result?.answers || []);
+  //   setPrevSelectedElement(selectedElement);
+  //   const result = data.find(item => item?.question === selectedElement);
+  //   setPrevSelElmAns(result?.answers || []);
 
-    if (questions.has(selectedElement)) {
-      updateAnsElmBorder(result?.answers, borderStyles);
-    }
-  }, [prevSelElmAns, prevSelectedElement, questionAndAnswerGroupedData, selectedElement]);
+  //   if (questions.has(selectedElement)) {
+  //     updateAnsElmBorder(result?.answers, borderStyles);
+  //   }
+  // }, [prevSelElmAns, prevSelectedElement, questionAndAnswerGroupedData, selectedElement]);
 
 
 
