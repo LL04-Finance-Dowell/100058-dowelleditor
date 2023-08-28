@@ -2049,9 +2049,9 @@ const MidSection = React.forwardRef((props, ref) => {
     copyEle.id += counter;
     if (
       parseInt(copyEle.style.top.slice(0, -2)) +
-        parseInt(rect.height) +
-        parseInt(rect.height) +
-        20 <
+      parseInt(rect.height) +
+      parseInt(rect.height) +
+      20 <
       1122
     ) {
       midSec.appendChild(copyEle);
@@ -2136,7 +2136,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
         // console.log("midsectionRect", midsectionRect);
         // const eventClientX = ev.clientX;
-        if(!hodlerRect)return;
+        if (!hodlerRect) return;
         const elemtnMeasureX =
           ev.screenX + holderPos.left + hodlerRect.width - initX;
         const elmentMeasureY =
@@ -2469,21 +2469,49 @@ const MidSection = React.forwardRef((props, ref) => {
           const id = `${element.id}`;
 
           let inputField = document.createElement("div");
-          inputField.setAttribute("contenteditable", true);
           //  inputField.setAttribute('draggable', true);
+          inputField.setAttribute("contenteditable", true);
           inputField.className = "textInput";
-          inputField.id = id;
+          inputField.placeholder = "Enter text here";
           inputField.style.width = "100%";
           inputField.style.height = "100%";
           inputField.style.resize = "none";
-          inputField.style.zIndex = 2;
           inputField.style.backgroundColor = "#0000";
           inputField.style.borderRadius = "0px";
           inputField.style.outline = "0px";
           inputField.style.overflow = "overlay";
           inputField.style.position = "relative";
           inputField.style.cursor = "text";
-          // console.log("element", element);
+
+          const txt = document.getElementsByClassName("textInput");
+          const holderText = "Enter text here";
+          inputField.append(holderText);
+
+          if (txt.length) {
+            const h = txt.length;
+            inputField.id = `t${h + 1}`;
+          } else {
+            inputField.id = "t1";
+          }
+          // inputField.innerText = `${postData.editTextField.value}`
+
+          // inputField.oninput = (event) => {
+          //   event.preventDefault();
+          if (inputField.innerHTML[0]) {
+            const editTextField = {
+              editTextField: {
+                value: inputField.innerHTML,
+                xcoordinate: getOffset(holderDIV).left,
+                ycoordinate: getOffset(holderDIV).top,
+              },
+            };
+
+            // postData.push(editTextField);
+            // setPostData({
+            //   ...postData,
+            //   editTextField: { value: event.target.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+            // })
+          }
 
           inputField.oninput = (e) => {
             // console.log("element", element);
@@ -2511,31 +2539,38 @@ const MidSection = React.forwardRef((props, ref) => {
               isAnyRequiredElementEdited = true;
             }
           };
+
+          if (inputField.value !== "") {
+            // setPostData({
+            //   ...postData,
+            //   editTextField: { value: inputField.value, xcoordinate: getOffset(holderDIV).left, ycoordinate: getOffset(holderDIV).top }
+            // })
+          }
+
           inputField.onclick = (e) => {
+            e.stopPropagation();
             focuseddClassMaintain(e);
             if (e.ctrlKey) {
               copyInput("align2");
             }
-            handleClicked("align2");
+            handleClicked("align2", "container2");
             setSidebar(true);
+            // holderDIV.classList.add('focussedd')
+            // inputField.classList.add("focussed");
             // inputField.parentElement.focus()
           };
-          // inputField.ontouchstart = () => {
-          //   handleClicked("align2");
-          //   setSidebar(true);
-          // };
-          const text = `${element.raw_data}`;
 
+          const text = `${element.data}`;
+          // console.log("inner text field", element);
           inputField.innerHTML = text;
-          // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
-
+          // holderDIV.append(text);
           holderDIV.append(inputField);
 
           // holderDIV.append(paragraphField);
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IMAGE_INPUT") {
@@ -2643,7 +2678,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "DATE_INPUT") {
@@ -2727,7 +2762,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "SIGN_INPUT") {
@@ -2847,7 +2882,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "TABLE_INPUT") {
@@ -2916,11 +2951,11 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragover = function (e) {
                 e.preventDefault();
                 e.target.classList.add("table_drag");
-                
-                  if (e.target.tagName.toLowerCase() == "td") {
-                    e.target.style.border = "3px solid blue";
-                  };
-                
+
+                if (e.target.tagName.toLowerCase() == "td") {
+                  e.target.style.border = "3px solid blue";
+                };
+
                 if (e.target.classList.contains("imageInput")) {
                   e.target.style.border = "none";
                 }
@@ -2928,7 +2963,7 @@ const MidSection = React.forwardRef((props, ref) => {
               cells.ondragleave = (e) => {
                 e.preventDefault();
                 if (
-                   !e.target.classList.contains("imageInput")
+                  !e.target.classList.contains("imageInput")
                 ) {
                   if (e.target.tagName.toLowerCase() == "td") {
                     e.target.style.border = "1px solid black";
@@ -3049,8 +3084,8 @@ const MidSection = React.forwardRef((props, ref) => {
                 }
               }
               else {
-           
-                if(dataType){
+
+                if (dataType) {
                   cellsDiv.innerHTML = tableTDData.data.toString();
                   cells.appendChild(cellsDiv);
 
@@ -3146,7 +3181,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "IFRAME_INPUT") {
@@ -3201,7 +3236,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3315,7 +3350,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "PAYMENT_INPUT") {
@@ -3428,7 +3463,7 @@ const MidSection = React.forwardRef((props, ref) => {
           console.log(element);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "FORM") {
@@ -3472,7 +3507,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(buttonField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3601,7 +3636,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
 
@@ -3628,6 +3663,7 @@ const MidSection = React.forwardRef((props, ref) => {
           cameraField.style.borderRadius = "0px";
           cameraField.style.outline = "0px";
           cameraField.style.overflow = "overlay";
+          
           if (decoded.details.action === "template") {
             let videoField = document.createElement("video");
             const imageLinkHolder1 = document.createElement("h1");
@@ -3802,7 +3838,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         if (element.type === "NEW_SCALE_INPUT") {
@@ -4007,7 +4043,6 @@ const MidSection = React.forwardRef((props, ref) => {
                   });
                 }, 500);
 
-                if (!shouldHideFinalizeButton) {
                   circle.addEventListener("click", function () {
                     if (!isClicked) {
                       let scale =
@@ -4103,7 +4138,6 @@ const MidSection = React.forwardRef((props, ref) => {
                       );
                     }
                   });
-                }
               }
             }
           } else if (scaleTypeHolder.textContent === "snipte") {
@@ -4318,6 +4352,23 @@ const MidSection = React.forwardRef((props, ref) => {
 
               if (!token) {
                 return res.status(401).json({ error: "Unauthorized" });
+              }
+
+              let orientation = element?.raw_data?.orientation;
+              if (orientation === "Vertical") {
+                circle.style.margin = "15px 0";
+                circle.style.padding = "10px 30px";
+
+                scaleHold.style.border = "none";
+                scaleHold.style.textAlign = "center";
+                labelHold.style.height = "auto";
+                labelHold.style.width = "50%";
+                labelHold.style.position = "absolute";
+                labelHold.style.display = "flex";
+                labelHold.style.flexDirection = "column";
+                labelHold.style.alignItems = "center";
+                labelHold.style.marginTop = "0";
+                labelHold.style.marginLeft = "26%";
               }
 
               if (decoded.details.action === "document") {
@@ -4760,7 +4811,7 @@ const MidSection = React.forwardRef((props, ref) => {
                 inputPercent.style.width = "100%";
               }
             }
-          }  else if (scaleTypeHolder.textContent === "percent_sum_scale") {
+          } else if (scaleTypeHolder.textContent === "percent_sum_scale") {
             let prodLength = element?.raw_data?.percentLabel;
             console.log(prodLength);
 
@@ -5148,7 +5199,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // Limon
@@ -5212,7 +5263,7 @@ const MidSection = React.forwardRef((props, ref) => {
 
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
         // conteiner retrive data
@@ -6256,7 +6307,7 @@ const MidSection = React.forwardRef((props, ref) => {
           holderDIV.append(containerField);
           document
             .getElementsByClassName("midSection_container")
-            [p - 1] // ?.item(0)
+          [p - 1] // ?.item(0)
             ?.append(holderDIV);
         }
       });

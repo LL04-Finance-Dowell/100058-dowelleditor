@@ -622,7 +622,7 @@ const ScaleRightSide = () => {
   const onEmojiClick = (emojiObject) => {
     const emoji = emojiObject.emoji;
     if (inputStr.includes(emoji)) {
-      alert("The is already selected");
+      alert("The emoji is already selected");
     } else {
       setInputStr((prevInputStr) => prevInputStr + emoji);
       setShowPicker(false);
@@ -1008,7 +1008,7 @@ const ScaleRightSide = () => {
           roundcolor: btnUpdateButton.value,
           fontcolor: btnUpdateFontColor.value,
           fomat: "numbers",
-          allow_resp: false,
+          allow_resp: true,
           show_total_score: true,
           no_of_scales: 6,
           time: timeId.style.display === "none" ? "00" : time?.value,
@@ -1052,7 +1052,7 @@ const ScaleRightSide = () => {
           roundcolor: btnUpdateButton.value,
           fontcolor: btnUpdateFontColor.value,
           fomat: selectedOption,
-          allow_resp: false,
+          allow_resp: true,
           show_total_score: true,
           no_of_scales: 6,
           time: timeId?.style?.display === "none" ? "00" : time?.value,
@@ -1259,6 +1259,7 @@ const ScaleRightSide = () => {
             label_images: { 0: "imagefile", 1: "imagefile", 2: "imagefile" },
             fontstyle: btnUpdateScaleFontStapel.value,
             custom_emoji_format: emojiLabels,
+            allow_resp: true,
           }
         )
           .then((res) => {
@@ -1449,6 +1450,7 @@ const ScaleRightSide = () => {
       const option = document.querySelector("#orientationId_nps_lite").options[
         document.querySelector("#orientationId_nps_lite").selectedIndex
       ];
+
       let timeId = document.getElementById("timeId_nps_lite");
       let time = document.getElementById("time_nps_lite");
       const emojiInp = document.getElementById("emoji_inp_nps_lite").value;
@@ -1490,6 +1492,12 @@ const ScaleRightSide = () => {
       npsLiteTextArray.textContent = [...textValues];
       npsLiteTextArray.style.display = "none";
       labelHold.append(npsLiteTextArray);
+
+      const orientation = document.createElement("div");
+      orientation.className = "orientation";
+      orientation.textContent = option.value;
+      orientation.style.display = "none";
+      button4.appendChild(orientation);
 
       for (let i = 0; i < textValues.length; i++) {
         const selectedOption = optionSelect.value;
@@ -1603,6 +1611,7 @@ const ScaleRightSide = () => {
             fontstyle: btnUpdateScaleFont.value,
             fomat: selectedOption,
             custom_emoji_format: emojiLabels,
+            allow_resp: true,
           }
         )
           .then((res) => {
@@ -1866,6 +1875,7 @@ const ScaleRightSide = () => {
               labelHold.appendChild(circle);
             }
             console.log("This is the likert scale response", res.data.data);
+            console.log("num scale", numberOfScalesValue)
           })
           .catch((err) => {
             setIsLoading(false);
