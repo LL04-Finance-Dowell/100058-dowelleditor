@@ -33,7 +33,7 @@ const CalendarRightSidebar = (props) => {
     setConfirmRemove,
     confirmRemove
   } = useStateContext();
-  const [selectedType, setSelectedType] = useState('')
+  const [selectedType, setSelectedType] = useState('');
   // const [addedAns, setAddedAns] = useState([])
 
   const [searchParams] = useSearchParams();
@@ -53,7 +53,7 @@ const CalendarRightSidebar = (props) => {
   // );
   // const [borderColor, setBorderColor] = useState("#000000");
   const [showSlider, setShowSlider] = useState(false);
-  const { addedAns, setAddedAns } = useSelectedAnswer()
+  const { addedAns, setAddedAns } = useSelectedAnswer();
   // enable disable finalize btn
   // let dateInnerText = "";
 

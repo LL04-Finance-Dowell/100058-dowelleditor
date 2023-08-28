@@ -3204,6 +3204,8 @@ const Header = () => {
         company_id: companyId,
         type: decoded.details.action,
         questionAndAns: questionAndAnswerGroupedData,
+        action: decoded.details.action,
+        metadata_id: decoded.details.metadata_id,
       }
     )
       .then((res) => {
