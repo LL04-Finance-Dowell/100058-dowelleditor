@@ -280,7 +280,7 @@ const MidSection = React.forwardRef((props, ref) => {
       //console.log(data);
 
       onPost();
-      // onParagraphPost()
+      onParagraphPost()
     } else {
       //console.log("loading data");
     }
@@ -5315,38 +5315,155 @@ const MidSection = React.forwardRef((props, ref) => {
       auth_user: curr_user,
     };
 
-    const holderDIV = getHolderDIV(measure);
+    const holderDIV1 = getHolderDIV(measure);
 
-    let paragraphField = document.createElement("div");
+    let titleField = document.createElement("div");
+
     //  inputField.setAttribute('draggable', true);
-    paragraphField.setAttribute("contenteditable", true);
-    paragraphField.className = "textInput";
-    paragraphField.style.width = "100%";
-    paragraphField.style.height = "100%";
-    paragraphField.style.resize = "none";
-    paragraphField.style.zIndex = 3;
-    paragraphField.style.backgroundColor = "#0000";
-    paragraphField.style.borderRadius = "0px";
-    paragraphField.style.outline = "0px";
-    paragraphField.style.overflow = "overlay";
-    paragraphField.style.position = "relative";
-    paragraphField.style.cursor = "text";
-    paragraphField.onclick = () => {
+    titleField.setAttribute("contenteditable", true);
+    titleField.className = "textInput";
+    titleField.style.width = "100%";
+    titleField.style.height = "100%";
+    titleField.style.resize = "none";
+    titleField.style.zIndex = 3;
+    titleField.style.backgroundColor = "#0000";
+    titleField.style.borderRadius = "0px";
+    titleField.style.outline = "0px";
+    titleField.style.overflow = "overlay";
+    titleField.style.position = "relative";
+    titleField.style.cursor = "text";
+    titleField.onclick = () => {
       handleClicked("align2");
       setSidebar(true);
-      paragraphField.parentElement.focus();
+      titleField.parentElement.focus();
     };
 
-    paragraphField.innerText = `${data.paragraph}`;
+    titleField.innerText = `Text Inpiut`;
     // paragraphField.innerHTML = `${data.normal.data[0][0].paragraph}`;
 
-    holderDIV.append(paragraphField);
+    holderDIV1.append(titleField);
+
+    const measure2 = {
+      width: "300px",
+      height: "100px",
+      top: "220px",
+      auth_user: curr_user,
+    };
+
+    const holderDIV2 = getHolderDIV(measure2);
+
+    let descriptionField = document.createElement("div")
+    descriptionField.className = "textInput";
+    descriptionField.style.width = "100%";
+    descriptionField.style.height = "100%";
+    descriptionField.style.resize = "none";
+    descriptionField.style.zIndex = 3;
+    descriptionField.style.backgroundColor = "#0000";
+    descriptionField.style.borderRadius = "0px";
+    descriptionField.style.outline = "0px";
+    descriptionField.style.overflow = "overlay";
+    descriptionField.style.position = "relative";
+    descriptionField.style.cursor = "text";
+    descriptionField.onclick = () => {
+      handleClicked("align2");
+      setSidebar(true);
+      descriptionField.parentElement.focus();
+    };
+    holderDIV2.append(descriptionField);
+
+    descriptionField.innerText = `Description`;
 
     document
       .getElementById("midSection_container")
       // .item(0)
-      .append(holderDIV);
+      .append(holderDIV1);
+
+    document
+      .getElementById("midSection_container")
+      // .item(0)
+      .append(holderDIV2);
+
+
+    let imageField = document.createElement("div");
+    imageField.className = "imageInput";
+    imageField.id = "inputImg";
+    imageField.style.width = "100%";
+    imageField.style.height = "100%";
+    imageField.style.backgroundColor = "#0000";
+    imageField.style.borderRadius = "0px";
+    imageField.style.outline = "none";
+    imageField.style.overflow = "overlay";
+    imageField.innerText = "Choose Image";
+    imageField.style.position = "relative";
+
+
+    const measure3 = {
+      width: "300px",
+      height: "100px",
+      top: "370px",
+      auth_user: curr_user,
+    };
+
+    const holderDIV3 = getHolderDIV(measure3);
+
+    const img = document.getElementsByClassName("imageInput");
+    if (img.length) {
+      const h = img.length;
+      imageField.id = `i${h + 1}`;
+    } else {
+      imageField.id = "i1";
+    }
+
+
+    imageField.addEventListener("onclick", () => {
+      console.log("imgData clicked")
+    })
+
+    imageField.onclick = (e) => {
+      e.stopPropagation();
+      focuseddClassMaintain(e);
+      if (e.ctrlKey) {
+        copyInput("image2");
+      }
+      handleClicked("image2", "container2");
+      setSidebar(true);
+    };
+
+    const imageButton = document.createElement("div");
+    imageButton.className = "addImageButton";
+    imageButton.innerText = "Choose File";
+    imageButton.style.display = "none";
+
+    const imgBtn = document.createElement("input");
+    imgBtn.className = "addImageButtonInput";
+    imgBtn.type = "file";
+    imgBtn.style.objectFit = "cover";
+    var uploadedImage = "";
+
+    imgBtn.addEventListener("input", () => {
+      const reader = new FileReader();
+
+      reader.addEventListener("load", () => {
+        uploadedImage = reader.result;
+        document.querySelector(
+          ".focussed"
+        ).style.backgroundImage = `url(${uploadedImage})`;
+      });
+      reader.readAsDataURL(imgBtn.files[0]);
+    });
+
+    // imgBtn.style.width = "100%";
+    imageButton.append(imgBtn);
+    holderDIV3.append(imageField);
+    holderDIV3.append(imageButton);
+
+    document
+      .getElementById("midSection_container")
+      // .item(0)
+      .append(holderDIV3);
   };
+
+
 
   function getOffset(el) {
     const parent = document.getElementById("midSection_container");
@@ -7503,9 +7620,9 @@ const MidSection = React.forwardRef((props, ref) => {
                 onContextMenu={handleContextMenu}
               >
 
-                {decoded?.product_name !== "workflowai" &&
+                {/* {decoded?.product_name !== "workflowai" &&
                   <SocialMedia />
-                }
+                } */}
                 {confirmRemove && <RemoveElementModal
                   handleRemoveInput={handleRemoveInput} />}
 
