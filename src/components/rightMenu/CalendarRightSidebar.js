@@ -1,75 +1,249 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+// import Form from "react-bootstrap/Form";
+// import Button from "react-bootstrap/Button";
+// import Dropdown from "react-bootstrap/Dropdown";
+// import DropdownButton from "react-bootstrap/DropdownButton";
+import { Row, Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+
 
 import "react-datepicker/dist/react-datepicker.css";
+import jwt_decode from "jwt-decode";
 
-
-
-import DatePicker from 'react-datepicker';
-import { useStateContext } from '../../contexts/contextProvider';
+import DatePicker from "react-datepicker";
+import { useStateContext } from "../../contexts/contextProvider";
+import SelectAnsAndQuestion from "../selectAnsAndQuestion";
+import { useSearchParams } from "react-router-dom";
+import useSelectedAnswer from "../../customHooks/useSelectedAnswers";
 
 const CalendarRightSidebar = (props) => {
+  const {
+    startDate,
+    setStartDate,
+    fetchedData,
+    rightSideDatemenu,
+    setRightSideDateMenu,
+    method,
+    setMethod,
+    setIsFinializeDisabled,
+    calendarBorderSize,
+    setCalendarBorderSize,
+    calendarBorderColor,
+    setCalendarBorderColor,
+    setConfirmRemove,
+    confirmRemove
+  } = useStateContext();
+  const [selectedType, setSelectedType] = useState('')
+  // const [addedAns, setAddedAns] = useState([])
 
-  const { startDate, setStartDate } = useStateContext();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  var decoded = jwt_decode(token);
+  const actionName = decoded?.details?.action;
+  const documnetMap = decoded?.details?.document_map;
 
-  const date = document.querySelector('.focussed')
-  if (date.parentElement.classList.contains("focussedd")) {
-    date.innerHTML =startDate && startDate.toLocaleDateString();
-    // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
+  const [datePickerMargin, setDatePickerMargin] = useState("");
+  const date = document.querySelector(".focussed");
+
+  // const [borderSize, setBorderSize] = useState(
+  //   Number(localStorage.getItem("borderSize")) || 0
+  // );
+  // const [borderColor, setBorderColor] = useState(
+  //   localStorage.getItem("borderColor") || "#000000"
+  // );
+  // const [borderColor, setBorderColor] = useState("#000000");
+  const [showSlider, setShowSlider] = useState(false);
+  const { addedAns, setAddedAns } = useSelectedAnswer()
+  // enable disable finalize btn
+  // let dateInnerText = "";
+
+  if (date?.parentElement?.classList?.contains("focussedd")) {
+    if (rightSideDatemenu) {
+      // dateInnerText = date.innerText;
+      //console.log("date inner text", dateInnerText);
+      if (method == "select") {
+        date.innerHTML = startDate.toLocaleString().split(",")[0];
+      } else if (method == "first") {
+        //console.log("first", startDate);
+        if (startDate) {
+          const localDate = new Date(startDate).toLocaleString().split(",")[0];
+          const localDateArray = localDate.split("/");
+          //console.log(
+          //   "First DAte Replace",
+          //   `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`
+          // );
+          date.innerHTML = `${localDateArray[1]}/${localDateArray[0]}/${localDateArray[2]}`;
+        }
+      } else if (method == "second") {
+        //console.log("second", startDate);
+        date.innerHTML = startDate && new Date(startDate)?.toDateString();
+      } else if (method == "fourth") {
+        //console.log("fourth", startDate);
+        date.innerHTML =
+          startDate && new Date(startDate)?.toISOString().split("T")[0];
+      }
+    }
   }
+
+  // document.getElementsByClassName('dateInput').item(1).innerHTML = startDate.toLocaleDateString();
 
   function removeDate() {
-    document.querySelector('.focussedd').remove()
+    if (document.querySelector(".focussedd").classList.contains("dropp")) {
+      if (document.querySelector(".focussedd").hasChildNodes()) {
+        const childLength =
+          document.querySelector(".focussedd").children.length;
+        for (let i = 0; i < childLength; i++) {
+          document.querySelector(".focussedd").firstElementChild.remove();
+        }
+      }
+    } else {
+      document.querySelector(".focussedd").remove();
+    }
   }
 
+  function handleDateMethod(e) {
+    setMethod(e.target.value);
+    setRightSideDateMenu(true);
+  }
+  const handleBorderSizeChange = (e) => {
+    setCalendarBorderSize(parseInt(e.target.value));
 
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderWidth = `${calendarBorderSize}px`;
+
+  };
+  const handleBorderColorChange = (e) => {
+    setCalendarBorderColor(e.target.value);
+    const box = document.getElementsByClassName("focussedd")[0];
+    box.style.borderColor = `${calendarBorderColor}`;
+  };
+  const handleRangeBlur = (e) => {
+    e.target.focus();
+  };
+
+  useEffect(() => {
+    if (document.querySelector(".react-datepicker")) {
+      //console.log("datePicker", document.querySelector(".react-datepicker"));
+      setDatePickerMargin(
+        document.querySelector(".react-datepicker").offsetHeight + "px"
+      );
+    }
+    // localStorage.setItem("borderSize", borderSize === "0")
+    // localStorage.setItem("borderColor", borderColor === "black")
+  }, [datePickerMargin]);
+
+  // //console.log("datePickerMargin", datePickerMargin);
+  //console.log("rightSideDatemenu", rightSideDatemenu);
   return (
     <div>
-      <div className='dropdown pb-3'>
-        <h6>Add Date</h6>
-        <Form.Label>Select Date</Form.Label>
-        <select  className ='shadow bg-white rounded w-100 h-75'>
-              <option value="Nothing Selected" selected="selected">Select Format</option>
-              <option value="Action">4/19/2022</option>
-              <option value="Another action">Tuesday, April 19, 2022</option>
-              <option value="Something else">April 19, 2022</option>
-              <option value="Something else">2022-04-2022</option>
-              <option value="Something else">19-April-2022</option>
-            </select>
+      <div className="dropdown pb-3">
+        <h5 className="fs-5">Add Date</h5>
+        <Form.Label>Select Date Format</Form.Label>
+        <select
+          onChange={handleDateMethod}
+          className="select border-0 bg-white rounded w-100 h-75 p-2"
+        >
+          <option value="select" selected={method == "select"}>
+            Select Format
+          </option>
+          <option value="first" selected={method == "first"}>
+            4/19/2023
+          </option>
+          <option value="second" selected={method == "second"}>
+            Tuesday, April 19, 2023
+          </option>
+          {/* <option value="third">April 19, 2022</option> */}
+          <option value="fourth" selected={method == "fourth"}>
+            2023-04-19
+          </option>
+          {/* <option value="fifth">19-April-2022</option> */}
+        </select>
 
-        <DatePicker
-          dateFormat="dd/MM/yyyy"
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          className="w-100 mt-2"
-        />
+        <div id="date_picker_container">
+          <DatePicker
+            dateFormat="MMMM d, yyyy h:mm aa"
+            placeholderText=""
+            openToDate={new Date()}
+            selected={startDate}
+            open={true}
+            onChange={(date) => {
+              // console.log("date", date, startDate);
+              if (date != startDate) {
+                // console.log("date?.innerHTML", dateInnerText);
+                //setIsFinializeDisabled(false)
+                var dateDiv = document.querySelector(".focussed");
+                if (dateDiv.parentElement.classList.contains("holderDIV")) {
+                  dateDiv.parentElement.classList.add("element_updated");
+                }
+              }
+              setRightSideDateMenu(true);
+              setStartDate(date);
+            }}
+            className="calendar datePicker  mt-2 p-2 border-0"
+            id="date_picker"
+          />
+        </div>
       </div>
-
+      {/* <hr /> */}
+      {!documnetMap && (
+        <div
+          className={`text-center`}
+          style={{ marginTop: !rightSideDatemenu && "25px" }}
+        >
+          <Button
+            variant="primary"
+            // onClick={removeDate}
+            onClick={() => setConfirmRemove(!confirmRemove)}
+            className={decoded.details.action === "template" ? "remove_button" : "remove_button disable_button"}
+          >
+            Remove Date
+          </Button>
+        </div>
+      )}
       <hr />
 
-      <div className='dropdown pt-2'>
-        <h6>User permissions</h6>
-        <select className='shadow bg-white rounded w-100 h-75'>
-          <option value="Nothing Selected" selected="selected">Nothing Selected</option>
-          <option value="Action">Action</option>
-          <option value="Another action">Another action</option>
-          <option value="Something else">Something else</option>
-        </select>
-      </div>
+      <SelectAnsAndQuestion
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        addedAns={addedAns}
+        setAddedAns={setAddedAns}
+      />
 
+      <hr />
+      <Row className="pt-4">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h6 style={{ marginRight: "10rem" }}>Border </h6>
+          <label className="switch">
+            <input type="checkbox" onClick={() => setShowSlider(!showSlider)} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+        {showSlider && (
+          <div style={{ display: "flex", alignItems: "center", backgroundColor: "#abab", gap: "10px", height: "40px", width: "90%" }}>
+            <input
+              type="color"
+              value={calendarBorderColor}
+              onChange={handleBorderColorChange}
+              id="color"
+              style={{ border: "none", width: "10%", height: "15px" }}
+            />
+            <input
+              type="range"
+              min="-10"
+              max="20"
+              value={calendarBorderSize}
+              onChange={handleBorderSizeChange}
+              onBlur={handleRangeBlur}
+              id="range"
+              className="range-color"
 
-      <div className='mt-5 text-center'>
-        <Button variant="primary" onClick={removeDate} >Remove Date</Button>
-      </div>
-      {/* <p>{startDate && startDate.toLocaleDateString()}</p> */}
+            />
+
+          </div>
+        )}
+      </Row>
     </div>
+  );
+};
 
-  )
-}
-
-
-export default CalendarRightSidebar
+export default CalendarRightSidebar;

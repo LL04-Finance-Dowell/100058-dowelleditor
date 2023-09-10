@@ -35,7 +35,7 @@ const dummyData = {
 
 
 
-// console.log(dummyData.normal.data[0][0])
+// //console.log(dummyData.normal.data[0][0])
 const TextBox = () => {
   const [data, setData] = useState([]);
 
@@ -49,7 +49,7 @@ const TextBox = () => {
       .then(res => {
         setData(res.data.normal.data[0]);
       }).catch(err => {
-        console.log(err);
+        //console.log(err);
       }
       );
   }

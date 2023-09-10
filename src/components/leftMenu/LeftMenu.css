@@ -1,21 +1,114 @@
-.leftMenu {
-  background-color: #ffffff;
-  height: 80vh;
+/* .leftMenu {
+  height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 3.5rem;
+  gap: 1rem;
+  margin-left: 18px;
+} */
+
+.leftMenu {
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* margin-top: 5.5rem; */
+  gap: 1rem;
+  /* margin-left: 18px; */
+  /* height: 100vh; */
+  /* position: fixed; */
+  /* scroll-behavior: auto; */
+  /* overflow: auto; */
 }
+
 .leftMenu > button {
-    outline: transparent;
-    border: none;
-    background-color: transparent;
+  outline: transparent;
+  border: none;
+  background-color: #394869;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  /* margin-top: 1rem; */
+}
+.leftMenu > button:hover {
+  background-color: #25c7a3;
+}
+.leftMenu > button:hover svg {
+  /* color: #000000; */
 }
 .leftMenu > img {
   width: fit-content;
+  width: -moz-fit-content;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
-.leftMenu > img >button:hover {
+/* .leftMenu > button > img {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+} */
+.leftMenu > button > svg {
+  color: #fff;
+  width: 1.4rem !important;
+  margin: 0;
+}
+/* .leftMenu > button > svg:hover {
   background-color: blue;
+} */
+.custom_reject_button {
+  background-color: #e43429;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+  margin: 30px 0 10px 0;
+  min-width: 84px;
+}
+
+.custom_reject_button:hover {
+  background-color: #243485;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+.custom_finalize_button {
+  background: #318e11;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+
+.custom_finalize_button:hover {
+  background-color: #243485;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .leftMenu {
+    background-color: #ffffff;
+    height: 13vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 0px;
+  }
+  /* .fixed2 {
+    position: fixed;
+    width: 100%;
+    margin-left: -10px;
+    z-index: 999;
+  } */
 }

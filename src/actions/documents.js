@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as api from "../api/index.js"
 
 export const createDocument = (post) => async (dispatch) => {

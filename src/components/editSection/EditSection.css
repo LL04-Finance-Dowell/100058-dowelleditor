@@ -2,12 +2,18 @@
   background-color: #ffffff;
 }
 .editSec_midSec {
-  background: #e5e5e5;
+  background: #e3eeff;
   height: auto;
 }
+.editSec_rightMenu {
+  padding: 15px 20px;
+  background-color: #fbfbfb;
+}
 
-
-
-
-
-
+.finalize_reject {
+  background: #363636;
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  /* border: solid 2px red; */
+}
